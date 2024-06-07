@@ -1,0 +1,1003 @@
+import 'package:flutter/material.dart';
+import 'package:braincloud_dart/src/Common/platform.dart';
+import 'package:braincloud_dart/src/Entity/bc_entity_factory.dart';
+import 'package:braincloud_dart/src/internal/braincloud_comms.dart';
+import 'package:braincloud_dart/src/internal/relay_comms.dart';
+import 'package:braincloud_dart/src/internal/rtt_comms.dart';
+import 'package:braincloud_dart/src/internal/server_call.dart';
+import 'package:braincloud_dart/src/internal/service_name.dart';
+import 'package:braincloud_dart/src/internal/service_operation.dart';
+import 'package:braincloud_dart/src/braincloud_app_store.dart';
+import 'package:braincloud_dart/src/braincloud_async_match.dart';
+import 'package:braincloud_dart/src/braincloud_authentication.dart';
+import 'package:braincloud_dart/src/braincloud_blockchain.dart';
+import 'package:braincloud_dart/src/braincloud_chat.dart';
+import 'package:braincloud_dart/src/braincloud_entity.dart';
+import 'package:braincloud_dart/src/braincloud_custom_entity.dart';
+import 'package:braincloud_dart/src/braincloud_data_stream.dart';
+import 'package:braincloud_dart/src/braincloud_event.dart';
+import 'package:braincloud_dart/src/braincloud_file.dart';
+import 'package:braincloud_dart/src/braincloud_friend.dart';
+import 'package:braincloud_dart/src/braincloud_gamification.dart';
+import 'package:braincloud_dart/src/braincloud_global_app.dart';
+import 'package:braincloud_dart/src/braincloud_global_entity.dart';
+import 'package:braincloud_dart/src/braincloud_global_file.dart';
+import 'package:braincloud_dart/src/braincloud_global_statistics.dart';
+import 'package:braincloud_dart/src/braincloud_group.dart';
+import 'package:braincloud_dart/src/braincloud_group_file.dart';
+import 'package:braincloud_dart/src/braincloud_identity.dart';
+import 'package:braincloud_dart/src/braincloud_item_catalog.dart';
+import 'package:braincloud_dart/src/braincloud_lobby.dart';
+import 'package:braincloud_dart/src/braincloud_mail.dart';
+import 'package:braincloud_dart/src/braincloud_match_making.dart';
+import 'package:braincloud_dart/src/braincloud_messaging.dart';
+import 'package:braincloud_dart/src/braincloud_one_way_match.dart';
+import 'package:braincloud_dart/src/braincloud_playback_stream.dart';
+import 'package:braincloud_dart/src/braincloud_player_state.dart';
+import 'package:braincloud_dart/src/braincloud_player_statistics.dart';
+import 'package:braincloud_dart/src/braincloud_player_statistics_event.dart';
+import 'package:braincloud_dart/src/braincloud_presence.dart';
+import 'package:braincloud_dart/src/braincloud_profanity.dart';
+import 'package:braincloud_dart/src/braincloud_push_notification.dart';
+import 'package:braincloud_dart/src/braincloud_redemption_code.dart';
+import 'package:braincloud_dart/src/braincloud_relay.dart';
+import 'package:braincloud_dart/src/braincloud_rtt.dart';
+import 'package:braincloud_dart/src/braincloud_s3_handling.dart';
+import 'package:braincloud_dart/src/braincloud_script.dart';
+import 'package:braincloud_dart/src/braincloud_social_leaderboard.dart';
+import 'package:braincloud_dart/src/braincloud_time.dart';
+import 'package:braincloud_dart/src/braincloud_tournament.dart';
+import 'package:braincloud_dart/src/braincloud_user_items.dart';
+import 'package:braincloud_dart/src/braincloud_virtual_currency.dart';
+import 'package:braincloud_dart/src/braincloud_wrapper.dart';
+import 'package:braincloud_dart/src/enums/braincloud_update_type.dart';
+import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/util.dart';
+import 'package:braincloud_dart/src/version.dart';
+import 'package:intl/intl.dart';
+import 'package:mutex/mutex.dart';
+
+class BrainCloudClient {
+  static const String defaultServerURL =
+      "https://api.braincloudservers.com/dispatcherv2";
+
+  String _appVersion = "";
+  Platform _platform = Platform.WEB;
+  set platform(val) => _platform = val;
+
+  String? _languageCode = "en";
+  String? _countryCode = "US";
+  bool _initialized = false;
+  bool _loggingEnabled = false;
+  bool get loggingEnabled => _loggingEnabled;
+
+  final Mutex _loggingMutex = Mutex();
+  LogCallback? _logDelegate;
+
+  late BCEntityFactory _entityFactory;
+
+  BrainCloudComms? _comms;
+  RTTComms? _rttComms;
+  RelayComms? _rsComms;
+
+  late BrainCloudWrapper wrapper;
+
+  late BrainCloudEntity _entityService;
+  late BrainCloudGlobalEntity _globalEntityService;
+  late BrainCloudGlobalApp _globalAppService;
+  late BrainCloudPresence _presenceService;
+  late BrainCloudVirtualCurrency _virtualCurrencyService;
+  late BrainCloudAppStore _appStore;
+  late BrainCloudPlayerStatistics _playerStatisticsService;
+  late BrainCloudGlobalStatistics _globalStatisticsService;
+  late BrainCloudIdentity _identityService;
+  late BrainCloudItemCatalog _itemCatalogService;
+  late BrainCloudUserItems _userItemsService;
+  late BrainCloudScript _scriptService;
+  late BrainCloudMatchMaking _matchMakingService;
+  late BrainCloudOneWayMatch _oneWayMatchService;
+  late BrainCloudPlaybackStream _playbackStreamService;
+  late BrainCloudGamification _gamificationService;
+  late BrainCloudPlayerState _playerStateService;
+  late BrainCloudFriend _friendService;
+  late BrainCloudEvent _eventService;
+  late BrainCloudSocialLeaderboard _leaderboardService;
+  late BrainCloudAsyncMatch _asyncMatchService;
+  late BrainCloudTime _timeService;
+  late BrainCloudTournament _tournamentService;
+  late BrainCloudGlobalFile _globalFileService;
+  late BrainCloudCustomEntity _customEntityService;
+  BrainCloudAuthentication? _authenticationService;
+  late BrainCloudPushNotification _pushNotificationService;
+  late BrainCloudPlayerStatisticsEvent _playerStatisticsEventService;
+  late BrainCloudS3Handling _s3HandlingService;
+  late BrainCloudRedemptionCode _redemptionCodeService;
+  late BrainCloudDataStream _dataStreamService;
+  late BrainCloudProfanity _profanityService;
+  late BrainCloudFile _fileService;
+  late BrainCloudGroup _groupService;
+  late BrainCloudMail _mailService;
+  late BrainCloudMessaging _messagingService;
+  late BrainCloudBlockchain _blockchain;
+  late BrainCloudGroupFile _groupFileService;
+
+  // RTT service
+  BrainCloudLobby? _lobbyService;
+  BrainCloudChat? _chatService;
+  BrainCloudRTT? _rttService;
+  BrainCloudRelay? _rsService;
+
+  static ServerCallback? createServerCallback(
+      SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
+    ServerCallback? newCallback;
+
+    if (success != null || failure != null) {
+      newCallback = ServerCallback(success!, failure!, cbObject);
+    }
+
+    return newCallback;
+  }
+
+  BrainCloudClient(BrainCloudWrapper? inWrapper) {
+    if (inWrapper != null) {
+      wrapper = inWrapper;
+    }
+    init();
+  }
+
+  void init() {
+    _comms = BrainCloudComms(this);
+    _rttComms = RTTComms(this);
+    _rsComms = RelayComms(this);
+
+    _entityService = BrainCloudEntity(this);
+
+    _entityFactory = BCEntityFactory(_entityService);
+
+    _globalEntityService = BrainCloudGlobalEntity(this);
+
+    _globalAppService = BrainCloudGlobalApp(this);
+    _presenceService = BrainCloudPresence(this);
+    _virtualCurrencyService = BrainCloudVirtualCurrency(this);
+    _appStore = BrainCloudAppStore(this);
+
+    _playerStatisticsService = BrainCloudPlayerStatistics(this);
+    _globalStatisticsService = BrainCloudGlobalStatistics(this);
+
+    _identityService = BrainCloudIdentity(this);
+    _itemCatalogService = BrainCloudItemCatalog(this);
+    _userItemsService = BrainCloudUserItems(this);
+    _scriptService = BrainCloudScript(this);
+    _matchMakingService = BrainCloudMatchMaking(this);
+    _oneWayMatchService = BrainCloudOneWayMatch(this);
+
+    _playbackStreamService = BrainCloudPlaybackStream(this);
+    _gamificationService = BrainCloudGamification(this);
+    _playerStateService = BrainCloudPlayerState(this);
+    _friendService = BrainCloudFriend(this);
+
+    _eventService = BrainCloudEvent(this);
+    _leaderboardService = BrainCloudSocialLeaderboard(this);
+    _asyncMatchService = BrainCloudAsyncMatch(this);
+    _timeService = BrainCloudTime(this);
+    _tournamentService = BrainCloudTournament(this);
+    _globalFileService = BrainCloudGlobalFile(this);
+    _customEntityService = BrainCloudCustomEntity(this);
+
+    _authenticationService = BrainCloudAuthentication(this);
+    _pushNotificationService = BrainCloudPushNotification(this);
+    _playerStatisticsEventService = BrainCloudPlayerStatisticsEvent(this);
+
+    _s3HandlingService = BrainCloudS3Handling(this);
+    _redemptionCodeService = BrainCloudRedemptionCode(this);
+    _dataStreamService = BrainCloudDataStream(this);
+    _profanityService = BrainCloudProfanity(this);
+    _fileService = BrainCloudFile(this);
+    _groupService = BrainCloudGroup(this);
+    _mailService = BrainCloudMail(this);
+    _messagingService = BrainCloudMessaging(this);
+    _groupFileService = BrainCloudGroupFile(this);
+
+    // RTT
+    _lobbyService = BrainCloudLobby(this);
+    _chatService = BrainCloudChat(this);
+    _rttService = BrainCloudRTT(_rttComms, this);
+    _rsService = BrainCloudRelay(_rsComms, this);
+
+    _blockchain = BrainCloudBlockchain(this);
+  }
+  //---------------------------------------------------------------
+
+  bool get authenticated => _comms?.Authenticated ?? false;
+
+  bool get initialized => _initialized;
+
+  set enableCompressedRequests(bool isEnabled) =>
+      _comms?.EnableCompression(isEnabled);
+
+  set enableCompressedResponses(bool isEnabled) =>
+      _authenticationService?.compressResponse = isEnabled;
+
+  /// <summary>Returns the sessionId or empty String if no session present.</summary>
+  String get sessionID => _comms?.SessionID ?? "";
+
+  String get appId => _comms?.AppId ?? "";
+
+  String getAppId() {
+    return appId;
+  }
+
+  String? get profileId =>
+      authenticationService != null ? authenticationService?.profileId : "";
+
+  String get rttConnectionID => _rttComms?.RTTConnectionID ?? "";
+
+  String get rttEventServer => _rttComms?.RTTEventServer ?? "";
+
+  String get appVersion => _appVersion;
+
+  String get getAppVersion => appVersion;
+
+  String get brainCloudClientVersion => Version.getVersion();
+
+  Platform get releasePlatform => _platform;
+
+  String get languageCode =>
+      _languageCode ?? Util.getIsoCodeForCurrentLanguage();
+  set languageCode(value) => _languageCode = value;
+
+  String get countryCode => _countryCode ?? Util.getCurrentCountryCode();
+  set countryCode(value) => _countryCode = value;
+
+  BrainCloudComms? get comms => _comms;
+
+  BrainCloudEntity get entityService => _entityService;
+
+  BCEntityFactory get entityFactory => _entityFactory;
+
+  BrainCloudGlobalEntity get globalEntityService => _globalEntityService;
+
+  BrainCloudGlobalApp get globalAppService => _globalAppService;
+
+  BrainCloudPresence get presenceService => _presenceService;
+
+  BrainCloudVirtualCurrency get virtualCurrencyService =>
+      _virtualCurrencyService;
+
+  BrainCloudAppStore get appStoreService => _appStore;
+
+  BrainCloudPlayerStatistics get playerStatisticsService =>
+      _playerStatisticsService;
+
+  BrainCloudGlobalStatistics get globalStatisticsService =>
+      _globalStatisticsService;
+
+  BrainCloudIdentity get identityService => _identityService;
+
+  BrainCloudItemCatalog get itemCatalogService => _itemCatalogService;
+
+  BrainCloudUserItems get userItemsService => _userItemsService;
+
+  BrainCloudScript get scriptService => _scriptService;
+
+  BrainCloudMatchMaking get matchMakingService => _matchMakingService;
+
+  BrainCloudOneWayMatch get oneWayMatchService => _oneWayMatchService;
+
+  BrainCloudPlaybackStream get playbackStreamService => _playbackStreamService;
+
+  BrainCloudGamification get gamificationService => _gamificationService;
+
+  BrainCloudPlayerState get playerStateService => _playerStateService;
+
+  BrainCloudFriend get friendService => _friendService;
+
+  BrainCloudEvent get eventService => _eventService;
+
+  BrainCloudSocialLeaderboard get socialLeaderboardService =>
+      _leaderboardService;
+
+  BrainCloudSocialLeaderboard get leaderboardService => _leaderboardService;
+
+  BrainCloudAsyncMatch get asyncMatchService => _asyncMatchService;
+
+  BrainCloudTime get timeService => _timeService;
+
+  BrainCloudTournament get tournamentService => _tournamentService;
+
+  BrainCloudGlobalFile get globalFileService => _globalFileService;
+
+  BrainCloudCustomEntity get customEntityService => _customEntityService;
+
+  BrainCloudAuthentication? get authenticationService => _authenticationService;
+
+  BrainCloudPushNotification get pushNotificationService =>
+      _pushNotificationService;
+
+  BrainCloudPlayerStatisticsEvent get playerStatisticsEventService =>
+      _playerStatisticsEventService;
+
+  BrainCloudS3Handling get s3HandlingService => _s3HandlingService;
+
+  BrainCloudRedemptionCode get redemptionCodeService => _redemptionCodeService;
+
+  BrainCloudDataStream get dataStreamService => _dataStreamService;
+
+  BrainCloudProfanity get profanityService => _profanityService;
+
+  BrainCloudFile get fileService => _fileService;
+
+  BrainCloudGroup get groupService => _groupService;
+
+  BrainCloudMail get mailService => _mailService;
+
+  BrainCloudRTT? get rttService => _rttService;
+
+  BrainCloudLobby? get lobbyService => _lobbyService;
+
+  BrainCloudChat? get chatService => _chatService;
+
+  BrainCloudMessaging get messagingService => _messagingService;
+
+  BrainCloudRelay? get relayService => _rsService;
+
+  BrainCloudBlockchain get blockchain => _blockchain;
+
+  BrainCloudGroupFile get groupFileService => _groupFileService;
+
+  BrainCloudEntity getEntityService() {
+    return entityService;
+  }
+
+  BCEntityFactory getEntityFactory() {
+    return entityFactory;
+  }
+
+  BrainCloudGlobalApp getGlobalAppService() {
+    return globalAppService;
+  }
+
+  BrainCloudGlobalEntity getGlobalEntityService() {
+    return globalEntityService;
+  }
+
+  BrainCloudPresence getPresenceService() {
+    return presenceService;
+  }
+
+  BrainCloudPlayerStatistics getPlayerStatisticsService() {
+    return playerStatisticsService;
+  }
+
+  BrainCloudGlobalStatistics getGlobalStatisticsService() {
+    return globalStatisticsService;
+  }
+
+  BrainCloudIdentity getIdentityService() {
+    return identityService;
+  }
+
+  BrainCloudItemCatalog getItemCatalogService() {
+    return itemCatalogService;
+  }
+
+  BrainCloudUserItems getUserItemsService() {
+    return userItemsService;
+  }
+
+  BrainCloudScript getScriptService() {
+    return scriptService;
+  }
+
+  BrainCloudMatchMaking getMatchMakingService() {
+    return matchMakingService;
+  }
+
+  BrainCloudOneWayMatch getOneWayMatchService() {
+    return oneWayMatchService;
+  }
+
+  BrainCloudPlaybackStream getPlaybackStreamService() {
+    return playbackStreamService;
+  }
+
+  BrainCloudGamification getGamificationService() {
+    return gamificationService;
+  }
+
+  BrainCloudPlayerState getPlayerStateService() {
+    return _playerStateService;
+  }
+
+  BrainCloudAsyncMatch getAsyncMatchService() {
+    return _asyncMatchService;
+  }
+
+  BrainCloudFriend getFriendService() {
+    return _friendService;
+  }
+
+  BrainCloudEvent getEventService() {
+    return _eventService;
+  }
+
+  BrainCloudSocialLeaderboard getSocialLeaderboardService() {
+    return _leaderboardService;
+  }
+
+  BrainCloudTime getTimeService() {
+    return _timeService;
+  }
+
+  BrainCloudTournament getTournamentService() {
+    return _tournamentService;
+  }
+
+  BrainCloudGlobalFile getGlobalFileService() {
+    return _globalFileService;
+  }
+
+  BrainCloudCustomEntity getCustomEntityService() {
+    return _customEntityService;
+  }
+
+  BrainCloudAuthentication? getAuthenticationService() {
+    return _authenticationService;
+  }
+
+  BrainCloudPushNotification getPushNotificationService() {
+    return _pushNotificationService;
+  }
+
+  BrainCloudPlayerStatisticsEvent getPlayerStatisticsEventService() {
+    return _playerStatisticsEventService;
+  }
+
+  BrainCloudS3Handling getS3HandlingService() {
+    return _s3HandlingService;
+  }
+
+  BrainCloudRedemptionCode getRedemptionCodeService() {
+    return _redemptionCodeService;
+  }
+
+  BrainCloudDataStream getDataStreamService() {
+    return _dataStreamService;
+  }
+
+  BrainCloudProfanity getProfanityService() {
+    return _profanityService;
+  }
+
+  BrainCloudFile getFileService() {
+    return _fileService;
+  }
+
+  BrainCloudGroup getGroupService() {
+    return _groupService;
+  }
+
+  /// <summary>Returns the sessionId or empty String if no session present.</summary>
+  String getSessionId() {
+    return sessionID;
+  }
+
+  /// <summary>
+  /// Returns true if the user is currently authenticated.
+  /// If a session time out or session invalidation is returned from executing a
+  /// sever API call, this flag will reset back to false.
+  /// </summary>
+  bool isAuthenticated() {
+    return authenticated;
+  }
+
+  int getReceivedPacketId() {
+    return _comms?.GetReceivedPacketId() ?? -1;
+  }
+
+  /// <summary>
+  /// Restore packetId found in localstorage
+  /// </summary>
+  void restorePacketId(int id) {
+    _comms?.receivedPacketIdChecker = id;
+  }
+
+  /// <summary>
+  /// Returns true if brainCloud has been initialized.
+  /// </summary>
+  bool isInitialized() {
+    return initialized;
+  }
+
+  /// <summary>Method initializes the BrainCloudClient.</summary>
+  /// <param name="serverURL">The URL to the brainCloud server</param>
+  /// <param name="appId ">The app id</param>
+  /// <param name="appIdSecrectMap">The map of appid to secret</param>
+  /// <param name="appVersion"> The app version</param>
+  void initializeWithApps(
+      {String? serverURL = defaultServerURL,
+      required String defaultAppId,
+      required Map<String, String> appIdSecretMap,
+      required String appVersion}) {
+    initializeHelper(
+        serverURL!, appIdSecretMap[defaultAppId]!, defaultAppId, appVersion);
+
+    // set up braincloud which does the message handling
+    _comms?.InitializeWithApps(serverURL, defaultAppId, appIdSecretMap);
+
+    _initialized = true;
+  }
+
+  /// <summary>Method initializes the BrainCloudClient.</summary>
+  /// <param name="serverURL">The URL to the brainCloud server</param>
+  /// <param name="secretKey">The secret key for your app</param>
+  /// <param name="appId">The app id</param>
+  /// <param name="appVersion">The app version</param>
+  void initialize(
+      {String? serverURL = defaultServerURL,
+      required secretKey,
+      required appId,
+      required appVersion}) {
+    serverURL = serverURL ?? defaultServerURL;
+
+    initializeHelper(serverURL, secretKey, appId, appVersion);
+
+    // set up braincloud which does the message handling
+    _comms?.Initialize(serverURL, appId, secretKey);
+
+    _initialized = true;
+  }
+
+  /// <summary>Initialize the identity aspects of brainCloud.</summary>
+  /// <param name="profileId">The profile id</param>
+  /// <param name="anonymousId">The anonymous id</param>
+  void initializeIdentity(String profileId, String anonymousId) {
+    authenticationService?.initialize(profileId, anonymousId);
+  }
+
+  /// <summary>Shuts down all systems needed for BrainCloudClient
+  /// Only call this from the main thread.
+  /// Should be used at the end of the app, and opposite of Initialize Client
+  /// </summary>
+  void shutDown() {
+    _comms?.ShutDown();
+  }
+
+  /// <summary>Update method needs to be called regularly in order
+  /// to process incoming and outgoing messages.
+  /// </summary>
+  ///
+  void runCallbacks(
+      {BrainCloudUpdateType inUpdateType = BrainCloudUpdateType.ALL}) {
+    update(inUpdateType: inUpdateType);
+  }
+
+  /// <summary>Update method needs to be called regularly in order
+  /// to process incoming and outgoing messages.
+  /// </summary>
+  ///
+  void update({BrainCloudUpdateType inUpdateType = BrainCloudUpdateType.ALL}) {
+    switch (inUpdateType) {
+      case BrainCloudUpdateType.REST:
+        {
+          if (_comms != null) _comms?.Update();
+        }
+        break;
+
+      case BrainCloudUpdateType.RTT:
+        {
+          _rttComms?.Update();
+        }
+        break;
+
+      case BrainCloudUpdateType.RS:
+        {
+          _rsComms?.update();
+        }
+        break;
+
+      case BrainCloudUpdateType.PING:
+        {
+          _lobbyService?.Update();
+        }
+        break;
+
+      default:
+        {
+          _rttComms?.Update();
+          _comms?.Update();
+          _rsComms?.update();
+          _lobbyService?.Update();
+        }
+        break;
+    }
+  }
+
+  /// <summary>
+  /// Sets a callback handler for any out of band event messages that come from
+  /// brainCloud.
+  /// </summary>
+  /// <param name="cb">eventCallback A function which takes a JSON String as it's only parameter.
+  ///  The JSON format looks like the following:
+  /// {
+  ///   "events": [{
+  ///      "fromPlayerId": "178ed06a-d575-4591-8970-e23a5d35f9df",
+  ///      "eventId": 3967,
+  ///      "createdAt": 1441742105908,
+  ///      "gameId": "123",
+  ///      "toPlayerId": "178ed06a-d575-4591-8970-e23a5d35f9df",
+  ///      "eventType": "test",
+  ///      "eventData": {"testData": 117}
+  ///    }],
+  ///    ]
+  ///  }
+  void registerEventCallback(EventCallback cb) {
+    _comms?.RegisterEventCallback(cb);
+  }
+
+  /// <summary>
+  /// De-registers the event callback.
+  /// </summary>
+  void deregisterEventCallback() {
+    _comms?.DeregisterEventCallback();
+  }
+
+  /// <summary>
+  /// Sets a reward handler for any API call results that return rewards.
+  /// </summary>
+  /// <param name="cb">The reward callback handler.</param>
+  /// <see cref="http://getbraincloud.com/apidocs">The brainCloud API docs site for more information on the return JSON</see>
+  void registerRewardCallback(RewardCallback cb) {
+    _comms?.RegisterRewardCallback(cb);
+  }
+
+  /// <summary>
+  /// De-registers the reward callback.
+  /// </summary>
+  void deregisterRewardCallback() {
+    _comms?.DeregisterRewardCallback();
+  }
+
+  /// <summary>
+  /// Registers the file upload callbacks.
+  /// </summary>
+  void registerFileUploadCallback(
+      FileUploadSuccessCallback success, FileUploadFailedCallback failure) {
+    _comms?.RegisterFileUploadCallbacks(success, failure);
+  }
+
+  /// <summary>
+  /// De-registers the file upload callbacks.
+  /// </summary>
+  void deregisterFileUploadCallback() {
+    _comms?.DeregisterFileUploadCallbacks();
+  }
+
+  /// <summary>
+  /// Failure callback invoked for all errors generated
+  /// </summary>
+  void registerGlobalErrorCallback(FailureCallback callback) {
+    _comms?.RegisterGlobalErrorCallback(callback);
+  }
+
+  /// <summary>
+  /// De-registers the global error callback.
+  /// </summary>
+  void deregisterGlobalErrorCallback() {
+    _comms?.DeregisterGlobalErrorCallback();
+  }
+
+  /// <summary>
+  /// Registers a callback that is invoked for network errors.
+  /// Note this is only called if EnableNetworkErrorMessageCaching
+  /// has been set to true.
+  /// </summary>
+  void registerNetworkErrorCallback(NetworkErrorCallback callback) {
+    _comms?.RegisterNetworkErrorCallback(callback);
+  }
+
+  /// <summary>
+  /// De-registers the network error callback.
+  /// </summary>
+  void deregisterNetworkErrorCallback() {
+    _comms?.DeregisterNetworkErrorCallback();
+  }
+
+  /// <summary> Enable logging of brainCloud transactions (comms etc)</summary>
+  /// <param name="enable">True if logging is to be enabled</param>
+  void enableLogging(bool enable) {
+    _loggingEnabled = enable;
+  }
+
+  /// <summary>Get the Server URL</summary>
+  String getUrl() {
+    return _comms?.ServerURL ?? "";
+  }
+
+  /// <summary>Resets all messages and calls to the server</summary>
+  void resetCommunication() {
+    _comms?.ResetCommunication();
+    _rttComms?.DisableRTT();
+    _rsComms?.disconnect();
+    update();
+    authenticationService?.clearSavedProfileID();
+  }
+
+  /// <summary>Enable Communications with the server. By default this is true</summary>
+  /// <param name="value">True to enable comms, false otherwise.</param>
+  void enableCommunications(bool value) {
+    _comms?.EnableComms(value);
+  }
+
+  /// <summary>
+  /// Sets the packet timeouts using a list of integers that
+  /// represent timeout values for each packet retry. The
+  /// first item in the list represents the timeout for the first packet
+  /// attempt, the second for the second packet attempt, and so on.
+  ///
+  /// The number of entries in this array determines how many packet
+  /// retries will occur.
+  ///
+  /// By default, the packet timeout array is {15, 20, 35, 50}
+  ///
+  /// Note that this method does not change the timeout for authentication
+  /// packets (use SetAuthenticationPacketTimeout method).
+  ///
+  /// </summary>
+  /// <param name="timeouts">An array of packet timeouts.</param>
+  void setPacketTimeouts(List<int> timeouts) {
+    _comms?.packetTimeouts = timeouts;
+  }
+
+  /// <summary>
+  /// Sets the packet timeouts back to default.
+  /// </summary>
+  void setPacketTimeoutsToDefault() {
+    _comms?.SetPacketTimeoutsToDefault();
+  }
+
+  /// <summary>
+  /// Returns the list of packet timeouts.
+  /// </summary>
+  List<int> getPacketTimeouts() {
+    return _comms?.packetTimeouts ?? [];
+  }
+
+  /// <summary>
+  /// Sets the authentication packet timeout which is tracked separately
+  /// from all other packets. Note that authentication packets are never
+  /// retried and so this value represents the total time a client would
+  /// wait to receive a reply to an authentication API call. By default
+  /// this timeout is set to 15 seconds.
+  /// </summary>
+  /// <param name="valueSecs">The timeout in seconds.</param>
+  void setAuthenticationPacketTimeout(int timeoutSecs) {
+    _comms?.AuthenticationPacketTimeoutSecs = timeoutSecs;
+  }
+
+  /// <summary>
+  /// gets the authentication packet timeout which is tracked separately
+  /// from all other packets. Note that authentication packets are never
+  /// retried and so this value represents the total time a client would
+  /// wait to receive a reply to an authentication API call. By default
+  /// this timeout is set to 15 seconds.
+  /// </summary>
+  int getAuthenticationPacketTimeout() {
+    return _comms?.AuthenticationPacketTimeoutSecs ?? 0;
+  }
+
+  /// <summary>
+  /// Sets the error callback to return the status message instead of the
+  /// error JSON string. This flag is used to conform to pre-2.17 client
+  /// behavior.
+  /// </summary>
+  /// <param name="enabled">If set to <c>true</c>, enable.</param>
+  void setOldStyleStatusMessageErrorCallback(bool enabled) {
+    _comms?.OldStyleStatusResponseInErrorCallback = enabled;
+  }
+
+  /// <summary>
+  /// Returns the low transfer rate timeout in secs
+  /// </summary>
+  int getUploadLowTransferRateTimeout() {
+    return _comms?.UploadLowTransferRateTimeout ?? 0;
+  }
+
+  /// <summary>
+  /// Sets the timeout in seconds of a low speed upload
+  /// (i.e. transfer rate which is underneath the low transfer rate threshold).
+  /// By default this is set to 120 secs.Setting this value to 0 will
+  /// turn off the timeout. Note that this timeout method
+  /// does not work on Unity mobile platforms.
+  /// </summary>
+  /// <param name="timeoutSecs"></param>
+  void setUploadLowTransferRateTimeout(int timeoutSecs) {
+    _comms?.UploadLowTransferRateTimeout = timeoutSecs;
+  }
+
+  /// <summary>
+  /// Returns the low transfer rate threshold in bytes/sec
+  /// </summary>
+  int getUploadLowTransferRateThreshold() {
+    return _comms?.UploadLowTransferRateThreshold ?? 0;
+  }
+
+  /// <summary>
+  /// Sets the low transfer rate threshold of an upload in bytes/sec.
+  /// If the transfer rate dips below the given threshold longer
+  /// than the specified timeout, the transfer will fail.
+  /// By default this is set to 50 bytes/sec. Note that this timeout method
+  /// does not work on Unity mobile platforms.
+  /// </summary>
+  /// <param name="bytesPerSec">The low transfer rate threshold in bytes/sec</param>
+  void setUploadLowTransferRateThreshold(int bytesPerSec) {
+    _comms?.UploadLowTransferRateThreshold = bytesPerSec;
+  }
+
+  /// <summary>
+  /// Enables the timeout message caching which is disabled by default.
+  /// Once enabled, if a client side timeout is encountered
+  /// (i.e. brainCloud server is unreachable presumably due to the client
+  /// network being down) the SDK will do the following:
+  ///
+  /// 1 - cache the currently queued messages to brainCloud
+  /// 2 - call the network error callback
+  /// 3 - then expect the app to call either:
+  ///     a) RetryCachedMessages() to retry sending to brainCloud
+  ///     b) FlushCachedMessages() to dump all messages in the queue.
+  ///
+  /// Between steps 2 & 3, the app can prompt the user to retry connecting
+  /// to brainCloud to determine whether to follow path 3a or 3b.
+  ///
+  /// Note that if path 3a is followed, and another timeout is encountered,
+  /// the process will begin all over again from step 1.
+  ///
+  /// WARNING - the brainCloud SDK will cache *all* API calls sent
+  /// when a timeout is encountered if this mechanism is enabled.
+  /// This effectively freezes all communication with brainCloud.
+  /// Apps must call either RetryCachedMessages() or FlushCachedMessages()
+  /// for the brainCloud SDK to resume sending messages.
+  /// ResetCommunication() will also clear the message cache.
+  /// </summary>
+  /// <param name="enabled">True if message should be cached on timeout</param>
+  void enableNetworkErrorMessageCaching(bool enabled) {
+    _comms?.EnableNetworkErrorMessageCaching(enabled);
+  }
+
+  /// <summary>
+  /// Attempts to resend any cached messages. If no messages are in the cache,
+  /// this method does nothing.
+  /// </summary>
+  void retryCachedMessages() {
+    _comms?.RetryCachedMessages();
+  }
+
+  /// <summary>
+  /// Flushes the cached messages to resume API call processing. This will dump
+  /// all of the cached messages in the queue.
+  /// </summary>
+  /// <param name="sendApiErrorCallbacks">If set to <c>true</c> API error callbacks will
+  /// be called for every cached message with statusCode CLIENT_NETWORK_ERROR and reasonCode CLIENT_NETWORK_ERROR_TIMEOUT.
+  /// </param>
+  void flushCachedMessages(bool sendApiErrorCallbacks) {
+    _comms?.FlushCachedMessages(sendApiErrorCallbacks);
+  }
+
+  /// <summary>
+  /// Inserts a marker which will tell the brainCloud comms layer
+  /// to close the message bundle off at this point. Any messages queued
+  /// before this method was called will likely be bundled together in
+  /// the next send to the server.
+  ///
+  /// To ensure that only a single message is sent to the server you would
+  /// do something like this:
+  ///
+  /// InsertEndOfMessageBundleMarker()
+  /// SomeApiCall()
+  /// InsertEndOfMessageBundleMarker()
+  ///
+  /// </summary>
+  void insertEndOfMessageBundleMarker() {
+    _comms?.InsertEndOfMessageBundleMarker();
+  }
+
+  /// <summary>
+  /// Sets the country code sent to brainCloud when a user authenticates.
+  /// Will override any auto detected country.
+  /// </summary>
+  /// <param name="countryCode">ISO 3166-1 two-letter country code</param>
+  void overrideCountryCode(String countryCode) {
+    _countryCode = countryCode;
+  }
+
+  /// <summary>
+  /// Sets the language code sent to brainCloud when a user authenticates.
+  /// If the language is set to a non-ISO 639-1 standard value the game default will be used instead.
+  /// Will override any auto detected language.
+  /// </summary>
+  /// <param name="languageCode">ISO 639-1 two-letter language code</param>
+  void overrideLanguageCode(String languageCode) {
+    _languageCode = languageCode;
+  }
+
+  /// <summary>
+  /// Normally not needed as the brainCloud SDK sends heartbeats automatically.
+  /// Regardless, this is a manual way to send a heartbeat.
+  /// </summary>
+  void sendHeartbeat(
+      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+    ServerCall sc = ServerCall(ServiceName.HeartBeat, ServiceOperation.read,
+        null, ServerCallback(success, failure, cbObject));
+    _comms?.AddToQueue(sc);
+  }
+
+  /// <summary>Method writes log if logging is enabled</summary>
+  ///
+  void log(String log, {bool bypassLogEnabled = false}) {
+    if (_loggingEnabled || bypassLogEnabled) {
+      String formattedLog =
+          "${DateFormat("HH:mm:ss.fff").format(DateTime.now())} #BCC ${(log.length < 14000 ? log : log.substring(0, 14000))} << (LOG TRUNCATED)";
+
+      _loggingMutex.acquire();
+      try {
+        if (_logDelegate != null) {
+          _logDelegate!(formattedLog);
+        } else {
+          debugPrint(formattedLog);
+        }
+      } finally {
+        _loggingMutex.release();
+      }
+    }
+  }
+
+  /// <summary>Sends a service request message to the server. </summary>
+  /// <param name="serviceMessage">The message to send</param>
+  void sendRequest(ServerCall serviceMessage) {
+    // pass this directly to the brainCloud Class
+    // which will add it to its queue and send back responses accordingly
+    _comms?.AddToQueue(serviceMessage);
+
+    wrapper.setStoredPacketId(serviceMessage.PacketID);
+  }
+
+  String serializeJson(dynamic payLoad) {
+    return _comms?.SerializeJson(payLoad) ??
+        "Error BrainCloudClient.SerializeJson _comms is null";
+  }
+
+  Map<String, dynamic> deserializeJson(String jsonData) {
+    return _comms?.DeserializeJson(jsonData) ??
+        {"Error": "BrainCloudClient.DeserializeJson _comms is null"};
+  }
+
+  void initializeHelper(
+      String serverURL, String secretKey, String appId, String appVersion) {
+    String? error;
+    if (serverURL.isEmpty) {
+      error = "serverURL was null or empty";
+    } else if (secretKey.isEmpty) {
+      error = "secretKey was null or empty";
+    } else if (appId.isEmpty) {
+      error = "appId was null or empty";
+    } else if (appVersion.isEmpty) {
+      error = "appVerson was null or empty";
+    }
+
+    if (error != null) {
+      debugPrint("ERROR | Failed to initialize brainCloud - $error");
+      return;
+    }
+
+    _appVersion = appVersion;
+
+    //setup region/country code
+    if (Util.getCurrentCountryCode().isEmpty) {
+      var countryCode =
+          WidgetsBinding.instance.platformDispatcher.locale.countryCode;
+
+      Util.setCurrentCountryCode(countryCode ?? "US");
+    }
+  }
+}
