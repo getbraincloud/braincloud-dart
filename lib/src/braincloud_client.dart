@@ -231,9 +231,9 @@ class BrainCloudClient {
   String? get profileId =>
       authenticationService != null ? authenticationService?.profileId : "";
 
-  String get rttConnectionID => _rttComms?.RTTConnectionID ?? "";
+  String get rttConnectionID => _rttComms?.rttConnectionID ?? "";
 
-  String get rttEventServer => _rttComms?.RTTEventServer ?? "";
+  String get rttEventServer => _rttComms?.rttEventServer ?? "";
 
   String get appVersion => _appVersion;
 
@@ -587,7 +587,7 @@ class BrainCloudClient {
 
       case BrainCloudUpdateType.RTT:
         {
-          _rttComms?.Update();
+          _rttComms?.update();
         }
         break;
 
@@ -605,7 +605,7 @@ class BrainCloudClient {
 
       default:
         {
-          _rttComms?.Update();
+          _rttComms?.update();
           _comms?.Update();
           _rsComms?.update();
           _lobbyService?.Update();
@@ -718,7 +718,7 @@ class BrainCloudClient {
   /// <summary>Resets all messages and calls to the server</summary>
   void resetCommunication() {
     _comms?.ResetCommunication();
-    _rttComms?.DisableRTT();
+    _rttComms?.disableRTT();
     _rsComms?.disconnect();
     update();
     authenticationService?.clearSavedProfileID();

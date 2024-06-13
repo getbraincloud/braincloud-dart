@@ -28,7 +28,7 @@ class BrainCloudRTT {
       SuccessCallback? inSuccess,
       FailureCallback? inFailure,
       dynamic cbObject) {
-    _commsLayer?.EnableRTT(inConnectiontype ?? RTTConnectionType.WEBSOCKET,
+    _commsLayer?.enableRTT(inConnectiontype ?? RTTConnectionType.WEBSOCKET,
         inSuccess, inFailure, cbObject);
   }
 
@@ -36,147 +36,147 @@ class BrainCloudRTT {
   /// Disables Real Time event for this session.
   /// </summary>
   void disableRTT() {
-    _commsLayer?.DisableRTT();
+    _commsLayer?.disableRTT();
   }
 
   /// <summary>
   /// Returns true if RTT is enabled
   /// </summary>
   bool isRTTEnabled() {
-    return _commsLayer?.IsRTTEnabled() ?? false;
+    return _commsLayer?.isRTTEnabled() ?? false;
   }
 
   /// <summary>
   /// Returns rtt connectionstatus
   /// </summary>
   RTTConnectionStatus? getConnectionStatus() {
-    return _commsLayer?.GetConnectionStatus();
+    return _commsLayer?.getConnectionStatus();
   }
 
   /// <summary>
   ///
   /// </summary>
   void registerRTTEventCallback(RTTCallback inCallback) {
-    _commsLayer?.RegisterRTTCallback(ServiceName.Event, inCallback);
+    _commsLayer?.registerRTTCallback(ServiceName.Event, inCallback);
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterRTTEventCallback() {
-    _commsLayer?.DeregisterRTTCallback(ServiceName.Event);
+    _commsLayer?.deregisterRTTCallback(ServiceName.Event);
   }
 
   /// <summary>
   ///
   /// </summary>
   void registerRTTChatCallback(RTTCallback inCallback) {
-    _commsLayer?.RegisterRTTCallback(ServiceName.Chat, inCallback);
+    _commsLayer?.registerRTTCallback(ServiceName.Chat, inCallback);
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterRTTChatCallback() {
-    _commsLayer?.DeregisterRTTCallback(ServiceName.Chat);
+    _commsLayer?.deregisterRTTCallback(ServiceName.Chat);
   }
 
   /// <summary>
   ///
   /// </summary>
   void registerRTTPresenceCallback(RTTCallback inCallback) {
-    _commsLayer?.RegisterRTTCallback(ServiceName.Presence, inCallback);
+    _commsLayer?.registerRTTCallback(ServiceName.Presence, inCallback);
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterRTTPresenceCallback() {
-    _commsLayer?.DeregisterRTTCallback(ServiceName.Presence);
+    _commsLayer?.deregisterRTTCallback(ServiceName.Presence);
   }
 
   /// <summary>
   ///
   /// </summary>
   void registerRTTMessagingCallback(RTTCallback inCallback) {
-    _commsLayer?.RegisterRTTCallback(ServiceName.Messaging, inCallback);
+    _commsLayer?.registerRTTCallback(ServiceName.Messaging, inCallback);
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterRTTMessagingCallback() {
-    _commsLayer?.DeregisterRTTCallback(ServiceName.Messaging);
+    _commsLayer?.deregisterRTTCallback(ServiceName.Messaging);
   }
 
   /// <summary>
   ///
   /// </summary>
   void registerRTTLobbyCallback(RTTCallback inCallback) {
-    _commsLayer?.RegisterRTTCallback(ServiceName.Lobby, inCallback);
+    _commsLayer?.registerRTTCallback(ServiceName.Lobby, inCallback);
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterRTTLobbyCallback() {
-    _commsLayer?.DeregisterRTTCallback(ServiceName.Lobby);
+    _commsLayer?.deregisterRTTCallback(ServiceName.Lobby);
   }
 
   /// <summary>
   ///
   /// </summary>
   void registerRTTAsyncMatchCallback(RTTCallback inCallback) {
-    _commsLayer?.RegisterRTTCallback(ServiceName.AsyncMatch, inCallback);
+    _commsLayer?.registerRTTCallback(ServiceName.AsyncMatch, inCallback);
   }
 
   /// <summary>
   ///
   /// </summary>
   void registerRTTBlockchainRefresh(RTTCallback inCallback) {
-    _commsLayer?.RegisterRTTCallback(ServiceName.UserItems, inCallback);
+    _commsLayer?.registerRTTCallback(ServiceName.UserItems, inCallback);
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterRTTBlockchainRefresh() {
-    _commsLayer?.DeregisterRTTCallback(ServiceName.UserItems);
+    _commsLayer?.deregisterRTTCallback(ServiceName.UserItems);
   }
 
   /// <summary>
   ///
   /// </summary>
   void registerRTTBlockchainItemEvent(RTTCallback inCallback) {
-    _commsLayer?.RegisterRTTCallback(ServiceName.BlockChain, inCallback);
+    _commsLayer?.registerRTTCallback(ServiceName.BlockChain, inCallback);
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterRTTBlockchainItemEvent() {
-    _commsLayer?.DeregisterRTTCallback(ServiceName.BlockChain);
+    _commsLayer?.deregisterRTTCallback(ServiceName.BlockChain);
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterRTTAsyncMatchCallback() {
-    _commsLayer?.DeregisterRTTCallback(ServiceName.AsyncMatch);
+    _commsLayer?.deregisterRTTCallback(ServiceName.AsyncMatch);
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterAllRTTCallbacks() {
-    _commsLayer?.DeregisterAllRTTCallbacks();
+    _commsLayer?.deregisterAllRTTCallbacks();
   }
 
   /// <summary>
   ///
   /// </summary>
   void setRTTHeartBeatSeconds(int inValue) {
-    _commsLayer?.SetRTTHeartBeatSeconds(inValue);
+    _commsLayer?.setRTTHeartBeatSeconds(inValue);
   }
 
   /// <summary>
@@ -196,6 +196,6 @@ class BrainCloudRTT {
   ///
   /// </summary>
   String? getRTTConnectionID() {
-    return _commsLayer?.RTTConnectionID;
+    return _commsLayer?.rttConnectionID;
   }
 }
