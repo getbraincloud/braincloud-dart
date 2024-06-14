@@ -49,7 +49,7 @@ class BrainCloudGlobalEntity {
       String jsonEntityData,
       SuccessCallback? success,
       FailureCallback? failure,
-      dynamic cbObject) {
+      {dynamic cbObject}) {
     Map<String, dynamic> data = {};
     data[OperationParam.GlobalEntityServiceEntityType.Value] = entityType;
     data[OperationParam.GlobalEntityServiceTimeToLive.Value] = timeToLive;
@@ -337,7 +337,8 @@ class BrainCloudGlobalEntity {
   /// The user object sent to the callback.
   /// </param>
   void getList(String whereJson, String orderByJson, int maxReturn,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
     Map<String, dynamic> data = {};
 
     if (Util.isOptionalParameterValid(whereJson)) {

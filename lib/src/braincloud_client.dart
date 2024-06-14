@@ -133,7 +133,7 @@ class BrainCloudClient {
     ServerCallback? newCallback;
 
     if (success != null || failure != null) {
-      newCallback = ServerCallback(success!, failure!, cbObject);
+      newCallback = ServerCallback(success!, failure!, cbObject: cbObject);
     }
 
     return newCallback;
@@ -928,7 +928,7 @@ class BrainCloudClient {
   void sendHeartbeat(
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     ServerCall sc = ServerCall(ServiceName.HeartBeat, ServiceOperation.read,
-        null, ServerCallback(success, failure, cbObject));
+        null, ServerCallback(success, failure, cbObject: cbObject));
     _comms?.AddToQueue(sc);
   }
 

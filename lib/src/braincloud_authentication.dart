@@ -79,7 +79,8 @@ class BrainCloudAuthentication {
   /// The user supplied callback object
   /// </param>
   void authenticateAnonymous(String? anonymousId, bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
     _anonymousId = anonymousId ?? "";
     authenticate(_anonymousId, "", AuthenticationType.Anonymous, null,
         forceCreate, null, success, failure, cbObject);
@@ -155,7 +156,8 @@ class BrainCloudAuthentication {
   /// The user supplied callback object
   /// </param>
   void authenticateUniversal(String userId, String password, bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
     authenticate(userId, password, AuthenticationType.Universal, null,
         forceCreate, null, success, failure, cbObject);
   }
@@ -186,13 +188,9 @@ class BrainCloudAuthentication {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateFacebook(
-      String externalId,
-      String authenticationToken,
-      bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void authenticateFacebook(String externalId, String authenticationToken,
+      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
     authenticate(externalId, authenticationToken, AuthenticationType.Facebook,
         null, forceCreate, null, success, failure, cbObject);
   }
@@ -268,7 +266,8 @@ class BrainCloudAuthentication {
   /// The user supplied callback object
   /// </param>
   void authenticateOculus(String oculusId, String oculusNonce, bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
     authenticate(oculusId, oculusNonce, AuthenticationType.Oculus, null,
         forceCreate, null, success, failure, cbObject);
   }
@@ -334,13 +333,9 @@ class BrainCloudAuthentication {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticatePlaystation5(
-      String accountId,
-      String authToken,
-      bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void authenticatePlaystation5(String accountId, String authToken,
+      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
     authenticate(accountId, authToken, AuthenticationType.PlaystationNetwork5,
         null, forceCreate, null, success, failure, cbObject);
   }
@@ -368,7 +363,8 @@ class BrainCloudAuthentication {
   /// The user supplied callback object
   /// </param>
   void authenticateGameCenter(String gameCenterId, bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
     authenticate(gameCenterId, "", AuthenticationType.GameCenter, null,
         forceCreate, null, success, failure, cbObject);
   }
@@ -399,7 +395,8 @@ class BrainCloudAuthentication {
   /// The user supplied callback object
   /// </param>
   void authenticateSteam(String userId, String sessionticket, bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
     authenticate(userId, sessionticket, AuthenticationType.Steam, null,
         forceCreate, null, success, failure, cbObject);
   }
@@ -586,7 +583,8 @@ class BrainCloudAuthentication {
   /// The user supplied callback object
   /// </param>
   void authenticateParse(String userId, String token, bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
     authenticate(userId, token, AuthenticationType.Parse, null, forceCreate,
         null, success, failure, cbObject);
   }
@@ -610,8 +608,9 @@ class BrainCloudAuthentication {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateSettopHandoff(String handoffCode, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void authenticateSettopHandoff(
+      String handoffCode, SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
     authenticate(handoffCode, "", AuthenticationType.SettopHandoff, null, false,
         null, success, failure, cbObject);
   }
@@ -638,7 +637,8 @@ class BrainCloudAuthentication {
   /// The user supplied callback object
   /// </param>
   void authenticateHandoff(String handoffId, String securityToken,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
     authenticate(handoffId, securityToken, AuthenticationType.Handoff, null,
         false, null, success, failure, cbObject);
   }
@@ -679,7 +679,7 @@ class BrainCloudAuthentication {
       bool forceCreate,
       SuccessCallback? success,
       FailureCallback? failure,
-      dynamic cbObject) {
+      {dynamic cbObject}) {
     authenticate(userId, token, AuthenticationType.External, externalAuthName,
         forceCreate, null, success, failure, cbObject);
   }
@@ -824,8 +824,9 @@ class BrainCloudAuthentication {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void resetEmailPassword(String externalId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void resetEmailPassword(
+      String externalId, SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
     Map<String, dynamic> data = {};
     data[OperationParam.AuthenticateServiceAuthenticateExternalId.Value] =
         externalId;
@@ -862,7 +863,8 @@ class BrainCloudAuthentication {
   /// The user supplied callback object
   /// </param>
   void resetEmailPasswordWithExpiry(String externalId, int tokenTtlInMinutes,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.AuthenticateServiceAuthenticateExternalId.Value] =
         externalId;
@@ -912,7 +914,7 @@ class BrainCloudAuthentication {
       String serviceParams,
       SuccessCallback? success,
       FailureCallback? failure,
-      dynamic cbObject) {
+      {dynamic cbObject}) {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.AuthenticateServiceAuthenticateGameId.Value] =
         _clientRef.appId;
@@ -1007,8 +1009,9 @@ class BrainCloudAuthentication {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void resetUniversalIdPassword(String universalId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void resetUniversalIdPassword(
+      String universalId, SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
     Map<String, dynamic> data = {};
     data[OperationParam.AuthenticateServiceAuthenticateGameId.Value] =
         _clientRef.appId;
@@ -1043,12 +1046,9 @@ class BrainCloudAuthentication {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void resetUniversalIdPasswordWithExpiry(
-      String universalId,
-      int tokenTtlInMinutes,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void resetUniversalIdPasswordWithExpiry(String universalId,
+      int tokenTtlInMinutes, SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.AuthenticateServiceAuthenticateGameId.Value] =
         _clientRef.appId;
@@ -1090,12 +1090,9 @@ class BrainCloudAuthentication {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void resetUniversalIdPasswordAdvanced(
-      String universalId,
-      String serviceParams,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void resetUniversalIdPasswordAdvanced(String universalId,
+      String serviceParams, SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.AuthenticateServiceAuthenticateGameId.Value] =
         _clientRef.appId;

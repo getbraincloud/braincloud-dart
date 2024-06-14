@@ -1016,11 +1016,11 @@ class BrainCloudComms {
             }
 
             if (rewards != null) {
-              Map<String, dynamic> theReward = new Map<String, dynamic>();
+              Map<String, dynamic> theReward = {};
               theReward["rewards"] = rewards;
               theReward["service"] = service;
               theReward["operation"] = operation;
-              Map<String, dynamic> apiRewards = new Map<String, dynamic>();
+              Map<String, dynamic> apiRewards = {};
               List<dynamic> rewardList = [];
               rewardList.add(theReward);
               apiRewards["apiRewards"] = rewardList;

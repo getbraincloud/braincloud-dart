@@ -4,7 +4,8 @@ class ServerCallback {
   /// ServerCallback
   /// @param fnSuccessCallback : SuccessCallback
   /// @param fnFailureCallback : FailureCallback
-  ServerCallback(this.fnSuccessCallback, this.fnFailureCallback, this.cbObject);
+  ServerCallback(this.fnSuccessCallback, this.fnFailureCallback,
+      {this.cbObject});
 
   SuccessCallback? fnSuccessCallback;
   FailureCallback? fnFailureCallback;

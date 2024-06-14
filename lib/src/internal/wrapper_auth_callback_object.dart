@@ -5,6 +5,6 @@ class WrapperAuthCallbackObject {
   SuccessCallback? successCallback;
   FailureCallback? failureCallback;
 
-  WrapperAuthCallbackObject(
-      this.successCallback, this.failureCallback, this.cbObject);
+  WrapperAuthCallbackObject(this.successCallback, this.failureCallback,
+      {this.cbObject});
 }

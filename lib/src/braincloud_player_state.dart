@@ -126,8 +126,8 @@ class BrainCloudPlayerState {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void logout(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  void logout(SuccessCallback? success, FailureCallback? failure,
+      {dynamic cbObject}) {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
