@@ -1,7 +1,254 @@
+import 'dart:convert';
+
 import 'package:braincloud_dart/src/braincloud_client.dart';
+import 'package:braincloud_dart/src/internal/operation_param.dart';
+import 'package:braincloud_dart/src/internal/server_call.dart';
+import 'package:braincloud_dart/src/internal/service_name.dart';
+import 'package:braincloud_dart/src/internal/service_operation.dart';
+import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/util.dart';
 
 class BrainCloudEvent {
   final BrainCloudClient _clientRef;
 
   BrainCloudEvent(this._clientRef);
+
+  /// <summary>
+  /// Sends an event to the designated profile id with the attached json data.
+  /// Any events that have been sent to a user will show up in their
+  /// incoming event mailbox. If the recordLocally flag is set to true,
+  /// a copy of this event (with the exact same event id) will be stored
+  /// in the sending user's "sent" event mailbox.
+  /// </summary>
+  /// <remarks>
+  /// Service Name - Event
+  /// Service Operation - Send
+  /// </remarks>
+  /// <param name="toProfileId">
+  /// The id of the user who is being sent the event
+  /// </param>
+  /// <param name="eventType">
+  /// The user-defined type of the event.
+  /// </param>
+  /// <param name="jsonEventData">
+  /// The user-defined data for this event encoded in JSON.
+  /// </param>
+  /// <param name="success">
+  /// The success callback.
+  /// </param>
+  /// <param name="failure">
+  /// The failure callback.
+  /// </param>
+  /// <param name="cbObject">
+  /// The user object sent to the callback.
+  /// </param>
+  void sendEvent(String toProfileId, String eventType, String jsonEventData,
+      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+    Map<String, dynamic> data = {};
+
+    data[OperationParam.EventServiceSendToId.Value] = toProfileId;
+    data[OperationParam.EventServiceSendEventType.Value] = eventType;
+
+    if (Util.isOptionalParameterValid(jsonEventData)) {
+      Map<String, dynamic> eventData = jsonDecode(jsonEventData);
+      data[OperationParam.EventServiceSendEventData.Value] = eventData;
+    }
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        success, failure,
+        cbObject: cbObject);
+    ServerCall sc =
+        ServerCall(ServiceName.Event, ServiceOperation.send, data, callback);
+    _clientRef.sendRequest(sc);
+  }
+
+  /// <summary>
+  /// Updates an event in the user's incoming event mailbox.
+  /// </summary>
+  /// <remarks>
+  /// Service Name - Event
+  /// Service Operation - UpdateEventData
+  /// </remarks>
+  /// <param name="evId">
+  /// The event id
+  /// </param>
+  /// <param name="jsonEventData">
+  /// The user-defined data for this event encoded in JSON.
+  /// </param>
+  /// <param name="success">
+  /// The success callback.
+  /// </param>
+  /// <param name="failure">
+  /// The failure callback.
+  /// </param>
+  /// <param name="cbObject">
+  /// The user object sent to the callback.
+  /// </param>
+  void updateIncomingEventData(String evId, String jsonEventData,
+      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+    Map<String, dynamic> data = {};
+    data[OperationParam.EvId.Value] = evId;
+
+    if (Util.isOptionalParameterValid(jsonEventData)) {
+      Map<String, dynamic> eventData = jsonDecode(jsonEventData);
+      data[OperationParam.EventServiceUpdateEventDataData.Value] = eventData;
+    }
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        success, failure,
+        cbObject: cbObject);
+    ServerCall sc = ServerCall(
+        ServiceName.Event, ServiceOperation.updateEventData, data, callback);
+    _clientRef.sendRequest(sc);
+  }
+
+  /// <summary>
+  /// Delete an event out of the user's incoming mailbox.
+  /// </summary>
+  /// <remarks>
+  /// Service Name - Event
+  /// Service Operation - DeleteIncoming
+  /// </remarks>
+  /// <param name="evId">
+  /// The event id
+  /// </param>
+  /// <param name="success">
+  /// The success callback.
+  /// </param>
+  /// <param name="failure">
+  /// The failure callback.
+  /// </param>
+  /// <param name="cbObject">
+  /// The user object sent to the callback.
+  /// </param>
+  void deleteIncomingEvent(String evId, SuccessCallback? success,
+      FailureCallback? failure, dynamic cbObject) {
+    Map<String, dynamic> data = {};
+    data[OperationParam.EvId.Value] = evId;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        success, failure,
+        cbObject: cbObject);
+    ServerCall sc = ServerCall(
+        ServiceName.Event, ServiceOperation.deleteIncoming, data, callback);
+    _clientRef.sendRequest(sc);
+  }
+
+  /// <summary>
+  /// Delete a list of events out of the user's incoming mailbox.
+  /// </summary>
+  /// <remarks>
+  /// Service Name - event
+  /// Service Operation - DELETE_INCOMING_EVENTS
+  /// </remarks>
+  /// <param name="in_eventIds">
+  /// Collection of event ids
+  /// </param>
+  /// <param name="success">
+  /// The success callback.
+  /// </param>
+  /// <param name="failure">
+  /// The failure callback.
+  /// </param>
+  /// <param name="cbObject">
+  /// The user object sent to the callback.
+  /// </param>
+  void deleteIncomingEvents(List<String> inEventids, SuccessCallback? success,
+      FailureCallback? failure, dynamic cbObject) {
+    Map<String, dynamic> data = {};
+    data[OperationParam.EventServiceEvIds.Value] = inEventids;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        success, failure,
+        cbObject: cbObject);
+    ServerCall sc = ServerCall(ServiceName.Event,
+        ServiceOperation.deleteIncomingEvents, data, callback);
+    _clientRef.sendRequest(sc);
+  }
+
+  /// /// <summary>
+  /// Delete any events older than the given date out of the user's incoming mailbox.
+  /// </summary>
+  /// <remarks>
+  /// Service Name - event
+  /// Service Operation - DELETE_INCOMING_EVENTS_OLDER_THAN
+  /// </remarks>
+  /// <param name="in_dateMillis">
+  /// CreatedAt cut-off time whereby older events will be deleted (In UTC since Epoch)
+  /// </param>
+  /// <param name="success">
+  /// The success callback.
+  /// </param>
+  /// <param name="failure">
+  /// The failure callback.
+  /// </param>
+  /// <param name="cbObject">
+  /// The user object sent to the callback.
+  /// </param>
+  void deleteIncomingEventsOlderThan(int inDatemillis, SuccessCallback? success,
+      FailureCallback? failure, dynamic cbObject) {
+    Map<String, dynamic> data = {};
+    data[OperationParam.EventServiceDateMillis.Value] = inDatemillis;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        success, failure,
+        cbObject: cbObject);
+    ServerCall sc = ServerCall(ServiceName.Event,
+        ServiceOperation.deleteIncomingEventsOlderThan, data, callback);
+    _clientRef.sendRequest(sc);
+  }
+
+  /// <summary>
+  /// Delete any events of the given type older than the given date out of the user's incoming mailbox.
+  /// </summary>
+  /// <remarks>
+  /// Service Name - event
+  /// Service Operation - DELETE_INCOMING_EVENTS_BY_TYPE_OLDER_THAN
+  /// </remarks>
+  /// <param name="in_eventId">
+  /// The event id
+  /// </param>
+  /// <param name="in_dateMillis">
+  /// CreatedAt cut-off time whereby older events will be deleted (In UTC since Epoch)
+  /// </param>
+  /// <param name="success">
+  /// The success callback.
+  /// </param>
+  /// <param name="failure">
+  /// The failure callback.
+  /// </param>
+  /// <param name="cbObject">
+  /// The user object sent to the callback.
+  /// </param>
+  void deleteIncomingEventsByTypeOlderThan(String inEventid, int inDatemillis,
+      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+    Map<String, dynamic> data = {};
+    data[OperationParam.EventServiceDateMillis.Value] = inDatemillis;
+    data[OperationParam.EventServiceEventType.Value] = inEventid;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        success, failure,
+        cbObject: cbObject);
+    ServerCall sc = ServerCall(ServiceName.Event,
+        ServiceOperation.deleteIncomingEventsByTypeOlderThan, data, callback);
+    _clientRef.sendRequest(sc);
+  }
+
+  /// <summary>
+  /// Get the events currently queued for the user.
+  /// </summary>
+  /// <param name="success">The success callback.</param>
+  /// <param name="failure">The failure callback.</param>
+  /// <param name="cbObject">The user object sent to the callback.</param>
+  void getEvents(
+      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+    Map<String, dynamic> data = {};
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        success, failure,
+        cbObject: cbObject);
+    ServerCall sc = ServerCall(
+        ServiceName.Event, ServiceOperation.getEvents, data, callback);
+    _clientRef.sendRequest(sc);
+  }
 }

@@ -59,12 +59,12 @@ class BrainCloudMessaging {
   /// <summary>
   /// Retrieves list of specified messages.
   /// </summary>
-  void getMessages(String in_msgBox, List<String> in_msgsIds, bool markAsRead,
+  void getMessages(String inMsgbox, List<String> inMsgsids, bool markAsRead,
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.MessagingMessageBox.Value] = in_msgBox;
-    data[OperationParam.MessagingMessageIds.Value] = in_msgsIds;
+    data[OperationParam.MessagingMessageBox.Value] = inMsgbox;
+    data[OperationParam.MessagingMessageIds.Value] = inMsgsids;
     data[OperationParam.MessagingMarkAsRead.Value] = markAsRead;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -79,10 +79,10 @@ class BrainCloudMessaging {
   /// Retrieves a page of messages.
   /// </summary>
   void getMessagesPage(
-      String in_context, SuccessCallback? success, FailureCallback? failure,
+      String inContext, SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = {};
-    var context = jsonDecode(in_context);
+    var context = jsonDecode(inContext);
     data[OperationParam.MessagingContext.Value] = context;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -96,11 +96,11 @@ class BrainCloudMessaging {
   /// <summary>
   /// Gets the page of messages from the server based on the encoded context and specified page offset.
   /// </summary>
-  void getMessagesPageOffset(String in_context, int pageOffset,
+  void getMessagesPageOffset(String inContext, int pageOffset,
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.MessagingContext.Value] = in_context;
+    data[OperationParam.MessagingContext.Value] = inContext;
     data[OperationParam.MessagingPageOffset.Value] = pageOffset;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -114,12 +114,12 @@ class BrainCloudMessaging {
   /// <summary>
   /// Marks list of user messages as read on the server.
   /// </summary>
-  void MarkMessagesRead(String in_msgBox, List<String> in_msgsIds,
+  void markMessagesRead(String inMsgbox, List<String> inMsgsids,
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.MessagingMessageBox.Value] = in_msgBox;
-    data[OperationParam.MessagingMessageIds.Value] = in_msgsIds;
+    data[OperationParam.MessagingMessageBox.Value] = inMsgbox;
+    data[OperationParam.MessagingMessageIds.Value] = inMsgsids;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -132,13 +132,13 @@ class BrainCloudMessaging {
   /// <summary>
   /// Sends a message with specified 'subject' and 'text' to list of users.
   /// </summary>
-  void SendMessage(List<String> in_toProfileIds, String in_contentJson,
+  void sendMessage(List<String> inToprofileids, String inContentjson,
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.MessagingToProfileIds.Value] = in_toProfileIds;
+    data[OperationParam.MessagingToProfileIds.Value] = inToprofileids;
 
-    var content = jsonDecode(in_contentJson);
+    var content = jsonDecode(inContentjson);
     data[OperationParam.MessagingContent.Value] = content;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -153,12 +153,12 @@ class BrainCloudMessaging {
   /// Send a potentially rich chat message. <content> must contain at least a "plain" field for plain-text messaging.
   /// </summary>
   ///
-  void SendMessageSimple(List<String> in_toProfileIds, String in_messageText,
+  void sendMessageSimple(List<String> inToprofileids, String inMessagetext,
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.MessagingToProfileIds.Value] = in_toProfileIds;
-    data[OperationParam.MessagingText.Value] = in_messageText;
+    data[OperationParam.MessagingToProfileIds.Value] = inToprofileids;
+    data[OperationParam.MessagingText.Value] = inMessagetext;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
