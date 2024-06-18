@@ -539,9 +539,13 @@ class BrainCloudLobby {
                 ? regionInner["type"].toString().toUpperCase()
                 : RegionTarget.PING_TYPE);
 
-        lock(mRegiontargetstoprocess) {
-          for (int i = 0; i < MAX_PING_CALLS; ++i)
-            mRegiontargetstoprocess.Add(regionTarget);
+        _regionTargetsToProcessLock.acquire();
+        try {
+          for (int i = 0; i < MAX_PING_CALLS; ++i) {
+            _regionTargetsToProcess.add(regionTarget);
+          }
+        } finally {
+          _regionTargetsToProcessLock.release();
         }
       });
 
@@ -556,10 +560,11 @@ class BrainCloudLobby {
   }
 
   void _pingNextItemToProcess() {
-    lock(mRegiontargetstoprocess) {
-      if (mRegiontargetstoprocess.Count > 0) {
-        RegionTarget regionTarget = mRegiontargetstoprocess[0];
-        mRegiontargetstoprocess.RemoveAt(0);
+    _regionTargetsToProcessLock.acquire();
+    try {
+      if (_regionTargetsToProcess.isNotEmpty) {
+        RegionTarget regionTarget = _regionTargetsToProcess[0];
+        _regionTargetsToProcess.removeAt(0);
         _pingHost(regionTarget);
 
         return;
@@ -579,17 +584,19 @@ class BrainCloudLobby {
 // #endif
         return;
       }
+    } finally {
+      _regionTargetsToProcessLock.release();
+    }
 
-      _pingRegionSuccessCallback = null;
+    _pingRegionSuccessCallback = null;
 // #if !DOT_NET || GODOT
 //                 m_regionTargetIPs.Clear();
 // #endif
-    }
   }
 
   void _attachPingDataAndSend(
       Map<String, dynamic> inData,
-      ServiceOperation in_operation,
+      ServiceOperation inOperation,
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject) {
@@ -601,7 +608,7 @@ class BrainCloudLobby {
           success, failure,
           cbObject: cbObject);
       ServerCall sc =
-          ServerCall(ServiceName.Lobby, in_operation, inData, callback);
+          ServerCall(ServiceName.Lobby, inOperation, inData, callback);
       _clientRef.sendRequest(sc);
     } else {
       _queueFailure(
@@ -650,16 +657,15 @@ class BrainCloudLobby {
     _lobbyTypeRegions = data["lobbyTypeRegions"];
   }
 
-  void _pingHost(RegionTarget inRegiontarget) {
-// #if DOT_NET || GODOT
-//             if (in_regionTarget.IsHttpType)
-//             {
-//                 HandleHTTPResponse(in_regionTarget.region, in_regionTarget.target);
-//             }
-//             else
-//             {
-//                 HandlePingReponse(in_regionTarget.region, in_regionTarget.target);
-//             }
+  void _pingHost(RegionTarget inRegionTarget) {
+    // if (inRegionTarget.isHttpType())
+    // {
+    //     HandleHTTPResponse(inRegionTarget.region, inRegionTarget.target);
+    // }
+    // else
+    // {
+    //     _handlePingReponse(inRegionTarget.region, inRegionTarget.target);
+    // }
 // #else
 //             if (_clientRef.Wrapper != null)
 //             {
@@ -697,31 +703,30 @@ class BrainCloudLobby {
 //             });
 //         }
 
-//         private void HandlePingReponse(String in_region, String in_target)
-//         {
-//             Ping pinger = new Ping();
-//             try
-//             {
-//                 pinger.PingCompleted += (o, response) =>
-//                 {
-//                     if (response.Error == null && response.Reply.Status == IPStatus.Success)
-//                     {
-//                         handlePingTimeResponse(response.Reply.RoundtripTime, in_region);
-//                     }
-//                     else
-//                     {
-//                         _pingNextItemToProcess();
-//                     }
-//                 };
+  void _handlePingReponse(String in_region, String in_target) {
+    // Ping pinger = new Ping();
+    // try
+    // {
+    //     pinger.PingCompleted += (o, response) =>
+    //     {
+    //         if (response.Error == null && response.Reply.Status == IPStatus.Success)
+    //         {
+    //             handlePingTimeResponse(response.Reply.RoundtripTime, in_region);
+    //         }
+    //         else
+    //         {
+    //             _pingNextItemToProcess();
+    //         }
+    //     };
 
-//                 pinger.SendPingAsync(in_target, 10000);
-//             }
-//             catch (Exception) { }
-//             finally
-//             {
-//                 pinger?.Dispose();
-//             }
-//         }
+    //     pinger.SendPingAsync(in_target, 10000);
+    // }
+    // catch (Exception) { }
+    // finally
+    // {
+    //     pinger?.Dispose();
+    // }
+  }
 // #else
 //         private IEnumerator HandleHTTPResponse(String in_region, String in_target)
 //         {
@@ -828,7 +833,7 @@ class BrainCloudLobby {
   final Map<String, List<int>> _cachedPingResponses = {};
 
   final List<RegionTarget> _regionTargetsToProcess = [];
-  Mutex _regionTargetsToProcessLock = Mutex();
+  final Mutex _regionTargetsToProcessLock = Mutex();
   SuccessCallback? _pingRegionSuccessCallback;
   dynamic _pingRegionObject;
 
