@@ -485,26 +485,26 @@ class BrainCloudComms {
   /// </summary>
   void RunFileUploadCallbacks() {
     for (int i = _fileUploads.length - 1; i >= 0; i--) {
-      _fileUploads[i].Update();
-      if (_fileUploads[i].Status == FileUploaderStatus.CompleteSuccess) {
+      _fileUploads[i].update();
+      if (_fileUploads[i].status == FileUploaderStatus.CompleteSuccess) {
         _fileUploadSuccessCallback!(
-            _fileUploads[i].UploadId, _fileUploads[i].Response);
+            _fileUploads[i].uploadId, _fileUploads[i].response);
 
         if (_clientRef.loggingEnabled) {
           _clientRef.log(
-              "Upload success: ${_fileUploads[i].UploadId}  | ${_fileUploads[i].StatusCode} \n ${_fileUploads[i].Response}");
+              "Upload success: ${_fileUploads[i].uploadId}  | ${_fileUploads[i].statusCode} \n ${_fileUploads[i].response}");
         }
         _fileUploads.removeAt(i);
-      } else if (_fileUploads[i].Status == FileUploaderStatus.CompleteFailed) {
+      } else if (_fileUploads[i].status == FileUploaderStatus.CompleteFailed) {
         _fileUploadFailedCallback!(
-            _fileUploads[i].UploadId,
-            _fileUploads[i].StatusCode,
-            _fileUploads[i].ReasonCode,
-            _fileUploads[i].Response);
+            _fileUploads[i].uploadId,
+            _fileUploads[i].statusCode,
+            _fileUploads[i].reasonCode,
+            _fileUploads[i].response);
 
         if (_clientRef.loggingEnabled) {
           _clientRef.log(
-              "Upload failed: ${_fileUploads[i].UploadId} | ${_fileUploads[i].StatusCode} \n ${_fileUploads[i].Response}");
+              "Upload failed: ${_fileUploads[i].uploadId} | ${_fileUploads[i].statusCode} \n ${_fileUploads[i].response}");
         }
         _fileUploads.removeAt(i);
       }
@@ -513,13 +513,13 @@ class BrainCloudComms {
 
   void CancelUpload(String uploadFileId) {
     FileUploader? uploader = GetFileUploader(uploadFileId);
-    if (uploader != null) uploader.CancelUpload();
+    if (uploader != null) uploader.cancelUpload();
   }
 
   double GetUploadProgress(String uploadFileId) {
     FileUploader? uploader = GetFileUploader(uploadFileId);
     if (uploader != null)
-      return uploader.Progress;
+      return uploader.progress;
     else
       return -1;
   }
@@ -527,7 +527,7 @@ class BrainCloudComms {
   double GetUploadBytesTransferred(String uploadFileId) {
     FileUploader? uploader = GetFileUploader(uploadFileId);
     if (uploader != null) {
-      return uploader.BytesTransferred;
+      return uploader.bytesTransferred;
     } else {
       return -1;
     }
@@ -536,7 +536,7 @@ class BrainCloudComms {
   int GetUploadTotalBytesToTransfer(String uploadFileId) {
     FileUploader? uploader = GetFileUploader(uploadFileId);
     if (uploader != null) {
-      return uploader.TotalBytesToTransfer;
+      return uploader.totalBytesToTransfer;
     } else {
       return -1;
     }
@@ -544,7 +544,7 @@ class BrainCloudComms {
 
   FileUploader? GetFileUploader(String uploadId) {
     for (int i = 0; i < _fileUploads.length; i++) {
-      if (_fileUploads[i].UploadId == uploadId) return _fileUploads[i];
+      if (_fileUploads[i].uploadId == uploadId) return _fileUploads[i];
     }
 
     if (_clientRef.loggingEnabled) {
@@ -943,18 +943,18 @@ class BrainCloudComms {
             String guid = fileData["localPath"];
             String fileName = fileData["cloudFilename"];
             var uploader = FileUploader(
-                uploadId,
-                guid,
-                UploadURL,
-                SessionID,
-                UploadLowTransferRateTimeout,
-                UploadLowTransferRateThreshold,
-                _clientRef,
-                peerCode);
+                uploadId: uploadId,
+                guidLocalPath: guid,
+                serverUrl: UploadURL,
+                sessionId: SessionID,
+                clientRef: _clientRef,
+                peerCode: peerCode,
+                fileName: fileName,
+                timeout: UploadLowTransferRateTimeout,
+                timeoutThreshold: UploadLowTransferRateThreshold);
 
-            uploader.fileName = fileName;
             if (_clientRef.fileService.fileStorage.containsKey(guid)) {
-              uploader.TotalBytesToTransfer =
+              uploader.totalBytesToTransfer =
                   _clientRef.fileService.fileStorage[guid]?.length ?? 0;
             }
 
@@ -962,7 +962,7 @@ class BrainCloudComms {
             //uploader.HttpClient = _httpClient;
 
             _fileUploads.add(uploader);
-            uploader.Start();
+            uploader.start();
           }
         }
 
