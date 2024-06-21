@@ -43,7 +43,10 @@ class MyApp extends StatelessWidget {
 
   /// Future to init the BrainCloud Client
   Future<String> _initAndUpdateRoute() async {
-    await _bcWrapper.init("<YOUR_SECRET_KEY>", "<YOUR_APP_ID>", "1.0",
+    await _bcWrapper.init(
+        secretKey: "<YOUR_SECRET_KEY>", 
+        appId: "<YOUR_APP_ID>", 
+        version: "<YOUR_APP_VERSION>",
         url: "https://api.braincloudservers.com/dispatcherv2");
 
     /// Check if there was a session
