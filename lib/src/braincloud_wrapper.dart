@@ -280,8 +280,11 @@ class BrainCloudWrapper {
   /// <param name="secretKey">The app's secret</param>
   /// <param name="appId">The app's id</param>
   /// <param name="version">The app's version</param>
-  Future<void> init(String secretKey, String appId, String version,
-      {String? url}) async {
+  Future<void> init(
+      {required String secretKey,
+      required String appId,
+      required String version,
+      String? url}) async {
     resetWrapper();
     _lastUrl = url ?? "";
     _lastSecretKey = secretKey;
@@ -304,8 +307,11 @@ class BrainCloudWrapper {
   /// <param name="secretKey">The app's secret</param>
   /// <param name="appId">The app's id</param>
   /// <param name="version">The app's version</param>
-  Future<void> initWithApps(String url, String defaultAppId,
-      Map<String, String> appIdSecretMap, String version) async {
+  Future<void> initWithApps(
+      {required String url,
+      required String defaultAppId,
+      required Map<String, String> appIdSecretMap,
+      required String version}) async {
     resetWrapper();
     _lastUrl = url;
     _lastSecretKey = appIdSecretMap[defaultAppId] ?? "";
@@ -374,10 +380,13 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateAnonymous(SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(success, failure,
-        cbObject: cbObject, isAnonymousAuth: true);
+  void authenticateAnonymous(
+      {SuccessCallback? success, FailureCallback? failure, dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success,
+        failureCallback: failure,
+        cbObject: cbObject,
+        isAnonymousAuth: true);
 
     _client.authenticationService?.authenticateAnonymous(
         null,
@@ -409,11 +418,14 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateHandoff(String handoffId, String securityToken,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+  void authenticateHandoff(
+      {required String handoffId,
+      required String securityToken,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     _client.authenticationService?.authenticateHandoff(
         handoffId,
@@ -443,10 +455,12 @@ class BrainCloudWrapper {
   /// The user supplied callback object
   /// </param>
   void authenticatesettopHandoff(
-      String handoffCode, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+      {required String handoffCode,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     _client.authenticationService?.authenticateSettopHandoff(
         handoffCode,
@@ -486,17 +500,21 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateEmailPassword(String email, String password,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+  void authenticateEmailPassword(
+      {required String email,
+      required String password,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     mergeSuccess(String response) {
       if (success != null) {
         success(response);
       }
-      authSuccessCallback(response, cbObject: cbObject);
+      authSuccessCallback(json: response, cbObject: cbObject);
     }
 
     mergeFailure(int statusCode, int reasonCode, String statusMessage) {
@@ -504,7 +522,10 @@ class BrainCloudWrapper {
         failure(statusCode, reasonCode, statusMessage);
       }
 
-      authFailureCallback(statusCode, reasonCode, statusMessage,
+      authFailureCallback(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          errorJson: statusMessage,
           cbObject: cbObject);
     }
 
@@ -542,15 +563,15 @@ class BrainCloudWrapper {
   /// The user supplied callback object
   /// </param>
   void authenticateExternal(
-      String userid,
-      String token,
-      String externalAuthName,
-      bool forceCreate,
+      {required String userid,
+      required String token,
+      required String externalAuthName,
+      required bool forceCreate,
       SuccessCallback? success,
       FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     _client.authenticationService?.authenticateExternal(
         userid,
@@ -588,11 +609,15 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateFacebook(String fbUserId, String fbAuthToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+  void authenticateFacebook(
+      {required String fbUserId,
+      required String fbAuthToken,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     _client.authenticationService?.authenticateFacebook(
         fbUserId,
@@ -629,11 +654,15 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateFacebookLimited(String fbLimitedUserId, String fbAuthToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+  void authenticateFacebookLimited(
+      {required String fbLimitedUserId,
+      required String fbAuthToken,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     _client.authenticationService?.authenticateFacebookLimited(
         fbLimitedUserId,
@@ -669,11 +698,15 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateOculus(String oculusUserId, String oculusNonce,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+  void authenticateOculus(
+      {required String oculusUserId,
+      required String oculusNonce,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     _client.authenticationService?.authenticateOculus(
         oculusUserId,
@@ -709,11 +742,15 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticatePlaystationNetwork(String accountId, String authToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+  void authenticatePlaystationNetwork(
+      {required String accountId,
+      required String authToken,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     _client.authenticationService?.authenticatePlaystationNetwork(
         accountId,
@@ -749,11 +786,15 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticatePlaystation5(String accountId, String authToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+  void authenticatePlaystation5(
+      {required String accountId,
+      required String authToken,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     _client.authenticationService?.authenticatePlaystation5(
         accountId,
@@ -786,11 +827,14 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateGameCenter(String gameCenterId, bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+  void authenticateGameCenter(
+      {required String gameCenterId,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     _client.authenticationService?.authenticateGameCenter(
         gameCenterId,
@@ -825,11 +869,15 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateApple(String appleUserId, String identityToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+  void authenticateApple(
+      {required String appleUserId,
+      required String identityToken,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     _client.authenticationService?.authenticateApple(
         appleUserId,
@@ -865,11 +913,15 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateGoogle(String googleUserId, String serverAuthCode,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+  void authenticateGoogle(
+      {required String googleUserId,
+      required String serverAuthCode,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     _client.authenticationService?.authenticateGoogle(
         googleUserId,
@@ -905,11 +957,15 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateGoogleOpenId(String googleUserAccountEmail, String idToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+  void authenticateGoogleOpenId(
+      {required String googleUserAccountEmail,
+      required String idToken,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     _client.authenticationService?.authenticateGoogleOpenId(
         googleUserAccountEmail,
@@ -945,11 +1001,15 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateSteam(String userid, String sessionticket, bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+  void authenticateSteam(
+      {required String userid,
+      required String sessionticket,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     _client.authenticationService?.authenticateSteam(
         userid,
@@ -988,11 +1048,16 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateTwitter(String userid, String token, String secret,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+  void authenticateTwitter(
+      {required String userid,
+      required String token,
+      required String secret,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     _client.authenticationService?.authenticateTwitter(
         userid,
@@ -1031,11 +1096,15 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateUniversal(String username, String password, bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+  void authenticateUniversal(
+      {required String username,
+      required String password,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     _client.authenticationService?.authenticateUniversal(
         username,
@@ -1076,16 +1145,19 @@ class BrainCloudWrapper {
   /// The user supplied callback object
   /// </param>
   void authenticateAdvanced(
-      AuthenticationType authenticationType,
-      AuthenticationIds ids,
-      bool forceCreate,
-      Map<String, dynamic> extraJson,
+      {required AuthenticationType authenticationType,
+      required AuthenticationIds ids,
+      required bool forceCreate,
+      required Map<String, dynamic> extraJson,
       SuccessCallback? success,
       FailureCallback? failure,
-      {dynamic cbObject}) {
+      dynamic cbObject}) {
     bool isAnonymous = authenticationType == AuthenticationType.Anonymous;
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(success, failure,
-        cbObject: cbObject, isAnonymousAuth: isAnonymous);
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success,
+        failureCallback: failure,
+        cbObject: cbObject,
+        isAnonymousAuth: isAnonymous);
 
     ids.externalId =
         isAnonymous ? getStoredAnonymousId() ?? "" : ids.externalId;
@@ -1126,11 +1198,15 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateUltra(String ultraUsername, String ultraIdToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+  void authenticateUltra(
+      {required String ultraUsername,
+      required String ultraIdToken,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     _client.authenticationService?.authenticateUltra(
         ultraUsername,
@@ -1166,11 +1242,15 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateNintendo(String accountId, String authToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco =
-        _makeWrapperAuthCallback(success, failure, cbObject: cbObject);
+  void authenticateNintendo(
+      {required String accountId,
+      required String authToken,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success, failureCallback: failure, cbObject: cbObject);
 
     _client.authenticationService?.authenticateNintendo(
         accountId,
@@ -1214,9 +1294,13 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void smartSwitchauthenticateEmail(String email, String password,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+  void smartSwitchauthenticateEmail(
+      {required String email,
+      required String password,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
     // SuccessCallback authenticateCallback = (response, o) =>
     // {
     //     authenticateEmailPassword(email, password, forceCreate, success, failure, cbObject: cbObject);
@@ -1226,7 +1310,12 @@ class BrainCloudWrapper {
       if (success != null) {
         success(response);
       }
-      authenticateEmailPassword(email, password, forceCreate, success, failure,
+      authenticateEmailPassword(
+          email: email,
+          password: password,
+          forceCreate: forceCreate,
+          success: success,
+          failure: failure,
           cbObject: cbObject);
     }
 
@@ -1267,20 +1356,25 @@ class BrainCloudWrapper {
   /// The user supplied callback object
   /// </param>
   void smartSwitchauthenticateExternal(
-      String userid,
-      String token,
-      String externalAuthName,
-      bool forceCreate,
+      {required String userid,
+      required String token,
+      required String externalAuthName,
+      required bool forceCreate,
       SuccessCallback? success,
       FailureCallback? failure,
-      {dynamic cbObject}) {
+      dynamic cbObject}) {
     authenticateCallback(String response) {
       if (success != null) {
         success(response);
       }
 
       authenticateExternal(
-          userid, token, externalAuthName, forceCreate, success, failure,
+          userid: userid,
+          token: token,
+          externalAuthName: externalAuthName,
+          forceCreate: forceCreate,
+          success: success,
+          failure: failure,
           cbObject: cbObject);
     }
 
@@ -1317,15 +1411,24 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void smartSwitchauthenticateFacebook(String fbUserId, String fbAuthToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+  void smartSwitchauthenticateFacebook(
+      {required String fbUserId,
+      required String fbAuthToken,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
     mergedSuccess(String response) {
       if (success != null) {
         success(response);
       }
 
-      authenticateFacebook(fbUserId, fbAuthToken, forceCreate, success, failure,
+      authenticateFacebook(
+          fbUserId: fbUserId,
+          fbAuthToken: fbAuthToken,
+          forceCreate: forceCreate,
+          success: success,
+          failure: failure,
           cbObject: cbObject);
     }
 
@@ -1363,18 +1466,22 @@ class BrainCloudWrapper {
   /// The user supplied callback object
   /// </param>
   void smartSwitchauthenticateFacebookLimited(
-      String fbLimitedUserId,
-      String fbAuthToken,
-      bool forceCreate,
+      {required String fbLimitedUserId,
+      required String fbAuthToken,
+      required bool forceCreate,
       SuccessCallback? success,
       FailureCallback? failure,
-      {dynamic cbObject}) {
+      dynamic cbObject}) {
     authenticateCallback(String response) {
       if (success != null) {
         success(response);
       }
       authenticateFacebookLimited(
-          fbLimitedUserId, fbAuthToken, forceCreate, success, failure,
+          fbLimitedUserId: fbLimitedUserId,
+          fbAuthToken: fbAuthToken,
+          forceCreate: forceCreate,
+          success: success,
+          failure: failure,
           cbObject: cbObject);
     }
 
@@ -1410,15 +1517,23 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void smartSwitchauthenticateOculus(String oculusUserId, String oculusNonce,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+  void smartSwitchauthenticateOculus(
+      {required String oculusUserId,
+      required String oculusNonce,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
     authenticateCallback(String response) {
       if (success != null) {
         success(response);
       }
       authenticateOculus(
-          oculusUserId, oculusNonce, forceCreate, success, failure,
+          oculusUserId: oculusUserId,
+          oculusNonce: oculusNonce,
+          forceCreate: forceCreate,
+          success: success,
+          failure: failure,
           cbObject: cbObject);
     }
 
@@ -1456,18 +1571,22 @@ class BrainCloudWrapper {
   /// The user supplied callback object
   /// </param>
   void smartSwitchauthenticatePlaystationNetwork(
-      String psnAccountId,
-      String psnAuthToken,
-      bool forceCreate,
+      {required String psnAccountId,
+      required String psnAuthToken,
+      required bool forceCreate,
       SuccessCallback? success,
       FailureCallback? failure,
-      {dynamic cbObject}) {
+      dynamic cbObject}) {
     authenticateCallback(String response) {
       if (success != null) {
         success(response);
       }
       authenticatePlaystationNetwork(
-          psnAccountId, psnAuthToken, forceCreate, success, failure,
+          accountId: psnAccountId,
+          authToken: psnAuthToken,
+          forceCreate: forceCreate,
+          success: success,
+          failure: failure,
           cbObject: cbObject);
     }
 
@@ -1504,15 +1623,23 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void smartSwitchauthenticateApple(String appleUserId, String appleAuthToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+  void smartSwitchauthenticateApple(
+      {required String appleUserId,
+      required String appleAuthToken,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
     authenticateCallback(String response) {
       if (success != null) {
         success(response);
       }
       authenticateApple(
-          appleUserId, appleAuthToken, forceCreate, success, failure,
+          appleUserId: appleUserId,
+          identityToken: appleAuthToken,
+          forceCreate: forceCreate,
+          success: success,
+          failure: failure,
           cbObject: cbObject);
     }
 
@@ -1545,14 +1672,21 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void smartSwitchauthenticateGameCenter(String gameCenterId, bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+  void smartSwitchauthenticateGameCenter(
+      {required String gameCenterId,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
     authenticateCallback(String response) {
       if (success != null) {
         success(response);
       }
-      authenticateGameCenter(gameCenterId, forceCreate, success, failure,
+      authenticateGameCenter(
+          gameCenterId: gameCenterId,
+          forceCreate: forceCreate,
+          success: success,
+          failure: failure,
           cbObject: cbObject);
     }
 
@@ -1588,14 +1722,23 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void smartSwitchauthenticateGoogle(String userid, String token,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+  void smartSwitchauthenticateGoogle(
+      {required String userid,
+      required String token,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
     authenticateCallback(String response) {
       if (success != null) {
         success(response);
       }
-      authenticateGoogle(userid, token, forceCreate, success, failure,
+      authenticateGoogle(
+          googleUserId: userid,
+          serverAuthCode: token,
+          forceCreate: forceCreate,
+          success: success,
+          failure: failure,
           cbObject: cbObject);
     }
 
@@ -1631,14 +1774,23 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void smartSwitchauthenticateGoogleOpenId(String userid, String token,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+  void smartSwitchauthenticateGoogleOpenId(
+      {required String userid,
+      required String token,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
     authenticateCallback(String response) {
       if (success != null) {
         success(response);
       }
-      authenticateGoogleOpenId(userid, token, forceCreate, success, failure,
+      authenticateGoogleOpenId(
+          googleUserAccountEmail: userid,
+          idToken: token,
+          forceCreate: forceCreate,
+          success: success,
+          failure: failure,
           cbObject: cbObject);
     }
 
@@ -1674,14 +1826,23 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void smartSwitchauthenticateSteam(String userid, String sessionticket,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+  void smartSwitchauthenticateSteam(
+      {required String userid,
+      required String sessionticket,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
     authenticateCallback(String response) {
       if (success != null) {
         success(response);
       }
-      authenticateSteam(userid, sessionticket, forceCreate, success, failure,
+      authenticateSteam(
+          userid: userid,
+          sessionticket: sessionticket,
+          forceCreate: forceCreate,
+          success: success,
+          failure: failure,
           cbObject: cbObject);
     }
 
@@ -1721,18 +1882,24 @@ class BrainCloudWrapper {
   /// The user supplied callback object
   /// </param>
   void smartSwitchauthenticateTwitter(
-      String userid,
-      String token,
-      String secret,
-      bool forceCreate,
+      {required String userid,
+      required String token,
+      required String secret,
+      required bool forceCreate,
       SuccessCallback? success,
       FailureCallback? failure,
-      {dynamic cbObject}) {
+      dynamic cbObject}) {
     authenticateCallback(String response) {
       if (success != null) {
         success(response);
       }
-      authenticateTwitter(userid, token, secret, forceCreate, success, failure,
+      authenticateTwitter(
+          userid: userid,
+          token: token,
+          secret: secret,
+          forceCreate: forceCreate,
+          success: success,
+          failure: failure,
           cbObject: cbObject);
     }
 
@@ -1770,14 +1937,23 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void smartSwitchauthenticateUniversal(String username, String password,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+  void smartSwitchauthenticateUniversal(
+      {required String username,
+      required String password,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
     authenticateCallback(String response) {
       if (success != null) {
         success(response);
       }
-      authenticateUniversal(username, password, forceCreate, success, failure,
+      authenticateUniversal(
+          username: username,
+          password: password,
+          forceCreate: forceCreate,
+          success: success,
+          failure: failure,
           cbObject: cbObject);
     }
 
@@ -1818,19 +1994,24 @@ class BrainCloudWrapper {
   /// The user supplied callback object
   /// </param>
   void smartSwitchauthenticateAdvanced(
-      AuthenticationType authenticationType,
-      AuthenticationIds ids,
-      bool forceCreate,
-      Map<String, dynamic> extraJson,
+      {required AuthenticationType authenticationType,
+      required AuthenticationIds ids,
+      required bool forceCreate,
+      required Map<String, dynamic> extraJson,
       SuccessCallback? success,
       FailureCallback? failure,
-      {dynamic cbObject}) {
+      dynamic cbObject}) {
     authenticateCallback(String response) {
       if (success != null) {
         success(response);
       }
       authenticateAdvanced(
-          authenticationType, ids, forceCreate, extraJson, success, failure,
+          authenticationType: authenticationType,
+          ids: ids,
+          forceCreate: forceCreate,
+          extraJson: extraJson,
+          success: success,
+          failure: failure,
           cbObject: cbObject);
     }
 
@@ -1867,15 +2048,23 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void smartSwitchauthenticateUltra(String ultraUsername, String ultraIdToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+  void smartSwitchauthenticateUltra(
+      {required String ultraUsername,
+      required String ultraIdToken,
+      required bool forceCreate,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
     authenticateCallback(String response) {
       if (success != null) {
         success(response);
       }
       authenticateUltra(
-          ultraUsername, ultraIdToken, forceCreate, success, failure,
+          ultraUsername: ultraUsername,
+          ultraIdToken: ultraIdToken,
+          forceCreate: forceCreate,
+          success: success,
+          failure: failure,
           cbObject: cbObject);
     }
 
@@ -1913,18 +2102,22 @@ class BrainCloudWrapper {
   /// The user supplied callback object
   /// </param>
   void smartSwitchauthenticateNintendo(
-      String nintendoAccountId,
-      String nintendoAuthToken,
-      bool forceCreate,
+      {required String nintendoAccountId,
+      required String nintendoAuthToken,
+      required bool forceCreate,
       SuccessCallback? success,
       FailureCallback? failure,
-      {dynamic cbObject}) {
+      dynamic cbObject}) {
     authenticateCallback(String response) {
       if (success != null) {
         success(response);
       }
       authenticateNintendo(
-          nintendoAccountId, nintendoAuthToken, forceCreate, success, failure,
+          accountId: nintendoAccountId,
+          authToken: nintendoAuthToken,
+          forceCreate: forceCreate,
+          success: success,
+          failure: failure,
           cbObject: cbObject);
     }
 
@@ -1933,7 +2126,8 @@ class BrainCloudWrapper {
 
   void _smartSwitchAuthentication(
       SuccessCallback? authenticateCallback, FailureCallback? failureCallback) {
-    var callback = getIdentitiesCallback(authenticateCallback, failureCallback);
+    var callback = getIdentitiesCallback(
+        success: authenticateCallback, failure: failureCallback);
 
     if (_client.authenticated) {
       _client.identityService.getIdentities(callback, null, null);
@@ -1943,7 +2137,7 @@ class BrainCloudWrapper {
   }
 
   SuccessCallback getIdentitiesCallback(
-      SuccessCallback? success, FailureCallback? failure) {
+      {SuccessCallback? success, FailureCallback? failure}) {
     const String keyJsonData = "data";
     const String keyJsonIdentities = "identities";
 
@@ -1979,10 +2173,13 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void reconnect(SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(success, failure,
-        cbObject: cbObject, isAnonymousAuth: true);
+  void reconnect(
+      {SuccessCallback? success, FailureCallback? failure, dynamic cbObject}) {
+    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
+        successCallback: success,
+        failureCallback: failure,
+        cbObject: cbObject,
+        isAnonymousAuth: true);
 
     _client.authenticationService?.authenticateAnonymous(
         null,
@@ -2043,8 +2240,10 @@ class BrainCloudWrapper {
   /// The user supplied callback object
   /// </param>
   void resetEmailPassword(
-      String externalId, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+      {required String externalId,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
     _client.authenticationService
         ?.resetEmailPassword(externalId, success, failure, cbObject: cbObject);
   }
@@ -2077,12 +2276,12 @@ class BrainCloudWrapper {
   /// The user supplied callback object
   /// </param>
   void resetEmailPasswordAdvanced(
-      String emailAddress,
+      {required String emailAddress,
       //Map<String, dynamic> serviceParams,
-      String serviceParams,
+      required String serviceParams,
       SuccessCallback? success,
       FailureCallback? failure,
-      {dynamic cbObject}) {
+      dynamic cbObject}) {
     _client.authenticationService?.resetEmailPasswordAdvanced(
         emailAddress, serviceParams, success, failure,
         cbObject: cbObject);
@@ -2107,9 +2306,12 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void resetEmailPasswordWithExpiry(String externalId, int tokenTtlInMinutes,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+  void resetEmailPasswordWithExpiry(
+      {required String externalId,
+      required int tokenTtlInMinutes,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
     _client.authenticationService?.resetEmailPasswordWithExpiry(
         externalId, tokenTtlInMinutes, success, failure,
         cbObject: cbObject);
@@ -2143,12 +2345,12 @@ class BrainCloudWrapper {
   /// The user supplied callback object
   /// </param>
   void resetEmailPasswordAdvancedWithExpiry(
-      String emailAddress,
-      String serviceParams,
-      int tokenTtlInMinutes,
+      {required String emailAddress,
+      required String serviceParams,
+      required int tokenTtlInMinutes,
       SuccessCallback? success,
       FailureCallback? failure,
-      {dynamic cbObject}) {
+      dynamic cbObject}) {
     _client.authenticationService?.resetEmailPasswordAdvancedWithExpiry(
         emailAddress,
         serviceParams,
@@ -2178,8 +2380,10 @@ class BrainCloudWrapper {
   /// The user supplied callback object
   /// </param>
   void resetUniversalIdPassword(
-      String externalId, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+      {required String externalId,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
     _client.authenticationService?.resetUniversalIdPassword(
         externalId, success, failure,
         cbObject: cbObject);
@@ -2213,12 +2417,12 @@ class BrainCloudWrapper {
   /// The user supplied callback object
   /// </param>
   void resetUniversalIdPasswordAdvanced(
-      String emailAddress,
+      {required String emailAddress,
       //Map<String, dynamic> serviceParams,
-      String serviceParams,
+      required String serviceParams,
       SuccessCallback? success,
       FailureCallback? failure,
-      {dynamic cbObject}) {
+      dynamic cbObject}) {
     _client.authenticationService?.resetUniversalIdPasswordAdvanced(
         emailAddress, serviceParams, success, failure,
         cbObject: cbObject);
@@ -2243,9 +2447,12 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void resetUniversalIdPasswordWithExpiry(String externalId,
-      int tokenTtlInMinutes, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+  void resetUniversalIdPasswordWithExpiry(
+      {required String externalId,
+      required int tokenTtlInMinutes,
+      SuccessCallback? success,
+      FailureCallback? failure,
+      dynamic cbObject}) {
     _client.authenticationService?.resetUniversalIdPasswordWithExpiry(
         externalId, tokenTtlInMinutes, success, failure,
         cbObject: cbObject);
@@ -2279,12 +2486,12 @@ class BrainCloudWrapper {
   /// The user supplied callback object
   /// </param>
   void resetUniversalIdPasswordAdvancedWithExpiry(
-      String emailAddress,
-      String serviceParams,
-      int tokenTtlInMinutes,
+      {required String emailAddress,
+      required String serviceParams,
+      required int tokenTtlInMinutes,
       SuccessCallback? success,
       FailureCallback? failure,
-      {dynamic cbObject}) {
+      dynamic cbObject}) {
     _client.authenticationService?.resetUniversalIdPasswordAdvancedWithExpiry(
         emailAddress,
         serviceParams,
@@ -2423,10 +2630,14 @@ class BrainCloudWrapper {
   /// Only works for Anonymous authentications.
   /// </summary>
   void reauthenticate() {
-    init(_lastSecretKey, _lastAppId, _lastAppVersion, url: _lastUrl);
+    init(
+        secretKey: _lastSecretKey,
+        appId: _lastAppId,
+        version: _lastAppVersion,
+        url: _lastUrl);
     String authType = getStoredAuthenticationType() ?? "";
     if (authType == authenticationAnonymous) {
-      authenticateAnonymous(null, null);
+      authenticateAnonymous();
     }
   }
 
@@ -2435,7 +2646,7 @@ class BrainCloudWrapper {
   /// </summary>
   /// <param name="json">The returned json</param>
   /// <param name="cbObject">The returned callback object</param>
-  void authSuccessCallback(String json, {dynamic cbObject}) {
+  void authSuccessCallback({required String json, dynamic cbObject}) {
     // grab the profileId and save it in PlayerPrefs
     Map<String, dynamic> jsonMessage = jsonDecode(json);
     Map<String, dynamic> jsonData = jsonMessage["data"];
@@ -2463,8 +2674,11 @@ class BrainCloudWrapper {
   /// <param name="reasonCode">The reason code</param>
   /// <param name="errorJson">The error json</param>
   /// <param name="cbObject">The returned callback object</param>
-  void authFailureCallback(int statusCode, int reasonCode, String errorJson,
-      {dynamic cbObject}) {
+  void authFailureCallback(
+      {required int statusCode,
+      required int reasonCode,
+      required String errorJson,
+      dynamic cbObject}) {
     if (cbObject != null) {
       WrapperAuthCallbackObject? aco = cbObject;
       aco?.failureCallback!(statusCode, reasonCode, errorJson);
@@ -2508,8 +2722,10 @@ class BrainCloudWrapper {
   }
 
   WrapperAuthCallbackObject _makeWrapperAuthCallback(
-      SuccessCallback? successCallback, FailureCallback? failureCallback,
-      {dynamic cbObject, bool isAnonymousAuth = false}) {
+      {SuccessCallback? successCallback,
+      FailureCallback? failureCallback,
+      dynamic cbObject,
+      bool isAnonymousAuth = false}) {
     WrapperAuthCallbackObject aco = WrapperAuthCallbackObject(
         successCallback, failureCallback,
         cbObject: cbObject);
