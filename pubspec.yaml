@@ -19,8 +19,10 @@ dependencies:
   json_annotation: ^4.8.1
   mutex: ^3.1.0
   shared_preferences: ^2.2.3
+  tcp_client_dart: ^0.2.0
   udp: ^5.0.3
   uuid: ^4.3.3
+  web_socket_channel: ^3.0.0
 
 dev_dependencies:
   flutter_test:

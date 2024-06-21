@@ -1,39 +1,88 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+# Braincloud Dart Client Library
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+Thanks for checking out [brainCloud](https://getbraincloud.com/)! This repository contains the client library for brainCloud projects that make use of the Flutter framework.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Here are a few handy links to get you started:
 
-## Features
+- You can learn all about brainCloud and find a few tutorials here:
+    - https://docs.braincloudservers.com/learn/introduction/
+- The brainCloud API Reference can be found here:
+    - https://docs.braincloudservers.com/api/introduction
+## Installation
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+Install the plugin by adding it to your project's pubspec.yaml, under the dependencies section.
 
-## Getting started
+```bash
+dependencies:
+  braincloud_dart:
+    git: git@github.com:getbraincloud/braincloud-dart.git
+```
+This will eventually live on pub.dev, but we can link it like this for now. 
+## Usage/Examples
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+Here's an example on how to initiate the client wrapper and start an update timer. The example also shows how to restore session and update the route accordingly. 
 
 ```dart
-const like = 'sample';
+import 'dart:async';
+
+import 'package:braincloud_dart/braincloud_dart.dart';
+import 'package:flutter/material.dart';
+
+final _bcWrapper =
+    BrainCloudWrapper(wrapperName: "<Your_Project_Wrapper_Name>");
+
+const routeHome = '/home';
+const routeSignIn = '/signIn';
+
+void main() => runApp(const MyApp());
+
+///Main App
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  /// Future to init the BrainCloud Client
+  Future<String> _initAndUpdateRoute() async {
+    await _bcWrapper.init("<YOUR_SECRET_KEY>", "<YOUR_APP_ID>", "1.0",
+        url: "https://api.braincloudservers.com/dispatcherv2");
+
+    /// Check if there was a session
+    bool hadSession = _bcWrapper.getStoredSessionId().isNotEmpty;
+
+    if (hadSession) {
+      _bcWrapper.restoreSession();
+    }
+
+    Timer.periodic(const Duration(milliseconds: 500), (timer) {
+      _bcWrapper.update();
+    });
+
+    ///return the route name base on existing session
+    return Future<String>.delayed(
+        Duration.zero, () => hadSession ? routeHome : routeSignIn);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: _initAndUpdateRoute(),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          Widget page = Container();
+          if (snapshot.hasData) {
+            page = MaterialApp(
+
+                /// build your app here
+                );
+          } else if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasError) {
+            /// Display error
+            page = Text(snapshot.error.toString());
+          }
+
+          return page;
+        });
+  }
+}
+
 ```
 
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
