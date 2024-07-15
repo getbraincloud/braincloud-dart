@@ -1152,7 +1152,7 @@ class BrainCloudWrapper {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
-    bool isAnonymous = authenticationType == AuthenticationType.Anonymous;
+    bool isAnonymous = authenticationType == AuthenticationType.anonymous;
     WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
         successCallback: success,
         failureCallback: failure,
