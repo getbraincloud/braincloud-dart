@@ -3,30 +3,28 @@
 // Copyright 2024 bitHeads, inc.
 //----------------------------------------------------
 
-// ignore_for_file: constant_identifier_names
-
 enum AuthenticationType {
-  Anonymous,
-  Universal,
-  Email,
-  Facebook,
-  FacebookLimited,
-  Oculus,
-  PlaystationNetwork,
-  PlaystationNetwork5,
-  GameCenter,
-  Steam,
-  Apple,
-  Google,
-  GoogleOpenId,
-  Twitter,
-  Parse,
-  Handoff,
-  External,
-  SettopHandoff,
-  Ultra,
-  Nintendo,
-  Unknown
+  anonymous,
+  universal,
+  email,
+  facebook,
+  facebookLimited,
+  oculus,
+  playstationNetwork,
+  playstationNetwork5,
+  gameCenter,
+  steam,
+  apple,
+  google,
+  googleOpenId,
+  twitter,
+  parse,
+  handoff,
+  external,
+  settopHandoff,
+  ultra,
+  nintendo,
+  unknown
 }
 
 extension AuthenticationTypeExtension on AuthenticationType {

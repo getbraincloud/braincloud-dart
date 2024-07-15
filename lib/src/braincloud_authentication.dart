@@ -82,7 +82,7 @@ class BrainCloudAuthentication {
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     _anonymousId = anonymousId ?? "";
-    authenticate(_anonymousId, "", AuthenticationType.Anonymous, null,
+    authenticate(_anonymousId, "", AuthenticationType.anonymous, null,
         forceCreate, null, success, failure, cbObject);
   }
 
@@ -124,7 +124,7 @@ class BrainCloudAuthentication {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject) {
-    authenticate(email, password, AuthenticationType.Email, null, forceCreate,
+    authenticate(email, password, AuthenticationType.email, null, forceCreate,
         null, success, failure, cbObject);
   }
 
@@ -158,7 +158,7 @@ class BrainCloudAuthentication {
   void authenticateUniversal(String userId, String password, bool forceCreate,
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
-    authenticate(userId, password, AuthenticationType.Universal, null,
+    authenticate(userId, password, AuthenticationType.universal, null,
         forceCreate, null, success, failure, cbObject);
   }
 
@@ -191,7 +191,7 @@ class BrainCloudAuthentication {
   void authenticateFacebook(String externalId, String authenticationToken,
       bool forceCreate, SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
-    authenticate(externalId, authenticationToken, AuthenticationType.Facebook,
+    authenticate(externalId, authenticationToken, AuthenticationType.facebook,
         null, forceCreate, null, success, failure, cbObject);
   }
 
@@ -231,7 +231,7 @@ class BrainCloudAuthentication {
     authenticate(
         externalId,
         authenticationToken,
-        AuthenticationType.FacebookLimited,
+        AuthenticationType.facebookLimited,
         null,
         forceCreate,
         null,
@@ -268,7 +268,7 @@ class BrainCloudAuthentication {
   void authenticateOculus(String oculusId, String oculusNonce, bool forceCreate,
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
-    authenticate(oculusId, oculusNonce, AuthenticationType.Oculus, null,
+    authenticate(oculusId, oculusNonce, AuthenticationType.oculus, null,
         forceCreate, null, success, failure, cbObject);
   }
 
@@ -304,7 +304,7 @@ class BrainCloudAuthentication {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject) {
-    authenticate(accountId, authToken, AuthenticationType.PlaystationNetwork,
+    authenticate(accountId, authToken, AuthenticationType.playstationNetwork,
         null, forceCreate, null, success, failure, cbObject);
   }
 
@@ -336,7 +336,7 @@ class BrainCloudAuthentication {
   void authenticatePlaystation5(String accountId, String authToken,
       bool forceCreate, SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
-    authenticate(accountId, authToken, AuthenticationType.PlaystationNetwork5,
+    authenticate(accountId, authToken, AuthenticationType.playstationNetwork5,
         null, forceCreate, null, success, failure, cbObject);
   }
 
@@ -365,7 +365,7 @@ class BrainCloudAuthentication {
   void authenticateGameCenter(String gameCenterId, bool forceCreate,
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
-    authenticate(gameCenterId, "", AuthenticationType.GameCenter, null,
+    authenticate(gameCenterId, "", AuthenticationType.gameCenter, null,
         forceCreate, null, success, failure, cbObject);
   }
 
@@ -397,7 +397,7 @@ class BrainCloudAuthentication {
   void authenticateSteam(String userId, String sessionticket, bool forceCreate,
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
-    authenticate(userId, sessionticket, AuthenticationType.Steam, null,
+    authenticate(userId, sessionticket, AuthenticationType.steam, null,
         forceCreate, null, success, failure, cbObject);
   }
 
@@ -433,7 +433,7 @@ class BrainCloudAuthentication {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject) {
-    authenticate(appleUserId, identityToken, AuthenticationType.Apple, null,
+    authenticate(appleUserId, identityToken, AuthenticationType.apple, null,
         forceCreate, null, success, failure, cbObject);
   }
 
@@ -469,7 +469,7 @@ class BrainCloudAuthentication {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject) {
-    authenticate(googleUserId, serverAuthCode, AuthenticationType.Google, null,
+    authenticate(googleUserId, serverAuthCode, AuthenticationType.google, null,
         forceCreate, null, success, failure, cbObject);
   }
 
@@ -508,7 +508,7 @@ class BrainCloudAuthentication {
     authenticate(
         googleUserAccountEmail,
         idToken,
-        AuthenticationType.GoogleOpenId,
+        AuthenticationType.googleOpenId,
         null,
         forceCreate,
         null,
@@ -553,7 +553,7 @@ class BrainCloudAuthentication {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject) {
-    authenticate(userId, "$token:$secret", AuthenticationType.Twitter, null,
+    authenticate(userId, "$token:$secret", AuthenticationType.twitter, null,
         forceCreate, null, success, failure, cbObject);
   }
 
@@ -585,7 +585,7 @@ class BrainCloudAuthentication {
   void authenticateParse(String userId, String token, bool forceCreate,
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
-    authenticate(userId, token, AuthenticationType.Parse, null, forceCreate,
+    authenticate(userId, token, AuthenticationType.parse, null, forceCreate,
         null, success, failure, cbObject);
   }
 
@@ -611,7 +611,7 @@ class BrainCloudAuthentication {
   void authenticateSettopHandoff(
       String handoffCode, SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
-    authenticate(handoffCode, "", AuthenticationType.SettopHandoff, null, false,
+    authenticate(handoffCode, "", AuthenticationType.settopHandoff, null, false,
         null, success, failure, cbObject);
   }
 
@@ -639,7 +639,7 @@ class BrainCloudAuthentication {
   void authenticateHandoff(String handoffId, String securityToken,
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
-    authenticate(handoffId, securityToken, AuthenticationType.Handoff, null,
+    authenticate(handoffId, securityToken, AuthenticationType.handoff, null,
         false, null, success, failure, cbObject);
   }
 
@@ -680,7 +680,7 @@ class BrainCloudAuthentication {
       SuccessCallback? success,
       FailureCallback? failure,
       {dynamic cbObject}) {
-    authenticate(userId, token, AuthenticationType.External, externalAuthName,
+    authenticate(userId, token, AuthenticationType.external, externalAuthName,
         forceCreate, null, success, failure, cbObject);
   }
 
@@ -765,7 +765,7 @@ class BrainCloudAuthentication {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject) {
-    authenticate(ultraUsername, ultraidToken, AuthenticationType.Ultra, null,
+    authenticate(ultraUsername, ultraidToken, AuthenticationType.ultra, null,
         forceCreate, null, success, failure, cbObject);
   }
 
@@ -801,7 +801,7 @@ class BrainCloudAuthentication {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject) {
-    authenticate(accountId, authToken, AuthenticationType.Nintendo, null,
+    authenticate(accountId, authToken, AuthenticationType.nintendo, null,
         forceCreate, null, success, failure, cbObject);
   }
 
