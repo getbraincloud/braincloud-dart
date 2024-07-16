@@ -205,7 +205,7 @@ class RelayComms {
             }
           case _EventType.ConnectSuccess:
             if (_connectedSuccessCallback != null) {
-              _connectedSuccessCallback!(evt.message);
+              _connectedSuccessCallback!({"message": evt.message});
             }
             break;
           case _EventType.ConnectFailure:

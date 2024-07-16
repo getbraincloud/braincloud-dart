@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:braincloud_dart/src/Entity/bc_entity.dart';
 import 'package:braincloud_dart/src/Entity/enums/enitity_state.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
@@ -7,8 +5,7 @@ import 'package:braincloud_dart/src/server_callback.dart';
 class BCUserEntity extends BCEntity {
   BCUserEntity(super.braincloud);
 
-  void cbCreateSuccess(String jsonString) {
-    Map<String, dynamic> json = jsonDecode(jsonString);
+  void cbCreateSuccess(Map<String, dynamic> json) {
     Map<String, dynamic> data = json["data"];
     updateTimeStamps(data);
 
@@ -21,15 +18,14 @@ class BCUserEntity extends BCEntity {
 
   void cbCreateFailure(int statusCode, int reasonCode, String statusMessage) {}
 
-  void cbUpdateSuccess(String jsonString) {
-    Map<String, dynamic> json = jsonDecode(jsonString);
+  void cbUpdateSuccess(Map<String, dynamic> json) {
     Map<String, dynamic> data = json["data"];
     updateTimeStamps(data);
   }
 
   void cbUpdateFailure(int statusCode, int reasonCode, String statusMessage) {}
 
-  void cbDeleteSuccess(String json) {
+  void cbDeleteSuccess(Map<String, dynamic> json) {
     state = EntityState.Deleted;
   }
 
