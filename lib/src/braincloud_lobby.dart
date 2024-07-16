@@ -448,7 +448,7 @@ class BrainCloudLobby {
     Map<String, dynamic> data = {};
     data[OperationParam.LobbyTypes.Value] = inRoomtypes;
 
-    mergedCallback(String response) {
+    mergedCallback(Map<String, dynamic> response) {
       _onRegionForLobbiesSuccess(response, null);
 
       if (success != null) {
@@ -576,7 +576,7 @@ class BrainCloudLobby {
           _clientRef.log("PINGS: $pingStr");
         }
 
-        _pingRegionSuccessCallback!(pingStr);
+        _pingRegionSuccessCallback!(pingData);
 
         _pingRegionSuccessCallback = null;
 // #if !DOT_NET || GODOT
@@ -648,11 +648,10 @@ class BrainCloudLobby {
     _failureQueue.clear();
   }
 
-  void _onRegionForLobbiesSuccess(String inJson, dynamic inObj) {
+  void _onRegionForLobbiesSuccess(Map<String, dynamic> inJson, dynamic inObj) {
     pingData = {};
 
-    Map<String, dynamic> jsonMessage = jsonDecode(inJson);
-    Map<String, dynamic> data = jsonMessage["data"];
+    Map<String, dynamic> data = inJson["data"];
     _regionPingData = data["regionPingData"];
     _lobbyTypeRegions = data["lobbyTypeRegions"];
   }

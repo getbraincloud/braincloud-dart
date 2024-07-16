@@ -154,7 +154,8 @@ class RTTComms {
             toProcessResponse.operation == "connect") {
           _sinceLastHeartbeat = Duration(
               seconds: DateTime.now().subtract(_sinceLastHeartbeat).second);
-          _connectedSuccessCallback!(toProcessResponse.jsonMessage ?? "");
+          _connectedSuccessCallback!(
+              {"message": toProcessResponse.jsonMessage} ?? {});
           _rttConnectionStatus = RTTConnectionStatus.CONNECTED;
         }
 

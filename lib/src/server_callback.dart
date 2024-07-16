@@ -11,7 +11,7 @@ class ServerCallback {
   FailureCallback? fnFailureCallback;
   dynamic cbObject;
 
-  void onSuccessCallback(String jsonResponse) {
+  void onSuccessCallback(Map<String, dynamic> jsonResponse) {
     fnSuccessCallback?.call(jsonResponse);
   }
 
@@ -39,7 +39,7 @@ class ServerCallback {
   }
 }
 
-typedef SuccessCallback = void Function(String response);
+typedef SuccessCallback = void Function(Map<String, dynamic> response);
 
 /// @param int statusCode
 typedef FailureCallback = void Function(

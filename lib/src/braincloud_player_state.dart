@@ -64,7 +64,7 @@ class BrainCloudPlayerState {
   /// </param>
   void deleteUser(
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    mergedCallback(String response) {
+    mergedCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }

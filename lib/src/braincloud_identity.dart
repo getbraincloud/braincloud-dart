@@ -39,7 +39,7 @@ class BrainCloudIdentity {
   void attachFacebookIdentity(String facebookId, String authenticationToken,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     _attachIdentity(facebookId, authenticationToken,
-        AuthenticationType.Facebook, success, failure, cbObject);
+        AuthenticationType.facebook, success, failure, cbObject);
   }
 
   /// <summary>
@@ -68,7 +68,7 @@ class BrainCloudIdentity {
   /// </param>
   void mergeFacebookIdentity(String facebookId, String authenticationToken,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _mergeIdentity(facebookId, authenticationToken, AuthenticationType.Facebook,
+    _mergeIdentity(facebookId, authenticationToken, AuthenticationType.facebook,
         success, failure, cbObject);
   }
 
@@ -96,7 +96,7 @@ class BrainCloudIdentity {
   /// </param>
   void detachFacebookIdentity(String facebookId, bool continueAnon,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(facebookId, AuthenticationType.Facebook, continueAnon,
+    _detachIdentity(facebookId, AuthenticationType.facebook, continueAnon,
         success, failure, cbObject);
   }
 
@@ -299,7 +299,7 @@ class BrainCloudIdentity {
   /// </param>
   void attachUltraIdentity(String ultraUsername, String ultraIdToken,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _attachIdentity(ultraUsername, ultraIdToken, AuthenticationType.Ultra,
+    _attachIdentity(ultraUsername, ultraIdToken, AuthenticationType.ultra,
         success, failure, cbObject);
   }
 
@@ -327,7 +327,7 @@ class BrainCloudIdentity {
   /// </param>
   void mergeUltraIdentity(String ultraUsername, String ultraIdToken,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _mergeIdentity(ultraUsername, ultraIdToken, AuthenticationType.Ultra,
+    _mergeIdentity(ultraUsername, ultraIdToken, AuthenticationType.ultra,
         success, failure, cbObject);
   }
 
@@ -359,7 +359,7 @@ class BrainCloudIdentity {
   /// </param>
   void detachUltraIdentity(String ultraUsername, bool continueAnon,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(ultraUsername, AuthenticationType.Ultra, continueAnon,
+    _detachIdentity(ultraUsername, AuthenticationType.ultra, continueAnon,
         success, failure, cbObject);
   }
 
@@ -387,7 +387,7 @@ class BrainCloudIdentity {
   /// </param>
   void attachOculusIdentity(String oculusId, String oculusNonce,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _attachIdentity(oculusId, oculusNonce, AuthenticationType.Oculus, success,
+    _attachIdentity(oculusId, oculusNonce, AuthenticationType.oculus, success,
         failure, cbObject);
   }
 
@@ -416,7 +416,7 @@ class BrainCloudIdentity {
   /// </param>
   void mergeOculusIdentity(String oculusId, String oculusNonce,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _mergeIdentity(oculusId, oculusNonce, AuthenticationType.Oculus, success,
+    _mergeIdentity(oculusId, oculusNonce, AuthenticationType.oculus, success,
         failure, cbObject);
   }
 
@@ -444,7 +444,7 @@ class BrainCloudIdentity {
   /// </param>
   void detachOculusIdentity(String oculusId, bool continueAnon,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(oculusId, AuthenticationType.Oculus, continueAnon, success,
+    _detachIdentity(oculusId, AuthenticationType.oculus, continueAnon, success,
         failure, cbObject);
   }
 
@@ -478,7 +478,7 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     _attachIdentity(facebookLimitedId, authenticationToken,
-        AuthenticationType.FacebookLimited, success, failure, cbObject);
+        AuthenticationType.facebookLimited, success, failure, cbObject);
   }
 
   /// <summary>
@@ -512,7 +512,7 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     _mergeIdentity(facebookLimitedId, authenticationToken,
-        AuthenticationType.FacebookLimited, success, failure, cbObject);
+        AuthenticationType.facebookLimited, success, failure, cbObject);
   }
 
   /// <summary>
@@ -543,7 +543,7 @@ class BrainCloudIdentity {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject) {
-    _detachIdentity(facebookLimitedId, AuthenticationType.FacebookLimited,
+    _detachIdentity(facebookLimitedId, AuthenticationType.facebookLimited,
         continueAnon, success, failure, cbObject);
   }
 
@@ -577,7 +577,7 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     _attachIdentity(psnAccountId, authenticationToken,
-        AuthenticationType.PlaystationNetwork, success, failure, cbObject);
+        AuthenticationType.playstationNetwork, success, failure, cbObject);
   }
 
   /// <summary>
@@ -611,7 +611,7 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     _mergeIdentity(psnAccountId, authenticationToken,
-        AuthenticationType.PlaystationNetwork, success, failure, cbObject);
+        AuthenticationType.playstationNetwork, success, failure, cbObject);
   }
 
   /// <summary>
@@ -638,7 +638,7 @@ class BrainCloudIdentity {
   /// </param>
   void detachPlaystationNetworkIdentity(String psnAccountId, bool continueAnon,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(psnAccountId, AuthenticationType.PlaystationNetwork,
+    _detachIdentity(psnAccountId, AuthenticationType.playstationNetwork,
         continueAnon, success, failure, cbObject);
   }
 
@@ -672,7 +672,7 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     _attachIdentity(psnAccountId, authenticationToken,
-        AuthenticationType.PlaystationNetwork5, success, failure, cbObject);
+        AuthenticationType.playstationNetwork5, success, failure, cbObject);
   }
 
   /// <summary>
@@ -706,7 +706,7 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     _mergeIdentity(psnAccountId, authenticationToken,
-        AuthenticationType.PlaystationNetwork5, success, failure, cbObject);
+        AuthenticationType.playstationNetwork5, success, failure, cbObject);
   }
 
   /// <summary>
@@ -733,7 +733,7 @@ class BrainCloudIdentity {
   /// </param>
   void detachPlaystation5Identity(String psnAccountId, bool continueAnon,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(psnAccountId, AuthenticationType.PlaystationNetwork5,
+    _detachIdentity(psnAccountId, AuthenticationType.playstationNetwork5,
         continueAnon, success, failure, cbObject);
   }
 
@@ -758,7 +758,7 @@ class BrainCloudIdentity {
   /// </param>
   void attachGameCenterIdentity(String gameCenterId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
-    _attachIdentity(gameCenterId, "", AuthenticationType.GameCenter, success,
+    _attachIdentity(gameCenterId, "", AuthenticationType.gameCenter, success,
         failure, cbObject);
   }
 
@@ -782,7 +782,7 @@ class BrainCloudIdentity {
   /// </param>
   void mergeGameCenterIdentity(String gameCenterId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
-    _mergeIdentity(gameCenterId, "", AuthenticationType.GameCenter, success,
+    _mergeIdentity(gameCenterId, "", AuthenticationType.gameCenter, success,
         failure, cbObject);
   }
 
@@ -808,7 +808,7 @@ class BrainCloudIdentity {
   /// </param>
   void detachGameCenterIdentity(String gameCenterId, bool continueAnon,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(gameCenterId, AuthenticationType.GameCenter, continueAnon,
+    _detachIdentity(gameCenterId, AuthenticationType.gameCenter, continueAnon,
         success, failure, cbObject);
   }
 
@@ -837,7 +837,7 @@ class BrainCloudIdentity {
   void attachEmailIdentity(String email, String password,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     _attachIdentity(
-        email, password, AuthenticationType.Email, success, failure, cbObject);
+        email, password, AuthenticationType.email, success, failure, cbObject);
   }
 
   /// <summary>
@@ -865,7 +865,7 @@ class BrainCloudIdentity {
   void mergeEmailIdentity(String email, String password,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     _mergeIdentity(
-        email, password, AuthenticationType.Email, success, failure, cbObject);
+        email, password, AuthenticationType.email, success, failure, cbObject);
   }
 
   /// <summary>Detach the e-mail identity from the current profile
@@ -891,7 +891,7 @@ class BrainCloudIdentity {
   /// </param>
   void detachEmailIdentity(String email, bool continueAnon,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(email, AuthenticationType.Email, continueAnon, success,
+    _detachIdentity(email, AuthenticationType.email, continueAnon, success,
         failure, cbObject);
   }
 
@@ -919,7 +919,7 @@ class BrainCloudIdentity {
   /// </param>
   void attachUniversalIdentity(String userId, String password,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _attachIdentity(userId, password, AuthenticationType.Universal, success,
+    _attachIdentity(userId, password, AuthenticationType.universal, success,
         failure, cbObject);
   }
 
@@ -947,7 +947,7 @@ class BrainCloudIdentity {
   /// </param>
   void mergeUniversalIdentity(String userId, String password,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _mergeIdentity(userId, password, AuthenticationType.Universal, success,
+    _mergeIdentity(userId, password, AuthenticationType.universal, success,
         failure, cbObject);
   }
 
@@ -974,7 +974,7 @@ class BrainCloudIdentity {
   /// </param>
   void detachUniversalIdentity(String userId, bool continueAnon,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(userId, AuthenticationType.Universal, continueAnon, success,
+    _detachIdentity(userId, AuthenticationType.universal, continueAnon, success,
         failure, cbObject);
   }
 
@@ -1002,7 +1002,7 @@ class BrainCloudIdentity {
   /// </param>
   void attachSteamIdentity(String steamId, String sessionTicket,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _attachIdentity(steamId, sessionTicket, AuthenticationType.Steam, success,
+    _attachIdentity(steamId, sessionTicket, AuthenticationType.steam, success,
         failure, cbObject);
   }
 
@@ -1030,7 +1030,7 @@ class BrainCloudIdentity {
   /// </param>
   void mergeSteamIdentity(String steamId, String sessionTicket,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _mergeIdentity(steamId, sessionTicket, AuthenticationType.Steam, success,
+    _mergeIdentity(steamId, sessionTicket, AuthenticationType.steam, success,
         failure, cbObject);
   }
 
@@ -1057,7 +1057,7 @@ class BrainCloudIdentity {
   /// </param>
   void detachSteamIdentity(String steamId, bool continueAnon,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(steamId, AuthenticationType.Steam, continueAnon, success,
+    _detachIdentity(steamId, AuthenticationType.steam, continueAnon, success,
         failure, cbObject);
   }
 
@@ -1086,7 +1086,7 @@ class BrainCloudIdentity {
   /// </param>
   void attachGoogleIdentity(String googleUserId, String serverAuthCode,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _attachIdentity(googleUserId, serverAuthCode, AuthenticationType.Google,
+    _attachIdentity(googleUserId, serverAuthCode, AuthenticationType.google,
         success, failure, cbObject);
   }
 
@@ -1116,7 +1116,7 @@ class BrainCloudIdentity {
   /// </param>
   void mergeGoogleIdentity(String googleUserId, String serverAuthCode,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _mergeIdentity(googleUserId, serverAuthCode, AuthenticationType.Google,
+    _mergeIdentity(googleUserId, serverAuthCode, AuthenticationType.google,
         success, failure, cbObject);
   }
 
@@ -1144,7 +1144,7 @@ class BrainCloudIdentity {
   /// </param>
   void detachGoogleIdentity(String googleUserId, bool continueAnon,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(googleUserId, AuthenticationType.Google, continueAnon,
+    _detachIdentity(googleUserId, AuthenticationType.google, continueAnon,
         success, failure, cbObject);
   }
 
@@ -1173,7 +1173,7 @@ class BrainCloudIdentity {
   void attachGoogleOpenIdIdentity(String googleUserAccountEmail, String idToken,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     _attachIdentity(googleUserAccountEmail, idToken,
-        AuthenticationType.GoogleOpenId, success, failure, cbObject);
+        AuthenticationType.googleOpenId, success, failure, cbObject);
   }
 
   /// <summary>
@@ -1202,7 +1202,7 @@ class BrainCloudIdentity {
   void mergeGoogleOpenIdIdentity(String googleUserAccountEmail, String idToken,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     _mergeIdentity(googleUserAccountEmail, idToken,
-        AuthenticationType.GoogleOpenId, success, failure, cbObject);
+        AuthenticationType.googleOpenId, success, failure, cbObject);
   }
 
   /// <summary>
@@ -1233,7 +1233,7 @@ class BrainCloudIdentity {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject) {
-    _detachIdentity(googleUserAccountEmail, AuthenticationType.GoogleOpenId,
+    _detachIdentity(googleUserAccountEmail, AuthenticationType.googleOpenId,
         continueAnon, success, failure, cbObject);
   }
 
@@ -1261,7 +1261,7 @@ class BrainCloudIdentity {
   /// </param>
   void attachAppleIdentity(String appleUserId, String identityToken,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _attachIdentity(appleUserId, identityToken, AuthenticationType.Apple,
+    _attachIdentity(appleUserId, identityToken, AuthenticationType.apple,
         success, failure, cbObject);
   }
 
@@ -1290,7 +1290,7 @@ class BrainCloudIdentity {
   /// </param>
   void mergeAppleIdentity(String appleUserId, String identityToken,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _mergeIdentity(appleUserId, identityToken, AuthenticationType.Apple,
+    _mergeIdentity(appleUserId, identityToken, AuthenticationType.apple,
         success, failure, cbObject);
   }
 
@@ -1318,7 +1318,7 @@ class BrainCloudIdentity {
   /// </param>
   void detachAppleIdentity(String appleUserId, bool continueAnon,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(appleUserId, AuthenticationType.Apple, continueAnon,
+    _detachIdentity(appleUserId, AuthenticationType.apple, continueAnon,
         success, failure, cbObject);
   }
 
@@ -1355,7 +1355,7 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     _attachIdentity(twitterId, "$authenticationToken:$secret",
-        AuthenticationType.Twitter, success, failure, cbObject);
+        AuthenticationType.twitter, success, failure, cbObject);
   }
 
   /// <summary>
@@ -1392,7 +1392,7 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     _mergeIdentity(twitterId, "$authenticationToken:$secret",
-        AuthenticationType.Twitter, success, failure, cbObject);
+        AuthenticationType.twitter, success, failure, cbObject);
   }
 
   /// <summary>
@@ -1419,7 +1419,7 @@ class BrainCloudIdentity {
   /// </param>
   void detachTwitterIdentity(String twitterId, bool continueAnon,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(twitterId, AuthenticationType.Twitter, continueAnon,
+    _detachIdentity(twitterId, AuthenticationType.twitter, continueAnon,
         success, failure, cbObject);
   }
 
@@ -1448,7 +1448,7 @@ class BrainCloudIdentity {
   /// </param>
   void attachParseIdentity(String parseId, String authenticationToken,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _attachIdentity(parseId, authenticationToken, AuthenticationType.Parse,
+    _attachIdentity(parseId, authenticationToken, AuthenticationType.parse,
         success, failure, cbObject);
   }
 
@@ -1478,7 +1478,7 @@ class BrainCloudIdentity {
   /// </param>
   void mergeParseIdentity(String parseId, String authenticationToken,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _mergeIdentity(parseId, authenticationToken, AuthenticationType.Parse,
+    _mergeIdentity(parseId, authenticationToken, AuthenticationType.parse,
         success, failure, cbObject);
   }
 
@@ -1506,7 +1506,7 @@ class BrainCloudIdentity {
   /// </param>
   void detachParseIdentity(String parseId, bool continueAnon,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(parseId, AuthenticationType.Parse, continueAnon, success,
+    _detachIdentity(parseId, AuthenticationType.parse, continueAnon, success,
         failure, cbObject);
   }
 
@@ -1540,7 +1540,7 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     _attachIdentity(nintendoAccountId, authenticationToken,
-        AuthenticationType.Nintendo, success, failure, cbObject);
+        AuthenticationType.nintendo, success, failure, cbObject);
   }
 
   /// <summary>
@@ -1574,7 +1574,7 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     _mergeIdentity(nintendoAccountId, authenticationToken,
-        AuthenticationType.Nintendo, success, failure, cbObject);
+        AuthenticationType.nintendo, success, failure, cbObject);
   }
 
   /// <summary>
@@ -1601,7 +1601,7 @@ class BrainCloudIdentity {
   /// </param>
   void detachNintendoIdentity(String nintendoAccountId, bool continueAnon,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(nintendoAccountId, AuthenticationType.Nintendo,
+    _detachIdentity(nintendoAccountId, AuthenticationType.nintendo,
         continueAnon, success, failure, cbObject);
   }
 

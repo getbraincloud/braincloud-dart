@@ -2,8 +2,6 @@
 // brainCloud client source code
 // Copyright 2024 bitHeads, inc.
 //----------------------------------------------------
-import 'dart:convert';
-
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:flutter/material.dart';
 
@@ -510,7 +508,7 @@ class BrainCloudWrapper {
     WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
         successCallback: success, failureCallback: failure, cbObject: cbObject);
 
-    mergeSuccess(String response) {
+    mergeSuccess(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
@@ -1306,7 +1304,7 @@ class BrainCloudWrapper {
     //     authenticateEmailPassword(email, password, forceCreate, success, failure, cbObject: cbObject);
     // };
 
-    authenticateCallback(String response) {
+    authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
@@ -1363,7 +1361,7 @@ class BrainCloudWrapper {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
-    authenticateCallback(String response) {
+    authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
@@ -1418,7 +1416,7 @@ class BrainCloudWrapper {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
-    mergedSuccess(String response) {
+    mergedSuccess(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
@@ -1472,7 +1470,7 @@ class BrainCloudWrapper {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
-    authenticateCallback(String response) {
+    authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
@@ -1524,7 +1522,7 @@ class BrainCloudWrapper {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
-    authenticateCallback(String response) {
+    authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
@@ -1577,7 +1575,7 @@ class BrainCloudWrapper {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
-    authenticateCallback(String response) {
+    authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
@@ -1630,7 +1628,7 @@ class BrainCloudWrapper {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
-    authenticateCallback(String response) {
+    authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
@@ -1678,7 +1676,7 @@ class BrainCloudWrapper {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
-    authenticateCallback(String response) {
+    authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
@@ -1729,7 +1727,7 @@ class BrainCloudWrapper {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
-    authenticateCallback(String response) {
+    authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
@@ -1781,7 +1779,7 @@ class BrainCloudWrapper {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
-    authenticateCallback(String response) {
+    authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
@@ -1833,7 +1831,7 @@ class BrainCloudWrapper {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
-    authenticateCallback(String response) {
+    authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
@@ -1889,7 +1887,7 @@ class BrainCloudWrapper {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
-    authenticateCallback(String response) {
+    authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
@@ -1944,7 +1942,7 @@ class BrainCloudWrapper {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
-    authenticateCallback(String response) {
+    authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
@@ -2001,7 +1999,7 @@ class BrainCloudWrapper {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
-    authenticateCallback(String response) {
+    authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
@@ -2055,7 +2053,7 @@ class BrainCloudWrapper {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
-    authenticateCallback(String response) {
+    authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
@@ -2108,7 +2106,7 @@ class BrainCloudWrapper {
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
-    authenticateCallback(String response) {
+    authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
@@ -2132,7 +2130,7 @@ class BrainCloudWrapper {
     if (_client.authenticated) {
       _client.identityService.getIdentities(callback, null, null);
     } else {
-      authenticateCallback!("");
+      authenticateCallback!({});
     }
   }
 
@@ -2141,12 +2139,12 @@ class BrainCloudWrapper {
     const String keyJsonData = "data";
     const String keyJsonIdentities = "identities";
 
-    callback(String response) {
+    callback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
       }
-      Map<String, dynamic> jsonMessage = jsonDecode(response);
-      Map<String, dynamic> jsonData = jsonMessage[keyJsonData];
+
+      Map<String, dynamic> jsonData = response[keyJsonData];
 
       if (jsonData.containsKey(keyJsonIdentities)) {
         Map<String, dynamic> jsonIdentities = jsonData[keyJsonIdentities];
@@ -2646,10 +2644,11 @@ class BrainCloudWrapper {
   /// </summary>
   /// <param name="json">The returned json</param>
   /// <param name="cbObject">The returned callback object</param>
-  void authSuccessCallback({required String json, dynamic cbObject}) {
+  void authSuccessCallback(
+      {required Map<String, dynamic> json, dynamic cbObject}) {
     // grab the profileId and save it in PlayerPrefs
-    Map<String, dynamic> jsonMessage = jsonDecode(json);
-    Map<String, dynamic> jsonData = jsonMessage["data"];
+
+    Map<String, dynamic> jsonData = json["data"];
 
     if (jsonData.containsKey("profileId")) {
       setStoredProfileId(jsonData["profileId"]);

@@ -727,8 +727,7 @@ class BrainCloudComms {
   }
 
   //save profileid and sessionId of response
-  void SaveProfileAndSessionIds(
-      Map<String, dynamic> responseData, String data) {
+  void saveProfileAndSessionIds(Map<String, dynamic> responseData) {
     // save the session ID
     String? sessionId = GetJsonString(
         responseData, OperationParam.ServiceMessageSessionId.Value, null);
@@ -829,7 +828,7 @@ class BrainCloudComms {
     _expectedIncomingPacketId = NO_PACKET_EXPECTED;
     List<Object> exceptions = [];
 
-    String data = "";
+    Map<String, dynamic> data = {};
     ServerCall? sc;
     ServerCallback? callback;
     String service = "";
@@ -838,7 +837,7 @@ class BrainCloudComms {
     for (int j = 0; j < responseBundle.length; ++j) {
       response = responseBundle[j];
       int statusCode = response["status"];
-      data = "";
+      data = {};
       responseData = null;
       sc = null;
       callback = null;
@@ -874,16 +873,16 @@ class BrainCloudComms {
         if (response[OperationParam.ServiceMessageData.Value] != null) {
           responseData = response[OperationParam.ServiceMessageData.Value];
           // send the data back as not formatted
-          data = SerializeJson(response);
+          data = response;
 
           if (service == ServiceName.Authenticate.Value ||
               service == ServiceName.Identity.Value) {
             //Reset authenticate timeout
             AuthenticationPacketTimeoutSecs = _listAuthPacketTimeouts[0];
-            SaveProfileAndSessionIds(responseData!, data);
+            saveProfileAndSessionIds(responseData ?? {});
           }
         } else {
-          data = SerializeJson(response);
+          data = response;
         }
 
         // now try to execute the callback
