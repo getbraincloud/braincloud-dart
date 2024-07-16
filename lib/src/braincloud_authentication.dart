@@ -1233,8 +1233,8 @@ class BrainCloudAuthentication {
     ServerCall sc = ServerCall(ServiceName.Authenticate,
         ServiceOperation.authenticate, data, callback);
     if (_clientRef.comms != null &&
-        _clientRef.comms!.IsAuthenticateRequestInProgress()) {
-      _clientRef.comms?.AddCallbackToAuthenticateRequest(callback);
+        _clientRef.comms!.isAuthenticateRequestInProgress()) {
+      _clientRef.comms?.addCallbackToAuthenticateRequest(callback);
       return;
     }
     _clientRef.sendRequest(sc);

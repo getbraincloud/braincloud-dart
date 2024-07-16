@@ -11,7 +11,7 @@ class ServerCall {
 
   ServerCall(this._service, this._operation, this._jsonData, this._callback);
 
-  int _id = BrainCloudComms.NO_PACKET_EXPECTED;
+  int _id = BrainCloudComms.noPacketExpected;
 
   int get PacketID => _id;
   set PacketID(int value) => _id = value;

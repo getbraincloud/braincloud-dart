@@ -34,23 +34,23 @@ class ServerCallProcessed {
 class BrainCloudComms {
   bool _supportsCompression = true;
 
-  final String JSON_ERROR_MESSAGE =
+  final String jsonErrorMessage =
       "You have exceeded the max json depth, increase the MaxDepth using the MaxDepth variable in BrainCloudClient.dart";
-  bool get SupportsCompression => _supportsCompression;
+  bool get supportsCompression => _supportsCompression;
 
-  void EnableCompression(bool compress) => _supportsCompression = compress;
+  void enableCompression(bool compress) => _supportsCompression = compress;
 
   /// <summary>
   /// Byte size threshold that determines if the message size is something we want to compress or not. We make an initial value, but recevie the value for future calls based on the servers
   ///auth response
   /// </summary>
   int _clientSideCompressionThreshold = 50000;
-  int get ClientSideCompressionThreshold => _clientSideCompressionThreshold;
+  int get clientSideCompressionThreshold => _clientSideCompressionThreshold;
 
   /// <summary>
   /// The id of _expectedIncomingPacketId when no packet expected
   /// </summary>
-  static int NO_PACKET_EXPECTED = -1;
+  static int noPacketExpected = -1;
 
   /// <summary>
   /// Reference to the brainCloud client dynamic
@@ -75,12 +75,12 @@ class BrainCloudComms {
   /// <summary>
   /// The packet id we're expecting
   /// </summary>
-  int _expectedIncomingPacketId = NO_PACKET_EXPECTED;
+  int _expectedIncomingPacketId = noPacketExpected;
 
   /// <summary>
   /// The service calls that are waiting to be sent.
   /// </summary>
-  List<ServerCall> _serviceCallsWaiting = [];
+  final List<ServerCall> _serviceCallsWaiting = [];
   final _serviceCallsWaitingLock = Mutex();
 
   /// <summary>
@@ -92,7 +92,7 @@ class BrainCloudComms {
   /// <summary>
   /// The service calls in the timeout queue.
   /// </summary>
-  List<ServerCall> _serviceCallsInTimeoutQueue = [];
+  final List<ServerCall> _serviceCallsInTimeoutQueue = [];
   final _serviceCallsInTimeoutQueueLock = Mutex();
 
   /// <summary>
@@ -109,7 +109,7 @@ class BrainCloudComms {
   /// How long we wait to send a heartbeat if no packets have been sent or received.
   /// This value is set to a percentage of the heartbeat timeout sent by the authenticate response.
   /// </summary>
-  Duration _idleTimeout = Duration(seconds: 5 * 60);
+  Duration _idleTimeout = const Duration(seconds: 5 * 60);
 
   /// <summary>
   /// The maximum number of messages in a bundle.
@@ -128,7 +128,7 @@ class BrainCloudComms {
   ///while trying to successfully authenticate before the client
   ///is disabled.
   ///<summary>
-  int _identicalFailedAuthAttemptThreshold = 3;
+  final int _identicalFailedAuthAttemptThreshold = 3;
 
   ///<summary>
   ///The current number of identical failed attempts at authenticating. This
@@ -140,7 +140,7 @@ class BrainCloudComms {
   ///A blank reference for response data so we don't need to continually allocate new dictionaries when trying to
   ///make the data blank again.
   ///<summary>
-  Map<String, dynamic> _blankResponseData = <String, dynamic>{};
+  final Map<String, dynamic> _blankResponseData = {};
 
   ///<summary>
   ///An array that stores the most recent response jsons as dictionaries.
@@ -151,7 +151,7 @@ class BrainCloudComms {
   /// When we have too many authentication errors under the same credentials,
   /// the client will not be able to try and authenticate again until the timer is up.
   /// </summary>
-  Duration _authenticationTimeoutDuration = Duration(seconds: 30);
+  final Duration _authenticationTimeoutDuration = const Duration(seconds: 30);
 
   /// <summary>
   /// When the authentication timer began
@@ -184,7 +184,7 @@ class BrainCloudComms {
 
   NetworkErrorCallback? _networkErrorCallback;
 
-  List<FileUploader> _fileUploads = [];
+  final List<FileUploader> _fileUploads = [];
 
   //For handling local session errors
   late int _cachedStatusCode;
@@ -197,15 +197,13 @@ class BrainCloudComms {
   String? _killSwitchService;
   String? _killSwitchOperation;
 
-  bool _authInProgress = false;
-  bool get AuthenticateInProgress => _authInProgress;
-  set AuthenticateInProgress(bool value) => _authInProgress = value;
+  bool authenticateInProgress = false;
 
   bool _isAuthenticated = false;
 
-  bool get Authenticated => _isAuthenticated;
+  bool get isAuthenticated => _isAuthenticated;
 
-  int GetReceivedPacketId() => receivedPacketIdChecker;
+  int getReceivedPacketId() => receivedPacketIdChecker;
 
   void setAuthenticated() {
     _isAuthenticated = true;
@@ -214,47 +212,47 @@ class BrainCloudComms {
   String? _appId;
   String? _sessionId;
 
-  String get AppId => _appId ?? "";
-  String get SessionID => _sessionId ?? "";
+  String get getAppId => _appId ?? "";
+  String get getSessionID => _sessionId ?? "";
 
-  String get SecretKey {
-    if (AppIdSecretMap.containsKey(AppId)) {
-      return AppIdSecretMap[AppId]!;
+  String get getSecretKey {
+    if (getAppIdSecretMap.containsKey(getAppId)) {
+      return getAppIdSecretMap[getAppId]!;
     } else {
-      return "NO SECRET DEFINED FOR '$AppId'";
+      return "NO SECRET DEFINED FOR '$getAppId'";
     }
   }
 
   late Map<String, String> _appIdSecretMap;
-  Map<String, String> get AppIdSecretMap => _appIdSecretMap;
+  Map<String, String> get getAppIdSecretMap => _appIdSecretMap;
 
   late String _serverURL;
-  String get ServerURL => _serverURL;
+  String get getServerURL => _serverURL;
 
   late String _uploadURL;
-  String get UploadURL => _uploadURL;
+  String get uploadURL => _uploadURL;
 
-  int UploadLowTransferRateTimeout = 120;
+  int uploadLowTransferRateTimeout = 120;
 
-  int UploadLowTransferRateThreshold = 50;
+  int uploadLowTransferRateThreshold = 50;
 
   /// <summary>
   /// A list of packet timeouts. Index represents the packet attempt number.
   /// </summary>
   List<int> packetTimeouts = [15, 20, 35, 50];
 
-  void SetPacketTimeoutsToDefault() {
+  void setPacketTimeoutsToDefault() {
     packetTimeouts = [15, 20, 35, 50];
   }
 
-  List<int> _listAuthPacketTimeouts = [15, 30, 60];
+  final List<int> _listAuthPacketTimeouts = [15, 30, 60];
 
-  int AuthenticationPacketTimeoutSecs = 15;
+  int authenticationPacketTimeoutSecs = 15;
 
-  bool OldStyleStatusResponseInErrorCallback = false;
+  bool oldStyleStatusResponseInErrorCallback = false;
 
   bool _cacheMessagesOnNetworkError = false;
-  void EnableNetworkErrorMessageCaching(bool enabled) {
+  void enableNetworkErrorMessageCaching(bool enabled) {
     _cacheMessagesOnNetworkError = enabled;
   }
 
@@ -262,7 +260,7 @@ class BrainCloudComms {
 
   BrainCloudComms(this._clientRef) {
     _appIdSecretMap = {};
-    ResetErrorCache();
+    resetErrorCache();
   }
 
   /// <summary>
@@ -271,16 +269,16 @@ class BrainCloudComms {
   /// <param name="serverURL">Server URL.</param>
   /// /// <param name="appId">AppId</param>
   /// <param name="secretKey">Secret key.</param>
-  void Initialize(String serverURL, String appId, String secretKey) {
-    ResetCommunication(); //resets comms, packetId and SessionId
-    _expectedIncomingPacketId = NO_PACKET_EXPECTED;
+  void initialize(String serverURL, String appId, String secretKey) {
+    resetCommunication(); //resets comms, packetId and SessionId
+    _expectedIncomingPacketId = noPacketExpected;
 
     _serverURL = serverURL;
 
     String suffix = "/dispatcherv2";
     String formatURL = _serverURL.endsWith(suffix)
-        ? _serverURL.substring(0, ServerURL.length - suffix.length)
-        : ServerURL;
+        ? _serverURL.substring(0, getServerURL.length - suffix.length)
+        : getServerURL;
 
     //get rid of trailing /
     while (formatURL.isNotEmpty && formatURL.endsWith("/")) {
@@ -290,7 +288,7 @@ class BrainCloudComms {
     _uploadURL = formatURL;
     _uploadURL += "/uploader";
 
-    AppIdSecretMap[appId] = secretKey;
+    getAppIdSecretMap[appId] = secretKey;
     _appId = appId;
 
     _blockingQueue = false;
@@ -303,54 +301,54 @@ class BrainCloudComms {
   /// <param name="serverURL">Server URL.</param>
   /// <param name="defaultAppId">default appId </param>
   /// /// <param name="appIdSecretMap">map of appId -> secrets, to allow the client to safely switch between apps with secret being secure</param>
-  void InitializeWithApps(String serverURL, String defaultAppId,
+  void initializeWithApps(String serverURL, String defaultAppId,
       Map<String, String> appIdSecretMap) {
-    AppIdSecretMap.clear();
+    getAppIdSecretMap.clear();
     _appIdSecretMap = appIdSecretMap;
 
-    Initialize(serverURL, defaultAppId, AppIdSecretMap[defaultAppId]!);
+    initialize(serverURL, defaultAppId, getAppIdSecretMap[defaultAppId]!);
   }
 
-  void RegisterEventCallback(EventCallback cb) {
+  void registerEventCallback(EventCallback cb) {
     _eventCallback = cb;
   }
 
-  void DeregisterEventCallback() {
+  void deregisterEventCallback() {
     _eventCallback = null;
   }
 
-  void RegisterRewardCallback(RewardCallback cb) {
+  void registerRewardCallback(RewardCallback cb) {
     _rewardCallback = cb;
   }
 
-  void DeregisterRewardCallback() {
+  void deregisterRewardCallback() {
     _rewardCallback = null;
   }
 
-  void RegisterFileUploadCallbacks(
+  void registerFileUploadCallbacks(
       FileUploadSuccessCallback success, FileUploadFailedCallback failure) {
     _fileUploadSuccessCallback = success;
     _fileUploadFailedCallback = failure;
   }
 
-  void DeregisterFileUploadCallbacks() {
+  void deregisterFileUploadCallbacks() {
     _fileUploadSuccessCallback = null;
     _fileUploadFailedCallback = null;
   }
 
-  void RegisterGlobalErrorCallback(FailureCallback callback) {
+  void registerGlobalErrorCallback(FailureCallback callback) {
     _globalErrorCallback = callback;
   }
 
-  void DeregisterGlobalErrorCallback() {
+  void deregisterGlobalErrorCallback() {
     _globalErrorCallback = null;
   }
 
-  void RegisterNetworkErrorCallback(NetworkErrorCallback callback) {
+  void registerNetworkErrorCallback(NetworkErrorCallback callback) {
     _networkErrorCallback = callback;
   }
 
-  void DeregisterNetworkErrorCallback() {
+  void deregisterNetworkErrorCallback() {
     _networkErrorCallback = null;
   }
 
@@ -358,7 +356,7 @@ class BrainCloudComms {
   /// The update method needs to be called periodically to send/receive responses
   /// and run the associated callbacks.
   /// </summary>
-  void Update() {
+  void update() {
     // basic flow here is to:
     // 1- process existing requests
     // 2- send next request
@@ -378,18 +376,18 @@ class BrainCloudComms {
     bool bypassTimeout = false;
     eWebRequestStatus status = eWebRequestStatus.STATUS_PENDING;
     if (_activeRequest != null) {
-      status = GetWebRequestStatus(_activeRequest!);
+      status = getWebRequestStatus(_activeRequest!);
       if (status == eWebRequestStatus.STATUS_ERROR) {
         // Force the timeout to be elapsed because we have completed the request with error
         // or else, do nothing with the error right now - let the timeout code handle it
         bypassTimeout = (_activeRequest!.Retries >=
-            GetMaxRetriesForPacket(_activeRequest!));
+            getMaxRetriesForPacket(_activeRequest!));
       } else if (status == eWebRequestStatus.STATUS_DONE) {
         //HttpStatusCode.OK
         if (_activeRequest?.webRequest?.response?.statusCode == 200) {
-          ResetIdleTimer();
-          HandleResponseBundle(GetWebRequestResponse(_activeRequest));
-          DisposeUploadHandler();
+          resetIdleTimer();
+          handleResponseBundle(getWebRequestResponse(_activeRequest));
+          disposeUploadHandler();
           _activeRequest = null;
         }
         //HttpStatusCode.ServiceUnavailable
@@ -398,11 +396,11 @@ class BrainCloudComms {
             _activeRequest?.webRequest?.response?.statusCode == 504) {
           //Packet in progress
           _clientRef.log("Packet in progress");
-          RetryRequest(status, bypassTimeout);
+          retryRequest(status, bypassTimeout);
           return;
         } else {
           //Error Callback
-          var errorResponse = GetWebRequestResponse(_activeRequest);
+          var errorResponse = getWebRequestResponse(_activeRequest);
           if (_serviceCallsInProgress.isNotEmpty) {
             ServerCall? sc = _serviceCallsInProgress[0];
 
@@ -449,12 +447,12 @@ class BrainCloudComms {
     }
 
     // is it time for a retry?
-    RetryRequest(status, bypassTimeout);
+    retryRequest(status, bypassTimeout);
 
     // is it time for a heartbeat?
     if (_isAuthenticated && !_blockingQueue) {
       if (DateTime.now().difference(_lastTimePacketSent) >= _idleTimeout) {
-        SendHeartbeat();
+        sendHeartbeat();
       }
     }
 
@@ -473,17 +471,17 @@ class BrainCloudComms {
         }
         //if the wait time is up they're free to make authentication calls again
         _killSwitchEngaged = false;
-        ResetKillSwitch();
+        resetKillSwitch();
       }
     }
 
-    RunFileUploadCallbacks();
+    runFileUploadCallbacks();
   }
 
   /// <summary>
   /// Checks the status of active file uploads
   /// </summary>
-  void RunFileUploadCallbacks() {
+  void runFileUploadCallbacks() {
     for (int i = _fileUploads.length - 1; i >= 0; i--) {
       _fileUploads[i].update();
       if (_fileUploads[i].status == FileUploaderStatus.CompleteSuccess) {
@@ -511,21 +509,22 @@ class BrainCloudComms {
     }
   }
 
-  void CancelUpload(String uploadFileId) {
-    FileUploader? uploader = GetFileUploader(uploadFileId);
+  void cancelUpload(String uploadFileId) {
+    FileUploader? uploader = getFileUploader(uploadFileId);
     if (uploader != null) uploader.cancelUpload();
   }
 
-  double GetUploadProgress(String uploadFileId) {
-    FileUploader? uploader = GetFileUploader(uploadFileId);
-    if (uploader != null)
+  double getUploadProgress(String uploadFileId) {
+    FileUploader? uploader = getFileUploader(uploadFileId);
+    if (uploader != null) {
       return uploader.progress;
-    else
+    } else {
       return -1;
+    }
   }
 
-  double GetUploadBytesTransferred(String uploadFileId) {
-    FileUploader? uploader = GetFileUploader(uploadFileId);
+  double getUploadBytesTransferred(String uploadFileId) {
+    FileUploader? uploader = getFileUploader(uploadFileId);
     if (uploader != null) {
       return uploader.bytesTransferred;
     } else {
@@ -533,8 +532,8 @@ class BrainCloudComms {
     }
   }
 
-  int GetUploadTotalBytesToTransfer(String uploadFileId) {
-    FileUploader? uploader = GetFileUploader(uploadFileId);
+  int getUploadTotalBytesToTransfer(String uploadFileId) {
+    FileUploader? uploader = getFileUploader(uploadFileId);
     if (uploader != null) {
       return uploader.totalBytesToTransfer;
     } else {
@@ -542,7 +541,7 @@ class BrainCloudComms {
     }
   }
 
-  FileUploader? GetFileUploader(String uploadId) {
+  FileUploader? getFileUploader(String uploadId) {
     for (int i = 0; i < _fileUploads.length; i++) {
       if (_fileUploads[i].uploadId == uploadId) return _fileUploads[i];
     }
@@ -560,7 +559,7 @@ class BrainCloudComms {
   /// <param name="status">status.</param>
   /// <param name="reasonCode">reason code.</param>
   /// <param name="statusMessage">status message.</param>
-  void TriggerCommsError(int status, int reasonCode, String statusMessage) {
+  void triggerCommsError(int status, int reasonCode, String statusMessage) {
     // error json format is
     // {
     // "reason_code": 40316,
@@ -591,14 +590,14 @@ class BrainCloudComms {
           .add(JsonErrorMessage(status, reasonCode, statusMessage));
     }
     String jsonError = _clientRef.serializeJson(bundleObj);
-    HandleResponseBundle(jsonError);
+    handleResponseBundle(jsonError);
   }
 
   /// <summary>
   /// Shuts down the communications layer.
   /// Make sure to only call this from the main thread!
   /// </summary>
-  void ShutDown() {
+  void shutDown() {
     _serviceCallsWaitingLock.acquire();
     try {
       _serviceCallsWaiting.clear();
@@ -606,15 +605,15 @@ class BrainCloudComms {
       _serviceCallsWaitingLock.release();
     }
 
-    DisposeUploadHandler();
+    disposeUploadHandler();
     _activeRequest = null;
 
     // and then dump the comms layer
-    ResetCommunication();
+    resetCommunication();
   }
 
   // see BrainCloudClient.RetryCachedMessages() docs
-  void RetryCachedMessages() {
+  void retryCachedMessages() {
     if (_blockingQueue) {
       if (_clientRef.loggingEnabled) {
         _clientRef.log("Retrying cached messages");
@@ -629,18 +628,18 @@ class BrainCloudComms {
               "ERROR - retrying cached messages but there is an active request!");
         }
         _activeRequest?.CancelRequest();
-        DisposeUploadHandler();
+        disposeUploadHandler();
         _activeRequest = null;
       }
 
       --_packetId;
-      _activeRequest = CreateAndSendNextRequestBundle();
+      _activeRequest = createAndSendNextRequestBundle();
       _blockingQueue = false;
     }
   }
 
   // see BrainCloudClient.FlushCachedMessages() docs
-  void FlushCachedMessages(bool sendApiErrorCallbacks) {
+  void flushCachedMessages(bool sendApiErrorCallbacks) {
     if (_blockingQueue) {
       if (_clientRef.loggingEnabled) {
         _clientRef.log("Flushing cached messages");
@@ -649,7 +648,7 @@ class BrainCloudComms {
       // try to cancel if request is in progress (shouldn't happen)
       if (_activeRequest != null) {
         _activeRequest?.CancelRequest();
-        DisposeUploadHandler();
+        disposeUploadHandler();
         _activeRequest = null;
       }
 
@@ -700,21 +699,21 @@ class BrainCloudComms {
     }
   }
 
-  void InsertEndOfMessageBundleMarker() {
-    AddToQueue(EndOfBundleMarker());
+  void insertEndOfMessageBundleMarker() {
+    addToQueue(EndOfBundleMarker());
   }
 
   /// <summary>
   /// Resets the idle timer.
   /// </summary>
-  void ResetIdleTimer() {
+  void resetIdleTimer() {
     _lastTimePacketSent = DateTime.now();
   }
 
   /// <summary>
   /// Starts timeout of authentication calls.
   /// </summary>
-  void ResetAuthenticationTimer() {
+  void resetAuthenticationTimer() {
     _authenticationTimeoutStart = DateTime.now();
   }
 
@@ -729,17 +728,17 @@ class BrainCloudComms {
   //save profileid and sessionId of response
   void saveProfileAndSessionIds(Map<String, dynamic> responseData) {
     // save the session ID
-    String? sessionId = GetJsonString(
+    String? sessionId = getJsonString(
         responseData, OperationParam.ServiceMessageSessionId.Value, null);
     if (!sessionId.isEmptyOrNull) {
       _sessionId = sessionId;
       _isAuthenticated = true;
-      _authInProgress = false;
+      authenticateInProgress = false;
     }
 
     // save the profile Id
     String? profileId =
-        GetJsonString(responseData, OperationParam.ProfileId.Value, null);
+        getJsonString(responseData, OperationParam.ProfileId.Value, null);
     if (profileId != null) {
       _clientRef.authenticationService?.profileId = profileId;
     }
@@ -747,20 +746,20 @@ class BrainCloudComms {
 
   void restoreProfileAndSessionIds(WrapperData data) {
     _sessionId = data.sessionId;
-    if (SessionID.isNotEmpty) {
+    if (getSessionID.isNotEmpty) {
       _isAuthenticated = true;
-      _authInProgress = false;
+      authenticateInProgress = false;
     }
     _clientRef.authenticationService?.profileId = data.profileId;
     _packetId = data.lastPacketId;
-    ResetIdleTimer();
+    resetIdleTimer();
   }
 
   /// <summary>
   /// Handles the response bundle and calls registered callbacks.
   /// </summary>
   /// <param name="jsonData">The received message bundle.</param>
-  void HandleResponseBundle(String jsonData) {
+  void handleResponseBundle(String jsonData) {
     if (_clientRef.loggingEnabled) {
       _clientRef.log("RESPONSE ${DateTime.now()}\n $jsonData");
     }
@@ -805,8 +804,8 @@ class BrainCloudComms {
     // if the receivedPacketId is NO_PACKET_EXPECTED (-1), its a serious error, which cannot be retried
     // errors for whcih NO_PACKET_EXPECTED are:
     // json parsing error, missing packet id, app secret changed via the portal
-    if (receivedPacketId != NO_PACKET_EXPECTED &&
-        (_expectedIncomingPacketId == NO_PACKET_EXPECTED ||
+    if (receivedPacketId != noPacketExpected &&
+        (_expectedIncomingPacketId == noPacketExpected ||
             _expectedIncomingPacketId != receivedPacketId)) {
       if (_clientRef.loggingEnabled) {
         _clientRef.log("Dropping duplicate packet");
@@ -825,7 +824,7 @@ class BrainCloudComms {
       return;
     }
 
-    _expectedIncomingPacketId = NO_PACKET_EXPECTED;
+    _expectedIncomingPacketId = noPacketExpected;
     List<Object> exceptions = [];
 
     Map<String, dynamic> data = {};
@@ -868,7 +867,7 @@ class BrainCloudComms {
 
       // its a success response
       if (statusCode == 200) {
-        ResetKillSwitch();
+        resetKillSwitch();
         service = sc!.GetService.Value;
         if (response[OperationParam.ServiceMessageData.Value] != null) {
           responseData = response[OperationParam.ServiceMessageData.Value];
@@ -878,7 +877,7 @@ class BrainCloudComms {
           if (service == ServiceName.Authenticate.Value ||
               service == ServiceName.Identity.Value) {
             //Reset authenticate timeout
-            AuthenticationPacketTimeoutSecs = _listAuthPacketTimeouts[0];
+            authenticationPacketTimeoutSecs = _listAuthPacketTimeouts[0];
             saveProfileAndSessionIds(responseData ?? {});
           }
         } else {
@@ -915,16 +914,16 @@ class BrainCloudComms {
           _isAuthenticated = false;
           _sessionId = "";
           _clientRef.authenticationService?.clearSavedProfileID();
-          ResetErrorCache();
+          resetErrorCache();
         }
         //either off of authenticate or identity call, be sure to save the profileId and sessionId
         else if (operation == ServiceOperation.authenticate.value) {
-          ProcessAuthenticate(responseData!);
+          processAuthenticate(responseData!);
         }
         // switch to child
         else if (operation == ServiceOperation.switchToChildProfile.value ||
             operation == ServiceOperation.switchToParentProfile.value) {
-          ProcessSwitchResponse(responseData!);
+          processSwitchResponse(responseData!);
         } else if (operation == ServiceOperation.prepareUserUpload.value ||
             bIsPeerScriptUploadCall) {
           String peerCode =
@@ -944,13 +943,13 @@ class BrainCloudComms {
             var uploader = FileUploader(
                 uploadId: uploadId,
                 guidLocalPath: guid,
-                serverUrl: UploadURL,
-                sessionId: SessionID,
+                serverUrl: uploadURL,
+                sessionId: getSessionID,
                 clientRef: _clientRef,
                 peerCode: peerCode,
                 fileName: fileName,
-                timeout: UploadLowTransferRateTimeout,
-                timeoutThreshold: UploadLowTransferRateThreshold);
+                timeout: uploadLowTransferRateTimeout,
+                timeoutThreshold: uploadLowTransferRateThreshold);
 
             if (_clientRef.fileService.fileStorage.containsKey(guid)) {
               uploader.totalBytesToTransfer =
@@ -1049,24 +1048,24 @@ class BrainCloudComms {
           if (!tooManyAuthenticationAttempts()) {
             _failedAuthenticationAttempts++;
             if (tooManyAuthenticationAttempts()) {
-              ResetAuthenticationTimer();
+              resetAuthenticationTimer();
             }
           }
 
-          _authInProgress = false;
+          authenticateInProgress = false;
         }
 
         if (response.containsKey("reason_code")) {
           reasonCode = response["reason_code"];
         }
 
-        if (OldStyleStatusResponseInErrorCallback) {
+        if (oldStyleStatusResponseInErrorCallback) {
           if (response.containsKey("status_message")) {
             statusMessageObj = response["status_message"];
             errorJson = statusMessageObj;
           }
         } else {
-          errorJson = SerializeJson(response);
+          errorJson = serializeJson(response);
         }
 
         if (reasonCode == ReasonCodes.PLAYER_SESSION_EXPIRED ||
@@ -1127,7 +1126,7 @@ class BrainCloudComms {
         }
 
         if (sc != null) {
-          UpdateKillSwitch(
+          updateKillSwitch(
               sc.GetService.Value, sc.GetOperation.value, statusCode);
         }
       }
@@ -1148,7 +1147,7 @@ class BrainCloudComms {
     }
 
     if (exceptions.isNotEmpty) {
-      DisposeUploadHandler();
+      disposeUploadHandler();
       _activeRequest = null; // to make sure we don't reprocess this message
 
       throw Exception(
@@ -1156,7 +1155,7 @@ class BrainCloudComms {
     }
   }
 
-  void UpdateKillSwitch(String service, String operation, int statusCode) {
+  void updateKillSwitch(String service, String operation, int statusCode) {
     if (statusCode == StatusCodes.CLIENT_NETWORK_ERROR) return;
 
     if (_killSwitchService == null) {
@@ -1164,7 +1163,9 @@ class BrainCloudComms {
       _killSwitchOperation = operation;
       _killSwitchErrorCount++;
     } else if (service == _killSwitchService &&
-        operation == _killSwitchOperation) _killSwitchErrorCount++;
+        operation == _killSwitchOperation) {
+      _killSwitchErrorCount++;
+    }
 
     if (!_killSwitchEngaged && _killSwitchErrorCount >= _killSwitchThreshold) {
       _killSwitchEngaged = true;
@@ -1196,12 +1197,12 @@ class BrainCloudComms {
           _clientRef.log("Too many repeat authentication failures");
         }
         _killSwitchEngaged = true;
-        ResetAuthenticationTimer();
+        resetAuthenticationTimer();
       }
     }
   }
 
-  void ResetKillSwitch() {
+  void resetKillSwitch() {
     _killSwitchErrorCount = 0;
     _killSwitchService = null;
     _killSwitchOperation = null;
@@ -1216,7 +1217,7 @@ class BrainCloudComms {
   /// Creates the request state dynamic and sends the message bundle
   /// </summary>
   /// <returns>The and send next request bundle.</returns>
-  RequestState? CreateAndSendNextRequestBundle() {
+  RequestState? createAndSendNextRequestBundle() {
     RequestState? requestState;
     _serviceCallsWaitingLock.acquire();
     try {
@@ -1344,22 +1345,22 @@ class BrainCloudComms {
             if (_clientRef.loggingEnabled) {
               _clientRef.log("SENDING REQUEST");
             }
-            InternalSendMessage(requestState);
+            internalSendMessage(requestState);
           } else {
-            FakeErrorResponse(requestState, _cachedStatusCode,
+            fakeErrorResponse(requestState, _cachedStatusCode,
                 _cachedReasonCode, _cachedStatusMessage);
             requestState = null;
           }
         } else {
           if (tooManyAuthenticationAttempts()) {
-            FakeErrorResponse(
+            fakeErrorResponse(
                 requestState,
                 StatusCodes.CLIENT_NETWORK_ERROR,
                 ReasonCodes.CLIENT_DISABLED_FAILED_AUTH,
                 "Client has been disabled due to identical repeat Authentication calls that are throwing errors. Authenticating with the same credentials is disabled for 30 seconds");
             requestState = null;
           } else {
-            FakeErrorResponse(
+            fakeErrorResponse(
                 requestState,
                 StatusCodes.CLIENT_NETWORK_ERROR,
                 ReasonCodes.CLIENT_DISABLED,
@@ -1378,32 +1379,32 @@ class BrainCloudComms {
   /// <summary>
   /// Creates a fake response to stop packets being sent to the server without a valid session.
   /// </summary>
-  void FakeErrorResponse(RequestState requestState, int statusCode,
+  void fakeErrorResponse(RequestState requestState, int statusCode,
       int reasonCode, String statusMessage) {
     Map<String, dynamic> packet = {};
     packet[OperationParam.ServiceMessagePacketId.Value] = requestState.PacketId;
-    packet[OperationParam.ServiceMessageSessionId.Value] = SessionID;
-    if (AppId.isNotEmpty) {
-      packet[OperationParam.ServiceMessageGameId.Value] = AppId;
+    packet[OperationParam.ServiceMessageSessionId.Value] = getSessionID;
+    if (getAppId.isNotEmpty) {
+      packet[OperationParam.ServiceMessageGameId.Value] = getAppId;
     }
     packet[OperationParam.ServiceMessageMessages.Value] =
         requestState.MessageList;
 
-    String jsonRequestString = SerializeJson(packet);
+    String jsonRequestString = serializeJson(packet);
 
     if (_clientRef.loggingEnabled) {
       _clientRef.log(
           "REQUEST Retry( ${requestState.Retries} - ${DateTime.now()}\n $jsonRequestString");
     }
 
-    ResetIdleTimer();
+    resetIdleTimer();
 
-    TriggerCommsError(statusCode, reasonCode, statusMessage);
-    DisposeUploadHandler();
+    triggerCommsError(statusCode, reasonCode, statusMessage);
+    disposeUploadHandler();
     _activeRequest = null;
   }
 
-  String SerializeJson(dynamic payload) {
+  String serializeJson(dynamic payload) {
     return jsonEncode(payload);
     // //Unity doesn't like when we create a new StringBuilder outside of this method.
     // _StringBuilderOutput = new StringBuilder();
@@ -1451,7 +1452,7 @@ class BrainCloudComms {
     // return _StringBuilderOutput.ToString();
   }
 
-  Map<String, dynamic> DeserializeJson(String jsonData) {
+  Map<String, dynamic> deserializeJson(String jsonData) {
     // JsonResponseBundleV2 responseBundle = DeserializeJsonBundle(jsonData);
     // if (responseBundle?.responses == null ||
     //     responseBundle.responses.Length == 0)
@@ -1469,7 +1470,7 @@ class BrainCloudComms {
   /// set appropriately.
   /// </summary>
   /// <param name="requestState">Request state.</param>
-  Future<void> InternalSendMessage(RequestState requestState) async {
+  Future<void> internalSendMessage(RequestState requestState) async {
     // #if DOT_NET || GODOT
     //             // During retry, the RequestState is reused so we have to make sure its state goes back to PENDING.
     //             // Unity uses the info stored in the WWW dynamic and it's recreated here so it's not an issue.
@@ -1479,28 +1480,28 @@ class BrainCloudComms {
     // bundle up the data into a String
     Map<String, dynamic> packet = {};
     packet[OperationParam.ServiceMessagePacketId.Value] = requestState.PacketId;
-    packet[OperationParam.ServiceMessageSessionId.Value] = SessionID;
-    if (AppId.isNotEmpty) {
-      packet[OperationParam.ServiceMessageGameId.Value] = AppId;
+    packet[OperationParam.ServiceMessageSessionId.Value] = getSessionID;
+    if (getAppId.isNotEmpty) {
+      packet[OperationParam.ServiceMessageGameId.Value] = getAppId;
     }
     packet[OperationParam.ServiceMessageMessages.Value] =
         requestState.MessageList;
 
-    String jsonRequestString = SerializeJson(packet);
-    String sig = CalculateMD5Hash("$jsonRequestString$SecretKey");
+    String jsonRequestString = serializeJson(packet);
+    String sig = calculateMD5Hash("$jsonRequestString$getSecretKey");
 
     Uint8List byteArray = utf8.encode(jsonRequestString);
 
     requestState.Signature = sig;
 
-    bool compressMessage = SupportsCompression && // compression enabled
-        ClientSideCompressionThreshold >= 0 && // server says we can compress
+    bool compressMessage = supportsCompression && // compression enabled
+        clientSideCompressionThreshold >= 0 && // server says we can compress
         byteArray.length >=
-            ClientSideCompressionThreshold; // and byte array is greater or equal to the threshold
+            clientSideCompressionThreshold; // and byte array is greater or equal to the threshold
 
     //if the packet we're sending is larger than the size before compressing, then we want to compress it otherwise we're good to send it. AND we have to support compression
     if (compressMessage) {
-      byteArray = Compress(byteArray);
+      byteArray = compress(byteArray);
     }
 
     requestState.ByteArray = byteArray;
@@ -1509,8 +1510,8 @@ class BrainCloudComms {
     headers["Content-Type"] = "application/json;charset=utf-8";
     headers["X-SIG"] = sig;
 
-    if (AppId.isNotEmpty) {
-      headers["X-APPID"] = AppId;
+    if (getAppId.isNotEmpty) {
+      headers["X-APPID"] = getAppId;
     }
 
     WebRequest req = WebRequest("POST", Uri.parse(_serverURL));
@@ -1545,7 +1546,7 @@ class BrainCloudComms {
     requestState.RequestString = jsonRequestString;
     requestState.TimeSent = DateTime.now();
 
-    ResetIdleTimer();
+    resetIdleTimer();
 
     if (_clientRef.loggingEnabled) {
       _clientRef.log(
@@ -1553,7 +1554,7 @@ class BrainCloudComms {
     }
   }
 
-  Uint8List Compress(Uint8List raw) {
+  Uint8List compress(Uint8List raw) {
     // var outputStream = new MemoryStream();
     // using (var stream = new GZipStream(outputStream, CompressionMode.Compress, true))
     // {
@@ -1565,7 +1566,7 @@ class BrainCloudComms {
     return raw;
   }
 
-  Uint8List Decompress(Uint8List compressedBytes) {
+  Uint8List decompress(Uint8List compressedBytes) {
     // using (var inputStream = new MemoryStream(compressedBytes))
     // using (var gZipStream = new GZipStream(inputStream, CompressionMode.Decompress))
     // using (var outputStream = new MemoryStream())
@@ -1585,12 +1586,12 @@ class BrainCloudComms {
   /// </summary>
   /// <returns><c>true</c>, if message was resent, <c>false</c> if max retries hit.</returns>
   /// <param name="requestState">Request state.</param>
-  bool ResendMessage(RequestState requestState) {
-    if (_activeRequest!.Retries >= GetMaxRetriesForPacket(requestState)) {
+  bool resendMessage(RequestState requestState) {
+    if (_activeRequest!.Retries >= getMaxRetriesForPacket(requestState)) {
       return false;
     }
     ++_activeRequest!.Retries;
-    InternalSendMessage(requestState);
+    internalSendMessage(requestState);
     return true;
   }
 
@@ -1599,7 +1600,7 @@ class BrainCloudComms {
   /// </summary>
   /// <returns>The web request status.</returns>
   /// <param name="requestState">request state.</param>
-  eWebRequestStatus GetWebRequestStatus(RequestState requestState) {
+  eWebRequestStatus getWebRequestStatus(RequestState requestState) {
     eWebRequestStatus status = eWebRequestStatus.STATUS_PENDING;
 
     // for testing packet loss, some packets are flagged to be lost
@@ -1626,7 +1627,7 @@ class BrainCloudComms {
 //         /// </summary>
 //         /// <returns>The web request response.</returns>
 //         /// <param name="requestState">request state.</param>
-  String GetWebRequestResponse(RequestState? requestState) {
+  String getWebRequestResponse(RequestState? requestState) {
     return requestState?.webRequest?.response?.body ?? "";
 
 //             String response = "";
@@ -1676,7 +1677,7 @@ class BrainCloudComms {
   /// </summary>
   /// <returns>The maximum retries for the given packet.</returns>
   /// <param name="requestState">The active request.</param>
-  int GetMaxRetriesForPacket(RequestState requestState) {
+  int getMaxRetriesForPacket(RequestState requestState) {
     if (requestState.PacketNoRetry) {
       return 0;
     }
@@ -1688,20 +1689,20 @@ class BrainCloudComms {
   /// </summary>
   /// <returns>The packet timeout.</returns>
   /// <param name="requestState">The active request.</param>
-  Duration GetPacketTimeout(RequestState requestState) {
+  Duration getPacketTimeout(RequestState requestState) {
     if (requestState.PacketNoRetry) {
       if (DateTime.now().difference(_activeRequest!.TimeSent) >
-          Duration(seconds: AuthenticationPacketTimeoutSecs)) {
+          Duration(seconds: authenticationPacketTimeoutSecs)) {
         for (int i = 0; i < _listAuthPacketTimeouts.length; i++) {
-          if (_listAuthPacketTimeouts[i] == AuthenticationPacketTimeoutSecs) {
+          if (_listAuthPacketTimeouts[i] == authenticationPacketTimeoutSecs) {
             if (i + 1 < _listAuthPacketTimeouts.length) {
-              AuthenticationPacketTimeoutSecs = _listAuthPacketTimeouts[i + 1];
+              authenticationPacketTimeoutSecs = _listAuthPacketTimeouts[i + 1];
               break;
             }
           }
         }
       }
-      return Duration(seconds: AuthenticationPacketTimeoutSecs);
+      return Duration(seconds: authenticationPacketTimeoutSecs);
     }
 
     int currentRetry = requestState.Retries;
@@ -1729,17 +1730,17 @@ class BrainCloudComms {
   /// <summary>
   /// Sends the heartbeat.
   /// </summary>
-  void SendHeartbeat() {
+  void sendHeartbeat() {
     ServerCall sc =
         ServerCall(ServiceName.HeartBeat, ServiceOperation.read, null, null);
-    AddToQueue(sc);
+    addToQueue(sc);
   }
 
   /// <summary>
   /// Adds a server call to the internal queue.
   /// </summary>
   /// <param name="call">The server call to execute</param>
-  void AddToQueue(ServerCall call) {
+  void addToQueue(ServerCall call) {
     _serviceCallsWaitingLock.acquire();
     try {
       _serviceCallsWaiting.add(call);
@@ -1752,7 +1753,7 @@ class BrainCloudComms {
   /// Enables the communications layer.
   /// </summary>
   /// <param name="value">If set to <c>true</c> value.</param>
-  void EnableComms(bool value) {
+  void enableComms(bool value) {
     _enabled = value;
   }
 
@@ -1761,7 +1762,7 @@ class BrainCloudComms {
   /// </summary>
   /// <param name="jsonData"></param>
   /// <returns></returns>
-  JsonResponseBundleV2? DeserializeJsonBundle(String jsonData) {
+  JsonResponseBundleV2? deserializeJsonBundle(String jsonData) {
     if (jsonData.isNullOrWhiteSpace) {
       return null;
     }
@@ -1800,7 +1801,7 @@ class BrainCloudComms {
                   serviceCall.GetCallback?.onErrorCallback(
                       900,
                       ReasonCodes.JSON_RESPONSE_MAXDEPTH_EXCEEDS_LIMIT,
-                      JSON_ERROR_MESSAGE);
+                      jsonErrorMessage);
                   _serviceCallsInProgress.removeAt(i);
                 }
               }
@@ -1809,7 +1810,7 @@ class BrainCloudComms {
             _serviceCallsInProgressLock.release();
           }
         } else {
-          ResendMessage(_activeRequest!);
+          resendMessage(_activeRequest!);
         }
         _clientRef.log(message);
         return null;
@@ -1822,7 +1823,7 @@ class BrainCloudComms {
   /// Resets the communication layer. Clients will need to
   /// reauthenticate after this method is called.
   /// </summary>
-  void ResetCommunication() {
+  void resetCommunication() {
     _serviceCallsWaitingLock.acquire();
     try {
       _isAuthenticated = false;
@@ -1830,7 +1831,7 @@ class BrainCloudComms {
       _serviceCallsWaiting.clear();
       _serviceCallsInProgress.clear();
       _serviceCallsInTimeoutQueue.clear();
-      DisposeUploadHandler();
+      disposeUploadHandler();
       _activeRequest = null;
       _clientRef.authenticationService?.profileId = "";
       _sessionId = "";
@@ -1891,7 +1892,7 @@ class BrainCloudComms {
 //         }
 // #endif
 
-  String CalculateMD5Hash(String input) {
+  String calculateMD5Hash(String input) {
     return md5.convert(utf8.encode(input)).toString();
   }
 
@@ -1899,13 +1900,13 @@ class BrainCloudComms {
   /// Handles authenticate-specific data from successful request
   /// </summary>
   /// <param name="jsonString"></param>
-  void ProcessAuthenticate(Map<String, dynamic> jsonData) {
+  void processAuthenticate(Map<String, dynamic> jsonData) {
     //we want to extract the compressIfLarger amount
     if (jsonData.containsKey("compressIfLarger")) {
       _clientSideCompressionThreshold = jsonData["compressIfLarger"];
     }
 
-    int playerSessionExpiry = GetJsonLong(jsonData,
+    int playerSessionExpiry = getJsonLong(jsonData,
         OperationParam.AuthenticateServicePlayerSessionExpiry.Value, 5 * 60);
     double idleTimeout = (playerSessionExpiry * 0.85);
 
@@ -1917,18 +1918,18 @@ class BrainCloudComms {
     _killSwitchThreshold =
         jsonData.containsKey("maxKillCount") ? jsonData["maxKillCount"] : null;
 
-    ResetErrorCache();
+    resetErrorCache();
     _isAuthenticated = true;
   }
 
-  void ProcessSwitchResponse(Map<String, dynamic> jsonData) {
+  void processSwitchResponse(Map<String, dynamic> jsonData) {
     if (jsonData.containsKey("switchToAppId")) {
       String switchToAppId = jsonData["switchToAppId"];
       _appId = switchToAppId;
     }
   }
 
-  static String? GetJsonString(
+  static String? getJsonString(
       Map<String, dynamic> jsonData, String key, String? defaultReturn) {
     dynamic retVal;
 
@@ -1939,7 +1940,7 @@ class BrainCloudComms {
     return retVal != null ? retVal as String : defaultReturn;
   }
 
-  static int GetJsonLong(
+  static int getJsonLong(
       Map<String, dynamic> jsonData, String key, int defaultReturn) {
     dynamic retVal;
     if (jsonData.containsKey(key)) {
@@ -1955,17 +1956,17 @@ class BrainCloudComms {
   /// </summary>
   /// <param name="status">Current Request Status</param>
   /// <param name="bypassTimeout">Was there an error on the request?</param>
-  Future<void> RetryRequest(
+  Future<void> retryRequest(
       eWebRequestStatus status, bool bypassTimeout) async {
     if (_activeRequest != null) {
       if (bypassTimeout ||
           DateTime.now().difference(_activeRequest!.TimeSent) >=
-              GetPacketTimeout(_activeRequest!)) {
+              getPacketTimeout(_activeRequest!)) {
         if (_clientRef.loggingEnabled) {
           String errorResponse = "";
           // we've reached the retry limit - send timeout error to all client callbacks
           if (status == eWebRequestStatus.STATUS_ERROR) {
-            errorResponse = GetWebRequestResponse(_activeRequest);
+            errorResponse = getWebRequestResponse(_activeRequest);
             if (!errorResponse.isEmptyOrNull) {
               _clientRef.log("Timeout with network error: $errorResponse");
             } else {
@@ -1976,8 +1977,8 @@ class BrainCloudComms {
             _clientRef.log("Timeout no reply from server");
           }
         }
-        if (!ResendMessage(_activeRequest!)) {
-          DisposeUploadHandler();
+        if (!resendMessage(_activeRequest!)) {
+          disposeUploadHandler();
           _activeRequest = null;
 
           // if we're doing caching of messages on timeout, kick it in now!
@@ -2001,7 +2002,7 @@ class BrainCloudComms {
             }
           } else {
             // Fake a message bundle to keep the callback logic in one place
-            TriggerCommsError(
+            triggerCommsError(
                 StatusCodes.CLIENT_NETWORK_ERROR,
                 ReasonCodes.CLIENT_NETWORK_ERROR_TIMEOUT,
                 "Timeout trying to reach brainCloud server");
@@ -2010,20 +2011,20 @@ class BrainCloudComms {
       }
     } else // send the next message if we're ready
     {
-      _activeRequest = CreateAndSendNextRequestBundle();
+      _activeRequest = createAndSendNextRequestBundle();
     }
   }
 
   /// <summary>
   /// Resets the cached error message for local session error handling to default
   /// </summary>
-  void ResetErrorCache() {
+  void resetErrorCache() {
     _cachedStatusCode = StatusCodes.FORBIDDEN;
     _cachedReasonCode = ReasonCodes.NO_SESSION;
     _cachedStatusMessage = "No session";
   }
 
-  void DisposeUploadHandler() {
+  void disposeUploadHandler() {
 // #if USE_WEB_REQUEST
 //             if (_activeRequest != null &&
 //                 _activeRequest.WebRequest != null &&
@@ -2034,18 +2035,18 @@ class BrainCloudComms {
 // #endif
   }
 
-  void AddCallbackToAuthenticateRequest(ServerCallback? in_callback) {
+  void addCallbackToAuthenticateRequest(ServerCallback? inCallback) {
     bool inProgress = false;
     for (int i = 0; i < _serviceCallsInProgress.length && !inProgress; ++i) {
       if (_serviceCallsInProgress[i].GetOperation ==
           ServiceOperation.authenticate) {
         inProgress = true;
-        _serviceCallsInProgress[i].GetCallback?.addAuthCallbacks(in_callback);
+        _serviceCallsInProgress[i].GetCallback?.addAuthCallbacks(inCallback);
       }
     }
   }
 
-  bool IsAuthenticateRequestInProgress() {
+  bool isAuthenticateRequestInProgress() {
     bool inProgress = false;
     for (int i = 0; i < _serviceCallsInProgress.length && !inProgress; ++i) {
       if (_serviceCallsInProgress[i].GetOperation ==
@@ -2086,12 +2087,14 @@ class JsonResponseErrorBundleV2 {
 
 @JsonSerializable()
 class JsonErrorMessage {
-  int reason_code;
+  @JsonKey(name: 'reason_code')
+  int reasonCode;
   int status;
-  String status_message;
+  @JsonKey(name: 'status_message')
+  String statusMessage;
   String severity = "ERROR";
 
-  JsonErrorMessage(this.status, this.reason_code, this.status_message);
+  JsonErrorMessage(this.status, this.reasonCode, this.statusMessage);
 
   factory JsonErrorMessage.fromJson(Map<String, dynamic> json) =>
       _$JsonErrorMessageFromJson(json);

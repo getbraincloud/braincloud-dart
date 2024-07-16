@@ -69,7 +69,7 @@ class BrainCloudFile {
   /// </summary>
   /// <param name="uploadId">Upload ID of the file to cancel</param>
   void cancelUpload(String uploadId) {
-    _clientRef.comms?.CancelUpload(uploadId);
+    _clientRef.comms?.cancelUpload(uploadId);
   }
 
   /// <summary>
@@ -78,7 +78,7 @@ class BrainCloudFile {
   /// </summary>
   /// <param name="uploadId">The id of the upload</param>
   double? getUploadProgress(String uploadId) {
-    return _clientRef.comms?.GetUploadProgress(uploadId);
+    return _clientRef.comms?.getUploadProgress(uploadId);
   }
 
   /// <summary>
@@ -87,7 +87,7 @@ class BrainCloudFile {
   /// </summary>
   /// <param name="uploadId">The id of the upload</param>
   double? getUploadBytesTransferred(String uploadId) {
-    return _clientRef.comms?.GetUploadBytesTransferred(uploadId);
+    return _clientRef.comms?.getUploadBytesTransferred(uploadId);
   }
 
   /// <summary>
@@ -95,7 +95,7 @@ class BrainCloudFile {
   /// </summary>
   /// <param name="uploadId">The id of the upload</param>
   int? getUploadTotalBytesToTransfer(String uploadId) {
-    return _clientRef.comms?.GetUploadTotalBytesToTransfer(uploadId);
+    return _clientRef.comms?.getUploadTotalBytesToTransfer(uploadId);
   }
 
   /// <summary>

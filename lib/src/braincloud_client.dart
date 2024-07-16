@@ -209,20 +209,20 @@ class BrainCloudClient {
   }
   //---------------------------------------------------------------
 
-  bool get authenticated => _comms?.Authenticated ?? false;
+  bool get authenticated => _comms?.isAuthenticated ?? false;
 
   bool get initialized => _initialized;
 
   set enableCompressedRequests(bool isEnabled) =>
-      _comms?.EnableCompression(isEnabled);
+      _comms?.enableCompression(isEnabled);
 
   set enableCompressedResponses(bool isEnabled) =>
       _authenticationService?.compressResponse = isEnabled;
 
   /// <summary>Returns the sessionId or empty String if no session present.</summary>
-  String get sessionID => _comms?.SessionID ?? "";
+  String get sessionID => _comms?.getSessionID ?? "";
 
-  String get appId => _comms?.AppId ?? "";
+  String get appId => _comms?.getAppId ?? "";
 
   String getAppId() {
     return appId;
@@ -493,7 +493,7 @@ class BrainCloudClient {
   }
 
   int getReceivedPacketId() {
-    return _comms?.GetReceivedPacketId() ?? -1;
+    return _comms?.getReceivedPacketId() ?? -1;
   }
 
   /// <summary>
@@ -524,7 +524,7 @@ class BrainCloudClient {
         serverURL!, appIdSecretMap[defaultAppId]!, defaultAppId, appVersion);
 
     // set up braincloud which does the message handling
-    _comms?.InitializeWithApps(serverURL, defaultAppId, appIdSecretMap);
+    _comms?.initializeWithApps(serverURL, defaultAppId, appIdSecretMap);
 
     _initialized = true;
   }
@@ -544,7 +544,7 @@ class BrainCloudClient {
     initializeHelper(serverURL, secretKey, appId, appVersion);
 
     // set up braincloud which does the message handling
-    _comms?.Initialize(serverURL, appId, secretKey);
+    _comms?.initialize(serverURL, appId, secretKey);
 
     _initialized = true;
   }
@@ -561,7 +561,7 @@ class BrainCloudClient {
   /// Should be used at the end of the app, and opposite of Initialize Client
   /// </summary>
   void shutDown() {
-    _comms?.ShutDown();
+    _comms?.shutDown();
   }
 
   /// <summary>Update method needs to be called regularly in order
@@ -581,7 +581,7 @@ class BrainCloudClient {
     switch (inUpdateType) {
       case BrainCloudUpdateType.REST:
         {
-          if (_comms != null) _comms?.Update();
+          if (_comms != null) _comms?.update();
         }
         break;
 
@@ -606,7 +606,7 @@ class BrainCloudClient {
       default:
         {
           _rttComms?.update();
-          _comms?.Update();
+          _comms?.update();
           _rsComms?.update();
           _lobbyService?.Update();
         }
@@ -633,14 +633,14 @@ class BrainCloudClient {
   ///    ]
   ///  }
   void registerEventCallback(EventCallback cb) {
-    _comms?.RegisterEventCallback(cb);
+    _comms?.registerEventCallback(cb);
   }
 
   /// <summary>
   /// De-registers the event callback.
   /// </summary>
   void deregisterEventCallback() {
-    _comms?.DeregisterEventCallback();
+    _comms?.deregisterEventCallback();
   }
 
   /// <summary>
@@ -649,14 +649,14 @@ class BrainCloudClient {
   /// <param name="cb">The reward callback handler.</param>
   /// <see cref="http://getbraincloud.com/apidocs">The brainCloud API docs site for more information on the return JSON</see>
   void registerRewardCallback(RewardCallback cb) {
-    _comms?.RegisterRewardCallback(cb);
+    _comms?.registerRewardCallback(cb);
   }
 
   /// <summary>
   /// De-registers the reward callback.
   /// </summary>
   void deregisterRewardCallback() {
-    _comms?.DeregisterRewardCallback();
+    _comms?.deregisterRewardCallback();
   }
 
   /// <summary>
@@ -664,28 +664,28 @@ class BrainCloudClient {
   /// </summary>
   void registerFileUploadCallback(
       FileUploadSuccessCallback success, FileUploadFailedCallback failure) {
-    _comms?.RegisterFileUploadCallbacks(success, failure);
+    _comms?.registerFileUploadCallbacks(success, failure);
   }
 
   /// <summary>
   /// De-registers the file upload callbacks.
   /// </summary>
   void deregisterFileUploadCallback() {
-    _comms?.DeregisterFileUploadCallbacks();
+    _comms?.deregisterFileUploadCallbacks();
   }
 
   /// <summary>
   /// Failure callback invoked for all errors generated
   /// </summary>
   void registerGlobalErrorCallback(FailureCallback callback) {
-    _comms?.RegisterGlobalErrorCallback(callback);
+    _comms?.registerGlobalErrorCallback(callback);
   }
 
   /// <summary>
   /// De-registers the global error callback.
   /// </summary>
   void deregisterGlobalErrorCallback() {
-    _comms?.DeregisterGlobalErrorCallback();
+    _comms?.deregisterGlobalErrorCallback();
   }
 
   /// <summary>
@@ -694,14 +694,14 @@ class BrainCloudClient {
   /// has been set to true.
   /// </summary>
   void registerNetworkErrorCallback(NetworkErrorCallback callback) {
-    _comms?.RegisterNetworkErrorCallback(callback);
+    _comms?.registerNetworkErrorCallback(callback);
   }
 
   /// <summary>
   /// De-registers the network error callback.
   /// </summary>
   void deregisterNetworkErrorCallback() {
-    _comms?.DeregisterNetworkErrorCallback();
+    _comms?.deregisterNetworkErrorCallback();
   }
 
   /// <summary> Enable logging of brainCloud transactions (comms etc)</summary>
@@ -712,12 +712,12 @@ class BrainCloudClient {
 
   /// <summary>Get the Server URL</summary>
   String getUrl() {
-    return _comms?.ServerURL ?? "";
+    return _comms?.getServerURL ?? "";
   }
 
   /// <summary>Resets all messages and calls to the server</summary>
   void resetCommunication() {
-    _comms?.ResetCommunication();
+    _comms?.resetCommunication();
     _rttComms?.disableRTT();
     _rsComms?.disconnect();
     update();
@@ -727,7 +727,7 @@ class BrainCloudClient {
   /// <summary>Enable Communications with the server. By default this is true</summary>
   /// <param name="value">True to enable comms, false otherwise.</param>
   void enableCommunications(bool value) {
-    _comms?.EnableComms(value);
+    _comms?.enableComms(value);
   }
 
   /// <summary>
@@ -754,7 +754,7 @@ class BrainCloudClient {
   /// Sets the packet timeouts back to default.
   /// </summary>
   void setPacketTimeoutsToDefault() {
-    _comms?.SetPacketTimeoutsToDefault();
+    _comms?.setPacketTimeoutsToDefault();
   }
 
   /// <summary>
@@ -773,7 +773,7 @@ class BrainCloudClient {
   /// </summary>
   /// <param name="valueSecs">The timeout in seconds.</param>
   void setAuthenticationPacketTimeout(int timeoutSecs) {
-    _comms?.AuthenticationPacketTimeoutSecs = timeoutSecs;
+    _comms?.authenticationPacketTimeoutSecs = timeoutSecs;
   }
 
   /// <summary>
@@ -784,7 +784,7 @@ class BrainCloudClient {
   /// this timeout is set to 15 seconds.
   /// </summary>
   int getAuthenticationPacketTimeout() {
-    return _comms?.AuthenticationPacketTimeoutSecs ?? 0;
+    return _comms?.authenticationPacketTimeoutSecs ?? 0;
   }
 
   /// <summary>
@@ -794,14 +794,14 @@ class BrainCloudClient {
   /// </summary>
   /// <param name="enabled">If set to <c>true</c>, enable.</param>
   void setOldStyleStatusMessageErrorCallback(bool enabled) {
-    _comms?.OldStyleStatusResponseInErrorCallback = enabled;
+    _comms?.oldStyleStatusResponseInErrorCallback = enabled;
   }
 
   /// <summary>
   /// Returns the low transfer rate timeout in secs
   /// </summary>
   int getUploadLowTransferRateTimeout() {
-    return _comms?.UploadLowTransferRateTimeout ?? 0;
+    return _comms?.uploadLowTransferRateTimeout ?? 0;
   }
 
   /// <summary>
@@ -813,14 +813,14 @@ class BrainCloudClient {
   /// </summary>
   /// <param name="timeoutSecs"></param>
   void setUploadLowTransferRateTimeout(int timeoutSecs) {
-    _comms?.UploadLowTransferRateTimeout = timeoutSecs;
+    _comms?.uploadLowTransferRateTimeout = timeoutSecs;
   }
 
   /// <summary>
   /// Returns the low transfer rate threshold in bytes/sec
   /// </summary>
   int getUploadLowTransferRateThreshold() {
-    return _comms?.UploadLowTransferRateThreshold ?? 0;
+    return _comms?.uploadLowTransferRateThreshold ?? 0;
   }
 
   /// <summary>
@@ -832,7 +832,7 @@ class BrainCloudClient {
   /// </summary>
   /// <param name="bytesPerSec">The low transfer rate threshold in bytes/sec</param>
   void setUploadLowTransferRateThreshold(int bytesPerSec) {
-    _comms?.UploadLowTransferRateThreshold = bytesPerSec;
+    _comms?.uploadLowTransferRateThreshold = bytesPerSec;
   }
 
   /// <summary>
@@ -862,7 +862,7 @@ class BrainCloudClient {
   /// </summary>
   /// <param name="enabled">True if message should be cached on timeout</param>
   void enableNetworkErrorMessageCaching(bool enabled) {
-    _comms?.EnableNetworkErrorMessageCaching(enabled);
+    _comms?.enableNetworkErrorMessageCaching(enabled);
   }
 
   /// <summary>
@@ -870,7 +870,7 @@ class BrainCloudClient {
   /// this method does nothing.
   /// </summary>
   void retryCachedMessages() {
-    _comms?.RetryCachedMessages();
+    _comms?.retryCachedMessages();
   }
 
   /// <summary>
@@ -881,7 +881,7 @@ class BrainCloudClient {
   /// be called for every cached message with statusCode CLIENT_NETWORK_ERROR and reasonCode CLIENT_NETWORK_ERROR_TIMEOUT.
   /// </param>
   void flushCachedMessages(bool sendApiErrorCallbacks) {
-    _comms?.FlushCachedMessages(sendApiErrorCallbacks);
+    _comms?.flushCachedMessages(sendApiErrorCallbacks);
   }
 
   /// <summary>
@@ -899,7 +899,7 @@ class BrainCloudClient {
   ///
   /// </summary>
   void insertEndOfMessageBundleMarker() {
-    _comms?.InsertEndOfMessageBundleMarker();
+    _comms?.insertEndOfMessageBundleMarker();
   }
 
   /// <summary>
@@ -929,7 +929,7 @@ class BrainCloudClient {
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     ServerCall sc = ServerCall(ServiceName.HeartBeat, ServiceOperation.read,
         null, ServerCallback(success, failure, cbObject: cbObject));
-    _comms?.AddToQueue(sc);
+    _comms?.addToQueue(sc);
   }
 
   /// <summary>Method writes log if logging is enabled</summary>
@@ -957,18 +957,18 @@ class BrainCloudClient {
   void sendRequest(ServerCall serviceMessage) {
     // pass this directly to the brainCloud Class
     // which will add it to its queue and send back responses accordingly
-    _comms?.AddToQueue(serviceMessage);
+    _comms?.addToQueue(serviceMessage);
 
     wrapper.setStoredPacketId(serviceMessage.PacketID);
   }
 
   String serializeJson(dynamic payLoad) {
-    return _comms?.SerializeJson(payLoad) ??
+    return _comms?.serializeJson(payLoad) ??
         "Error BrainCloudClient.SerializeJson _comms is null";
   }
 
   Map<String, dynamic> deserializeJson(String jsonData) {
-    return _comms?.DeserializeJson(jsonData) ??
+    return _comms?.deserializeJson(jsonData) ??
         {"Error": "BrainCloudClient.DeserializeJson _comms is null"};
   }
 
