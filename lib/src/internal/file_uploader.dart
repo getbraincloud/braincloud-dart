@@ -89,7 +89,7 @@ class FileUploader {
   void handleResponse(http.Response response) {
     statusCode = response.statusCode;
     if (clientRef.loggingEnabled) {
-      clientRef.log("${"Uploaded " + fileName} in $_elapsedTime seconds");
+      clientRef.log("${"Uploaded $fileName"} in $_elapsedTime seconds");
     }
   }
 

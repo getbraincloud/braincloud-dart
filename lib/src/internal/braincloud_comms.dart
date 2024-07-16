@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
+import 'dart:io';
 
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:flutter/foundation.dart';
@@ -902,7 +903,6 @@ class BrainCloudComms {
                       as Map)
                   .containsKey("fileDetails");
         } on Exception {
-          //TODO: debug here: lib/BrainCloud/Internal/braincloud_comms.dart Line 949
           debugPrint(
               "Exception lib/BrainCloud/Internal/braincloud_comms.dart Line 949");
         }
@@ -955,10 +955,6 @@ class BrainCloudComms {
               uploader.totalBytesToTransfer =
                   _clientRef.fileService.fileStorage[guid]?.length ?? 0;
             }
-
-            //TODO:
-            //uploader.HttpClient = _httpClient;
-
             _fileUploads.add(uploader);
             uploader.start();
           }
@@ -1531,18 +1527,6 @@ class BrainCloudComms {
           .toString();
     });
 
-    // var maps = {
-    //   "packetId": 0,
-    //   "responses": [
-    //     {
-    //       "status_message":
-    //           "Internal server error (bundle): Index 0 out of bounds for length 0",
-    //       "severity": "ERROR",
-    //       "status": 500
-    //     }
-    //   ]
-    // };
-
     requestState.RequestString = jsonRequestString;
     requestState.TimeSent = DateTime.now();
 
@@ -1555,29 +1539,11 @@ class BrainCloudComms {
   }
 
   Uint8List compress(Uint8List raw) {
-    // var outputStream = new MemoryStream();
-    // using (var stream = new GZipStream(outputStream, CompressionMode.Compress, true))
-    // {
-    //     stream.Write(raw, 0, raw.Length);
-    // }
-    // return outputStream.ToArray();
-
-    // TODO: port this
-    return raw;
+    return Uint8List.fromList(gzip.encode(raw));
   }
 
   Uint8List decompress(Uint8List compressedBytes) {
-    // using (var inputStream = new MemoryStream(compressedBytes))
-    // using (var gZipStream = new GZipStream(inputStream, CompressionMode.Decompress))
-    // using (var outputStream = new MemoryStream())
-    // {
-    //     gZipStream.CopyTo(outputStream);
-    //     outputStream.Read(compressedBytes, 0, compressedBytes.Length);
-    //     return outputStream.ToArray();
-    // }
-
-    // TODO: port this
-    return compressedBytes;
+    return Uint8List.fromList(gzip.decode(compressedBytes.toList()));
   }
 
   /// <summary>
