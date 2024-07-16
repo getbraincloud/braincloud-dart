@@ -1595,47 +1595,6 @@ class BrainCloudComms {
 //         /// <param name="requestState">request state.</param>
   String getWebRequestResponse(RequestState? requestState) {
     return requestState?.webRequest?.response?.body ?? "";
-
-//             String response = "";
-// #if USE_WEB_REQUEST
-//             #if UNITY_2018 || UNITY_2019
-//             if (_activeRequest.WebRequest.isNetworkError)
-//             {
-//                 Debug.LogWarning("Failed to communicate with the server. For example, the request couldn't connect or it could not establish a secure channel");
-//             }
-//             else if (_activeRequest.WebRequest.isHttpError)
-//             {
-//                 Debug.LogWarning("Something went wrong, received a isHttpError flag. Examples for this to happen are: failure to resolve a DNS entry, a socket error or a redirect limit being exceeded. When this property returns true, the error property will contain a human-readable String describing the error.");
-//             }
-//             #elif UNITY_2020_1_OR_NEWER
-//             if (_activeRequest.WebRequest.result == UnityWebRequest.Result.ConnectionError)
-//             {
-//                 Debug.LogWarning("Failed to communicate with the server. For example, the request couldn't connect or it could not establish a secure channel");
-//             }
-//             else if (_activeRequest.WebRequest.result == UnityWebRequest.Result.ProtocolError)
-//             {
-//                 Debug.LogWarning("The server returned an error response. The request succeeded in communicating with the server, but received an error as defined by the connection protocol.");
-//             }
-//             else if (_activeRequest.WebRequest.result == UnityWebRequest.Result.DataProcessingError)
-//             {
-//                 Debug.LogWarning("Error processing data. The request succeeded in communicating with the server, but encountered an error when processing the received data. For example, the data was corrupted or not in the correct format.");
-//             }
-//             #endif
-//             if (!String.IsNullOrEmpty(_activeRequest.WebRequest.error))
-//             {
-//                 response = _activeRequest.WebRequest.error;
-//             }
-
-//             response = _activeRequest.WebRequest.downloadHandler.text;
-
-//             if (response.Contains("Security violation 47") ||
-//                 response.StartsWith("<"))
-//             {
-//                 Debug.LogWarning("Please re-select app in brainCloud settings, something went wrong");
-//             }
-// #elif DOT_NET || GODOT
-//             response = _activeRequest.DotNetResponseString;
-// #endif
   }
 
   /// <summary>
@@ -1807,57 +1766,6 @@ class BrainCloudComms {
     }
   }
 
-// #if (DOT_NET || GODOT)
-//         async Task AsyncHttpTaskCallback(Task<HttpResponseMessage> asyncResult, RequestState requestState)
-//         {
-//             if (asyncResult.IsCanceled) return;
-
-//             HttpResponseMessage message = null;
-
-//             try
-//             {
-//                 message = asyncResult.Result;
-//                 HttpContent content = message.Content;
-
-//                 //if its gzipped, the message is compressed
-//                 if(content.Headers.ContentEncoding.ToString() != "gzip")
-//                 {
-//                     requestState.DotNetResponseString = await content.ReadAsStringAsync();
-//                 }
-//                 else
-//                 {
-//                     var byteArray = await content.ReadAsByteArrayAsync();
-//                     var decompressedByteArray = Decompress(byteArray);
-//                     requestState.DotNetResponseString = Encoding.UTF8.GetString(decompressedByteArray, 0, decompressedByteArray.Length);
-//                 }
-
-//                 // End the operation
-//                 requestState.DotNetRequestStatus = message.IsSuccessStatusCode ?
-//                     RequestState.eWebRequestStatus.STATUS_DONE : RequestState.eWebRequestStatus.STATUS_ERROR;
-//             }
-
-//             catch (WebException wex)
-//             {
-//                 if (_clientRef.LoggingEnabled)
-//                 {
-//                     _clientRef.Log("GetResponseCallback - WebException: " + wex.ToString());
-//                 }
-//                 requestState.DotNetRequestStatus = RequestState.eWebRequestStatus.STATUS_ERROR;
-//             }
-//             catch (Exception ex)
-//             {
-//                 if (_clientRef.LoggingEnabled)
-//                 {
-//                     _clientRef.Log("GetResponseCallback - Exception: " + ex.ToString());
-//                 }
-//                 requestState.DotNetRequestStatus = RequestState.eWebRequestStatus.STATUS_ERROR;
-//             }
-
-//             // Release the HttpResponseMessage
-//             if (message != null) message.Dispose();
-//         }
-// #endif
-
   String calculateMD5Hash(String input) {
     return md5.convert(utf8.encode(input)).toString();
   }
@@ -1991,14 +1899,7 @@ class BrainCloudComms {
   }
 
   void disposeUploadHandler() {
-// #if USE_WEB_REQUEST
-//             if (_activeRequest != null &&
-//                 _activeRequest.WebRequest != null &&
-//                 _activeRequest.WebRequest.uploadHandler != null)
-//             {
-//                 _activeRequest.WebRequest.Dispose();
-//             }
-// #endif
+    debugPrint("disposeUploadHandler called");
   }
 
   void addCallbackToAuthenticateRequest(ServerCallback? inCallback) {
