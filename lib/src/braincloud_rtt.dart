@@ -28,7 +28,7 @@ class BrainCloudRTT {
       SuccessCallback? inSuccess,
       FailureCallback? inFailure,
       dynamic cbObject) {
-    _commsLayer?.enableRTT(inConnectiontype ?? RTTConnectionType.WEBSOCKET,
+    _commsLayer?.enableRTT(inConnectiontype ?? RTTConnectionType.websocket,
         inSuccess, inFailure, cbObject);
   }
 

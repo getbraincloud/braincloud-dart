@@ -1466,7 +1466,7 @@ class BrainCloudComms {
   /// set appropriately.
   /// </summary>
   /// <param name="requestState">Request state.</param>
-  Future<void> internalSendMessage(RequestState requestState) async {
+  Future<dynamic> internalSendMessage(RequestState requestState) async {
     // #if DOT_NET || GODOT
     //             // During retry, the RequestState is reused so we have to make sure its state goes back to PENDING.
     //             // Unity uses the info stored in the WWW dynamic and it's recreated here so it's not an issue.
@@ -1516,17 +1516,6 @@ class BrainCloudComms {
 
     requestState.webRequest = req;
 
-    requestState.webRequest
-        ?.send()
-        .then((result) => http.Response.fromStream(result).then((response) {
-              requestState.webRequest?.response = response;
-            }))
-        .catchError((e) {
-      requestState.webRequest?.error = JsonErrorMessage(StatusCodes.BAD_REQUEST,
-              ReasonCodes.INVALID_REQUEST, e.toString())
-          .toString();
-    });
-
     requestState.RequestString = jsonRequestString;
     requestState.TimeSent = DateTime.now();
 
@@ -1536,6 +1525,17 @@ class BrainCloudComms {
       _clientRef.log(
           "REQUEST - ${DateTime.now()}\n$jsonRequestString Retry(${requestState.Retries})");
     }
+
+    return requestState.webRequest
+        ?.send()
+        .then((result) => http.Response.fromStream(result).then((response) {
+              requestState.webRequest?.response = response;
+            }))
+        .catchError((e) {
+      requestState.webRequest?.error = JsonErrorMessage(StatusCodes.BAD_REQUEST,
+              ReasonCodes.INVALID_REQUEST, e.toString())
+          .toString();
+    });
   }
 
   Uint8List compress(Uint8List raw) {

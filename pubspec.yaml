@@ -1,6 +1,6 @@
 name: braincloud_dart
 description: "brainCloud library for use in dart and flutter projects"
-version: 0.0.2
+version: 0.0.3
 homepage: "https://getbraincloud.com/"
 
 environment:

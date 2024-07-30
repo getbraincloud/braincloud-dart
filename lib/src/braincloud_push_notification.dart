@@ -34,7 +34,7 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void RegisterPushNotificationDeviceToken(Platform platform, String token,
+  void registerPushNotificationDeviceToken(Platform platform, String token,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     String devicePlatform = platform.toString();
     Map<String, dynamic> data = {};
@@ -62,7 +62,7 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void DeregisterAllPushNotificationDeviceTokens(
+  void deregisterAllPushNotificationDeviceTokens(
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
 
@@ -93,7 +93,7 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void DeregisterPushNotificationDeviceToken(Platform platform, String token,
+  void deregisterPushNotificationDeviceToken(Platform platform, String token,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     String devicePlatform = platform.toString();
     Map<String, dynamic> data = {};
@@ -128,7 +128,7 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void SendSimplePushNotification(String toProfileId, String message,
+  void sendSimplePushNotification(String toProfileId, String message,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     data[OperationParam.PushNotificationSendParamToPlayerId.Value] =
@@ -167,14 +167,14 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void SendRichPushNotificationWithParams(
+  void sendRichPushNotificationWithParams(
       String toProfileId,
       int notificationTemplateId,
       String substitutionJson,
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject) {
-    SendRichPushNotification(toProfileId, notificationTemplateId,
+    sendRichPushNotification(toProfileId, notificationTemplateId,
         substitutionJson, success, failure, cbObject);
   }
 
@@ -201,7 +201,7 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void SendTemplatedPushNotificationToGroup(
+  void sendTemplatedPushNotificationToGroup(
       String groupId,
       int notificationTemplateId,
       String substitutionsJson,
@@ -249,7 +249,7 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void SendNormalizedPushNotificationToGroup(
+  void sendNormalizedPushNotificationToGroup(
       String groupId,
       String alertContentJson,
       String customDataJson,
@@ -298,7 +298,7 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void ScheduleRawPushNotificationUTC(
+  void scheduleRawPushNotificationUTC(
       String profileId,
       String fcmContent,
       String iosContent,
@@ -362,7 +362,7 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void ScheduleRawPushNotificationMinutes(
+  void scheduleRawPushNotificationMinutes(
       String profileId,
       String fcmContent,
       String iosContent,
@@ -423,7 +423,7 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void SendRawPushNotification(
+  void sendRawPushNotification(
       String toProfileId,
       String fcmContent,
       String iosContent,
@@ -482,7 +482,7 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void SendRawPushNotificationBatch(
+  void sendRawPushNotificationBatch(
       List<String> profileIds,
       String fcmContent,
       String iosContent,
@@ -541,7 +541,7 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void SendRawPushNotificationToGroup(
+  void sendRawPushNotificationToGroup(
       String groupId,
       String fcmContent,
       String iosContent,
@@ -600,7 +600,7 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void ScheduleNormalizedPushNotificationUTC(
+  void scheduleNormalizedPushNotificationUTC(
       String profileId,
       String alertContentJson,
       String customDataJson,
@@ -651,7 +651,7 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void ScheduleNormalizedPushNotificationMinutes(
+  void scheduleNormalizedPushNotificationMinutes(
       String profileId,
       String alertContentJson,
       String customDataJson,
@@ -702,7 +702,7 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void ScheduleRichPushNotificationUTC(
+  void scheduleRichPushNotificationUTC(
       String profileId,
       int notificationTemplateId,
       String substitutionsJson,
@@ -755,7 +755,7 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void ScheduleRichPushNotificationMinutes(
+  void scheduleRichPushNotificationMinutes(
       String profileId,
       int notificationTemplateId,
       String substitutionsJson,
@@ -804,7 +804,7 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void SendNormalizedPushNotification(
+  void sendNormalizedPushNotification(
       String toProfileId,
       String alertContentJson,
       String customDataJson,
@@ -848,7 +848,7 @@ class BrainCloudPushNotification {
   /// <param name="cbObject">
   /// The callback object
   /// </param>
-  void SendNormalizedPushNotificationBatch(
+  void sendNormalizedPushNotificationBatch(
       List<String> profileIds,
       String alertContentJson,
       String customDataJson,
@@ -870,7 +870,7 @@ class BrainCloudPushNotification {
     _clientRef.sendRequest(sc);
   }
 
-  void SendRichPushNotification(
+  void sendRichPushNotification(
       String toProfileId,
       int notificationTemplateId,
       String substitutionJson,

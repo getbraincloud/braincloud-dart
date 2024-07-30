@@ -34,13 +34,13 @@ class RTTComms {
     _disconnectedWithReason = false;
 
     if (isRTTEnabled() ||
-        _rttConnectionStatus == RTTConnectionStatus.CONNECTING) {
+        _rttConnectionStatus == RTTConnectionStatus.connecting) {
       return;
     } else {
       _connectedSuccessCallback = inSuccess;
       _connectionFailureCallback = inFailure;
 
-      m_currentConnectionType = inConnectiontype ?? RTTConnectionType.WEBSOCKET;
+      _currentConnectionType = inConnectiontype ?? RTTConnectionType.websocket;
       _clientRef.rttService?.requestClientConnection(
           rttConnectionServerSuccess as SuccessCallback,
           rttConnectionServerError as FailureCallback,
@@ -53,7 +53,7 @@ class RTTComms {
   /// </summary>
   void disableRTT() {
     if (!isRTTEnabled() ||
-        _rttConnectionStatus == RTTConnectionStatus.DISCONNECTING) {
+        _rttConnectionStatus == RTTConnectionStatus.disconnecting) {
       return;
     }
     addRTTCommandResponse(RTTCommandResponse(
@@ -66,7 +66,7 @@ class RTTComms {
   /// Returns true if RTT is enabled
   /// </summary>
   bool isRTTEnabled() {
-    return _rttConnectionStatus == RTTConnectionStatus.CONNECTED;
+    return _rttConnectionStatus == RTTConnectionStatus.connected;
   }
 
   ///<summary>
@@ -124,20 +124,20 @@ class RTTComms {
         toProcessResponse = _queuedRTTCommands[i];
 
         //the rtt websocket has closed and RTT needs to be re-enabled. disconnect is called to fully reset connection
-        if (_webSocketStatus == WebsocketStatus.CLOSED) {
+        if (_webSocketStatus == WebsocketStatus.closed) {
           _connectionFailureCallback!(400, -1,
               "RTT Connection has been closed. Re-Enable RTT to re-establish connection : ${toProcessResponse.jsonMessage}");
 
-          _rttConnectionStatus = RTTConnectionStatus.DISCONNECTING;
+          _rttConnectionStatus = RTTConnectionStatus.disconnecting;
           disconnect();
           break;
         }
 
         //the rtt websocket has closed and RTT needs to be re-enabled. disconnect is called to fully reset connection
-        if (_webSocketStatus == WebsocketStatus.CLOSED) {
+        if (_webSocketStatus == WebsocketStatus.closed) {
           _connectionFailureCallback!(400, -1,
               "RTT Connection has been closed. Re-Enable RTT to re-establish connection : ${toProcessResponse.jsonMessage}");
-          _rttConnectionStatus = RTTConnectionStatus.DISCONNECTING;
+          _rttConnectionStatus = RTTConnectionStatus.disconnecting;
           disconnect();
           break;
         }
@@ -149,21 +149,21 @@ class RTTComms {
         }
 
         // are we actually connected? only pump this back, when the server says we've connected
-        else if (_rttConnectionStatus == RTTConnectionStatus.CONNECTING &&
+        else if (_rttConnectionStatus == RTTConnectionStatus.connecting &&
             _connectedSuccessCallback != null &&
             toProcessResponse.operation == "connect") {
           _sinceLastHeartbeat = Duration(
               seconds: DateTime.now().subtract(_sinceLastHeartbeat).second);
           _connectedSuccessCallback!(
-              {"message": toProcessResponse.jsonMessage} ?? {});
-          _rttConnectionStatus = RTTConnectionStatus.CONNECTED;
+              {"message": toProcessResponse.jsonMessage});
+          _rttConnectionStatus = RTTConnectionStatus.connected;
         }
 
         //if we're connected and we get a disconnect - we disconnect the comms...
-        else if (_rttConnectionStatus == RTTConnectionStatus.CONNECTED &&
+        else if (_rttConnectionStatus == RTTConnectionStatus.connected &&
             _connectionFailureCallback != null &&
             toProcessResponse.operation == "disconnect") {
-          _rttConnectionStatus = RTTConnectionStatus.DISCONNECTING;
+          _rttConnectionStatus = RTTConnectionStatus.disconnecting;
           disconnect();
         }
 
@@ -192,10 +192,10 @@ class RTTComms {
         }
 
         //if we're not connected and we're trying to connect, then start the connection
-        else if (_rttConnectionStatus == RTTConnectionStatus.DISCONNECTED &&
+        else if (_rttConnectionStatus == RTTConnectionStatus.disconnected &&
             toProcessResponse.operation == "connect") {
           // first time connecting? send the server connection call
-          _rttConnectionStatus = RTTConnectionStatus.CONNECTING;
+          _rttConnectionStatus = RTTConnectionStatus.connecting;
           _send(buildConnectionRequest());
         } else {
           if (_clientRef.loggingEnabled) {
@@ -209,7 +209,7 @@ class RTTComms {
       _queuedRTTCommandsLock.release();
     }
 
-    if (_rttConnectionStatus == RTTConnectionStatus.CONNECTED) {
+    if (_rttConnectionStatus == RTTConnectionStatus.connected) {
       if ((Duration(
               seconds: DateTime.now().subtract(_sinceLastHeartbeat).second)) >=
           _heartBeatTime) {
@@ -224,7 +224,7 @@ class RTTComms {
   ///
   /// </summary>
   void connectWebSocket() {
-    if (_rttConnectionStatus == RTTConnectionStatus.DISCONNECTED) {
+    if (_rttConnectionStatus == RTTConnectionStatus.disconnected) {
       _startReceivingWebSocket();
     }
   }
@@ -238,19 +238,19 @@ class RTTComms {
     _rttConnectionID = "";
     _rttEventServer = "";
 
-    m_webSocket = null;
+    _webSocket = null;
 
     if (_disconnectedWithReason == true) {
       if (_clientRef.loggingEnabled) {
         _clientRef.log(
-            "RTT: Disconnect: ${_clientRef.serializeJson(m_disconnectJson)}");
+            "RTT: Disconnect: ${_clientRef.serializeJson(_disconnectJson)}");
       }
       if (_connectionFailureCallback != null) {
         _connectionFailureCallback!(
-            400, m_disconnectJson["reason_code"], m_disconnectJson["reason"]);
+            400, _disconnectJson["reason_code"], _disconnectJson["reason"]);
       }
     }
-    _rttConnectionStatus = RTTConnectionStatus.DISCONNECTED;
+    _rttConnectionStatus = RTTConnectionStatus.disconnected;
   }
 
   String buildConnectionRequest() {
@@ -288,9 +288,9 @@ class RTTComms {
   /// </summary>
   bool _send(String inMessage, {bool inBLogMessage = true}) {
     bool bMessageSent = false;
-    bool mUsewebsocket = m_currentConnectionType == RTTConnectionType.WEBSOCKET;
+    bool mUsewebsocket = _currentConnectionType == RTTConnectionType.websocket;
     // early return
-    if ((mUsewebsocket && m_webSocket == null)) {
+    if ((mUsewebsocket && _webSocket == null)) {
       return bMessageSent;
     }
 
@@ -323,9 +323,9 @@ class RTTComms {
   ///
   /// </summary>
   void _startReceivingWebSocket() {
-    bool sslEnabled = m_endpoint?["ssl"];
+    bool sslEnabled = _endpoint?["ssl"];
     String url =
-        "${sslEnabled ? "wss://" : "ws://"} ${m_endpoint?["host"]} :  ${m_endpoint?["port"]}  ${_getUrlQueryParameters()}";
+        "${sslEnabled ? "wss://" : "ws://"} ${_endpoint?["host"]} :  ${_endpoint?["port"]}  ${_getUrlQueryParameters()}";
     _setupWebSocket(url);
   }
 
@@ -353,7 +353,7 @@ class RTTComms {
     if (_clientRef.loggingEnabled) {
       _clientRef.log("RTT: Connection closed: $reason");
     }
-    _webSocketStatus = WebsocketStatus.CLOSED;
+    _webSocketStatus = WebsocketStatus.closed;
     addRTTCommandResponse(RTTCommandResponse(
         ServiceName.RTTRegistration.Value.toLowerCase(), "disconnect", reason));
   }
@@ -362,7 +362,7 @@ class RTTComms {
     if (_clientRef.loggingEnabled) {
       _clientRef.log("RTT: Connection established.");
     }
-    _webSocketStatus = WebsocketStatus.OPEN;
+    _webSocketStatus = WebsocketStatus.open;
     addRTTCommandResponse(RTTCommandResponse(
         ServiceName.RTTRegistration.Value.toLowerCase(), "connect", ""));
   }
@@ -371,7 +371,7 @@ class RTTComms {
     if (data.isEmpty) {
       return;
     }
-    _webSocketStatus = WebsocketStatus.MESSAGE;
+    _webSocketStatus = WebsocketStatus.message;
     String message = utf8.decode(data);
     _onRecv(message);
   }
@@ -380,7 +380,7 @@ class RTTComms {
     if (_clientRef.loggingEnabled) {
       _clientRef.log("RTT Error: $message");
     }
-    _webSocketStatus = WebsocketStatus.ERROR;
+    _webSocketStatus = WebsocketStatus.error;
     addRTTCommandResponse(RTTCommandResponse(
         ServiceName.RTTRegistration.Value.toLowerCase(),
         "error",
@@ -415,9 +415,9 @@ class RTTComms {
       setRTTHeartBeatSeconds(heartBeat);
     } else if (operation == "DISCONNECT") {
       _disconnectedWithReason = true;
-      m_disconnectJson["reason_code"] = data["reasonCode"];
-      m_disconnectJson["reason"] = data["reason"];
-      m_disconnectJson["severity"] = "ERROR";
+      _disconnectJson["reason_code"] = data["reasonCode"];
+      _disconnectJson["reason"] = data["reason"];
+      _disconnectJson["severity"] = "ERROR";
     }
 
     if (data.containsKey("cxId")) {
@@ -442,11 +442,11 @@ class RTTComms {
     List endpoints = jsonData["endpoints"];
     _rttHeaders = jsonData["auth"];
 
-    if (m_currentConnectionType == RTTConnectionType.WEBSOCKET) {
+    if (_currentConnectionType == RTTConnectionType.websocket) {
       //   1st choice: websocket + ssl
       //   2nd: websocket
-      m_endpoint = getEndpointForType(endpoints, "ws", true);
-      m_endpoint ??= getEndpointForType(endpoints, "ws", false);
+      _endpoint = getEndpointForType(endpoints, "ws", true);
+      _endpoint ??= getEndpointForType(endpoints, "ws", false);
 
       connectWebSocket();
     }
@@ -482,7 +482,7 @@ class RTTComms {
   /// </summary>
   void rttConnectionServerError(
       int status, int reasonCode, String jsonError, dynamic cbObject) {
-    _rttConnectionStatus = RTTConnectionStatus.DISCONNECTED;
+    _rttConnectionStatus = RTTConnectionStatus.disconnected;
     if (_clientRef.loggingEnabled) {
       _clientRef.log("RTT Connection Server Error: \n$jsonError");
     }
@@ -491,8 +491,11 @@ class RTTComms {
   }
 
   void addRTTCommandResponse(RTTCommandResponse inCommand) {
-    lock(mQueuedrttcommands) {
-      mQueuedrttcommands.Add(inCommand);
+    _queuedRTTCommandsLock.acquire();
+    try {
+      _queuedRTTCommands.add(inCommand);
+    } finally {
+      _queuedRTTCommandsLock.release();
     }
   }
 
@@ -507,14 +510,14 @@ class RTTComms {
   }
 
   bool _disconnectedWithReason = false;
-  Map<String, dynamic> m_disconnectJson = <String, dynamic>{};
+  final Map<String, dynamic> _disconnectJson = {};
 
-  Map<String, dynamic>? m_endpoint;
-  RTTConnectionType m_currentConnectionType = RTTConnectionType.INVALID;
-  BrainCloudWebSocket? m_webSocket;
+  Map<String, dynamic>? _endpoint;
+  RTTConnectionType _currentConnectionType = RTTConnectionType.invalid;
+  BrainCloudWebSocket? _webSocket;
 
   Duration _sinceLastHeartbeat = const Duration(milliseconds: 1);
-  static const int MAX_PACKETSIZE = 1024;
+  static const int maxPacketsize = 1024;
   Duration _heartBeatTime = const Duration(milliseconds: 10 * 1000);
 
   // success callbacks
@@ -528,9 +531,9 @@ class RTTComms {
 
   final Mutex _queuedRTTCommandsLock = Mutex();
 
-  WebsocketStatus _webSocketStatus = WebsocketStatus.NONE;
+  WebsocketStatus _webSocketStatus = WebsocketStatus.none;
 
-  RTTConnectionStatus _rttConnectionStatus = RTTConnectionStatus.DISCONNECTED;
+  RTTConnectionStatus _rttConnectionStatus = RTTConnectionStatus.disconnected;
 }
 
 class RTTCommandResponse {
@@ -544,8 +547,8 @@ class RTTCommandResponse {
   }
 }
 
-enum WebsocketStatus { OPEN, CLOSED, MESSAGE, ERROR, NONE }
+enum WebsocketStatus { open, closed, message, error, none }
 
-enum RTTConnectionStatus { CONNECTED, DISCONNECTED, CONNECTING, DISCONNECTING }
+enum RTTConnectionStatus { connected, disconnected, connecting, disconnecting }
 
-enum RTTConnectionType { INVALID, WEBSOCKET, MAX }
+enum RTTConnectionType { invalid, websocket, max }
