@@ -514,7 +514,7 @@ class BrainCloudLobby {
   void PingRegions(
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     if (_pingRegionSuccessCallback != null) {
-      _queueFailure(failure, ReasonCodes.MISSING_REQUIRED_PARAMETER,
+      _queueFailure(failure, ReasonCodes.missingRequiredParameter,
           "Ping is already happening.", cbObject);
       return;
     }
@@ -551,7 +551,7 @@ class BrainCloudLobby {
     } else {
       _queueFailure(
           failure,
-          ReasonCodes.MISSING_REQUIRED_PARAMETER,
+          ReasonCodes.missingRequiredParameter,
           "No Regions to Ping. Please call GetRegionsForLobbies and await the response before calling PingRegions.",
           cbObject);
     }
@@ -611,7 +611,7 @@ class BrainCloudLobby {
     } else {
       _queueFailure(
           failure!,
-          ReasonCodes.MISSING_REQUIRED_PARAMETER,
+          ReasonCodes.missingRequiredParameter,
           "Processing exception (message): Required message parameter 'pingData' is missing.  Please ensure PingData exists by first calling GetRegionsForLobbies and PingRegions, and waiting for response before proceeding.",
           cbObject);
     }

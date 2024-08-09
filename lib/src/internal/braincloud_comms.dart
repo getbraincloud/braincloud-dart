@@ -410,7 +410,7 @@ class BrainCloudComms {
               callback.onErrorCallback(
                   404,
                   _activeRequest?.webRequest?.response?.statusCode ??
-                      ReasonCodes.UNKNOWN_AUTH_ERROR,
+                      ReasonCodes.unknownAuthError,
                   errorResponse);
             }
           }
@@ -690,8 +690,8 @@ class BrainCloudComms {
           ServerCall sc = callsToProcess[i];
           if (sc.GetCallback != null) {
             sc.GetCallback?.onErrorCallback(
-                StatusCodes.CLIENT_NETWORK_ERROR,
-                ReasonCodes.CLIENT_NETWORK_ERROR_TIMEOUT,
+                StatusCodes.clientNetworkError,
+                ReasonCodes.clientNetworkErrorTimeout,
                 "Timeout trying to reach brainCloud server, please check the URL and/or certificates for server");
           }
         }
@@ -774,8 +774,8 @@ class BrainCloudComms {
     }
 
     if (bundleObj == null) {
-      _cachedReasonCode = ReasonCodes.JSON_PARSING_ERROR;
-      _cachedStatusCode = StatusCodes.CLIENT_NETWORK_ERROR;
+      _cachedReasonCode = ReasonCodes.jsonParsingError;
+      _cachedStatusCode = StatusCodes.clientNetworkError;
       _cachedStatusMessage =
           "Received an invalid json format response, check your network settings.";
       _cacheMessagesOnNetworkError = true;
@@ -1064,9 +1064,9 @@ class BrainCloudComms {
           errorJson = serializeJson(response);
         }
 
-        if (reasonCode == ReasonCodes.PLAYER_SESSION_EXPIRED ||
-            reasonCode == ReasonCodes.NO_SESSION ||
-            reasonCode == ReasonCodes.PLAYER_SESSION_LOGGED_OUT) {
+        if (reasonCode == ReasonCodes.playerSessionExpired ||
+            reasonCode == ReasonCodes.noSession ||
+            reasonCode == ReasonCodes.playerSessionLoggedOut) {
           _isAuthenticated = false;
           _sessionId = "";
 
@@ -1085,7 +1085,7 @@ class BrainCloudComms {
         }
 
         if (operation == ServiceOperation.logout.value) {
-          if (reasonCode == ReasonCodes.CLIENT_NETWORK_ERROR_TIMEOUT) {
+          if (reasonCode == ReasonCodes.clientNetworkErrorTimeout) {
             _isAuthenticated = false;
             _sessionId = "";
             if (_clientRef.loggingEnabled) {
@@ -1152,7 +1152,7 @@ class BrainCloudComms {
   }
 
   void updateKillSwitch(String service, String operation, int statusCode) {
-    if (statusCode == StatusCodes.CLIENT_NETWORK_ERROR) return;
+    if (statusCode == StatusCodes.clientNetworkError) return;
 
     if (_killSwitchService == null) {
       _killSwitchService = service;
@@ -1351,15 +1351,15 @@ class BrainCloudComms {
           if (tooManyAuthenticationAttempts()) {
             fakeErrorResponse(
                 requestState,
-                StatusCodes.CLIENT_NETWORK_ERROR,
-                ReasonCodes.CLIENT_DISABLED_FAILED_AUTH,
+                StatusCodes.clientNetworkError,
+                ReasonCodes.clientDisabledFailedAuth,
                 "Client has been disabled due to identical repeat Authentication calls that are throwing errors. Authenticating with the same credentials is disabled for 30 seconds");
             requestState = null;
           } else {
             fakeErrorResponse(
                 requestState,
-                StatusCodes.CLIENT_NETWORK_ERROR,
-                ReasonCodes.CLIENT_DISABLED,
+                StatusCodes.clientNetworkError,
+                ReasonCodes.clientDisabled,
                 "Client has been disabled due to repeated errors from a single API call");
             requestState = null;
           }
@@ -1532,8 +1532,8 @@ class BrainCloudComms {
               requestState.webRequest?.response = response;
             }))
         .catchError((e) {
-      requestState.webRequest?.error = JsonErrorMessage(StatusCodes.BAD_REQUEST,
-              ReasonCodes.INVALID_REQUEST, e.toString())
+      requestState.webRequest?.error = JsonErrorMessage(
+              StatusCodes.badRequest, ReasonCodes.invalidRequest, e.toString())
           .toString();
     });
   }
@@ -1725,7 +1725,7 @@ class BrainCloudComms {
                 if (serviceCall.GetCallback != null) {
                   serviceCall.GetCallback?.onErrorCallback(
                       900,
-                      ReasonCodes.JSON_RESPONSE_MAXDEPTH_EXCEEDS_LIMIT,
+                      ReasonCodes.jsonResponseMaxdepthExceedsLimit,
                       jsonErrorMessage);
                   _serviceCallsInProgress.removeAt(i);
                 }
@@ -1877,8 +1877,8 @@ class BrainCloudComms {
           } else {
             // Fake a message bundle to keep the callback logic in one place
             triggerCommsError(
-                StatusCodes.CLIENT_NETWORK_ERROR,
-                ReasonCodes.CLIENT_NETWORK_ERROR_TIMEOUT,
+                StatusCodes.clientNetworkError,
+                ReasonCodes.clientNetworkErrorTimeout,
                 "Timeout trying to reach brainCloud server");
           }
         }
@@ -1893,8 +1893,8 @@ class BrainCloudComms {
   /// Resets the cached error message for local session error handling to default
   /// </summary>
   void resetErrorCache() {
-    _cachedStatusCode = StatusCodes.FORBIDDEN;
-    _cachedReasonCode = ReasonCodes.NO_SESSION;
+    _cachedStatusCode = StatusCodes.forbidden;
+    _cachedReasonCode = ReasonCodes.noSession;
     _cachedStatusMessage = "No session";
   }
 

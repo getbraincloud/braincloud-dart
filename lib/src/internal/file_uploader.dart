@@ -106,8 +106,8 @@ class FileUploader {
 //             _cancelToken.Cancel();
 // #endif
     status = FileUploaderStatus.CompleteFailed;
-    statusCode = StatusCodes.CLIENT_NETWORK_ERROR;
-    reasonCode = ReasonCodes.CLIENT_UPLOAD_FILE_CANCELLED;
+    statusCode = StatusCodes.clientNetworkError;
+    reasonCode = ReasonCodes.clientUploadFileCancelled;
     response = createErrorString(
         statusCode, reasonCode, "Upload of $fileName cancelled by user ");
 
@@ -214,7 +214,7 @@ class FileUploader {
     }
 
     if (_timeUnderMinRate > timeout) {
-      throwError(ReasonCodes.CLIENT_UPLOAD_FILE_TIMED_OUT,
+      throwError(ReasonCodes.clientUploadFileTimedOut,
           "Upload of $fileName failed due to timeout.");
     }
   }
@@ -229,7 +229,7 @@ class FileUploader {
 
   void throwError(int reasonCode, String message) {
     status = FileUploaderStatus.CompleteFailed;
-    statusCode = StatusCodes.CLIENT_NETWORK_ERROR;
+    statusCode = StatusCodes.clientNetworkError;
     reasonCode = reasonCode;
     response = createErrorString(statusCode, reasonCode, message);
   }

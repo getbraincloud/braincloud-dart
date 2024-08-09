@@ -502,7 +502,7 @@ class RTTComms {
   String buildRTTRequestError(String inStatusmessage) {
     Map<String, dynamic> json = <String, dynamic>{};
     json["status"] = 403;
-    json["reason_code"] = ReasonCodes.RTT_CLIENT_ERROR;
+    json["reason_code"] = ReasonCodes.rttClientError;
     json["status_message"] = inStatusmessage;
     json["severity"] = "ERROR";
 

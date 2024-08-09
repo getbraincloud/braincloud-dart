@@ -278,7 +278,7 @@ class RelayComms {
   String buildRSRequestError(String in_statusMessage) {
     Map<String, dynamic> json = {};
     json["status"] = 403;
-    json["reason_code"] = ReasonCodes.RS_CLIENT_ERROR;
+    json["reason_code"] = ReasonCodes.rsClientError;
     json["status_message"] = in_statusMessage;
     json["severity"] = "ERROR";
 
