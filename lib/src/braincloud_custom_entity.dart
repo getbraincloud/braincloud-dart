@@ -42,7 +42,7 @@ class BrainCloudCustomEntity {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void CreateEntity(
+  void createEntity(
       String entityType,
       String dataJson,
       String acl,
@@ -65,7 +65,7 @@ class BrainCloudCustomEntity {
     _clientRef.sendRequest(sc);
   }
 
-  void GetEntityPage(String entityType, String jsonContext,
+  void getEntityPage(String entityType, String jsonContext,
       SuccessCallback? success, FailureCallback? failure) {
     var context = jsonDecode(jsonContext);
     Map<String, dynamic> data = {};
@@ -105,7 +105,7 @@ class BrainCloudCustomEntity {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>this good
-  void GetEntityPageOffset(String entityType, String context, int pageOffset,
+  void getEntityPageOffset(String entityType, String context, int pageOffset,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
@@ -139,7 +139,7 @@ class BrainCloudCustomEntity {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void ReadEntity(String entityType, String entityId, SuccessCallback? success,
+  void readEntity(String entityType, String entityId, SuccessCallback? success,
       FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
@@ -172,7 +172,7 @@ class BrainCloudCustomEntity {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void IncrementData(String entityType, String entityId, String fieldsJson,
+  void incrementData(String entityType, String entityId, String fieldsJson,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
@@ -209,7 +209,7 @@ class BrainCloudCustomEntity {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void IncrementSingletonData(String entityType, String fieldsJson,
+  void incrementSingletonData(String entityType, String fieldsJson,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
@@ -251,7 +251,7 @@ class BrainCloudCustomEntity {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void UpdateEntity(
+  void updateEntity(
       String entityType,
       String entityId,
       int version,
@@ -296,7 +296,7 @@ class BrainCloudCustomEntity {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void UpdateEntityFields(String entityType, String entityId, int version,
+  void updateEntityFields(String entityType, String entityId, int version,
       String fieldsJson, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
@@ -304,7 +304,6 @@ class BrainCloudCustomEntity {
     data[OperationParam.CustomEntityServiceVersion.Value] = version;
     data[OperationParam.CustomEntityServiceFieldsJson.Value] =
         jsonDecode(fieldsJson);
-    ;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -334,7 +333,7 @@ class BrainCloudCustomEntity {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void UpdateEntityFieldsSharded(
+  void updateEntityFieldsSharded(
       String entityType,
       String entityId,
       int version,
@@ -348,7 +347,7 @@ class BrainCloudCustomEntity {
     data[OperationParam.CustomEntityServiceVersion.Value] = version;
     data[OperationParam.CustomEntityServiceFieldsJson.Value] =
         jsonDecode(fieldsJson);
-    ;
+
     data[OperationParam.CustomEntityServiceShardKeyJson.Value] =
         jsonDecode(shardKeyJson);
 
@@ -380,13 +379,12 @@ class BrainCloudCustomEntity {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void DeleteEntities(String entityType, String deleteCriteria,
+  void deleteEntities(String entityType, String deleteCriteria,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
     data[OperationParam.CustomEntityServiceDeleteCriteria.Value] =
         jsonDecode(deleteCriteria);
-    ;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -415,13 +413,12 @@ class BrainCloudCustomEntity {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void GetCount(String entityType, String whereJson, SuccessCallback? success,
+  void getCount(String entityType, String whereJson, SuccessCallback? success,
       FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
     data[OperationParam.CustomEntityServiceWhereJson.Value] =
         jsonDecode(whereJson);
-    ;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -450,7 +447,7 @@ class BrainCloudCustomEntity {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void DeleteEntity(String entityType, String entityId, int version,
+  void deleteEntity(String entityType, String entityId, int version,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
@@ -623,7 +620,7 @@ class BrainCloudCustomEntity {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void UpdateSingleton(
+  void updateSingleton(
       String entityType,
       int version,
       String dataJson,

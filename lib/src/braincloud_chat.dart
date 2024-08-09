@@ -15,11 +15,11 @@ class BrainCloudChat {
   /// <summary>
   /// Registers a listener for incoming events from <channelId>. Also returns a list of <maxReturn> recent messages from history.
   /// </summary>
-  void ChannelConnect(String in_channelId, int in_maxToReturn,
+  void channelConnect(String inChannelid, int inMaxtoreturn,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.ChatChannelId.Value] = in_channelId;
-    data[OperationParam.ChatMaxReturn.Value] = in_maxToReturn;
+    data[OperationParam.ChatChannelId.Value] = inChannelid;
+    data[OperationParam.ChatMaxReturn.Value] = inMaxtoreturn;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -32,10 +32,10 @@ class BrainCloudChat {
   /// <summary>
   /// Unregisters a listener for incoming events from <channelId>.
   /// </summary>
-  void ChannelDisconnect(String in_channelId, SuccessCallback? success,
+  void channelDisconnect(String inChannelid, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.ChatChannelId.Value] = in_channelId;
+    data[OperationParam.ChatChannelId.Value] = inChannelid;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -48,17 +48,12 @@ class BrainCloudChat {
   /// <summary>
   /// Delete a chat message. <version> must match the latest or pass -1 to bypass version check.
   /// </summary>
-  void DeleteChatMessage(
-      String in_channelId,
-      String in_messageId,
-      int in_version,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void deleteChatMessage(String inChannelid, String inMessageid, int inVersion,
+      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.ChatChannelId.Value] = in_channelId;
-    data[OperationParam.ChatMessageId.Value] = in_messageId;
-    data[OperationParam.ChatVersion.Value] = in_version;
+    data[OperationParam.ChatChannelId.Value] = inChannelid;
+    data[OperationParam.ChatMessageId.Value] = inMessageid;
+    data[OperationParam.ChatVersion.Value] = inVersion;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -71,11 +66,11 @@ class BrainCloudChat {
   /// <summary>
   /// Gets the channelId for the given <channelType> and <channelSubId>. Channel type must be one of "gl"(GlobalChannelType) or "gr"(GroupChannelType).
   /// </summary>
-  void GetChannelId(String in_channelType, String in_channelSubId,
+  void getChannelId(String inChanneltype, String inChannelsubid,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.ChatChannelType.Value] = in_channelType;
-    data[OperationParam.ChatChannelSubId.Value] = in_channelSubId;
+    data[OperationParam.ChatChannelType.Value] = inChanneltype;
+    data[OperationParam.ChatChannelSubId.Value] = inChannelsubid;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -88,10 +83,10 @@ class BrainCloudChat {
   /// <summary>
   /// Gets description info and activity stats for channel <channelId>. Note that numMsgs and listeners only returned for non-global groups. Only callable for channels the user is a member of.
   /// </summary>
-  void GetChannelInfo(String in_channelId, SuccessCallback? success,
+  void getChannelInfo(String inChannelid, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.ChatChannelId.Value] = in_channelId;
+    data[OperationParam.ChatChannelId.Value] = inChannelid;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -104,11 +99,11 @@ class BrainCloudChat {
   /// <summary>
   /// Gets a populated chat object (normally for editing).
   /// </summary>
-  void GetChatMessage(String in_channelId, String in_messageId,
+  void getChatMessage(String inChannelid, String inMessageid,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.ChatChannelId.Value] = in_channelId;
-    data[OperationParam.ChatMessageId.Value] = in_messageId;
+    data[OperationParam.ChatChannelId.Value] = inChannelid;
+    data[OperationParam.ChatMessageId.Value] = inMessageid;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -121,15 +116,15 @@ class BrainCloudChat {
   /// <summary>
   /// Get a list of <maxReturn> messages from history of channel <channelId>
   /// </summary>
-  void GetRecentChatMessages(
-      {required String in_channelId,
-      required int in_maxToReturn,
+  void getRecentChatMessages(
+      {required String inChannelId,
+      required int inMaxToReturn,
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.ChatChannelId.Value] = in_channelId;
-    data[OperationParam.ChatMaxReturn.Value] = in_maxToReturn;
+    data[OperationParam.ChatChannelId.Value] = inChannelId;
+    data[OperationParam.ChatMaxReturn.Value] = inMaxToReturn;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -142,10 +137,10 @@ class BrainCloudChat {
   /// <summary>
   /// Gets a list of the channels of type <channelType> that the user has access to. Channel type must be one of "gl"(GlobalChannelType), "gr"(GroupChannelType) or "all"(AllChannelType).
   /// </summary>
-  void GetSubscribedChannels(String in_channelType, SuccessCallback? success,
+  void getSubscribedChannels(String inChanneltype, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.ChatChannelType.Value] = in_channelType;
+    data[OperationParam.ChatChannelType.Value] = inChanneltype;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -160,17 +155,17 @@ class BrainCloudChat {
   /// </summary>
   ///
   void postChatMessage(
-      {required String in_channelId,
-      required String in_contentJson,
-      bool in_recordInHistory = true,
+      {required String inChannelId,
+      required String inContentJson,
+      bool inRecordInHistory = true,
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
     Map<String, dynamic> data = <String, dynamic>{};
 
-    data[OperationParam.ChatChannelId.Value] = in_channelId;
-    data[OperationParam.ChatContent.Value] = jsonDecode(in_contentJson);
-    data[OperationParam.ChatRecordInHistory.Value] = in_recordInHistory;
+    data[OperationParam.ChatChannelId.Value] = inChannelId;
+    data[OperationParam.ChatContent.Value] = jsonDecode(inContentJson);
+    data[OperationParam.ChatRecordInHistory.Value] = inRecordInHistory;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -222,17 +217,17 @@ class BrainCloudChat {
   /// </summary>
   ///
   void postChatMessageSimple(
-      {required String in_channelId,
-      required String in_plain,
-      bool in_recordInHistory = true,
+      {required String inChannelId,
+      required String inPlain,
+      bool inRecordInHistory = true,
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
     Map<String, dynamic> data = <String, dynamic>{};
 
-    data[OperationParam.ChatChannelId.Value] = in_channelId;
-    data[OperationParam.ChatText.Value] = in_plain;
-    data[OperationParam.ChatRecordInHistory.Value] = in_recordInHistory;
+    data[OperationParam.ChatChannelId.Value] = inChannelId;
+    data[OperationParam.ChatText.Value] = inPlain;
+    data[OperationParam.ChatRecordInHistory.Value] = inRecordInHistory;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -245,20 +240,20 @@ class BrainCloudChat {
   /// <summary>
   /// Update the specified chat message. Message must have been from this user. Version provided must match (or pass -1 to bypass version enforcement).
   /// </summary>
-  void UpdateChatMessage(
-      String in_channelId,
-      String in_messageId,
-      int in_version,
-      String in_contentJson,
+  void updateChatMessage(
+      String inChannelid,
+      String inMessageid,
+      int inVersion,
+      String inContentjson,
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = <String, dynamic>{};
 
-    data[OperationParam.ChatChannelId.Value] = in_channelId;
-    data[OperationParam.ChatMessageId.Value] = in_messageId;
-    data[OperationParam.ChatVersion.Value] = in_version;
-    data[OperationParam.ChatContent.Value] = jsonDecode(in_contentJson);
+    data[OperationParam.ChatChannelId.Value] = inChannelid;
+    data[OperationParam.ChatMessageId.Value] = inMessageid;
+    data[OperationParam.ChatVersion.Value] = inVersion;
+    data[OperationParam.ChatContent.Value] = jsonDecode(inContentjson);
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
