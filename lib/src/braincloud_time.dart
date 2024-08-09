@@ -32,7 +32,7 @@ class BrainCloudTime {
         success, failure,
         cbObject: cbObject);
     ServerCall sc =
-        ServerCall(ServiceName.Time, ServiceOperation.read, null, callback);
+        ServerCall(ServiceName.time, ServiceOperation.read, null, callback);
     _clientRef.sendRequest(sc);
   }
 }

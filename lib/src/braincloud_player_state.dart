@@ -39,7 +39,7 @@ class BrainCloudPlayerState {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.PlayerState, ServiceOperation.read, null, callback);
+        ServiceName.playerState, ServiceOperation.read, null, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -76,7 +76,7 @@ class BrainCloudPlayerState {
         mergedCallback, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.PlayerState, ServiceOperation.fullReset, null, callback);
+        ServiceName.playerState, ServiceOperation.fullReset, null, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -106,7 +106,7 @@ class BrainCloudPlayerState {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.PlayerState, ServiceOperation.dataReset, null, callback);
+        ServiceName.playerState, ServiceOperation.dataReset, null, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -132,7 +132,7 @@ class BrainCloudPlayerState {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.PlayerState, ServiceOperation.logout, null, callback);
+        ServiceName.playerState, ServiceOperation.logout, null, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -164,7 +164,7 @@ class BrainCloudPlayerState {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.PlayerState, ServiceOperation.updateName, data, callback);
+        ServiceName.playerState, ServiceOperation.updateName, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -214,7 +214,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerState,
+    ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.updateSummary, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -240,7 +240,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerState,
+    ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.getAttributes, null, callback);
     _clientRef.sendRequest(sc);
   }
@@ -278,7 +278,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerState,
+    ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.updateAttributes, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -310,7 +310,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerState,
+    ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.removeAttributes, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -342,7 +342,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerState,
+    ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.updatePictureUrl, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -375,7 +375,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerState,
+    ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.updateContactEmail, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -406,7 +406,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerState,
+    ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.clearUserStatus, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -445,7 +445,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerState,
+    ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.extendUserStatus, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -476,7 +476,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerState,
+    ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.getUserStatus, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -514,7 +514,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerState,
+    ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.setUserStatus, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -545,7 +545,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerState,
+    ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.updateLanguageCode, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -577,7 +577,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerState,
+    ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.updateTimeZoneOffset, data, callback);
     _clientRef.sendRequest(sc);
   }

@@ -215,7 +215,7 @@ class BrainCloudAsyncMatch {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.AsyncMatch, ServiceOperation.submitTurn, data, callback);
+        ServiceName.asyncMatch, ServiceOperation.submitTurn, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -268,7 +268,7 @@ class BrainCloudAsyncMatch {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.AsyncMatch,
+    ServerCall sc = ServerCall(ServiceName.asyncMatch,
         ServiceOperation.updateMatchSummary, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -310,7 +310,7 @@ class BrainCloudAsyncMatch {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.AsyncMatch, ServiceOperation.complete, data, callback);
+        ServiceName.asyncMatch, ServiceOperation.complete, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -351,7 +351,7 @@ class BrainCloudAsyncMatch {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.AsyncMatch, ServiceOperation.readMatch, data, callback);
+        ServiceName.asyncMatch, ServiceOperation.readMatch, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -391,7 +391,7 @@ class BrainCloudAsyncMatch {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.AsyncMatch,
+    ServerCall sc = ServerCall(ServiceName.asyncMatch,
         ServiceOperation.readMatchHistory, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -418,7 +418,7 @@ class BrainCloudAsyncMatch {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.AsyncMatch, ServiceOperation.findMatches, null, callback);
+        ServiceName.asyncMatch, ServiceOperation.findMatches, null, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -443,7 +443,7 @@ class BrainCloudAsyncMatch {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.AsyncMatch,
+    ServerCall sc = ServerCall(ServiceName.asyncMatch,
         ServiceOperation.findMatchesCompleted, null, callback);
     _clientRef.sendRequest(sc);
   }
@@ -485,7 +485,7 @@ class BrainCloudAsyncMatch {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.AsyncMatch, ServiceOperation.abandon, data, callback);
+        ServiceName.asyncMatch, ServiceOperation.abandon, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -527,7 +527,7 @@ class BrainCloudAsyncMatch {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.AsyncMatch, ServiceOperation.deleteMatch, data, callback);
+        ServiceName.asyncMatch, ServiceOperation.deleteMatch, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -580,7 +580,7 @@ class BrainCloudAsyncMatch {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.AsyncMatch,
+    ServerCall sc = ServerCall(ServiceName.asyncMatch,
         ServiceOperation.completeMatchWithSummaryData, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -635,7 +635,7 @@ class BrainCloudAsyncMatch {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.AsyncMatch,
+    ServerCall sc = ServerCall(ServiceName.asyncMatch,
         ServiceOperation.abandonMatchWithSummaryData, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -679,7 +679,7 @@ class BrainCloudAsyncMatch {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.AsyncMatch, ServiceOperation.create, data, callback);
+        ServiceName.asyncMatch, ServiceOperation.create, data, callback);
     _clientRef.sendRequest(sc);
   }
 }

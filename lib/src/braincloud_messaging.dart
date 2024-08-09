@@ -26,7 +26,7 @@ class BrainCloudMessaging {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Messaging, ServiceOperation.deleteMessages, data, callback);
+        ServiceName.messaging, ServiceOperation.deleteMessages, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -38,7 +38,7 @@ class BrainCloudMessaging {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Messaging,
+    ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.getMessageBoxes, null, callback);
     _clientRef.sendRequest(sc);
   }
@@ -51,7 +51,7 @@ class BrainCloudMessaging {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Messaging,
+    ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.getMessageCounts, null, callback);
     _clientRef.sendRequest(sc);
   }
@@ -71,7 +71,7 @@ class BrainCloudMessaging {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Messaging, ServiceOperation.getMessages, data, callback);
+        ServiceName.messaging, ServiceOperation.getMessages, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -88,7 +88,7 @@ class BrainCloudMessaging {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Messaging,
+    ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.getMessagesPage, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -106,7 +106,7 @@ class BrainCloudMessaging {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Messaging,
+    ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.getMessagesPageOffset, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -124,7 +124,7 @@ class BrainCloudMessaging {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Messaging,
+    ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.markMessagesRead, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -145,7 +145,7 @@ class BrainCloudMessaging {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Messaging, ServiceOperation.sendMessage, data, callback);
+        ServiceName.messaging, ServiceOperation.sendMessage, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -163,7 +163,7 @@ class BrainCloudMessaging {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Messaging,
+    ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.sendMessageSimple, data, callback);
     _clientRef.sendRequest(sc);
   }

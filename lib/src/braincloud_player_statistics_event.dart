@@ -47,7 +47,7 @@ class BrainCloudPlayerStatisticsEvent {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerStatisticsEvent,
+    ServerCall sc = ServerCall(ServiceName.playerStatisticsEvent,
         ServiceOperation.trigger, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -82,7 +82,7 @@ class BrainCloudPlayerStatisticsEvent {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerStatisticsEvent,
+    ServerCall sc = ServerCall(ServiceName.playerStatisticsEvent,
         ServiceOperation.triggerMultiple, data, callback);
     _clientRef.sendRequest(sc);
   }

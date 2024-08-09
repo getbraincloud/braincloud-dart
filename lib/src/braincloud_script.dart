@@ -49,7 +49,7 @@ class BrainCloudScript {
         success, failure,
         cbObject: cbObject);
     ServerCall sc =
-        ServerCall(ServiceName.Script, ServiceOperation.run, data, callback);
+        ServerCall(ServiceName.script, ServiceOperation.run, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -87,7 +87,7 @@ class BrainCloudScript {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Script,
+    ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.scheduleCloudScript, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -126,7 +126,7 @@ class BrainCloudScript {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Script,
+    ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.scheduleCloudScript, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -165,7 +165,7 @@ class BrainCloudScript {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Script, ServiceOperation.runParentScript, data, callback);
+        ServiceName.script, ServiceOperation.runParentScript, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -188,7 +188,7 @@ class BrainCloudScript {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Script,
+    ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.cancelScheduledScript, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -212,7 +212,7 @@ class BrainCloudScript {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Script,
+    ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.getScheduledCloudScripts, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -233,7 +233,7 @@ class BrainCloudScript {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Script,
+    ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.getRunningOrQueuedCloudScripts, null, callback);
     _clientRef.sendRequest(sc);
   }
@@ -267,7 +267,7 @@ class BrainCloudScript {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Script, ServiceOperation.runPeerScript, data, callback);
+        ServiceName.script, ServiceOperation.runPeerScript, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -300,7 +300,7 @@ class BrainCloudScript {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Script,
+    ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.runPeerScriptAsync, data, callback);
     _clientRef.sendRequest(sc);
   }

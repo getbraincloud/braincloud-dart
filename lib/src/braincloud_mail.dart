@@ -126,6 +126,6 @@ class BrainCloudMail {
         success, failure,
         cbObject: cbObject);
     _clientRef
-        .sendRequest(ServerCall(ServiceName.Mail, operation, data, callback));
+        .sendRequest(ServerCall(ServiceName.mail, operation, data, callback));
   }
 }

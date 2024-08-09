@@ -137,14 +137,11 @@ class BrainCloudWrapper {
     _alwaysAllowProfileSwitch = value;
   }
 
-  void _onApplicationQuit() {
+  void onDestroy() {
+    //StopAllCoroutines();
     rTTService?.disableRTT();
     relayService?.disconnect();
     _client.update();
-  }
-
-  void onDestroy() {
-    //StopAllCoroutines();
   }
 
   /// <summary>

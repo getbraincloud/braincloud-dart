@@ -835,7 +835,7 @@ class BrainCloudAuthentication {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.Authenticate,
+    ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetEmailPassword, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -876,7 +876,7 @@ class BrainCloudAuthentication {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.Authenticate,
+    ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetEmailPasswordWithExpiry, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -927,7 +927,7 @@ class BrainCloudAuthentication {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.Authenticate,
+    ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetEmailPasswordAdvanced, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -985,7 +985,7 @@ class BrainCloudAuthentication {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.Authenticate,
+    ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetEmailPasswordAdvancedWithExpiry, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1020,7 +1020,7 @@ class BrainCloudAuthentication {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.Authenticate,
+    ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetUniversalIdPassword, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1059,7 +1059,7 @@ class BrainCloudAuthentication {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.Authenticate,
+    ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetUniversalIdPasswordWithExpiry, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1105,7 +1105,7 @@ class BrainCloudAuthentication {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.Authenticate,
+    ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetUniversalIdPasswordAdvanced, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1162,7 +1162,7 @@ class BrainCloudAuthentication {
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
-        ServiceName.Authenticate,
+        ServiceName.authenticate,
         ServiceOperation.resetUniversalIdPasswordAdvancedWithExpiry,
         data,
         callback);
@@ -1230,7 +1230,7 @@ class BrainCloudAuthentication {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Authenticate,
+    ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.authenticate, data, callback);
     if (_clientRef.comms != null &&
         _clientRef.comms!.isAuthenticateRequestInProgress()) {

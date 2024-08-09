@@ -50,7 +50,7 @@ class BrainCloudS3Handling {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.S3Handling,
+    ServerCall sc = ServerCall(ServiceName.s3Handling,
         ServiceOperation.getUpdatedFiles, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -86,7 +86,7 @@ class BrainCloudS3Handling {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.S3Handling, ServiceOperation.getFileList, data, callback);
+        ServiceName.s3Handling, ServiceOperation.getFileList, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -106,7 +106,7 @@ class BrainCloudS3Handling {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.S3Handling, ServiceOperation.getCdnUrl, data, callback);
+        ServiceName.s3Handling, ServiceOperation.getCdnUrl, data, callback);
     _clientRef.sendRequest(sc);
   }
 }

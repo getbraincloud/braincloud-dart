@@ -290,7 +290,7 @@ class BrainCloudGroupFile {
         success, failure,
         cbObject: cbObject);
     ServerCall sc =
-        ServerCall(ServiceName.GroupFile, operation, data, callback);
+        ServerCall(ServiceName.groupFile, operation, data, callback);
     _clientRef.sendRequest(sc);
   }
 }

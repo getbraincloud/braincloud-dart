@@ -58,7 +58,7 @@ class BrainCloudEvent {
         success, failure,
         cbObject: cbObject);
     ServerCall sc =
-        ServerCall(ServiceName.Event, ServiceOperation.send, data, callback);
+        ServerCall(ServiceName.event, ServiceOperation.send, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -98,7 +98,7 @@ class BrainCloudEvent {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Event, ServiceOperation.updateEventData, data, callback);
+        ServiceName.event, ServiceOperation.updateEventData, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -130,7 +130,7 @@ class BrainCloudEvent {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Event, ServiceOperation.deleteIncoming, data, callback);
+        ServiceName.event, ServiceOperation.deleteIncoming, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -161,7 +161,7 @@ class BrainCloudEvent {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Event,
+    ServerCall sc = ServerCall(ServiceName.event,
         ServiceOperation.deleteIncomingEvents, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -193,7 +193,7 @@ class BrainCloudEvent {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Event,
+    ServerCall sc = ServerCall(ServiceName.event,
         ServiceOperation.deleteIncomingEventsOlderThan, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -229,7 +229,7 @@ class BrainCloudEvent {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Event,
+    ServerCall sc = ServerCall(ServiceName.event,
         ServiceOperation.deleteIncomingEventsByTypeOlderThan, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -248,7 +248,7 @@ class BrainCloudEvent {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Event, ServiceOperation.getEvents, data, callback);
+        ServiceName.event, ServiceOperation.getEvents, data, callback);
     _clientRef.sendRequest(sc);
   }
 }

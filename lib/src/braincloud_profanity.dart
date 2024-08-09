@@ -47,7 +47,7 @@ class BrainCloudProfanity {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Profanity, ServiceOperation.profanityCheck, data, callback);
+        ServiceName.profanity, ServiceOperation.profanityCheck, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -90,7 +90,7 @@ class BrainCloudProfanity {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Profanity,
+    ServerCall sc = ServerCall(ServiceName.profanity,
         ServiceOperation.profanityReplaceText, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -131,7 +131,7 @@ class BrainCloudProfanity {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Profanity,
+    ServerCall sc = ServerCall(ServiceName.profanity,
         ServiceOperation.profanityIdentifyBadWords, data, callback);
     _clientRef.sendRequest(sc);
   }

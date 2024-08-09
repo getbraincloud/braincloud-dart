@@ -60,7 +60,7 @@ class BrainCloudEntity {
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
     var serverCall =
-        ServerCall(ServiceName.Entity, ServiceOperation.create, data, callback);
+        ServerCall(ServiceName.entity, ServiceOperation.create, data, callback);
     _clientRef.sendRequest(serverCall);
   }
 
@@ -90,7 +90,7 @@ class BrainCloudEntity {
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
     var sc = ServerCall(
-        ServiceName.Entity, ServiceOperation.readByType, data, callback);
+        ServiceName.entity, ServiceOperation.readByType, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -154,7 +154,7 @@ class BrainCloudEntity {
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
     var sc =
-        ServerCall(ServiceName.Entity, ServiceOperation.update, data, callback);
+        ServerCall(ServiceName.entity, ServiceOperation.update, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -215,7 +215,7 @@ class BrainCloudEntity {
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
     var sc = ServerCall(
-        ServiceName.Entity, ServiceOperation.updateShared, data, callback);
+        ServiceName.entity, ServiceOperation.updateShared, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -260,7 +260,7 @@ class BrainCloudEntity {
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
     var sc =
-        ServerCall(ServiceName.Entity, ServiceOperation.delete, data, callback);
+        ServerCall(ServiceName.entity, ServiceOperation.delete, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -319,7 +319,7 @@ class BrainCloudEntity {
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
     var sc = ServerCall(
-        ServiceName.Entity, ServiceOperation.updateSingleton, data, callback);
+        ServiceName.entity, ServiceOperation.updateSingleton, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -356,7 +356,7 @@ class BrainCloudEntity {
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
     var sc = ServerCall(
-        ServiceName.Entity, ServiceOperation.deleteSingleton, data, callback);
+        ServiceName.entity, ServiceOperation.deleteSingleton, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -387,7 +387,7 @@ class BrainCloudEntity {
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
     var sc =
-        ServerCall(ServiceName.Entity, ServiceOperation.read, data, callback);
+        ServerCall(ServiceName.entity, ServiceOperation.read, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -418,7 +418,7 @@ class BrainCloudEntity {
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
     var sc = ServerCall(
-        ServiceName.Entity, ServiceOperation.readSingleton, data, callback);
+        ServiceName.entity, ServiceOperation.readSingleton, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -455,7 +455,7 @@ class BrainCloudEntity {
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
     var sc = ServerCall(
-        ServiceName.Entity, ServiceOperation.readSharedEntity, data, callback);
+        ServiceName.entity, ServiceOperation.readSharedEntity, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -488,7 +488,7 @@ class BrainCloudEntity {
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
     var sc = ServerCall(
-        ServiceName.Entity, ServiceOperation.readShared, data, callback);
+        ServiceName.entity, ServiceOperation.readShared, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -534,7 +534,7 @@ class BrainCloudEntity {
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
     var serverCall = ServerCall(
-        ServiceName.Entity, ServiceOperation.getList, data, callback);
+        ServiceName.entity, ServiceOperation.getList, data, callback);
     _clientRef.sendRequest(serverCall);
   }
 
@@ -589,7 +589,7 @@ class BrainCloudEntity {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var serverCall = ServerCall(ServiceName.Entity,
+    var serverCall = ServerCall(ServiceName.entity,
         ServiceOperation.readSharedEntitiesList, data, callback);
     _clientRef.sendRequest(serverCall);
   }
@@ -625,7 +625,7 @@ class BrainCloudEntity {
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
     var serverCall = ServerCall(
-        ServiceName.Entity, ServiceOperation.getListCount, data, callback);
+        ServiceName.entity, ServiceOperation.getListCount, data, callback);
     _clientRef.sendRequest(serverCall);
   }
 
@@ -654,7 +654,7 @@ class BrainCloudEntity {
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
     var serverCall = ServerCall(
-        ServiceName.Entity, ServiceOperation.getPage, data, callback);
+        ServiceName.entity, ServiceOperation.getPage, data, callback);
     _clientRef.sendRequest(serverCall);
   }
 
@@ -688,7 +688,7 @@ class BrainCloudEntity {
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
     var serverCall = ServerCall(
-        ServiceName.Entity, ServiceOperation.getPageOffset, data, callback);
+        ServiceName.entity, ServiceOperation.getPageOffset, data, callback);
     _clientRef.sendRequest(serverCall);
   }
 
@@ -716,7 +716,7 @@ class BrainCloudEntity {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var serverCall = ServerCall(ServiceName.Entity,
+    var serverCall = ServerCall(ServiceName.entity,
         ServiceOperation.incrementUserEntityData, data, callback);
     _clientRef.sendRequest(serverCall);
   }
@@ -752,7 +752,7 @@ class BrainCloudEntity {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var serverCall = ServerCall(ServiceName.Entity,
+    var serverCall = ServerCall(ServiceName.entity,
         ServiceOperation.incrementSharedUserEntityData, data, callback);
     _clientRef.sendRequest(serverCall);
   }

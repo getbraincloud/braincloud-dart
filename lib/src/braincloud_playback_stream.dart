@@ -46,7 +46,7 @@ class BrainCloudPlaybackStream {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlaybackStream,
+    ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.startStream, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -79,7 +79,7 @@ class BrainCloudPlaybackStream {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlaybackStream,
+    ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.readStream, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -113,7 +113,7 @@ class BrainCloudPlaybackStream {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.PlaybackStream, ServiceOperation.endStream, data, callback);
+        ServiceName.playbackStream, ServiceOperation.endStream, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -145,7 +145,7 @@ class BrainCloudPlaybackStream {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlaybackStream,
+    ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.deleteStream, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -195,7 +195,7 @@ class BrainCloudPlaybackStream {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.PlaybackStream, ServiceOperation.addEvent, data, callback);
+        ServiceName.playbackStream, ServiceOperation.addEvent, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -236,7 +236,7 @@ class BrainCloudPlaybackStream {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlaybackStream,
+    ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.getRecentStreamsForInitiatingPlayer, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -274,7 +274,7 @@ class BrainCloudPlaybackStream {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlaybackStream,
+    ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.getAttributes, data, callback);
     _clientRef.sendRequest(sc);
   }

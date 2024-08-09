@@ -57,7 +57,7 @@ class RTTComms {
       return;
     }
     addRTTCommandResponse(RTTCommandResponse(
-        ServiceName.RTTRegistration.Value.toLowerCase(),
+        ServiceName.rttRegistration.value.toLowerCase(),
         "disconnect",
         "DisableRTT Called"));
   }
@@ -80,14 +80,14 @@ class RTTComms {
   ///
   /// </summary>
   void registerRTTCallback(ServiceName inServicename, RTTCallback inCallback) {
-    _registeredCallbacks[inServicename.Value.toLowerCase()] = inCallback;
+    _registeredCallbacks[inServicename.value.toLowerCase()] = inCallback;
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterRTTCallback(ServiceName inServicename) {
-    String toCheck = inServicename.Value.toLowerCase();
+    String toCheck = inServicename.value.toLowerCase();
     if (_registeredCallbacks.containsKey(toCheck)) {
       _registeredCallbacks.remove(toCheck);
     }
@@ -267,7 +267,7 @@ class RTTComms {
     jsonData["auth"] = _rttHeaders;
 
     Map<String, dynamic> json = {};
-    json["service"] = ServiceName.RTT.Value;
+    json["service"] = ServiceName.rtt.value;
     json["operation"] = "CONNECT";
     json["data"] = jsonData;
 
@@ -276,7 +276,7 @@ class RTTComms {
 
   String _buildHeartbeatRequest() {
     Map<String, dynamic> json = {};
-    json["service"] = ServiceName.RTT.Value;
+    json["service"] = ServiceName.rtt.value;
     json["operation"] = "HEARTBEAT";
     json["data"] = null;
 
@@ -311,7 +311,7 @@ class RTTComms {
         _clientRef.log("send exception: $socketException");
       }
       addRTTCommandResponse(RTTCommandResponse(
-          ServiceName.RTTRegistration.Value.toLowerCase(),
+          ServiceName.rttRegistration.value.toLowerCase(),
           "error",
           buildRTTRequestError(socketException.toString())));
     }
@@ -355,7 +355,7 @@ class RTTComms {
     }
     _webSocketStatus = WebsocketStatus.closed;
     addRTTCommandResponse(RTTCommandResponse(
-        ServiceName.RTTRegistration.Value.toLowerCase(), "disconnect", reason));
+        ServiceName.rttRegistration.value.toLowerCase(), "disconnect", reason));
   }
 
   void _webSocketOnOpen(BrainCloudWebSocket accepted) {
@@ -364,7 +364,7 @@ class RTTComms {
     }
     _webSocketStatus = WebsocketStatus.open;
     addRTTCommandResponse(RTTCommandResponse(
-        ServiceName.RTTRegistration.Value.toLowerCase(), "connect", ""));
+        ServiceName.rttRegistration.value.toLowerCase(), "connect", ""));
   }
 
   void _webSocketOnMessage(BrainCloudWebSocket sender, Uint8List data) {
@@ -382,7 +382,7 @@ class RTTComms {
     }
     _webSocketStatus = WebsocketStatus.error;
     addRTTCommandResponse(RTTCommandResponse(
-        ServiceName.RTTRegistration.Value.toLowerCase(),
+        ServiceName.rttRegistration.value.toLowerCase(),
         "error",
         buildRTTRequestError(message)));
   }
@@ -487,7 +487,7 @@ class RTTComms {
       _clientRef.log("RTT Connection Server Error: \n$jsonError");
     }
     addRTTCommandResponse(RTTCommandResponse(
-        ServiceName.RTTRegistration.Value.toLowerCase(), "error", jsonError));
+        ServiceName.rttRegistration.value.toLowerCase(), "error", jsonError));
   }
 
   void addRTTCommandResponse(RTTCommandResponse inCommand) {

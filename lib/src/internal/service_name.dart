@@ -1,56 +1,54 @@
 class ServiceName {
   // Services
-  static ServiceName AsyncMatch = ServiceName._("asyncMatch");
-  static ServiceName Authenticate = ServiceName._("authenticationV2");
-  static ServiceName DataStream = ServiceName._("dataStream");
-  static ServiceName Entity = ServiceName._("entity");
-  static ServiceName Event = ServiceName._("event");
-  static ServiceName File = ServiceName._("file");
-  static ServiceName Friend = ServiceName._("friend");
-  static ServiceName Gamification = ServiceName._("gamification");
-  static ServiceName GlobalApp = ServiceName._("globalApp");
-  static ServiceName GlobalEntity = ServiceName._("globalEntity");
-  static ServiceName GlobalStatistics = ServiceName._("globalGameStatistics");
-  static ServiceName Group = ServiceName._("group");
-  static ServiceName HeartBeat = ServiceName._("heartbeat");
-  static ServiceName Identity = ServiceName._("identity");
-  static ServiceName ItemCatalog = ServiceName._("itemCatalog");
-  static ServiceName UserItems = ServiceName._("userItems");
-  static ServiceName Mail = ServiceName._("mail");
-  static ServiceName MatchMaking = ServiceName._("matchMaking");
-  static ServiceName OneWayMatch = ServiceName._("onewayMatch");
-  static ServiceName PlaybackStream = ServiceName._("playbackStream");
-  static ServiceName PlayerState = ServiceName._("playerState");
-  static ServiceName PlayerStatistics = ServiceName._("playerStatistics");
-  static ServiceName PlayerStatisticsEvent =
+  static ServiceName asyncMatch = ServiceName._("asyncMatch");
+  static ServiceName authenticate = ServiceName._("authenticationV2");
+  static ServiceName dataStream = ServiceName._("dataStream");
+  static ServiceName entity = ServiceName._("entity");
+  static ServiceName event = ServiceName._("event");
+  static ServiceName file = ServiceName._("file");
+  static ServiceName friend = ServiceName._("friend");
+  static ServiceName gamification = ServiceName._("gamification");
+  static ServiceName globalApp = ServiceName._("globalApp");
+  static ServiceName globalEntity = ServiceName._("globalEntity");
+  static ServiceName globalStatistics = ServiceName._("globalGameStatistics");
+  static ServiceName group = ServiceName._("group");
+  static ServiceName heartBeat = ServiceName._("heartbeat");
+  static ServiceName identity = ServiceName._("identity");
+  static ServiceName itemCatalog = ServiceName._("itemCatalog");
+  static ServiceName userItems = ServiceName._("userItems");
+  static ServiceName mail = ServiceName._("mail");
+  static ServiceName matchMaking = ServiceName._("matchMaking");
+  static ServiceName oneWayMatch = ServiceName._("onewayMatch");
+  static ServiceName playbackStream = ServiceName._("playbackStream");
+  static ServiceName playerState = ServiceName._("playerState");
+  static ServiceName playerStatistics = ServiceName._("playerStatistics");
+  static ServiceName playerStatisticsEvent =
       ServiceName._("playerStatisticsEvent");
-  static ServiceName Presence = ServiceName._("presence");
-  static ServiceName Profanity = ServiceName._("profanity");
-  static ServiceName PushNotification = ServiceName._("pushNotification");
-  static ServiceName RedemptionCode = ServiceName._("redemptionCode");
-  static ServiceName S3Handling = ServiceName._("s3Handling");
-  static ServiceName Script = ServiceName._("script");
-  static ServiceName ServerTime = ServiceName._("time");
-  static ServiceName Leaderboard = ServiceName._("leaderboard");
-  static ServiceName Twitter = ServiceName._("twitter");
-  static ServiceName Time = ServiceName._("time");
-  static ServiceName Tournament = ServiceName._("tournament");
-  static ServiceName GlobalFile = ServiceName._("globalFileV3");
-  static ServiceName CustomEntity = ServiceName._("customEntity");
-  static ServiceName RTTRegistration = ServiceName._("rttRegistration");
-  static ServiceName RTT = ServiceName._("rtt");
-  static ServiceName Relay = ServiceName._("relay");
-  static ServiceName Chat = ServiceName._("chat");
-  static ServiceName Messaging = ServiceName._("messaging");
-  static ServiceName Lobby = ServiceName._("lobby");
-  static ServiceName VirtualCurrency = ServiceName._("virtualCurrency");
-  static ServiceName AppStore = ServiceName._("appStore");
-  static ServiceName BlockChain = ServiceName._("blockchain");
-  static ServiceName GroupFile = ServiceName._("groupFile");
+  static ServiceName presence = ServiceName._("presence");
+  static ServiceName profanity = ServiceName._("profanity");
+  static ServiceName pushNotification = ServiceName._("pushNotification");
+  static ServiceName redemptionCode = ServiceName._("redemptionCode");
+  static ServiceName s3Handling = ServiceName._("s3Handling");
+  static ServiceName script = ServiceName._("script");
+  static ServiceName serverTime = ServiceName._("time");
+  static ServiceName leaderboard = ServiceName._("leaderboard");
+  static ServiceName twitter = ServiceName._("twitter");
+  static ServiceName time = ServiceName._("time");
+  static ServiceName tournament = ServiceName._("tournament");
+  static ServiceName globalFile = ServiceName._("globalFileV3");
+  static ServiceName customEntity = ServiceName._("customEntity");
+  static ServiceName rttRegistration = ServiceName._("rttRegistration");
+  static ServiceName rtt = ServiceName._("rtt");
+  static ServiceName relay = ServiceName._("relay");
+  static ServiceName chat = ServiceName._("chat");
+  static ServiceName messaging = ServiceName._("messaging");
+  static ServiceName lobby = ServiceName._("lobby");
+  static ServiceName virtualCurrency = ServiceName._("virtualCurrency");
+  static ServiceName appStore = ServiceName._("appStore");
+  static ServiceName blockChain = ServiceName._("blockchain");
+  static ServiceName groupFile = ServiceName._("groupFile");
 
-  ServiceName._(String value) {
-    Value = value;
-  }
+  ServiceName._(this.value);
 
-  String Value = "";
+  String value = "";
 }

@@ -59,7 +59,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getSocialLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -119,7 +119,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getSocialLeaderboardByVersion, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -167,7 +167,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getMultiSocialLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -222,7 +222,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardPage, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -279,7 +279,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardPage, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -383,7 +383,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardView, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -407,7 +407,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardVersions, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -433,7 +433,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGroupSocialLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -466,7 +466,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGroupSocialLeaderboardByVersion, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -517,7 +517,7 @@ class BrainCloudSocialLeaderboard {
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
     var sc = ServerCall(
-        ServiceName.Leaderboard, ServiceOperation.postScore, data, callback);
+        ServiceName.leaderboard, ServiceOperation.postScore, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -552,7 +552,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.removePlayerScore, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -632,7 +632,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreDynamic, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -717,7 +717,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreToDynamicGroupLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -797,7 +797,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreDynamic, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -876,7 +876,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreDynamic, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -916,7 +916,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayersSocialLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -961,7 +961,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayersSocialLeaderboardByVersion, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -986,7 +986,7 @@ class BrainCloudSocialLeaderboard {
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.listAllLeaderboards, null, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1051,7 +1051,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardEntryCount, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1087,7 +1087,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayerScore, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1127,7 +1127,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayerScores, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1162,7 +1162,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayerScoresFromLeaderboards, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1215,7 +1215,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreToGroupLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1255,7 +1255,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.removeGroupScore, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1311,7 +1311,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGroupLeaderboardView, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1372,7 +1372,7 @@ class BrainCloudSocialLeaderboard {
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
-    var sc = ServerCall(ServiceName.Leaderboard,
+    var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGroupLeaderboardView, data, callback);
     _clientRef.sendRequest(sc);
   }

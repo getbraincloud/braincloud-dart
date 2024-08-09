@@ -37,7 +37,7 @@ class BrainCloudGlobalFile {
         success, failure,
         cbObject: cbObject);
     ServerCall serverCall = ServerCall(
-        ServiceName.GlobalFile, ServiceOperation.getFileInfo, data, callback);
+        ServiceName.globalFile, ServiceOperation.getFileInfo, data, callback);
     _clientRef.sendRequest(serverCall);
   }
 
@@ -71,7 +71,7 @@ class BrainCloudGlobalFile {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall serverCall = ServerCall(ServiceName.GlobalFile,
+    ServerCall serverCall = ServerCall(ServiceName.globalFile,
         ServiceOperation.getFileInfoSimple, data, callback);
     _clientRef.sendRequest(serverCall);
   }
@@ -102,7 +102,7 @@ class BrainCloudGlobalFile {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall serverCall = ServerCall(ServiceName.GlobalFile,
+    ServerCall serverCall = ServerCall(ServiceName.globalFile,
         ServiceOperation.getGlobalCDNUrl, data, callback);
     _clientRef.sendRequest(serverCall);
   }
@@ -137,7 +137,7 @@ class BrainCloudGlobalFile {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall serverCall = ServerCall(ServiceName.GlobalFile,
+    ServerCall serverCall = ServerCall(ServiceName.globalFile,
         ServiceOperation.getGlobalFileList, data, callback);
     _clientRef.sendRequest(serverCall);
   }

@@ -40,7 +40,7 @@ class BrainCloudItemCatalog {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.ItemCatalog,
+    ServerCall sc = ServerCall(ServiceName.itemCatalog,
         ServiceOperation.getCatalogItemDefinition, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -75,7 +75,7 @@ class BrainCloudItemCatalog {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.ItemCatalog,
+    ServerCall sc = ServerCall(ServiceName.itemCatalog,
         ServiceOperation.getCatalogItemsPage, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -113,7 +113,7 @@ class BrainCloudItemCatalog {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.ItemCatalog,
+    ServerCall sc = ServerCall(ServiceName.itemCatalog,
         ServiceOperation.getCatalogItemsPageOffset, data, callback);
     _clientRef.sendRequest(sc);
   }

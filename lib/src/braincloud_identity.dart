@@ -158,7 +158,7 @@ class BrainCloudIdentity {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Identity, ServiceOperation.attach, data, callback);
+        ServiceName.identity, ServiceOperation.attach, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -211,7 +211,7 @@ class BrainCloudIdentity {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Identity, ServiceOperation.merge, data, callback);
+        ServiceName.identity, ServiceOperation.merge, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -266,7 +266,7 @@ class BrainCloudIdentity {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Identity, ServiceOperation.detach, data, callback);
+        ServiceName.identity, ServiceOperation.detach, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -1694,7 +1694,7 @@ class BrainCloudIdentity {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Identity,
+    ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.attachNonLoginUniversalId, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1722,7 +1722,7 @@ class BrainCloudIdentity {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Identity,
+    ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.updateUniversalIdLogin, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1782,7 +1782,7 @@ class BrainCloudIdentity {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Identity,
+    ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.attachParentWithIdentity, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1815,7 +1815,7 @@ class BrainCloudIdentity {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Identity,
+    ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.switchToParentProfile, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1842,7 +1842,7 @@ class BrainCloudIdentity {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Identity, ServiceOperation.detachParent, null, callback);
+        ServiceName.identity, ServiceOperation.detachParent, null, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -1874,7 +1874,7 @@ class BrainCloudIdentity {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Identity,
+    ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.getChildProfiles, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1901,7 +1901,7 @@ class BrainCloudIdentity {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Identity, ServiceOperation.getIdentities, null, callback);
+        ServiceName.identity, ServiceOperation.getIdentities, null, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -1926,7 +1926,7 @@ class BrainCloudIdentity {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Identity,
+    ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.getExpiredIdentities, null, callback);
     _clientRef.sendRequest(sc);
   }
@@ -1974,7 +1974,7 @@ class BrainCloudIdentity {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Identity, ServiceOperation.refreshIdentity, data, callback);
+        ServiceName.identity, ServiceOperation.refreshIdentity, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -2025,7 +2025,7 @@ class BrainCloudIdentity {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Identity,
+    ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.changeEmailIdentity, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -2090,7 +2090,7 @@ class BrainCloudIdentity {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Identity,
+    ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.attachPeerProfile, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -2120,7 +2120,7 @@ class BrainCloudIdentity {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Identity, ServiceOperation.detachPeer, data, callback);
+        ServiceName.identity, ServiceOperation.detachPeer, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -2142,7 +2142,7 @@ class BrainCloudIdentity {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Identity, ServiceOperation.getPeerProfiles, null, callback);
+        ServiceName.identity, ServiceOperation.getPeerProfiles, null, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -2173,7 +2173,7 @@ class BrainCloudIdentity {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Identity,
+    ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.attachBlockChain, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -2200,7 +2200,7 @@ class BrainCloudIdentity {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Identity,
+    ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.detachBlockChain, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -2223,7 +2223,7 @@ class BrainCloudIdentity {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Identity, ServiceOperation.attach, data, callback);
+        ServiceName.identity, ServiceOperation.attach, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -2245,7 +2245,7 @@ class BrainCloudIdentity {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Identity, ServiceOperation.merge, data, callback);
+        ServiceName.identity, ServiceOperation.merge, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -2266,7 +2266,7 @@ class BrainCloudIdentity {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Identity, ServiceOperation.detach, data, callback);
+        ServiceName.identity, ServiceOperation.detach, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -2302,7 +2302,7 @@ class BrainCloudIdentity {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Identity,
+    ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.switchToChildProfile, data, callback);
     _clientRef.sendRequest(sc);
   }

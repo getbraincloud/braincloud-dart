@@ -57,112 +57,112 @@ class BrainCloudRTT {
   ///
   /// </summary>
   void registerRTTEventCallback(RTTCallback inCallback) {
-    _commsLayer?.registerRTTCallback(ServiceName.Event, inCallback);
+    _commsLayer?.registerRTTCallback(ServiceName.event, inCallback);
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterRTTEventCallback() {
-    _commsLayer?.deregisterRTTCallback(ServiceName.Event);
+    _commsLayer?.deregisterRTTCallback(ServiceName.event);
   }
 
   /// <summary>
   ///
   /// </summary>
   void registerRTTChatCallback(RTTCallback inCallback) {
-    _commsLayer?.registerRTTCallback(ServiceName.Chat, inCallback);
+    _commsLayer?.registerRTTCallback(ServiceName.chat, inCallback);
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterRTTChatCallback() {
-    _commsLayer?.deregisterRTTCallback(ServiceName.Chat);
+    _commsLayer?.deregisterRTTCallback(ServiceName.chat);
   }
 
   /// <summary>
   ///
   /// </summary>
   void registerRTTPresenceCallback(RTTCallback inCallback) {
-    _commsLayer?.registerRTTCallback(ServiceName.Presence, inCallback);
+    _commsLayer?.registerRTTCallback(ServiceName.presence, inCallback);
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterRTTPresenceCallback() {
-    _commsLayer?.deregisterRTTCallback(ServiceName.Presence);
+    _commsLayer?.deregisterRTTCallback(ServiceName.presence);
   }
 
   /// <summary>
   ///
   /// </summary>
   void registerRTTMessagingCallback(RTTCallback inCallback) {
-    _commsLayer?.registerRTTCallback(ServiceName.Messaging, inCallback);
+    _commsLayer?.registerRTTCallback(ServiceName.messaging, inCallback);
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterRTTMessagingCallback() {
-    _commsLayer?.deregisterRTTCallback(ServiceName.Messaging);
+    _commsLayer?.deregisterRTTCallback(ServiceName.messaging);
   }
 
   /// <summary>
   ///
   /// </summary>
   void registerRTTLobbyCallback(RTTCallback inCallback) {
-    _commsLayer?.registerRTTCallback(ServiceName.Lobby, inCallback);
+    _commsLayer?.registerRTTCallback(ServiceName.lobby, inCallback);
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterRTTLobbyCallback() {
-    _commsLayer?.deregisterRTTCallback(ServiceName.Lobby);
+    _commsLayer?.deregisterRTTCallback(ServiceName.lobby);
   }
 
   /// <summary>
   ///
   /// </summary>
   void registerRTTAsyncMatchCallback(RTTCallback inCallback) {
-    _commsLayer?.registerRTTCallback(ServiceName.AsyncMatch, inCallback);
+    _commsLayer?.registerRTTCallback(ServiceName.asyncMatch, inCallback);
   }
 
   /// <summary>
   ///
   /// </summary>
   void registerRTTBlockchainRefresh(RTTCallback inCallback) {
-    _commsLayer?.registerRTTCallback(ServiceName.UserItems, inCallback);
+    _commsLayer?.registerRTTCallback(ServiceName.userItems, inCallback);
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterRTTBlockchainRefresh() {
-    _commsLayer?.deregisterRTTCallback(ServiceName.UserItems);
+    _commsLayer?.deregisterRTTCallback(ServiceName.userItems);
   }
 
   /// <summary>
   ///
   /// </summary>
   void registerRTTBlockchainItemEvent(RTTCallback inCallback) {
-    _commsLayer?.registerRTTCallback(ServiceName.BlockChain, inCallback);
+    _commsLayer?.registerRTTCallback(ServiceName.blockChain, inCallback);
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterRTTBlockchainItemEvent() {
-    _commsLayer?.deregisterRTTCallback(ServiceName.BlockChain);
+    _commsLayer?.deregisterRTTCallback(ServiceName.blockChain);
   }
 
   /// <summary>
   ///
   /// </summary>
   void deregisterRTTAsyncMatchCallback() {
-    _commsLayer?.deregisterRTTCallback(ServiceName.AsyncMatch);
+    _commsLayer?.deregisterRTTCallback(ServiceName.asyncMatch);
   }
 
   /// <summary>
@@ -187,7 +187,7 @@ class BrainCloudRTT {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.RTTRegistration,
+    ServerCall sc = ServerCall(ServiceName.rttRegistration,
         ServiceOperation.requestClientConnection, null, callback);
     _clientRef?.sendRequest(sc);
   }

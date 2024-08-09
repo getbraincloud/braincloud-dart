@@ -25,7 +25,7 @@ class BrainCloudChat {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Chat, ServiceOperation.channelConnect, data, callback);
+        ServiceName.chat, ServiceOperation.channelConnect, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -41,7 +41,7 @@ class BrainCloudChat {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Chat, ServiceOperation.channelDisconnect, data, callback);
+        ServiceName.chat, ServiceOperation.channelDisconnect, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -59,7 +59,7 @@ class BrainCloudChat {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Chat, ServiceOperation.deleteChatMessage, data, callback);
+        ServiceName.chat, ServiceOperation.deleteChatMessage, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -76,7 +76,7 @@ class BrainCloudChat {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Chat, ServiceOperation.getChannelId, data, callback);
+        ServiceName.chat, ServiceOperation.getChannelId, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -92,7 +92,7 @@ class BrainCloudChat {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Chat, ServiceOperation.getChannelInfo, data, callback);
+        ServiceName.chat, ServiceOperation.getChannelInfo, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -109,7 +109,7 @@ class BrainCloudChat {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Chat, ServiceOperation.getChatMessage, data, callback);
+        ServiceName.chat, ServiceOperation.getChatMessage, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -129,7 +129,7 @@ class BrainCloudChat {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Chat,
+    ServerCall sc = ServerCall(ServiceName.chat,
         ServiceOperation.getRecentChatMessages, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -145,7 +145,7 @@ class BrainCloudChat {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Chat,
+    ServerCall sc = ServerCall(ServiceName.chat,
         ServiceOperation.getSubscribedChannels, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -171,7 +171,7 @@ class BrainCloudChat {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Chat, ServiceOperation.postChatMessage, data, callback);
+        ServiceName.chat, ServiceOperation.postChatMessage, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -232,7 +232,7 @@ class BrainCloudChat {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Chat,
+    ServerCall sc = ServerCall(ServiceName.chat,
         ServiceOperation.postChatMessageSimple, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -259,7 +259,7 @@ class BrainCloudChat {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Chat, ServiceOperation.updateChatMessage, data, callback);
+        ServiceName.chat, ServiceOperation.updateChatMessage, data, callback);
     _clientRef.sendRequest(sc);
   }
 

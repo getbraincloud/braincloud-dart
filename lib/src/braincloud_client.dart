@@ -927,7 +927,7 @@ class BrainCloudClient {
   /// </summary>
   void sendHeartbeat(
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    ServerCall sc = ServerCall(ServiceName.HeartBeat, ServiceOperation.read,
+    ServerCall sc = ServerCall(ServiceName.heartBeat, ServiceOperation.read,
         null, ServerCallback(success, failure, cbObject: cbObject));
     _comms?.addToQueue(sc);
   }

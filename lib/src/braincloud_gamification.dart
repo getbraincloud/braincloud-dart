@@ -26,7 +26,7 @@ class BrainCloudGamification {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void ReadAllGamification(bool includeMetaData, SuccessCallback? success,
+  void readAllGamification(bool includeMetaData, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     data[OperationParam.GamificationServiceIncludeMetaData.Value] =
@@ -36,7 +36,7 @@ class BrainCloudGamification {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Gamification, ServiceOperation.read, data, callback);
+        ServiceName.gamification, ServiceOperation.read, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -56,7 +56,7 @@ class BrainCloudGamification {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void ReadMilestones(bool includeMetaData, SuccessCallback? success,
+  void readMilestones(bool includeMetaData, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     data[OperationParam.GamificationServiceIncludeMetaData.Value] =
@@ -65,7 +65,7 @@ class BrainCloudGamification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Gamification,
+    ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readMilestones, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -86,7 +86,7 @@ class BrainCloudGamification {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void ReadAchievements(bool includeMetaData, SuccessCallback? success,
+  void readAchievements(bool includeMetaData, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     data[OperationParam.GamificationServiceIncludeMetaData.Value] =
@@ -95,7 +95,7 @@ class BrainCloudGamification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Gamification,
+    ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readAchievements, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -117,12 +117,12 @@ class BrainCloudGamification {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void ReadXpLevelsMetaData(
+  void readXpLevelsMetaData(
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Gamification,
+    ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readXpLevels, null, callback);
     _clientRef.sendRequest(sc);
   }
@@ -143,7 +143,7 @@ class BrainCloudGamification {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void ReadAchievedAchievements(bool includeMetaData, SuccessCallback? success,
+  void readAchievedAchievements(bool includeMetaData, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     data[OperationParam.GamificationServiceIncludeMetaData.Value] =
@@ -152,7 +152,7 @@ class BrainCloudGamification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Gamification,
+    ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readAchievedAchievements, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -173,7 +173,7 @@ class BrainCloudGamification {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void ReadCompletedMilestones(bool includeMetaData, SuccessCallback? success,
+  void readCompletedMilestones(bool includeMetaData, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     data[OperationParam.GamificationServiceIncludeMetaData.Value] =
@@ -182,7 +182,7 @@ class BrainCloudGamification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Gamification,
+    ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readCompletedMilestones, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -203,7 +203,7 @@ class BrainCloudGamification {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void ReadInProgressMilestones(bool includeMetaData, SuccessCallback? success,
+  void readInProgressMilestones(bool includeMetaData, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     data[OperationParam.GamificationServiceIncludeMetaData.Value] =
@@ -212,7 +212,7 @@ class BrainCloudGamification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Gamification,
+    ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readInProgressMilestones, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -236,7 +236,7 @@ class BrainCloudGamification {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void ReadMilestonesByCategory(String category, bool includeMetaData,
+  void readMilestonesByCategory(String category, bool includeMetaData,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     data[OperationParam.GamificationServiceCategory.Value] = category;
@@ -246,7 +246,7 @@ class BrainCloudGamification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Gamification,
+    ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readMilestonesByCategory, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -272,7 +272,7 @@ class BrainCloudGamification {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void AwardAchievements(List<String> achievementIds, SuccessCallback? success,
+  void awardAchievements(List<String> achievementIds, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     data[OperationParam.GamificationServiceAchievementsName.Value] =
@@ -280,7 +280,7 @@ class BrainCloudGamification {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.Gamification,
+    ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.awardAchievements, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -301,7 +301,7 @@ class BrainCloudGamification {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void ReadQuests(bool includeMetaData, SuccessCallback? success,
+  void readQuests(bool includeMetaData, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     data[OperationParam.GamificationServiceIncludeMetaData.Value] =
@@ -311,7 +311,7 @@ class BrainCloudGamification {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Gamification, ServiceOperation.readQuests, data, callback);
+        ServiceName.gamification, ServiceOperation.readQuests, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -331,7 +331,7 @@ class BrainCloudGamification {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void ReadCompletedQuests(bool includeMetaData, SuccessCallback? success,
+  void readCompletedQuests(bool includeMetaData, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     data[OperationParam.GamificationServiceIncludeMetaData.Value] =
@@ -340,7 +340,7 @@ class BrainCloudGamification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Gamification,
+    ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readCompletedQuests, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -361,7 +361,7 @@ class BrainCloudGamification {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void ReadInProgressQuests(bool includeMetaData, SuccessCallback? success,
+  void readInProgressQuests(bool includeMetaData, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     data[OperationParam.GamificationServiceIncludeMetaData.Value] =
@@ -370,7 +370,7 @@ class BrainCloudGamification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Gamification,
+    ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readInProgressQuests, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -391,7 +391,7 @@ class BrainCloudGamification {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void ReadNotStartedQuests(bool includeMetaData, SuccessCallback? success,
+  void readNotStartedQuests(bool includeMetaData, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     data[OperationParam.GamificationServiceIncludeMetaData.Value] =
@@ -400,7 +400,7 @@ class BrainCloudGamification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Gamification,
+    ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readNotStartedQuests, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -421,7 +421,7 @@ class BrainCloudGamification {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void ReadQuestsWithStatus(bool includeMetaData, SuccessCallback? success,
+  void readQuestsWithStatus(bool includeMetaData, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     data[OperationParam.GamificationServiceIncludeMetaData.Value] =
@@ -430,7 +430,7 @@ class BrainCloudGamification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Gamification,
+    ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readQuestsWithStatus, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -451,7 +451,7 @@ class BrainCloudGamification {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void ReadQuestsWithBasicPercentage(bool includeMetaData,
+  void readQuestsWithBasicPercentage(bool includeMetaData,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     data[OperationParam.GamificationServiceIncludeMetaData.Value] =
@@ -460,7 +460,7 @@ class BrainCloudGamification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Gamification,
+    ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readQuestsWithBasicPercentage, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -481,7 +481,7 @@ class BrainCloudGamification {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void ReadQuestsWithComplexPercentage(bool includeMetaData,
+  void readQuestsWithComplexPercentage(bool includeMetaData,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     data[OperationParam.GamificationServiceIncludeMetaData.Value] =
@@ -490,7 +490,7 @@ class BrainCloudGamification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Gamification,
+    ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readQuestsWithComplexPercentage, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -514,7 +514,7 @@ class BrainCloudGamification {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void ReadQuestsByCategory(String category, bool includeMetaData,
+  void readQuestsByCategory(String category, bool includeMetaData,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     data[OperationParam.GamificationServiceCategory.Value] = category;
@@ -524,7 +524,7 @@ class BrainCloudGamification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Gamification,
+    ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readQuestsByCategory, data, callback);
     _clientRef.sendRequest(sc);
   }

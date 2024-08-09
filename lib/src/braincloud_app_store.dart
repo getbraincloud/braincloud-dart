@@ -97,7 +97,7 @@ class BrainCloudAppStore {
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
-        ServiceName.AppStore, ServiceOperation.getInventory, data, callback);
+        ServiceName.appStore, ServiceOperation.getInventory, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -118,7 +118,7 @@ class BrainCloudAppStore {
       SuccessCallback? success, FailureCallback? failure) {
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.AppStore,
+    ServerCall sc = ServerCall(ServiceName.appStore,
         ServiceOperation.eligiblePromotions, null, callback);
     _clientRef.sendRequest(sc);
   }
@@ -160,7 +160,7 @@ class BrainCloudAppStore {
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
-        ServiceName.AppStore, ServiceOperation.verifyPurchase, data, callback);
+        ServiceName.appStore, ServiceOperation.verifyPurchase, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -201,7 +201,7 @@ class BrainCloudAppStore {
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
-        ServiceName.AppStore, ServiceOperation.startPurchase, data, callback);
+        ServiceName.appStore, ServiceOperation.startPurchase, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -249,7 +249,7 @@ class BrainCloudAppStore {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.AppStore,
+    ServerCall sc = ServerCall(ServiceName.appStore,
         ServiceOperation.finalizePurchase, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -269,7 +269,7 @@ class BrainCloudAppStore {
     Map<String, dynamic> data = {};
 
     ServerCallback? callback = ServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.AppStore,
+    ServerCall sc = ServerCall(ServiceName.appStore,
         ServiceOperation.refreshPromotions, data, callback);
     _clientRef.sendRequest(sc);
   }

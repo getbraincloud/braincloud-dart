@@ -59,7 +59,7 @@ class BrainCloudRedemptionCode {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.RedemptionCode,
+    ServerCall sc = ServerCall(ServiceName.redemptionCode,
         ServiceOperation.redeemCode, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -95,7 +95,7 @@ class BrainCloudRedemptionCode {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.RedemptionCode,
+    ServerCall sc = ServerCall(ServiceName.redemptionCode,
         ServiceOperation.getRedeemedCodes, data, callback);
     _clientRef.sendRequest(sc);
   }

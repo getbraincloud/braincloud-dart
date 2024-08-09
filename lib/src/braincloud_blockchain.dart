@@ -31,7 +31,7 @@ class BrainCloudBlockchain {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         inSuccess, inFailure,
         cbObject: inCbobject);
-    ServerCall sc = ServerCall(ServiceName.BlockChain,
+    ServerCall sc = ServerCall(ServiceName.blockChain,
         ServiceOperation.getBlockchainItems, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -55,7 +55,7 @@ class BrainCloudBlockchain {
         inSuccess, inFailure,
         cbObject: inCbobject);
     ServerCall sc = ServerCall(
-        ServiceName.BlockChain, ServiceOperation.getUniqs, data, callback);
+        ServiceName.blockChain, ServiceOperation.getUniqs, data, callback);
     _clientRef.sendRequest(sc);
   }
 }

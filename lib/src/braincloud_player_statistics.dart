@@ -32,7 +32,7 @@ class BrainCloudPlayerStatistics {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.PlayerStatistics, ServiceOperation.read, null, callback);
+        ServiceName.playerStatistics, ServiceOperation.read, null, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -63,7 +63,7 @@ class BrainCloudPlayerStatistics {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerStatistics,
+    ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.readSubset, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -95,7 +95,7 @@ class BrainCloudPlayerStatistics {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerStatistics,
+    ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.readForCategory, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -124,7 +124,7 @@ class BrainCloudPlayerStatistics {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.PlayerStatistics, ServiceOperation.reset, null, callback);
+        ServiceName.playerStatistics, ServiceOperation.reset, null, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -172,7 +172,7 @@ class BrainCloudPlayerStatistics {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.PlayerStatistics, ServiceOperation.update, data, callback);
+        ServiceName.playerStatistics, ServiceOperation.update, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -210,7 +210,7 @@ class BrainCloudPlayerStatistics {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerStatistics,
+    ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.processStatistics, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -236,7 +236,7 @@ class BrainCloudPlayerStatistics {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerStatistics,
+    ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.readNextXpLevel, null, callback);
     _clientRef.sendRequest(sc);
   }
@@ -270,7 +270,7 @@ class BrainCloudPlayerStatistics {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.PlayerStatistics, ServiceOperation.update, data, callback);
+        ServiceName.playerStatistics, ServiceOperation.update, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -303,7 +303,7 @@ class BrainCloudPlayerStatistics {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PlayerStatistics,
+    ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.setXpPoints, data, callback);
     _clientRef.sendRequest(sc);
   }

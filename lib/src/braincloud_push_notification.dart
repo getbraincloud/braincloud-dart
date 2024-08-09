@@ -45,7 +45,7 @@ class BrainCloudPushNotification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PushNotification,
+    ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.register, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -69,7 +69,7 @@ class BrainCloudPushNotification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PushNotification,
+    ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.deregisterAll, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -104,7 +104,7 @@ class BrainCloudPushNotification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PushNotification,
+    ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.deregister, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -138,7 +138,7 @@ class BrainCloudPushNotification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PushNotification,
+    ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.sendSimple, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -221,7 +221,7 @@ class BrainCloudPushNotification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PushNotification,
+    ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.sendTemplatedToGroup, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -266,7 +266,7 @@ class BrainCloudPushNotification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PushNotification,
+    ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.sendNormalizedToGroup, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -330,7 +330,7 @@ class BrainCloudPushNotification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PushNotification,
+    ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.scheduleRawNotification, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -394,7 +394,7 @@ class BrainCloudPushNotification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PushNotification,
+    ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.scheduleRawNotification, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -454,7 +454,7 @@ class BrainCloudPushNotification {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.PushNotification, ServiceOperation.sendRaw, data, callback);
+        ServiceName.pushNotification, ServiceOperation.sendRaw, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -512,7 +512,7 @@ class BrainCloudPushNotification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PushNotification,
+    ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.sendRawBatch, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -570,7 +570,7 @@ class BrainCloudPushNotification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PushNotification,
+    ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.sendRawToGroup, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -621,7 +621,7 @@ class BrainCloudPushNotification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PushNotification,
+    ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.scheduleNormalizedNotification, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -672,7 +672,7 @@ class BrainCloudPushNotification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PushNotification,
+    ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.scheduleNormalizedNotification, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -725,7 +725,7 @@ class BrainCloudPushNotification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PushNotification,
+    ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.scheduleRichNotification, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -778,7 +778,7 @@ class BrainCloudPushNotification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PushNotification,
+    ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.scheduleRichNotification, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -822,7 +822,7 @@ class BrainCloudPushNotification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PushNotification,
+    ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.sendNormalized, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -865,7 +865,7 @@ class BrainCloudPushNotification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PushNotification,
+    ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.sendNormalizedBatch, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -891,7 +891,7 @@ class BrainCloudPushNotification {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.PushNotification,
+    ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.sendRich, data, callback);
     _clientRef.sendRequest(sc);
   }

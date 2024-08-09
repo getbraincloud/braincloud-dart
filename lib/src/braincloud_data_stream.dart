@@ -48,7 +48,7 @@ class BrainCloudDataStream {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall serverCall = ServerCall(ServiceName.DataStream,
+    ServerCall serverCall = ServerCall(ServiceName.dataStream,
         ServiceOperation.customPageEvent, data, callback);
     _clientRef.sendRequest(serverCall);
   }
@@ -88,7 +88,7 @@ class BrainCloudDataStream {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall serverCall = ServerCall(ServiceName.DataStream,
+    ServerCall serverCall = ServerCall(ServiceName.dataStream,
         ServiceOperation.customScreenEvent, data, callback);
     _clientRef.sendRequest(serverCall);
   }
@@ -128,7 +128,7 @@ class BrainCloudDataStream {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall serverCall = ServerCall(ServiceName.DataStream,
+    ServerCall serverCall = ServerCall(ServiceName.dataStream,
         ServiceOperation.customTrackEvent, data, callback);
     _clientRef.sendRequest(serverCall);
   }
@@ -199,7 +199,7 @@ class BrainCloudDataStream {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall serverCall = ServerCall(ServiceName.DataStream,
+    ServerCall serverCall = ServerCall(ServiceName.dataStream,
         ServiceOperation.submitCrashReport, data, callback);
     _clientRef.sendRequest(serverCall);
   }

@@ -4,5 +4,5 @@ import 'package:braincloud_dart/src/internal/service_operation.dart';
 
 class EndOfBundleMarker extends ServerCall {
   EndOfBundleMarker()
-      : super(ServiceName.HeartBeat, ServiceOperation.send, null, null);
+      : super(ServiceName.heartBeat, ServiceOperation.send, null, null);
 }

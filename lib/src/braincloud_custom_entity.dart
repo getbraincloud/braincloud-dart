@@ -60,7 +60,7 @@ class BrainCloudCustomEntity {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.CustomEntity,
+    ServerCall sc = ServerCall(ServiceName.customEntity,
         ServiceOperation.createCustomEntity, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -74,7 +74,7 @@ class BrainCloudCustomEntity {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.CustomEntity,
+    ServerCall sc = ServerCall(ServiceName.customEntity,
         ServiceOperation.getEntityPage, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -114,7 +114,7 @@ class BrainCloudCustomEntity {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.CustomEntity,
+    ServerCall sc = ServerCall(ServiceName.customEntity,
         ServiceOperation.getCustomEntityPageOffset, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -147,7 +147,7 @@ class BrainCloudCustomEntity {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.CustomEntity,
+    ServerCall sc = ServerCall(ServiceName.customEntity,
         ServiceOperation.readCustomEntity, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -182,7 +182,7 @@ class BrainCloudCustomEntity {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.CustomEntity,
+    ServerCall sc = ServerCall(ServiceName.customEntity,
         ServiceOperation.incrementData, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -218,7 +218,7 @@ class BrainCloudCustomEntity {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.CustomEntity,
+    ServerCall sc = ServerCall(ServiceName.customEntity,
         ServiceOperation.incrementSingletonData, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -271,7 +271,7 @@ class BrainCloudCustomEntity {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.CustomEntity,
+    ServerCall sc = ServerCall(ServiceName.customEntity,
         ServiceOperation.updateCustomEntity, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -307,7 +307,7 @@ class BrainCloudCustomEntity {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.CustomEntity,
+    ServerCall sc = ServerCall(ServiceName.customEntity,
         ServiceOperation.updateCustomEntityFields, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -353,7 +353,7 @@ class BrainCloudCustomEntity {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.CustomEntity,
+    ServerCall sc = ServerCall(ServiceName.customEntity,
         ServiceOperation.updateCustomEntityFieldsShards, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -388,7 +388,7 @@ class BrainCloudCustomEntity {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.CustomEntity,
+    ServerCall sc = ServerCall(ServiceName.customEntity,
         ServiceOperation.deleteEntities, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -423,7 +423,7 @@ class BrainCloudCustomEntity {
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
-        ServiceName.CustomEntity, ServiceOperation.getCount, data, callback);
+        ServiceName.customEntity, ServiceOperation.getCount, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -456,7 +456,7 @@ class BrainCloudCustomEntity {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.CustomEntity,
+    ServerCall sc = ServerCall(ServiceName.customEntity,
         ServiceOperation.deleteCustomEntity, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -497,7 +497,7 @@ class BrainCloudCustomEntity {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.CustomEntity,
+    ServerCall sc = ServerCall(ServiceName.customEntity,
         ServiceOperation.getRandomEntitiesMatching, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -530,7 +530,7 @@ class BrainCloudCustomEntity {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.CustomEntity,
+    ServerCall sc = ServerCall(ServiceName.customEntity,
         ServiceOperation.deleteSingleton, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -562,7 +562,7 @@ class BrainCloudCustomEntity {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.CustomEntity,
+    ServerCall sc = ServerCall(ServiceName.customEntity,
         ServiceOperation.readSingleton, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -596,7 +596,7 @@ class BrainCloudCustomEntity {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.CustomEntity,
+    ServerCall sc = ServerCall(ServiceName.customEntity,
         ServiceOperation.updateSingletonFields, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -638,7 +638,7 @@ class BrainCloudCustomEntity {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
-    ServerCall sc = ServerCall(ServiceName.CustomEntity,
+    ServerCall sc = ServerCall(ServiceName.customEntity,
         ServiceOperation.updateSingleton, data, callback);
     _clientRef.sendRequest(sc);
   }

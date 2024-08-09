@@ -55,7 +55,7 @@ class BrainCloudFile {
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
-        ServiceName.File, ServiceOperation.prepareUserUpload, data, callback);
+        ServiceName.file, ServiceOperation.prepareUserUpload, data, callback);
     _clientRef.sendRequest(sc);
 
     return true;
@@ -121,7 +121,7 @@ class BrainCloudFile {
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
-        ServiceName.File, ServiceOperation.listUserFiles, data, callback);
+        ServiceName.file, ServiceOperation.listUserFiles, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -143,7 +143,7 @@ class BrainCloudFile {
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
-        ServiceName.File, ServiceOperation.deleteUserFile, data, callback);
+        ServiceName.file, ServiceOperation.deleteUserFile, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -165,7 +165,7 @@ class BrainCloudFile {
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
-        ServiceName.File, ServiceOperation.deleteUserFiles, data, callback);
+        ServiceName.file, ServiceOperation.deleteUserFiles, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -187,7 +187,7 @@ class BrainCloudFile {
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
-        ServiceName.File, ServiceOperation.getCdnUrl, data, callback);
+        ServiceName.file, ServiceOperation.getCdnUrl, data, callback);
     _clientRef.sendRequest(sc);
   }
 }

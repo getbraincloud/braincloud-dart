@@ -51,7 +51,7 @@ class BrainCloudLobby {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Lobby, ServiceOperation.findLobby, data, callback);
+        ServiceName.lobby, ServiceOperation.findLobby, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -122,7 +122,7 @@ class BrainCloudLobby {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Lobby, ServiceOperation.createLobby, data, callback);
+        ServiceName.lobby, ServiceOperation.createLobby, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -194,7 +194,7 @@ class BrainCloudLobby {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Lobby, ServiceOperation.findOrCreateLobby, data, callback);
+        ServiceName.lobby, ServiceOperation.findOrCreateLobby, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -249,7 +249,7 @@ class BrainCloudLobby {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Lobby, ServiceOperation.getLobbyData, data, callback);
+        ServiceName.lobby, ServiceOperation.getLobbyData, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -272,7 +272,7 @@ class BrainCloudLobby {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Lobby, ServiceOperation.updateReady, data, callback);
+        ServiceName.lobby, ServiceOperation.updateReady, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -289,7 +289,7 @@ class BrainCloudLobby {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Lobby, ServiceOperation.updateSettings, data, callback);
+        ServiceName.lobby, ServiceOperation.updateSettings, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -306,7 +306,7 @@ class BrainCloudLobby {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Lobby, ServiceOperation.switchTeam, data, callback);
+        ServiceName.lobby, ServiceOperation.switchTeam, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -323,7 +323,7 @@ class BrainCloudLobby {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Lobby, ServiceOperation.sendSignal, data, callback);
+        ServiceName.lobby, ServiceOperation.sendSignal, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -353,7 +353,7 @@ class BrainCloudLobby {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Lobby, ServiceOperation.joinLobby, data, callback);
+        ServiceName.lobby, ServiceOperation.joinLobby, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -396,7 +396,7 @@ class BrainCloudLobby {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Lobby, ServiceOperation.leaveLobby, data, callback);
+        ServiceName.lobby, ServiceOperation.leaveLobby, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -414,7 +414,7 @@ class BrainCloudLobby {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Lobby, ServiceOperation.removeMember, data, callback);
+        ServiceName.lobby, ServiceOperation.removeMember, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -432,7 +432,7 @@ class BrainCloudLobby {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Lobby, ServiceOperation.cancelFindRequest, data, callback);
+        ServiceName.lobby, ServiceOperation.cancelFindRequest, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -457,7 +457,7 @@ class BrainCloudLobby {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         mergedCallback, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Lobby,
+    ServerCall sc = ServerCall(ServiceName.lobby,
         ServiceOperation.getRegionsForLobbies, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -480,7 +480,7 @@ class BrainCloudLobby {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Lobby, ServiceOperation.getLobbyInstances, data, callback);
+        ServiceName.lobby, ServiceOperation.getLobbyInstances, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -606,7 +606,7 @@ class BrainCloudLobby {
           success, failure,
           cbObject: cbObject);
       ServerCall sc =
-          ServerCall(ServiceName.Lobby, inOperation, inData, callback);
+          ServerCall(ServiceName.lobby, inOperation, inData, callback);
       _clientRef.sendRequest(sc);
     } else {
       _queueFailure(

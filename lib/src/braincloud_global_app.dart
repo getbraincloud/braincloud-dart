@@ -32,7 +32,7 @@ class BrainCloudGlobalApp {
         success, failure,
         cbObject: cbObject);
     ServerCall serverCall = ServerCall(
-        ServiceName.GlobalApp, ServiceOperation.readProperties, null, callback);
+        ServiceName.globalApp, ServiceOperation.readProperties, null, callback);
     _clientRef.sendRequest(serverCall);
   }
 
@@ -64,7 +64,7 @@ class BrainCloudGlobalApp {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall serverCall = ServerCall(ServiceName.GlobalApp,
+    ServerCall serverCall = ServerCall(ServiceName.globalApp,
         ServiceOperation.readSelectedProperties, data, callback);
     _clientRef.sendRequest(serverCall);
   }
@@ -97,7 +97,7 @@ class BrainCloudGlobalApp {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall serverCall = ServerCall(ServiceName.GlobalApp,
+    ServerCall serverCall = ServerCall(ServiceName.globalApp,
         ServiceOperation.readPropertiesInCategories, data, callback);
     _clientRef.sendRequest(serverCall);
   }

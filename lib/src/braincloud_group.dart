@@ -1170,7 +1170,7 @@ class BrainCloudGroup {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Group, operation, data, callback);
+    ServerCall sc = ServerCall(ServiceName.group, operation, data, callback);
     _clientRef.sendRequest(sc);
   }
 }

@@ -36,7 +36,7 @@ class BrainCloudPresence {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Presence, ServiceOperation.forcePush, data, callback);
+        ServiceName.presence, ServiceOperation.forcePush, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -74,7 +74,7 @@ class BrainCloudPresence {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Presence,
+    ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.getPresenceOfFriends, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -111,7 +111,7 @@ class BrainCloudPresence {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Presence,
+    ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.getPresenceOfGroup, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -148,7 +148,7 @@ class BrainCloudPresence {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Presence,
+    ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.getPresenceOfUsers, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -190,7 +190,7 @@ class BrainCloudPresence {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Presence,
+    ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.registerListenersForFriends, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -226,7 +226,7 @@ class BrainCloudPresence {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Presence,
+    ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.registerListenersForGroup, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -264,7 +264,7 @@ class BrainCloudPresence {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.Presence,
+    ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.registerListenersForProfiles, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -297,7 +297,7 @@ class BrainCloudPresence {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Presence, ServiceOperation.setVisibility, data, callback);
+        ServiceName.presence, ServiceOperation.setVisibility, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -327,7 +327,7 @@ class BrainCloudPresence {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Presence, ServiceOperation.stopListening, data, callback);
+        ServiceName.presence, ServiceOperation.stopListening, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -360,7 +360,7 @@ class BrainCloudPresence {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.Presence, ServiceOperation.updateActivity, data, callback);
+        ServiceName.presence, ServiceOperation.updateActivity, data, callback);
     _clientRef.sendRequest(sc);
   }
 }

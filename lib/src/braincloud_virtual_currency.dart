@@ -39,7 +39,7 @@ class BrainCloudVirtualCurrency {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.VirtualCurrency,
+    ServerCall sc = ServerCall(ServiceName.virtualCurrency,
         ServiceOperation.getPlayerVC, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -78,7 +78,7 @@ class BrainCloudVirtualCurrency {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.VirtualCurrency,
+    ServerCall sc = ServerCall(ServiceName.virtualCurrency,
         ServiceOperation.getParentVC, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -117,7 +117,7 @@ class BrainCloudVirtualCurrency {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.VirtualCurrency,
+    ServerCall sc = ServerCall(ServiceName.virtualCurrency,
         ServiceOperation.getPeerVC, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -145,7 +145,7 @@ class BrainCloudVirtualCurrency {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.VirtualCurrency,
+    ServerCall sc = ServerCall(ServiceName.virtualCurrency,
         ServiceOperation.resetPlayerVC, data, callback);
     _clientRef.sendRequest(sc);
   }

@@ -48,7 +48,7 @@ class BrainCloudUserItems {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.UserItems, ServiceOperation.awardUserItem, data, callback);
+        ServiceName.userItems, ServiceOperation.awardUserItem, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -89,7 +89,7 @@ class BrainCloudUserItems {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.UserItems, ServiceOperation.dropUserItem, data, callback);
+        ServiceName.userItems, ServiceOperation.dropUserItem, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -126,7 +126,7 @@ class BrainCloudUserItems {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.UserItems,
+    ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.getUserItemsPage, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -167,7 +167,7 @@ class BrainCloudUserItems {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.UserItems,
+    ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.getUserItemsPageOffset, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -205,7 +205,7 @@ class BrainCloudUserItems {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.UserItems, ServiceOperation.getUserItem, data, callback);
+        ServiceName.userItems, ServiceOperation.getUserItem, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -255,7 +255,7 @@ class BrainCloudUserItems {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.UserItems, ServiceOperation.giveUserItemTo, data, callback);
+        ServiceName.userItems, ServiceOperation.giveUserItemTo, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -303,7 +303,7 @@ class BrainCloudUserItems {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.UserItems,
+    ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.purchaseUserItem, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -342,7 +342,7 @@ class BrainCloudUserItems {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.UserItems,
+    ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.receiveUserItemFrom, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -398,7 +398,7 @@ class BrainCloudUserItems {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.UserItems, ServiceOperation.sellUserItem, data, callback);
+        ServiceName.userItems, ServiceOperation.sellUserItem, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -435,7 +435,7 @@ class BrainCloudUserItems {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.UserItems,
+    ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.updateUserItemData, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -484,7 +484,7 @@ class BrainCloudUserItems {
         success, failure,
         cbObject: cbObject);
     ServerCall sc = ServerCall(
-        ServiceName.UserItems, ServiceOperation.useUserItem, data, callback);
+        ServiceName.userItems, ServiceOperation.useUserItem, data, callback);
     _clientRef.sendRequest(sc);
   }
 
@@ -517,7 +517,7 @@ class BrainCloudUserItems {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.UserItems,
+    ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.publishUserItemToBlockchain, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -543,7 +543,7 @@ class BrainCloudUserItems {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.UserItems,
+    ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.refreshBlockchainUserItems, data, callback);
     _clientRef.sendRequest(sc);
   }
@@ -580,7 +580,7 @@ class BrainCloudUserItems {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
         cbObject: cbObject);
-    ServerCall sc = ServerCall(ServiceName.UserItems,
+    ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.removeUserItemFromBlockchain, data, callback);
     _clientRef.sendRequest(sc);
   }
