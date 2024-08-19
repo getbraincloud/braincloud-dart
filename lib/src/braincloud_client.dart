@@ -61,7 +61,7 @@ class BrainCloudClient {
       "https://api.braincloudservers.com/dispatcherv2";
 
   String _appVersion = "";
-  Platform _platform = Platform.WEB;
+  Platform _platform = Platform.web;
   set platform(val) => _platform = val;
 
   String? _languageCode = "en";
@@ -950,7 +950,7 @@ class BrainCloudClient {
     // which will add it to its queue and send back responses accordingly
     _comms?.addToQueue(serviceMessage);
 
-    wrapper.setStoredPacketId(serviceMessage.PacketID);
+    wrapper.setStoredPacketId(serviceMessage.packetID);
   }
 
   String serializeJson(dynamic payLoad) {

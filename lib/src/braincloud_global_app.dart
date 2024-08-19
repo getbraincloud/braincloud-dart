@@ -59,7 +59,7 @@ class BrainCloudGlobalApp {
   void readSelectedProperties(List<String> propertyNames,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalAppPropertyNames.Value] = propertyNames;
+    data[OperationParam.globalAppPropertyNames.value] = propertyNames;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -92,7 +92,7 @@ class BrainCloudGlobalApp {
   void readPropertiesInCategories(List<String> categories,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalAppCategories.Value] = categories;
+    data[OperationParam.globalAppCategories.value] = categories;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,

@@ -31,7 +31,7 @@ class BrainCloudGroup {
   void acceptGroupInvitation(String groupId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
+    data[OperationParam.groupId.value] = groupId;
 
     _sendRequest(ServiceOperation.acceptGroupInvitation, success, failure,
         cbObject, data);
@@ -68,13 +68,13 @@ class BrainCloudGroup {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.GroupProfileId.Value] = profileId;
-    data[OperationParam.GroupRole.Value] = role.toString();
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupProfileId.value] = profileId;
+    data[OperationParam.groupRole.value] = role.toString();
 
     if (Util.isOptionalParameterValid(jsonAttributes)) {
       Map<String, dynamic> customData = jsonDecode(jsonAttributes);
-      data[OperationParam.GroupAttributes.Value] = customData;
+      data[OperationParam.groupAttributes.value] = customData;
     }
 
     _sendRequest(
@@ -111,13 +111,13 @@ class BrainCloudGroup {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.GroupProfileId.Value] = profileId;
-    data[OperationParam.GroupRole.Value] = role.toString();
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupProfileId.value] = profileId;
+    data[OperationParam.groupRole.value] = role.toString();
 
     if (Util.isOptionalParameterValid(jsonAttributes)) {
       Map<String, dynamic> customData = jsonDecode(jsonAttributes);
-      data[OperationParam.GroupAttributes.Value] = customData;
+      data[OperationParam.groupAttributes.value] = customData;
     }
 
     _sendRequest(ServiceOperation.approveGroupJoinRequest, success, failure,
@@ -151,12 +151,12 @@ class BrainCloudGroup {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupType.Value] = groupType;
-    data[OperationParam.GroupAutoJoinStrategy.Value] =
+    data[OperationParam.groupType.value] = groupType;
+    data[OperationParam.groupAutoJoinStrategy.value] =
         autoJoinStrategy.toString();
 
     if (Util.isOptionalParameterValid(dataQueryJson)) {
-      data[OperationParam.GroupWhere.Value] = dataQueryJson;
+      data[OperationParam.groupWhere.value] = dataQueryJson;
     }
 
     _sendRequest(
@@ -190,12 +190,12 @@ class BrainCloudGroup {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupTypes.Value] = groupTypes;
-    data[OperationParam.GroupAutoJoinStrategy.Value] =
+    data[OperationParam.groupTypes.value] = groupTypes;
+    data[OperationParam.groupAutoJoinStrategy.value] =
         autoJoinStrategy.toString();
 
     if (Util.isOptionalParameterValid(dataQueryJson)) {
-      data[OperationParam.GroupWhere.Value] = dataQueryJson;
+      data[OperationParam.groupWhere.value] = dataQueryJson;
     }
 
     _sendRequest(
@@ -221,8 +221,8 @@ class BrainCloudGroup {
   void cancelGroupInvitation(String groupId, String profileId,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.GroupProfileId.Value] = profileId;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupProfileId.value] = profileId;
 
     _sendRequest(ServiceOperation.cancelGroupInvitation, success, failure,
         cbObject, data);
@@ -273,24 +273,24 @@ class BrainCloudGroup {
     Map<String, dynamic> data = {};
 
     if (!name.isEmptyOrNull) {
-      data[OperationParam.GroupName.Value] = name;
+      data[OperationParam.groupName.value] = name;
     }
-    data[OperationParam.GroupType.Value] = groupType;
+    data[OperationParam.groupType.value] = groupType;
     if (isOpenGroup != null && isOpenGroup) {
-      data[OperationParam.GroupIsOpenGroup.Value] = isOpenGroup;
+      data[OperationParam.groupIsOpenGroup.value] = isOpenGroup;
     }
     if (acl != null) {
-      data[OperationParam.GroupAcl.Value] = jsonDecode(acl.toJsonString());
+      data[OperationParam.groupAcl.value] = jsonDecode(acl.toJsonString());
     }
     if (!jsonData.isEmptyOrNull) {
-      data[OperationParam.GroupData.Value] = jsonDecode(jsonData!);
+      data[OperationParam.groupData.value] = jsonDecode(jsonData!);
     }
     if (!jsonOwnerAttributes.isEmptyOrNull) {
-      data[OperationParam.GroupOwnerAttributes.Value] =
+      data[OperationParam.groupOwnerAttributes.value] =
           jsonDecode(jsonOwnerAttributes);
     }
     if (!jsonDefaultMemberAttributes.isEmptyOrNull) {
-      data[OperationParam.GroupDefaultMemberAttributes.Value] =
+      data[OperationParam.groupDefaultMemberAttributes.value] =
           jsonDecode(jsonDefaultMemberAttributes);
     }
 
@@ -348,28 +348,28 @@ class BrainCloudGroup {
     Map<String, dynamic> data = {};
 
     if (!name.isEmptyOrNull) {
-      data[OperationParam.GroupName.Value] = name;
+      data[OperationParam.groupName.value] = name;
     }
-    data[OperationParam.GroupType.Value] = groupType;
+    data[OperationParam.groupType.value] = groupType;
     if (isOpenGroup != null && isOpenGroup) {
-      data[OperationParam.GroupIsOpenGroup.Value] = isOpenGroup;
+      data[OperationParam.groupIsOpenGroup.value] = isOpenGroup;
     }
     if (acl != null) {
-      data[OperationParam.GroupAcl.Value] = jsonDecode(acl.toJsonString());
+      data[OperationParam.groupAcl.value] = jsonDecode(acl.toJsonString());
     }
     if (!jsonData.isEmptyOrNull) {
-      data[OperationParam.GroupData.Value] = jsonDecode(jsonData!);
+      data[OperationParam.groupData.value] = jsonDecode(jsonData!);
     }
     if (!jsonOwnerAttributes.isEmptyOrNull) {
-      data[OperationParam.GroupOwnerAttributes.Value] =
+      data[OperationParam.groupOwnerAttributes.value] =
           jsonDecode(jsonOwnerAttributes);
     }
     if (!jsonDefaultMemberAttributes.isEmptyOrNull) {
-      data[OperationParam.GroupDefaultMemberAttributes.Value] =
+      data[OperationParam.groupDefaultMemberAttributes.value] =
           jsonDecode(jsonDefaultMemberAttributes);
     }
     if (!jsonSummaryData.isEmptyOrNull) {
-      data[OperationParam.GroupSummaryData.Value] = jsonDecode(jsonSummaryData);
+      data[OperationParam.groupSummaryData.value] = jsonDecode(jsonSummaryData);
     }
 
     _sendRequest(
@@ -411,19 +411,19 @@ class BrainCloudGroup {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
+    data[OperationParam.groupId.value] = groupId;
     if (!entityType.isEmptyOrNull) {
-      data[OperationParam.GroupEntityType.Value] = entityType;
+      data[OperationParam.groupEntityType.value] = entityType;
     }
     if (isOwnedByGroupMember != null) {
-      data[OperationParam.GroupIsOwnedByGroupMember.Value] =
+      data[OperationParam.groupIsOwnedByGroupMember.value] =
           isOwnedByGroupMember;
     }
     if (acl != null) {
-      data[OperationParam.GroupAcl.Value] = jsonDecode(acl.toJsonString());
+      data[OperationParam.groupAcl.value] = jsonDecode(acl.toJsonString());
     }
     if (!jsonData.isEmptyOrNull) {
-      data[OperationParam.GroupData.Value] = jsonDecode(jsonData!);
+      data[OperationParam.groupData.value] = jsonDecode(jsonData!);
     }
 
     _sendRequest(
@@ -449,8 +449,8 @@ class BrainCloudGroup {
   void deleteGroup(String groupId, int version, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.GroupVersion.Value] = version;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupVersion.value] = version;
 
     _sendRequest(
         ServiceOperation.deleteGroup, success, failure, cbObject, data);
@@ -478,9 +478,9 @@ class BrainCloudGroup {
   void deleteGroupEntity(String groupId, String entityId, int version,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.GroupEntityId.Value] = entityId;
-    data[OperationParam.GroupVersion.Value] = version;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupEntityId.value] = entityId;
+    data[OperationParam.groupVersion.value] = version;
 
     _sendRequest(
         ServiceOperation.deleteGroupEntity, success, failure, cbObject, data);
@@ -519,9 +519,9 @@ class BrainCloudGroup {
   void incrementGroupData(String groupId, String? jsonData,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
+    data[OperationParam.groupId.value] = groupId;
     if (!jsonData.isEmptyOrNull) {
-      data[OperationParam.GroupData.Value] = jsonDecode(jsonData!);
+      data[OperationParam.groupData.value] = jsonDecode(jsonData!);
     }
 
     _sendRequest(
@@ -555,10 +555,10 @@ class BrainCloudGroup {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.GroupEntityId.Value] = entityId;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupEntityId.value] = entityId;
     if (!jsonData.isEmptyOrNull) {
-      data[OperationParam.GroupData.Value] = jsonDecode(jsonData!);
+      data[OperationParam.groupData.value] = jsonDecode(jsonData!);
     }
     _sendRequest(ServiceOperation.incrementGroupEntityData, success, failure,
         cbObject, data);
@@ -595,11 +595,11 @@ class BrainCloudGroup {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.GroupProfileId.Value] = profileId;
-    data[OperationParam.GroupRole.Value] = role.toString();
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupProfileId.value] = profileId;
+    data[OperationParam.groupRole.value] = role.toString();
     if (!jsonAttributes.isEmptyOrNull) {
-      data[OperationParam.GroupAttributes.Value] = jsonDecode(jsonAttributes!);
+      data[OperationParam.groupAttributes.value] = jsonDecode(jsonAttributes!);
     }
 
     _sendRequest(
@@ -622,7 +622,7 @@ class BrainCloudGroup {
   void joinGroup(String groupId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
+    data[OperationParam.groupId.value] = groupId;
 
     _sendRequest(ServiceOperation.joinGroup, success, failure, cbObject, data);
   }
@@ -643,7 +643,7 @@ class BrainCloudGroup {
   void leaveGroup(String groupId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
+    data[OperationParam.groupId.value] = groupId;
 
     _sendRequest(ServiceOperation.leaveGroup, success, failure, cbObject, data);
   }
@@ -663,7 +663,7 @@ class BrainCloudGroup {
   void listGroupsPage(String jsonContext, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupContext.Value] = jsonDecode(jsonContext);
+    data[OperationParam.groupContext.value] = jsonDecode(jsonContext);
 
     _sendRequest(
         ServiceOperation.listGroupsPage, success, failure, cbObject, data);
@@ -689,8 +689,8 @@ class BrainCloudGroup {
   void listGroupsPageByOffset(String context, int pageOffset,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupContext.Value] = context;
-    data[OperationParam.GroupPageOffset.Value] = pageOffset;
+    data[OperationParam.groupContext.value] = context;
+    data[OperationParam.groupPageOffset.value] = pageOffset;
 
     _sendRequest(ServiceOperation.listGroupsPageByOffset, success, failure,
         cbObject, data);
@@ -711,7 +711,7 @@ class BrainCloudGroup {
   void listGroupsWithMember(String profileId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupProfileId.Value] = profileId;
+    data[OperationParam.groupProfileId.value] = profileId;
 
     _sendRequest(ServiceOperation.listGroupsWithMember, success, failure,
         cbObject, data);
@@ -733,7 +733,7 @@ class BrainCloudGroup {
   void readGroup(String groupId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
+    data[OperationParam.groupId.value] = groupId;
 
     _sendRequest(ServiceOperation.readGroup, success, failure, cbObject, data);
   }
@@ -754,7 +754,7 @@ class BrainCloudGroup {
   void readGroupData(String groupId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
+    data[OperationParam.groupId.value] = groupId;
 
     _sendRequest(
         ServiceOperation.readGroupData, success, failure, cbObject, data);
@@ -776,7 +776,7 @@ class BrainCloudGroup {
   void readGroupEntitiesPage(String jsonContext, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupContext.Value] = jsonDecode(jsonContext);
+    data[OperationParam.groupContext.value] = jsonDecode(jsonContext);
 
     _sendRequest(ServiceOperation.readGroupEntitiesPage, success, failure,
         cbObject, data);
@@ -801,8 +801,8 @@ class BrainCloudGroup {
   void readGroupEntitiesPageByOffset(String encodedContext, int pageOffset,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupContext.Value] = encodedContext;
-    data[OperationParam.GroupPageOffset.Value] = pageOffset;
+    data[OperationParam.groupContext.value] = encodedContext;
+    data[OperationParam.groupPageOffset.value] = pageOffset;
 
     _sendRequest(ServiceOperation.readGroupEntitiesPageByOffset, success,
         failure, cbObject, data);
@@ -827,8 +827,8 @@ class BrainCloudGroup {
   void readGroupEntity(String groupId, String entityId,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.GroupEntityId.Value] = entityId;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupEntityId.value] = entityId;
 
     _sendRequest(
         ServiceOperation.readGroupEntity, success, failure, cbObject, data);
@@ -850,7 +850,7 @@ class BrainCloudGroup {
   void readGroupMembers(String groupId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
+    data[OperationParam.groupId.value] = groupId;
 
     _sendRequest(
         ServiceOperation.readGroupMembers, success, failure, cbObject, data);
@@ -872,7 +872,7 @@ class BrainCloudGroup {
   void rejectGroupInvitation(String groupId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
+    data[OperationParam.groupId.value] = groupId;
 
     _sendRequest(ServiceOperation.rejectGroupInvitation, success, failure,
         cbObject, data);
@@ -897,8 +897,8 @@ class BrainCloudGroup {
   void rejectGroupJoinRequest(String groupId, String profileId,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.GroupProfileId.Value] = profileId;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupProfileId.value] = profileId;
 
     _sendRequest(ServiceOperation.rejectGroupJoinRequest, success, failure,
         cbObject, data);
@@ -923,8 +923,8 @@ class BrainCloudGroup {
   void removeGroupMember(String groupId, String profileId,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.GroupProfileId.Value] = profileId;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupProfileId.value] = profileId;
 
     _sendRequest(
         ServiceOperation.removeGroupMember, success, failure, cbObject, data);
@@ -952,9 +952,9 @@ class BrainCloudGroup {
   void updateGroupData(String groupId, int version, String? jsonData,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.GroupVersion.Value] = version;
-    data[OperationParam.GroupData.Value] = jsonDecode(jsonData ?? "");
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupVersion.value] = version;
+    data[OperationParam.groupData.value] = jsonDecode(jsonData ?? "");
 
     _sendRequest(
         ServiceOperation.updateGroupData, success, failure, cbObject, data);
@@ -991,11 +991,11 @@ class BrainCloudGroup {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.GroupEntityId.Value] = entityId;
-    data[OperationParam.GroupVersion.Value] = version;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupEntityId.value] = entityId;
+    data[OperationParam.groupVersion.value] = version;
     if (jsonData != null && jsonData.isNotEmpty) {
-      data[OperationParam.GroupData.Value] = jsonDecode(jsonData);
+      data[OperationParam.groupData.value] = jsonDecode(jsonData);
     }
 
     _sendRequest(
@@ -1033,13 +1033,13 @@ class BrainCloudGroup {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.GroupProfileId.Value] = profileId;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupProfileId.value] = profileId;
     if (role != null) {
-      data[OperationParam.GroupRole.Value] = role.toString();
+      data[OperationParam.groupRole.value] = role.toString();
     }
     if (!jsonAttributes.isEmptyOrNull) {
-      data[OperationParam.GroupAttributes.Value] = jsonDecode(jsonAttributes!);
+      data[OperationParam.groupAttributes.value] = jsonDecode(jsonAttributes!);
     }
     _sendRequest(
         ServiceOperation.updateGroupMember, success, failure, cbObject, data);
@@ -1064,8 +1064,8 @@ class BrainCloudGroup {
   void updateGroupName(String groupId, String name, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.GroupName.Value] = name;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupName.value] = name;
 
     _sendRequest(
         ServiceOperation.updateGroupName, success, failure, cbObject, data);
@@ -1090,8 +1090,8 @@ class BrainCloudGroup {
   void setGroupOpen(String groupId, bool isOpenGroup, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.GroupIsOpenGroup.Value] = isOpenGroup;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupIsOpenGroup.value] = isOpenGroup;
 
     _sendRequest(
         ServiceOperation.setGroupOpen, success, failure, cbObject, data);
@@ -1124,10 +1124,10 @@ class BrainCloudGroup {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.GroupVersion.Value] = version;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupVersion.value] = version;
     if (!jsonSummaryData.isEmptyOrNull) {
-      data[OperationParam.GroupSummaryData.Value] =
+      data[OperationParam.groupSummaryData.value] =
           jsonDecode(jsonSummaryData!);
     }
 
@@ -1157,9 +1157,9 @@ class BrainCloudGroup {
     Map<String, dynamic> data = {};
     if (Util.isOptionalParameterValid(jsonWhere)) {
       Map<String, dynamic> customData = jsonDecode(jsonWhere);
-      data[OperationParam.GroupWhere.Value] = customData;
+      data[OperationParam.groupWhere.value] = customData;
     }
-    data[OperationParam.GroupMaxReturn.Value] = maxReturn;
+    data[OperationParam.groupMaxReturn.value] = maxReturn;
 
     _sendRequest(ServiceOperation.getRandomGroupsMatching, success, failure,
         cbObject, data);

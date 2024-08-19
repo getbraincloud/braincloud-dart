@@ -34,18 +34,18 @@ class BrainCloudLobby {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.LobbyRoomType.Value] = inRoomtype;
-    data[OperationParam.LobbyRating.Value] = inRating;
-    data[OperationParam.LobbyMaxSteps.Value] = inMaxsteps;
-    data[OperationParam.LobbyAlgorithm.Value] = inAlgo;
-    data[OperationParam.LobbyFilterJson.Value] = inFilterjson;
-    data[OperationParam.LobbyTimeoutSeconds.Value] = inTimeoutsecs;
-    data[OperationParam.LobbyIsReady.Value] = inIsready;
+    data[OperationParam.lobbyRoomType.value] = inRoomtype;
+    data[OperationParam.lobbyRating.value] = inRating;
+    data[OperationParam.lobbyMaxSteps.value] = inMaxsteps;
+    data[OperationParam.lobbyAlgorithm.value] = inAlgo;
+    data[OperationParam.lobbyFilterJson.value] = inFilterjson;
+    data[OperationParam.lobbyTimeoutSeconds.value] = inTimeoutsecs;
+    data[OperationParam.lobbyIsReady.value] = inIsready;
     if (inOtherusercxids != null) {
-      data[OperationParam.LobbyOtherUserCxIds.Value] = inOtherusercxids;
+      data[OperationParam.lobbyOtherUserCxIds.value] = inOtherusercxids;
     }
-    data[OperationParam.LobbyExtraJson.Value] = inExtrajson;
-    data[OperationParam.LobbyTeamCode.Value] = inTeamcode;
+    data[OperationParam.lobbyExtraJson.value] = inExtrajson;
+    data[OperationParam.lobbyTeamCode.value] = inTeamcode;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -75,18 +75,18 @@ class BrainCloudLobby {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.LobbyRoomType.Value] = inRoomtype;
-    data[OperationParam.LobbyRating.Value] = inRating;
-    data[OperationParam.LobbyMaxSteps.Value] = inMaxsteps;
-    data[OperationParam.LobbyAlgorithm.Value] = inAlgo;
-    data[OperationParam.LobbyFilterJson.Value] = inFilterjson;
-    data[OperationParam.LobbyTimeoutSeconds.Value] = inTimeoutsecs;
-    data[OperationParam.LobbyIsReady.Value] = inIsready;
+    data[OperationParam.lobbyRoomType.value] = inRoomtype;
+    data[OperationParam.lobbyRating.value] = inRating;
+    data[OperationParam.lobbyMaxSteps.value] = inMaxsteps;
+    data[OperationParam.lobbyAlgorithm.value] = inAlgo;
+    data[OperationParam.lobbyFilterJson.value] = inFilterjson;
+    data[OperationParam.lobbyTimeoutSeconds.value] = inTimeoutsecs;
+    data[OperationParam.lobbyIsReady.value] = inIsready;
     if (inOtherusercxids != null) {
-      data[OperationParam.LobbyOtherUserCxIds.Value] = inOtherusercxids;
+      data[OperationParam.lobbyOtherUserCxIds.value] = inOtherusercxids;
     }
-    data[OperationParam.LobbyExtraJson.Value] = inExtrajson;
-    data[OperationParam.LobbyTeamCode.Value] = inTeamcode;
+    data[OperationParam.lobbyExtraJson.value] = inExtrajson;
+    data[OperationParam.lobbyTeamCode.value] = inTeamcode;
 
     _attachPingDataAndSend(data, ServiceOperation.findLobbyWithPingData,
         success, failure, cbObject);
@@ -108,15 +108,15 @@ class BrainCloudLobby {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.LobbyRoomType.Value] = inRoomtype;
-    data[OperationParam.LobbyRating.Value] = inRating;
-    data[OperationParam.LobbySettings.Value] = inSettings;
-    data[OperationParam.LobbyIsReady.Value] = inIsready;
+    data[OperationParam.lobbyRoomType.value] = inRoomtype;
+    data[OperationParam.lobbyRating.value] = inRating;
+    data[OperationParam.lobbySettings.value] = inSettings;
+    data[OperationParam.lobbyIsReady.value] = inIsready;
     if (inOtherusercxids != null) {
-      data[OperationParam.LobbyOtherUserCxIds.Value] = inOtherusercxids;
+      data[OperationParam.lobbyOtherUserCxIds.value] = inOtherusercxids;
     }
-    data[OperationParam.LobbyExtraJson.Value] = inExtrajson;
-    data[OperationParam.LobbyTeamCode.Value] = inTeamcode;
+    data[OperationParam.lobbyExtraJson.value] = inExtrajson;
+    data[OperationParam.lobbyTeamCode.value] = inTeamcode;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -143,15 +143,15 @@ class BrainCloudLobby {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.LobbyRoomType.Value] = inRoomtype;
-    data[OperationParam.LobbyRating.Value] = inRating;
-    data[OperationParam.LobbySettings.Value] = inSettings;
-    data[OperationParam.LobbyIsReady.Value] = inIsready;
+    data[OperationParam.lobbyRoomType.value] = inRoomtype;
+    data[OperationParam.lobbyRating.value] = inRating;
+    data[OperationParam.lobbySettings.value] = inSettings;
+    data[OperationParam.lobbyIsReady.value] = inIsready;
     if (inOtherusercxids != null) {
-      data[OperationParam.LobbyOtherUserCxIds.Value] = inOtherusercxids;
+      data[OperationParam.lobbyOtherUserCxIds.value] = inOtherusercxids;
     }
-    data[OperationParam.LobbyExtraJson.Value] = inExtrajson;
-    data[OperationParam.LobbyTeamCode.Value] = inTeamcode;
+    data[OperationParam.lobbyExtraJson.value] = inExtrajson;
+    data[OperationParam.lobbyTeamCode.value] = inTeamcode;
     _attachPingDataAndSend(data, ServiceOperation.createLobbyWithPingData,
         success, failure, cbObject);
   }
@@ -176,19 +176,19 @@ class BrainCloudLobby {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.LobbyRoomType.Value] = inRoomtype;
-    data[OperationParam.LobbyRating.Value] = inRating;
-    data[OperationParam.LobbyMaxSteps.Value] = inMaxsteps;
-    data[OperationParam.LobbyAlgorithm.Value] = inAlgo;
-    data[OperationParam.LobbyFilterJson.Value] = inFilterjson;
-    data[OperationParam.LobbyTimeoutSeconds.Value] = inTimeoutsecs;
-    data[OperationParam.LobbySettings.Value] = inSettings;
-    data[OperationParam.LobbyIsReady.Value] = inIsready;
+    data[OperationParam.lobbyRoomType.value] = inRoomtype;
+    data[OperationParam.lobbyRating.value] = inRating;
+    data[OperationParam.lobbyMaxSteps.value] = inMaxsteps;
+    data[OperationParam.lobbyAlgorithm.value] = inAlgo;
+    data[OperationParam.lobbyFilterJson.value] = inFilterjson;
+    data[OperationParam.lobbyTimeoutSeconds.value] = inTimeoutsecs;
+    data[OperationParam.lobbySettings.value] = inSettings;
+    data[OperationParam.lobbyIsReady.value] = inIsready;
     if (inOtherusercxids != null) {
-      data[OperationParam.LobbyOtherUserCxIds.Value] = inOtherusercxids;
+      data[OperationParam.lobbyOtherUserCxIds.value] = inOtherusercxids;
     }
-    data[OperationParam.LobbyExtraJson.Value] = inExtrajson;
-    data[OperationParam.LobbyTeamCode.Value] = inTeamcode;
+    data[OperationParam.lobbyExtraJson.value] = inExtrajson;
+    data[OperationParam.lobbyTeamCode.value] = inTeamcode;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -219,19 +219,19 @@ class BrainCloudLobby {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.LobbyRoomType.Value] = inRoomtype;
-    data[OperationParam.LobbyRating.Value] = inRating;
-    data[OperationParam.LobbyMaxSteps.Value] = inMaxsteps;
-    data[OperationParam.LobbyAlgorithm.Value] = inAlgo;
-    data[OperationParam.LobbyFilterJson.Value] = inFilterjson;
-    data[OperationParam.LobbyTimeoutSeconds.Value] = inTimeoutsecs;
-    data[OperationParam.LobbySettings.Value] = inSettings;
-    data[OperationParam.LobbyIsReady.Value] = inIsready;
+    data[OperationParam.lobbyRoomType.value] = inRoomtype;
+    data[OperationParam.lobbyRating.value] = inRating;
+    data[OperationParam.lobbyMaxSteps.value] = inMaxsteps;
+    data[OperationParam.lobbyAlgorithm.value] = inAlgo;
+    data[OperationParam.lobbyFilterJson.value] = inFilterjson;
+    data[OperationParam.lobbyTimeoutSeconds.value] = inTimeoutsecs;
+    data[OperationParam.lobbySettings.value] = inSettings;
+    data[OperationParam.lobbyIsReady.value] = inIsready;
     if (inOtherusercxids != null) {
-      data[OperationParam.LobbyOtherUserCxIds.Value] = inOtherusercxids;
+      data[OperationParam.lobbyOtherUserCxIds.value] = inOtherusercxids;
     }
-    data[OperationParam.LobbyExtraJson.Value] = inExtrajson;
-    data[OperationParam.LobbyTeamCode.Value] = inTeamcode;
+    data[OperationParam.lobbyExtraJson.value] = inExtrajson;
+    data[OperationParam.lobbyTeamCode.value] = inTeamcode;
 
     _attachPingDataAndSend(data, ServiceOperation.findOrCreateLobbyWithPingData,
         success, failure, cbObject);
@@ -243,7 +243,7 @@ class BrainCloudLobby {
   void GetLobbyData(String inLobbyid, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.LobbyIdentifier.Value] = inLobbyid;
+    data[OperationParam.lobbyIdentifier.value] = inLobbyid;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -264,9 +264,9 @@ class BrainCloudLobby {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.LobbyIdentifier.Value] = inLobbyid;
-    data[OperationParam.LobbyIsReady.Value] = inIsready;
-    data[OperationParam.LobbyExtraJson.Value] = inExtrajson;
+    data[OperationParam.lobbyIdentifier.value] = inLobbyid;
+    data[OperationParam.lobbyIsReady.value] = inIsready;
+    data[OperationParam.lobbyExtraJson.value] = inExtrajson;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -282,8 +282,8 @@ class BrainCloudLobby {
   void UpdateSettings(String inLobbyid, Map<String, dynamic> inSettings,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.LobbyIdentifier.Value] = inLobbyid;
-    data[OperationParam.LobbySettings.Value] = inSettings;
+    data[OperationParam.lobbyIdentifier.value] = inLobbyid;
+    data[OperationParam.lobbySettings.value] = inSettings;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -299,8 +299,8 @@ class BrainCloudLobby {
   void SwitchTeam(String inLobbyid, String inToteamname,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.LobbyIdentifier.Value] = inLobbyid;
-    data[OperationParam.LobbyToTeamName.Value] = inToteamname;
+    data[OperationParam.lobbyIdentifier.value] = inLobbyid;
+    data[OperationParam.lobbyToTeamName.value] = inToteamname;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -316,8 +316,8 @@ class BrainCloudLobby {
   void SendSignal(String inLobbyid, Map<String, dynamic> inSignaldata,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.LobbyIdentifier.Value] = inLobbyid;
-    data[OperationParam.LobbySignalData.Value] = inSignaldata;
+    data[OperationParam.lobbyIdentifier.value] = inLobbyid;
+    data[OperationParam.lobbySignalData.value] = inSignaldata;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -342,12 +342,12 @@ class BrainCloudLobby {
     Map<String, dynamic> data = {};
 
     if (inOtherusercxids != null) {
-      data[OperationParam.LobbyOtherUserCxIds.Value] = inOtherusercxids;
+      data[OperationParam.lobbyOtherUserCxIds.value] = inOtherusercxids;
     }
-    data[OperationParam.LobbyExtraJson.Value] = inExtrajson;
-    data[OperationParam.LobbyTeamCode.Value] = inTeamcode;
-    data[OperationParam.LobbyIdentifier.Value] = inLobbyid;
-    data[OperationParam.LobbyIsReady.Value] = inIsready;
+    data[OperationParam.lobbyExtraJson.value] = inExtrajson;
+    data[OperationParam.lobbyTeamCode.value] = inTeamcode;
+    data[OperationParam.lobbyIdentifier.value] = inLobbyid;
+    data[OperationParam.lobbyIsReady.value] = inIsready;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -373,12 +373,12 @@ class BrainCloudLobby {
     Map<String, dynamic> data = {};
 
     if (inOtherusercxids != null) {
-      data[OperationParam.LobbyOtherUserCxIds.Value] = inOtherusercxids;
+      data[OperationParam.lobbyOtherUserCxIds.value] = inOtherusercxids;
     }
-    data[OperationParam.LobbyExtraJson.Value] = inExtrajson;
-    data[OperationParam.LobbyTeamCode.Value] = inTeamcode;
-    data[OperationParam.LobbyIdentifier.Value] = inLobbyid;
-    data[OperationParam.LobbyIsReady.Value] = inIsready;
+    data[OperationParam.lobbyExtraJson.value] = inExtrajson;
+    data[OperationParam.lobbyTeamCode.value] = inTeamcode;
+    data[OperationParam.lobbyIdentifier.value] = inLobbyid;
+    data[OperationParam.lobbyIsReady.value] = inIsready;
     _attachPingDataAndSend(data, ServiceOperation.joinLobbyWithPingData,
         success, failure, cbObject);
   }
@@ -390,7 +390,7 @@ class BrainCloudLobby {
   void LeaveLobby(String inLobbyid, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.LobbyIdentifier.Value] = inLobbyid;
+    data[OperationParam.lobbyIdentifier.value] = inLobbyid;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -407,8 +407,8 @@ class BrainCloudLobby {
   void RemoveMember(String inLobbyid, String inConnectionid,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.LobbyIdentifier.Value] = inLobbyid;
-    data[OperationParam.LobbyConnectionId.Value] = inConnectionid;
+    data[OperationParam.lobbyIdentifier.value] = inLobbyid;
+    data[OperationParam.lobbyConnectionId.value] = inConnectionid;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -425,8 +425,8 @@ class BrainCloudLobby {
   void CancelFindRequest(String inRoomtype, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.LobbyRoomType.Value] = inRoomtype;
-    data[OperationParam.LobbyConnectionId.Value] = _clientRef.rttConnectionID;
+    data[OperationParam.lobbyRoomType.value] = inRoomtype;
+    data[OperationParam.lobbyConnectionId.value] = _clientRef.rttConnectionID;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -444,7 +444,7 @@ class BrainCloudLobby {
   void GetRegionsForLobbies(List<String> inRoomtypes, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.LobbyTypes.Value] = inRoomtypes;
+    data[OperationParam.lobbyTypes.value] = inRoomtypes;
 
     mergedCallback(Map<String, dynamic> response) {
       _onRegionForLobbiesSuccess(response, null);
@@ -473,8 +473,8 @@ class BrainCloudLobby {
   void GetLobbyInstances(String inLobbytype, Map<String, dynamic> criteriaJson,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.LobbyRoomType.Value] = inLobbytype;
-    data[OperationParam.LobbyCritera.Value] = criteriaJson;
+    data[OperationParam.lobbyRoomType.value] = inLobbytype;
+    data[OperationParam.lobbyCritera.value] = criteriaJson;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -499,8 +499,8 @@ class BrainCloudLobby {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.LobbyRoomType.Value] = inLobbytype;
-    data[OperationParam.LobbyCritera.Value] = criteriaJson;
+    data[OperationParam.lobbyRoomType.value] = inLobbytype;
+    data[OperationParam.lobbyCritera.value] = criteriaJson;
 
     _attachPingDataAndSend(data, ServiceOperation.getLobbyInstancesWithPingData,
         success, failure, cbObject);
@@ -600,7 +600,7 @@ class BrainCloudLobby {
       dynamic cbObject) {
     bool hasPingData = pingData.isNotEmpty;
     if (hasPingData) {
-      inData[OperationParam.PingData.Value] = pingData;
+      inData[OperationParam.pingData.value] = pingData;
 
       ServerCallback? callback = BrainCloudClient.createServerCallback(
           success, failure,

@@ -46,13 +46,13 @@ class BrainCloudRedemptionCode {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.RedemptionCodeServiceScanCode.Value] = scanCode;
-    data[OperationParam.RedemptionCodeServiceCodeType.Value] = codeType;
+    data[OperationParam.redemptionCodeServiceScanCode.value] = scanCode;
+    data[OperationParam.redemptionCodeServiceCodeType.value] = codeType;
 
     if (Util.isOptionalParameterValid(jsonCustomRedemptionInfo)) {
       Map<String, dynamic> customRedemptionInfo =
           jsonDecode(jsonCustomRedemptionInfo);
-      data[OperationParam.RedemptionCodeServiceCustomRedemptionInfo.Value] =
+      data[OperationParam.redemptionCodeServiceCustomRedemptionInfo.value] =
           customRedemptionInfo;
     }
 
@@ -89,7 +89,7 @@ class BrainCloudRedemptionCode {
 
     if (Util.isOptionalParameterValid(codeType)) {
       data = {};
-      data[OperationParam.RedemptionCodeServiceCodeType.Value] = codeType;
+      data[OperationParam.redemptionCodeServiceCodeType.value] = codeType;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(

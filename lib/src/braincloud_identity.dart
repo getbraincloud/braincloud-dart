@@ -138,19 +138,19 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.IdentityServiceExternalId.Value] = ids.externalId;
-    data[OperationParam.IdentityServiceAuthenticationType.Value] =
+    data[OperationParam.identityServiceExternalId.value] = ids.externalId;
+    data[OperationParam.identityServiceAuthenticationType.value] =
         authenticationType.toString();
-    data[OperationParam.AuthenticateServiceAuthenticateAuthenticationToken
-        .Value] = ids.authenticationToken;
+    data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
+        .value] = ids.authenticationToken;
 
     if (Util.isOptionalParameterValid(ids.authenticationSubType)) {
-      data[OperationParam.AuthenticateServiceAuthenticateExternalId.Value] =
+      data[OperationParam.authenticateServiceAuthenticateExternalId.value] =
           ids.authenticationSubType;
     }
 
     if (extraJson != null) {
-      data[OperationParam.AuthenticateServiceAuthenticateExtraJson.Value] =
+      data[OperationParam.authenticateServiceAuthenticateExtraJson.value] =
           extraJson;
     }
 
@@ -191,19 +191,19 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.IdentityServiceExternalId.Value] = ids.externalId;
-    data[OperationParam.IdentityServiceAuthenticationType.Value] =
+    data[OperationParam.identityServiceExternalId.value] = ids.externalId;
+    data[OperationParam.identityServiceAuthenticationType.value] =
         authenticationType.toString();
-    data[OperationParam.AuthenticateServiceAuthenticateAuthenticationToken
-        .Value] = ids.authenticationToken;
+    data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
+        .value] = ids.authenticationToken;
 
     if (Util.isOptionalParameterValid(ids.authenticationSubType)) {
-      data[OperationParam.AuthenticateServiceAuthenticateExternalId.Value] =
+      data[OperationParam.authenticateServiceAuthenticateExternalId.value] =
           ids.authenticationSubType;
     }
 
     if (extraJson != null) {
-      data[OperationParam.AuthenticateServiceAuthenticateExtraJson.Value] =
+      data[OperationParam.authenticateServiceAuthenticateExtraJson.value] =
           extraJson;
     }
 
@@ -252,13 +252,13 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.IdentityServiceExternalId.Value] = externalId;
-    data[OperationParam.IdentityServiceAuthenticationType.Value] =
+    data[OperationParam.identityServiceExternalId.value] = externalId;
+    data[OperationParam.identityServiceAuthenticationType.value] =
         authenticationType.toString();
-    data[OperationParam.IdentityServiceConfirmAnonymous.Value] = continueAnon;
+    data[OperationParam.identityServiceConfirmAnonymous.value] = continueAnon;
 
     if (extraJson != null) {
-      data[OperationParam.AuthenticateServiceAuthenticateExtraJson.Value] =
+      data[OperationParam.authenticateServiceAuthenticateExtraJson.value] =
           extraJson;
     }
 
@@ -1689,7 +1689,7 @@ class BrainCloudIdentity {
   void attachNonLoginUniversalId(String externalId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.IdentityServiceExternalId.Value] = externalId;
+    data[OperationParam.identityServiceExternalId.value] = externalId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -1717,7 +1717,7 @@ class BrainCloudIdentity {
   void updateUniversalIdLogin(String externalId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.IdentityServiceExternalId.Value] = externalId;
+    data[OperationParam.identityServiceExternalId.value] = externalId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -1765,18 +1765,18 @@ class BrainCloudIdentity {
       dynamic cbObject) {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.IdentityServiceExternalId.Value] = externalId;
-    data[OperationParam.AuthenticateServiceAuthenticateAuthenticationToken
-        .Value] = authenticationToken;
-    data[OperationParam.IdentityServiceAuthenticationType.Value] =
+    data[OperationParam.identityServiceExternalId.value] = externalId;
+    data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
+        .value] = authenticationToken;
+    data[OperationParam.identityServiceAuthenticationType.value] =
         authenticationType.toString();
 
     if (Util.isOptionalParameterValid(externalAuthName)) {
-      data[OperationParam.AuthenticateServiceAuthenticateExternalAuthName
-          .Value] = externalAuthName;
+      data[OperationParam.authenticateServiceAuthenticateExternalAuthName
+          .value] = externalAuthName;
     }
 
-    data[OperationParam.AuthenticateServiceAuthenticateForceCreate.Value] =
+    data[OperationParam.authenticateServiceAuthenticateForceCreate.value] =
         forceCreate;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -1809,7 +1809,7 @@ class BrainCloudIdentity {
   void switchToParentProfile(String parentLevelName, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.AuthenticateServiceAuthenticateLevelName.Value] =
+    data[OperationParam.authenticateServiceAuthenticateLevelName.value] =
         parentLevelName;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -1868,7 +1868,7 @@ class BrainCloudIdentity {
   void getChildProfiles(bool includeSummaryData, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlayerStateServiceIncludeSummaryData.Value] =
+    data[OperationParam.playerStateServiceIncludeSummaryData.value] =
         includeSummaryData;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -1964,10 +1964,10 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.IdentityServiceExternalId.Value] = externalId;
-    data[OperationParam.AuthenticateServiceAuthenticateAuthenticationToken
-        .Value] = authenticationToken;
-    data[OperationParam.IdentityServiceAuthenticationType.Value] =
+    data[OperationParam.identityServiceExternalId.value] = externalId;
+    data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
+        .value] = authenticationToken;
+    data[OperationParam.identityServiceAuthenticationType.value] =
         authenticationType.toString();
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -2015,11 +2015,11 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.IdentityServiceOldEmailAddress.Value] = oldEmailAddress;
+    data[OperationParam.identityServiceOldEmailAddress.value] = oldEmailAddress;
     data[OperationParam
-        .AuthenticateServiceAuthenticateAuthenticationToken.Value] = password;
-    data[OperationParam.IdentityServiceNewEmailAddress.Value] = newEmailAddress;
-    data[OperationParam.IdentityServiceUpdateContactEmail.Value] =
+        .authenticateServiceAuthenticateAuthenticationToken.value] = password;
+    data[OperationParam.identityServiceNewEmailAddress.value] = newEmailAddress;
+    data[OperationParam.identityServiceUpdateContactEmail.value] =
         updateContactEmail;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -2072,19 +2072,19 @@ class BrainCloudIdentity {
       dynamic cbObject) {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.IdentityServiceExternalId.Value] = externalId;
-    data[OperationParam.AuthenticateServiceAuthenticateAuthenticationToken
-        .Value] = authenticationToken;
-    data[OperationParam.IdentityServiceAuthenticationType.Value] =
+    data[OperationParam.identityServiceExternalId.value] = externalId;
+    data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
+        .value] = authenticationToken;
+    data[OperationParam.identityServiceAuthenticationType.value] =
         authenticationType.toString();
 
     if (Util.isOptionalParameterValid(externalAuthName)) {
-      data[OperationParam.AuthenticateServiceAuthenticateExternalAuthName
-          .Value] = externalAuthName;
+      data[OperationParam.authenticateServiceAuthenticateExternalAuthName
+          .value] = externalAuthName;
     }
 
-    data[OperationParam.Peer.Value] = peer;
-    data[OperationParam.AuthenticateServiceAuthenticateForceCreate.Value] =
+    data[OperationParam.peer.value] = peer;
+    data[OperationParam.authenticateServiceAuthenticateForceCreate.value] =
         forceCreate;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -2114,7 +2114,7 @@ class BrainCloudIdentity {
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.Peer.Value] = peer;
+    data[OperationParam.peer.value] = peer;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -2167,8 +2167,8 @@ class BrainCloudIdentity {
   void attachBlockChainIdentity(String blockchainConfig, String publicKey,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.BlockChainConfig.Value] = blockchainConfig;
-    data[OperationParam.PublicKey.Value] = publicKey;
+    data[OperationParam.blockChainConfig.value] = blockchainConfig;
+    data[OperationParam.publicKey.value] = publicKey;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -2195,7 +2195,7 @@ class BrainCloudIdentity {
   void detachBlockChainIdentity(String blockchainConfig,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.BlockChainConfig.Value] = blockchainConfig;
+    data[OperationParam.blockChainConfig.value] = blockchainConfig;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -2213,11 +2213,11 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.IdentityServiceExternalId.Value] = externalId;
-    data[OperationParam.IdentityServiceAuthenticationType.Value] =
+    data[OperationParam.identityServiceExternalId.value] = externalId;
+    data[OperationParam.identityServiceAuthenticationType.value] =
         authenticationType.toString();
-    data[OperationParam.AuthenticateServiceAuthenticateAuthenticationToken
-        .Value] = authenticationToken;
+    data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
+        .value] = authenticationToken;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -2235,11 +2235,11 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.IdentityServiceExternalId.Value] = externalId;
-    data[OperationParam.IdentityServiceAuthenticationType.Value] =
+    data[OperationParam.identityServiceExternalId.value] = externalId;
+    data[OperationParam.identityServiceAuthenticationType.value] =
         authenticationType.toString();
-    data[OperationParam.AuthenticateServiceAuthenticateAuthenticationToken
-        .Value] = authenticationToken;
+    data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
+        .value] = authenticationToken;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -2257,10 +2257,10 @@ class BrainCloudIdentity {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.IdentityServiceExternalId.Value] = externalId;
-    data[OperationParam.IdentityServiceAuthenticationType.Value] =
+    data[OperationParam.identityServiceExternalId.value] = externalId;
+    data[OperationParam.identityServiceAuthenticationType.value] =
         authenticationType.toString();
-    data[OperationParam.IdentityServiceConfirmAnonymous.Value] = continueAnon;
+    data[OperationParam.identityServiceConfirmAnonymous.value] = continueAnon;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -2281,22 +2281,22 @@ class BrainCloudIdentity {
     Map<String, dynamic> data = {};
 
     if (Util.isOptionalParameterValid(childProfileId)) {
-      data[OperationParam.ProfileId.Value] = childProfileId;
+      data[OperationParam.profileId.value] = childProfileId;
     }
 
-    data[OperationParam.AuthenticateServiceAuthenticateGameId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         childAppd;
-    data[OperationParam.AuthenticateServiceAuthenticateForceCreate.Value] =
+    data[OperationParam.authenticateServiceAuthenticateForceCreate.value] =
         forceCreate;
-    data[OperationParam.IdentityServiceForceSingleton.Value] = forceSingleton;
+    data[OperationParam.identityServiceForceSingleton.value] = forceSingleton;
 
-    data[OperationParam.AuthenticateServiceAuthenticateReleasePlatform.Value] =
+    data[OperationParam.authenticateServiceAuthenticateReleasePlatform.value] =
         _clientRef.releasePlatform.toString();
-    data[OperationParam.AuthenticateServiceAuthenticateCountryCode.Value] =
+    data[OperationParam.authenticateServiceAuthenticateCountryCode.value] =
         Util.getCurrentCountryCode();
-    data[OperationParam.AuthenticateServiceAuthenticateLanguageCode.Value] =
+    data[OperationParam.authenticateServiceAuthenticateLanguageCode.value] =
         Util.getIsoCodeForCurrentLanguage();
-    data[OperationParam.AuthenticateServiceAuthenticateTimeZoneOffset.Value] =
+    data[OperationParam.authenticateServiceAuthenticateTimeZoneOffset.value] =
         Util.getUTCOffsetForCurrentTimeZone();
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(

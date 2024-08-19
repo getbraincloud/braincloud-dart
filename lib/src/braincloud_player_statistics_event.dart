@@ -40,8 +40,8 @@ class BrainCloudPlayerStatisticsEvent {
   void triggerUserStatsEvent(String eventName, int eventMultiplier,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlayerStatisticEventServiceEventName.Value] = eventName;
-    data[OperationParam.PlayerStatisticEventServiceEventMultiplier.Value] =
+    data[OperationParam.playerStatisticEventServiceEventName.value] = eventName;
+    data[OperationParam.playerStatisticEventServiceEventMultiplier.value] =
         eventMultiplier;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -77,7 +77,7 @@ class BrainCloudPlayerStatisticsEvent {
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     List events = jsonDecode(jsonData);
-    data[OperationParam.PlayerStatisticEventServiceEvents.Value] = events;
+    data[OperationParam.playerStatisticEventServiceEvents.value] = events;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,

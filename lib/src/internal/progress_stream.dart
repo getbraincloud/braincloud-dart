@@ -1,4 +1,4 @@
 class ProgressStreamReportEventArgs {
-  int StreamPosition = 0;
-  int StreamLength = 0;
+  int streamPosition = 0;
+  int streamLength = 0;
 }

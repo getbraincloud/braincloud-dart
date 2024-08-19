@@ -41,9 +41,9 @@ class BrainCloudMail {
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.ProfileId.Value] = profileId;
-    data[OperationParam.Subject.Value] = subject;
-    data[OperationParam.Body.Value] = body;
+    data[OperationParam.profileId.value] = profileId;
+    data[OperationParam.subject.value] = subject;
+    data[OperationParam.body.value] = body;
 
     _sendMessage(ServiceOperation.sendBasicEmail, data, success, failure,
         cbObject: cbObject);
@@ -76,8 +76,8 @@ class BrainCloudMail {
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.ProfileId.Value] = profileId;
-    data[OperationParam.ServiceParams.Value] = jsonDecode(jsonServiceParams);
+    data[OperationParam.profileId.value] = profileId;
+    data[OperationParam.serviceParams.value] = jsonDecode(jsonServiceParams);
 
     _sendMessage(ServiceOperation.sendAdvancedEmail, data, success, failure,
         cbObject: cbObject);
@@ -110,8 +110,8 @@ class BrainCloudMail {
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.EmailAddress.Value] = emailAddress;
-    data[OperationParam.ServiceParams.Value] = jsonDecode(jsonServiceParams);
+    data[OperationParam.emailAddress.value] = emailAddress;
+    data[OperationParam.serviceParams.value] = jsonDecode(jsonServiceParams);
 
     _sendMessage(
         ServiceOperation.sendAdvancedEmailByAddress, data, success, failure,

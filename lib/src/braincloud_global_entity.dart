@@ -51,13 +51,13 @@ class BrainCloudGlobalEntity {
       FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.GlobalEntityServiceTimeToLive.Value] = timeToLive;
+    data[OperationParam.globalEntityServiceEntityType.value] = entityType;
+    data[OperationParam.globalEntityServiceTimeToLive.value] = timeToLive;
 
-    data[OperationParam.GlobalEntityServiceData.Value] = jsonEntityAcl;
+    data[OperationParam.globalEntityServiceData.value] = jsonEntityAcl;
 
     if (Util.isOptionalParameterValid(jsonEntityAcl)) {
-      data[OperationParam.GlobalEntityServiceAcl.Value] = jsonEntityAcl;
+      data[OperationParam.globalEntityServiceAcl.value] = jsonEntityAcl;
     }
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
@@ -108,13 +108,13 @@ class BrainCloudGlobalEntity {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.GlobalEntityServiceIndexedId.Value] = indexedId;
-    data[OperationParam.GlobalEntityServiceTimeToLive.Value] = timeToLive;
-    data[OperationParam.GlobalEntityServiceData.Value] = jsonEntityData;
+    data[OperationParam.globalEntityServiceEntityType.value] = entityType;
+    data[OperationParam.globalEntityServiceIndexedId.value] = indexedId;
+    data[OperationParam.globalEntityServiceTimeToLive.value] = timeToLive;
+    data[OperationParam.globalEntityServiceData.value] = jsonEntityData;
 
     if (Util.isOptionalParameterValid(jsonEntityAcl)) {
-      data[OperationParam.GlobalEntityServiceAcl.Value] = jsonEntityAcl;
+      data[OperationParam.globalEntityServiceAcl.value] = jsonEntityAcl;
     }
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
@@ -152,9 +152,9 @@ class BrainCloudGlobalEntity {
   void updateEntity(String entityId, int version, String jsonEntityData,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalEntityServiceEntityId.Value] = entityId;
-    data[OperationParam.GlobalEntityServiceVersion.Value] = version;
-    data[OperationParam.GlobalEntityServiceData.Value] = jsonEntityData;
+    data[OperationParam.globalEntityServiceEntityId.value] = entityId;
+    data[OperationParam.globalEntityServiceVersion.value] = version;
+    data[OperationParam.globalEntityServiceData.value] = jsonEntityData;
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
@@ -191,12 +191,12 @@ class BrainCloudGlobalEntity {
   void updateEntityAcl(String entityId, int version, String jsonEntityAcl,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalEntityServiceEntityId.Value] = entityId;
-    data[OperationParam.GlobalEntityServiceVersion.Value] = version;
+    data[OperationParam.globalEntityServiceEntityId.value] = entityId;
+    data[OperationParam.globalEntityServiceVersion.value] = version;
 
     if (Util.isOptionalParameterValid(jsonEntityAcl)) {
       var acl = jsonDecode(jsonEntityAcl);
-      data[OperationParam.GlobalEntityServiceAcl.Value] = acl;
+      data[OperationParam.globalEntityServiceAcl.value] = acl;
     }
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
@@ -234,9 +234,9 @@ class BrainCloudGlobalEntity {
   void updateEntityTimeToLive(String entityId, int version, Duration timeToLive,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalEntityServiceEntityId.Value] = entityId;
-    data[OperationParam.GlobalEntityServiceVersion.Value] = version;
-    data[OperationParam.GlobalEntityServiceTimeToLive.Value] = timeToLive;
+    data[OperationParam.globalEntityServiceEntityId.value] = entityId;
+    data[OperationParam.globalEntityServiceVersion.value] = version;
+    data[OperationParam.globalEntityServiceTimeToLive.value] = timeToLive;
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
@@ -270,8 +270,8 @@ class BrainCloudGlobalEntity {
   void deleteEntity(String entityId, int version, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalEntityServiceEntityId.Value] = entityId;
-    data[OperationParam.GlobalEntityServiceVersion.Value] = version;
+    data[OperationParam.globalEntityServiceEntityId.value] = entityId;
+    data[OperationParam.globalEntityServiceVersion.value] = version;
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
@@ -302,7 +302,7 @@ class BrainCloudGlobalEntity {
   void readEntity(String entityId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalEntityServiceEntityId.Value] = entityId;
+    data[OperationParam.globalEntityServiceEntityId.value] = entityId;
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
@@ -342,14 +342,14 @@ class BrainCloudGlobalEntity {
     Map<String, dynamic> data = {};
 
     if (Util.isOptionalParameterValid(whereJson)) {
-      data[OperationParam.GlobalEntityServiceWhere.Value] =
+      data[OperationParam.globalEntityServiceWhere.value] =
           jsonDecode(whereJson);
     }
     if (Util.isOptionalParameterValid(orderByJson)) {
-      data[OperationParam.GlobalEntityServiceOrderBy.Value] =
+      data[OperationParam.globalEntityServiceOrderBy.value] =
           jsonDecode(orderByJson);
     }
-    data[OperationParam.GlobalEntityServiceMaxReturn.Value] = maxReturn;
+    data[OperationParam.globalEntityServiceMaxReturn.value] = maxReturn;
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
@@ -383,8 +383,8 @@ class BrainCloudGlobalEntity {
   void getListByIndexedId(String entityIndexedId, int maxReturn,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalEntityServiceIndexedId.Value] = entityIndexedId;
-    data[OperationParam.GlobalEntityServiceMaxReturn.Value] = maxReturn;
+    data[OperationParam.globalEntityServiceIndexedId.value] = entityIndexedId;
+    data[OperationParam.globalEntityServiceMaxReturn.value] = maxReturn;
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
@@ -417,7 +417,7 @@ class BrainCloudGlobalEntity {
     Map<String, dynamic> data = {};
 
     if (Util.isOptionalParameterValid(whereJson)) {
-      data[OperationParam.GlobalEntityServiceWhere.Value] = whereJson;
+      data[OperationParam.globalEntityServiceWhere.value] = whereJson;
     }
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
@@ -445,7 +445,7 @@ class BrainCloudGlobalEntity {
   void getPage(String jsonContext, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalEntityServiceContext.Value] = jsonContext;
+    data[OperationParam.globalEntityServiceContext.value] = jsonContext;
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
@@ -478,8 +478,8 @@ class BrainCloudGlobalEntity {
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.GlobalEntityServiceContext.Value] = context;
-    data[OperationParam.GlobalEntityServicePageOffset.Value] = pageOffset;
+    data[OperationParam.globalEntityServiceContext.value] = context;
+    data[OperationParam.globalEntityServicePageOffset.value] = pageOffset;
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
@@ -504,9 +504,9 @@ class BrainCloudGlobalEntity {
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.GlobalEntityServiceEntityId.Value] = entityId;
+    data[OperationParam.globalEntityServiceEntityId.value] = entityId;
     if (Util.isOptionalParameterValid(jsonData)) {
-      data[OperationParam.GlobalEntityServiceData.Value] = jsonData;
+      data[OperationParam.globalEntityServiceData.value] = jsonData;
     }
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
@@ -533,10 +533,10 @@ class BrainCloudGlobalEntity {
     Map<String, dynamic> data = {};
 
     if (Util.isOptionalParameterValid(whereJson)) {
-      data[OperationParam.GlobalEntityServiceWhere.Value] = whereJson;
+      data[OperationParam.globalEntityServiceWhere.value] = whereJson;
     }
 
-    data[OperationParam.GlobalEntityServiceMaxReturn.Value] = maxReturn;
+    data[OperationParam.globalEntityServiceMaxReturn.value] = maxReturn;
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
@@ -578,9 +578,9 @@ class BrainCloudGlobalEntity {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalEntityServiceEntityId.Value] = entityId;
-    data[OperationParam.GlobalEntityServiceVersion.Value] = version;
-    data[OperationParam.GlobalEntityServiceIndexedId.Value] = entityIndexedId;
+    data[OperationParam.globalEntityServiceEntityId.value] = entityId;
+    data[OperationParam.globalEntityServiceVersion.value] = version;
+    data[OperationParam.globalEntityServiceIndexedId.value] = entityIndexedId;
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
@@ -626,10 +626,10 @@ class BrainCloudGlobalEntity {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalEntityServiceEntityId.Value] = entityId;
-    data[OperationParam.GlobalEntityServiceVersion.Value] = version;
-    data[OperationParam.OwnerId.Value] = ownerId;
-    data[OperationParam.GlobalEntityServiceAcl.Value] = acl;
+    data[OperationParam.globalEntityServiceEntityId.value] = entityId;
+    data[OperationParam.globalEntityServiceVersion.value] = version;
+    data[OperationParam.ownerId.value] = ownerId;
+    data[OperationParam.globalEntityServiceAcl.value] = acl;
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);
@@ -666,9 +666,9 @@ class BrainCloudGlobalEntity {
   void makeSystemEntity(String entityId, Duration version, ACL acl,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalEntityServiceEntityId.Value] = entityId;
-    data[OperationParam.GlobalEntityServiceVersion.Value] = version;
-    data[OperationParam.GlobalEntityServiceAcl.Value] = acl;
+    data[OperationParam.globalEntityServiceEntityId.value] = entityId;
+    data[OperationParam.globalEntityServiceVersion.value] = version;
+    data[OperationParam.globalEntityServiceAcl.value] = acl;
 
     var callback = BrainCloudClient.createServerCallback(success, failure,
         cbObject: cbObject);

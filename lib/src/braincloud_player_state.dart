@@ -158,7 +158,7 @@ class BrainCloudPlayerState {
   void updateName(String userName, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlayerStateServiceUpdateNameData.Value] = userName;
+    data[OperationParam.playerStateServiceUpdateNameData.value] = userName;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -205,7 +205,7 @@ class BrainCloudPlayerState {
     Map<String, dynamic>? data = {};
     if (Util.isOptionalParameterValid(jsonSummaryData)) {
       Map<String, dynamic> summaryData = jsonDecode(jsonSummaryData);
-      data[OperationParam.PlayerStateServiceUpdateSummaryFriendData.Value] =
+      data[OperationParam.playerStateServiceUpdateSummaryFriendData.value] =
           summaryData;
     } else {
       data = null;
@@ -272,8 +272,8 @@ class BrainCloudPlayerState {
     Map<String, dynamic> data = {};
 
     Map<String, dynamic> attributes = jsonDecode(jsonAttributes);
-    data[OperationParam.PlayerStateServiceAttributes.Value] = attributes;
-    data[OperationParam.PlayerStateServiceWipeExisting.Value] = wipeExisting;
+    data[OperationParam.playerStateServiceAttributes.value] = attributes;
+    data[OperationParam.playerStateServiceWipeExisting.value] = wipeExisting;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -305,7 +305,7 @@ class BrainCloudPlayerState {
   void removeAttributes(List<String> attributeNames, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlayerStateServiceAttributes.Value] = attributeNames;
+    data[OperationParam.playerStateServiceAttributes.value] = attributeNames;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -337,7 +337,7 @@ class BrainCloudPlayerState {
   void updateUserPictureUrl(String pictureUrl, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlayerStateServicePlayerPictureUrl.Value] = pictureUrl;
+    data[OperationParam.playerStateServicePlayerPictureUrl.value] = pictureUrl;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -370,7 +370,7 @@ class BrainCloudPlayerState {
   void updateContactEmail(String contactEmail, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlayerStateServiceContactEmail.Value] = contactEmail;
+    data[OperationParam.playerStateServiceContactEmail.value] = contactEmail;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -401,7 +401,7 @@ class BrainCloudPlayerState {
   void clearUserStatus(String statusName, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlayerStateServiceStatusName.Value] = statusName;
+    data[OperationParam.playerStateServiceStatusName.value] = statusName;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -437,10 +437,10 @@ class BrainCloudPlayerState {
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> detailsInfo = jsonDecode(details);
     Map<String, dynamic> data = {};
-    data[OperationParam.PlayerStateServiceStatusName.Value] = statusName;
-    data[OperationParam.PlayerStateServiceAdditionalSecs.Value] =
+    data[OperationParam.playerStateServiceStatusName.value] = statusName;
+    data[OperationParam.playerStateServiceAdditionalSecs.value] =
         additionalSecs;
-    data[OperationParam.PlayerStateServiceDetails.Value] = detailsInfo;
+    data[OperationParam.playerStateServiceDetails.value] = detailsInfo;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -471,7 +471,7 @@ class BrainCloudPlayerState {
   void getUserStatus(String statusName, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlayerStateServiceStatusName.Value] = statusName;
+    data[OperationParam.playerStateServiceStatusName.value] = statusName;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -507,9 +507,9 @@ class BrainCloudPlayerState {
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> detailsInfo = jsonDecode(details);
     Map<String, dynamic> data = {};
-    data[OperationParam.PlayerStateServiceStatusName.Value] = statusName;
-    data[OperationParam.PlayerStateServiceDurationSecs.Value] = durationSecs;
-    data[OperationParam.PlayerStateServiceDetails.Value] = detailsInfo;
+    data[OperationParam.playerStateServiceStatusName.value] = statusName;
+    data[OperationParam.playerStateServiceDurationSecs.value] = durationSecs;
+    data[OperationParam.playerStateServiceDetails.value] = detailsInfo;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -540,7 +540,7 @@ class BrainCloudPlayerState {
   void updateLanguageCode(String languageCode, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlayerStateServiceLanguageCode.Value] = languageCode;
+    data[OperationParam.playerStateServiceLanguageCode.value] = languageCode;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -571,7 +571,7 @@ class BrainCloudPlayerState {
   void updateTimeZoneOffset(String timeZoneOffset, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlayerStateServiceTimeZoneOffset.Value] =
+    data[OperationParam.playerStateServiceTimeZoneOffset.value] =
         timeZoneOffset;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(

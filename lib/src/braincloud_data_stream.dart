@@ -38,11 +38,11 @@ class BrainCloudDataStream {
   void customPageEvent(String eventName, String jsonEventProperties,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.DataStreamEventName.Value] = eventName;
+    data[OperationParam.dataStreamEventName.value] = eventName;
 
     if (Util.isOptionalParameterValid(jsonEventProperties)) {
       Map<String, dynamic> eventProperties = jsonDecode(jsonEventProperties);
-      data[OperationParam.DataStreamEventProperties.Value] = eventProperties;
+      data[OperationParam.dataStreamEventProperties.value] = eventProperties;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -78,11 +78,11 @@ class BrainCloudDataStream {
   void customScreenEvent(String eventName, String jsonEventProperties,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.DataStreamEventName.Value] = eventName;
+    data[OperationParam.dataStreamEventName.value] = eventName;
 
     if (Util.isOptionalParameterValid(jsonEventProperties)) {
       Map<String, dynamic> eventProperties = jsonDecode(jsonEventProperties);
-      data[OperationParam.DataStreamEventProperties.Value] = eventProperties;
+      data[OperationParam.dataStreamEventProperties.value] = eventProperties;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -118,11 +118,11 @@ class BrainCloudDataStream {
   void customTrackEvent(String eventName, String jsonEventProperties,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.DataStreamEventName.Value] = eventName;
+    data[OperationParam.dataStreamEventName.value] = eventName;
 
     if (Util.isOptionalParameterValid(jsonEventProperties)) {
       Map<String, dynamic> eventProperties = jsonDecode(jsonEventProperties);
-      data[OperationParam.DataStreamEventProperties.Value] = eventProperties;
+      data[OperationParam.dataStreamEventProperties.value] = eventProperties;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -186,15 +186,15 @@ class BrainCloudDataStream {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.DataStreamCrashType.Value] = crashType;
-    data[OperationParam.DataStreamErrorMsg.Value] = errorMsg;
+    data[OperationParam.dataStreamCrashType.value] = crashType;
+    data[OperationParam.dataStreamErrorMsg.value] = errorMsg;
     Map<String, dynamic> crashInfo = jsonDecode(crashJson);
-    data[OperationParam.DataStreamCrashInfo.Value] = crashInfo;
-    data[OperationParam.DataStreamCrashLog.Value] = crashLog;
-    data[OperationParam.DataStreamUserName.Value] = userName;
-    data[OperationParam.DataStreamUserEmail.Value] = userEmail;
-    data[OperationParam.DataStreamUserNotes.Value] = userNotes;
-    data[OperationParam.DataStreamUserSubmitted.Value] = userSubmitted;
+    data[OperationParam.dataStreamCrashInfo.value] = crashInfo;
+    data[OperationParam.dataStreamCrashLog.value] = crashLog;
+    data[OperationParam.dataStreamUserName.value] = userName;
+    data[OperationParam.dataStreamUserEmail.value] = userEmail;
+    data[OperationParam.dataStreamUserNotes.value] = userNotes;
+    data[OperationParam.dataStreamUserSubmitted.value] = userSubmitted;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,

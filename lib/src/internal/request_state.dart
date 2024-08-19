@@ -1,56 +1,56 @@
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 
-enum eWebRequestStatus {
+enum WebRequestStatus {
   /// <summary>
   /// Pending status indicating web request is still active
   /// </summary>
-  STATUS_PENDING,
+  pending,
 
   /// <summary>
   /// Done status indicating web request has completed successfully
   /// </summary>
-  STATUS_DONE,
+  done,
 
   /// <summary>
   /// Error status indicating there was a network error or error http code returned
   /// </summary>
-  STATUS_ERROR
+  error
 }
 
 class RequestState {
-  late int PacketId;
+  late int packetId;
 
-  late DateTime TimeSent;
+  late DateTime timeSent;
 
-  eWebRequestStatus status = eWebRequestStatus.STATUS_PENDING;
+  WebRequestStatus status = WebRequestStatus.pending;
 
-  int Retries = 0;
+  int retries = 0;
 
   // we process the signature on the background thread
-  late String Signature;
+  late String signature;
 
   // we also process the byte array on the background thread
-  Uint8List? ByteArray;
+  Uint8List? byteArray;
 
   bool _isCancelled = false;
-  bool get IsCancelled => _isCancelled;
+  bool get isCancelled => _isCancelled;
 
   WebRequest? webRequest;
 
-  late String RequestString;
+  late String requestString;
 
-  late List<dynamic> MessageList;
+  late List<dynamic> messageList;
 
-  bool LoseThisPacket = false;
+  bool loseThisPacket = false;
 
-  bool PacketRequiresLongTimeout = false;
+  bool packetRequiresLongTimeout = false;
 
-  bool PacketNoRetry = false;
+  bool packetNoRetry = false;
 
   RequestState();
 
-  void CancelRequest() {
+  void cancelRequest() {
     try {
       _isCancelled = true;
     } catch (e) {

@@ -93,12 +93,12 @@ class BCEntityFactory {
     return null;
   }
 
-  BCUserEntity? newUserFromDictionary(Map<String, dynamic>? in_dict) {
+  BCUserEntity? newUserFromDictionary(Map<String, dynamic>? inDict) {
     BCUserEntity? toReturn;
-    if (in_dict != null) {
+    if (inDict != null) {
       try {
-        toReturn = newUserEntity(in_dict["entityType"]);
-        toReturn?.readFromJson(in_dict);
+        toReturn = newUserEntity(inDict["entityType"]);
+        toReturn?.readFromJson(inDict);
       } catch (e) {
         /* do nadda */
       }

@@ -61,7 +61,7 @@ class BrainCloudGlobalStatistics {
   void readGlobalStatsSubset(List<String> globalStats, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlayerStatisticsServiceStats.Value] = globalStats;
+    data[OperationParam.playerStatisticsServiceStats.value] = globalStats;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -93,7 +93,7 @@ class BrainCloudGlobalStatistics {
   void readGlobalStatsForCategory(String category, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GamificationServiceCategory.Value] = category;
+    data[OperationParam.gamificationServiceCategory.value] = category;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -138,7 +138,7 @@ class BrainCloudGlobalStatistics {
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     Map<String, dynamic> stats = jsonDecode(jsonData);
-    data[OperationParam.PlayerStatisticsServiceStats.Value] = stats;
+    data[OperationParam.playerStatisticsServiceStats.value] = stats;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -177,7 +177,7 @@ class BrainCloudGlobalStatistics {
   void processStatistics(Map<String, dynamic> statisticsData,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlayerStatisticsServiceStats.Value] = statisticsData;
+    data[OperationParam.playerStatisticsServiceStats.value] = statisticsData;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,

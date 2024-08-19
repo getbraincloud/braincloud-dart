@@ -62,7 +62,7 @@ abstract class BCEntity {
   /// <param name="failure">
   /// A callback to run when store operation fails.
   /// </param>
-  void StoreAsync(SuccessCallback? success, FailureCallback? failure) {
+  void storeAsync(SuccessCallback? success, FailureCallback? failure) {
     if (state == EntityState.Deleting || state == EntityState.Deleted) {
       return;
     }
@@ -108,7 +108,7 @@ abstract class BCEntity {
   /// <param name="failure">
   /// A callback to run when store operation fails.
   /// </param>
-  void StoreAsyncShared(String targetProfileId, SuccessCallback? success,
+  void storeAsyncShared(String targetProfileId, SuccessCallback? success,
       FailureCallback? failure) {
     if (state == EntityState.Deleting || state == EntityState.Deleted) {
       return;
@@ -145,7 +145,7 @@ abstract class BCEntity {
   /// <param name="failure">
   /// A callback to run when delete operation fails.
   /// </param>
-  void DeleteAsync(SuccessCallback? success, FailureCallback? failure) {
+  void deleteAsync(SuccessCallback? success, FailureCallback? failure) {
     if (state == EntityState.New) {
       // preston: caveat - if the dynamic was created asynchronously, and we're still waiting to hear back from the server,
       // the dynamic won't actually get deleted on the server. We can handle this later in the storeAsync/create callback
@@ -161,7 +161,7 @@ abstract class BCEntity {
     state = EntityState.Deleting;
   }
 
-  bool Contains(String key) {
+  bool contains(String key) {
     return data.containsKey(key);
   }
 
@@ -182,7 +182,7 @@ abstract class BCEntity {
 
   void queueUpdates() {
     if (updateWhenCreated) {
-      StoreAsync(updateWhenCreatedSuccessCb, updateWhenCreatedFailureCb);
+      storeAsync(updateWhenCreatedSuccessCb, updateWhenCreatedFailureCb);
       updateWhenCreated = false;
       updateWhenCreatedSuccessCb = null;
       updateWhenCreatedFailureCb = null;
@@ -223,7 +223,7 @@ abstract class BCEntity {
       if (childValue != null) {
         dict[childKey] = jsonToDictionary(childValue);
       } else if (childValue != null) {
-        dict[childKey] = JsonToList(childValue);
+        dict[childKey] = jsonToList(childValue);
       } else {
         dict[childKey] = childValue;
       }
@@ -232,7 +232,7 @@ abstract class BCEntity {
     return dict;
   }
 
-  static List<dynamic> JsonToList(dynamic jsonObj) {
+  static List<dynamic> jsonToList(dynamic jsonObj) {
     List<dynamic> list = [];
     var arr = jsonObj;
     if (arr != null) {
@@ -242,7 +242,7 @@ abstract class BCEntity {
         if (child is Map) {
           list.add(jsonToDictionary(child));
         } else if (child is List) {
-          list.add(JsonToList(child));
+          list.add(jsonToList(child));
         } else {
           list.add(child);
         }

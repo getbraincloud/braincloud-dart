@@ -38,9 +38,9 @@ class BrainCloudPlaybackStream {
   void startStream(String targetPlayerId, bool includeSharedData,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlaybackStreamServiceTargetPlayerId.Value] =
+    data[OperationParam.playbackStreamServiceTargetPlayerId.value] =
         targetPlayerId;
-    data[OperationParam.PlaybackStreamServiceIncludeSharedData.Value] =
+    data[OperationParam.playbackStreamServiceIncludeSharedData.value] =
         includeSharedData;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -73,7 +73,7 @@ class BrainCloudPlaybackStream {
   void readStream(String playbackStreamId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlaybackStreamServicePlaybackStreamId.Value] =
+    data[OperationParam.playbackStreamServicePlaybackStreamId.value] =
         playbackStreamId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -106,7 +106,7 @@ class BrainCloudPlaybackStream {
   void endStream(String playbackStreamId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlaybackStreamServicePlaybackStreamId.Value] =
+    data[OperationParam.playbackStreamServicePlaybackStreamId.value] =
         playbackStreamId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -139,7 +139,7 @@ class BrainCloudPlaybackStream {
   void deleteStream(String playbackStreamId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlaybackStreamServicePlaybackStreamId.Value] =
+    data[OperationParam.playbackStreamServicePlaybackStreamId.value] =
         playbackStreamId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -178,17 +178,17 @@ class BrainCloudPlaybackStream {
   void addEvent(String playbackStreamId, String eventData, String summary,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlaybackStreamServicePlaybackStreamId.Value] =
+    data[OperationParam.playbackStreamServicePlaybackStreamId.value] =
         playbackStreamId;
 
     if (Util.isOptionalParameterValid(eventData)) {
       Map<String, dynamic> jsonEventData = jsonDecode(eventData);
-      data[OperationParam.PlaybackStreamServiceEventData.Value] = jsonEventData;
+      data[OperationParam.playbackStreamServiceEventData.value] = jsonEventData;
     }
 
     if (Util.isOptionalParameterValid(summary)) {
       Map<String, dynamic> jsonSummary = jsonDecode(summary);
-      data[OperationParam.PlaybackStreamServiceSummary.Value] = jsonSummary;
+      data[OperationParam.playbackStreamServiceSummary.value] = jsonSummary;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -228,9 +228,9 @@ class BrainCloudPlaybackStream {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlaybackStreamServiceInitiatingPlayerId.Value] =
+    data[OperationParam.playbackStreamServiceInitiatingPlayerId.value] =
         initiatingPlayerId;
-    data[OperationParam.PlaybackStreamServiceMaxNumberOfStreams.Value] =
+    data[OperationParam.playbackStreamServiceMaxNumberOfStreams.value] =
         maxNumStreams;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -266,9 +266,9 @@ class BrainCloudPlaybackStream {
   void getRecentStreamsForTargetPlayer(String targetPlayerId, int maxNumStreams,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PlaybackStreamServiceTargetPlayerId.Value] =
+    data[OperationParam.playbackStreamServiceTargetPlayerId.value] =
         targetPlayerId;
-    data[OperationParam.PlaybackStreamServiceMaxNumberOfStreams.Value] =
+    data[OperationParam.playbackStreamServiceMaxNumberOfStreams.value] =
         maxNumStreams;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(

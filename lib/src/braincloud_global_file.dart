@@ -31,7 +31,7 @@ class BrainCloudGlobalFile {
   void getFileInfo(String fileId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalFileServiceFileId.Value] = fileId;
+    data[OperationParam.globalFileServiceFileId.value] = fileId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -65,8 +65,8 @@ class BrainCloudGlobalFile {
   void getFileInfoSimple(String folderPath, String filename,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalFileServiceFolderPath.Value] = folderPath;
-    data[OperationParam.GlobalFileServiceFileName.Value] = filename;
+    data[OperationParam.globalFileServiceFolderPath.value] = folderPath;
+    data[OperationParam.globalFileServiceFileName.value] = filename;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -97,7 +97,7 @@ class BrainCloudGlobalFile {
   void getGlobalCDNUrl(String fileId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalFileServiceFileId.Value] = fileId;
+    data[OperationParam.globalFileServiceFileId.value] = fileId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -131,8 +131,8 @@ class BrainCloudGlobalFile {
   void getGlobalFileList(String folderPath, bool recurse,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GlobalFileServiceFolderPath.Value] = folderPath;
-    data[OperationParam.GlobalFileServiceRecurse.Value] = recurse;
+    data[OperationParam.globalFileServiceFolderPath.value] = folderPath;
+    data[OperationParam.globalFileServiceRecurse.value] = recurse;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,

@@ -35,13 +35,13 @@ class BrainCloudProfanity {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.ProfanityText.Value] = text;
+    data[OperationParam.profanityText.value] = text;
     if (languages != null) {
-      data[OperationParam.ProfanityLanguages.Value] = languages;
+      data[OperationParam.profanityLanguages.value] = languages;
     }
-    data[OperationParam.ProfanityFlagEmail.Value] = flagEmail;
-    data[OperationParam.ProfanityFlagPhone.Value] = flagPhone;
-    data[OperationParam.ProfanityFlagUrls.Value] = flagUrls;
+    data[OperationParam.profanityFlagEmail.value] = flagEmail;
+    data[OperationParam.profanityFlagPhone.value] = flagPhone;
+    data[OperationParam.profanityFlagUrls.value] = flagUrls;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -78,14 +78,14 @@ class BrainCloudProfanity {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.ProfanityText.Value] = text;
-    data[OperationParam.ProfanityReplaceSymbol.Value] = replaceSymbol;
+    data[OperationParam.profanityText.value] = text;
+    data[OperationParam.profanityReplaceSymbol.value] = replaceSymbol;
     if (languages != null) {
-      data[OperationParam.ProfanityLanguages.Value] = languages;
+      data[OperationParam.profanityLanguages.value] = languages;
     }
-    data[OperationParam.ProfanityFlagEmail.Value] = flagEmail;
-    data[OperationParam.ProfanityFlagPhone.Value] = flagPhone;
-    data[OperationParam.ProfanityFlagUrls.Value] = flagUrls;
+    data[OperationParam.profanityFlagEmail.value] = flagEmail;
+    data[OperationParam.profanityFlagPhone.value] = flagPhone;
+    data[OperationParam.profanityFlagUrls.value] = flagUrls;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -120,13 +120,13 @@ class BrainCloudProfanity {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.ProfanityText.Value] = text;
+    data[OperationParam.profanityText.value] = text;
     if (languages != null) {
-      data[OperationParam.ProfanityLanguages.Value] = languages;
+      data[OperationParam.profanityLanguages.value] = languages;
     }
-    data[OperationParam.ProfanityFlagEmail.Value] = flagEmail;
-    data[OperationParam.ProfanityFlagPhone.Value] = flagPhone;
-    data[OperationParam.ProfanityFlagUrls.Value] = flagUrls;
+    data[OperationParam.profanityFlagEmail.value] = flagEmail;
+    data[OperationParam.profanityFlagPhone.value] = flagPhone;
+    data[OperationParam.profanityFlagUrls.value] = flagUrls;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,

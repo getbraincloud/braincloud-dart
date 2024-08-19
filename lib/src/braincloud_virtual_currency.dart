@@ -34,7 +34,7 @@ class BrainCloudVirtualCurrency {
   void getCurrency(String currencyType, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.VirtualCurrencyServiceCurrencyId.Value] = currencyType;
+    data[OperationParam.virtualCurrencyServiceCurrencyId.value] = currencyType;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -71,8 +71,8 @@ class BrainCloudVirtualCurrency {
   void getParentCurrency(String currencyType, String levelName,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.VirtualCurrencyServiceCurrencyId.Value] = currencyType;
-    data[OperationParam.AuthenticateServiceAuthenticateLevelName.Value] =
+    data[OperationParam.virtualCurrencyServiceCurrencyId.value] = currencyType;
+    data[OperationParam.authenticateServiceAuthenticateLevelName.value] =
         levelName;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -110,8 +110,8 @@ class BrainCloudVirtualCurrency {
   void getPeerCurrency(String currencyType, String peerCode,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.VirtualCurrencyServiceCurrencyId.Value] = currencyType;
-    data[OperationParam.AuthenticateServiceAuthenticatePeerCode.Value] =
+    data[OperationParam.virtualCurrencyServiceCurrencyId.value] = currencyType;
+    data[OperationParam.authenticateServiceAuthenticatePeerCode.value] =
         peerCode;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(

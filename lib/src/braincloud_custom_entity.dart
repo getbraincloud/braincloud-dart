@@ -51,12 +51,12 @@ class BrainCloudCustomEntity {
       SuccessCallback? success,
       FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.CustomEntityServiceDataJson.Value] =
+    data[OperationParam.customEntityServiceEntityType.value] = entityType;
+    data[OperationParam.customEntityServiceDataJson.value] =
         jsonDecode(dataJson);
-    data[OperationParam.CustomEntityServiceAcl.Value] = jsonDecode(acl);
-    data[OperationParam.CustomEntityServiceTimeToLive.Value] = timeToLive;
-    data[OperationParam.CustomEntityServiceIsOwned.Value] = isOwned;
+    data[OperationParam.customEntityServiceAcl.value] = jsonDecode(acl);
+    data[OperationParam.customEntityServiceTimeToLive.value] = timeToLive;
+    data[OperationParam.customEntityServiceIsOwned.value] = isOwned;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -69,8 +69,8 @@ class BrainCloudCustomEntity {
       SuccessCallback? success, FailureCallback? failure) {
     var context = jsonDecode(jsonContext);
     Map<String, dynamic> data = {};
-    data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.CustomEntityServiceContext.Value] = context;
+    data[OperationParam.customEntityServiceEntityType.value] = entityType;
+    data[OperationParam.customEntityServiceContext.value] = context;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -108,9 +108,9 @@ class BrainCloudCustomEntity {
   void getEntityPageOffset(String entityType, String context, int pageOffset,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.CustomEntityServiceContext.Value] = context;
-    data[OperationParam.CustomEntityServicePageOffset.Value] = pageOffset;
+    data[OperationParam.customEntityServiceEntityType.value] = entityType;
+    data[OperationParam.customEntityServiceContext.value] = context;
+    data[OperationParam.customEntityServicePageOffset.value] = pageOffset;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -142,8 +142,8 @@ class BrainCloudCustomEntity {
   void readEntity(String entityType, String entityId, SuccessCallback? success,
       FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.CustomEntityServiceEntityId.Value] = entityId;
+    data[OperationParam.customEntityServiceEntityType.value] = entityType;
+    data[OperationParam.customEntityServiceEntityId.value] = entityId;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -175,9 +175,9 @@ class BrainCloudCustomEntity {
   void incrementData(String entityType, String entityId, String fieldsJson,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.CustomEntityServiceEntityId.Value] = entityId;
-    data[OperationParam.CustomEntityServiceFieldsJson.Value] =
+    data[OperationParam.customEntityServiceEntityType.value] = entityType;
+    data[OperationParam.customEntityServiceEntityId.value] = entityId;
+    data[OperationParam.customEntityServiceFieldsJson.value] =
         jsonDecode(fieldsJson);
 
     ServerCallback? callback =
@@ -212,8 +212,8 @@ class BrainCloudCustomEntity {
   void incrementSingletonData(String entityType, String fieldsJson,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.CustomEntityServiceFieldsJson.Value] =
+    data[OperationParam.customEntityServiceEntityType.value] = entityType;
+    data[OperationParam.customEntityServiceFieldsJson.value] =
         jsonDecode(fieldsJson);
 
     ServerCallback? callback =
@@ -261,13 +261,13 @@ class BrainCloudCustomEntity {
       SuccessCallback? success,
       FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.CustomEntityServiceEntityId.Value] = entityId;
-    data[OperationParam.CustomEntityServiceVersion.Value] = version;
-    data[OperationParam.CustomEntityServiceDataJson.Value] =
+    data[OperationParam.customEntityServiceEntityType.value] = entityType;
+    data[OperationParam.customEntityServiceEntityId.value] = entityId;
+    data[OperationParam.customEntityServiceVersion.value] = version;
+    data[OperationParam.customEntityServiceDataJson.value] =
         jsonDecode(dataJson);
-    data[OperationParam.CustomEntityServiceAcl.Value] = jsonDecode(acl);
-    data[OperationParam.CustomEntityServiceTimeToLive.Value] = timeToLive;
+    data[OperationParam.customEntityServiceAcl.value] = jsonDecode(acl);
+    data[OperationParam.customEntityServiceTimeToLive.value] = timeToLive;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -299,10 +299,10 @@ class BrainCloudCustomEntity {
   void updateEntityFields(String entityType, String entityId, int version,
       String fieldsJson, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.CustomEntityServiceEntityId.Value] = entityId;
-    data[OperationParam.CustomEntityServiceVersion.Value] = version;
-    data[OperationParam.CustomEntityServiceFieldsJson.Value] =
+    data[OperationParam.customEntityServiceEntityType.value] = entityType;
+    data[OperationParam.customEntityServiceEntityId.value] = entityId;
+    data[OperationParam.customEntityServiceVersion.value] = version;
+    data[OperationParam.customEntityServiceFieldsJson.value] =
         jsonDecode(fieldsJson);
 
     ServerCallback? callback =
@@ -342,13 +342,13 @@ class BrainCloudCustomEntity {
       SuccessCallback? success,
       FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.CustomEntityServiceEntityId.Value] = entityId;
-    data[OperationParam.CustomEntityServiceVersion.Value] = version;
-    data[OperationParam.CustomEntityServiceFieldsJson.Value] =
+    data[OperationParam.customEntityServiceEntityType.value] = entityType;
+    data[OperationParam.customEntityServiceEntityId.value] = entityId;
+    data[OperationParam.customEntityServiceVersion.value] = version;
+    data[OperationParam.customEntityServiceFieldsJson.value] =
         jsonDecode(fieldsJson);
 
-    data[OperationParam.CustomEntityServiceShardKeyJson.Value] =
+    data[OperationParam.customEntityServiceShardKeyJson.value] =
         jsonDecode(shardKeyJson);
 
     ServerCallback? callback =
@@ -382,8 +382,8 @@ class BrainCloudCustomEntity {
   void deleteEntities(String entityType, String deleteCriteria,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.CustomEntityServiceDeleteCriteria.Value] =
+    data[OperationParam.customEntityServiceEntityType.value] = entityType;
+    data[OperationParam.customEntityServiceDeleteCriteria.value] =
         jsonDecode(deleteCriteria);
 
     ServerCallback? callback =
@@ -416,8 +416,8 @@ class BrainCloudCustomEntity {
   void getCount(String entityType, String whereJson, SuccessCallback? success,
       FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.CustomEntityServiceWhereJson.Value] =
+    data[OperationParam.customEntityServiceEntityType.value] = entityType;
+    data[OperationParam.customEntityServiceWhereJson.value] =
         jsonDecode(whereJson);
 
     ServerCallback? callback =
@@ -450,9 +450,9 @@ class BrainCloudCustomEntity {
   void deleteEntity(String entityType, String entityId, int version,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.CustomEntityServiceEntityId.Value] = entityId;
-    data[OperationParam.CustomEntityServiceVersion.Value] = version;
+    data[OperationParam.customEntityServiceEntityType.value] = entityType;
+    data[OperationParam.customEntityServiceEntityId.value] = entityId;
+    data[OperationParam.customEntityServiceVersion.value] = version;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -490,10 +490,10 @@ class BrainCloudCustomEntity {
   void getRandomEntitiesMatching(String entityType, String whereJson,
       int maxReturn, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.CustomEntityServiceWhereJson.Value] =
+    data[OperationParam.customEntityServiceEntityType.value] = entityType;
+    data[OperationParam.customEntityServiceWhereJson.value] =
         jsonDecode(whereJson);
-    data[OperationParam.CustomEntityServiceMaxReturn.Value] = maxReturn;
+    data[OperationParam.customEntityServiceMaxReturn.value] = maxReturn;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -525,8 +525,8 @@ class BrainCloudCustomEntity {
   void deleteSingleton(String entityType, int version, SuccessCallback? success,
       FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.CustomEntityServiceVersion.Value] = version;
+    data[OperationParam.customEntityServiceEntityType.value] = entityType;
+    data[OperationParam.customEntityServiceVersion.value] = version;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -558,7 +558,7 @@ class BrainCloudCustomEntity {
   void readSingleton(
       String entityType, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
+    data[OperationParam.customEntityServiceEntityType.value] = entityType;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -589,9 +589,9 @@ class BrainCloudCustomEntity {
   void updateSingletonFields(String entityType, int version, String fieldsJson,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.CustomEntityServiceVersion.Value] = version;
-    data[OperationParam.CustomEntityServiceFieldsJson.Value] =
+    data[OperationParam.customEntityServiceEntityType.value] = entityType;
+    data[OperationParam.customEntityServiceVersion.value] = version;
+    data[OperationParam.customEntityServiceFieldsJson.value] =
         jsonDecode(fieldsJson);
 
     ServerCallback? callback =
@@ -629,12 +629,12 @@ class BrainCloudCustomEntity {
       SuccessCallback? success,
       FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.CustomEntityServiceEntityType.Value] = entityType;
-    data[OperationParam.CustomEntityServiceVersion.Value] = version;
-    data[OperationParam.CustomEntityServiceDataJson.Value] =
+    data[OperationParam.customEntityServiceEntityType.value] = entityType;
+    data[OperationParam.customEntityServiceVersion.value] = version;
+    data[OperationParam.customEntityServiceDataJson.value] =
         jsonDecode(dataJson);
-    data[OperationParam.CustomEntityServiceAcl.Value] = jsonDecode(acl);
-    data[OperationParam.CustomEntityServiceTimeToLive.Value] = timeToLive;
+    data[OperationParam.customEntityServiceAcl.value] = jsonDecode(acl);
+    data[OperationParam.customEntityServiceTimeToLive.value] = timeToLive;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);

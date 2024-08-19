@@ -80,18 +80,18 @@ class BrainCloudAppStore {
   void getSalesInventoryByCategory(String storeId, String userCurrency,
       String? category, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.AppStoreServiceStoreId.Value] = storeId;
+    data[OperationParam.appStoreServiceStoreId.value] = storeId;
 
     Map<String, dynamic> priceInfoCriteria = {};
     if (Util.isOptionalParameterValid(userCurrency)) {
-      priceInfoCriteria[OperationParam.AppStoreServiceUserCurrency.Value] =
+      priceInfoCriteria[OperationParam.appStoreServiceUserCurrency.value] =
           userCurrency;
     }
-    data[OperationParam.AppStoreServicePriceInfoCriteria.Value] =
+    data[OperationParam.appStoreServicePriceInfoCriteria.value] =
         priceInfoCriteria;
 
     if (Util.isOptionalParameterValid(category)) {
-      data[OperationParam.AppStoreServiceCategory.Value] = category;
+      data[OperationParam.appStoreServiceCategory.value] = category;
     }
 
     ServerCallback? callback =
@@ -152,10 +152,10 @@ class BrainCloudAppStore {
   void verifyPurchase(String storeId, String receiptJson,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.AppStoreServiceStoreId.Value] = storeId;
+    data[OperationParam.appStoreServiceStoreId.value] = storeId;
 
     var receiptData = jsonDecode(receiptJson);
-    data[OperationParam.AppStoreServiceReceiptData.Value] = receiptData;
+    data[OperationParam.appStoreServiceReceiptData.value] = receiptData;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -193,10 +193,10 @@ class BrainCloudAppStore {
   void startPurchase(String storeId, String purchaseJson,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.AppStoreServiceStoreId.Value] = storeId;
+    data[OperationParam.appStoreServiceStoreId.value] = storeId;
 
     var purchaseData = jsonDecode(purchaseJson);
-    data[OperationParam.AppStoreServicePurchaseData.Value] = purchaseData;
+    data[OperationParam.appStoreServicePurchaseData.value] = purchaseData;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -241,11 +241,11 @@ class BrainCloudAppStore {
       SuccessCallback? success,
       FailureCallback? failure) {
     Map<String, dynamic> data = {};
-    data[OperationParam.AppStoreServiceStoreId.Value] = storeId;
-    data[OperationParam.AppStoreServiceTransactionId.Value] = transactionId;
+    data[OperationParam.appStoreServiceStoreId.value] = storeId;
+    data[OperationParam.appStoreServiceTransactionId.value] = transactionId;
 
     var transactionData = jsonDecode(transactionJson);
-    data[OperationParam.AppStoreServiceTransactionData.Value] = transactionData;
+    data[OperationParam.appStoreServiceTransactionData.value] = transactionData;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);

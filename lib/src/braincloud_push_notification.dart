@@ -38,9 +38,9 @@ class BrainCloudPushNotification {
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     String devicePlatform = platform.toString();
     Map<String, dynamic> data = {};
-    data[OperationParam.PushNotificationRegisterParamDeviceType.Value] =
+    data[OperationParam.pushNotificationRegisterParamDeviceType.value] =
         devicePlatform;
-    data[OperationParam.PushNotificationRegisterParamDeviceToken.Value] = token;
+    data[OperationParam.pushNotificationRegisterParamDeviceToken.value] = token;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -97,9 +97,9 @@ class BrainCloudPushNotification {
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     String devicePlatform = platform.toString();
     Map<String, dynamic> data = {};
-    data[OperationParam.PushNotificationRegisterParamDeviceType.Value] =
+    data[OperationParam.pushNotificationRegisterParamDeviceType.value] =
         devicePlatform;
-    data[OperationParam.PushNotificationRegisterParamDeviceToken.Value] = token;
+    data[OperationParam.pushNotificationRegisterParamDeviceToken.value] = token;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -131,9 +131,9 @@ class BrainCloudPushNotification {
   void sendSimplePushNotification(String toProfileId, String message,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PushNotificationSendParamToPlayerId.Value] =
+    data[OperationParam.pushNotificationSendParamToPlayerId.value] =
         toProfileId;
-    data[OperationParam.PushNotificationSendParamMessage.Value] = message;
+    data[OperationParam.pushNotificationSendParamMessage.value] = message;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -209,12 +209,12 @@ class BrainCloudPushNotification {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.PushNotificationSendParamNotificationTemplateId.Value] =
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.pushNotificationSendParamNotificationTemplateId.value] =
         notificationTemplateId;
 
     if (Util.isOptionalParameterValid(substitutionsJson)) {
-      data[OperationParam.PushNotificationSendParamSubstitutions.Value] =
+      data[OperationParam.pushNotificationSendParamSubstitutions.value] =
           jsonDecode(substitutionsJson);
     }
 
@@ -257,10 +257,10 @@ class BrainCloudPushNotification {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.AlertContent.Value] = jsonDecode(alertContentJson);
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.alertContent.value] = jsonDecode(alertContentJson);
     if (Util.isOptionalParameterValid(customDataJson)) {
-      data[OperationParam.CustomData.Value] = jsonDecode(customDataJson);
+      data[OperationParam.customData.value] = jsonDecode(customDataJson);
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -308,24 +308,24 @@ class BrainCloudPushNotification {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.ProfileId.Value] = profileId;
+    data[OperationParam.profileId.value] = profileId;
 
     if (Util.isOptionalParameterValid(fcmContent)) {
-      data[OperationParam.PushNotificationSendParamFcmContent.Value] =
+      data[OperationParam.pushNotificationSendParamFcmContent.value] =
           jsonDecode(fcmContent);
     }
 
     if (Util.isOptionalParameterValid(iosContent)) {
-      data[OperationParam.PushNotificationSendParamIosContent.Value] =
+      data[OperationParam.pushNotificationSendParamIosContent.value] =
           jsonDecode(iosContent);
     }
 
     if (Util.isOptionalParameterValid(facebookContent)) {
-      data[OperationParam.PushNotificationSendParamFacebookContent.Value] =
+      data[OperationParam.pushNotificationSendParamFacebookContent.value] =
           jsonDecode(facebookContent);
     }
 
-    data[OperationParam.StartDateUTC.Value] = startTimeUTC.toUnsigned(64);
+    data[OperationParam.startDateUTC.value] = startTimeUTC.toUnsigned(64);
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -372,24 +372,24 @@ class BrainCloudPushNotification {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.ProfileId.Value] = profileId;
+    data[OperationParam.profileId.value] = profileId;
 
     if (Util.isOptionalParameterValid(fcmContent)) {
-      data[OperationParam.PushNotificationSendParamFcmContent.Value] =
+      data[OperationParam.pushNotificationSendParamFcmContent.value] =
           jsonDecode(fcmContent);
     }
 
     if (Util.isOptionalParameterValid(iosContent)) {
-      data[OperationParam.PushNotificationSendParamIosContent.Value] =
+      data[OperationParam.pushNotificationSendParamIosContent.value] =
           jsonDecode(iosContent);
     }
 
     if (Util.isOptionalParameterValid(facebookContent)) {
-      data[OperationParam.PushNotificationSendParamFacebookContent.Value] =
+      data[OperationParam.pushNotificationSendParamFacebookContent.value] =
           jsonDecode(facebookContent);
     }
 
-    data[OperationParam.MinutesFromNow.Value] = minutesFromNow;
+    data[OperationParam.minutesFromNow.value] = minutesFromNow;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -432,21 +432,21 @@ class BrainCloudPushNotification {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PushNotificationSendParamToPlayerId.Value] =
+    data[OperationParam.pushNotificationSendParamToPlayerId.value] =
         toProfileId;
 
     if (Util.isOptionalParameterValid(fcmContent)) {
-      data[OperationParam.PushNotificationSendParamFcmContent.Value] =
+      data[OperationParam.pushNotificationSendParamFcmContent.value] =
           jsonDecode(fcmContent);
     }
 
     if (Util.isOptionalParameterValid(iosContent)) {
-      data[OperationParam.PushNotificationSendParamIosContent.Value] =
+      data[OperationParam.pushNotificationSendParamIosContent.value] =
           jsonDecode(iosContent);
     }
 
     if (Util.isOptionalParameterValid(facebookContent)) {
-      data[OperationParam.PushNotificationSendParamFacebookContent.Value] =
+      data[OperationParam.pushNotificationSendParamFacebookContent.value] =
           jsonDecode(facebookContent);
     }
 
@@ -492,20 +492,20 @@ class BrainCloudPushNotification {
       dynamic cbObject) {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.PushNotificationSendParamProfileIds.Value] = profileIds;
+    data[OperationParam.pushNotificationSendParamProfileIds.value] = profileIds;
 
     if (Util.isOptionalParameterValid(fcmContent)) {
-      data[OperationParam.PushNotificationSendParamFcmContent.Value] =
+      data[OperationParam.pushNotificationSendParamFcmContent.value] =
           jsonDecode(fcmContent);
     }
 
     if (Util.isOptionalParameterValid(iosContent)) {
-      data[OperationParam.PushNotificationSendParamIosContent.Value] =
+      data[OperationParam.pushNotificationSendParamIosContent.value] =
           jsonDecode(iosContent);
     }
 
     if (Util.isOptionalParameterValid(facebookContent)) {
-      data[OperationParam.PushNotificationSendParamFacebookContent.Value] =
+      data[OperationParam.pushNotificationSendParamFacebookContent.value] =
           jsonDecode(facebookContent);
     }
 
@@ -550,20 +550,20 @@ class BrainCloudPushNotification {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
+    data[OperationParam.groupId.value] = groupId;
 
     if (Util.isOptionalParameterValid(fcmContent)) {
-      data[OperationParam.PushNotificationSendParamFcmContent.Value] =
+      data[OperationParam.pushNotificationSendParamFcmContent.value] =
           jsonDecode(fcmContent);
     }
 
     if (Util.isOptionalParameterValid(iosContent)) {
-      data[OperationParam.PushNotificationSendParamIosContent.Value] =
+      data[OperationParam.pushNotificationSendParamIosContent.value] =
           jsonDecode(iosContent);
     }
 
     if (Util.isOptionalParameterValid(facebookContent)) {
-      data[OperationParam.PushNotificationSendParamFacebookContent.Value] =
+      data[OperationParam.pushNotificationSendParamFacebookContent.value] =
           jsonDecode(facebookContent);
     }
 
@@ -609,14 +609,14 @@ class BrainCloudPushNotification {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PushNotificationSendParamProfileId.Value] = profileId;
-    data[OperationParam.AlertContent.Value] = jsonDecode(alertContentJson);
+    data[OperationParam.pushNotificationSendParamProfileId.value] = profileId;
+    data[OperationParam.alertContent.value] = jsonDecode(alertContentJson);
 
     if (Util.isOptionalParameterValid(customDataJson)) {
-      data[OperationParam.CustomData.Value] = jsonDecode(customDataJson);
+      data[OperationParam.customData.value] = jsonDecode(customDataJson);
     }
 
-    data[OperationParam.StartDateUTC.Value] = startTimeUTC.toUnsigned(64);
+    data[OperationParam.startDateUTC.value] = startTimeUTC.toUnsigned(64);
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -660,14 +660,14 @@ class BrainCloudPushNotification {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PushNotificationSendParamProfileId.Value] = profileId;
-    data[OperationParam.AlertContent.Value] = jsonDecode(alertContentJson);
+    data[OperationParam.pushNotificationSendParamProfileId.value] = profileId;
+    data[OperationParam.alertContent.value] = jsonDecode(alertContentJson);
 
     if (Util.isOptionalParameterValid(customDataJson)) {
-      data[OperationParam.CustomData.Value] = jsonDecode(customDataJson);
+      data[OperationParam.customData.value] = jsonDecode(customDataJson);
     }
 
-    data[OperationParam.MinutesFromNow.Value] = minutesFromNow;
+    data[OperationParam.minutesFromNow.value] = minutesFromNow;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -711,16 +711,16 @@ class BrainCloudPushNotification {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PushNotificationSendParamProfileId.Value] = profileId;
-    data[OperationParam.PushNotificationSendParamNotificationTemplateId.Value] =
+    data[OperationParam.pushNotificationSendParamProfileId.value] = profileId;
+    data[OperationParam.pushNotificationSendParamNotificationTemplateId.value] =
         notificationTemplateId;
 
     if (Util.isOptionalParameterValid(substitutionsJson)) {
-      data[OperationParam.PushNotificationSendParamSubstitutions.Value] =
+      data[OperationParam.pushNotificationSendParamSubstitutions.value] =
           jsonDecode(substitutionsJson);
     }
 
-    data[OperationParam.StartDateUTC.Value] = startTimeUTC.toUnsigned(64);
+    data[OperationParam.startDateUTC.value] = startTimeUTC.toUnsigned(64);
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -764,16 +764,16 @@ class BrainCloudPushNotification {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PushNotificationSendParamProfileId.Value] = profileId;
-    data[OperationParam.PushNotificationSendParamNotificationTemplateId.Value] =
+    data[OperationParam.pushNotificationSendParamProfileId.value] = profileId;
+    data[OperationParam.pushNotificationSendParamNotificationTemplateId.value] =
         notificationTemplateId;
 
     if (Util.isOptionalParameterValid(substitutionsJson)) {
-      data[OperationParam.PushNotificationSendParamSubstitutions.Value] =
+      data[OperationParam.pushNotificationSendParamSubstitutions.value] =
           jsonDecode(substitutionsJson);
     }
 
-    data[OperationParam.MinutesFromNow.Value] = minutesFromNow;
+    data[OperationParam.minutesFromNow.value] = minutesFromNow;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -812,11 +812,11 @@ class BrainCloudPushNotification {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PushNotificationSendParamToPlayerId.Value] =
+    data[OperationParam.pushNotificationSendParamToPlayerId.value] =
         toProfileId;
-    data[OperationParam.AlertContent.Value] = jsonDecode(alertContentJson);
+    data[OperationParam.alertContent.value] = jsonDecode(alertContentJson);
     if (Util.isOptionalParameterValid(customDataJson)) {
-      data[OperationParam.CustomData.Value] = jsonDecode(customDataJson);
+      data[OperationParam.customData.value] = jsonDecode(customDataJson);
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -856,10 +856,10 @@ class BrainCloudPushNotification {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PushNotificationSendParamProfileIds.Value] = profileIds;
-    data[OperationParam.AlertContent.Value] = jsonDecode(alertContentJson);
+    data[OperationParam.pushNotificationSendParamProfileIds.value] = profileIds;
+    data[OperationParam.alertContent.value] = jsonDecode(alertContentJson);
     if (Util.isOptionalParameterValid(customDataJson)) {
-      data[OperationParam.CustomData.Value] = jsonDecode(customDataJson);
+      data[OperationParam.customData.value] = jsonDecode(customDataJson);
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -878,13 +878,13 @@ class BrainCloudPushNotification {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PushNotificationSendParamToPlayerId.Value] =
+    data[OperationParam.pushNotificationSendParamToPlayerId.value] =
         toProfileId;
-    data[OperationParam.PushNotificationSendParamNotificationTemplateId.Value] =
+    data[OperationParam.pushNotificationSendParamNotificationTemplateId.value] =
         notificationTemplateId;
 
     if (Util.isOptionalParameterValid(substitutionJson)) {
-      data[OperationParam.PushNotificationSendParamSubstitutions.Value] =
+      data[OperationParam.pushNotificationSendParamSubstitutions.value] =
           jsonDecode(substitutionJson);
     }
 

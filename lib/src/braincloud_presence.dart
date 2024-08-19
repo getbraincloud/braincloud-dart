@@ -68,8 +68,8 @@ class BrainCloudPresence {
   void getPresenceOfFriends(String platform, bool includeOffline,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PresenceServicePlatform.Value] = platform;
-    data[OperationParam.PresenceServiceIncludeOffline.Value] = includeOffline;
+    data[OperationParam.presenceServicePlatform.value] = platform;
+    data[OperationParam.presenceServiceIncludeOffline.value] = includeOffline;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -105,8 +105,8 @@ class BrainCloudPresence {
   void getPresenceOfGroup(String groupId, bool includeOffline,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PresenceServiceGroupId.Value] = groupId;
-    data[OperationParam.PresenceServiceIncludeOffline.Value] = includeOffline;
+    data[OperationParam.presenceServiceGroupId.value] = groupId;
+    data[OperationParam.presenceServiceIncludeOffline.value] = includeOffline;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -142,8 +142,8 @@ class BrainCloudPresence {
   void getPresenceOfUsers(List<String> profileIds, bool includeOffline,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PresenceServiceProfileIds.Value] = profileIds;
-    data[OperationParam.PresenceServiceIncludeOffline.Value] = includeOffline;
+    data[OperationParam.presenceServiceProfileIds.value] = profileIds;
+    data[OperationParam.presenceServiceIncludeOffline.value] = includeOffline;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -184,8 +184,8 @@ class BrainCloudPresence {
   void registerListenersForFriends(String platform, bool bidirectional,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PresenceServicePlatform.Value] = platform;
-    data[OperationParam.PresenceServiceBidirectional.Value] = bidirectional;
+    data[OperationParam.presenceServicePlatform.value] = platform;
+    data[OperationParam.presenceServiceBidirectional.value] = bidirectional;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -220,8 +220,8 @@ class BrainCloudPresence {
   void registerListenersForGroup(String groupId, bool bidirectional,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PresenceServiceGroupId.Value] = groupId;
-    data[OperationParam.PresenceServiceBidirectional.Value] = bidirectional;
+    data[OperationParam.presenceServiceGroupId.value] = groupId;
+    data[OperationParam.presenceServiceBidirectional.value] = bidirectional;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -258,8 +258,8 @@ class BrainCloudPresence {
   void registerListenersForProfiles(List<String> profileIds, bool bidirectional,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PresenceServiceProfileIds.Value] = profileIds;
-    data[OperationParam.PresenceServiceBidirectional.Value] = bidirectional;
+    data[OperationParam.presenceServiceProfileIds.value] = profileIds;
+    data[OperationParam.presenceServiceBidirectional.value] = bidirectional;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -291,7 +291,7 @@ class BrainCloudPresence {
   void setVisibility(bool visible, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.PresenceServiceVisibile.Value] = visible;
+    data[OperationParam.presenceServiceVisibile.value] = visible;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -354,7 +354,7 @@ class BrainCloudPresence {
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     var jsonActivityString = jsonDecode(jsonActivity);
-    data[OperationParam.PresenceServiceActivity.Value] = jsonActivityString;
+    data[OperationParam.presenceServiceActivity.value] = jsonActivityString;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,

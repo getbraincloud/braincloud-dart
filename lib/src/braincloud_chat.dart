@@ -18,8 +18,8 @@ class BrainCloudChat {
   void channelConnect(String inChannelid, int inMaxtoreturn,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.ChatChannelId.Value] = inChannelid;
-    data[OperationParam.ChatMaxReturn.Value] = inMaxtoreturn;
+    data[OperationParam.chatChannelId.value] = inChannelid;
+    data[OperationParam.chatMaxReturn.value] = inMaxtoreturn;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -35,7 +35,7 @@ class BrainCloudChat {
   void channelDisconnect(String inChannelid, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.ChatChannelId.Value] = inChannelid;
+    data[OperationParam.chatChannelId.value] = inChannelid;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -51,9 +51,9 @@ class BrainCloudChat {
   void deleteChatMessage(String inChannelid, String inMessageid, int inVersion,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.ChatChannelId.Value] = inChannelid;
-    data[OperationParam.ChatMessageId.Value] = inMessageid;
-    data[OperationParam.ChatVersion.Value] = inVersion;
+    data[OperationParam.chatChannelId.value] = inChannelid;
+    data[OperationParam.chatMessageId.value] = inMessageid;
+    data[OperationParam.chatVersion.value] = inVersion;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -69,8 +69,8 @@ class BrainCloudChat {
   void getChannelId(String inChanneltype, String inChannelsubid,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.ChatChannelType.Value] = inChanneltype;
-    data[OperationParam.ChatChannelSubId.Value] = inChannelsubid;
+    data[OperationParam.chatChannelType.value] = inChanneltype;
+    data[OperationParam.chatChannelSubId.value] = inChannelsubid;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -86,7 +86,7 @@ class BrainCloudChat {
   void getChannelInfo(String inChannelid, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.ChatChannelId.Value] = inChannelid;
+    data[OperationParam.chatChannelId.value] = inChannelid;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -102,8 +102,8 @@ class BrainCloudChat {
   void getChatMessage(String inChannelid, String inMessageid,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.ChatChannelId.Value] = inChannelid;
-    data[OperationParam.ChatMessageId.Value] = inMessageid;
+    data[OperationParam.chatChannelId.value] = inChannelid;
+    data[OperationParam.chatMessageId.value] = inMessageid;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -123,8 +123,8 @@ class BrainCloudChat {
       FailureCallback? failure,
       dynamic cbObject}) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.ChatChannelId.Value] = inChannelId;
-    data[OperationParam.ChatMaxReturn.Value] = inMaxToReturn;
+    data[OperationParam.chatChannelId.value] = inChannelId;
+    data[OperationParam.chatMaxReturn.value] = inMaxToReturn;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -140,7 +140,7 @@ class BrainCloudChat {
   void getSubscribedChannels(String inChanneltype, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.ChatChannelType.Value] = inChanneltype;
+    data[OperationParam.chatChannelType.value] = inChanneltype;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -163,9 +163,9 @@ class BrainCloudChat {
       dynamic cbObject}) {
     Map<String, dynamic> data = <String, dynamic>{};
 
-    data[OperationParam.ChatChannelId.Value] = inChannelId;
-    data[OperationParam.ChatContent.Value] = jsonDecode(inContentJson);
-    data[OperationParam.ChatRecordInHistory.Value] = inRecordInHistory;
+    data[OperationParam.chatChannelId.value] = inChannelId;
+    data[OperationParam.chatContent.value] = jsonDecode(inContentJson);
+    data[OperationParam.chatRecordInHistory.value] = inRecordInHistory;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -191,18 +191,18 @@ class BrainCloudChat {
 
   //   // Build message content
   //   Map<String, dynamic> content = {};
-  //   content[OperationParam.ChatText.Value] = in_plain;
+  //   content[OperationParam.chatText.Value] = in_plain;
   //   if (Util.isOptionalParameterValid(in_jsonRich)) {
   //     Map<String, dynamic> jsonRich = jsonDecode(in_jsonRich);
-  //     content[OperationParam.ChatRich.Value] = jsonRich;
+  //     content[OperationParam.chatRich.Value] = jsonRich;
   //   } else {
   //     Map<String, dynamic> jsonRich = jsonDecode("{}");
-  //     content[OperationParam.ChatRich.Value] = jsonRich;
+  //     content[OperationParam.chatRich.Value] = jsonRich;
   //   }
 
-  //   data[OperationParam.ChatChannelId.Value] = in_channelId;
-  //   data[OperationParam.ChatContent.Value] = content;
-  //   data[OperationParam.ChatRecordInHistory.Value] = in_recordInHistory;
+  //   data[OperationParam.chatChannelId.Value] = in_channelId;
+  //   data[OperationParam.chatContent.Value] = content;
+  //   data[OperationParam.chatRecordInHistory.Value] = in_recordInHistory;
 
   //   ServerCallback? callback = BrainCloudClient.createServerCallback(
   //       success, failure,
@@ -225,9 +225,9 @@ class BrainCloudChat {
       dynamic cbObject}) {
     Map<String, dynamic> data = <String, dynamic>{};
 
-    data[OperationParam.ChatChannelId.Value] = inChannelId;
-    data[OperationParam.ChatText.Value] = inPlain;
-    data[OperationParam.ChatRecordInHistory.Value] = inRecordInHistory;
+    data[OperationParam.chatChannelId.value] = inChannelId;
+    data[OperationParam.chatText.value] = inPlain;
+    data[OperationParam.chatRecordInHistory.value] = inRecordInHistory;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -250,10 +250,10 @@ class BrainCloudChat {
       dynamic cbObject) {
     Map<String, dynamic> data = <String, dynamic>{};
 
-    data[OperationParam.ChatChannelId.Value] = inChannelid;
-    data[OperationParam.ChatMessageId.Value] = inMessageid;
-    data[OperationParam.ChatVersion.Value] = inVersion;
-    data[OperationParam.ChatContent.Value] = jsonDecode(inContentjson);
+    data[OperationParam.chatChannelId.value] = inChannelid;
+    data[OperationParam.chatMessageId.value] = inMessageid;
+    data[OperationParam.chatVersion.value] = inVersion;
+    data[OperationParam.chatContent.value] = jsonDecode(inContentjson);
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -276,20 +276,20 @@ class BrainCloudChat {
   //     FailureCallback? failure,
   //     dynamic cbObject) {
   //   Map<String, dynamic> content = <String, dynamic>{};
-  //   content[OperationParam.ChatText.Value] = in_plain;
+  //   content[OperationParam.chatText.Value] = in_plain;
   //   if (Util.isOptionalParameterValid(in_jsonRich)) {
   //     Map<String, dynamic> jsonRich = jsonDecode(in_jsonRich);
-  //     content[OperationParam.ChatRich.Value] = jsonRich;
+  //     content[OperationParam.chatRich.Value] = jsonRich;
   //   } else {
   //     Map<String, dynamic> jsonRich = {};
-  //     content[OperationParam.ChatRich.Value] = jsonRich;
+  //     content[OperationParam.chatRich.Value] = jsonRich;
   //   }
 
   //   Map<String, dynamic> data = {};
-  //   data[OperationParam.ChatChannelId.Value] = in_channelId;
-  //   data[OperationParam.ChatMessageId.Value] = in_messageId;
-  //   data[OperationParam.ChatVersion.Value] = in_version;
-  //   data[OperationParam.ChatContent.Value] = content;
+  //   data[OperationParam.chatChannelId.Value] = in_channelId;
+  //   data[OperationParam.chatMessageId.Value] = in_messageId;
+  //   data[OperationParam.chatVersion.Value] = in_version;
+  //   data[OperationParam.chatContent.Value] = content;
 
   //   ServerCallback? callback = BrainCloudClient.createServerCallback(
   //       success, failure,

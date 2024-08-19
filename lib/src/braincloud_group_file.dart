@@ -22,9 +22,9 @@ class BrainCloudGroupFile {
   void checkFilenameExists(String groupId, String folderPath, String fileName,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.FolderPath.Value] = folderPath;
-    data[OperationParam.FileName.Value] = fileName;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.folderPath.value] = folderPath;
+    data[OperationParam.fileName.value] = fileName;
 
     _sendRequest(
         ServiceOperation.checkFilenameExists, success, failure, cbObject, data);
@@ -41,8 +41,8 @@ class BrainCloudGroupFile {
   void checkFullpathFilenameExists(String groupId, String fullPathFilename,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.FullPathFilename.Value] = fullPathFilename;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.fullPathFilename.value] = fullPathFilename;
 
     _sendRequest(ServiceOperation.checkFullpathFilenameExists, success, failure,
         cbObject, data);
@@ -73,13 +73,13 @@ class BrainCloudGroupFile {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.FileId.Value] = fileId;
-    data[OperationParam.Version.Value] = version;
-    data[OperationParam.NewTreeId.Value] = newTreeId;
-    data[OperationParam.TreeVersion.Value] = treeVersion;
-    data[OperationParam.NewFilename.Value] = newFilename;
-    data[OperationParam.OverwriteIfPresent.Value] = overwriteIfPresent;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.fileId.value] = fileId;
+    data[OperationParam.version.value] = version;
+    data[OperationParam.newTreeId.value] = newTreeId;
+    data[OperationParam.treeVersion.value] = treeVersion;
+    data[OperationParam.newFilename.value] = newFilename;
+    data[OperationParam.overwriteIfPresent.value] = overwriteIfPresent;
 
     _sendRequest(ServiceOperation.copyFile, success, failure, cbObject, data);
   }
@@ -97,10 +97,10 @@ class BrainCloudGroupFile {
   void deleteFile(String groupId, String fileId, int version, String filename,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.FileId.Value] = fileId;
-    data[OperationParam.Version.Value] = version;
-    data[OperationParam.FileName.Value] = filename;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.fileId.value] = fileId;
+    data[OperationParam.version.value] = version;
+    data[OperationParam.fileName.value] = filename;
 
     _sendRequest(ServiceOperation.deleteFile, success, failure, cbObject, data);
   }
@@ -116,8 +116,8 @@ class BrainCloudGroupFile {
   void getCDNUrl(String groupId, String fileId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.FileId.Value] = fileId;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.fileId.value] = fileId;
 
     _sendRequest(ServiceOperation.getCdnUrl, success, failure, cbObject, data);
   }
@@ -133,8 +133,8 @@ class BrainCloudGroupFile {
   void getFileInfo(String groupId, String fileId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.FileId.Value] = fileId;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.fileId.value] = fileId;
 
     _sendRequest(
         ServiceOperation.getFileInfo, success, failure, cbObject, data);
@@ -152,9 +152,9 @@ class BrainCloudGroupFile {
   void getFileInfoSimple(String groupId, String folderPath, String filename,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.FolderPath.Value] = folderPath;
-    data[OperationParam.FileName.Value] = filename;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.folderPath.value] = folderPath;
+    data[OperationParam.fileName.value] = filename;
 
     _sendRequest(
         ServiceOperation.getFileInfoSimple, success, failure, cbObject, data);
@@ -172,9 +172,9 @@ class BrainCloudGroupFile {
   void getFileList(String groupId, String folderPath, bool recurse,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.FolderPath.Value] = folderPath;
-    data[OperationParam.Recurse.Value] = recurse;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.folderPath.value] = folderPath;
+    data[OperationParam.recurse.value] = recurse;
 
     _sendRequest(
         ServiceOperation.getFileList, success, failure, cbObject, data);
@@ -205,13 +205,13 @@ class BrainCloudGroupFile {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.FileId.Value] = fileId;
-    data[OperationParam.Version.Value] = version;
-    data[OperationParam.NewTreeId.Value] = newTreeId;
-    data[OperationParam.TreeVersion.Value] = treeVersion;
-    data[OperationParam.NewFilename.Value] = newFilename;
-    data[OperationParam.OverwriteIfPresent.Value] = overwriteIfPresent;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.fileId.value] = fileId;
+    data[OperationParam.version.value] = version;
+    data[OperationParam.newTreeId.value] = newTreeId;
+    data[OperationParam.treeVersion.value] = treeVersion;
+    data[OperationParam.newFilename.value] = newFilename;
+    data[OperationParam.overwriteIfPresent.value] = overwriteIfPresent;
 
     _sendRequest(ServiceOperation.moveFile, success, failure, cbObject, data);
   }
@@ -241,13 +241,13 @@ class BrainCloudGroupFile {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.UserCloudPath.Value] = userCloudPath;
-    data[OperationParam.UserCloudFilename.Value] = userCloudFilename;
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.GroupTreeId.Value] = groupTreeId;
-    data[OperationParam.GroupFilename.Value] = groupFilename;
-    data[OperationParam.GroupFileACL.Value] = groupFileAcl;
-    data[OperationParam.OverwriteIfPresent.Value] = overwriteIfPresent;
+    data[OperationParam.userCloudPath.value] = userCloudPath;
+    data[OperationParam.userCloudFilename.value] = userCloudFilename;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupTreeId.value] = groupTreeId;
+    data[OperationParam.groupFilename.value] = groupFilename;
+    data[OperationParam.groupFileACL.value] = groupFileAcl;
+    data[OperationParam.overwriteIfPresent.value] = overwriteIfPresent;
 
     _sendRequest(
         ServiceOperation.moveUserToGroupFile, success, failure, cbObject, data);
@@ -274,11 +274,11 @@ class BrainCloudGroupFile {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.GroupId.Value] = groupId;
-    data[OperationParam.FileId.Value] = fileId;
-    data[OperationParam.Version.Value] = version;
-    data[OperationParam.NewFilename.Value] = newFilename;
-    data[OperationParam.NewACL.Value] = newACL;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.fileId.value] = fileId;
+    data[OperationParam.version.value] = version;
+    data[OperationParam.newFilename.value] = newFilename;
+    data[OperationParam.newACL.value] = newACL;
 
     _sendRequest(
         ServiceOperation.updateFileInfo, success, failure, cbObject, data);

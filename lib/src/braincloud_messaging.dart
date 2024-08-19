@@ -13,14 +13,14 @@ class BrainCloudMessaging {
   BrainCloudMessaging(this._clientRef);
 
   /// <summary>
-  /// Deletes specified user messages on the server. in_msgBox = OperationParam.InboxMessageType && OperationParam.SentMessageType
+  /// Deletes specified user messages on the server. in_msgBox = OperationParam.inboxMessageType && OperationParam.sentMessageType
   /// </summary>
   void deleteMessages(String inMsgbox, List<String> inMsgsids,
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.MessagingMessageBox.Value] = inMsgbox;
-    data[OperationParam.MessagingMessageIds.Value] = inMsgsids;
+    data[OperationParam.messagingMessageBox.value] = inMsgbox;
+    data[OperationParam.messagingMessageIds.value] = inMsgsids;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -63,9 +63,9 @@ class BrainCloudMessaging {
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.MessagingMessageBox.Value] = inMsgbox;
-    data[OperationParam.MessagingMessageIds.Value] = inMsgsids;
-    data[OperationParam.MessagingMarkAsRead.Value] = markAsRead;
+    data[OperationParam.messagingMessageBox.value] = inMsgbox;
+    data[OperationParam.messagingMessageIds.value] = inMsgsids;
+    data[OperationParam.messagingMarkAsRead.value] = markAsRead;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -83,7 +83,7 @@ class BrainCloudMessaging {
       {dynamic cbObject}) {
     Map<String, dynamic> data = {};
     var context = jsonDecode(inContext);
-    data[OperationParam.MessagingContext.Value] = context;
+    data[OperationParam.messagingContext.value] = context;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -100,8 +100,8 @@ class BrainCloudMessaging {
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.MessagingContext.Value] = inContext;
-    data[OperationParam.MessagingPageOffset.Value] = pageOffset;
+    data[OperationParam.messagingContext.value] = inContext;
+    data[OperationParam.messagingPageOffset.value] = pageOffset;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -118,8 +118,8 @@ class BrainCloudMessaging {
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.MessagingMessageBox.Value] = inMsgbox;
-    data[OperationParam.MessagingMessageIds.Value] = inMsgsids;
+    data[OperationParam.messagingMessageBox.value] = inMsgbox;
+    data[OperationParam.messagingMessageIds.value] = inMsgsids;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -136,10 +136,10 @@ class BrainCloudMessaging {
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.MessagingToProfileIds.Value] = inToprofileids;
+    data[OperationParam.messagingToProfileIds.value] = inToprofileids;
 
     var content = jsonDecode(inContentjson);
-    data[OperationParam.MessagingContent.Value] = content;
+    data[OperationParam.messagingContent.value] = content;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -157,8 +157,8 @@ class BrainCloudMessaging {
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.MessagingToProfileIds.Value] = inToprofileids;
-    data[OperationParam.MessagingText.Value] = inMessagetext;
+    data[OperationParam.messagingToProfileIds.value] = inToprofileids;
+    data[OperationParam.messagingText.value] = inMessagetext;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,

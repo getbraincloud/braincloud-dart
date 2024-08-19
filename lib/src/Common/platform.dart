@@ -21,7 +21,7 @@ enum Platform {
   tizen,
   unknown,
   watchOS,
-  WEB,
+  web,
   wii,
   windowsPhone,
   windows,

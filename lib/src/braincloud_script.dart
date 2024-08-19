@@ -38,11 +38,11 @@ class BrainCloudScript {
   void runScript(String scriptName, String jsonScriptData,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.ScriptServiceRunScriptName.Value] = scriptName;
+    data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
     if (Util.isOptionalParameterValid(jsonScriptData)) {
       Map<String, dynamic> scriptData = jsonDecode(jsonScriptData);
-      data[OperationParam.ScriptServiceRunScriptData.Value] = scriptData;
+      data[OperationParam.scriptServiceRunScriptData.value] = scriptData;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -74,14 +74,14 @@ class BrainCloudScript {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.ScriptServiceRunScriptName.Value] = scriptName;
+    data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
     if (Util.isOptionalParameterValid(jsonScriptData)) {
       Map<String, dynamic> scriptData = jsonDecode(jsonScriptData);
-      data[OperationParam.ScriptServiceRunScriptData.Value] = scriptData;
+      data[OperationParam.scriptServiceRunScriptData.value] = scriptData;
     }
 
-    data[OperationParam.ScriptServiceStartDateUTC.Value] =
+    data[OperationParam.scriptServiceStartDateUTC.value] =
         roundStartTimeUTC.toUnsigned(64);
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -113,14 +113,14 @@ class BrainCloudScript {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.ScriptServiceRunScriptName.Value] = scriptName;
+    data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
     if (Util.isOptionalParameterValid(jsonScriptData)) {
       Map<String, dynamic> scriptData = jsonDecode(jsonScriptData);
-      data[OperationParam.ScriptServiceRunScriptData.Value] = scriptData;
+      data[OperationParam.scriptServiceRunScriptData.value] = scriptData;
     }
 
-    data[OperationParam.ScriptServiceStartMinutesFromNow.Value] =
+    data[OperationParam.scriptServiceStartMinutesFromNow.value] =
         minutesFromNow;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -152,14 +152,14 @@ class BrainCloudScript {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.ScriptServiceRunScriptName.Value] = scriptName;
+    data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
     if (Util.isOptionalParameterValid(jsonScriptData)) {
       Map<String, dynamic> scriptData = jsonDecode(jsonScriptData);
-      data[OperationParam.ScriptServiceRunScriptData.Value] = scriptData;
+      data[OperationParam.scriptServiceRunScriptData.value] = scriptData;
     }
 
-    data[OperationParam.ScriptServiceParentLevel.Value] = parentLevel;
+    data[OperationParam.scriptServiceParentLevel.value] = parentLevel;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -183,7 +183,7 @@ class BrainCloudScript {
   void cancelScheduledScript(String jobId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.ScriptServiceJobId.Value] = jobId;
+    data[OperationParam.scriptServiceJobId.value] = jobId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -207,7 +207,7 @@ class BrainCloudScript {
   void getScheduledCloudScripts(DateTime startDateUTC, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.ScriptServiceStartDateUTC.Value] = startDateUTC;
+    data[OperationParam.scriptServiceStartDateUTC.value] = startDateUTC;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -254,14 +254,14 @@ class BrainCloudScript {
   void runPeerScript(String scriptName, String jsonScriptData, String peer,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.ScriptServiceRunScriptName.Value] = scriptName;
+    data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
     if (Util.isOptionalParameterValid(jsonScriptData)) {
       Map<String, dynamic> scriptData = jsonDecode(jsonScriptData);
-      data[OperationParam.ScriptServiceRunScriptData.Value] = scriptData;
+      data[OperationParam.scriptServiceRunScriptData.value] = scriptData;
     }
 
-    data[OperationParam.Peer.Value] = peer;
+    data[OperationParam.peer.value] = peer;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -288,14 +288,14 @@ class BrainCloudScript {
   void runPeerScriptAsync(String scriptName, String jsonScriptData, String peer,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.ScriptServiceRunScriptName.Value] = scriptName;
+    data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
     if (Util.isOptionalParameterValid(jsonScriptData)) {
       Map<String, dynamic> scriptData = jsonDecode(jsonScriptData);
-      data[OperationParam.ScriptServiceRunScriptData.Value] = scriptData;
+      data[OperationParam.scriptServiceRunScriptData.value] = scriptData;
     }
 
-    data[OperationParam.Peer.Value] = peer;
+    data[OperationParam.peer.value] = peer;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,

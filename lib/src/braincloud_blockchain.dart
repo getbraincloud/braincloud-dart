@@ -24,9 +24,9 @@ class BrainCloudBlockchain {
     var context = jsonDecode(inContextjson ?? "{}");
     Map<String, dynamic> data = {};
 
-    data[OperationParam.BlockChainIntegrationId.Value] =
+    data[OperationParam.blockChainIntegrationId.value] =
         inIntegrationid ?? "default";
-    data[OperationParam.BlockChainContext.Value] = context;
+    data[OperationParam.blockChainContext.value] = context;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         inSuccess, inFailure,
@@ -48,8 +48,8 @@ class BrainCloudBlockchain {
     var context = jsonDecode(inContextjson);
     Map<String, dynamic> data = {};
 
-    data[OperationParam.BlockChainIntegrationId.Value] = inIntegrationid;
-    data[OperationParam.BlockChainContext.Value] = context;
+    data[OperationParam.blockChainIntegrationId.value] = inIntegrationid;
+    data[OperationParam.blockChainContext.value] = context;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         inSuccess, inFailure,

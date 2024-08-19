@@ -1,226 +1,226 @@
 class OperationParam {
   //Push Notification Service - Register Params
-  static OperationParam PushNotificationRegisterParamDeviceType =
+  static OperationParam pushNotificationRegisterParamDeviceType =
       OperationParam("deviceType");
-  static OperationParam PushNotificationRegisterParamDeviceToken =
+  static OperationParam pushNotificationRegisterParamDeviceToken =
       OperationParam("deviceToken");
 
   //Push Notification Service - Send Params
-  static OperationParam PushNotificationSendParamToPlayerId =
+  static OperationParam pushNotificationSendParamToPlayerId =
       OperationParam("toPlayerId");
-  static OperationParam PushNotificationSendParamProfileId =
+  static OperationParam pushNotificationSendParamProfileId =
       OperationParam("profileId");
-  static OperationParam PushNotificationSendParamMessage =
+  static OperationParam pushNotificationSendParamMessage =
       OperationParam("message");
-  static OperationParam PushNotificationSendParamNotificationTemplateId =
+  static OperationParam pushNotificationSendParamNotificationTemplateId =
       OperationParam("notificationTemplateId");
-  static OperationParam PushNotificationSendParamSubstitutions =
+  static OperationParam pushNotificationSendParamSubstitutions =
       OperationParam("substitutions");
-  static OperationParam PushNotificationSendParamProfileIds =
+  static OperationParam pushNotificationSendParamProfileIds =
       OperationParam("profileIds");
 
-  static OperationParam PushNotificationSendParamFcmContent =
+  static OperationParam pushNotificationSendParamFcmContent =
       OperationParam("fcmContent");
-  static OperationParam PushNotificationSendParamIosContent =
+  static OperationParam pushNotificationSendParamIosContent =
       OperationParam("iosContent");
-  static OperationParam PushNotificationSendParamFacebookContent =
+  static OperationParam pushNotificationSendParamFacebookContent =
       OperationParam("facebookContent");
 
-  static OperationParam AlertContent = OperationParam("alertContent");
-  static OperationParam CustomData = OperationParam("customData");
+  static OperationParam alertContent = OperationParam("alertContent");
+  static OperationParam customData = OperationParam("customData");
 
-  static OperationParam StartDateUTC = OperationParam("startDateUTC");
-  static OperationParam MinutesFromNow = OperationParam("minutesFromNow");
+  static OperationParam startDateUTC = OperationParam("startDateUTC");
+  static OperationParam minutesFromNow = OperationParam("minutesFromNow");
 
   // Twitter Service - Verify Params
-  static OperationParam TwitterServiceVerifyToken = OperationParam("token");
-  static OperationParam TwitterServiceVerifyVerifier =
+  static OperationParam twitterServiceVerifyToken = OperationParam("token");
+  static OperationParam twitterServiceVerifyVerifier =
       OperationParam("verifier");
 
   // Twitter Service - Tweet Params
-  static OperationParam TwitterServiceTweetToken = OperationParam("token");
-  static OperationParam TwitterServiceTweetSecret = OperationParam("secret");
-  static OperationParam TwitterServiceTweetTweet = OperationParam("tweet");
-  static OperationParam TwitterServiceTweetPic = OperationParam("pic");
+  static OperationParam twitterServiceTweetToken = OperationParam("token");
+  static OperationParam twitterServiceTweetSecret = OperationParam("secret");
+  static OperationParam twitterServiceTweetTweet = OperationParam("tweet");
+  static OperationParam twitterServiceTweetPic = OperationParam("pic");
 
-  static OperationParam BlockChainConfig = OperationParam("blockchainConfig");
-  static OperationParam BlockChainIntegrationId =
+  static OperationParam blockChainConfig = OperationParam("blockchainConfig");
+  static OperationParam blockChainIntegrationId =
       OperationParam("integrationId");
-  static OperationParam BlockChainContext = OperationParam("contextJson");
-  static OperationParam PublicKey = OperationParam("publicKey");
+  static OperationParam blockChainContext = OperationParam("contextJson");
+  static OperationParam publicKey = OperationParam("publicKey");
 
   // Authenticate Service - Authenticate Params
-  static OperationParam AuthenticateServiceAuthenticateAuthenticationType =
+  static OperationParam authenticateServiceAuthenticateAuthenticationType =
       OperationParam("authenticationType");
-  static OperationParam AuthenticateServiceAuthenticateAuthenticationToken =
+  static OperationParam authenticateServiceAuthenticateAuthenticationToken =
       OperationParam("authenticationToken");
-  static OperationParam AuthenticateServiceAuthenticateExternalId =
+  static OperationParam authenticateServiceAuthenticateExternalId =
       OperationParam("externalId");
-  static OperationParam AuthenticateServiceAuthenticateUniversalId =
+  static OperationParam authenticateServiceAuthenticateUniversalId =
       OperationParam("universalId");
-  static OperationParam AuthenticateServiceAuthenticateGameId =
+  static OperationParam authenticateServiceAuthenticateGameId =
       OperationParam("gameId");
-  static OperationParam AuthenticateServiceAuthenticateDeviceId =
+  static OperationParam authenticateServiceAuthenticateDeviceId =
       OperationParam("deviceId");
-  static OperationParam AuthenticateServiceAuthenticateForceMergeFlag =
+  static OperationParam authenticateServiceAuthenticateForceMergeFlag =
       OperationParam("forceMergeFlag");
-  static OperationParam AuthenticateServiceAuthenticateReleasePlatform =
+  static OperationParam authenticateServiceAuthenticateReleasePlatform =
       OperationParam("releasePlatform");
-  static OperationParam AuthenticateServiceAuthenticateGameVersion =
+  static OperationParam authenticateServiceAuthenticateGameVersion =
       OperationParam("gameVersion");
-  static OperationParam AuthenticateServiceAuthenticateBrainCloudVersion =
+  static OperationParam authenticateServiceAuthenticateBrainCloudVersion =
       OperationParam("clientLibVersion");
-  static OperationParam AuthenticateServiceAuthenticateExternalAuthName =
+  static OperationParam authenticateServiceAuthenticateExternalAuthName =
       OperationParam("externalAuthName");
-  static OperationParam AuthenticateServiceAuthenticateEmailAddress =
+  static OperationParam authenticateServiceAuthenticateEmailAddress =
       OperationParam("emailAddress");
-  static OperationParam AuthenticateServiceAuthenticateServiceParams =
+  static OperationParam authenticateServiceAuthenticateServiceParams =
       OperationParam("serviceParams");
-  static OperationParam AuthenticateServiceAuthenticateTokenTtlInMinutes =
+  static OperationParam authenticateServiceAuthenticateTokenTtlInMinutes =
       OperationParam("tokenTtlInMinutes");
 
-  static OperationParam AuthenticateServiceAuthenticateLevelName =
+  static OperationParam authenticateServiceAuthenticateLevelName =
       OperationParam("levelName");
-  static OperationParam AuthenticateServiceAuthenticatePeerCode =
+  static OperationParam authenticateServiceAuthenticatePeerCode =
       OperationParam("peerCode");
 
-  static OperationParam AuthenticateServiceAuthenticateCountryCode =
+  static OperationParam authenticateServiceAuthenticateCountryCode =
       OperationParam("countryCode");
-  static OperationParam AuthenticateServiceAuthenticateLanguageCode =
+  static OperationParam authenticateServiceAuthenticateLanguageCode =
       OperationParam("languageCode");
-  static OperationParam AuthenticateServiceAuthenticateTimeZoneOffset =
+  static OperationParam authenticateServiceAuthenticateTimeZoneOffset =
       OperationParam("timeZoneOffset");
 
-  static OperationParam AuthenticateServiceAuthenticateAuthUpgradeID =
+  static OperationParam authenticateServiceAuthenticateAuthUpgradeID =
       OperationParam("upgradeAppId");
-  static OperationParam AuthenticateServiceAuthenticateAnonymousId =
+  static OperationParam authenticateServiceAuthenticateAnonymousId =
       OperationParam("anonymousId");
-  static OperationParam AuthenticateServiceAuthenticateProfileId =
+  static OperationParam authenticateServiceAuthenticateProfileId =
       OperationParam("profileId");
-  static OperationParam AuthenticateServiceAuthenticateForceCreate =
+  static OperationParam authenticateServiceAuthenticateForceCreate =
       OperationParam("forceCreate");
-  static OperationParam AuthenticateServiceAuthenticateCompressResponses =
+  static OperationParam authenticateServiceAuthenticateCompressResponses =
       OperationParam("compressResponses");
-  static OperationParam AuthenticateServicePlayerSessionExpiry =
+  static OperationParam authenticateServicePlayerSessionExpiry =
       OperationParam("playerSessionExpiry");
-  static OperationParam AuthenticateServiceAuthenticateExtraJson =
+  static OperationParam authenticateServiceAuthenticateExtraJson =
       OperationParam("extraJson");
 
   // Authenticate Service - Authenticate Params
-  static OperationParam IdentityServiceExternalId =
+  static OperationParam identityServiceExternalId =
       OperationParam("externalId");
-  static OperationParam IdentityServiceAuthenticationType =
+  static OperationParam identityServiceAuthenticationType =
       OperationParam("authenticationType");
-  static OperationParam IdentityServiceConfirmAnonymous =
+  static OperationParam identityServiceConfirmAnonymous =
       OperationParam("confirmAnonymous");
 
-  static OperationParam IdentityServiceOldEmailAddress =
+  static OperationParam identityServiceOldEmailAddress =
       OperationParam("oldEmailAddress");
-  static OperationParam IdentityServiceNewEmailAddress =
+  static OperationParam identityServiceNewEmailAddress =
       OperationParam("newEmailAddress");
-  static OperationParam IdentityServiceUpdateContactEmail =
+  static OperationParam identityServiceUpdateContactEmail =
       OperationParam("updateContactEmail");
 
   // Peer
-  static OperationParam Peer = OperationParam("peer");
+  static OperationParam peer = OperationParam("peer");
 
   // Entity Service
-  static OperationParam EntityServiceEntityId = OperationParam("entityId");
-  static OperationParam EntityServiceEntityType = OperationParam("entityType");
-  static OperationParam EntityServiceEntitySubtype =
+  static OperationParam entityServiceEntityId = OperationParam("entityId");
+  static OperationParam entityServiceEntityType = OperationParam("entityType");
+  static OperationParam entityServiceEntitySubtype =
       OperationParam("entitySubtype");
-  static OperationParam EntityServiceData = OperationParam("data");
-  static OperationParam EntityServiceAcl = OperationParam("acl");
-  static OperationParam EntityServiceFriendData = OperationParam("friendData");
-  static OperationParam EntityServiceVersion = OperationParam("version");
-  static OperationParam EntityServiceUpdateOps = OperationParam("updateOps");
-  static OperationParam EntityServiceTargetPlayerId =
+  static OperationParam entityServiceData = OperationParam("data");
+  static OperationParam entityServiceAcl = OperationParam("acl");
+  static OperationParam entityServiceFriendData = OperationParam("friendData");
+  static OperationParam entityServiceVersion = OperationParam("version");
+  static OperationParam entityServiceUpdateOps = OperationParam("updateOps");
+  static OperationParam entityServiceTargetPlayerId =
       OperationParam("targetPlayerId");
 
   // Global Entity Service - Params
-  static OperationParam GlobalEntityServiceEntityId =
+  static OperationParam globalEntityServiceEntityId =
       OperationParam("entityId");
-  static OperationParam GlobalEntityServiceEntityType =
+  static OperationParam globalEntityServiceEntityType =
       OperationParam("entityType");
-  static OperationParam GlobalEntityServiceIndexedId =
+  static OperationParam globalEntityServiceIndexedId =
       OperationParam("entityIndexedId");
-  static OperationParam GlobalEntityServiceTimeToLive =
+  static OperationParam globalEntityServiceTimeToLive =
       OperationParam("timeToLive");
-  static OperationParam GlobalEntityServiceData = OperationParam("data");
-  static OperationParam GlobalEntityServiceAcl = OperationParam("acl");
-  static OperationParam GlobalEntityServiceVersion = OperationParam("version");
-  static OperationParam GlobalEntityServiceMaxReturn =
+  static OperationParam globalEntityServiceData = OperationParam("data");
+  static OperationParam globalEntityServiceAcl = OperationParam("acl");
+  static OperationParam globalEntityServiceVersion = OperationParam("version");
+  static OperationParam globalEntityServiceMaxReturn =
       OperationParam("maxReturn");
-  static OperationParam GlobalEntityServiceWhere = OperationParam("where");
-  static OperationParam GlobalEntityServiceOrderBy = OperationParam("orderBy");
-  static OperationParam GlobalEntityServiceContext = OperationParam("context");
-  static OperationParam GlobalEntityServicePageOffset =
+  static OperationParam globalEntityServiceWhere = OperationParam("where");
+  static OperationParam globalEntityServiceOrderBy = OperationParam("orderBy");
+  static OperationParam globalEntityServiceContext = OperationParam("context");
+  static OperationParam globalEntityServicePageOffset =
       OperationParam("pageOffset");
-  static OperationParam OwnerId = OperationParam("ownerId");
+  static OperationParam ownerId = OperationParam("ownerId");
 
   // Event Service - Send Params
-  static OperationParam EventServiceSendToId = OperationParam("toId");
-  static OperationParam EventServiceSendEventType = OperationParam("eventType");
-  static OperationParam EventServiceSendEventId = OperationParam("eventId");
-  static OperationParam EventServiceSendEventData = OperationParam("eventData");
-  static OperationParam EventServiceSendRecordLocally =
+  static OperationParam eventServiceSendToId = OperationParam("toId");
+  static OperationParam eventServiceSendEventType = OperationParam("eventType");
+  static OperationParam eventServiceSendEventId = OperationParam("eventId");
+  static OperationParam eventServiceSendEventData = OperationParam("eventData");
+  static OperationParam eventServiceSendRecordLocally =
       OperationParam("recordLocally");
 
   // Event Service - Update Event Data Params
-  static OperationParam EventServiceUpdateEventDataFromId =
+  static OperationParam eventServiceUpdateEventDataFromId =
       OperationParam("fromId");
-  static OperationParam EventServiceUpdateEventDataEventId =
+  static OperationParam eventServiceUpdateEventDataEventId =
       OperationParam("eventId");
-  static OperationParam EventServiceUpdateEventDataData =
+  static OperationParam eventServiceUpdateEventDataData =
       OperationParam("eventData");
-  static OperationParam EvId = OperationParam("evId");
-  static OperationParam EventServiceEvIds = OperationParam("evIds");
-  static OperationParam EventServiceDateMillis = OperationParam("dateMillis");
-  static OperationParam EventServiceEventType = OperationParam("eventType");
+  static OperationParam evId = OperationParam("evId");
+  static OperationParam eventServiceEvIds = OperationParam("evIds");
+  static OperationParam eventServiceDateMillis = OperationParam("dateMillis");
+  static OperationParam eventServiceEventType = OperationParam("eventType");
 
   // Event Service - Delete Incoming Params
-  static OperationParam EventServiceDeleteIncomingEventId =
+  static OperationParam eventServiceDeleteIncomingEventId =
       OperationParam("eventId");
-  static OperationParam EventServiceDeleteIncomingFromId =
+  static OperationParam eventServiceDeleteIncomingFromId =
       OperationParam("fromId");
 
   // Event Service - Delete Sent Params
-  static OperationParam EventServiceDeleteSentEventId =
+  static OperationParam eventServiceDeleteSentEventId =
       OperationParam("eventId");
-  static OperationParam EventServiceDeleteSentToId = OperationParam("toId");
-  static OperationParam EventServiceIncludeIncomingEvents =
+  static OperationParam eventServiceDeleteSentToId = OperationParam("toId");
+  static OperationParam eventServiceIncludeIncomingEvents =
       OperationParam("includeIncomingEvents");
-  static OperationParam EventServiceIncludeSentEvents =
+  static OperationParam eventServiceIncludeSentEvents =
       OperationParam("includeSentEvents");
 
   // Friend Service - Params
-  static OperationParam FriendServiceEntityId = OperationParam("entityId");
-  static OperationParam FriendServiceExternalId = OperationParam("externalId");
-  static OperationParam FriendServiceExternalIds =
+  static OperationParam friendServiceEntityId = OperationParam("entityId");
+  static OperationParam friendServiceExternalId = OperationParam("externalId");
+  static OperationParam friendServiceExternalIds =
       OperationParam("externalIds");
-  static OperationParam FriendServiceProfileId = OperationParam("profileId");
-  static OperationParam FriendServiceFriendId = OperationParam("friendId");
-  static OperationParam FriendServiceAuthenticationType =
+  static OperationParam friendServiceProfileId = OperationParam("profileId");
+  static OperationParam friendServiceFriendId = OperationParam("friendId");
+  static OperationParam friendServiceAuthenticationType =
       OperationParam("authenticationType");
-  static OperationParam ExternalAuthType = OperationParam("externalAuthType");
-  static OperationParam FriendServiceEntityType = OperationParam("entityType");
-  static OperationParam FriendServiceEntitySubtype =
+  static OperationParam externalAuthType = OperationParam("externalAuthType");
+  static OperationParam friendServiceEntityType = OperationParam("entityType");
+  static OperationParam friendServiceEntitySubtype =
       OperationParam("entitySubtype");
-  static OperationParam FriendServiceIncludeSummaryData =
+  static OperationParam friendServiceIncludeSummaryData =
       OperationParam("includeSummaryData");
-  static OperationParam FriendServiceFriendPlatform =
+  static OperationParam friendServiceFriendPlatform =
       OperationParam("friendPlatform");
-  static OperationParam FriendServiceProfileIds = OperationParam("profileIds");
-  static OperationParam FriendServiceMode = OperationParam("mode");
+  static OperationParam friendServiceProfileIds = OperationParam("profileIds");
+  static OperationParam friendServiceMode = OperationParam("mode");
 
   // Friend Service operations
   //static Operation FriendServiceReadFriends = Operation("READ_FRIENDS");
 
   // Friend Service - Read Player State Params
-  static OperationParam FriendServiceReadPlayerStateFriendId =
+  static OperationParam friendServiceReadPlayerStateFriendId =
       OperationParam("friendId");
-  static OperationParam FriendServiceSearchText = OperationParam("searchText");
-  static OperationParam FriendServiceMaxResults = OperationParam("maxResults");
+  static OperationParam friendServiceSearchText = OperationParam("searchText");
+  static OperationParam friendServiceMaxResults = OperationParam("maxResults");
 
   // Friend Data Service - Read Friends Params (C++ only?)
   //static Operation FriendDataServiceReadFriends = Operation("");
@@ -228,93 +228,93 @@ class OperationParam {
   //friendIdCount;
 
   //Achievements Event Data Params
-  static OperationParam GamificationServiceAchievementsName =
+  static OperationParam gamificationServiceAchievementsName =
       OperationParam("achievements");
-  static OperationParam GamificationServiceAchievementsData =
+  static OperationParam gamificationServiceAchievementsData =
       OperationParam("data");
-  static OperationParam GamificationServiceAchievementsGranted =
+  static OperationParam gamificationServiceAchievementsGranted =
       OperationParam("achievementsGranted");
-  static OperationParam GamificationServiceCategory =
+  static OperationParam gamificationServiceCategory =
       OperationParam("category");
-  static OperationParam GamificationServiceMilestones =
+  static OperationParam gamificationServiceMilestones =
       OperationParam("milestones");
-  static OperationParam GamificationServiceIncludeMetaData =
+  static OperationParam gamificationServiceIncludeMetaData =
       OperationParam("includeMetaData");
 
   // Player Statistic Event Params
-  static OperationParam PlayerStatisticEventServiceEventName =
+  static OperationParam playerStatisticEventServiceEventName =
       OperationParam("eventName");
-  static OperationParam PlayerStatisticEventServiceEventMultiplier =
+  static OperationParam playerStatisticEventServiceEventMultiplier =
       OperationParam("eventMultiplier");
-  static OperationParam PlayerStatisticEventServiceEvents =
+  static OperationParam playerStatisticEventServiceEvents =
       OperationParam("events");
 
   // Presence Params
-  static OperationParam PresenceServicePlatform = OperationParam("platform");
-  static OperationParam PresenceServiceIncludeOffline =
+  static OperationParam presenceServicePlatform = OperationParam("platform");
+  static OperationParam presenceServiceIncludeOffline =
       OperationParam("includeOffline");
-  static OperationParam PresenceServiceGroupId = OperationParam("groupId");
-  static OperationParam PresenceServiceProfileIds =
+  static OperationParam presenceServiceGroupId = OperationParam("groupId");
+  static OperationParam presenceServiceProfileIds =
       OperationParam("profileIds");
-  static OperationParam PresenceServiceBidirectional =
+  static OperationParam presenceServiceBidirectional =
       OperationParam("bidirectional");
-  static OperationParam PresenceServiceVisibile = OperationParam("visible");
-  static OperationParam PresenceServiceActivity = OperationParam("activity");
+  static OperationParam presenceServiceVisibile = OperationParam("visible");
+  static OperationParam presenceServiceActivity = OperationParam("activity");
 
   // Player State Service - Read Params
-  static OperationParam PlayerStateServiceReadEntitySubtype =
+  static OperationParam playerStateServiceReadEntitySubtype =
       OperationParam("entitySubType");
 
   // Player State Service - Update Summary Params
-  static OperationParam PlayerStateServiceUpdateSummaryFriendData =
+  static OperationParam playerStateServiceUpdateSummaryFriendData =
       OperationParam("summaryFriendData");
-  static OperationParam PlayerStateServiceUpdateNameData =
+  static OperationParam playerStateServiceUpdateNameData =
       OperationParam("playerName");
-  static OperationParam PlayerStateServiceTimeZoneOffset =
+  static OperationParam playerStateServiceTimeZoneOffset =
       OperationParam("timeZoneOffset");
-  static OperationParam PlayerStateServiceLanguageCode =
+  static OperationParam playerStateServiceLanguageCode =
       OperationParam("languageCode");
 
   // Player State Service - Atributes
-  static OperationParam PlayerStateServiceAttributes =
+  static OperationParam playerStateServiceAttributes =
       OperationParam("attributes");
-  static OperationParam PlayerStateServiceWipeExisting =
+  static OperationParam playerStateServiceWipeExisting =
       OperationParam("wipeExisting");
 
-  static OperationParam PlayerStateServiceIncludeSummaryData =
+  static OperationParam playerStateServiceIncludeSummaryData =
       OperationParam("includePlayerSummaryData");
 
   // Player State Service - UPDATE_PICTURE_URL
-  static OperationParam PlayerStateServicePlayerPictureUrl =
+  static OperationParam playerStateServicePlayerPictureUrl =
       OperationParam("playerPictureUrl");
-  static OperationParam PlayerStateServiceContactEmail =
+  static OperationParam playerStateServiceContactEmail =
       OperationParam("contactEmail");
 
   // Player State Service - Reset Params
   //static Operation PlayerStateServiceReset = Operation("");
 
   // Player Statistics Service - Update Increment Params
-  static OperationParam PlayerStatisticsServiceStats =
+  static OperationParam playerStatisticsServiceStats =
       OperationParam("statistics");
-  static OperationParam PlayerStatisticsServiceStatNames =
+  static OperationParam playerStatisticsServiceStatNames =
       OperationParam("statNames");
-  static OperationParam PlayerStatisticsExperiencePoints =
+  static OperationParam playerStatisticsExperiencePoints =
       OperationParam("xp_points");
 
   // Player Statistics Service - Status Param
-  static OperationParam PlayerStateServiceStatusName =
+  static OperationParam playerStateServiceStatusName =
       OperationParam("statusName");
 
   // Player Statistics Service - Extend User Status Params
-  static OperationParam PlayerStateServiceAdditionalSecs =
+  static OperationParam playerStateServiceAdditionalSecs =
       OperationParam("additionalSecs");
-  static OperationParam PlayerStateServiceDetails = OperationParam("details");
+  static OperationParam playerStateServiceDetails = OperationParam("details");
 
-  static OperationParam PlayerStateServiceDurationSecs =
+  static OperationParam playerStateServiceDurationSecs =
       OperationParam("durationSecs");
 
   // Player Statistics Service - Read Params
-  static OperationParam PlayerStatisticsServiceReadEntitySubType =
+  static OperationParam playerStatisticsServiceReadEntitySubType =
       OperationParam("entitySubType");
 
   //static Operation PlayerStatisticsServiceDelete = Operation("DELETE");
@@ -324,442 +324,442 @@ class OperationParam {
   //static Operation PushNotificationServiceRegister = Operation("REGISTER");
 
   // Social Leaderboard Service - general parameters
-  static OperationParam SocialLeaderboardServiceLeaderboardId =
+  static OperationParam socialLeaderboardServiceLeaderboardId =
       OperationParam("leaderboardId");
-  static OperationParam SocialLeaderboardServiceLeaderboardIds =
+  static OperationParam socialLeaderboardServiceLeaderboardIds =
       OperationParam("leaderboardIds");
-  static OperationParam SocialLeaderboardServiceReplaceName =
+  static OperationParam socialLeaderboardServiceReplaceName =
       OperationParam("replaceName");
-  static OperationParam SocialLeaderboardServiceScore = OperationParam("score");
-  static OperationParam SocialLeaderboardServiceData = OperationParam("data");
-  static OperationParam SocialLeaderboardServiceEventName =
+  static OperationParam socialLeaderboardServiceScore = OperationParam("score");
+  static OperationParam socialLeaderboardServiceData = OperationParam("data");
+  static OperationParam socialLeaderboardServiceEventName =
       OperationParam("eventName");
-  static OperationParam SocialLeaderboardServiceEventMultiplier =
+  static OperationParam socialLeaderboardServiceEventMultiplier =
       OperationParam("eventMultiplier");
-  static OperationParam SocialLeaderboardServiceLeaderboardType =
+  static OperationParam socialLeaderboardServiceLeaderboardType =
       OperationParam("leaderboardType");
-  static OperationParam SocialLeaderboardServiceRotationType =
+  static OperationParam socialLeaderboardServiceRotationType =
       OperationParam("rotationType");
-  static OperationParam SocialLeaderboardServiceRotationReset =
+  static OperationParam socialLeaderboardServiceRotationReset =
       OperationParam("rotationReset");
-  static OperationParam SocialLeaderboardServiceRetainedCount =
+  static OperationParam socialLeaderboardServiceRetainedCount =
       OperationParam("retainedCount");
-  static OperationParam NumDaysToRotate = OperationParam("numDaysToRotate");
-  static OperationParam SocialLeaderboardServiceFetchType =
+  static OperationParam numDaysToRotate = OperationParam("numDaysToRotate");
+  static OperationParam socialLeaderboardServiceFetchType =
       OperationParam("fetchType");
-  static OperationParam SocialLeaderboardServiceMaxResults =
+  static OperationParam socialLeaderboardServiceMaxResults =
       OperationParam("maxResults");
-  static OperationParam SocialLeaderboardServiceSort = OperationParam("sort");
-  static OperationParam SocialLeaderboardServiceStartIndex =
+  static OperationParam socialLeaderboardServiceSort = OperationParam("sort");
+  static OperationParam socialLeaderboardServiceStartIndex =
       OperationParam("startIndex");
-  static OperationParam SocialLeaderboardServiceEndIndex =
+  static OperationParam socialLeaderboardServiceEndIndex =
       OperationParam("endIndex");
-  static OperationParam SocialLeaderboardServiceBeforeCount =
+  static OperationParam socialLeaderboardServiceBeforeCount =
       OperationParam("beforeCount");
-  static OperationParam SocialLeaderboardServiceAfterCount =
+  static OperationParam socialLeaderboardServiceAfterCount =
       OperationParam("afterCount");
-  static OperationParam SocialLeaderboardServiceIncludeLeaderboardSize =
+  static OperationParam socialLeaderboardServiceIncludeLeaderboardSize =
       OperationParam("includeLeaderboardSize");
-  static OperationParam SocialLeaderboardServiceVersionId =
+  static OperationParam socialLeaderboardServiceVersionId =
       OperationParam("versionId");
-  static OperationParam SocialLeaderboardServiceLeaderboardResultCount =
+  static OperationParam socialLeaderboardServiceLeaderboardResultCount =
       OperationParam("leaderboardResultCount");
-  static OperationParam SocialLeaderboardServiceGroupId =
+  static OperationParam socialLeaderboardServiceGroupId =
       OperationParam("groupId");
-  static OperationParam SocialLeaderboardServiceProfileIds =
+  static OperationParam socialLeaderboardServiceProfileIds =
       OperationParam("profileIds");
-  static OperationParam SocialLeaderboardServiceRotationResetTime =
+  static OperationParam socialLeaderboardServiceRotationResetTime =
       OperationParam("rotationResetTime");
 
   // Social Leaderboard Service - Reset Score Params
   //static Operation SocialLeaderboardServiceResetScore = Operation("");
 
   // Product Service
-  static OperationParam ProductServiceCurrencyId = OperationParam("vc_id");
-  static OperationParam ProductServiceCurrencyAmount =
+  static OperationParam productServiceCurrencyId = OperationParam("vc_id");
+  static OperationParam productServiceCurrencyAmount =
       OperationParam("vc_amount");
 
   // AppStore
-  static OperationParam AppStoreServiceStoreId = OperationParam("storeId");
-  static OperationParam AppStoreServiceReceiptData =
+  static OperationParam appStoreServiceStoreId = OperationParam("storeId");
+  static OperationParam appStoreServiceReceiptData =
       OperationParam("receiptData");
-  static OperationParam AppStoreServicePurchaseData =
+  static OperationParam appStoreServicePurchaseData =
       OperationParam("purchaseData");
-  static OperationParam AppStoreServiceTransactionId =
+  static OperationParam appStoreServiceTransactionId =
       OperationParam("transactionId");
-  static OperationParam AppStoreServiceTransactionData =
+  static OperationParam appStoreServiceTransactionData =
       OperationParam("transactionData");
-  static OperationParam AppStoreServicePriceInfoCriteria =
+  static OperationParam appStoreServicePriceInfoCriteria =
       OperationParam("priceInfoCriteria");
-  static OperationParam AppStoreServiceUserCurrency =
+  static OperationParam appStoreServiceUserCurrency =
       OperationParam("userCurrency");
-  static OperationParam AppStoreServiceCategory = OperationParam("category");
+  static OperationParam appStoreServiceCategory = OperationParam("category");
 
   // Virtual Currency Service
-  static OperationParam VirtualCurrencyServiceCurrencyId =
+  static OperationParam virtualCurrencyServiceCurrencyId =
       OperationParam("vcId");
-  static OperationParam VirtualCurrencyServiceCurrencyAmount =
+  static OperationParam virtualCurrencyServiceCurrencyAmount =
       OperationParam("vcAmount");
 
   // Product Service - Get Inventory Params
-  static OperationParam ProductServiceGetInventoryPlatform =
+  static OperationParam productServiceGetInventoryPlatform =
       OperationParam("platform");
-  static OperationParam ProductServiceGetInventoryUserCurrency =
+  static OperationParam productServiceGetInventoryUserCurrency =
       OperationParam("user_currency");
-  static OperationParam ProductServiceGetInventoryCategory =
+  static OperationParam productServiceGetInventoryCategory =
       OperationParam("category");
 
   // Product Service - Op Cash In Receipt Params
-  static OperationParam ProductServiceOpCashInReceiptReceipt =
+  static OperationParam productServiceOpCashInReceiptReceipt =
       OperationParam("receipt"); //C++ only
-  static OperationParam ProductServiceOpCashInReceiptUrl =
+  static OperationParam productServiceOpCashInReceiptUrl =
       OperationParam("url"); //C++ only
 
   // Product Service - Reset Player VC Params
-  //static OperationParam ProductServiceResetPlayerVC = OperationParam("");
+  //static OperationParam productServiceResetPlayerVC = OperationParam("");
 
   // Heartbeat Service - Params
-  //static OperationParam HeartbeatService = OperationParam("");
+  //static OperationParam heartbeatService = OperationParam("");
 
   // Time Service - Params
-  //static OperationParam TimeService = OperationParam("");
+  //static OperationParam timeService = OperationParam("");
 
   // Server Time Service - Read Params
-  static OperationParam ServerTimeServiceRead = OperationParam("");
+  static OperationParam serverTimeServiceRead = OperationParam("");
 
   // data creation parms
-  static OperationParam ServiceMessageService = OperationParam("service");
-  static OperationParam ServiceMessageOperation = OperationParam("operation");
-  static OperationParam ServiceMessageData = OperationParam("data");
+  static OperationParam serviceMessageService = OperationParam("service");
+  static OperationParam serviceMessageOperation = OperationParam("operation");
+  static OperationParam serviceMessageData = OperationParam("data");
 
   // data bundle creation parms
-  static OperationParam ServiceMessagePacketId = OperationParam("packetId");
-  static OperationParam ServiceMessageSessionId = OperationParam("sessionId");
-  static OperationParam ServiceMessageGameId = OperationParam("gameId");
-  static OperationParam ServiceMessageMessages = OperationParam("messages");
-  static OperationParam ProfileId = OperationParam("profileId");
+  static OperationParam serviceMessagePacketId = OperationParam("packetId");
+  static OperationParam serviceMessageSessionId = OperationParam("sessionId");
+  static OperationParam serviceMessageGameId = OperationParam("gameId");
+  static OperationParam serviceMessageMessages = OperationParam("messages");
+  static OperationParam profileId = OperationParam("profileId");
 
   // Error Params
-  static OperationParam ServiceMessageReasonCode =
+  static OperationParam serviceMessageReasonCode =
       OperationParam("reason_code");
-  static OperationParam ServiceMessageStatusMessage =
+  static OperationParam serviceMessageStatusMessage =
       OperationParam("status_message");
 
-  static OperationParam DeviceRegistrationTypeIos = OperationParam("IOS");
-  static OperationParam DeviceRegistrationTypeAndroid = OperationParam("ANG");
+  static OperationParam deviceRegistrationTypeIos = OperationParam("IOS");
+  static OperationParam deviceRegistrationTypeAndroid = OperationParam("ANG");
 
-  static OperationParam ScriptServiceRunScriptName =
+  static OperationParam scriptServiceRunScriptName =
       OperationParam("scriptName");
-  static OperationParam ScriptServiceRunScriptData =
+  static OperationParam scriptServiceRunScriptData =
       OperationParam("scriptData");
-  static OperationParam ScriptServiceStartDateUTC =
+  static OperationParam scriptServiceStartDateUTC =
       OperationParam("startDateUTC");
-  static OperationParam ScriptServiceStartMinutesFromNow =
+  static OperationParam scriptServiceStartMinutesFromNow =
       OperationParam("minutesFromNow");
-  static OperationParam ScriptServiceParentLevel =
+  static OperationParam scriptServiceParentLevel =
       OperationParam("parentLevel");
-  static OperationParam ScriptServiceJobId = OperationParam("jobId");
+  static OperationParam scriptServiceJobId = OperationParam("jobId");
 
-  static OperationParam MatchMakingServicePlayerRating =
+  static OperationParam matchMakingServicePlayerRating =
       OperationParam("playerRating");
-  static OperationParam MatchMakingServiceMinutes = OperationParam("minutes");
-  static OperationParam MatchMakingServiceRangeDelta =
+  static OperationParam matchMakingServiceMinutes = OperationParam("minutes");
+  static OperationParam matchMakingServiceRangeDelta =
       OperationParam("rangeDelta");
-  static OperationParam MatchMakingServiceNumMatches =
+  static OperationParam matchMakingServiceNumMatches =
       OperationParam("numMatches");
-  static OperationParam MatchMakingServiceAttributes =
+  static OperationParam matchMakingServiceAttributes =
       OperationParam("attributes");
-  static OperationParam MatchMakingServiceExtraParams =
+  static OperationParam matchMakingServiceExtraParams =
       OperationParam("extraParms");
-  static OperationParam MatchMakingServicePlayerId = OperationParam("playerId");
-  static OperationParam MatchMakingServicePlaybackStreamId =
+  static OperationParam matchMakingServicePlayerId = OperationParam("playerId");
+  static OperationParam matchMakingServicePlaybackStreamId =
       OperationParam("playbackStreamId");
 
-  static OperationParam OfflineMatchServicePlayerId =
+  static OperationParam offlineMatchServicePlayerId =
       OperationParam("playerId");
-  static OperationParam OfflineMatchServiceRangeDelta =
+  static OperationParam offlineMatchServiceRangeDelta =
       OperationParam("rangeDelta");
-  static OperationParam OfflineMatchServicePlaybackStreamId =
+  static OperationParam offlineMatchServicePlaybackStreamId =
       OperationParam("playbackStreamId");
 
-  static OperationParam PlaybackStreamServiceTargetPlayerId =
+  static OperationParam playbackStreamServiceTargetPlayerId =
       OperationParam("targetPlayerId");
-  static OperationParam PlaybackStreamServiceInitiatingPlayerId =
+  static OperationParam playbackStreamServiceInitiatingPlayerId =
       OperationParam("initiatingPlayerId");
-  static OperationParam PlaybackStreamServiceMaxNumberOfStreams =
+  static OperationParam playbackStreamServiceMaxNumberOfStreams =
       OperationParam("maxNumStreams");
-  static OperationParam PlaybackStreamServiceIncludeSharedData =
+  static OperationParam playbackStreamServiceIncludeSharedData =
       OperationParam("includeSharedData");
-  static OperationParam PlaybackStreamServicePlaybackStreamId =
+  static OperationParam playbackStreamServicePlaybackStreamId =
       OperationParam("playbackStreamId");
-  static OperationParam PlaybackStreamServiceEventData =
+  static OperationParam playbackStreamServiceEventData =
       OperationParam("eventData");
-  static OperationParam PlaybackStreamServiceSummary =
+  static OperationParam playbackStreamServiceSummary =
       OperationParam("summary");
 
-  static OperationParam ProductServiceTransId = OperationParam("transId");
-  static OperationParam ProductServiceOrderId = OperationParam("orderId");
-  static OperationParam ProductServiceProductId = OperationParam("productId");
-  static OperationParam ProductServiceLanguage = OperationParam("language");
-  static OperationParam ProductServiceItemId = OperationParam("itemId");
-  static OperationParam ProductServiceReceipt = OperationParam("receipt");
-  static OperationParam ProductServiceSignedRequest =
+  static OperationParam productServiceTransId = OperationParam("transId");
+  static OperationParam productServiceOrderId = OperationParam("orderId");
+  static OperationParam productServiceProductId = OperationParam("productId");
+  static OperationParam productServiceLanguage = OperationParam("language");
+  static OperationParam productServiceItemId = OperationParam("itemId");
+  static OperationParam productServiceReceipt = OperationParam("receipt");
+  static OperationParam productServiceSignedRequest =
       OperationParam("signed_request");
-  static OperationParam ProductServiceToken = OperationParam("token");
+  static OperationParam productServiceToken = OperationParam("token");
 
   //S3 Service
-  static OperationParam S3HandlingServiceFileCategory =
+  static OperationParam s3HandlingServiceFileCategory =
       OperationParam("category");
-  static OperationParam S3HandlingServiceFileDetails =
+  static OperationParam s3HandlingServiceFileDetails =
       OperationParam("fileDetails");
-  static OperationParam S3HandlingServiceFileId = OperationParam("fileId");
+  static OperationParam s3HandlingServiceFileId = OperationParam("fileId");
 
   //Shared Identity
-  static OperationParam IdentityServiceForceSingleton =
+  static OperationParam identityServiceForceSingleton =
       OperationParam("forceSingleton");
 
   //RedemptionCode
-  static OperationParam RedemptionCodeServiceScanCode =
+  static OperationParam redemptionCodeServiceScanCode =
       OperationParam("scanCode");
-  static OperationParam RedemptionCodeServiceCodeType =
+  static OperationParam redemptionCodeServiceCodeType =
       OperationParam("codeType");
-  static OperationParam RedemptionCodeServiceCustomRedemptionInfo =
+  static OperationParam redemptionCodeServiceCustomRedemptionInfo =
       OperationParam("customRedemptionInfo");
 
   //DataStream
-  static OperationParam DataStreamEventName = OperationParam("eventName");
-  static OperationParam DataStreamEventProperties =
+  static OperationParam dataStreamEventName = OperationParam("eventName");
+  static OperationParam dataStreamEventProperties =
       OperationParam("eventProperties");
-  static OperationParam DataStreamCrashType = OperationParam("crashType");
-  static OperationParam DataStreamErrorMsg = OperationParam("errorMsg");
-  static OperationParam DataStreamCrashInfo = OperationParam("crashJson");
-  static OperationParam DataStreamCrashLog = OperationParam("crashLog");
-  static OperationParam DataStreamUserName = OperationParam("userName");
-  static OperationParam DataStreamUserEmail = OperationParam("userEmail");
-  static OperationParam DataStreamUserNotes = OperationParam("userNotes");
-  static OperationParam DataStreamUserSubmitted =
+  static OperationParam dataStreamCrashType = OperationParam("crashType");
+  static OperationParam dataStreamErrorMsg = OperationParam("errorMsg");
+  static OperationParam dataStreamCrashInfo = OperationParam("crashJson");
+  static OperationParam dataStreamCrashLog = OperationParam("crashLog");
+  static OperationParam dataStreamUserName = OperationParam("userName");
+  static OperationParam dataStreamUserEmail = OperationParam("userEmail");
+  static OperationParam dataStreamUserNotes = OperationParam("userNotes");
+  static OperationParam dataStreamUserSubmitted =
       OperationParam("userSubmitted");
 
   // Profanity
-  static OperationParam ProfanityText = OperationParam("text");
-  static OperationParam ProfanityReplaceSymbol =
+  static OperationParam profanityText = OperationParam("text");
+  static OperationParam profanityReplaceSymbol =
       OperationParam("replaceSymbol");
-  static OperationParam ProfanityFlagEmail = OperationParam("flagEmail");
-  static OperationParam ProfanityFlagPhone = OperationParam("flagPhone");
-  static OperationParam ProfanityFlagUrls = OperationParam("flagUrls");
-  static OperationParam ProfanityLanguages = OperationParam("languages");
+  static OperationParam profanityFlagEmail = OperationParam("flagEmail");
+  static OperationParam profanityFlagPhone = OperationParam("flagPhone");
+  static OperationParam profanityFlagUrls = OperationParam("flagUrls");
+  static OperationParam profanityLanguages = OperationParam("languages");
 
   //File upload
-  static OperationParam UploadLocalPath = OperationParam("localPath");
-  static OperationParam UploadCloudPath = OperationParam("cloudPath");
-  static OperationParam UploadCloudFilename = OperationParam("cloudFilename");
-  static OperationParam UploadShareable = OperationParam("shareable");
-  static OperationParam UploadReplaceIfExists =
+  static OperationParam uploadLocalPath = OperationParam("localPath");
+  static OperationParam uploadCloudPath = OperationParam("cloudPath");
+  static OperationParam uploadCloudFilename = OperationParam("cloudFilename");
+  static OperationParam uploadShareable = OperationParam("shareable");
+  static OperationParam uploadReplaceIfExists =
       OperationParam("replaceIfExists");
-  static OperationParam UploadFileSize = OperationParam("fileSize");
-  static OperationParam UploadRecurse = OperationParam("recurse");
-  static OperationParam UploadPath = OperationParam("path");
+  static OperationParam uploadFileSize = OperationParam("fileSize");
+  static OperationParam uploadRecurse = OperationParam("recurse");
+  static OperationParam uploadPath = OperationParam("path");
 
   //group
-  static OperationParam GroupId = OperationParam("groupId");
-  static OperationParam GroupProfileId = OperationParam("profileId");
-  static OperationParam GroupRole = OperationParam("role");
-  static OperationParam GroupAttributes = OperationParam("attributes");
-  static OperationParam GroupName = OperationParam("name");
-  static OperationParam GroupType = OperationParam("groupType");
-  static OperationParam GroupTypes = OperationParam("groupTypes");
-  static OperationParam GroupEntityType = OperationParam("entityType");
-  static OperationParam GroupIsOpenGroup = OperationParam("isOpenGroup");
-  static OperationParam GroupAcl = OperationParam("acl");
-  static OperationParam GroupData = OperationParam("data");
-  static OperationParam GroupOwnerAttributes =
+  static OperationParam groupId = OperationParam("groupId");
+  static OperationParam groupProfileId = OperationParam("profileId");
+  static OperationParam groupRole = OperationParam("role");
+  static OperationParam groupAttributes = OperationParam("attributes");
+  static OperationParam groupName = OperationParam("name");
+  static OperationParam groupType = OperationParam("groupType");
+  static OperationParam groupTypes = OperationParam("groupTypes");
+  static OperationParam groupEntityType = OperationParam("entityType");
+  static OperationParam groupIsOpenGroup = OperationParam("isOpenGroup");
+  static OperationParam groupAcl = OperationParam("acl");
+  static OperationParam groupData = OperationParam("data");
+  static OperationParam groupOwnerAttributes =
       OperationParam("ownerAttributes");
-  static OperationParam GroupDefaultMemberAttributes =
+  static OperationParam groupDefaultMemberAttributes =
       OperationParam("defaultMemberAttributes");
-  static OperationParam GroupIsOwnedByGroupMember =
+  static OperationParam groupIsOwnedByGroupMember =
       OperationParam("isOwnedByGroupMember");
-  static OperationParam GroupSummaryData = OperationParam("summaryData");
-  static OperationParam GroupEntityId = OperationParam("entityId");
-  static OperationParam GroupVersion = OperationParam("version");
-  static OperationParam GroupContext = OperationParam("context");
-  static OperationParam GroupPageOffset = OperationParam("pageOffset");
-  static OperationParam GroupAutoJoinStrategy =
+  static OperationParam groupSummaryData = OperationParam("summaryData");
+  static OperationParam groupEntityId = OperationParam("entityId");
+  static OperationParam groupVersion = OperationParam("version");
+  static OperationParam groupContext = OperationParam("context");
+  static OperationParam groupPageOffset = OperationParam("pageOffset");
+  static OperationParam groupAutoJoinStrategy =
       OperationParam("autoJoinStrategy");
-  static OperationParam GroupWhere = OperationParam("where");
-  static OperationParam GroupMaxReturn = OperationParam("maxReturn");
+  static OperationParam groupWhere = OperationParam("where");
+  static OperationParam groupMaxReturn = OperationParam("maxReturn");
 
   //group file
-  static OperationParam FolderPath = OperationParam("folderPath");
-  static OperationParam FileName = OperationParam("filename");
-  static OperationParam FullPathFilename = OperationParam("fullPathFilename");
-  static OperationParam FileId = OperationParam("fileId");
-  static OperationParam Version = OperationParam("version");
-  static OperationParam NewTreeId = OperationParam("newTreeId");
-  static OperationParam TreeVersion = OperationParam("treeVersion");
-  static OperationParam NewFilename = OperationParam("newFilename");
-  static OperationParam OverwriteIfPresent =
+  static OperationParam folderPath = OperationParam("folderPath");
+  static OperationParam fileName = OperationParam("filename");
+  static OperationParam fullPathFilename = OperationParam("fullPathFilename");
+  static OperationParam fileId = OperationParam("fileId");
+  static OperationParam version = OperationParam("version");
+  static OperationParam newTreeId = OperationParam("newTreeId");
+  static OperationParam treeVersion = OperationParam("treeVersion");
+  static OperationParam newFilename = OperationParam("newFilename");
+  static OperationParam overwriteIfPresent =
       OperationParam("overwriteIfPresent");
-  static OperationParam Recurse = OperationParam("recurse");
-  static OperationParam UserCloudPath = OperationParam("userCloudPath");
-  static OperationParam UserCloudFilename = OperationParam("userCloudFilename");
-  static OperationParam GroupTreeId = OperationParam("groupTreeId");
-  static OperationParam GroupFilename = OperationParam("groupFilename");
-  static OperationParam GroupFileACL = OperationParam("groupFileAcl");
-  static OperationParam NewACL = OperationParam("newAcl");
+  static OperationParam recurse = OperationParam("recurse");
+  static OperationParam userCloudPath = OperationParam("userCloudPath");
+  static OperationParam userCloudFilename = OperationParam("userCloudFilename");
+  static OperationParam groupTreeId = OperationParam("groupTreeId");
+  static OperationParam groupFilename = OperationParam("groupFilename");
+  static OperationParam groupFileACL = OperationParam("groupFileAcl");
+  static OperationParam newACL = OperationParam("newAcl");
 
   //GlobalFile
-  static OperationParam GlobalFileServiceFileId = OperationParam("fileId");
-  static OperationParam GlobalFileServiceFolderPath =
+  static OperationParam globalFileServiceFileId = OperationParam("fileId");
+  static OperationParam globalFileServiceFolderPath =
       OperationParam("folderPath");
-  static OperationParam GlobalFileServiceFileName = OperationParam("filename");
-  static OperationParam GlobalFileServiceRecurse = OperationParam("recurse");
+  static OperationParam globalFileServiceFileName = OperationParam("filename");
+  static OperationParam globalFileServiceRecurse = OperationParam("recurse");
 
   //mail
-  static OperationParam Subject = OperationParam("subject");
-  static OperationParam Body = OperationParam("body");
-  static OperationParam ServiceParams = OperationParam("serviceParams");
-  static OperationParam EmailAddress = OperationParam("emailAddress");
+  static OperationParam subject = OperationParam("subject");
+  static OperationParam body = OperationParam("body");
+  static OperationParam serviceParams = OperationParam("serviceParams");
+  static OperationParam emailAddress = OperationParam("emailAddress");
 
-  static OperationParam LeaderboardId = OperationParam("leaderboardId");
-  static OperationParam DivSetId = OperationParam("divSetId");
-  static OperationParam VersionId = OperationParam("versionId");
-  static OperationParam TournamentCode = OperationParam("tournamentCode");
-  static OperationParam InitialScore = OperationParam("initialScore");
-  static OperationParam Score = OperationParam("score");
-  static OperationParam RoundStartedEpoch = OperationParam("roundStartedEpoch");
-  static OperationParam Data = OperationParam("data");
+  static OperationParam leaderboardId = OperationParam("leaderboardId");
+  static OperationParam divSetId = OperationParam("divSetId");
+  static OperationParam versionId = OperationParam("versionId");
+  static OperationParam tournamentCode = OperationParam("tournamentCode");
+  static OperationParam initialScore = OperationParam("initialScore");
+  static OperationParam score = OperationParam("score");
+  static OperationParam roundStartedEpoch = OperationParam("roundStartedEpoch");
+  static OperationParam data = OperationParam("data");
 
   // chat
-  static OperationParam ChatChannelId = OperationParam("channelId");
-  static OperationParam ChatMaxReturn = OperationParam("maxReturn");
-  static OperationParam ChatMessageId = OperationParam("msgId");
-  static OperationParam ChatVersion = OperationParam("version");
+  static OperationParam chatChannelId = OperationParam("channelId");
+  static OperationParam chatMaxReturn = OperationParam("maxReturn");
+  static OperationParam chatMessageId = OperationParam("msgId");
+  static OperationParam chatVersion = OperationParam("version");
 
-  static OperationParam ChatChannelType = OperationParam("channelType");
-  static OperationParam ChatChannelSubId = OperationParam("channelSubId");
-  static OperationParam ChatContent = OperationParam("content");
-  static OperationParam ChatText = OperationParam("text");
+  static OperationParam chatChannelType = OperationParam("channelType");
+  static OperationParam chatChannelSubId = OperationParam("channelSubId");
+  static OperationParam chatContent = OperationParam("content");
+  static OperationParam chatText = OperationParam("text");
 
-  static OperationParam ChatRich = OperationParam("rich");
-  static OperationParam ChatRecordInHistory = OperationParam("recordInHistory");
+  static OperationParam chatRich = OperationParam("rich");
+  static OperationParam chatRecordInHistory = OperationParam("recordInHistory");
 
   // TODO:: do we enumerate these ? [smrj]
   // chat channel types
-  static OperationParam AllChannelType = OperationParam("all");
-  static OperationParam GlobalChannelType = OperationParam("gl");
-  static OperationParam GroupChannelType = OperationParam("gr");
+  static OperationParam allChannelType = OperationParam("all");
+  static OperationParam globalChannelType = OperationParam("gl");
+  static OperationParam groupChannelType = OperationParam("gr");
 
   // messaging
-  static OperationParam MessagingMessageBox = OperationParam("msgbox");
-  static OperationParam MessagingMessageIds = OperationParam("msgIds");
-  static OperationParam MessagingMarkAsRead = OperationParam("markAsRead");
-  static OperationParam MessagingContext = OperationParam("context");
-  static OperationParam MessagingPageOffset = OperationParam("pageOffset");
-  static OperationParam MessagingFromName = OperationParam("fromName");
-  static OperationParam MessagingToProfileIds = OperationParam("toProfileIds");
-  static OperationParam MessagingContent = OperationParam("contentJson");
-  static OperationParam MessagingSubject = OperationParam("subject");
-  static OperationParam MessagingText = OperationParam("text");
+  static OperationParam messagingMessageBox = OperationParam("msgbox");
+  static OperationParam messagingMessageIds = OperationParam("msgIds");
+  static OperationParam messagingMarkAsRead = OperationParam("markAsRead");
+  static OperationParam messagingContext = OperationParam("context");
+  static OperationParam messagingPageOffset = OperationParam("pageOffset");
+  static OperationParam messagingFromName = OperationParam("fromName");
+  static OperationParam messagingToProfileIds = OperationParam("toProfileIds");
+  static OperationParam messagingContent = OperationParam("contentJson");
+  static OperationParam messagingSubject = OperationParam("subject");
+  static OperationParam messagingText = OperationParam("text");
 
-  static OperationParam InboxMessageType = OperationParam("inbox");
-  static OperationParam SentMessageType = OperationParam("sent");
+  static OperationParam inboxMessageType = OperationParam("inbox");
+  static OperationParam sentMessageType = OperationParam("sent");
 
   // lobby
-  static OperationParam LobbyRoomType = OperationParam("lobbyType");
-  static OperationParam LobbyTypes = OperationParam("lobbyTypes");
-  static OperationParam LobbyRating = OperationParam("rating");
-  static OperationParam LobbyAlgorithm = OperationParam("algo");
-  static OperationParam LobbyMaxSteps = OperationParam("maxSteps");
-  static OperationParam LobbyStrategy = OperationParam("strategy");
-  static OperationParam LobbyAlignment = OperationParam("alignment");
-  static OperationParam LobbyRanges = OperationParam("ranges");
-  static OperationParam LobbyFilterJson = OperationParam("filterJson");
-  static OperationParam LobbySettings = OperationParam("settings");
-  static OperationParam LobbyTimeoutSeconds = OperationParam("timeoutSecs");
-  static OperationParam LobbyIsReady = OperationParam("isReady");
-  static OperationParam LobbyOtherUserCxIds = OperationParam("otherUserCxIds");
-  static OperationParam LobbyExtraJson = OperationParam("extraJson");
-  static OperationParam LobbyTeamCode = OperationParam("teamCode");
-  static OperationParam LobbyIdentifier = OperationParam("lobbyId");
-  static OperationParam LobbyToTeamName = OperationParam("toTeamCode");
-  static OperationParam LobbySignalData = OperationParam("signalData");
-  static OperationParam LobbyConnectionId = OperationParam("cxId");
-  static OperationParam PingData = OperationParam("pingData");
-  static OperationParam LobbyMinRating = OperationParam("minRating");
-  static OperationParam LobbyMaxRating = OperationParam("maxRating");
+  static OperationParam lobbyRoomType = OperationParam("lobbyType");
+  static OperationParam lobbyTypes = OperationParam("lobbyTypes");
+  static OperationParam lobbyRating = OperationParam("rating");
+  static OperationParam lobbyAlgorithm = OperationParam("algo");
+  static OperationParam lobbyMaxSteps = OperationParam("maxSteps");
+  static OperationParam lobbyStrategy = OperationParam("strategy");
+  static OperationParam lobbyAlignment = OperationParam("alignment");
+  static OperationParam lobbyRanges = OperationParam("ranges");
+  static OperationParam lobbyFilterJson = OperationParam("filterJson");
+  static OperationParam lobbySettings = OperationParam("settings");
+  static OperationParam lobbyTimeoutSeconds = OperationParam("timeoutSecs");
+  static OperationParam lobbyIsReady = OperationParam("isReady");
+  static OperationParam lobbyOtherUserCxIds = OperationParam("otherUserCxIds");
+  static OperationParam lobbyExtraJson = OperationParam("extraJson");
+  static OperationParam lobbyTeamCode = OperationParam("teamCode");
+  static OperationParam lobbyIdentifier = OperationParam("lobbyId");
+  static OperationParam lobbyToTeamName = OperationParam("toTeamCode");
+  static OperationParam lobbySignalData = OperationParam("signalData");
+  static OperationParam lobbyConnectionId = OperationParam("cxId");
+  static OperationParam pingData = OperationParam("pingData");
+  static OperationParam lobbyMinRating = OperationParam("minRating");
+  static OperationParam lobbyMaxRating = OperationParam("maxRating");
 
-  static OperationParam CompoundAlgos = OperationParam("algos");
-  static OperationParam CompoundRanges = OperationParam("compound-ranges");
-  static OperationParam LobbyCritera = OperationParam("criteriaJson");
-  static OperationParam CriteraPing = OperationParam("ping");
-  static OperationParam CriteraRating = OperationParam("rating");
-  static OperationParam StrategyRangedPercent =
+  static OperationParam compoundAlgos = OperationParam("algos");
+  static OperationParam compoundRanges = OperationParam("compound-ranges");
+  static OperationParam lobbyCritera = OperationParam("criteriaJson");
+  static OperationParam criteraPing = OperationParam("ping");
+  static OperationParam criteraRating = OperationParam("rating");
+  static OperationParam strategyRangedPercent =
       OperationParam("ranged-percent");
-  static OperationParam StrategyRangedAbsolute =
+  static OperationParam strategyRangedAbsolute =
       OperationParam("ranged-absolute");
-  static OperationParam StrategyAbsolute = OperationParam("absolute");
-  static OperationParam StrategyCompound = OperationParam("compound");
-  static OperationParam AlignmentCenter = OperationParam("center");
+  static OperationParam strategyAbsolute = OperationParam("absolute");
+  static OperationParam strategyCompound = OperationParam("compound");
+  static OperationParam alignmentCenter = OperationParam("center");
   //custom entity
-  static OperationParam CustomEntityServiceEntityType =
+  static OperationParam customEntityServiceEntityType =
       OperationParam("entityType");
-  static OperationParam CustomEntityServiceDeleteCriteria =
+  static OperationParam customEntityServiceDeleteCriteria =
       OperationParam("deleteCriteria");
-  static OperationParam CustomEntityServiceEntityId =
+  static OperationParam customEntityServiceEntityId =
       OperationParam("entityId");
-  static OperationParam CustomEntityServiceVersion = OperationParam("version");
-  static OperationParam CustomEntityServiceFieldsJson =
+  static OperationParam customEntityServiceVersion = OperationParam("version");
+  static OperationParam customEntityServiceFieldsJson =
       OperationParam("fieldsJson");
-  static OperationParam CustomEntityServiceWhereJson =
+  static OperationParam customEntityServiceWhereJson =
       OperationParam("whereJson");
-  static OperationParam CustomEntityServiceRowsPerPage =
+  static OperationParam customEntityServiceRowsPerPage =
       OperationParam("rowsPerPage");
-  static OperationParam CustomEntityServiceSearchJson =
+  static OperationParam customEntityServiceSearchJson =
       OperationParam("searchJson");
-  static OperationParam CustomEntityServiceSortJson =
+  static OperationParam customEntityServiceSortJson =
       OperationParam("sortJson");
-  static OperationParam CustomEntityServiceDoCount = OperationParam("doCount");
-  static OperationParam CustomEntityServiceContext = OperationParam("context");
-  static OperationParam CustomEntityServicePageOffset =
+  static OperationParam customEntityServiceDoCount = OperationParam("doCount");
+  static OperationParam customEntityServiceContext = OperationParam("context");
+  static OperationParam customEntityServicePageOffset =
       OperationParam("pageOffset");
-  static OperationParam CustomEntityServiceTimeToLive =
+  static OperationParam customEntityServiceTimeToLive =
       OperationParam("timeToLive");
-  static OperationParam CustomEntityServiceAcl = OperationParam("acl");
-  static OperationParam CustomEntityServiceDataJson =
+  static OperationParam customEntityServiceAcl = OperationParam("acl");
+  static OperationParam customEntityServiceDataJson =
       OperationParam("dataJson");
-  static OperationParam CustomEntityServiceIsOwned = OperationParam("isOwned");
-  static OperationParam CustomEntityServiceMaxReturn =
+  static OperationParam customEntityServiceIsOwned = OperationParam("isOwned");
+  static OperationParam customEntityServiceMaxReturn =
       OperationParam("maxReturn");
-  static OperationParam CustomEntityServiceShardKeyJson =
+  static OperationParam customEntityServiceShardKeyJson =
       OperationParam("shardKeyJson");
 
   //item catalog
-  static OperationParam ItemCatalogServiceDefId = OperationParam("defId");
-  static OperationParam ItemCatalogServiceContext = OperationParam("context");
-  static OperationParam ItemCatalogServicePageOffset =
+  static OperationParam itemCatalogServiceDefId = OperationParam("defId");
+  static OperationParam itemCatalogServiceContext = OperationParam("context");
+  static OperationParam itemCatalogServicePageOffset =
       OperationParam("pageOffset");
 
   //userInventory
-  static OperationParam UserItemsServiceDefId = OperationParam("defId");
-  static OperationParam UserItemsServiceQuantity = OperationParam("quantity");
-  static OperationParam UserItemsServiceIncludeDef =
+  static OperationParam userItemsServiceDefId = OperationParam("defId");
+  static OperationParam userItemsServiceQuantity = OperationParam("quantity");
+  static OperationParam userItemsServiceIncludeDef =
       OperationParam("includeDef");
-  static OperationParam UserItemsServiceItemId = OperationParam("itemId");
-  static OperationParam UserItemsServiceCriteria = OperationParam("criteria");
-  static OperationParam UserItemsServiceContext = OperationParam("context");
-  static OperationParam UserItemsServicePageOffset =
+  static OperationParam userItemsServiceItemId = OperationParam("itemId");
+  static OperationParam userItemsServiceCriteria = OperationParam("criteria");
+  static OperationParam userItemsServiceContext = OperationParam("context");
+  static OperationParam userItemsServicePageOffset =
       OperationParam("pageOffset");
-  static OperationParam UserItemsServiceVersion = OperationParam("version");
-  static OperationParam UserItemsServiceImmediate = OperationParam("immediate");
-  static OperationParam UserItemsServiceProfileId = OperationParam("profileId");
-  static OperationParam UserItemsServiceShopId = OperationParam("shopId");
-  static OperationParam UserItemsServiceNewItemData =
+  static OperationParam userItemsServiceVersion = OperationParam("version");
+  static OperationParam userItemsServiceImmediate = OperationParam("immediate");
+  static OperationParam userItemsServiceProfileId = OperationParam("profileId");
+  static OperationParam userItemsServiceShopId = OperationParam("shopId");
+  static OperationParam userItemsServiceNewItemData =
       OperationParam("newItemData");
 
   //global app
-  static OperationParam GlobalAppPropertyNames =
+  static OperationParam globalAppPropertyNames =
       OperationParam("propertyNames");
-  static OperationParam GlobalAppCategories = OperationParam("categories");
+  static OperationParam globalAppCategories = OperationParam("categories");
 
   OperationParam(String value) {
     _value = value;
@@ -767,5 +767,5 @@ class OperationParam {
 
   late String _value;
 
-  String get Value => _value;
+  String get value => _value;
 }

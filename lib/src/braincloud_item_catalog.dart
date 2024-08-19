@@ -35,7 +35,7 @@ class BrainCloudItemCatalog {
   void getCatalogItemDefinition(String defId, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.ItemCatalogServiceDefId.Value] = defId;
+    data[OperationParam.itemCatalogServiceDefId.value] = defId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -70,7 +70,7 @@ class BrainCloudItemCatalog {
     Map<String, dynamic> data = {};
 
     var contextData = jsonDecode(context);
-    data[OperationParam.ItemCatalogServiceContext.Value] = contextData;
+    data[OperationParam.itemCatalogServiceContext.value] = contextData;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -107,8 +107,8 @@ class BrainCloudItemCatalog {
   void getCatalogItemsPageOffset(String context, int pageOffset,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.ItemCatalogServiceContext.Value] = context;
-    data[OperationParam.ItemCatalogServicePageOffset.Value] = pageOffset;
+    data[OperationParam.itemCatalogServiceContext.value] = context;
+    data[OperationParam.itemCatalogServicePageOffset.value] = pageOffset;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,

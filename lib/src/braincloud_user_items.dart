@@ -40,9 +40,9 @@ class BrainCloudUserItems {
   void awardUserItem(String defId, int quantity, bool includeDef,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.UserItemsServiceDefId.Value] = defId;
-    data[OperationParam.UserItemsServiceQuantity.Value] = quantity;
-    data[OperationParam.UserItemsServiceIncludeDef.Value] = includeDef;
+    data[OperationParam.userItemsServiceDefId.value] = defId;
+    data[OperationParam.userItemsServiceQuantity.value] = quantity;
+    data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -81,9 +81,9 @@ class BrainCloudUserItems {
   void dropUserItem(String itemId, int quantity, bool includeDef,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.UserItemsServiceItemId.Value] = itemId;
-    data[OperationParam.UserItemsServiceQuantity.Value] = quantity;
-    data[OperationParam.UserItemsServiceIncludeDef.Value] = includeDef;
+    data[OperationParam.userItemsServiceItemId.value] = itemId;
+    data[OperationParam.userItemsServiceQuantity.value] = quantity;
+    data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -120,8 +120,8 @@ class BrainCloudUserItems {
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
     var contextData = jsonDecode(context);
-    data[OperationParam.UserItemsServiceContext.Value] = contextData;
-    data[OperationParam.UserItemsServiceIncludeDef.Value] = includeDef;
+    data[OperationParam.userItemsServiceContext.value] = contextData;
+    data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -160,9 +160,9 @@ class BrainCloudUserItems {
   void getUserItemsPageOffset(String context, int pageOffset, bool includeDef,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.UserItemsServiceContext.Value] = context;
-    data[OperationParam.UserItemsServicePageOffset.Value] = pageOffset;
-    data[OperationParam.UserItemsServiceIncludeDef.Value] = includeDef;
+    data[OperationParam.userItemsServiceContext.value] = context;
+    data[OperationParam.userItemsServicePageOffset.value] = pageOffset;
+    data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -198,8 +198,8 @@ class BrainCloudUserItems {
   void getUserItem(String itemId, bool includeDef, SuccessCallback? success,
       FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.UserItemsServiceItemId.Value] = itemId;
-    data[OperationParam.UserItemsServiceIncludeDef.Value] = includeDef;
+    data[OperationParam.userItemsServiceItemId.value] = itemId;
+    data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -245,11 +245,11 @@ class BrainCloudUserItems {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.UserItemsServiceProfileId.Value] = profileId;
-    data[OperationParam.UserItemsServiceItemId.Value] = itemId;
-    data[OperationParam.UserItemsServiceVersion.Value] = version;
-    data[OperationParam.UserItemsServiceQuantity.Value] = quantity;
-    data[OperationParam.UserItemsServiceImmediate.Value] = immediate;
+    data[OperationParam.userItemsServiceProfileId.value] = profileId;
+    data[OperationParam.userItemsServiceItemId.value] = itemId;
+    data[OperationParam.userItemsServiceVersion.value] = version;
+    data[OperationParam.userItemsServiceQuantity.value] = quantity;
+    data[OperationParam.userItemsServiceImmediate.value] = immediate;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -295,10 +295,10 @@ class BrainCloudUserItems {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.UserItemsServiceDefId.Value] = defId;
-    data[OperationParam.UserItemsServiceQuantity.Value] = quantity;
-    data[OperationParam.UserItemsServiceShopId.Value] = shopId;
-    data[OperationParam.UserItemsServiceIncludeDef.Value] = includeDef;
+    data[OperationParam.userItemsServiceDefId.value] = defId;
+    data[OperationParam.userItemsServiceQuantity.value] = quantity;
+    data[OperationParam.userItemsServiceShopId.value] = shopId;
+    data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -336,8 +336,8 @@ class BrainCloudUserItems {
   void receiveUserItemFrom(String profileId, String itemId,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.UserItemsServiceProfileId.Value] = profileId;
-    data[OperationParam.UserItemsServiceItemId.Value] = itemId;
+    data[OperationParam.userItemsServiceProfileId.value] = profileId;
+    data[OperationParam.userItemsServiceItemId.value] = itemId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -388,11 +388,11 @@ class BrainCloudUserItems {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.UserItemsServiceItemId.Value] = itemId;
-    data[OperationParam.UserItemsServiceVersion.Value] = version;
-    data[OperationParam.UserItemsServiceQuantity.Value] = quantity;
-    data[OperationParam.UserItemsServiceShopId.Value] = shopId;
-    data[OperationParam.UserItemsServiceIncludeDef.Value] = includeDef;
+    data[OperationParam.userItemsServiceItemId.value] = itemId;
+    data[OperationParam.userItemsServiceVersion.value] = version;
+    data[OperationParam.userItemsServiceQuantity.value] = quantity;
+    data[OperationParam.userItemsServiceShopId.value] = shopId;
+    data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -427,10 +427,10 @@ class BrainCloudUserItems {
   void updateUserItemData(String itemId, int version, String newItemData,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.UserItemsServiceItemId.Value] = itemId;
-    data[OperationParam.UserItemsServiceVersion.Value] = version;
+    data[OperationParam.userItemsServiceItemId.value] = itemId;
+    data[OperationParam.userItemsServiceVersion.value] = version;
     var newItemDataDict = jsonDecode(newItemData);
-    data[OperationParam.UserItemsServiceNewItemData.Value] = newItemDataDict;
+    data[OperationParam.userItemsServiceNewItemData.value] = newItemDataDict;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -473,12 +473,12 @@ class BrainCloudUserItems {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.UserItemsServiceItemId.Value] = itemId;
-    data[OperationParam.UserItemsServiceVersion.Value] = version;
-    data[OperationParam.UserItemsServiceIncludeDef.Value] = includeDef;
+    data[OperationParam.userItemsServiceItemId.value] = itemId;
+    data[OperationParam.userItemsServiceVersion.value] = version;
+    data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
     var newItemDataDict = jsonDecode(newItemData);
-    data[OperationParam.UserItemsServiceNewItemData.Value] = newItemDataDict;
+    data[OperationParam.userItemsServiceNewItemData.value] = newItemDataDict;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -511,8 +511,8 @@ class BrainCloudUserItems {
   void publishUserItemToBlockchain(String itemId, int version,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.UserItemsServiceItemId.Value] = itemId;
-    data[OperationParam.UserItemsServiceVersion.Value] = version;
+    data[OperationParam.userItemsServiceItemId.value] = itemId;
+    data[OperationParam.userItemsServiceVersion.value] = version;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,
@@ -574,8 +574,8 @@ class BrainCloudUserItems {
   void removeUserItemFromBlockchain(String itemId, int version,
       SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.UserItemsServiceItemId.Value] = itemId;
-    data[OperationParam.UserItemsServiceVersion.Value] = version;
+    data[OperationParam.userItemsServiceItemId.value] = itemId;
+    data[OperationParam.userItemsServiceVersion.value] = version;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         success, failure,

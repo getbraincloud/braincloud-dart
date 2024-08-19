@@ -828,9 +828,9 @@ class BrainCloudAuthentication {
       String externalId, SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.AuthenticateServiceAuthenticateExternalId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateExternalId.value] =
         externalId;
-    data[OperationParam.AuthenticateServiceAuthenticateGameId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
 
     ServerCallback? callback =
@@ -866,13 +866,13 @@ class BrainCloudAuthentication {
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.AuthenticateServiceAuthenticateExternalId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateExternalId.value] =
         externalId;
-    data[OperationParam.AuthenticateServiceAuthenticateGameId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
 
-    data[OperationParam.AuthenticateServiceAuthenticateTokenTtlInMinutes
-        .Value] = tokenTtlInMinutes;
+    data[OperationParam.authenticateServiceAuthenticateTokenTtlInMinutes
+        .value] = tokenTtlInMinutes;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -916,13 +916,13 @@ class BrainCloudAuthentication {
       FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.AuthenticateServiceAuthenticateGameId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
-    data[OperationParam.AuthenticateServiceAuthenticateEmailAddress.Value] =
+    data[OperationParam.authenticateServiceAuthenticateEmailAddress.value] =
         emailAddress;
 
     var jsonParams = jsonDecode(serviceParams);
-    data[OperationParam.AuthenticateServiceAuthenticateServiceParams.Value] =
+    data[OperationParam.authenticateServiceAuthenticateServiceParams.value] =
         jsonParams;
 
     ServerCallback? callback =
@@ -971,17 +971,17 @@ class BrainCloudAuthentication {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = {};
-    data[OperationParam.AuthenticateServiceAuthenticateGameId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
-    data[OperationParam.AuthenticateServiceAuthenticateEmailAddress.Value] =
+    data[OperationParam.authenticateServiceAuthenticateEmailAddress.value] =
         emailAddress;
 
     var jsonParams = jsonDecode(serviceParams);
-    data[OperationParam.AuthenticateServiceAuthenticateServiceParams.Value] =
+    data[OperationParam.authenticateServiceAuthenticateServiceParams.value] =
         jsonParams;
 
-    data[OperationParam.AuthenticateServiceAuthenticateTokenTtlInMinutes
-        .Value] = tokenTtlInMinutes;
+    data[OperationParam.authenticateServiceAuthenticateTokenTtlInMinutes
+        .value] = tokenTtlInMinutes;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -1013,9 +1013,9 @@ class BrainCloudAuthentication {
       String universalId, SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.AuthenticateServiceAuthenticateGameId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
-    data[OperationParam.AuthenticateServiceAuthenticateUniversalId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateUniversalId.value] =
         universalId;
 
     ServerCallback? callback =
@@ -1050,12 +1050,12 @@ class BrainCloudAuthentication {
       int tokenTtlInMinutes, SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.AuthenticateServiceAuthenticateGameId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
-    data[OperationParam.AuthenticateServiceAuthenticateUniversalId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateUniversalId.value] =
         universalId;
-    data[OperationParam.AuthenticateServiceAuthenticateTokenTtlInMinutes
-        .Value] = tokenTtlInMinutes;
+    data[OperationParam.authenticateServiceAuthenticateTokenTtlInMinutes
+        .value] = tokenTtlInMinutes;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -1094,13 +1094,13 @@ class BrainCloudAuthentication {
       String serviceParams, SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.AuthenticateServiceAuthenticateGameId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
-    data[OperationParam.AuthenticateServiceAuthenticateUniversalId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateUniversalId.value] =
         universalId;
 
     var jsonParams = jsonDecode(serviceParams);
-    data[OperationParam.AuthenticateServiceAuthenticateServiceParams.Value] =
+    data[OperationParam.authenticateServiceAuthenticateServiceParams.value] =
         jsonParams;
 
     ServerCallback? callback =
@@ -1147,17 +1147,17 @@ class BrainCloudAuthentication {
       FailureCallback? failure,
       dynamic cbObject) {
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.AuthenticateServiceAuthenticateGameId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
-    data[OperationParam.AuthenticateServiceAuthenticateUniversalId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateUniversalId.value] =
         universalId;
 
     var jsonParams = jsonDecode(serviceParams);
-    data[OperationParam.AuthenticateServiceAuthenticateServiceParams.Value] =
+    data[OperationParam.authenticateServiceAuthenticateServiceParams.value] =
         jsonParams;
 
-    data[OperationParam.AuthenticateServiceAuthenticateTokenTtlInMinutes
-        .Value] = tokenTtlInMinutes;
+    data[OperationParam.authenticateServiceAuthenticateTokenTtlInMinutes
+        .value] = tokenTtlInMinutes;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -1184,47 +1184,47 @@ class BrainCloudAuthentication {
     String countryCode = _clientRef.countryCode;
 
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.AuthenticateServiceAuthenticateExternalId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateExternalId.value] =
         externalId;
-    data[OperationParam.AuthenticateServiceAuthenticateAuthenticationToken
-        .Value] = authenticationToken;
-    data[OperationParam.AuthenticateServiceAuthenticateAuthenticationType
-        .Value] = authenticationType.toShortString();
-    data[OperationParam.AuthenticateServiceAuthenticateForceCreate.Value] =
+    data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
+        .value] = authenticationToken;
+    data[OperationParam.authenticateServiceAuthenticateAuthenticationType
+        .value] = authenticationType.toShortString();
+    data[OperationParam.authenticateServiceAuthenticateForceCreate.value] =
         forceCreate;
-    data[OperationParam.AuthenticateServiceAuthenticateCompressResponses
-        .Value] = compressResponse;
+    data[OperationParam.authenticateServiceAuthenticateCompressResponses
+        .value] = compressResponse;
 
-    data[OperationParam.AuthenticateServiceAuthenticateProfileId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateProfileId.value] =
         profileId;
-    data[OperationParam.AuthenticateServiceAuthenticateAnonymousId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateAnonymousId.value] =
         _anonymousId;
-    data[OperationParam.AuthenticateServiceAuthenticateGameId.Value] =
+    data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
-    data[OperationParam.AuthenticateServiceAuthenticateReleasePlatform.Value] =
+    data[OperationParam.authenticateServiceAuthenticateReleasePlatform.value] =
         _clientRef.releasePlatform.toShortString();
-    data[OperationParam.AuthenticateServiceAuthenticateGameVersion.Value] =
+    data[OperationParam.authenticateServiceAuthenticateGameVersion.value] =
         _clientRef.appVersion;
-    data[OperationParam.AuthenticateServiceAuthenticateBrainCloudVersion
-        .Value] = Version.getVersion();
+    data[OperationParam.authenticateServiceAuthenticateBrainCloudVersion
+        .value] = Version.getVersion();
 
     data["clientLib"] = "dart";
 
     if (Util.isOptionalParameterValid(externalAuthName)) {
-      data[OperationParam.AuthenticateServiceAuthenticateExternalAuthName
-          .Value] = externalAuthName;
+      data[OperationParam.authenticateServiceAuthenticateExternalAuthName
+          .value] = externalAuthName;
     }
 
     if (extraJson != null) {
-      data[OperationParam.AuthenticateServiceAuthenticateExtraJson.Value] =
+      data[OperationParam.authenticateServiceAuthenticateExtraJson.value] =
           extraJson;
     }
 
-    data[OperationParam.AuthenticateServiceAuthenticateCountryCode.Value] =
+    data[OperationParam.authenticateServiceAuthenticateCountryCode.value] =
         countryCode;
-    data[OperationParam.AuthenticateServiceAuthenticateLanguageCode.Value] =
+    data[OperationParam.authenticateServiceAuthenticateLanguageCode.value] =
         languageCode;
-    data[OperationParam.AuthenticateServiceAuthenticateTimeZoneOffset.Value] =
+    data[OperationParam.authenticateServiceAuthenticateTimeZoneOffset.value] =
         utcOffset;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(

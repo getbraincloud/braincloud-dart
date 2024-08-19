@@ -45,12 +45,12 @@ class BrainCloudFile {
     _clientRef.fileService.fileStorage[guid] = fileData;
 
     Map<String, dynamic> data = {};
-    data[OperationParam.UploadLocalPath.Value] = guid;
-    data[OperationParam.UploadCloudFilename.Value] = cloudFilename;
-    data[OperationParam.UploadCloudPath.Value] = cloudPath;
-    data[OperationParam.UploadShareable.Value] = shareable;
-    data[OperationParam.UploadReplaceIfExists.Value] = replaceIfExists;
-    data[OperationParam.UploadFileSize.Value] = fileData.length;
+    data[OperationParam.uploadLocalPath.value] = guid;
+    data[OperationParam.uploadCloudFilename.value] = cloudFilename;
+    data[OperationParam.uploadCloudPath.value] = cloudPath;
+    data[OperationParam.uploadShareable.value] = shareable;
+    data[OperationParam.uploadReplaceIfExists.value] = replaceIfExists;
+    data[OperationParam.uploadFileSize.value] = fileData.length;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -111,11 +111,11 @@ class BrainCloudFile {
     Map<String, dynamic> data = {};
 
     if (Util.isOptionalParameterValid(cloudPath)) {
-      data[OperationParam.UploadPath.Value] = cloudPath;
+      data[OperationParam.uploadPath.value] = cloudPath;
     }
 
     if (recurse != null) {
-      data[OperationParam.UploadRecurse.Value] = recurse;
+      data[OperationParam.uploadRecurse.value] = recurse;
     }
 
     ServerCallback? callback =
@@ -137,8 +137,8 @@ class BrainCloudFile {
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.UploadCloudPath.Value] = cloudPath;
-    data[OperationParam.UploadCloudFilename.Value] = cloudFileName;
+    data[OperationParam.uploadCloudPath.value] = cloudPath;
+    data[OperationParam.uploadCloudFilename.value] = cloudFileName;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -159,8 +159,8 @@ class BrainCloudFile {
       FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.UploadCloudPath.Value] = cloudPath;
-    data[OperationParam.UploadRecurse.Value] = recurse;
+    data[OperationParam.uploadCloudPath.value] = cloudPath;
+    data[OperationParam.uploadRecurse.value] = recurse;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);
@@ -181,8 +181,8 @@ class BrainCloudFile {
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.UploadCloudPath.Value] = cloudPath;
-    data[OperationParam.UploadCloudFilename.Value] = cloudFilename;
+    data[OperationParam.uploadCloudPath.value] = cloudPath;
+    data[OperationParam.uploadCloudFilename.value] = cloudFilename;
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback(success, failure);

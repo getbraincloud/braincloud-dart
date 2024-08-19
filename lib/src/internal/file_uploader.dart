@@ -94,7 +94,7 @@ class FileUploader {
   }
 
   void bytesReadCallback(dynamic sender, ProgressStreamReportEventArgs args) {
-    progress = args.StreamPosition / args.StreamLength;
+    progress = args.streamPosition / args.streamLength;
   }
 
   void cancelUpload() {
