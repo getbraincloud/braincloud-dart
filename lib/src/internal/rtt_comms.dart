@@ -233,7 +233,7 @@ class RTTComms {
   ///
   /// </summary>
   void disconnect() {
-    //if (m_webSocket != null) m_webSocket?.Close();
+    _webSocket?.close();
 
     _rttConnectionID = "";
     _rttEventServer = "";
@@ -342,14 +342,17 @@ class RTTComms {
   }
 
   void _setupWebSocket(String inUrl) {
-    // m_webSocket = BrainCloudWebSocket(in_url);
-    // m_webSocket.OnClose += WebSocket_OnClose;
-    // m_webSocket.OnOpen += Websocket_OnOpen;
-    // m_webSocket.OnMessage += WebSocket_OnMessage;
-    // m_webSocket.OnError += WebSocket_OnError;
+    _webSocket = BrainCloudWebSocket(inUrl,
+        onOpen: webSocketOnOpen,
+        onClose: webSocketOnClose,
+        onMessage: webSocketOnMessage,
+        onError: webSocketOnError);
   }
 
-  void _webSocketOnClose(BrainCloudWebSocket sender, int code, String reason) {
+  void webSocketOnClose(
+      {required BrainCloudWebSocket sender,
+      required int code,
+      required String reason}) {
     if (_clientRef.loggingEnabled) {
       _clientRef.log("RTT: Connection closed: $reason");
     }
@@ -358,7 +361,7 @@ class RTTComms {
         ServiceName.rttRegistration.value.toLowerCase(), "disconnect", reason));
   }
 
-  void _webSocketOnOpen(BrainCloudWebSocket accepted) {
+  void webSocketOnOpen({required BrainCloudWebSocket accepted}) {
     if (_clientRef.loggingEnabled) {
       _clientRef.log("RTT: Connection established.");
     }
@@ -367,7 +370,8 @@ class RTTComms {
         ServiceName.rttRegistration.value.toLowerCase(), "connect", ""));
   }
 
-  void _webSocketOnMessage(BrainCloudWebSocket sender, Uint8List data) {
+  void webSocketOnMessage(
+      {required BrainCloudWebSocket sender, required Uint8List data}) {
     if (data.isEmpty) {
       return;
     }
@@ -376,7 +380,8 @@ class RTTComms {
     _onRecv(message);
   }
 
-  void _webSocketOnError(BrainCloudWebSocket sender, String message) {
+  void webSocketOnError(
+      {required BrainCloudWebSocket sender, required String message}) {
     if (_clientRef.loggingEnabled) {
       _clientRef.log("RTT Error: $message");
     }

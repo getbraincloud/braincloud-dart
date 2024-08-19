@@ -43,7 +43,6 @@ import 'package:braincloud_dart/src/braincloud_push_notification.dart';
 import 'package:braincloud_dart/src/braincloud_redemption_code.dart';
 import 'package:braincloud_dart/src/braincloud_relay.dart';
 import 'package:braincloud_dart/src/braincloud_rtt.dart';
-import 'package:braincloud_dart/src/braincloud_s3_handling.dart';
 import 'package:braincloud_dart/src/braincloud_script.dart';
 import 'package:braincloud_dart/src/braincloud_social_leaderboard.dart';
 import 'package:braincloud_dart/src/braincloud_time.dart';
@@ -214,8 +213,6 @@ class BrainCloudWrapper {
 
   BrainCloudPlayerStatisticsEvent get playerStatisticsEventService =>
       _client.playerStatisticsEventService;
-
-  BrainCloudS3Handling get s3HandlingService => _client.s3HandlingService;
 
   BrainCloudRedemptionCode get redemptionCodeService =>
       _client.redemptionCodeService;

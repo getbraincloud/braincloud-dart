@@ -42,7 +42,6 @@ import 'package:braincloud_dart/src/braincloud_push_notification.dart';
 import 'package:braincloud_dart/src/braincloud_redemption_code.dart';
 import 'package:braincloud_dart/src/braincloud_relay.dart';
 import 'package:braincloud_dart/src/braincloud_rtt.dart';
-import 'package:braincloud_dart/src/braincloud_s3_handling.dart';
 import 'package:braincloud_dart/src/braincloud_script.dart';
 import 'package:braincloud_dart/src/braincloud_social_leaderboard.dart';
 import 'package:braincloud_dart/src/braincloud_time.dart';
@@ -110,7 +109,6 @@ class BrainCloudClient {
   BrainCloudAuthentication? _authenticationService;
   late BrainCloudPushNotification _pushNotificationService;
   late BrainCloudPlayerStatisticsEvent _playerStatisticsEventService;
-  late BrainCloudS3Handling _s3HandlingService;
   late BrainCloudRedemptionCode _redemptionCodeService;
   late BrainCloudDataStream _dataStreamService;
   late BrainCloudProfanity _profanityService;
@@ -189,7 +187,6 @@ class BrainCloudClient {
     _pushNotificationService = BrainCloudPushNotification(this);
     _playerStatisticsEventService = BrainCloudPlayerStatisticsEvent(this);
 
-    _s3HandlingService = BrainCloudS3Handling(this);
     _redemptionCodeService = BrainCloudRedemptionCode(this);
     _dataStreamService = BrainCloudDataStream(this);
     _profanityService = BrainCloudProfanity(this);
@@ -317,8 +314,6 @@ class BrainCloudClient {
 
   BrainCloudPlayerStatisticsEvent get playerStatisticsEventService =>
       _playerStatisticsEventService;
-
-  BrainCloudS3Handling get s3HandlingService => _s3HandlingService;
 
   BrainCloudRedemptionCode get redemptionCodeService => _redemptionCodeService;
 
@@ -452,10 +447,6 @@ class BrainCloudClient {
 
   BrainCloudPlayerStatisticsEvent getPlayerStatisticsEventService() {
     return _playerStatisticsEventService;
-  }
-
-  BrainCloudS3Handling getS3HandlingService() {
-    return _s3HandlingService;
   }
 
   BrainCloudRedemptionCode getRedemptionCodeService() {
