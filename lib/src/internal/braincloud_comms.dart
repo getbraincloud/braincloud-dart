@@ -1898,7 +1898,11 @@ class BrainCloudComms {
   }
 
   void disposeUploadHandler() {
-    debugPrint("disposeUploadHandler called");
+    if (_activeRequest != null &&
+        _activeRequest?.webRequest != null &&
+        _activeRequest?.webRequest?.uploadHandler != null) {
+      _activeRequest?.webRequest = null;
+    }
   }
 
   void addCallbackToAuthenticateRequest(ServerCallback? inCallback) {

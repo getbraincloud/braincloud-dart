@@ -2,6 +2,9 @@
 // brainCloud client source code
 // Copyright 2024 bitHeads, inc.
 //----------------------------------------------------
+import 'dart:async';
+
+import 'package:braincloud_dart/src/server_response.dart';
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:flutter/material.dart';
 
@@ -265,8 +268,7 @@ class BrainCloudWrapper {
   }
 
   /// <summary>
-  /// Initialize the brainCloud client with the passed in parameters. This version of Initialize
-  /// overrides the parameters configured in the Unity brainCloud settings window.
+  /// Initialize the brainCloud client with the passed in parameters.
   /// </summary>
   /// <param name="url">The brainCloud server url</param>
   /// <param name="secretKey">The app's secret</param>
@@ -290,6 +292,8 @@ class BrainCloudWrapper {
 
     await _loadData();
   }
+
+  bool get isInitialized => _client.isInitialized();
 
   /// <summary>
   /// Initialize the brainCloud client with the passed in parameters. This version of Initialize
@@ -372,20 +376,24 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateAnonymous(
+  Future<ServerResponse> authenticateAnonymous(
       {SuccessCallback? success, FailureCallback? failure, dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success,
-        failureCallback: failure,
-        cbObject: cbObject,
-        isAnonymousAuth: true);
+    final Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService?.authenticateAnonymous(
-        null,
-        true,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        cbObject: aco);
+    _client.authenticationService?.authenticateAnonymous(null, true,
+        (response) {
+      authSuccessCallback;
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -492,13 +500,15 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateEmailPassword(
+  Future<ServerResponse> authenticateEmailPassword(
       {required String email,
       required String password,
       required bool forceCreate,
       SuccessCallback? success,
       FailureCallback? failure,
       dynamic cbObject}) {
+    final Completer<ServerResponse> completer = Completer();
+
     WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
         successCallback: success, failureCallback: failure, cbObject: cbObject);
 
@@ -507,6 +517,8 @@ class BrainCloudWrapper {
         success(response);
       }
       authSuccessCallback(json: response, cbObject: cbObject);
+
+      completer.complete(ServerResponse.fromJson(response));
     }
 
     mergeFailure(int statusCode, int reasonCode, String statusMessage) {
@@ -519,10 +531,17 @@ class BrainCloudWrapper {
           reasonCode: reasonCode,
           errorJson: statusMessage,
           cbObject: cbObject);
+
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
     }
 
     _client.authenticationService?.authenticateEmailPassword(
         email, password, forceCreate, mergeSuccess, mergeFailure, aco);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -2182,7 +2201,7 @@ class BrainCloudWrapper {
   }
 
   /// <summary>
-  /// Method initializes the identity information from the Unity player prefs cache.
+  /// Method initializes the identity information from the player prefs cache.
   /// This is specifically useful for an Anonymous authentication as Anonymous authentications
   /// require both the anonymous id *and* the profile id. By using the BrainCloudWrapper
   /// authenticateAnonymous method, a success callback handler hook will be installed

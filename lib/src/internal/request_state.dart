@@ -66,10 +66,19 @@ class WebRequest extends Request {
 
   DownloadHandler? _downloadHandler;
   DownloadHandler? get downloadHandler => _downloadHandler;
+
+  UploadHanlder? _uploadHandler;
+  UploadHanlder? get uploadHandler => _uploadHandler;
+
   WebRequest(super.method, super.url);
 }
 
 class DownloadHandler {
+  Response? response;
+  bool get isDone => response != null;
+}
+
+class UploadHanlder {
   Response? response;
   bool get isDone => response != null;
 }

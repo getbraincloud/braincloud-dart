@@ -33,3 +33,12 @@ build/
 
 web/
 linux/
+android/
+windows/
+
+analysis_options.yaml
+lib/main.dart
+lib/movie.dart
+lib/movie.g.dart
+lib/widgets
+test/ids.txt

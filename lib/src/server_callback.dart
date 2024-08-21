@@ -28,9 +28,29 @@ class ServerCallback {
         return;
       }
 
-      //TODO: find a way to add events
-      //fnSuccessCallback += callbackObject.successCallback!;
-      //fnFailureCallback += callbackObject.failureCallback!;
+      // add new callback to existing successCallback
+      fnSuccessCallback = (Map<String, dynamic> response) {
+        if (fnSuccessCallback != null) {
+          fnSuccessCallback!(response);
+        }
+
+        if (callbackObject.successCallback != null) {
+          callbackObject.successCallback!(response);
+        }
+      };
+
+      // add new callback to existing failureCallback
+      fnFailureCallback =
+          (int statusCode, int reasonCode, String statusMessage) {
+        if (fnFailureCallback != null) {
+          fnFailureCallback!(statusCode, reasonCode, statusMessage);
+        }
+
+        if (callbackObject.failureCallback != null) {
+          callbackObject.failureCallback!(
+              statusCode, reasonCode, statusMessage);
+        }
+      };
     }
   }
 
