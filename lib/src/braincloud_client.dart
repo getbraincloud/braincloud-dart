@@ -985,10 +985,9 @@ class BrainCloudClient {
 
     //setup region/country code
     if (Util.getCurrentCountryCode().isEmpty) {
-      var countryCode =
-          WidgetsBinding.instance.platformDispatcher.locale.countryCode;
-
-      Util.setCurrentCountryCode(countryCode ?? "US");
+       String locale = Intl.getCurrentLocale();      
+      String countryCode = locale.split('_').last;  // Extract the country code from locale.
+      Util.setCurrentCountryCode(countryCode);
     }
   }
 }

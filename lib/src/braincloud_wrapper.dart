@@ -53,7 +53,6 @@ import 'package:braincloud_dart/src/braincloud_tournament.dart';
 import 'package:braincloud_dart/src/braincloud_user_items.dart';
 import 'package:braincloud_dart/src/braincloud_virtual_currency.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
-import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// <summary>

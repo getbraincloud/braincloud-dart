@@ -6,12 +6,10 @@ import 'package:braincloud_dart/src/server_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/v4.dart';
 
 import 'stored_ids.dart';
 
 main() {
-  WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.setMockInitialValues({});
 
   final bcWrapper = BrainCloudWrapper(wrapperName: "FlutterTest");
@@ -58,12 +56,12 @@ main() {
     test("authenticateAnonymous", () async {
       expect(bcWrapper.isInitialized, true);
 
-      bcWrapper.brainCloudClient.enableLogging(true);
+      // bcWrapper.brainCloudClient.enableLogging(true);
       bcWrapper.resetStoredProfileId();
       bcWrapper.resetStoredAnonymousId();
 
       ServerResponse response = await bcWrapper.authenticateAnonymous();
-      debugPrint(jsonEncode(response.body));
+      // debugPrint(jsonEncode(response.body));
       expect(response.statusCode, 200);
       expect(response.body?['profileId'], isA<String>());
       expect(response.body?['server_time'], isA<int>());
@@ -77,7 +75,7 @@ main() {
 
       bcWrapper.resetStoredProfileId();
       ServerResponse response = await bcWrapper.authenticateEmailPassword(email: email, password: password, forceCreate: false);
-      debugPrint(jsonEncode(response.body));
+      // debugPrint(jsonEncode(response.body));
       expect(response.statusCode, 200);
       expect(response.body?['profileId'], isA<String>());
       expect(response.body?['server_time'], isA<int>());
@@ -87,15 +85,12 @@ main() {
     });
 
     test("reconnect", () async {
-    
       ServerResponse response = await bcWrapper.logout(false);
       expect(response.statusCode, 200);
       expect(bcWrapper.brainCloudClient.isAuthenticated(), false);
 
-       response = await bcWrapper.reconnect();
+      response = await bcWrapper.reconnect();
       expect(response.statusCode, 200);
-      
-
     });
 
     test("logout", () async {
@@ -107,11 +102,11 @@ main() {
       try {
         response = await bcWrapper.reconnect();
         fail('Should fail reconnect as no session existed.');
-      } on ServerResponse {(response) {
-        expect(response.statusCode, 403);
-      };}
+      } on ServerResponse {
+        (response) {
+          expect(response.statusCode, 403);
+        };
+      }
     });
-
   });
-
 }
