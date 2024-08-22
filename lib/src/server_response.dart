@@ -25,4 +25,9 @@ class ServerResponse {
       _$ServerResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ServerResponseToJson(this);
+
+  @override
+  String toString() {    
+    return 'Status: ${statusCode} Reason: ${reasonCode} Message: ${statusMessage} hasData: ${(body?.isNotEmpty??false) ? 'Yes':'No'}';
+  }
 }

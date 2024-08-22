@@ -53,6 +53,7 @@ import 'package:braincloud_dart/src/braincloud_tournament.dart';
 import 'package:braincloud_dart/src/braincloud_user_items.dart';
 import 'package:braincloud_dart/src/braincloud_virtual_currency.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// <summary>
@@ -2179,28 +2180,19 @@ class BrainCloudWrapper {
   /// <summary>
   /// Re-authenticates the user with brainCloud
   /// </summary>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void reconnect(
-      {SuccessCallback? success, FailureCallback? failure, dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success,
-        failureCallback: failure,
-        cbObject: cbObject,
-        isAnonymousAuth: true);
+  ///
+  Future<ServerResponse> reconnect() async {
 
+    Completer<ServerResponse> completer = Completer();
+
+    initializeIdentity(true);
     _client.authenticationService?.authenticateAnonymous(
         false,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        cbObject: aco);
+        (response)=>completer.complete(ServerResponse.fromJson(response)),
+        (status,reason,message)=>completer.completeError(ServerResponse(statusCode: status,reasonCode: reason,statusMessage: message)),
+    );
+
+    return completer.future;
   }
 
   /// <summary>
@@ -2752,7 +2744,28 @@ class BrainCloudWrapper {
   void restoreSession() {
     _client.comms?.restoreProfileAndSessionIds(_wrapperData);
   }
+
+   ///<summary>
+   /// Logs user out of server.
+   /// </summary>
+   /// <param name="forgetUser">{boolean} forgetUser Determines whether the stored profile ID should be reset or not </param>
+   /// <param name="responseHandler">{*} responseHandler Function to invoke when request is processed </param>
+    Future<ServerResponse> logout(bool forgetUser) async {
+      Completer<ServerResponse> completer = new Completer();
+
+        if(forgetUser){
+            resetStoredProfileId();
+        }
+        _client.getPlayerStateService().logout(
+          (response) => completer.complete(ServerResponse.fromJson(response)),
+          (status, reason, mesage) => completer.completeError(ServerResponse(statusCode: status,reasonCode: reason, statusMessage: mesage))
+        );
+
+        return completer.future;
+    }
+
 }
+
 
 class WrapperData {
   String profileId = "";
