@@ -52,6 +52,18 @@ main() {
 
     // end test
 
+  test("authenticateAnonymous", () async {
+        
+        bcWrapper.resetStoredAuthenticationType();
+        ServerResponse response = await bcWrapper.authenticateAnonymous();
+        debugPrint(jsonEncode(response.body));
+        expect(response.statusCode, 200);
+        expect(response.body?['profileId'], isA<String>());
+        expect(response.body?['server_time'], isA<double>());
+        expect(response.body?['createdAt'], isA<double>());
+        expect(response.body?['isTester'], isA<bool>());
+        expect(response.body?['currency'], isA<Object>());
+    });
   test("authenticateEmailPassword", () async {
         ServerResponse response = await bcWrapper.authenticateEmailPassword(email: email, password: password, forceCreate: false);
         debugPrint(jsonEncode(response.body));
