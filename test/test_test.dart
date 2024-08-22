@@ -52,24 +52,15 @@ main() {
 
     // end test
 
-    test("authenticateEmailPassword", () async {
-      try {
-        debugPrint(">>> Login with ${email} <<<");
-        // AuthenticationType s = AuthenticationType.values.firstWhere((e)=>e.value == email);
-        
-        var response = await bcWrapper.authenticateEmailPassword(email: email, password: password, forceCreate: false);
-        debugPrint("----------Login Success----------");
-        var ressponseData = response.toJson();
-        // debugPrint(jsonEncode(response.toJson()));
-        debugPrint(jsonEncode(ressponseData));
-        expect(ressponseData['status'], 200);
-      } catch (error, stackTrace) {
-        debugPrint("----------Login Failed----------");
-        if ( error is ServerResponse) debugPrint(error.statusMessage);
-        // debugPrint(stackTrace.toString());
-        // expect({}, {"stackTrace": stackTrace});
-        // expect({}, {"stackTrace": ""});
-      }
+  test("authenticateEmailPassword", () async {
+        ServerResponse response = await bcWrapper.authenticateEmailPassword(email: email, password: password, forceCreate: false);
+        debugPrint(jsonEncode(response.body));
+        expect(response.statusCode, 200);
+        expect(response.body?['profileId'], isA<String>());
+        expect(response.body?['server_time'], isA<double>());
+        expect(response.body?['createdAt'], isA<double>());
+        expect(response.body?['isTester'], isA<bool>());
+        expect(response.body?['currency'], isA<Object>());
     });
   });
 }
