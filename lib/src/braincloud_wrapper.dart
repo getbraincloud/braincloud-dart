@@ -130,6 +130,8 @@ class BrainCloudWrapper {
   //Getting this error? - "An object reference is required for the non-static field, method, or property 'BrainCloudWrapper.Client'"
   //Switch to BrainCloudWrapper.GetBC();
   late BrainCloudClient _client;
+  
+  BrainCloudClient get brainCloudClient => _client;
 
   getAllowProfileSwitch() {
     return _alwaysAllowProfileSwitch;
@@ -380,7 +382,9 @@ class BrainCloudWrapper {
       {SuccessCallback? success, FailureCallback? failure, dynamic cbObject}) {
     final Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService?.authenticateAnonymous(null, true,
+    this.initializeIdentity(true);
+    
+    _client.authenticationService?.authenticateAnonymous(true,
         (response) {
       authSuccessCallback;
       ServerResponse responseObject = ServerResponse.fromJson(response);
@@ -2193,7 +2197,6 @@ class BrainCloudWrapper {
         isAnonymousAuth: true);
 
     _client.authenticationService?.authenticateAnonymous(
-        null,
         false,
         authSuccessCallback as SuccessCallback,
         authFailureCallback as FailureCallback,
@@ -2216,7 +2219,7 @@ class BrainCloudWrapper {
     String? profileId = getStoredProfileId();
     String? anonymousId = getStoredAnonymousId();
 
-    if ((anonymousId != "" && profileId == "") || anonymousId == "") {
+    if ((anonymousId?.isEmpty ?? true) || (anonymousId?.isEmpty ?? true)) {
       anonymousId = _client.authenticationService?.generateAnonymousId() ?? "";
       profileId = "";
       setStoredAnonymousId(anonymousId);

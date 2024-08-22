@@ -7,6 +7,7 @@ import 'package:braincloud_dart/src/server_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/v4.dart';
 
 import 'stored_ids.dart';
 
@@ -54,23 +55,31 @@ main() {
 
   test("authenticateAnonymous", () async {
         
-        bcWrapper.resetStoredAuthenticationType();
+        String anonId = UuidV4().generate();
+
+        bcWrapper.brainCloudClient.enableLogging(true);
+        bcWrapper.resetStoredProfileId();
+        // bcWrapper.resetStoredAnonymousId();
+        bcWrapper.setStoredAnonymousId(anonId);
+        
         ServerResponse response = await bcWrapper.authenticateAnonymous();
         debugPrint(jsonEncode(response.body));
         expect(response.statusCode, 200);
         expect(response.body?['profileId'], isA<String>());
-        expect(response.body?['server_time'], isA<double>());
-        expect(response.body?['createdAt'], isA<double>());
+        expect(response.body?['server_time'], isA<int>());
+        expect(response.body?['createdAt'], isA<int>());
         expect(response.body?['isTester'], isA<bool>());
         expect(response.body?['currency'], isA<Object>());
     });
+
   test("authenticateEmailPassword", () async {
+        bcWrapper.resetStoredProfileId();
         ServerResponse response = await bcWrapper.authenticateEmailPassword(email: email, password: password, forceCreate: false);
         debugPrint(jsonEncode(response.body));
         expect(response.statusCode, 200);
         expect(response.body?['profileId'], isA<String>());
-        expect(response.body?['server_time'], isA<double>());
-        expect(response.body?['createdAt'], isA<double>());
+        expect(response.body?['server_time'], isA<int>());
+        expect(response.body?['createdAt'], isA<int>());
         expect(response.body?['isTester'], isA<bool>());
         expect(response.body?['currency'], isA<Object>());
     });

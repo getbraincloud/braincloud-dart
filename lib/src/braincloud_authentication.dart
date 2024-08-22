@@ -78,11 +78,10 @@ class BrainCloudAuthentication {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void authenticateAnonymous(String? anonymousId, bool forceCreate,
+  void authenticateAnonymous(bool forceCreate,
       SuccessCallback? success, FailureCallback? failure,
       {dynamic cbObject}) {
-    _anonymousId = anonymousId ?? "";
-    authenticate(_anonymousId, "", AuthenticationType.anonymous, null,
+    authenticate(this._anonymousId, "", AuthenticationType.anonymous, null,
         forceCreate, null, success, failure, cbObject);
   }
 
