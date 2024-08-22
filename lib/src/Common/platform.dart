@@ -3,35 +3,43 @@
 // Copyright 2024 bitHeads, inc.
 //----------------------------------------------------
 
+import 'package:json_annotation/json_annotation.dart';
+
+@JsonEnum(valueField: 'value')
 enum Platform {
-  appleTVOS,
-  amazon,
-  blackBerry,
-  facebook,
-  flutter,
-  oculus,
-  googlePlayAndroid,
-  iOS,
-  linux,
-  mac,
-  pS3,
-  pS4,
-  pSVita,
-  roku,
-  tizen,
-  unknown,
-  watchOS,
-  web,
-  wii,
-  windowsPhone,
-  windows,
-  xbox360,
-  xboxOne,
-  nintendo
+  appleTVOS('APPLE_TV_OS'),
+  amazon('AMAZON'),
+  blackBerry('BB'),
+  facebook('FB'),
+  flutter('FLUTTER'),
+  oculus('Oculus'),
+  googlePlayAndroid('ANG'),
+  iOS('IOS'),
+  linux('Linux'),
+  mac('MAC'),
+  pS3('PS3'),
+  pS4('PS4'),
+  pSVita('PS_VITA'),
+  roku('ROKU'),
+  tizen('TIZEN'),
+  unknown('UNKNOWN'),
+  watchOS('WATCH_OS'),
+  web("WEB"),
+  wii('WII'),
+  windowsPhone('WINP'),
+  windows('WINDOWS'),
+  xbox360('XBOX_360'),
+  xboxOne('XBOX_ONE'),
+  nintendo('NINTENDO'),
+  steam('STEAM');
+
+  const Platform(this.value);
+  final String value;
 }
 
 extension PlatformExtension on Platform {
   static Platform fromString(String s) {
+    //TODO: Is this right?
     Platform type = Platform.values.firstWhere(
         (e) => e.toString() == 'AuthTypes.$s',
         orElse: () => Platform.unknown);
@@ -40,6 +48,7 @@ extension PlatformExtension on Platform {
   }
 
   String toShortString() {
-    return toString().split('.').last;
+    return this.value;
+    // return toString().split('.').last;
   }
 }

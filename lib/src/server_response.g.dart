@@ -8,17 +8,17 @@ part of 'server_response.dart';
 
 ServerResponse _$ServerResponseFromJson(Map<String, dynamic> json) =>
     ServerResponse(
-      statusCode: (json['statusCode'] as num).toInt(),
+      statusCode: (json['status'] as num).toInt(),
       reasonCode:
-          (json['reasonCode'] as num?)?.toInt() ?? ReasonCodes.noReasonCode,
-      statusMessage: json['statusMessage'] as String?,
-      body: json['body'] as Map<String, dynamic>?,
+          (json['reason_code'] as num?)?.toInt() ?? ReasonCodes.noReasonCode,
+      statusMessage: json['status_message'] as String?,
+      body: json['data'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$ServerResponseToJson(ServerResponse instance) =>
     <String, dynamic>{
-      'statusCode': instance.statusCode,
-      'reasonCode': instance.reasonCode,
-      'statusMessage': instance.statusMessage,
-      'body': instance.body,
+      'status': instance.statusCode,
+      'reason_code': instance.reasonCode,
+      'status_message': instance.statusMessage,
+      'data': instance.body,
     };

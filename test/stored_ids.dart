@@ -34,4 +34,6 @@ class StoredIds {
   String get appId => ids['appId'] ?? "";
   String get version => ids['version'] ?? "";
   String get url => ids['url'] ?? "";
+  String get email => ids['email'] ?? "";
+  String get password => ids['password'] ?? "";
 }

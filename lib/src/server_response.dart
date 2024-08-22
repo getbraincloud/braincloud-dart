@@ -6,9 +6,13 @@ part 'server_response.g.dart';
 
 @JsonSerializable()
 class ServerResponse {
+  @JsonKey(name: 'status')
   final int statusCode;
-  final int reasonCode;
+  @JsonKey(name: 'reason_code')
+  final int? reasonCode;
+  @JsonKey(name: 'status_message')
   final String? statusMessage;
+  @JsonKey(name: 'data')
   final Map<String, dynamic>? body;
 
   ServerResponse(

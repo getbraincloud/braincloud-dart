@@ -4,31 +4,34 @@
 //----------------------------------------------------
 
 enum AuthenticationType {
-  anonymous,
-  universal,
-  email,
-  facebook,
-  facebookLimited,
-  oculus,
-  playstationNetwork,
-  playstationNetwork5,
-  gameCenter,
-  steam,
-  apple,
-  google,
-  googleOpenId,
-  twitter,
-  parse,
-  handoff,
-  external,
-  settopHandoff,
-  ultra,
-  nintendo,
-  unknown
+  anonymous(''),
+  universal('Universal'),
+  email('Email'),
+  facebook(''),
+  facebookLimited(''),
+  oculus(''),
+  playstationNetwork(''),
+  playstationNetwork5(''),
+  gameCenter(''),
+  steam(''),
+  apple(''),
+  google(''),
+  googleOpenId(''),
+  twitter(''),
+  parse(''),
+  handoff(''),
+  external('External'),
+  settopHandoff('SettopHandoff'),
+  ultra(''),
+  nintendo(''),
+  unknown('');
+  const AuthenticationType(this.value); 
+  final String value;
 }
 
 extension AuthenticationTypeExtension on AuthenticationType {
   String toShortString() {
-    return toString().split('.').last;
+    return this.value;
+    // return toString().split('.').last;
   }
 }

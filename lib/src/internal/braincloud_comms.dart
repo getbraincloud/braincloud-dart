@@ -1784,7 +1784,7 @@ class BrainCloudComms {
         OperationParam.authenticateServicePlayerSessionExpiry.value, 5 * 60);
     double idleTimeout = (playerSessionExpiry * 0.85);
 
-    _idleTimeout = Duration(seconds: idleTimeout as int);
+    _idleTimeout = Duration(seconds: idleTimeout.toInt());
 
     _maxBundleMessages = jsonData.containsKey("maxBundleMsgs")
         ? jsonData["maxBundleMsgs"]
