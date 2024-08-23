@@ -1951,21 +1951,19 @@ class BrainCloudWrapper {
   /// <summary>
   /// Re-authenticates the user with brainCloud
   /// </summary>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void reconnect() {
+  ///
+  Future<ServerResponse> reconnect() async {
+    Completer<ServerResponse> completer = Completer();
+
     initializeIdentity(true);
     _client.authenticationService?.authenticateAnonymous(
-        false,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback);
+      false,
+      (response) => completer.complete(ServerResponse.fromJson(response)),
+      (status, reason, message) => completer.completeError(ServerResponse(
+          statusCode: status, reasonCode: reason, statusMessage: message)),
+    );
+
+    return completer.future;
   }
 
   /// <summary>
