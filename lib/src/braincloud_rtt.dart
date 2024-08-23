@@ -22,14 +22,10 @@ class BrainCloudRTT {
   /// <param name="in_connectionType"></param>
   /// <param name="in_success"></param>
   /// <param name="in_failure"></param>
-  /// <param name="cb_object"></param>
-  void enableRTT(
-      RTTConnectionType? inConnectiontype,
-      SuccessCallback? inSuccess,
-      FailureCallback? inFailure,
-      dynamic cbObject) {
-    _commsLayer?.enableRTT(inConnectiontype ?? RTTConnectionType.websocket,
-        inSuccess, inFailure, cbObject);
+  void enableRTT(RTTConnectionType? inConnectiontype,
+      SuccessCallback? inSuccess, FailureCallback? inFailure) {
+    _commsLayer?.enableRTT(
+        inConnectiontype ?? RTTConnectionType.websocket, inSuccess, inFailure);
   }
 
   /// <summary>
@@ -183,10 +179,9 @@ class BrainCloudRTT {
   /// Requests the event server address
   /// </summary>
   void requestClientConnection(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.rttRegistration,
         ServiceOperation.requestClientConnection, null, callback);
     _clientRef?.sendRequest(sc);
