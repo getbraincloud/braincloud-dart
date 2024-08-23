@@ -2391,6 +2391,25 @@ class BrainCloudWrapper {
     }
   }
 
+  ///<summary>
+  /// Logs user out of server.
+  /// </summary>
+  /// <param name="forgetUser">{boolean} forgetUser Determines whether the stored profile ID should be reset or not </param>
+  /// <param name="responseHandler">{*} responseHandler Function to invoke when request is processed </param>
+  Future<ServerResponse> logout(bool forgetUser) async {
+    Completer<ServerResponse> completer = new Completer();
+
+    if (forgetUser) {
+      resetStoredProfileId();
+    }
+    _client.getPlayerStateService().logout(
+        (response) => completer.complete(ServerResponse.fromJson(response)),
+        (status, reason, mesage) => completer.completeError(ServerResponse(
+            statusCode: status, reasonCode: reason, statusMessage: mesage)));
+
+    return completer.future;
+  }
+
   /// <summary>
   /// Callback for authentication success using the BrainCloudWrapper class.
   /// </summary>
