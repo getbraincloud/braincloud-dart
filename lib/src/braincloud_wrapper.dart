@@ -130,6 +130,7 @@ class BrainCloudWrapper {
   //Getting this error? - "An object reference is required for the non-static field, method, or property 'BrainCloudWrapper.Client'"
   //Switch to BrainCloudWrapper.GetBC();
   late BrainCloudClient _client;
+  BrainCloudClient get brainCloudClient => _client;
 
   getAllowProfileSwitch() {
     return _alwaysAllowProfileSwitch;
@@ -367,21 +368,13 @@ class BrainCloudWrapper {
   /// Service Name - authenticate
   /// Service Operation - authenticate
   /// </remarks>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  Future<ServerResponse> authenticateAnonymous(
-      {SuccessCallback? success, FailureCallback? failure, dynamic cbObject}) {
+
+  Future<ServerResponse> authenticateAnonymous() {
     final Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService?.authenticateAnonymous(null, true,
-        (response) {
+    initializeIdentity(true);
+
+    _client.authenticationService?.authenticateAnonymous(true, (response) {
       authSuccessCallback;
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
@@ -403,36 +396,30 @@ class BrainCloudWrapper {
   /// Service Name - authenticate
   /// Service Operation - authenticate
   /// </remarks>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
   /// <param name="handoffId">
   /// The method to call in event of successful login
   /// </param>
   /// <param name="securityToken">
   /// The method to call in event of successful login
   /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateHandoff(
-      {required String handoffId,
-      required String securityToken,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
+  Future<ServerResponse> authenticateHandoff(
+      {required String handoffId, required String securityToken}) {
+    initializeIdentity(false);
+    Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService?.authenticateHandoff(
-        handoffId,
-        securityToken,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        cbObject: aco);
+    _client.authenticationService?.authenticateHandoff(handoffId, securityToken,
+        (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -442,31 +429,27 @@ class BrainCloudWrapper {
   /// Service Name - authenticate
   /// Service Operation - authenticate
   /// </remarks>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
   /// <param name="handoffCode">
-  /// The method to call in event of successful login
   /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticatesettopHandoff(
-      {required String handoffCode,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
+  Future<ServerResponse> authenticateSettopHandoff({
+    required String handoffCode,
+  }) {
+    initializeIdentity(false);
+    Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService?.authenticateSettopHandoff(
-        handoffCode,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        cbObject: aco);
+    _client.authenticationService?.authenticateSettopHandoff(handoffCode,
+        (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -491,55 +474,26 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  Future<ServerResponse> authenticateEmailPassword(
-      {required String email,
-      required String password,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+  Future<ServerResponse> authenticateEmailPassword({
+    required String email,
+    required String password,
+    required bool forceCreate,
+  }) {
     final Completer<ServerResponse> completer = Completer();
 
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
+    initializeIdentity(false);
 
-    mergeSuccess(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-      authSuccessCallback(json: response, cbObject: cbObject);
-
+    _client.authenticationService
+        ?.authenticateEmailPassword(email, password, forceCreate, (response) {
+      authSuccessCallback;
       completer.complete(ServerResponse.fromJson(response));
-    }
-
-    mergeFailure(int statusCode, int reasonCode, String statusMessage) {
-      if (failure != null) {
-        failure(statusCode, reasonCode, statusMessage);
-      }
-
-      authFailureCallback(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          errorJson: statusMessage,
-          cbObject: cbObject);
-
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
-    }
-
-    _client.authenticationService?.authenticateEmailPassword(
-        email, password, forceCreate, mergeSuccess, mergeFailure, aco);
+    });
 
     return completer.future;
   }
@@ -564,34 +518,28 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateExternal(
-      {required String userid,
-      required String token,
-      required String externalAuthName,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
+  Future<ServerResponse> authenticateExternal({
+    required String userid,
+    required String token,
+    required String externalAuthName,
+    required bool forceCreate,
+  }) {
+    initializeIdentity(false);
+    Completer<ServerResponse> completer = Completer();
 
     _client.authenticationService?.authenticateExternal(
-        userid,
-        token,
-        externalAuthName,
-        forceCreate,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        cbObject: aco);
+        userid, token, externalAuthName, forceCreate, (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -611,32 +559,25 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateFacebook(
+  Future<ServerResponse> authenticateFacebook(
       {required String fbUserId,
       required String fbAuthToken,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
+      required bool forceCreate}) {
+    initializeIdentity(false);
+    Completer<ServerResponse> completer = Completer();
+    _client.authenticationService
+        ?.authenticateFacebook(fbUserId, fbAuthToken, forceCreate, (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
 
-    _client.authenticationService?.authenticateFacebook(
-        fbUserId,
-        fbAuthToken,
-        forceCreate,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        cbObject: aco);
+    return completer.future;
   }
 
   /// <summary>
@@ -656,32 +597,26 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateFacebookLimited(
+  Future<ServerResponse> authenticateFacebookLimited(
       {required String fbLimitedUserId,
       required String fbAuthToken,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
+      required bool forceCreate}) {
+    initializeIdentity(false);
+    Completer<ServerResponse> completer = Completer();
 
     _client.authenticationService?.authenticateFacebookLimited(
-        fbLimitedUserId,
-        fbAuthToken,
-        forceCreate,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        aco);
+        fbLimitedUserId, fbAuthToken, forceCreate, (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -700,32 +635,25 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateOculus(
+  Future<ServerResponse> authenticateOculus(
       {required String oculusUserId,
       required String oculusNonce,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
-
+      required bool forceCreate}) {
+    initializeIdentity(false);
+    Completer<ServerResponse> completer = Completer();
     _client.authenticationService?.authenticateOculus(
-        oculusUserId,
-        oculusNonce,
-        forceCreate,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        cbObject: aco);
+        oculusUserId, oculusNonce, forceCreate, (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -744,32 +672,25 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticatePlaystationNetwork(
+  Future<ServerResponse> authenticatePlaystationNetwork(
       {required String accountId,
       required String authToken,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
-
+      required bool forceCreate}) {
+    initializeIdentity(false);
+    Completer<ServerResponse> completer = Completer();
     _client.authenticationService?.authenticatePlaystationNetwork(
-        accountId,
-        authToken,
-        forceCreate,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        aco);
+        accountId, authToken, forceCreate, (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -788,32 +709,26 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticatePlaystation5(
+  Future<ServerResponse> authenticatePlaystation5(
       {required String accountId,
       required String authToken,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
+      required bool forceCreate}) {
+    initializeIdentity(false);
+    Completer<ServerResponse> completer = Completer();
 
     _client.authenticationService?.authenticatePlaystation5(
-        accountId,
-        authToken,
-        forceCreate,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        cbObject: aco);
+        accountId, authToken, forceCreate, (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -829,30 +744,24 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateGameCenter(
-      {required String gameCenterId,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
+  Future<ServerResponse> authenticateGameCenter(
+      {required String gameCenterId, required bool forceCreate}) {
+    initializeIdentity(false);
+    Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService?.authenticateGameCenter(
-        gameCenterId,
-        forceCreate,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        cbObject: aco);
+    _client.authenticationService
+        ?.authenticateGameCenter(gameCenterId, forceCreate, (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -871,32 +780,26 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateApple(
+  Future<ServerResponse> authenticateApple(
       {required String appleUserId,
       required String identityToken,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
+      required bool forceCreate}) {
+    initializeIdentity(false);
+    Completer<ServerResponse> completer = Completer();
 
     _client.authenticationService?.authenticateApple(
-        appleUserId,
-        identityToken,
-        forceCreate,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        aco);
+        appleUserId, identityToken, forceCreate, (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -915,32 +818,26 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateGoogle(
+  Future<ServerResponse> authenticateGoogle(
       {required String googleUserId,
       required String serverAuthCode,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
+      required bool forceCreate}) {
+    initializeIdentity(false);
+    Completer<ServerResponse> completer = Completer();
 
     _client.authenticationService?.authenticateGoogle(
-        googleUserId,
-        serverAuthCode,
-        forceCreate,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        aco);
+        googleUserId, serverAuthCode, forceCreate, (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -959,32 +856,26 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateGoogleOpenId(
+  Future<ServerResponse> authenticateGoogleOpenId(
       {required String googleUserAccountEmail,
       required String idToken,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
+      required bool forceCreate}) {
+    initializeIdentity(false);
+    Completer<ServerResponse> completer = Completer();
 
     _client.authenticationService?.authenticateGoogleOpenId(
-        googleUserAccountEmail,
-        idToken,
-        forceCreate,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        aco);
+        googleUserAccountEmail, idToken, forceCreate, (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1003,32 +894,24 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateSteam(
+  Future<ServerResponse> authenticateSteam(
       {required String userid,
       required String sessionticket,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
-
-    _client.authenticationService?.authenticateSteam(
-        userid,
-        sessionticket,
-        forceCreate,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        cbObject: aco);
+      required bool forceCreate}) {
+    initializeIdentity(false);
+    Completer<ServerResponse> completer = Completer();
+    _client.authenticationService
+        ?.authenticateSteam(userid, sessionticket, forceCreate, (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+    return completer.future;
   }
 
   /// <summary>
@@ -1050,34 +933,25 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateTwitter(
+  Future<ServerResponse> authenticateTwitter(
       {required String userid,
       required String token,
       required String secret,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
-
-    _client.authenticationService?.authenticateTwitter(
-        userid,
-        token,
-        secret,
-        forceCreate,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        aco);
+      required bool forceCreate}) {
+    initializeIdentity(false);
+    Completer<ServerResponse> completer = Completer();
+    _client.authenticationService
+        ?.authenticateTwitter(userid, token, secret, forceCreate, (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+    return completer.future;
   }
 
   /// <summary>
@@ -1098,32 +972,26 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateUniversal(
+  Future<ServerResponse> authenticateUniversal(
       {required String username,
       required String password,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
+      required bool forceCreate}) {
+    initializeIdentity(false);
+    Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService?.authenticateUniversal(
-        username,
-        password,
-        forceCreate,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        cbObject: aco);
+    _client.authenticationService
+        ?.authenticateUniversal(username, password, forceCreate, (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1146,42 +1014,32 @@ class BrainCloudWrapper {
   /// /// <param name="extraJson">
   /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty String for no extraJson.
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateAdvanced(
+  Future<ServerResponse> authenticateAdvanced(
       {required AuthenticationType authenticationType,
       required AuthenticationIds ids,
       required bool forceCreate,
-      required Map<String, dynamic> extraJson,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      required Map<String, dynamic> extraJson}) {
     bool isAnonymous = authenticationType == AuthenticationType.anonymous;
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success,
-        failureCallback: failure,
-        cbObject: cbObject,
-        isAnonymousAuth: isAnonymous);
+    initializeIdentity(isAnonymous);
+    Completer<ServerResponse> completer = Completer();
 
     ids.externalId =
         isAnonymous ? getStoredAnonymousId() ?? "" : ids.externalId;
     ids.authenticationToken = isAnonymous ? "" : ids.authenticationToken;
 
     _client.authenticationService?.authenticateAdvanced(
-        authenticationType,
-        ids,
-        forceCreate,
-        extraJson,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        aco);
+        authenticationType, ids, forceCreate, extraJson, (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1200,32 +1058,26 @@ class BrainCloudWrapper {
   /// /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateUltra(
+  Future<ServerResponse> authenticateUltra(
       {required String ultraUsername,
       required String ultraIdToken,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
+      required bool forceCreate}) {
+    initializeIdentity(false);
+    Completer<ServerResponse> completer = Completer();
 
     _client.authenticationService?.authenticateUltra(
-        ultraUsername,
-        ultraIdToken,
-        forceCreate,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        aco);
+        ultraUsername, ultraIdToken, forceCreate, (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1244,32 +1096,27 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateNintendo(
-      {required String accountId,
-      required String authToken,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success, failureCallback: failure, cbObject: cbObject);
+  Future<ServerResponse> authenticateNintendo({
+    required String accountId,
+    required String authToken,
+    required bool forceCreate,
+  }) {
+    Completer<ServerResponse> completer = Completer();
+    initializeIdentity(false);
 
-    _client.authenticationService?.authenticateNintendo(
-        accountId,
-        authToken,
-        forceCreate,
-        authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        aco);
+    _client.authenticationService
+        ?.authenticateNintendo(accountId, authToken, forceCreate, (response) {
+      authSuccessCallback;
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      authFailureCallback;
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1296,15 +1143,6 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
   void smartSwitchauthenticateEmail(
       {required String email,
       required String password,
@@ -1322,12 +1160,7 @@ class BrainCloudWrapper {
         success(response);
       }
       authenticateEmailPassword(
-          email: email,
-          password: password,
-          forceCreate: forceCreate,
-          success: success,
-          failure: failure,
-          cbObject: cbObject);
+          email: email, password: password, forceCreate: forceCreate);
     }
 
     _smartSwitchAuthentication(authenticateCallback, failure);
@@ -1383,10 +1216,7 @@ class BrainCloudWrapper {
           userid: userid,
           token: token,
           externalAuthName: externalAuthName,
-          forceCreate: forceCreate,
-          success: success,
-          failure: failure,
-          cbObject: cbObject);
+          forceCreate: forceCreate);
     }
 
     _smartSwitchAuthentication(authenticateCallback, failure);
@@ -1437,10 +1267,7 @@ class BrainCloudWrapper {
       authenticateFacebook(
           fbUserId: fbUserId,
           fbAuthToken: fbAuthToken,
-          forceCreate: forceCreate,
-          success: success,
-          failure: failure,
-          cbObject: cbObject);
+          forceCreate: forceCreate);
     }
 
     _smartSwitchAuthentication(mergedSuccess, failure);
@@ -1490,10 +1317,7 @@ class BrainCloudWrapper {
       authenticateFacebookLimited(
           fbLimitedUserId: fbLimitedUserId,
           fbAuthToken: fbAuthToken,
-          forceCreate: forceCreate,
-          success: success,
-          failure: failure,
-          cbObject: cbObject);
+          forceCreate: forceCreate);
     }
 
     _smartSwitchAuthentication(authenticateCallback, failure);
@@ -1542,10 +1366,7 @@ class BrainCloudWrapper {
       authenticateOculus(
           oculusUserId: oculusUserId,
           oculusNonce: oculusNonce,
-          forceCreate: forceCreate,
-          success: success,
-          failure: failure,
-          cbObject: cbObject);
+          forceCreate: forceCreate);
     }
 
     _smartSwitchAuthentication(authenticateCallback, failure);
@@ -1595,10 +1416,7 @@ class BrainCloudWrapper {
       authenticatePlaystationNetwork(
           accountId: psnAccountId,
           authToken: psnAuthToken,
-          forceCreate: forceCreate,
-          success: success,
-          failure: failure,
-          cbObject: cbObject);
+          forceCreate: forceCreate);
     }
 
     _smartSwitchAuthentication(authenticateCallback, failure);
@@ -1648,10 +1466,7 @@ class BrainCloudWrapper {
       authenticateApple(
           appleUserId: appleUserId,
           identityToken: appleAuthToken,
-          forceCreate: forceCreate,
-          success: success,
-          failure: failure,
-          cbObject: cbObject);
+          forceCreate: forceCreate);
     }
 
     _smartSwitchAuthentication(authenticateCallback, failure);
@@ -1694,11 +1509,7 @@ class BrainCloudWrapper {
         success(response);
       }
       authenticateGameCenter(
-          gameCenterId: gameCenterId,
-          forceCreate: forceCreate,
-          success: success,
-          failure: failure,
-          cbObject: cbObject);
+          gameCenterId: gameCenterId, forceCreate: forceCreate);
     }
 
     _smartSwitchAuthentication(authenticateCallback, failure);
@@ -1747,10 +1558,7 @@ class BrainCloudWrapper {
       authenticateGoogle(
           googleUserId: userid,
           serverAuthCode: token,
-          forceCreate: forceCreate,
-          success: success,
-          failure: failure,
-          cbObject: cbObject);
+          forceCreate: forceCreate);
     }
 
     _smartSwitchAuthentication(authenticateCallback, failure);
@@ -1799,10 +1607,7 @@ class BrainCloudWrapper {
       authenticateGoogleOpenId(
           googleUserAccountEmail: userid,
           idToken: token,
-          forceCreate: forceCreate,
-          success: success,
-          failure: failure,
-          cbObject: cbObject);
+          forceCreate: forceCreate);
     }
 
     _smartSwitchAuthentication(authenticateCallback, failure);
@@ -1828,15 +1633,6 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
   void smartSwitchauthenticateSteam(
       {required String userid,
       required String sessionticket,
@@ -1851,10 +1647,7 @@ class BrainCloudWrapper {
       authenticateSteam(
           userid: userid,
           sessionticket: sessionticket,
-          forceCreate: forceCreate,
-          success: success,
-          failure: failure,
-          cbObject: cbObject);
+          forceCreate: forceCreate);
     }
 
     _smartSwitchAuthentication(authenticateCallback, failure);
@@ -1908,10 +1701,7 @@ class BrainCloudWrapper {
           userid: userid,
           token: token,
           secret: secret,
-          forceCreate: forceCreate,
-          success: success,
-          failure: failure,
-          cbObject: cbObject);
+          forceCreate: forceCreate);
     }
 
     _smartSwitchAuthentication(authenticateCallback, failure);
@@ -1960,12 +1750,7 @@ class BrainCloudWrapper {
         success(response);
       }
       authenticateUniversal(
-          username: username,
-          password: password,
-          forceCreate: forceCreate,
-          success: success,
-          failure: failure,
-          cbObject: cbObject);
+          username: username, password: password, forceCreate: forceCreate);
     }
 
     _smartSwitchAuthentication(authenticateCallback, failure);
@@ -2020,10 +1805,7 @@ class BrainCloudWrapper {
           authenticationType: authenticationType,
           ids: ids,
           forceCreate: forceCreate,
-          extraJson: extraJson,
-          success: success,
-          failure: failure,
-          cbObject: cbObject);
+          extraJson: extraJson);
     }
 
     _smartSwitchAuthentication(authenticateCallback, failure);
@@ -2073,10 +1855,7 @@ class BrainCloudWrapper {
       authenticateUltra(
           ultraUsername: ultraUsername,
           ultraIdToken: ultraIdToken,
-          forceCreate: forceCreate,
-          success: success,
-          failure: failure,
-          cbObject: cbObject);
+          forceCreate: forceCreate);
     }
 
     _smartSwitchAuthentication(authenticateCallback, failure);
@@ -2126,10 +1905,7 @@ class BrainCloudWrapper {
       authenticateNintendo(
           accountId: nintendoAccountId,
           authToken: nintendoAuthToken,
-          forceCreate: forceCreate,
-          success: success,
-          failure: failure,
-          cbObject: cbObject);
+          forceCreate: forceCreate);
     }
 
     _smartSwitchAuthentication(authenticateCallback, failure);
@@ -2184,20 +1960,12 @@ class BrainCloudWrapper {
   /// <param name="cbObject">
   /// The user supplied callback object
   /// </param>
-  void reconnect(
-      {SuccessCallback? success, FailureCallback? failure, dynamic cbObject}) {
-    WrapperAuthCallbackObject aco = _makeWrapperAuthCallback(
-        successCallback: success,
-        failureCallback: failure,
-        cbObject: cbObject,
-        isAnonymousAuth: true);
-
+  void reconnect() {
+    initializeIdentity(true);
     _client.authenticationService?.authenticateAnonymous(
-        null,
         false,
         authSuccessCallback as SuccessCallback,
-        authFailureCallback as FailureCallback,
-        cbObject: aco);
+        authFailureCallback as FailureCallback);
   }
 
   /// <summary>
@@ -2241,22 +2009,18 @@ class BrainCloudWrapper {
   /// <param name="externalId">
   /// The email address to send the reset email to.
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of success
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void resetEmailPassword(
-      {required String externalId,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    _client.authenticationService
-        ?.resetEmailPassword(externalId, success, failure, cbObject: cbObject);
+  Future<ServerResponse> resetEmailPassword({required String externalId}) {
+    Completer<ServerResponse> completer = Completer();
+    _client.authenticationService?.resetEmailPassword(externalId, (response) {
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -2277,25 +2041,22 @@ class BrainCloudWrapper {
   /// The parameters to send the email service. See documentation for full list
   /// http://getbraincloud.com/apidocs/apiref/#capi-mail
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of success
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void resetEmailPasswordAdvanced(
-      {required String emailAddress,
-      //Map<String, dynamic> serviceParams,
-      required String serviceParams,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+  Future<ServerResponse> resetEmailPasswordAdvanced(
+      {required String emailAddress, required String serviceParams}) {
+    Completer<ServerResponse> completer = Completer();
     _client.authenticationService?.resetEmailPasswordAdvanced(
-        emailAddress, serviceParams, success, failure,
-        cbObject: cbObject);
+      emailAddress,
+      serviceParams,
+      (response) {
+        completer.complete(ServerResponse.fromJson(response));
+      },
+      (statusCode, reasonCode, statusMessage) {
+        completer.completeError(
+            ServerResponse(statusCode: statusCode, reasonCode: reasonCode));
+      },
+    );
+
+    return completer.future;
   }
 
   /// <summary>
@@ -2308,24 +2069,24 @@ class BrainCloudWrapper {
   /// <param name="externalId">
   /// The email address to send the reset email to.
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of success
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void resetEmailPasswordWithExpiry(
-      {required String externalId,
-      required int tokenTtlInMinutes,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+  Future<ServerResponse> resetEmailPasswordWithExpiry(
+      {required String externalId, required int tokenTtlInMinutes}) {
+    Completer<ServerResponse> completer = Completer();
     _client.authenticationService?.resetEmailPasswordWithExpiry(
-        externalId, tokenTtlInMinutes, success, failure,
-        cbObject: cbObject);
+      externalId,
+      tokenTtlInMinutes,
+      (response) {
+        completer.complete(ServerResponse.fromJson(response));
+      },
+      (statusCode, reasonCode, statusMessage) {
+        completer.completeError(ServerResponse(
+            statusCode: statusCode,
+            reasonCode: reasonCode,
+            statusMessage: statusMessage));
+      },
+    );
+
+    return completer.future;
   }
 
   /// <summary>
@@ -2346,29 +2107,22 @@ class BrainCloudWrapper {
   /// The parameters to send the email service. See documentation for full list
   /// http://getbraincloud.com/apidocs/apiref/#capi-mail
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of success
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void resetEmailPasswordAdvancedWithExpiry(
+  Future<ServerResponse> resetEmailPasswordAdvancedWithExpiry(
       {required String emailAddress,
       required String serviceParams,
-      required int tokenTtlInMinutes,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      required int tokenTtlInMinutes}) {
+    Completer<ServerResponse> completer = Completer();
     _client.authenticationService?.resetEmailPasswordAdvancedWithExpiry(
-        emailAddress,
-        serviceParams,
-        tokenTtlInMinutes,
-        success,
-        failure,
-        cbObject);
+        emailAddress, serviceParams, tokenTtlInMinutes, (response) {
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -2381,23 +2135,21 @@ class BrainCloudWrapper {
   /// <param name="externalId">
   /// The email address to send the reset email to.
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of success
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void resetUniversalIdPassword(
-      {required String externalId,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
-    _client.authenticationService?.resetUniversalIdPassword(
-        externalId, success, failure,
-        cbObject: cbObject);
+  Future<ServerResponse> resetUniversalIdPassword({
+    required String externalId,
+  }) {
+    Completer<ServerResponse> completer = Completer();
+    _client.authenticationService?.resetUniversalIdPassword(externalId,
+        (response) {
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -2418,25 +2170,22 @@ class BrainCloudWrapper {
   /// The parameters to send the email service. See documentation for full list
   /// http://getbraincloud.com/apidocs/apiref/#capi-mail
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of success
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void resetUniversalIdPasswordAdvanced(
-      {required String emailAddress,
-      //Map<String, dynamic> serviceParams,
-      required String serviceParams,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+  Future<ServerResponse> resetUniversalIdPasswordAdvanced({
+    required String emailAddress,
+    required String serviceParams,
+  }) {
+    Completer<ServerResponse> completer = Completer();
     _client.authenticationService?.resetUniversalIdPasswordAdvanced(
-        emailAddress, serviceParams, success, failure,
-        cbObject: cbObject);
+        emailAddress, serviceParams, (response) {
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -2449,24 +2198,20 @@ class BrainCloudWrapper {
   /// <param name="externalId">
   /// The email address to send the reset email to.
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of success
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void resetUniversalIdPasswordWithExpiry(
-      {required String externalId,
-      required int tokenTtlInMinutes,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+  Future<ServerResponse> resetUniversalIdPasswordWithExpiry(
+      {required String externalId, required int tokenTtlInMinutes}) {
+    Completer<ServerResponse> completer = Completer();
     _client.authenticationService?.resetUniversalIdPasswordWithExpiry(
-        externalId, tokenTtlInMinutes, success, failure,
-        cbObject: cbObject);
+        externalId, tokenTtlInMinutes, (response) {
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -2487,29 +2232,23 @@ class BrainCloudWrapper {
   /// The parameters to send the email service. See documentation for full list
   /// http://getbraincloud.com/apidocs/apiref/#capi-mail
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of success
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error
-  /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void resetUniversalIdPasswordAdvancedWithExpiry(
+  Future<ServerResponse> resetUniversalIdPasswordAdvancedWithExpiry(
       {required String emailAddress,
       required String serviceParams,
-      required int tokenTtlInMinutes,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      required int tokenTtlInMinutes}) {
+    Completer<ServerResponse> completer = Completer();
+
     _client.authenticationService?.resetUniversalIdPasswordAdvancedWithExpiry(
-        emailAddress,
-        serviceParams,
-        tokenTtlInMinutes,
-        success,
-        failure,
-        cbObject);
+        emailAddress, serviceParams, tokenTtlInMinutes, (response) {
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>
@@ -2657,8 +2396,7 @@ class BrainCloudWrapper {
   /// </summary>
   /// <param name="json">The returned json</param>
   /// <param name="cbObject">The returned callback object</param>
-  void authSuccessCallback(
-      {required Map<String, dynamic> json, dynamic cbObject}) {
+  void authSuccessCallback({required Map<String, dynamic> json}) {
     // grab the profileId and save it in PlayerPrefs
 
     Map<String, dynamic> jsonData = json["data"];
@@ -2669,13 +2407,6 @@ class BrainCloudWrapper {
 
     if (jsonData.containsKey("sessionId")) {
       setStoredSessionId(jsonData["sessionId"]);
-    }
-
-    if (cbObject != null) {
-      WrapperAuthCallbackObject aco = cbObject;
-      if (aco.successCallback != null) {
-        aco.successCallback!(json);
-      }
     }
   }
 
@@ -2731,19 +2462,6 @@ class BrainCloudWrapper {
     _client.restorePacketId(_wrapperData.lastPacketId);
 
     debugPrint(_wrapperData.toString());
-  }
-
-  WrapperAuthCallbackObject _makeWrapperAuthCallback(
-      {SuccessCallback? successCallback,
-      FailureCallback? failureCallback,
-      dynamic cbObject,
-      bool isAnonymousAuth = false}) {
-    WrapperAuthCallbackObject aco = WrapperAuthCallbackObject(
-        successCallback, failureCallback,
-        cbObject: cbObject);
-
-    initializeIdentity(isAnonymousAuth);
-    return aco;
   }
 
   void restoreSession() {
