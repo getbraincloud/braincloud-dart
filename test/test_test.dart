@@ -76,10 +76,30 @@ main() {
       expect(response.body?['currency'], isA<Object>());
     });
 
+
+    test("reconnect", () async {
+      debugPrint('(Pre)StoredAnonymousId: ${bcWrapper.getStoredAnonymousId()}');
+      debugPrint('(Pre)StoredProfileId: ${bcWrapper.getStoredProfileId()}');
+      
+      ServerResponse response;
+      if (bcWrapper.brainCloudClient.authenticated) {
+        response = await bcWrapper.logout(false);
+        expect(response.statusCode, 200);
+        expect(bcWrapper.brainCloudClient.isAuthenticated(), false);
+      }
+
+      debugPrint('(Post)StoredAnonymousId: ${bcWrapper.getStoredAnonymousId()}');
+      debugPrint('(Post)StoredProfileId: ${bcWrapper.getStoredProfileId()}');
+
+      response = await bcWrapper.reconnect();
+      expect(response.statusCode, 200);
+    });
+
     test("authenticateEmailPassword", () async {
       expect(bcWrapper.isInitialized, true);
 
       bcWrapper.resetStoredProfileId();
+      bcWrapper.resetStoredAnonymousId();
       ServerResponse response = await bcWrapper.authenticateEmailPassword(
           email: email, password: password, forceCreate: false);
       // debugPrint(jsonEncode(response.body));
@@ -89,15 +109,6 @@ main() {
       expect(response.body?['createdAt'], isA<int>());
       expect(response.body?['isTester'], isA<bool>());
       expect(response.body?['currency'], isA<Object>());
-    });
-
-    test("reconnect", () async {
-      ServerResponse response = await bcWrapper.logout(false);
-      expect(response.statusCode, 200);
-      expect(bcWrapper.brainCloudClient.isAuthenticated(), false);
-
-      response = await bcWrapper.reconnect();
-      expect(response.statusCode, 200);
     });
 
     test("logout", () async {

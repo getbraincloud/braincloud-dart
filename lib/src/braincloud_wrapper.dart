@@ -375,7 +375,7 @@ class BrainCloudWrapper {
     initializeIdentity(true);
 
     _client.authenticationService?.authenticateAnonymous(true, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
@@ -409,7 +409,7 @@ class BrainCloudWrapper {
 
     _client.authenticationService?.authenticateHandoff(handoffId, securityToken,
         (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -439,7 +439,7 @@ class BrainCloudWrapper {
 
     _client.authenticationService?.authenticateSettopHandoff(handoffCode,
         (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -485,7 +485,7 @@ class BrainCloudWrapper {
 
     _client.authenticationService
         ?.authenticateEmailPassword(email, password, forceCreate, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -529,7 +529,7 @@ class BrainCloudWrapper {
 
     _client.authenticationService?.authenticateExternal(
         userid, token, externalAuthName, forceCreate, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -567,7 +567,7 @@ class BrainCloudWrapper {
     Completer<ServerResponse> completer = Completer();
     _client.authenticationService
         ?.authenticateFacebook(fbUserId, fbAuthToken, forceCreate, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -606,7 +606,7 @@ class BrainCloudWrapper {
 
     _client.authenticationService?.authenticateFacebookLimited(
         fbLimitedUserId, fbAuthToken, forceCreate, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -643,7 +643,7 @@ class BrainCloudWrapper {
     Completer<ServerResponse> completer = Completer();
     _client.authenticationService?.authenticateOculus(
         oculusUserId, oculusNonce, forceCreate, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -680,7 +680,7 @@ class BrainCloudWrapper {
     Completer<ServerResponse> completer = Completer();
     _client.authenticationService?.authenticatePlaystationNetwork(
         accountId, authToken, forceCreate, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -718,7 +718,7 @@ class BrainCloudWrapper {
 
     _client.authenticationService?.authenticatePlaystation5(
         accountId, authToken, forceCreate, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -751,7 +751,7 @@ class BrainCloudWrapper {
 
     _client.authenticationService
         ?.authenticateGameCenter(gameCenterId, forceCreate, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -789,7 +789,7 @@ class BrainCloudWrapper {
 
     _client.authenticationService?.authenticateApple(
         appleUserId, identityToken, forceCreate, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -827,7 +827,7 @@ class BrainCloudWrapper {
 
     _client.authenticationService?.authenticateGoogle(
         googleUserId, serverAuthCode, forceCreate, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -865,7 +865,7 @@ class BrainCloudWrapper {
 
     _client.authenticationService?.authenticateGoogleOpenId(
         googleUserAccountEmail, idToken, forceCreate, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -902,7 +902,7 @@ class BrainCloudWrapper {
     Completer<ServerResponse> completer = Completer();
     _client.authenticationService
         ?.authenticateSteam(userid, sessionticket, forceCreate, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -942,7 +942,7 @@ class BrainCloudWrapper {
     Completer<ServerResponse> completer = Completer();
     _client.authenticationService
         ?.authenticateTwitter(userid, token, secret, forceCreate, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -981,7 +981,7 @@ class BrainCloudWrapper {
 
     _client.authenticationService
         ?.authenticateUniversal(username, password, forceCreate, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -1029,7 +1029,7 @@ class BrainCloudWrapper {
 
     _client.authenticationService?.authenticateAdvanced(
         authenticationType, ids, forceCreate, extraJson, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -1067,7 +1067,7 @@ class BrainCloudWrapper {
 
     _client.authenticationService?.authenticateUltra(
         ultraUsername, ultraIdToken, forceCreate, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -1106,7 +1106,7 @@ class BrainCloudWrapper {
 
     _client.authenticationService
         ?.authenticateNintendo(accountId, authToken, forceCreate, (response) {
-      authSuccessCallback;
+      authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       authFailureCallback;
@@ -1984,7 +1984,7 @@ class BrainCloudWrapper {
 
     if ((anonymousId?.isEmpty ?? true) || (anonymousId?.isEmpty ?? true)) {
       anonymousId = _client.authenticationService?.generateAnonymousId() ?? "";
-      profileId = "";
+      profileId ??= "";
       setStoredAnonymousId(anonymousId);
       setStoredProfileId(profileId);
     }
@@ -2484,25 +2484,6 @@ class BrainCloudWrapper {
   void restoreSession() {
     _client.comms?.restoreProfileAndSessionIds(_wrapperData);
   }
-
-   ///<summary>
-   /// Logs user out of server.
-   /// </summary>
-   /// <param name="forgetUser">{boolean} forgetUser Determines whether the stored profile ID should be reset or not </param>
-   /// <param name="responseHandler">{*} responseHandler Function to invoke when request is processed </param>
-    Future<ServerResponse> logout(bool forgetUser) async {
-      Completer<ServerResponse> completer = new Completer();
-
-        if(forgetUser){
-            resetStoredProfileId();
-        }
-        _client.getPlayerStateService().logout(
-          (response) => completer.complete(ServerResponse.fromJson(response)),
-          (status, reason, mesage) => completer.completeError(ServerResponse(statusCode: status,reasonCode: reason, statusMessage: mesage))
-        );
-
-        return completer.future;
-    }
 
 }
 
