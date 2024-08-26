@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 
 import 'package:braincloud_dart/src/Common/authentication_ids.dart';
 import 'package:braincloud_dart/src/Common/authentication_type.dart';
-import 'package:braincloud_dart/src/Entity/bc_entity_factory.dart';
 import 'package:braincloud_dart/src/internal/wrapper_auth_callback_object.dart';
 import 'package:braincloud_dart/src/braincloud_app_store.dart';
 import 'package:braincloud_dart/src/braincloud_async_match.dart';
@@ -153,8 +152,6 @@ class BrainCloudWrapper {
   String? wrapperName;
 
   BrainCloudEntity get entityService => _client.entityService;
-
-  BCEntityFactory get entityFactory => _client.entityFactory;
 
   BrainCloudGlobalEntity get globalEntityService => _client.globalEntityService;
 

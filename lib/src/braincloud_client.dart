@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:braincloud_dart/src/Common/platform.dart';
-import 'package:braincloud_dart/src/Entity/bc_entity_factory.dart';
 import 'package:braincloud_dart/src/internal/braincloud_comms.dart';
 import 'package:braincloud_dart/src/internal/relay_comms.dart';
 import 'package:braincloud_dart/src/internal/rtt_comms.dart';
@@ -72,8 +71,6 @@ class BrainCloudClient {
 
   final Mutex _loggingMutex = Mutex();
   LogCallback? _logDelegate;
-
-  late BCEntityFactory _entityFactory;
 
   BrainCloudComms? _comms;
   RTTComms? _rttComms;
@@ -150,8 +147,6 @@ class BrainCloudClient {
     _rsComms = RelayComms(this);
 
     _entityService = BrainCloudEntity(this);
-
-    _entityFactory = BCEntityFactory(_entityService);
 
     _globalEntityService = BrainCloudGlobalEntity(this);
 
@@ -251,8 +246,6 @@ class BrainCloudClient {
 
   BrainCloudEntity get entityService => _entityService;
 
-  BCEntityFactory get entityFactory => _entityFactory;
-
   BrainCloudGlobalEntity get globalEntityService => _globalEntityService;
 
   BrainCloudGlobalApp get globalAppService => _globalAppService;
@@ -343,10 +336,6 @@ class BrainCloudClient {
 
   BrainCloudEntity getEntityService() {
     return entityService;
-  }
-
-  BCEntityFactory getEntityFactory() {
-    return entityFactory;
   }
 
   BrainCloudGlobalApp getGlobalAppService() {

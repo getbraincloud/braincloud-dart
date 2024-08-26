@@ -36,4 +36,5 @@ class StoredIds {
   String get url => ids['url'] ?? "";
   String get email => ids['email'] ?? "";
   String get password => ids['password'] ?? "";
+  String get sharedProfileId => ids['sharedProfileId'] ?? "";
 }
