@@ -8,12 +8,15 @@ class BrainCloudWebSocket {
       {this.onOpen, this.onMessage, this.onError, this.onClose}) {
     _clientWebSocket = WebSocketChannel.connect(Uri.parse(url));
 
-    _clientWebSocket.stream.listen(
-      (data) {
-        //Todo: handle message
-      },
-      onError: (error) => OnErrorHandler,
-    );
+    _clientWebSocket.stream.listen((data) {
+      if (onMessage != null) {
+        onMessage!(data: data);
+      }
+    }, onError: (error) {
+      if (onError != null) {
+        onError!(message: error.toString());
+      }
+    });
   }
 
   //  void StartReceivingClientWebSocketAsync() async
@@ -77,13 +80,9 @@ class BrainCloudWebSocket {
 
 typedef OnOpenHandler = void Function({required BrainCloudWebSocket accepted});
 
-typedef OnMessageHandler = void Function(
-    {required BrainCloudWebSocket sender, required Uint8List data});
+typedef OnMessageHandler = void Function({required Uint8List data});
 
-typedef OnErrorHandler = void Function(
-    {required BrainCloudWebSocket sender, required String message});
+typedef OnErrorHandler = void Function({required String message});
 
 typedef OnCloseHandler = void Function(
-    {required BrainCloudWebSocket sender,
-    required int code,
-    required String reason});
+    {required int code, required String reason});

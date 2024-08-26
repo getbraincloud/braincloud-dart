@@ -25,12 +25,9 @@ class RTTComms {
   /// <param name="in_connectionType"></param>
   /// <param name="in_success"></param>
   /// <param name="in_failure"></param>
-  /// <param name="cb_object"></param>
-  void enableRTT(
-      RTTConnectionType? inConnectiontype,
-      SuccessCallback? inSuccess,
-      FailureCallback? inFailure,
-      dynamic cbObject) {
+
+  void enableRTT(RTTConnectionType? inConnectiontype,
+      SuccessCallback? inSuccess, FailureCallback? inFailure) {
     _disconnectedWithReason = false;
 
     if (isRTTEnabled() ||
@@ -43,8 +40,7 @@ class RTTComms {
       _currentConnectionType = inConnectiontype ?? RTTConnectionType.websocket;
       _clientRef.rttService?.requestClientConnection(
           rttConnectionServerSuccess as SuccessCallback,
-          rttConnectionServerError as FailureCallback,
-          cbObject);
+          rttConnectionServerError as FailureCallback);
     }
   }
 
@@ -349,10 +345,7 @@ class RTTComms {
         onError: webSocketOnError);
   }
 
-  void webSocketOnClose(
-      {required BrainCloudWebSocket sender,
-      required int code,
-      required String reason}) {
+  void webSocketOnClose({required int code, required String reason}) {
     if (_clientRef.loggingEnabled) {
       _clientRef.log("RTT: Connection closed: $reason");
     }
@@ -370,8 +363,7 @@ class RTTComms {
         ServiceName.rttRegistration.value.toLowerCase(), "connect", ""));
   }
 
-  void webSocketOnMessage(
-      {required BrainCloudWebSocket sender, required Uint8List data}) {
+  void webSocketOnMessage({required Uint8List data}) {
     if (data.isEmpty) {
       return;
     }
@@ -380,8 +372,7 @@ class RTTComms {
     _onRecv(message);
   }
 
-  void webSocketOnError(
-      {required BrainCloudWebSocket sender, required String message}) {
+  void webSocketOnError({required String message}) {
     if (_clientRef.loggingEnabled) {
       _clientRef.log("RTT Error: $message");
     }
@@ -441,7 +432,7 @@ class RTTComms {
   /// <summary>
   ///
   /// </summary>
-  void rttConnectionServerSuccess(String jsonResponse, dynamic cbObject) {
+  void rttConnectionServerSuccess(String jsonResponse) {
     Map<String, dynamic> jsonMessage = jsonDecode(jsonResponse);
     Map<String, dynamic> jsonData = jsonMessage["data"];
     List endpoints = jsonData["endpoints"];
@@ -485,8 +476,7 @@ class RTTComms {
   /// <summary>
   ///
   /// </summary>
-  void rttConnectionServerError(
-      int status, int reasonCode, String jsonError, dynamic cbObject) {
+  void rttConnectionServerError(int status, int reasonCode, String jsonError) {
     _rttConnectionStatus = RTTConnectionStatus.disconnected;
     if (_clientRef.loggingEnabled) {
       _clientRef.log("RTT Connection Server Error: \n$jsonError");

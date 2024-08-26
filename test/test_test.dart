@@ -29,7 +29,13 @@ main() {
       debugPrint('email: ${ids.email} in appId: ${ids.appId} at ${ids.url}');
       //start test
 
-      bcWrapper.init(secretKey: ids.secretKey, appId: ids.appId, version: ids.version, url: ids.url).then((_) {
+      bcWrapper
+          .init(
+              secretKey: ids.secretKey,
+              appId: ids.appId,
+              version: ids.version,
+              url: ids.url)
+          .then((_) {
         // expect(bcWrapper.isInitialized, false);
 
         bool hadSession = bcWrapper.getStoredSessionId().isNotEmpty;
@@ -74,7 +80,8 @@ main() {
       expect(bcWrapper.isInitialized, true);
 
       bcWrapper.resetStoredProfileId();
-      ServerResponse response = await bcWrapper.authenticateEmailPassword(email: email, password: password, forceCreate: false);
+      ServerResponse response = await bcWrapper.authenticateEmailPassword(
+          email: email, password: password, forceCreate: false);
       // debugPrint(jsonEncode(response.body));
       expect(response.statusCode, 200);
       expect(response.body?['profileId'], isA<String>());
@@ -94,7 +101,9 @@ main() {
     });
 
     test("logout", () async {
-      if (!bcWrapper.brainCloudClient.isAuthenticated()) await bcWrapper.authenticateEmailPassword(email: email, password: password, forceCreate: false);
+      if (!bcWrapper.brainCloudClient.isAuthenticated())
+        await bcWrapper.authenticateEmailPassword(
+            email: email, password: password, forceCreate: false);
 
       ServerResponse response = await bcWrapper.logout(true);
       expect(response.statusCode, 200);

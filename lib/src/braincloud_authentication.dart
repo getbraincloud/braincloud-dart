@@ -75,14 +75,13 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateAnonymous(bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    authenticate(this._anonymousId, "", AuthenticationType.anonymous, null,
-        forceCreate, null, success, failure, cbObject);
+  void authenticateAnonymous(
+    bool forceCreate,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  ) {
+    authenticate(_anonymousId, "", AuthenticationType.anonymous, null,
+        forceCreate, null, success, failure);
   }
 
   /// <summary>
@@ -113,18 +112,11 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateEmailPassword(
-      String email,
-      String password,
-      bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+
+  void authenticateEmailPassword(String email, String password,
+      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
     authenticate(email, password, AuthenticationType.email, null, forceCreate,
-        null, success, failure, cbObject);
+        null, success, failure);
   }
 
   /// <summary>
@@ -151,14 +143,16 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateUniversal(String userId, String password, bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+
+  void authenticateUniversal(
+    String userId,
+    String password,
+    bool forceCreate,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  ) {
     authenticate(userId, password, AuthenticationType.universal, null,
-        forceCreate, null, success, failure, cbObject);
+        forceCreate, null, success, failure);
   }
 
   /// <summary>
@@ -184,14 +178,16 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateFacebook(String externalId, String authenticationToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+
+  void authenticateFacebook(
+    String externalId,
+    String authenticationToken,
+    bool forceCreate,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  ) {
     authenticate(externalId, authenticationToken, AuthenticationType.facebook,
-        null, forceCreate, null, success, failure, cbObject);
+        null, forceCreate, null, success, failure);
   }
 
   /// <summary>
@@ -217,16 +213,13 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
+
   void authenticateFacebookLimited(
       String externalId,
       String authenticationToken,
       bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     authenticate(
         externalId,
         authenticationToken,
@@ -235,8 +228,7 @@ class BrainCloudAuthentication {
         forceCreate,
         null,
         success,
-        failure,
-        cbObject);
+        failure);
   }
 
   /// <summary>
@@ -261,14 +253,16 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateOculus(String oculusId, String oculusNonce, bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+
+  void authenticateOculus(
+    String oculusId,
+    String oculusNonce,
+    bool forceCreate,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  ) {
     authenticate(oculusId, oculusNonce, AuthenticationType.oculus, null,
-        forceCreate, null, success, failure, cbObject);
+        forceCreate, null, success, failure);
   }
 
   /// <summary>
@@ -293,18 +287,11 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticatePlaystationNetwork(
-      String accountId,
-      String authToken,
-      bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+
+  void authenticatePlaystationNetwork(String accountId, String authToken,
+      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
     authenticate(accountId, authToken, AuthenticationType.playstationNetwork,
-        null, forceCreate, null, success, failure, cbObject);
+        null, forceCreate, null, success, failure);
   }
 
   /// <summary>
@@ -329,14 +316,16 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticatePlaystation5(String accountId, String authToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+
+  void authenticatePlaystation5(
+    String accountId,
+    String authToken,
+    bool forceCreate,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  ) {
     authenticate(accountId, authToken, AuthenticationType.playstationNetwork5,
-        null, forceCreate, null, success, failure, cbObject);
+        null, forceCreate, null, success, failure);
   }
 
   /// <summary>
@@ -358,14 +347,15 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateGameCenter(String gameCenterId, bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+
+  void authenticateGameCenter(
+    String gameCenterId,
+    bool forceCreate,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  ) {
     authenticate(gameCenterId, "", AuthenticationType.gameCenter, null,
-        forceCreate, null, success, failure, cbObject);
+        forceCreate, null, success, failure);
   }
 
   /// <summary>
@@ -390,14 +380,16 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateSteam(String userId, String sessionticket, bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+
+  void authenticateSteam(
+    String userId,
+    String sessionticket,
+    bool forceCreate,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  ) {
     authenticate(userId, sessionticket, AuthenticationType.steam, null,
-        forceCreate, null, success, failure, cbObject);
+        forceCreate, null, success, failure);
   }
 
   /// <summary>
@@ -422,18 +414,11 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateApple(
-      String appleUserId,
-      String identityToken,
-      bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+
+  void authenticateApple(String appleUserId, String identityToken,
+      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
     authenticate(appleUserId, identityToken, AuthenticationType.apple, null,
-        forceCreate, null, success, failure, cbObject);
+        forceCreate, null, success, failure);
   }
 
   /// <summary>
@@ -458,18 +443,11 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateGoogle(
-      String googleUserId,
-      String serverAuthCode,
-      bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+
+  void authenticateGoogle(String googleUserId, String serverAuthCode,
+      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
     authenticate(googleUserId, serverAuthCode, AuthenticationType.google, null,
-        forceCreate, null, success, failure, cbObject);
+        forceCreate, null, success, failure);
   }
 
   /// <summary>
@@ -494,16 +472,9 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateGoogleOpenId(
-      String googleUserAccountEmail,
-      String idToken,
-      bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+
+  void authenticateGoogleOpenId(String googleUserAccountEmail, String idToken,
+      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
     authenticate(
         googleUserAccountEmail,
         idToken,
@@ -512,8 +483,7 @@ class BrainCloudAuthentication {
         forceCreate,
         null,
         success,
-        failure,
-        cbObject);
+        failure);
   }
 
   /// <summary>
@@ -541,19 +511,11 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateTwitter(
-      String userId,
-      String token,
-      String secret,
-      bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+
+  void authenticateTwitter(String userId, String token, String secret,
+      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
     authenticate(userId, "$token:$secret", AuthenticationType.twitter, null,
-        forceCreate, null, success, failure, cbObject);
+        forceCreate, null, success, failure);
   }
 
   /// <summary>
@@ -578,14 +540,16 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateParse(String userId, String token, bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+
+  void authenticateParse(
+    String userId,
+    String token,
+    bool forceCreate,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  ) {
     authenticate(userId, token, AuthenticationType.parse, null, forceCreate,
-        null, success, failure, cbObject);
+        null, success, failure);
   }
 
   /// <summary>
@@ -604,14 +568,14 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
+
   void authenticateSettopHandoff(
-      String handoffCode, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+    String handoffCode,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  ) {
     authenticate(handoffCode, "", AuthenticationType.settopHandoff, null, false,
-        null, success, failure, cbObject);
+        null, success, failure);
   }
 
   /// <summary>
@@ -632,14 +596,15 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateHandoff(String handoffId, String securityToken,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+
+  void authenticateHandoff(
+    String handoffId,
+    String securityToken,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  ) {
     authenticate(handoffId, securityToken, AuthenticationType.handoff, null,
-        false, null, success, failure, cbObject);
+        false, null, success, failure);
   }
 
   /// <summary>
@@ -668,19 +633,16 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
+
   void authenticateExternal(
       String userId,
       String token,
       String externalAuthName,
       bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      {dynamic cbObject}) {
+      FailureCallback? failure) {
     authenticate(userId, token, AuthenticationType.external, externalAuthName,
-        forceCreate, null, success, failure, cbObject);
+        forceCreate, null, success, failure);
   }
 
   /// <summary>
@@ -709,27 +671,16 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
+
   void authenticateAdvanced(
       AuthenticationType authenticationType,
       AuthenticationIds ids,
       bool forceCreate,
       Map<String, dynamic> extraJson,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
-    authenticate(
-        ids.externalId,
-        ids.authenticationToken,
-        authenticationType,
-        ids.authenticationSubType,
-        forceCreate,
-        extraJson,
-        success,
-        failure,
-        cbObject);
+      FailureCallback? failure) {
+    authenticate(ids.externalId, ids.authenticationToken, authenticationType,
+        ids.authenticationSubType, forceCreate, extraJson, success, failure);
   }
 
   /// <summary>
@@ -754,18 +705,11 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateUltra(
-      String ultraUsername,
-      String ultraidToken,
-      bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+
+  void authenticateUltra(String ultraUsername, String ultraidToken,
+      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
     authenticate(ultraUsername, ultraidToken, AuthenticationType.ultra, null,
-        forceCreate, null, success, failure, cbObject);
+        forceCreate, null, success, failure);
   }
 
   /// <summary>
@@ -790,18 +734,11 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void authenticateNintendo(
-      String accountId,
-      String authToken,
-      bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+
+  void authenticateNintendo(String accountId, String authToken,
+      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
     authenticate(accountId, authToken, AuthenticationType.nintendo, null,
-        forceCreate, null, success, failure, cbObject);
+        forceCreate, null, success, failure);
   }
 
   /// <summary>
@@ -820,12 +757,12 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
+
   void resetEmailPassword(
-      String externalId, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+    String externalId,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  ) {
     Map<String, dynamic> data = {};
     data[OperationParam.authenticateServiceAuthenticateExternalId.value] =
         externalId;
@@ -858,12 +795,13 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void resetEmailPasswordWithExpiry(String externalId, int tokenTtlInMinutes,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+
+  void resetEmailPasswordWithExpiry(
+    String externalId,
+    int tokenTtlInMinutes,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  ) {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.authenticateServiceAuthenticateExternalId.value] =
         externalId;
@@ -904,16 +842,14 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
+
   void resetEmailPasswordAdvanced(
-      String emailAddress,
-      //Map<String, object> serviceParams,
-      String serviceParams,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      {dynamic cbObject}) {
+    String emailAddress,
+    //Map<String, object> serviceParams,
+    String serviceParams,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  ) {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
@@ -958,17 +894,14 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
+
   void resetEmailPasswordAdvancedWithExpiry(
       String emailAddress,
       //Map<String, dynamic> serviceParams,
       String serviceParams,
       int tokenTtlInMinutes,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
@@ -1005,12 +938,12 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
+
   void resetUniversalIdPassword(
-      String universalId, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+    String universalId,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  ) {
     Map<String, dynamic> data = {};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
@@ -1042,12 +975,13 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void resetUniversalIdPasswordWithExpiry(String universalId,
-      int tokenTtlInMinutes, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+
+  void resetUniversalIdPasswordWithExpiry(
+    String universalId,
+    int tokenTtlInMinutes,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  ) {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
@@ -1086,12 +1020,13 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
-  void resetUniversalIdPasswordAdvanced(String universalId,
-      String serviceParams, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+
+  void resetUniversalIdPasswordAdvanced(
+    String universalId,
+    String serviceParams,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  ) {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
@@ -1135,16 +1070,13 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
+
   void resetUniversalIdPasswordAdvancedWithExpiry(
       String universalId,
       String serviceParams,
       int tokenTtlInMinutes,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
@@ -1176,8 +1108,7 @@ class BrainCloudAuthentication {
       bool forceCreate,
       Map<String, dynamic>? extraJson,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     String languageCode = _clientRef.languageCode;
     int utcOffset = Util.getUTCOffsetForCurrentTimeZone();
     String countryCode = _clientRef.countryCode;
@@ -1226,9 +1157,8 @@ class BrainCloudAuthentication {
     data[OperationParam.authenticateServiceAuthenticateTimeZoneOffset.value] =
         utcOffset;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.authenticate, data, callback);
     if (_clientRef.comms != null &&
