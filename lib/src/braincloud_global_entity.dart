@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/Common/acl.dart';
@@ -7,7 +8,7 @@ import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
-import 'package:braincloud_dart/src/util.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 
 class BrainCloudGlobalEntity {
   final BrainCloudClient _clientRef;
@@ -33,38 +34,33 @@ class BrainCloudGlobalEntity {
   /// <param name="jsonEntityData">
   /// The entity's data as a json String
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void createEntity(
+  Future<ServerResponse> createEntity(
       String entityType,
       Duration? timeToLive,
-      String? jsonEntityAcl,
-      String jsonEntityData,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      {dynamic cbObject}) {
+      ACL? jsonEntityAcl,
+      Map<String, dynamic> jsonEntityData) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityType.value] = entityType;
-    data[OperationParam.globalEntityServiceTimeToLive.value] = timeToLive;
+    data[OperationParam.globalEntityServiceTimeToLive.value] = timeToLive?.inMilliseconds;
+    data[OperationParam.globalEntityServiceData.value] = jsonEntityData;
+    data[OperationParam.globalEntityServiceAcl.value] = jsonEntityAcl;
 
-    data[OperationParam.globalEntityServiceData.value] = jsonEntityAcl;
+    final Completer<ServerResponse> completer = Completer(); 
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage));
+    } ,
+    cbObject: null);
 
-    if (Util.isOptionalParameterValid(jsonEntityAcl)) {
-      data[OperationParam.globalEntityServiceAcl.value] = jsonEntityAcl;
-    }
-
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
     var serverCall = ServerCall(
         ServiceName.globalEntity, ServiceOperation.create, data, callback);
     _clientRef.sendRequest(serverCall);
+    return completer.future;
   }
 
   /// <summary>
@@ -89,39 +85,37 @@ class BrainCloudGlobalEntity {
   /// <param name="jsonEntityData">
   /// The entity's data as a json String
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void createEntityWithIndexedId(
+
+  Future<ServerResponse> createEntityWithIndexedId(
       String entityType,
       String indexedId,
-      Duration timeToLive,
-      String jsonEntityAcl,
-      String jsonEntityData,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      Duration? timeToLive,
+      ACL? jsonEntityAcl,
+      Map<String, dynamic> jsonEntityData) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityType.value] = entityType;
     data[OperationParam.globalEntityServiceIndexedId.value] = indexedId;
-    data[OperationParam.globalEntityServiceTimeToLive.value] = timeToLive;
+    data[OperationParam.globalEntityServiceTimeToLive.value] = timeToLive?.inMilliseconds;
     data[OperationParam.globalEntityServiceData.value] = jsonEntityData;
+    data[OperationParam.globalEntityServiceAcl.value] = jsonEntityAcl;
 
-    if (Util.isOptionalParameterValid(jsonEntityAcl)) {
-      data[OperationParam.globalEntityServiceAcl.value] = jsonEntityAcl;
-    }
+    final Completer<ServerResponse> completer = Completer(); 
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage));
+    } ,
+    cbObject: null);
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
     var serverCall = ServerCall(ServiceName.globalEntity,
         ServiceOperation.createWithIndexedId, data, callback);
     _clientRef.sendRequest(serverCall);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -139,28 +133,30 @@ class BrainCloudGlobalEntity {
   /// </param>
   /// <param name="jsonEntityData">
   /// The entity's data as a json String
-  /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void updateEntity(String entityId, int version, String jsonEntityData,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  /// </param>  
+  Future<ServerResponse> updateEntity(String entityId, int version, Map<String, dynamic> jsonEntityData) {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
     data[OperationParam.globalEntityServiceVersion.value] = version;
     data[OperationParam.globalEntityServiceData.value] = jsonEntityData;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     var serverCall = ServerCall(
         ServiceName.globalEntity, ServiceOperation.update, data, callback);
     _clientRef.sendRequest(serverCall);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -179,31 +175,29 @@ class BrainCloudGlobalEntity {
   /// <param name="jsonEntityAcl">
   /// The entity's access control list as json.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void updateEntityAcl(String entityId, int version, String jsonEntityAcl,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  Future<ServerResponse> updateEntityAcl(String entityId, int version,  ACL  jsonEntityAcl) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
     data[OperationParam.globalEntityServiceVersion.value] = version;
+    data[OperationParam.globalEntityServiceAcl.value] = jsonEntityAcl;
 
-    if (Util.isOptionalParameterValid(jsonEntityAcl)) {
-      var acl = jsonDecode(jsonEntityAcl);
-      data[OperationParam.globalEntityServiceAcl.value] = acl;
-    }
-
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     var serverCall = ServerCall(
         ServiceName.globalEntity, ServiceOperation.updateAcl, data, callback);
     _clientRef.sendRequest(serverCall);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -222,27 +216,29 @@ class BrainCloudGlobalEntity {
   /// <param name="timeToLive">
   /// Sets expiry time for entity in milliseconds if > 0
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void updateEntityTimeToLive(String entityId, int version, Duration timeToLive,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  Future<ServerResponse> updateEntityTimeToLive(String entityId, int version, Duration timeToLive) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
     data[OperationParam.globalEntityServiceVersion.value] = version;
-    data[OperationParam.globalEntityServiceTimeToLive.value] = timeToLive;
+    data[OperationParam.globalEntityServiceTimeToLive.value] = timeToLive.inMilliseconds;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     var serverCall = ServerCall(ServiceName.globalEntity,
         ServiceOperation.updateTimeToLive, data, callback);
     _clientRef.sendRequest(serverCall);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -258,26 +254,28 @@ class BrainCloudGlobalEntity {
   /// <param name="version">
   /// The version of the entity to delete
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void deleteEntity(String entityId, int version, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  Future<ServerResponse> deleteEntity(String entityId, int version) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
     data[OperationParam.globalEntityServiceVersion.value] = version;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     var serverCall = ServerCall(
         ServiceName.globalEntity, ServiceOperation.delete, data, callback);
     _clientRef.sendRequest(serverCall);
+    
+    return completer.future;
   }
 
   /// <summary>
@@ -299,16 +297,27 @@ class BrainCloudGlobalEntity {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void readEntity(String entityId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  Future<ServerResponse> readEntity(String entityId) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     var serverCall = ServerCall(
         ServiceName.globalEntity, ServiceOperation.read, data, callback);
     _clientRef.sendRequest(serverCall);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -327,35 +336,30 @@ class BrainCloudGlobalEntity {
   /// <param name="maxReturn">
   /// The maximum number of entities to return
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void getList(String whereJson, String orderByJson, int maxReturn,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+  Future<ServerResponse> getList(Map<String, dynamic> whereJson, Map<String, int> orderByJson, int maxReturn) async {
     Map<String, dynamic> data = {};
 
-    if (Util.isOptionalParameterValid(whereJson)) {
-      data[OperationParam.globalEntityServiceWhere.value] =
-          jsonDecode(whereJson);
-    }
-    if (Util.isOptionalParameterValid(orderByJson)) {
-      data[OperationParam.globalEntityServiceOrderBy.value] =
-          jsonDecode(orderByJson);
-    }
+    data[OperationParam.globalEntityServiceWhere.value] = whereJson;    
+    data[OperationParam.globalEntityServiceOrderBy.value] = orderByJson;    
     data[OperationParam.globalEntityServiceMaxReturn.value] = maxReturn;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    final Completer<ServerResponse> completer = Completer(); 
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+
     var serverCall = ServerCall(
         ServiceName.globalEntity, ServiceOperation.getList, data, callback);
     _clientRef.sendRequest(serverCall);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -371,26 +375,29 @@ class BrainCloudGlobalEntity {
   /// <param name="maxReturn">
   /// The maximum number of entities to return
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void getListByIndexedId(String entityIndexedId, int maxReturn,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  Future<ServerResponse>  getListByIndexedId(String entityIndexedId, int maxReturn
+      ) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceIndexedId.value] = entityIndexedId;
     data[OperationParam.globalEntityServiceMaxReturn.value] = maxReturn;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     var serverCall = ServerCall(ServiceName.globalEntity,
         ServiceOperation.getListByIndexedId, data, callback);
     _clientRef.sendRequest(serverCall);
+    
+    return completer.future;
   }
 
   /// <summary>
@@ -403,28 +410,114 @@ class BrainCloudGlobalEntity {
   /// <param name="whereJson">
   /// Mongo style query String
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void getListCount(String whereJson, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  Future<ServerResponse> getListCount(Map<String, dynamic> whereJson) async {
     Map<String, dynamic> data = {};
 
-    if (Util.isOptionalParameterValid(whereJson)) {
-      data[OperationParam.globalEntityServiceWhere.value] = whereJson;
-    }
+    data[OperationParam.globalEntityServiceWhere.value] = whereJson;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    final Completer<ServerResponse> completer = Completer(); 
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+
     var serverCall = ServerCall(ServiceName.globalEntity,
         ServiceOperation.getListCount, data, callback);
     _clientRef.sendRequest(serverCall);
+
+    return completer.future;
+  }
+
+ /// <summary>
+  /// Get a count of entities from the server base on where clause and hinting on index hint. 
+  /// Where clause allows entityType, createdAt, updatedAt, data items.
+  /// </summary>
+  /// <remarks>
+  /// Service Name - GlobalEntity
+  /// Service Operation - GetListCount
+  /// </remarks>
+  /// <param name="whereJson">
+  /// Mongo style query 
+  /// </param>
+  /// <param name="hintJson">
+  /// The field index keys to be hinted, as JSON object.
+  /// </param>
+  Future<ServerResponse> getListCountWithHint(Map<String, dynamic> whereJson, Map<String, dynamic> hintJson) async {
+    Map<String, dynamic> data = {};
+
+    data[OperationParam.globalEntityServiceWhere.value] = whereJson;
+    data[OperationParam.globalEntityServiceHint.value] = hintJson;
+
+    final Completer<ServerResponse> completer = Completer(); 
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+
+    var serverCall = ServerCall(ServiceName.globalEntity,
+        ServiceOperation.getListCountWithHint, data, callback);
+    _clientRef.sendRequest(serverCall);
+
+    return completer.future;
+  }
+
+/// <summary>
+  /// Get a count of entities from the server base on where clause and hinting on index hint. 
+  /// Where clause allows entityType, createdAt, updatedAt, data items.
+  /// </summary>
+  /// <remarks>
+  /// Service Name - GlobalEntity
+  /// Service Operation - GetListCount
+  /// </remarks>
+  /// <param name="whereJson">
+  /// Mongo style query 
+  /// </param>
+  /// <param name="orderByJson">
+  /// Sort order
+  /// </param>
+  /// <param name="maxReturn">
+  /// The maximum number of entities to return
+  /// </param>
+  /// <param name="hintJson">
+  /// The field index keys to be hinted, as JSON object.
+  /// </param>  
+  Future<ServerResponse> getListWithHint(Map<String, dynamic> whereJson, Map<String, int> orderByJson, int maxReturn, Map<String, dynamic> hintJson) async {
+    Map<String, dynamic> data = {};
+
+    data[OperationParam.globalEntityServiceWhere.value] = whereJson;
+    data[OperationParam.globalEntityServiceOrderBy.value] = orderByJson;    
+    data[OperationParam.globalEntityServiceMaxReturn.value] = maxReturn;
+    data[OperationParam.globalEntityServiceHint.value] = hintJson;
+
+    final Completer<ServerResponse> completer = Completer(); 
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+
+    var serverCall = ServerCall(ServiceName.globalEntity,
+        ServiceOperation.getListWithHint, data, callback);
+    _clientRef.sendRequest(serverCall);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -438,20 +531,28 @@ class BrainCloudGlobalEntity {
   /// </remarks>
   /// <param name="jsonContext">The json context for the page request.
   /// See the portal appendix documentation for format</param>
-  /// <param name="success">The success callback</param>
-  /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   ///
-  void getPage(String jsonContext, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  Future<ServerResponse> getPage(Map<String, dynamic> jsonContext) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceContext.value] = jsonContext;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    final Completer<ServerResponse> completer = Completer(); 
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+
     var serverCall = ServerCall(
         ServiceName.globalEntity, ServiceOperation.getPage, data, callback);
     _clientRef.sendRequest(serverCall);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -470,22 +571,30 @@ class BrainCloudGlobalEntity {
   /// The positive or negative page offset to fetch. Uses the last page
   /// retrieved using the context String to determine a starting point.
   /// </param>
-  /// <param name="success">The success callback</param>
-  /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   ///
-  void getPageOffset(String context, int pageOffset, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  Future<ServerResponse> getPageOffset(String context, int pageOffset) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.globalEntityServiceContext.value] = context;
     data[OperationParam.globalEntityServicePageOffset.value] = pageOffset;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    final Completer<ServerResponse> completer = Completer(); 
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+
     var serverCall = ServerCall(ServiceName.globalEntity,
         ServiceOperation.getPageOffset, data, callback);
     _clientRef.sendRequest(serverCall);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -497,23 +606,30 @@ class BrainCloudGlobalEntity {
   /// </remarks>
   /// <param name="entityId">The entity to increment</param>
   /// <param name="jsonData">The subset of data to increment</param>
-  /// <param name="success">The success callback</param>
-  /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
-  void incrementGlobalEntityData(String entityId, String jsonData,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  Future<ServerResponse> incrementGlobalEntityData(String entityId, Map<String, dynamic> jsonData) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
-    if (Util.isOptionalParameterValid(jsonData)) {
-      data[OperationParam.globalEntityServiceData.value] = jsonData;
-    }
+    data[OperationParam.globalEntityServiceData.value] = jsonData;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    final Completer<ServerResponse> completer = Completer(); 
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     var serverCall = ServerCall(ServiceName.globalEntity,
         ServiceOperation.incrementGlobalEntityData, data, callback);
     _clientRef.sendRequest(serverCall);
+
+
+    return completer.future;
   }
 
   /// <summary>
@@ -525,24 +641,65 @@ class BrainCloudGlobalEntity {
   /// </remarks>
   /// <param name="where">Mongo style query String</param>
   /// <param name="maxReturn">The maximum number of entities to return</param>
-  /// <param name="success">The success callback</param>
-  /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
-  void getRandomEntitiesMatching(String whereJson, int maxReturn,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  Future<ServerResponse> getRandomEntitiesMatching(Map<String, dynamic> whereJson, int maxReturn) async {
     Map<String, dynamic> data = {};
 
-    if (Util.isOptionalParameterValid(whereJson)) {
-      data[OperationParam.globalEntityServiceWhere.value] = whereJson;
-    }
-
+    data[OperationParam.globalEntityServiceWhere.value] = whereJson;
     data[OperationParam.globalEntityServiceMaxReturn.value] = maxReturn;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    final Completer<ServerResponse> completer = Completer(); 
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+
     var serverCall = ServerCall(ServiceName.globalEntity,
         ServiceOperation.getRandomEntitiesMatching, data, callback);
     _clientRef.sendRequest(serverCall);
+
+    return completer.future;
+  }
+
+  /// <summary>
+  /// Gets a list of up to randomCount randomly selected entities from the server based on the where condition and specified maximum return count.
+  /// </summary>
+  /// <remarks>
+  /// Service Name - globalEntity
+  /// Service Operation - GET_RANDOM_ENTITIES_MATCHING
+  /// </remarks>
+  /// <param name="where">Mongo style query</param>
+  /// <param name="maxReturn">The maximum number of entities to return</param>
+  /// <param name="hintJson">The field index keys to be hinted, as JSON object.</param>
+  Future<ServerResponse> getRandomEntitiesMatchingWithHint(Map<String, dynamic> whereJson, Map<String, dynamic> hintJson, int maxReturn) async {
+    Map<String, dynamic> data = {};
+
+    data[OperationParam.globalEntityServiceWhere.value] = whereJson;
+    data[OperationParam.globalEntityServiceHint.value] = hintJson;
+    data[OperationParam.globalEntityServiceMaxReturn.value] = maxReturn;
+
+    final Completer<ServerResponse> completer = Completer(); 
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+
+    var serverCall = ServerCall(ServiceName.globalEntity,
+        ServiceOperation.getRandomEntitiesMatchingWithHint, data, callback);
+    _clientRef.sendRequest(serverCall);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -561,32 +718,32 @@ class BrainCloudGlobalEntity {
   /// <param name="entityIndexedId">
   /// The id index of the entity
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void updateEntityIndexedId(
+  Future<ServerResponse>  updateEntityIndexedId(
       String entityId,
-      Duration version,
-      String entityIndexedId,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      int version,
+      String entityIndexedId) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
     data[OperationParam.globalEntityServiceVersion.value] = version;
     data[OperationParam.globalEntityServiceIndexedId.value] = entityIndexedId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     var serverCall = ServerCall(ServiceName.globalEntity,
         ServiceOperation.updateEntityIndexedId, data, callback);
     _clientRef.sendRequest(serverCall);
+    
+    return completer.future;
   }
 
   /// <summary>
@@ -608,34 +765,34 @@ class BrainCloudGlobalEntity {
   /// <param name="acl">
   /// The entity's access control list
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void updateEntityOwnerAndAcl(
+  Future<ServerResponse> updateEntityOwnerAndAcl(
       String entityId,
-      Duration version,
+      int version,
       String ownerId,
-      ACL acl,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      ACL acl) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
     data[OperationParam.globalEntityServiceVersion.value] = version;
     data[OperationParam.ownerId.value] = ownerId;
     data[OperationParam.globalEntityServiceAcl.value] = acl;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     var serverCall = ServerCall(ServiceName.globalEntity,
         ServiceOperation.updateEntityOwnerAndAcl, data, callback);
     _clientRef.sendRequest(serverCall);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -663,17 +820,29 @@ class BrainCloudGlobalEntity {
   /// <param name="cbObject">
   /// The user object sent to the callback.
   /// </param>
-  void makeSystemEntity(String entityId, Duration version, ACL acl,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  Future<ServerResponse>  makeSystemEntity(String entityId, int version, ACL acl
+     ) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
     data[OperationParam.globalEntityServiceVersion.value] = version;
     data[OperationParam.globalEntityServiceAcl.value] = acl;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     var serverCall = ServerCall(ServiceName.globalEntity,
         ServiceOperation.makeSystemEntity, data, callback);
     _clientRef.sendRequest(serverCall);
+  
+    return completer.future;
   }
 }

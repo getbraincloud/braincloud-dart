@@ -398,9 +398,11 @@ class ServiceOperation {
   static ServiceOperation readSharedEntitiesList =
       ServiceOperation._("READ_SHARED_ENTITIES_LIST");
   static ServiceOperation getList = ServiceOperation._("GET_LIST");
+  static ServiceOperation getListWithHint = ServiceOperation._("GET_LIST_WITH_HINT");
   static ServiceOperation getListByIndexedId =
       ServiceOperation._("GET_LIST_BY_INDEXED_ID");
   static ServiceOperation getListCount = ServiceOperation._("GET_LIST_COUNT");
+  static ServiceOperation getListCountWithHint = ServiceOperation._("GET_LIST_COUNT_WITH_HINT");
   static ServiceOperation getPage = ServiceOperation._("GET_PAGE");
   static ServiceOperation getPageOffset =
       ServiceOperation._("GET_PAGE_BY_OFFSET");
@@ -408,6 +410,8 @@ class ServiceOperation {
       ServiceOperation._("INCREMENT_GLOBAL_ENTITY_DATA");
   static ServiceOperation getRandomEntitiesMatching =
       ServiceOperation._("GET_RANDOM_ENTITIES_MATCHING");
+  static ServiceOperation getRandomEntitiesMatchingWithHint =
+      ServiceOperation._("GET_RANDOM_ENTITIES_MATCHING_WITH_HINT");
   static ServiceOperation incrementUserEntityData =
       ServiceOperation._("INCREMENT_USER_ENTITY_DATA");
   static ServiceOperation incrementSharedUserEntityData =

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:braincloud_dart/src/Common/acl.dart';
 import 'package:braincloud_dart/src/braincloud_wrapper.dart';
 import 'package:braincloud_dart/src/internal/braincloud_comms.dart';
 import 'package:braincloud_dart/src/server_response.dart';
@@ -11,7 +12,7 @@ import 'stored_ids.dart';
 
 main() {
   SharedPreferences.setMockInitialValues({});
-
+  print('Braindcloud Dart Client unit tests');
   final bcWrapper = BrainCloudWrapper(wrapperName: "FlutterTest");
   String email = "";
   String password = "";
@@ -51,7 +52,7 @@ main() {
       debugPrint(error.toString());
     });
   });
-  group("Dart - Authentication Tests", () {
+  group("Authentication Tests", () {
     // end test
 
     test("authenticateAnonymous", () async {
@@ -72,7 +73,6 @@ main() {
     });
 
     test("reconnect", () async {
-
       ServerResponse response;
       if (bcWrapper.brainCloudClient.authenticated) {
         response = await bcWrapper.logout(false);
@@ -116,7 +116,7 @@ main() {
     });
   });
 
-  group("Dart - User Entity Tests", () {
+  group("User Entity Tests", () {
     // String email = "";
     // String password = "";
 
@@ -134,7 +134,7 @@ main() {
     /// Utility to create entity for tests requiring one.
     /// </summary>
     Future testEntityFactory(String entityType) async {
-      var jsonEntityData = {"street": "1309 Carling", "quantity": 0};
+      var jsonEntityData = {"team": "RedTeam", "quantity": 0};
       var jsonEntityAcl = {"other": 0};
       ServerResponse response = await bcWrapper.entityService.createEntity(entityType, jsonEntityData, jsonEntityAcl);
       if (response.body != null) {
@@ -147,12 +147,10 @@ main() {
 
     setUp(() async {
       if (!bcWrapper.brainCloudClient.isAuthenticated()) {
-        // await bcWrapper.authenticateEmailPassword(email: email, password: password, forceCreate: false);
-
-        bcWrapper.resetStoredProfileId();
-        bcWrapper.resetStoredAnonymousId();
-
-        await bcWrapper.authenticateAnonymous();
+        await bcWrapper.authenticateEmailPassword(email: email, password: password, forceCreate: false);
+        // bcWrapper.resetStoredProfileId();
+        // bcWrapper.resetStoredAnonymousId();
+        // await bcWrapper.authenticateAnonymous();
       }
     });
 
@@ -161,7 +159,7 @@ main() {
     test("createEntity", () async {
       expect(bcWrapper.isInitialized, true);
 
-      var jsonEntityData = {"street": "1309 Carling"};
+      var jsonEntityData = {"team": "RedTeam"};
       var jsonEntityAcl = {"other": 0};
 
       ServerResponse response = await bcWrapper.entityService.createEntity(entityType, jsonEntityData, jsonEntityAcl);
@@ -194,7 +192,7 @@ main() {
     test("createEntity_noACL", () async {
       expect(bcWrapper.isInitialized, true);
 
-      var jsonEntityData = {"street": "1309 Carling"};
+      var jsonEntityData = {"team": "RedTeam"};
 
       ServerResponse response = await bcWrapper.entityService.createEntity(entityType, jsonEntityData, null);
 
@@ -224,7 +222,7 @@ main() {
       if (response.body != null) {
         expect(response.body, isMap);
         Map<String, dynamic> body = response.body!;
-        expect(body['entities'], isList,reason: "entities not an List");
+        expect(body['entities'], isList, reason: "entities not an List");
       }
     });
 
@@ -250,8 +248,8 @@ main() {
 
       if (entityId.isEmpty) await testEntityFactory(entityType);
 
-      var whereJson = {"entityType": entityType, "data.street": "1309 Carling"};
-      var orderByJson = {"data.street": 1};
+      var whereJson = {"entityType": entityType, "data.team": "RedTeam"};
+      var orderByJson = {"data.team": 1};
       var maxReturn = 50;
 
       ServerResponse response = await bcWrapper.entityService.getList(whereJson, orderByJson, maxReturn);
@@ -271,7 +269,7 @@ main() {
 
       if (entityId.isEmpty) await testEntityFactory(entityType);
 
-      var whereJson = {"entityType": entityType, "data.street": "1309 Carling"};
+      var whereJson = {"entityType": entityType, "data.team": "RedTeam"};
 
       ServerResponse response = await bcWrapper.entityService.getListCount(whereJson);
 
@@ -373,8 +371,8 @@ main() {
         return;
       }
 
-      var whereJson = {"entityType": entityType, "data.street": "1309 Carling"};
-      var orderByJson = {"data.street": 1};
+      var whereJson = {"entityType": entityType, "data.team": "RedTeam"};
+      var orderByJson = {"data.team": 1};
       var maxReturn = 50;
 
       ServerResponse response = await bcWrapper.entityService.getSharedEntitiesListForProfileId(sharedProfileId, whereJson, orderByJson, maxReturn);
@@ -437,7 +435,7 @@ main() {
       expect(bcWrapper.isInitialized, true);
 
       // if (singletonEntityId.isEmpty) await testEntityFactory('${entityType}Singleton');
-      var jsonEntityData = {"street": "Moved"};
+      var jsonEntityData = {"team": "Moved"};
       var jsonEntityAcl = {"other": 0};
 
       ServerResponse response = await bcWrapper.entityService.updateSingleton('${entityType}Singleton', jsonEntityData, jsonEntityAcl, singletonEntityVerison);
@@ -478,7 +476,7 @@ main() {
         return;
       }
 
-      var jsonEntityData = {"street": "main", "quantity": 1};
+      var jsonEntityData = {"team": "main", "quantity": 1};
 
       ServerResponse response =
           await bcWrapper.entityService.updateSharedEntity(sharedEntityId, sharedProfileId, entityType, jsonEntityData, sharedEntityVersion);
@@ -525,7 +523,7 @@ main() {
 
       if (entityId.isEmpty) await testEntityFactory(entityType);
 
-      var jsonEntityData = {"street": "main", "quantity": 2};
+      var jsonEntityData = {"team": "main", "quantity": 2};
       var jsonEntityAcl = {"other": 0};
 
       ServerResponse response = await bcWrapper.entityService.updateEntity(entityId, entityType, jsonEntityData, jsonEntityAcl, entityVersion);
@@ -560,4 +558,425 @@ main() {
       }
     });
   });
+
+  group("Global Entity Tests", () {
+    String entityId = "";
+    int entityVersion = 0;
+    String entityType = "UnitTest_Glb";
+    String entityIndexedId = "UnitTest-GlobalService";
+
+    /// <summary>
+    /// Utility to create entity for tests requiring one.
+    /// </summary>
+    Future createGlobalTestEntity(String entityType) async {
+      var jsonEntityData = {"team": "RedTeam", "games": 0};
+      var jsonEntityAcl = {"other": 0};
+      ServerResponse response = await bcWrapper.globalEntityService.createEntity(entityType, Duration(hours: 12), jsonEntityAcl, jsonEntityData);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        entityId = body['entityId'];
+        entityVersion = body['version'];
+      }
+    }
+
+    setUp(() async {
+      if (!bcWrapper.brainCloudClient.isAuthenticated()) {
+        await bcWrapper.authenticateEmailPassword(email: email, password: password, forceCreate: false);
+      }
+    });
+
+    test("createEntity", () async {
+      expect(bcWrapper.isInitialized, true);
+
+      var jsonEntityData = {"team": "RedTeam", "position": "left", "role": "guard"};
+      var jsonEntityAcl = {"other": 0};
+
+      ServerResponse response = await bcWrapper.globalEntityService.createEntity(entityType, Duration(hours: 1), jsonEntityAcl, jsonEntityData);
+
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['entityId'], isA<String>());
+        entityId = body['entityId'];
+        expect(body['version'], isA<int>());
+        entityVersion = body['version'];
+      }
+    });
+
+    test("createEntity_min_params", () async {
+      expect(bcWrapper.isInitialized, true);
+
+      var jsonEntityData = {"team": "RedTeam", "position": "right", "role": "guard"};
+
+      ServerResponse response = await bcWrapper.globalEntityService.createEntity(entityType, null, null, jsonEntityData);
+
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['entityId'], isA<String>());
+        entityId = body['entityId'];
+        expect(body['version'], isA<int>());
+        entityVersion = body['version'];
+      }
+    });
+
+    test("GetList", () async {
+      expect(bcWrapper.isInitialized, true);
+
+      var where = {"entityType": entityType};
+      var orderBy = {"data.team": 1};
+
+      ServerResponse response = await bcWrapper.globalEntityService.getList(where, orderBy, 1);
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['entityList'], isList);
+        expect(body['entityListCount'], isA<int>());
+      }
+    });
+
+    test("GetListCount", () async {
+      expect(bcWrapper.isInitialized, true);
+
+      var where = {"entityType": entityType};
+
+      ServerResponse response = await bcWrapper.globalEntityService.getListCount(where);
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['entityList'], isNull);
+        expect(body['entityListCount'], isA<int>());
+      }
+    });
+
+    test("GetListCountWithHint", () async {
+      expect(bcWrapper.isInitialized, true);
+
+      var where = {"entityIndexedId": entityIndexedId};
+      var hint = {"gameId": 1, "entityIndexedId": 1};
+
+      ServerResponse response = await bcWrapper.globalEntityService.getListCountWithHint(where, hint);
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['entityList'], isNull);
+        expect(body['entityListCount'], isA<int>());
+      }
+    });
+    test("GetListWithHint", () async {
+      expect(bcWrapper.isInitialized, true);
+
+      var where = {"entityIndexedId": entityIndexedId};
+      var hint = {"gameId": 1, "entityIndexedId": 1};
+      var orderBy = {"data.team": 1};
+
+      ServerResponse response = await bcWrapper.globalEntityService.getListWithHint(where, orderBy, 2, hint);
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['entityList'], isList);
+        expect(body['entityListCount'], isA<int>());
+      }
+    });
+    test("GetPage", () async {
+      expect(bcWrapper.isInitialized, true);
+
+      var context = {
+        "pagination": {"rowsPerPage": 50, "pageNumber": 1},
+        "searchCriteria": {"entityType": "address"},
+        "sortCriteria": {"createdAt": 1, "updatedAt": -1}
+      };
+
+      ServerResponse response = await bcWrapper.globalEntityService.getPage(context);
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['results'], isMap);
+        expect(body['results']['items'], isList);
+        expect(body['results']['page'], isA<int>());
+        expect(body['results']['count'], isA<int>());
+        expect(body['results']['moreBefore'], isA<bool>());
+        expect(body['results']['moreAfter'], isA<bool>());
+      }
+    });
+    test("GetPageOffset", () async {
+      expect(bcWrapper.isInitialized, true);
+
+      var context = {
+        "pagination": {"rowsPerPage": 50, "pageNumber": 1},
+        "searchCriteria": {"entityType": "address"},
+        "sortCriteria": {"createdAt": 1, "updatedAt": -1}
+      };
+      String contextString = base64Encode(jsonEncode(context).codeUnits);
+
+      ServerResponse response = await bcWrapper.globalEntityService.getPageOffset(contextString, 1);
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['results'], isMap);
+        expect(body['results']['items'], isList);
+        expect(body['results']['page'], isA<int>());
+        expect(body['results']['count'], isA<int>());
+        expect(body['results']['moreBefore'], isA<bool>());
+        expect(body['results']['moreAfter'], isA<bool>());
+      }
+    });
+    test("GetRandomEntitiesMatching", () async {
+      expect(bcWrapper.isInitialized, true);
+
+      var where = {"data.team": "RedTeam"};
+
+      ServerResponse response = await bcWrapper.globalEntityService.getRandomEntitiesMatching(where, 2);
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['entityList'], isList);
+        expect(body['entityListCount'], isA<int>());
+      }
+    });
+    test("GetRandomEntitiesMatchingWithHint", () async {
+      expect(bcWrapper.isInitialized, true);
+
+      var where = {"entityIndexedId": entityIndexedId};
+      var hint = {"gameId": 1, "entityIndexedId": 1};
+
+      ServerResponse response = await bcWrapper.globalEntityService.getRandomEntitiesMatchingWithHint(where, hint, 2);
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['entityList'], isList);
+        expect(body['entityListCount'], isA<int>());
+      }
+    });
+    test("IncrementGlobalEntityData", () async {
+      expect(bcWrapper.isInitialized, true);
+      if (entityId.isEmpty) await createGlobalTestEntity(entityType);
+
+      var jsonInc = {"games": 2};
+
+      ServerResponse response = await bcWrapper.globalEntityService.incrementGlobalEntityData(entityId, jsonInc);
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['entityId'], entityId);
+        expect(body['data'], isMap);
+        expect(body['data']['games'], isA<int>());
+        entityVersion = body['version'];
+      }
+    });
+    test("ReadEntity", () async {
+      expect(bcWrapper.isInitialized, true);
+      if (entityId.isEmpty) await createGlobalTestEntity(entityType);
+
+      ServerResponse response = await bcWrapper.globalEntityService.readEntity(entityId);
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['entityId'], entityId);
+        expect(body['data'], isMap);
+        expect(body['data']['games'], isA<int>());
+        expect(body['data']['team'], isA<String>());
+      }
+    });
+    test("UpdateEntity", () async {
+      expect(bcWrapper.isInitialized, true);
+      if (entityId.isEmpty) await createGlobalTestEntity(entityType);
+
+      var jsonData = {"team": "BlueTeam", "games": 1};
+
+      ServerResponse response = await bcWrapper.globalEntityService.updateEntity(entityId, entityVersion, jsonData);
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['entityId'], entityId);
+        expect(body['version'], isA<int>());
+        entityVersion = body['version'];
+      }
+    });
+    test("UpdateEntityAcl", () async {
+      expect(bcWrapper.isInitialized, true);
+      if (entityId.isEmpty) await createGlobalTestEntity(entityType);
+
+      var jsonEntityAcl = {"other": 2};
+
+      ServerResponse response = await bcWrapper.globalEntityService.updateEntityAcl(entityId, entityVersion, jsonEntityAcl);
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['entityId'], entityId);
+        expect(body['acl'], isMap);
+        expect(body['acl']['other'], 2);
+        expect(body['version'], isA<int>());
+        entityVersion = body['version'];
+      }
+    });
+    test("UpdateEntityOwnerAndAcl", () async {
+      expect(bcWrapper.isInitialized, true);
+
+      if (sharedProfileId.isEmpty) {
+        markTestSkipped('No Shared Entities ProfileId profided skipping test getSharedEntitiesForProfileId');
+        return;
+      }
+
+      if (entityId.isEmpty) await createGlobalTestEntity(entityType);
+
+      var jsonEntityAcl = ACLs.readWrite;
+
+      ServerResponse response = await bcWrapper.globalEntityService.updateEntityOwnerAndAcl(entityId, entityVersion, sharedProfileId, jsonEntityAcl);
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['entityId'], entityId);
+        expect(body['acl'], ACLs.readWrite);
+        entityVersion = body['version'];
+      }
+    });
+    test("UpdateEntityTimeToLive", () async {
+      expect(bcWrapper.isInitialized, true);
+
+      if (entityId.isEmpty) await createGlobalTestEntity(entityType);
+
+      var timeToLive = Duration(hours: 6);
+
+      ServerResponse response = await bcWrapper.globalEntityService.updateEntityTimeToLive(entityId, entityVersion, timeToLive);
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['entityId'], entityId);
+        expect(body['timeToLive'], timeToLive.inMilliseconds);
+        entityVersion = body['version'];
+      }
+    });
+    test("DeleteEntity", () async {
+      expect(bcWrapper.isInitialized, true);
+      if (entityId.isEmpty) await createGlobalTestEntity(entityType);
+
+      ServerResponse response = await bcWrapper.globalEntityService.deleteEntity(entityId, entityVersion);
+      expect(response.statusCode, 200);
+      expect(response.body, isNull);
+      entityId = "";
+      entityVersion = 0;
+    });
+
+    /// IndextedId...
+    ///
+    test("createEntityWithIndexedId", () async {
+      expect(bcWrapper.isInitialized, true);
+
+      var jsonEntityData = {"team": "RedTeam"};
+      var jsonEntityAcl = {"other": 0};
+
+      ServerResponse response =
+          await bcWrapper.globalEntityService.createEntityWithIndexedId(entityType, entityIndexedId, Duration(hours: 1), jsonEntityAcl, jsonEntityData);
+
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['entityId'], isA<String>());
+        expect(body['entityIndexedId'], isA<String>());
+        expect(body['entityIndexedId'], entityIndexedId);
+        expect(body['version'], isA<int>());
+      }
+    });
+
+    test("GetListByIndexedld", () async {
+      expect(bcWrapper.isInitialized, true);
+
+      ServerResponse response = await bcWrapper.globalEntityService.getListByIndexedId(entityIndexedId, 4);
+
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['entityList'], isList);
+        expect(body['entityListCount'], isA<int>());
+        if (body['entityListCount'] > 0) {
+          // List<Map<String,dynamic>> entityList = body['entityList'];
+          entityId = body['entityList'][0]['entityId'];
+          expect(body['entityList'][0]['version'], isA<int>());
+          entityVersion = body['entityList'][0]['version'];          
+        }
+      }
+    });
+    test("UpdateEntityIndexedld", () async {
+      expect(bcWrapper.isInitialized, true);
+      
+      if (entityId.isEmpty) await createGlobalTestEntity(entityType);
+      
+      ServerResponse response = await bcWrapper.globalEntityService.updateEntityIndexedId(entityId,entityVersion,entityIndexedId+'New');
+      
+      expect(response.statusCode, 200);
+       expect(response.body, isMap);
+       if (response.body != null) {
+         expect(response.body, isMap);
+         Map<String, dynamic> body = response.body!;
+         expect(body['entityId'], isA<String>());
+         entityId = body['entityId'];
+         expect(body['version'], isA<int>());
+         entityVersion = body['version'];
+         expect(body['entityIndexedId'], entityIndexedId+'New');
+       }
+      
+    });
+
+    /// SystemEntities...
+    ///
+    test("MakeSystemEntity", () async {
+      expect(bcWrapper.isInitialized, true);
+      
+      if (entityId.isEmpty) await createGlobalTestEntity(entityType);
+      var jsonEntityAcl = ACLs.readWrite;
+      
+      ServerResponse response = await bcWrapper.globalEntityService.makeSystemEntity(entityId, entityVersion, jsonEntityAcl);
+      
+      expect(response.statusCode, 200);
+       expect(response.body, isMap);
+       if (response.body != null) {
+         expect(response.body, isMap);
+         Map<String, dynamic> body = response.body!;
+         expect(body['entityId'], isA<String>());
+         entityId = body['entityId'];
+         expect(body['version'], isA<int>());
+         entityVersion = body['version'];
+         expect(body['owner'], isNull, reason: 'owner should be null for system entity');
+       }
+      
+    });
+      });
 }

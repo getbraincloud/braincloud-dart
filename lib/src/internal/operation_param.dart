@@ -156,6 +156,8 @@ class OperationParam {
   static OperationParam globalEntityServiceContext = OperationParam("context");
   static OperationParam globalEntityServicePageOffset =
       OperationParam("pageOffset");
+  static OperationParam globalEntityServiceHint =
+      OperationParam("hintJson");
   static OperationParam ownerId = OperationParam("ownerId");
 
   // Event Service - Send Params
