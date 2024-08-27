@@ -12,7 +12,7 @@ class StoredIds {
 
   Future<void> load() async {
     final file = File(_path);
-    debugPrint('Opening  file: $_path');
+    debugPrint('Reading test configs from file: $_path');
     Stream<String> lines = file
         .openRead()
         .transform(utf8.decoder) // Decode bytes to UTF-8.
@@ -24,7 +24,7 @@ class StoredIds {
         List<String> keyVal = line.split('=');
         ids[keyVal[0]] = keyVal[1];
       }
-      debugPrint('File is now closed.');
+      // debugPrint('File is now closed.');
     } catch (e) {
       debugPrint('Error: $e');
     }

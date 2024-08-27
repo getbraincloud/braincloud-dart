@@ -2474,8 +2474,7 @@ class BrainCloudWrapper {
         playerPrefs.getInt(prefix + prefsLastPacketId) ?? 1;
 
     _client.restorePacketId(_wrapperData.lastPacketId);
-
-    debugPrint(_wrapperData.toString());
+   
   }
 
   void restoreSession() {

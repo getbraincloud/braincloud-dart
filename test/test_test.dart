@@ -72,8 +72,6 @@ main() {
     });
 
     test("reconnect", () async {
-      debugPrint('(Pre)StoredAnonymousId: ${bcWrapper.getStoredAnonymousId()}');
-      debugPrint('(Pre)StoredProfileId: ${bcWrapper.getStoredProfileId()}');
 
       ServerResponse response;
       if (bcWrapper.brainCloudClient.authenticated) {
@@ -81,9 +79,6 @@ main() {
         expect(response.statusCode, 200);
         expect(bcWrapper.brainCloudClient.isAuthenticated(), false);
       }
-
-      debugPrint('(Post)StoredAnonymousId: ${bcWrapper.getStoredAnonymousId()}');
-      debugPrint('(Post)StoredProfileId: ${bcWrapper.getStoredProfileId()}');
 
       response = await bcWrapper.reconnect();
       expect(response.statusCode, 200);
