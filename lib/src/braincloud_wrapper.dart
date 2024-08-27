@@ -6,7 +6,6 @@ import 'dart:async';
 
 import 'package:braincloud_dart/src/server_response.dart';
 import 'package:dart_extensions/dart_extensions.dart';
-import 'package:flutter/material.dart';
 
 import 'package:braincloud_dart/src/Common/authentication_ids.dart';
 import 'package:braincloud_dart/src/Common/authentication_type.dart';
