@@ -46,8 +46,6 @@ main() {
     ;
 
     setUpAll(() async {
-      // });
-      // test("Init", () async {
       StoredIds ids = StoredIds('test/ids.txt');
       await ids.load();
 
@@ -58,7 +56,6 @@ main() {
       //start test
 
       bcWrapper.init(secretKey: ids.secretKey, appId: ids.appId, version: ids.version, url: ids.url).then((_) async {
-        // expect(bcWrapper.isInitialized, false);
 
         bool hadSession = bcWrapper.getStoredSessionId().isNotEmpty;
 
@@ -116,6 +113,27 @@ main() {
 
       entityId = "";
       entityVersion = 0;
+    });
+
+    test("createEntity_noACL", () async {
+      expect(bcWrapper.isInitialized, true);
+
+      var jsonEntityData = {"street": "1309 Carling"};
+
+      ServerResponse response = await bcWrapper.entityService.createEntity(entityType, jsonEntityData, null);
+
+      expect(response.statusCode, 200);
+      expect(response.body, isMap);
+      if (response.body != null) {
+        expect(response.body, isMap);
+        Map<String, dynamic> body = response.body!;
+        expect(body['entityId'], isA<String>());
+        entityId = body['entityId'];
+        expect(body['version'], isA<int>());        
+        entityVersion = body['version'];
+        expect(body['acl'], isMap);
+        expect(body['acl']['other'], 0);
+      }
     });
 
     test("getEntitiesByType", () async {
