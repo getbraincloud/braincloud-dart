@@ -1011,7 +1011,10 @@ main() {
 
     test("CreateEntity", () async {
       expect(bcWrapper.isInitialized, true);
-
+      if (customEntityType.isEmpty) {
+        markTestSkipped("No sharded collection in test app, skipping test IncrementDataSharded");
+        return;
+      }
       var jsonEntityData = {"testId": "RedTeam", "team": "RedTeam", "position": "left", "role": "guard"};
       var jsonEntityAcl = ACLs.readWrite;
 
@@ -1030,6 +1033,10 @@ main() {
     });
     test("GetCount", () async {
       expect(bcWrapper.isInitialized, true);
+      if (customEntityType.isEmpty) {
+        markTestSkipped("No sharded collection in test app, skipping test IncrementDataSharded");
+        return;
+      }
 
       var where = {"data.teamId": "RedTeam"};
 
@@ -1046,6 +1053,10 @@ main() {
     });
     test("GetEntityPage", () async {
       expect(bcWrapper.isInitialized, true);
+      if (customEntityType.isEmpty) {
+        markTestSkipped("No sharded collection in test app, skipping test IncrementDataSharded");
+        return;
+      }
 
       var jsonContext = {
         "pagination": {"rowsPerPage": 50, "pageNumber": 1, "doCount": true},
@@ -1070,6 +1081,10 @@ main() {
     });
     test("GetEntityPageOffset", () async {
       expect(bcWrapper.isInitialized, true);
+      if (customEntityType.isEmpty) {
+        markTestSkipped("No sharded collection in test app, skipping test IncrementDataSharded");
+        return;
+      }
 
       var jsonContext = {
         "pagination": {"rowsPerPage": 50, "pageNumber": 1, "doCount": false},
@@ -1095,6 +1110,10 @@ main() {
     });
     test("GetRandomEntitiesMatching", () async {
       expect(bcWrapper.isInitialized, true);
+      if (customEntityType.isEmpty) {
+        markTestSkipped("No sharded collection in test app, skipping test IncrementDataSharded");
+        return;
+      }
 
       var where = {"data.teamId": "RedTeam"};
 
@@ -1111,6 +1130,10 @@ main() {
     });
     test("IncrementData", () async {
       expect(bcWrapper.isInitialized, true);
+      if (customEntityType.isEmpty) {
+        markTestSkipped("No sharded collection in test app, skipping test IncrementDataSharded");
+        return;
+      }
       if (entityId.isEmpty) await createCustomTestEntity(customEntityType);
 
       var jsonInc = {"games": 2};
@@ -1129,6 +1152,10 @@ main() {
     });
     test("ReadEntity", () async {
       expect(bcWrapper.isInitialized, true);
+      if (customEntityType.isEmpty) {
+        markTestSkipped("No sharded collection in test app, skipping test IncrementDataSharded");
+        return;
+      }
       if (entityId.isEmpty) await createCustomTestEntity(customEntityType);
 
       ServerResponse response = await bcWrapper.customEntityService.readEntity(customEntityType, entityId);
@@ -1145,6 +1172,11 @@ main() {
     });
     test("UpdateEntity", () async {
       expect(bcWrapper.isInitialized, true);
+      if (customEntityType.isEmpty) {
+        markTestSkipped("No sharded collection in test app, skipping test IncrementDataSharded");
+        return;
+      }
+
       if (entityId.isEmpty) await createCustomTestEntity(customEntityType);
 
       var jsonEntityData = {"team": "RedTeam", "position": "left", "role": "guard", "games": 1};
@@ -1166,6 +1198,10 @@ main() {
     });
     test("UpdateEntityFields", () async {
       expect(bcWrapper.isInitialized, true);
+      if (customEntityType.isEmpty) {
+        markTestSkipped("No sharded collection in test app, skipping test IncrementDataSharded");
+        return;
+      }
       if (entityId.isEmpty) await createCustomTestEntity(customEntityType);
       var jsonEntityData = {"position": "right"};
 
@@ -1237,6 +1273,10 @@ main() {
 
     test("DeleteEntity", () async {
       expect(bcWrapper.isInitialized, true);
+      if (customOwnedEntityType.isEmpty) {
+        markTestSkipped("No sharded collection in test app, skipping test IncrementDataSharded");
+        return;
+      }
       await createCustomTestEntity(customOwnedEntityType,owned: true);
 
       ServerResponse response = await bcWrapper.customEntityService.deleteEntity(customOwnedEntityType, entityId, entityVersion);
@@ -1247,6 +1287,10 @@ main() {
 
     test("DeleteEntities", () async {
       expect(bcWrapper.isInitialized, true);
+      if (customOwnedEntityType.isEmpty) {
+        markTestSkipped("No sharded collection in test app, skipping test IncrementDataSharded");
+        return;
+      }
 
       // Ensure at least one entity will be deleted
       await createCustomTestEntity(customOwnedEntityType,owned: true);
@@ -1268,6 +1312,10 @@ main() {
     /// Singleton
     test("UpdateSingleton", () async {
       expect(bcWrapper.isInitialized, true);
+      if (customOwnedEntityType.isEmpty) {
+        markTestSkipped("No sharded collection in test app, skipping test IncrementDataSharded");
+        return;
+      }
 
       await createCustomTestEntity(customOwnedEntityType,owned: true);
       var jsonEntityData = {"testId": "RedTeam", "team": "RedTeam", "games": 0};;
@@ -1286,6 +1334,10 @@ main() {
     });
     test("IncrementSingletonData", () async {
       expect(bcWrapper.isInitialized, true);
+      if (customOwnedEntityType.isEmpty) {
+        markTestSkipped("No sharded collection in test app, skipping test IncrementDataSharded");
+        return;
+      }
 
       if (entityId.isEmpty) await createCustomTestEntity(customOwnedEntityType,owned: true);
       
@@ -1305,6 +1357,10 @@ main() {
     });
     test("ReadSingleton", () async {
       expect(bcWrapper.isInitialized, true);
+      if (customOwnedEntityType.isEmpty) {
+        markTestSkipped("No sharded collection in test app, skipping test IncrementDataSharded");
+        return;
+      }
 
       if (entityId.isEmpty) await createCustomTestEntity(customOwnedEntityType,owned: true);
       
@@ -1323,6 +1379,10 @@ main() {
     });
     test("UpdateSingletonFields", () async {
       expect(bcWrapper.isInitialized, true);
+      if (customOwnedEntityType.isEmpty) {
+        markTestSkipped("No sharded collection in test app, skipping test IncrementDataSharded");
+        return;
+      }
 
       if (entityId.isEmpty) await createCustomTestEntity(customOwnedEntityType,owned: true);
       
@@ -1341,6 +1401,10 @@ main() {
     });
     test("DeleteSingleton", () async {
       expect(bcWrapper.isInitialized, true);
+      if (customOwnedEntityType.isEmpty) {
+        markTestSkipped("No sharded collection in test app, skipping test IncrementDataSharded");
+        return;
+      }
 
       if (entityId.isEmpty) await createCustomTestEntity(customOwnedEntityType,owned: true);
 
