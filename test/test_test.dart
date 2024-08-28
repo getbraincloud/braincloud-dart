@@ -20,6 +20,7 @@ main() {
   String customEntityType = "";
   String customShardedEntityType = "";
   String customOwnedEntityType = "";
+  final String entityType = "DartUnitTests";
 
   setUpAll(() async {
     // });
@@ -76,6 +77,13 @@ main() {
       expect(response.body?['createdAt'], isA<int>());
       expect(response.body?['isTester'], isA<bool>());
       expect(response.body?['currency'], isA<Object>());
+      if (sharedProfileId.isEmpty) {
+        // if no shared Profile Id define in ids then use the anonymous user
+        sharedProfileId = response.body?['profileId'];
+        // and create a shared entity too as this will be needed.
+        var jsonEntityData = {"team": "RedTeam", "quantity": 0};
+        await bcWrapper.entityService.createEntity(entityType, jsonEntityData, ACLs.readWrite);        
+      }
     });
 
     test("reconnect", () async {
@@ -95,8 +103,29 @@ main() {
 
       bcWrapper.resetStoredProfileId();
       bcWrapper.resetStoredAnonymousId();
-      ServerResponse response = await bcWrapper.authenticateEmailPassword(email: email, password: password, forceCreate: false);
-      // debugPrint(jsonEncode(response.body));
+      try {
+        ServerResponse response;
+        response = await bcWrapper.authenticateEmailPassword(email: email, password: password, forceCreate: false);        
+        expect(response.statusCode, 200);
+        expect(response.body?['profileId'], isA<String>());
+        expect(response.body?['server_time'], isA<int>());
+        expect(response.body?['createdAt'], isA<int>());
+        expect(response.body?['isTester'], isA<bool>());
+        expect(response.body?['currency'], isA<Object>());
+        
+      } on ServerResponse catch (e) {
+        expect(e.statusCode, isA<int>());
+        expect(e.reasonCode, isA<int>());       
+      }      
+    });
+
+    test("authenticateUniversal", () async {
+      expect(bcWrapper.isInitialized, true);
+
+      bcWrapper.resetStoredProfileId();
+      bcWrapper.resetStoredAnonymousId();
+      ServerResponse response = await bcWrapper.authenticateUniversal(username: email, password: password, forceCreate: true);        
+
       expect(response.statusCode, 200);
       expect(response.body?['profileId'], isA<String>());
       expect(response.body?['server_time'], isA<int>());
@@ -123,16 +152,11 @@ main() {
   });
 
   group("User Entity Tests", () {
-    // String email = "";
-    // String password = "";
 
-    final String entityType = "UnitTests";
     String entityId = "";
     int entityVersion = 0;
     String singletonEntityId = "";
     int singletonEntityVerison = 0;
-
-    // String sharedProfileId = "";
     String sharedEntityId = "";
     int sharedEntityVersion = 0;
 
@@ -153,7 +177,7 @@ main() {
 
     setUp(() async {
       if (!bcWrapper.brainCloudClient.isAuthenticated()) {
-        await bcWrapper.authenticateEmailPassword(email: email, password: password, forceCreate: false);
+        await bcWrapper.authenticateUniversal(username: email, password: password, forceCreate: false);
         // bcWrapper.resetStoredProfileId();
         // bcWrapper.resetStoredAnonymousId();
         // await bcWrapper.authenticateAnonymous();
@@ -349,7 +373,7 @@ main() {
       expect(bcWrapper.isInitialized, true);
 
       if (sharedProfileId.isEmpty) {
-        markTestSkipped('No Shared Entities ProfileId profided skipping test getSharedEntitiesForProfileId');
+        markTestSkipped('No Shared Entities ProfileId provided skipping test getSharedEntitiesForProfileId');
         return;
       }
 
@@ -373,7 +397,7 @@ main() {
       expect(bcWrapper.isInitialized, true);
 
       if (sharedProfileId.isEmpty) {
-        markTestSkipped('No Shared Entities ProfileId profided skipping test getSharedEntitiesForProfileId');
+        markTestSkipped('No Shared Entities ProfileId provided skipping test getSharedEntitiesForProfileId');
         return;
       }
 
@@ -397,11 +421,11 @@ main() {
       expect(bcWrapper.isInitialized, true);
 
       if (sharedProfileId.isEmpty) {
-        markTestSkipped('No Shared Entities ProfileId profided skipping test getSharedEntitiesForProfileId');
+        markTestSkipped('No Shared Entities ProfileId provided skipping test getSharedEntitiesForProfileId');
         return;
       }
       if (sharedEntityId.isEmpty) {
-        markTestSkipped('No Shared Entity Id profided skipping test getSharedEntitiesForProfileId (must run getSharedEntitiesForProfileId test first)');
+        markTestSkipped('No Shared Entity Id provided skipping test getSharedEntitiesForProfileId (must run getSharedEntitiesForProfileId test first)');
         return;
       }
 
@@ -474,11 +498,11 @@ main() {
       expect(bcWrapper.isInitialized, true);
 
       if (sharedProfileId.isEmpty) {
-        markTestSkipped('No Shared Entities ProfileId profided skipping test getSharedEntitiesForProfileId');
+        markTestSkipped('No Shared Entities ProfileId provided skipping test getSharedEntitiesForProfileId');
         return;
       }
       if (sharedEntityId.isEmpty) {
-        markTestSkipped('No Shared Entity Id profided skipping test getSharedEntitiesForProfileId (must run getSharedEntitiesForProfileId test first)');
+        markTestSkipped('No Shared Entity Id provided skipping test getSharedEntitiesForProfileId (must run getSharedEntitiesForProfileId test first)');
         return;
       }
 
@@ -500,11 +524,11 @@ main() {
       expect(bcWrapper.isInitialized, true);
 
       if (sharedProfileId.isEmpty) {
-        markTestSkipped('No Shared Entities ProfileId profided skipping test getSharedEntitiesForProfileId');
+        markTestSkipped('No Shared Entities ProfileId provided skipping test getSharedEntitiesForProfileId');
         return;
       }
       if (sharedEntityId.isEmpty) {
-        markTestSkipped('No Shared Entity Id profided skipping test getSharedEntitiesForProfileId (must run getSharedEntitiesForProfileId test first)');
+        markTestSkipped('No Shared Entity Id provided skipping test getSharedEntitiesForProfileId (must run getSharedEntitiesForProfileId test first)');
         return;
       }
 
@@ -588,7 +612,7 @@ main() {
 
     setUp(() async {
       if (!bcWrapper.brainCloudClient.isAuthenticated()) {
-        await bcWrapper.authenticateEmailPassword(email: email, password: password, forceCreate: false);
+        await bcWrapper.authenticateUniversal(username: email, password: password, forceCreate: false);
       }
     });
 
@@ -849,7 +873,7 @@ main() {
       expect(bcWrapper.isInitialized, true);
 
       if (sharedProfileId.isEmpty) {
-        markTestSkipped('No Shared Entities ProfileId profided skipping test getSharedEntitiesForProfileId');
+        markTestSkipped('No Shared Entities ProfileId provided skipping test getSharedEntitiesForProfileId');
         return;
       }
 
@@ -1005,7 +1029,7 @@ main() {
 
     setUp(() async {
       if (!bcWrapper.brainCloudClient.isAuthenticated()) {
-        await bcWrapper.authenticateEmailPassword(email: email, password: password, forceCreate: false);
+        await bcWrapper.authenticateUniversal(username: email, password: password, forceCreate: false);
       }
     });
 
