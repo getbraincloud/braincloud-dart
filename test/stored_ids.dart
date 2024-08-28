@@ -37,4 +37,8 @@ class StoredIds {
   String get email => ids['email'] ?? "";
   String get password => ids['password'] ?? "";
   String get sharedProfileId => ids['sharedProfileId'] ?? "";
+  String get customEntityType => ids['customEntityType'] ?? "";
+  String get customShardedEntityType => ids['customShardedEntityType'] ?? "";
+  String get customOwnedEntityType => ids['customOwnedEntityType'] ?? "";
+  
 }

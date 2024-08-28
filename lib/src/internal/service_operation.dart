@@ -728,6 +728,7 @@ class ServiceOperation {
   static ServiceOperation getEntityPage = ServiceOperation._("GET_ENTITY_PAGE");
   static ServiceOperation readCustomEntity = ServiceOperation._("READ_ENTITY");
   static ServiceOperation incrementData = ServiceOperation._("INCREMENT_DATA");
+  static ServiceOperation incrementDataSharded = ServiceOperation._("INCREMENT_DATA_SHARDED");
   static ServiceOperation incrementSingletonData =
       ServiceOperation._("INCREMENT_SINGLETON_DATA");
   static ServiceOperation updateCustomEntity =
