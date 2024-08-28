@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:braincloud_dart/src/internal/rtt_comms.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 
 class BrainCloudRTT {
   final BrainCloudClient? _clientRef;
@@ -22,10 +25,23 @@ class BrainCloudRTT {
   /// <param name="in_connectionType"></param>
   /// <param name="in_success"></param>
   /// <param name="in_failure"></param>
-  void enableRTT(RTTConnectionType? inConnectiontype,
-      SuccessCallback? inSuccess, FailureCallback? inFailure) {
-    _commsLayer?.enableRTT(
-        inConnectiontype ?? RTTConnectionType.websocket, inSuccess, inFailure);
+
+  /// <param name="cb_object"></param>
+  Future<ServerResponse> enableRTT(
+    RTTConnectionType? inConnectiontype,
+  ) {
+    Completer<ServerResponse> completer = Completer();
+    _commsLayer?.enableRTT(inConnectiontype ?? RTTConnectionType.websocket,
+        (response) {
+      completer.complete(ServerResponse.fromJson(response));
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// <summary>

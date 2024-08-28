@@ -25,7 +25,6 @@ class RTTComms {
   /// <param name="in_connectionType"></param>
   /// <param name="in_success"></param>
   /// <param name="in_failure"></param>
-
   void enableRTT(RTTConnectionType? inConnectiontype,
       SuccessCallback? inSuccess, FailureCallback? inFailure) {
     _disconnectedWithReason = false;
@@ -38,9 +37,14 @@ class RTTComms {
       _connectionFailureCallback = inFailure;
 
       _currentConnectionType = inConnectiontype ?? RTTConnectionType.websocket;
-      _clientRef.rttService?.requestClientConnection(
-          rttConnectionServerSuccess as SuccessCallback,
-          rttConnectionServerError as FailureCallback);
+      _clientRef.rttService?.requestClientConnection((response) {
+        rttConnectionServerSuccess(response);
+
+        inSuccess!(response);
+      }, (statusCode, reasonCode, statusMessage) {
+        rttConnectionServerError(statusCode, reasonCode, statusMessage);
+        inFailure!(statusCode, reasonCode, statusMessage);
+      });
     }
   }
 
@@ -150,9 +154,9 @@ class RTTComms {
             toProcessResponse.operation == "connect") {
           _sinceLastHeartbeat = Duration(
               seconds: DateTime.now().subtract(_sinceLastHeartbeat).second);
+          _rttConnectionStatus = RTTConnectionStatus.connected;
           _connectedSuccessCallback!(
               {"message": toProcessResponse.jsonMessage});
-          _rttConnectionStatus = RTTConnectionStatus.connected;
         }
 
         //if we're connected and we get a disconnect - we disconnect the comms...
@@ -299,8 +303,8 @@ class RTTComms {
 
       // Web Socket
       if (mUsewebsocket) {
-        // Uint8List data = Encoding.ASCII.GetBytes(in_message);
-        // m_webSocket.SendAsync(data);
+        Uint8List data = ascii.encode(inMessage);
+        _webSocket?.send(data);
       }
     } catch (socketException) {
       if (_clientRef.loggingEnabled) {
@@ -319,9 +323,9 @@ class RTTComms {
   ///
   /// </summary>
   void _startReceivingWebSocket() {
-    bool sslEnabled = _endpoint?["ssl"];
+    String sslEnabled = _endpoint?["ssl"] ? "wss://" : "ws://";
     String url =
-        "${sslEnabled ? "wss://" : "ws://"} ${_endpoint?["host"]} :  ${_endpoint?["port"]}  ${_getUrlQueryParameters()}";
+        "$sslEnabled${_endpoint?["host"]}:${_endpoint?["port"]}${_getUrlQueryParameters()}";
     _setupWebSocket(url);
   }
 
@@ -354,7 +358,7 @@ class RTTComms {
         ServiceName.rttRegistration.value.toLowerCase(), "disconnect", reason));
   }
 
-  void webSocketOnOpen({required BrainCloudWebSocket accepted}) {
+  void webSocketOnOpen() {
     if (_clientRef.loggingEnabled) {
       _clientRef.log("RTT: Connection established.");
     }
@@ -401,7 +405,7 @@ class RTTComms {
       data = response["data"];
     }
     if (operation == "CONNECT") {
-      int heartBeat = _heartBeatTime.inMilliseconds / 1000 as int;
+      int heartBeat = (_heartBeatTime.inMilliseconds / 1000).truncate();
       try {
         heartBeat = data["heartbeatSeconds"];
       } catch (e) {
@@ -432,9 +436,9 @@ class RTTComms {
   /// <summary>
   ///
   /// </summary>
-  void rttConnectionServerSuccess(String jsonResponse) {
-    Map<String, dynamic> jsonMessage = jsonDecode(jsonResponse);
-    Map<String, dynamic> jsonData = jsonMessage["data"];
+
+  void rttConnectionServerSuccess(Map<String, dynamic> jsonResponse) {
+    Map<String, dynamic> jsonData = jsonResponse["data"];
     List endpoints = jsonData["endpoints"];
     _rttHeaders = jsonData["auth"];
 

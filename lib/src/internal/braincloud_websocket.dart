@@ -7,6 +7,9 @@ class BrainCloudWebSocket {
   BrainCloudWebSocket(String url,
       {this.onOpen, this.onMessage, this.onError, this.onClose}) {
     _clientWebSocket = WebSocketChannel.connect(Uri.parse(url));
+    if (onOpen != null) {
+      onOpen!();
+    }
 
     _clientWebSocket.stream.listen((data) {
       if (onMessage != null) {
@@ -78,7 +81,7 @@ class BrainCloudWebSocket {
   OnCloseHandler? onClose;
 }
 
-typedef OnOpenHandler = void Function({required BrainCloudWebSocket accepted});
+typedef OnOpenHandler = void Function();
 
 typedef OnMessageHandler = void Function({required Uint8List data});
 
