@@ -7,6 +7,8 @@ import 'package:braincloud_dart/src/server_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/v1.dart';
+import 'package:uuid/v4.dart';
 
 import 'stored_ids.dart';
 
@@ -28,8 +30,8 @@ main() {
     StoredIds ids = StoredIds('test/ids.txt');
     await ids.load();
 
-    email = ids.email;
-    password = ids.password;
+    email = ids.email.isEmpty ? "${UuidV4().generate()}@DartUnitTester" : ids.email;
+    password = ids.password.isEmpty ? UuidV4().generate() : ids.password;
     sharedProfileId = ids.sharedProfileId;
     customEntityType = ids.customEntityType;
     customShardedEntityType = ids.customShardedEntityType;
