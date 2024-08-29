@@ -433,7 +433,6 @@ class RTTComms {
   /// <summary>
   ///
   /// </summary>
-
   void rttConnectionServerSuccess(Map<String, dynamic> jsonResponse) {
     Map<String, dynamic> jsonData = jsonResponse["data"];
     List endpoints = jsonData["endpoints"];

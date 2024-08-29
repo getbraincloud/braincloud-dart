@@ -34,19 +34,15 @@ class BrainCloudPlayerStatisticsEvent {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void triggerUserStatsEvent(String eventName, int eventMultiplier,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticEventServiceEventName.value] = eventName;
     data[OperationParam.playerStatisticEventServiceEventMultiplier.value] =
         eventMultiplier;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.playerStatisticsEvent,
         ServiceOperation.trigger, data, callback);
     _clientRef.sendRequest(sc);
@@ -73,15 +69,14 @@ class BrainCloudPlayerStatisticsEvent {
   ///     }
   ///   ]
   /// </param>
-  void triggerUserStatsEvents(String jsonData, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void triggerUserStatsEvents(
+      String jsonData, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     List events = jsonDecode(jsonData);
     data[OperationParam.playerStatisticEventServiceEvents.value] = events;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.playerStatisticsEvent,
         ServiceOperation.triggerMultiple, data, callback);
     _clientRef.sendRequest(sc);

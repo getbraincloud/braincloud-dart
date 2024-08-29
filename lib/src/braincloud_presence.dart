@@ -25,16 +25,11 @@ class BrainCloudPresence {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void forcePush(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  void forcePush(SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.presence, ServiceOperation.forcePush, data, callback);
     _clientRef.sendRequest(sc);
@@ -62,18 +57,14 @@ class BrainCloudPresence {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getPresenceOfFriends(String platform, bool includeOffline,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.presenceServicePlatform.value] = platform;
     data[OperationParam.presenceServiceIncludeOffline.value] = includeOffline;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.getPresenceOfFriends, data, callback);
     _clientRef.sendRequest(sc);
@@ -99,18 +90,14 @@ class BrainCloudPresence {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getPresenceOfGroup(String groupId, bool includeOffline,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.presenceServiceGroupId.value] = groupId;
     data[OperationParam.presenceServiceIncludeOffline.value] = includeOffline;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.getPresenceOfGroup, data, callback);
     _clientRef.sendRequest(sc);
@@ -136,18 +123,14 @@ class BrainCloudPresence {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getPresenceOfUsers(List<String> profileIds, bool includeOffline,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.presenceServiceProfileIds.value] = profileIds;
     data[OperationParam.presenceServiceIncludeOffline.value] = includeOffline;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.getPresenceOfUsers, data, callback);
     _clientRef.sendRequest(sc);
@@ -178,18 +161,14 @@ class BrainCloudPresence {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void registerListenersForFriends(String platform, bool bidirectional,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.presenceServicePlatform.value] = platform;
     data[OperationParam.presenceServiceBidirectional.value] = bidirectional;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.registerListenersForFriends, data, callback);
     _clientRef.sendRequest(sc);
@@ -214,18 +193,14 @@ class BrainCloudPresence {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void registerListenersForGroup(String groupId, bool bidirectional,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.presenceServiceGroupId.value] = groupId;
     data[OperationParam.presenceServiceBidirectional.value] = bidirectional;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.registerListenersForGroup, data, callback);
     _clientRef.sendRequest(sc);
@@ -252,18 +227,14 @@ class BrainCloudPresence {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void registerListenersForProfiles(List<String> profileIds, bool bidirectional,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.presenceServiceProfileIds.value] = profileIds;
     data[OperationParam.presenceServiceBidirectional.value] = bidirectional;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.registerListenersForProfiles, data, callback);
     _clientRef.sendRequest(sc);
@@ -285,17 +256,13 @@ class BrainCloudPresence {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void setVisibility(bool visible, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void setVisibility(
+      bool visible, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.presenceServiceVisibile.value] = visible;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.presence, ServiceOperation.setVisibility, data, callback);
     _clientRef.sendRequest(sc);
@@ -316,16 +283,11 @@ class BrainCloudPresence {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void stopListening(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  void stopListening(SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.presence, ServiceOperation.stopListening, data, callback);
     _clientRef.sendRequest(sc);
@@ -347,18 +309,14 @@ class BrainCloudPresence {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void updateActivity(String jsonActivity, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void updateActivity(
+      String jsonActivity, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     var jsonActivityString = jsonDecode(jsonActivity);
     data[OperationParam.presenceServiceActivity.value] = jsonActivityString;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.presence, ServiceOperation.updateActivity, data, callback);
     _clientRef.sendRequest(sc);

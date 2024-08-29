@@ -34,19 +34,15 @@ class BrainCloudMail {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void sendBasicEmail(String profileId, String subject, String body,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.profileId.value] = profileId;
     data[OperationParam.subject.value] = subject;
     data[OperationParam.body.value] = body;
 
-    _sendMessage(ServiceOperation.sendBasicEmail, data, success, failure,
-        cbObject: cbObject);
+    _sendMessage(ServiceOperation.sendBasicEmail, data, success, failure);
   }
 
   /// <summary>
@@ -69,18 +65,14 @@ class BrainCloudMail {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void sendAdvancedEmail(String profileId, String jsonServiceParams,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.profileId.value] = profileId;
     data[OperationParam.serviceParams.value] = jsonDecode(jsonServiceParams);
 
-    _sendMessage(ServiceOperation.sendAdvancedEmail, data, success, failure,
-        cbObject: cbObject);
+    _sendMessage(ServiceOperation.sendAdvancedEmail, data, success, failure);
   }
 
   /// <summary>
@@ -103,28 +95,22 @@ class BrainCloudMail {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void sendAdvancedEmailByAddress(String emailAddress, String jsonServiceParams,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.emailAddress.value] = emailAddress;
     data[OperationParam.serviceParams.value] = jsonDecode(jsonServiceParams);
 
     _sendMessage(
-        ServiceOperation.sendAdvancedEmailByAddress, data, success, failure,
-        cbObject: cbObject);
+        ServiceOperation.sendAdvancedEmailByAddress, data, success, failure);
   }
 
   // Private
   void _sendMessage(ServiceOperation operation, Map<String, dynamic> data,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     _clientRef
         .sendRequest(ServerCall(ServiceName.mail, operation, data, callback));
   }

@@ -32,20 +32,16 @@ class BrainCloudPlaybackStream {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void startStream(String targetPlayerId, bool includeSharedData,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.playbackStreamServiceTargetPlayerId.value] =
         targetPlayerId;
     data[OperationParam.playbackStreamServiceIncludeSharedData.value] =
         includeSharedData;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.startStream, data, callback);
     _clientRef.sendRequest(sc);
@@ -67,18 +63,14 @@ class BrainCloudPlaybackStream {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void readStream(String playbackStreamId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.playbackStreamServicePlaybackStreamId.value] =
         playbackStreamId;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.readStream, data, callback);
     _clientRef.sendRequest(sc);
@@ -100,18 +92,14 @@ class BrainCloudPlaybackStream {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void endStream(String playbackStreamId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.playbackStreamServicePlaybackStreamId.value] =
         playbackStreamId;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.playbackStream, ServiceOperation.endStream, data, callback);
     _clientRef.sendRequest(sc);
@@ -133,18 +121,14 @@ class BrainCloudPlaybackStream {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void deleteStream(String playbackStreamId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.playbackStreamServicePlaybackStreamId.value] =
         playbackStreamId;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.deleteStream, data, callback);
     _clientRef.sendRequest(sc);
@@ -172,11 +156,8 @@ class BrainCloudPlaybackStream {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void addEvent(String playbackStreamId, String eventData, String summary,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.playbackStreamServicePlaybackStreamId.value] =
         playbackStreamId;
@@ -191,9 +172,8 @@ class BrainCloudPlaybackStream {
       data[OperationParam.playbackStreamServiceSummary.value] = jsonSummary;
     }
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.playbackStream, ServiceOperation.addEvent, data, callback);
     _clientRef.sendRequest(sc);
@@ -218,24 +198,16 @@ class BrainCloudPlaybackStream {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void getRecentStreamsForInitiatingPlayer(
-      String initiatingPlayerId,
-      int maxNumStreams,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void getRecentStreamsForInitiatingPlayer(String initiatingPlayerId,
+      int maxNumStreams, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.playbackStreamServiceInitiatingPlayerId.value] =
         initiatingPlayerId;
     data[OperationParam.playbackStreamServiceMaxNumberOfStreams.value] =
         maxNumStreams;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.getRecentStreamsForInitiatingPlayer, data, callback);
     _clientRef.sendRequest(sc);
@@ -260,20 +232,16 @@ class BrainCloudPlaybackStream {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getRecentStreamsForTargetPlayer(String targetPlayerId, int maxNumStreams,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.playbackStreamServiceTargetPlayerId.value] =
         targetPlayerId;
     data[OperationParam.playbackStreamServiceMaxNumberOfStreams.value] =
         maxNumStreams;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.getAttributes, data, callback);
     _clientRef.sendRequest(sc);

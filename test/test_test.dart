@@ -8,9 +8,7 @@ import 'package:braincloud_dart/src/server_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/v1.dart';
 import 'package:uuid/v4.dart';
-
 import 'stored_ids.dart';
 
 main() {
@@ -23,7 +21,7 @@ main() {
   String customEntityType = "";
   String customShardedEntityType = "";
   String customOwnedEntityType = "";
-  final String entityType = "DartUnitTests";
+  const String entityType = "DartUnitTests";
 
   setUpAll(() async {
     // });
@@ -31,8 +29,10 @@ main() {
     StoredIds ids = StoredIds('test/ids.txt');
     await ids.load();
 
-    email = ids.email.isEmpty ? "${UuidV4().generate()}@DartUnitTester" : ids.email;
-    password = ids.password.isEmpty ? UuidV4().generate() : ids.password;
+    email = ids.email.isEmpty
+        ? "${const UuidV4().generate()}@DartUnitTester"
+        : ids.email;
+    password = ids.password.isEmpty ? const UuidV4().generate() : ids.password;
     sharedProfileId = ids.sharedProfileId;
     customEntityType = ids.customEntityType;
     customShardedEntityType = ids.customShardedEntityType;
@@ -92,7 +92,8 @@ main() {
         sharedProfileId = response.body?['profileId'];
         // and create a shared entity too as this will be needed.
         var jsonEntityData = {"team": "RedTeam", "quantity": 0};
-        await bcWrapper.entityService.createEntity(entityType, jsonEntityData, ACLs.readWrite);        
+        await bcWrapper.entityService
+            .createEntity(entityType, jsonEntityData, ACLs.readWrite);
       }
     });
 
@@ -145,7 +146,6 @@ main() {
   });
 
   group("User Entity Tests", () {
-
     const String entityType = "UnitTests";
     String entityId = "";
     int entityVersion = 0;
@@ -1589,6 +1589,17 @@ main() {
       } else {
         throw "rtt response was null";
       }
+    });
+
+    test("rttChatCallback", () async {
+      String channelId = "32:gl:valid";
+
+      //Connect to channel
+      bcWrapper.chatService?.channelConnect(channelId, 50, (response) {
+        debugPrint(jsonEncode(response));
+      }, (statusCode, reasonCode, statusMessage) {
+        debugPrint(statusMessage);
+      });
     });
   });
 }

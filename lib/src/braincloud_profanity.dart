@@ -24,7 +24,6 @@ class BrainCloudProfanity {
   /// <param name="flagUrls">Optional processing of urls</param>
   /// <param name="success">The success callback.</param>
   /// <param name="failure">The failure callback.</param>
-  /// <param name="cbObject">The user object sent to the callback.</param>
   void profanityCheck(
       String text,
       String? languages,
@@ -32,8 +31,7 @@ class BrainCloudProfanity {
       bool flagPhone,
       bool flagUrls,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.profanityText.value] = text;
     if (languages != null) {
@@ -43,9 +41,8 @@ class BrainCloudProfanity {
     data[OperationParam.profanityFlagPhone.value] = flagPhone;
     data[OperationParam.profanityFlagUrls.value] = flagUrls;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.profanity, ServiceOperation.profanityCheck, data, callback);
     _clientRef.sendRequest(sc);
@@ -66,7 +63,6 @@ class BrainCloudProfanity {
   /// <param name="flagUrls">Optional processing of urls</param>
   /// <param name="success">The success callback.</param>
   /// <param name="failure">The failure callback.</param>
-  /// <param name="cbObject">The user object sent to the callback.</param>
   void profanityReplaceText(
       String text,
       String replaceSymbol,
@@ -75,8 +71,7 @@ class BrainCloudProfanity {
       bool flagPhone,
       bool flagUrls,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.profanityText.value] = text;
     data[OperationParam.profanityReplaceSymbol.value] = replaceSymbol;
@@ -87,9 +82,8 @@ class BrainCloudProfanity {
     data[OperationParam.profanityFlagPhone.value] = flagPhone;
     data[OperationParam.profanityFlagUrls.value] = flagUrls;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.profanity,
         ServiceOperation.profanityReplaceText, data, callback);
     _clientRef.sendRequest(sc);
@@ -109,7 +103,6 @@ class BrainCloudProfanity {
   /// <param name="flagUrls">Optional processing of urls</param>
   /// <param name="success">The success callback.</param>
   /// <param name="failure">The failure callback.</param>
-  /// <param name="cbObject">The user object sent to the callback.</param>
   void profanityIdentifyBadWords(
       String text,
       String? languages,
@@ -117,8 +110,7 @@ class BrainCloudProfanity {
       bool flagPhone,
       bool flagUrls,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.profanityText.value] = text;
     if (languages != null) {
@@ -128,9 +120,8 @@ class BrainCloudProfanity {
     data[OperationParam.profanityFlagPhone.value] = flagPhone;
     data[OperationParam.profanityFlagUrls.value] = flagUrls;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.profanity,
         ServiceOperation.profanityIdentifyBadWords, data, callback);
     _clientRef.sendRequest(sc);

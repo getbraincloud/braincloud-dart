@@ -89,10 +89,8 @@ class BrainCloudRelay {
       RelayConnectionType inConnectiontype,
       RelayConnectOptions inOptions,
       SuccessCallback? inSuccess,
-      FailureCallback? inFailure,
-      dynamic cbObject) {
-    _commsLayer?.Connect(
-        inConnectiontype, inOptions, inSuccess, inFailure, cbObject);
+      FailureCallback? inFailure) {
+    _commsLayer?.connect(inConnectiontype, inOptions, inSuccess, inFailure);
   }
 
   /// <summary>

@@ -32,11 +32,8 @@ class BrainCloudScript {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void runScript(String scriptName, String jsonScriptData,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
@@ -45,9 +42,8 @@ class BrainCloudScript {
       data[OperationParam.scriptServiceRunScriptData.value] = scriptData;
     }
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc =
         ServerCall(ServiceName.script, ServiceOperation.run, data, callback);
     _clientRef.sendRequest(sc);
@@ -65,14 +61,12 @@ class BrainCloudScript {
   /// <param name="roundStartTimeUTC">  use UTC time in milliseconds since epoch </param>
   /// <param name="success"> The success callback. </param>
   /// <param name="failure"> The failure callback. </param>
-  /// <param name="cbObject"> The user object sent to the callback. </param>
   void scheduleRunScriptMillisUTC(
       String scriptName,
       String jsonScriptData,
       int roundStartTimeUTC,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
@@ -84,9 +78,8 @@ class BrainCloudScript {
     data[OperationParam.scriptServiceStartDateUTC.value] =
         roundStartTimeUTC.toUnsigned(64);
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.scheduleCloudScript, data, callback);
     _clientRef.sendRequest(sc);
@@ -104,14 +97,8 @@ class BrainCloudScript {
   /// <param name="minutesFromNow"> Number of minutes from now to run script </param>
   /// <param name="success"> The success callback. </param>
   /// <param name="failure"> The failure callback. </param>
-  /// <param name="cbObject"> The user object sent to the callback. </param>
-  void scheduleRunScriptMinutes(
-      String scriptName,
-      String jsonScriptData,
-      int minutesFromNow,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void scheduleRunScriptMinutes(String scriptName, String jsonScriptData,
+      int minutesFromNow, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
@@ -123,9 +110,8 @@ class BrainCloudScript {
     data[OperationParam.scriptServiceStartMinutesFromNow.value] =
         minutesFromNow;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.scheduleCloudScript, data, callback);
     _clientRef.sendRequest(sc);
@@ -143,14 +129,8 @@ class BrainCloudScript {
   /// <param name="parentLevel"> The level name of the parent to run the script from </param>
   /// <param name="success"> The success callback. </param>
   /// <param name="failure"> The failure callback. </param>
-  /// <param name="cbObject"> The user object sent to the callback. </param>
-  void runParentScript(
-      String scriptName,
-      String jsonScriptData,
-      String parentLevel,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void runParentScript(String scriptName, String jsonScriptData,
+      String parentLevel, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
@@ -161,9 +141,8 @@ class BrainCloudScript {
 
     data[OperationParam.scriptServiceParentLevel.value] = parentLevel;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.script, ServiceOperation.runParentScript, data, callback);
     _clientRef.sendRequest(sc);
@@ -179,15 +158,13 @@ class BrainCloudScript {
   /// <param name="jobId"> ID of script job to cancel </param>
   /// <param name="success"> The success callback. </param>
   /// <param name="failure"> The failure callback. </param>
-  /// <param name="cbObject"> The user object sent to the callback. </param>
-  void cancelScheduledScript(String jobId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void cancelScheduledScript(
+      String jobId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceJobId.value] = jobId;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.cancelScheduledScript, data, callback);
     _clientRef.sendRequest(sc);
@@ -203,15 +180,13 @@ class BrainCloudScript {
   /// <param name="startDateUTC"> ID of script job to cancel </param>
   /// <param name="success"> The success callback. </param>
   /// <param name="failure"> The failure callback. </param>
-  /// <param name="cbObject"> The user object sent to the callback. </param>
   void getScheduledCloudScripts(DateTime startDateUTC, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceStartDateUTC.value] = startDateUTC;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.getScheduledCloudScripts, data, callback);
     _clientRef.sendRequest(sc);
@@ -227,12 +202,10 @@ class BrainCloudScript {
   /// <param name="startDateUTC"> ID of script job to cancel </param>
   /// <param name="success"> The success callback. </param>
   /// <param name="failure"> The failure callback. </param>
-  /// <param name="cbObject"> The user object sent to the callback. </param>
   void getRunningOrQueuedCloudScripts(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.getRunningOrQueuedCloudScripts, null, callback);
     _clientRef.sendRequest(sc);
@@ -250,9 +223,8 @@ class BrainCloudScript {
   /// <param name="peer">Identifies the peer</param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The user object sent to the callback</param>
   void runPeerScript(String scriptName, String jsonScriptData, String peer,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
@@ -263,9 +235,8 @@ class BrainCloudScript {
 
     data[OperationParam.peer.value] = peer;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.script, ServiceOperation.runPeerScript, data, callback);
     _clientRef.sendRequest(sc);
@@ -284,9 +255,8 @@ class BrainCloudScript {
   /// <param name="peer">Identifies the peer</param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The user object sent to the callback</param>
   void runPeerScriptAsync(String scriptName, String jsonScriptData, String peer,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
@@ -297,9 +267,8 @@ class BrainCloudScript {
 
     data[OperationParam.peer.value] = peer;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.runPeerScriptAsync, data, callback);
     _clientRef.sendRequest(sc);

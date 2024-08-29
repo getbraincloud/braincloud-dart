@@ -32,11 +32,8 @@ class BrainCloudDataStream {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void customPageEvent(String eventName, String jsonEventProperties,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.dataStreamEventName.value] = eventName;
 
@@ -45,9 +42,8 @@ class BrainCloudDataStream {
       data[OperationParam.dataStreamEventProperties.value] = eventProperties;
     }
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall serverCall = ServerCall(ServiceName.dataStream,
         ServiceOperation.customPageEvent, data, callback);
     _clientRef.sendRequest(serverCall);
@@ -72,11 +68,8 @@ class BrainCloudDataStream {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void customScreenEvent(String eventName, String jsonEventProperties,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.dataStreamEventName.value] = eventName;
 
@@ -85,9 +78,8 @@ class BrainCloudDataStream {
       data[OperationParam.dataStreamEventProperties.value] = eventProperties;
     }
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall serverCall = ServerCall(ServiceName.dataStream,
         ServiceOperation.customScreenEvent, data, callback);
     _clientRef.sendRequest(serverCall);
@@ -112,11 +104,8 @@ class BrainCloudDataStream {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void customTrackEvent(String eventName, String jsonEventProperties,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.dataStreamEventName.value] = eventName;
 
@@ -125,9 +114,8 @@ class BrainCloudDataStream {
       data[OperationParam.dataStreamEventProperties.value] = eventProperties;
     }
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall serverCall = ServerCall(ServiceName.dataStream,
         ServiceOperation.customTrackEvent, data, callback);
     _clientRef.sendRequest(serverCall);
@@ -170,9 +158,6 @@ class BrainCloudDataStream {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void submitCrashReport(
       String crashType,
       String errorMsg,
@@ -183,8 +168,7 @@ class BrainCloudDataStream {
       String userNotes,
       bool userSubmitted,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.dataStreamCrashType.value] = crashType;
     data[OperationParam.dataStreamErrorMsg.value] = errorMsg;
@@ -196,9 +180,8 @@ class BrainCloudDataStream {
     data[OperationParam.dataStreamUserNotes.value] = userNotes;
     data[OperationParam.dataStreamUserSubmitted.value] = userSubmitted;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall serverCall = ServerCall(ServiceName.dataStream,
         ServiceOperation.submitCrashReport, data, callback);
     _clientRef.sendRequest(serverCall);

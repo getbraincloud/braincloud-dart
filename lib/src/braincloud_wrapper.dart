@@ -9,7 +9,6 @@ import 'package:dart_extensions/dart_extensions.dart';
 
 import 'package:braincloud_dart/src/Common/authentication_ids.dart';
 import 'package:braincloud_dart/src/Common/authentication_type.dart';
-import 'package:braincloud_dart/src/internal/wrapper_auth_callback_object.dart';
 import 'package:braincloud_dart/src/braincloud_app_store.dart';
 import 'package:braincloud_dart/src/braincloud_async_match.dart';
 import 'package:braincloud_dart/src/braincloud_chat.dart';
@@ -375,7 +374,6 @@ class BrainCloudWrapper {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -408,7 +406,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -438,7 +435,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -484,7 +480,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -528,7 +523,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -566,7 +560,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -605,7 +598,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -642,7 +634,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -679,7 +670,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -717,7 +707,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -750,7 +739,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -788,7 +776,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -826,7 +813,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -864,7 +850,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -901,7 +886,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -941,7 +925,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -980,7 +963,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -1028,7 +1010,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -1066,7 +1047,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -1105,7 +1085,6 @@ class BrainCloudWrapper {
       authSuccessCallback(json: response);
       completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
-      authFailureCallback;
       completer.completeError(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
@@ -1144,11 +1123,10 @@ class BrainCloudWrapper {
       required String password,
       required bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     // SuccessCallback authenticateCallback = (response, o) =>
     // {
-    //     authenticateEmailPassword(email, password, forceCreate, success, failure, cbObject: cbObject);
+    //     authenticateEmailPassword(email, password, forceCreate, success, failure);
     // };
 
     authenticateCallback(Map<String, dynamic> response) {
@@ -1192,17 +1170,13 @@ class BrainCloudWrapper {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
   void smartSwitchauthenticateExternal(
       {required String userid,
       required String token,
       required String externalAuthName,
       required bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
@@ -1245,16 +1219,12 @@ class BrainCloudWrapper {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
   void smartSwitchauthenticateFacebook(
       {required String fbUserId,
       required String fbAuthToken,
       required bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     mergedSuccess(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
@@ -1296,16 +1266,12 @@ class BrainCloudWrapper {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
   void smartSwitchauthenticateFacebookLimited(
       {required String fbLimitedUserId,
       required String fbAuthToken,
       required bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
@@ -1345,16 +1311,12 @@ class BrainCloudWrapper {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
   void smartSwitchauthenticateOculus(
       {required String oculusUserId,
       required String oculusNonce,
       required bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
@@ -1395,16 +1357,12 @@ class BrainCloudWrapper {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
   void smartSwitchauthenticatePlaystationNetwork(
       {required String psnAccountId,
       required String psnAuthToken,
       required bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
@@ -1445,16 +1403,12 @@ class BrainCloudWrapper {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
   void smartSwitchauthenticateApple(
       {required String appleUserId,
       required String appleAuthToken,
       required bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
@@ -1491,15 +1445,11 @@ class BrainCloudWrapper {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
   void smartSwitchauthenticateGameCenter(
       {required String gameCenterId,
       required bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
@@ -1537,16 +1487,12 @@ class BrainCloudWrapper {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
   void smartSwitchauthenticateGoogle(
       {required String userid,
       required String token,
       required bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
@@ -1586,16 +1532,12 @@ class BrainCloudWrapper {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
   void smartSwitchauthenticateGoogleOpenId(
       {required String userid,
       required String token,
       required bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
@@ -1634,8 +1576,7 @@ class BrainCloudWrapper {
       required String sessionticket,
       required bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
@@ -1678,17 +1619,13 @@ class BrainCloudWrapper {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
   void smartSwitchauthenticateTwitter(
       {required String userid,
       required String token,
       required String secret,
       required bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
@@ -1731,16 +1668,12 @@ class BrainCloudWrapper {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
   void smartSwitchauthenticateUniversal(
       {required String username,
       required String password,
       required bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
@@ -1782,17 +1715,13 @@ class BrainCloudWrapper {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
   void smartSwitchauthenticateAdvanced(
       {required AuthenticationType authenticationType,
       required AuthenticationIds ids,
       required bool forceCreate,
       required Map<String, dynamic> extraJson,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
@@ -1834,16 +1763,12 @@ class BrainCloudWrapper {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
   void smartSwitchauthenticateUltra(
       {required String ultraUsername,
       required String ultraIdToken,
       required bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
@@ -1884,16 +1809,12 @@ class BrainCloudWrapper {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
   void smartSwitchauthenticateNintendo(
       {required String nintendoAccountId,
       required String nintendoAuthToken,
       required bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     authenticateCallback(Map<String, dynamic> response) {
       if (success != null) {
         success(response);
@@ -1913,7 +1834,7 @@ class BrainCloudWrapper {
         success: authenticateCallback, failure: failureCallback);
 
     if (_client.authenticated) {
-      _client.identityService.getIdentities(callback, null, null);
+      _client.identityService.getIdentities(callback, null);
     } else {
       authenticateCallback!({});
     }
@@ -1934,7 +1855,7 @@ class BrainCloudWrapper {
       if (jsonData.containsKey(keyJsonIdentities)) {
         Map<String, dynamic> jsonIdentities = jsonData[keyJsonIdentities];
         if (jsonIdentities.isEmpty) {
-          _client.playerStateService.deleteUser(success, failure, null);
+          _client.playerStateService.deleteUser(success, failure);
         } else {
           _client.playerStateService.logout(success, failure);
         }
@@ -2391,7 +2312,7 @@ class BrainCloudWrapper {
   /// <param name="forgetUser">{boolean} forgetUser Determines whether the stored profile ID should be reset or not </param>
   /// <param name="responseHandler">{*} responseHandler Function to invoke when request is processed </param>
   Future<ServerResponse> logout(bool forgetUser) async {
-    Completer<ServerResponse> completer = new Completer();
+    Completer<ServerResponse> completer = Completer();
 
     if (forgetUser) {
       resetStoredProfileId();
@@ -2408,7 +2329,6 @@ class BrainCloudWrapper {
   /// Callback for authentication success using the BrainCloudWrapper class.
   /// </summary>
   /// <param name="json">The returned json</param>
-  /// <param name="cbObject">The returned callback object</param>
   void authSuccessCallback({required Map<String, dynamic> json}) {
     // grab the profileId and save it in PlayerPrefs
 
@@ -2420,24 +2340,6 @@ class BrainCloudWrapper {
 
     if (jsonData.containsKey("sessionId")) {
       setStoredSessionId(jsonData["sessionId"]);
-    }
-  }
-
-  /// <summary>
-  /// Callback for authentication failure using the BrainCloudWrapper class.
-  /// </summary>
-  /// <param name="statusCode">The status code</param>
-  /// <param name="reasonCode">The reason code</param>
-  /// <param name="errorJson">The error json</param>
-  /// <param name="cbObject">The returned callback object</param>
-  void authFailureCallback(
-      {required int statusCode,
-      required int reasonCode,
-      required String errorJson,
-      dynamic cbObject}) {
-    if (cbObject != null) {
-      WrapperAuthCallbackObject? aco = cbObject;
-      aco?.failureCallback!(statusCode, reasonCode, errorJson);
     }
   }
 
@@ -2473,15 +2375,12 @@ class BrainCloudWrapper {
         playerPrefs.getInt(prefix + prefsLastPacketId) ?? 1;
 
     _client.restorePacketId(_wrapperData.lastPacketId);
-   
   }
 
   void restoreSession() {
     _client.comms?.restoreProfileAndSessionIds(_wrapperData);
   }
-
 }
-
 
 class WrapperData {
   String profileId = "";

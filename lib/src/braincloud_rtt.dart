@@ -25,8 +25,6 @@ class BrainCloudRTT {
   /// <param name="in_connectionType"></param>
   /// <param name="in_success"></param>
   /// <param name="in_failure"></param>
-
-  /// <param name="cb_object"></param>
   Future<ServerResponse> enableRTT(
     RTTConnectionType? inConnectiontype,
   ) {

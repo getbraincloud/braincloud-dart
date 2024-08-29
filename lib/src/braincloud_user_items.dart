@@ -34,19 +34,15 @@ class BrainCloudUserItems {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void awardUserItem(String defId, int quantity, bool includeDef,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceDefId.value] = defId;
     data[OperationParam.userItemsServiceQuantity.value] = quantity;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.awardUserItem, data, callback);
     _clientRef.sendRequest(sc);
@@ -75,19 +71,15 @@ class BrainCloudUserItems {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void dropUserItem(String itemId, int quantity, bool includeDef,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceItemId.value] = itemId;
     data[OperationParam.userItemsServiceQuantity.value] = quantity;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.dropUserItem, data, callback);
     _clientRef.sendRequest(sc);
@@ -113,19 +105,15 @@ class BrainCloudUserItems {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getUserItemsPage(String context, bool includeDef,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     var contextData = jsonDecode(context);
     data[OperationParam.userItemsServiceContext.value] = contextData;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.getUserItemsPage, data, callback);
     _clientRef.sendRequest(sc);
@@ -154,19 +142,15 @@ class BrainCloudUserItems {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getUserItemsPageOffset(String context, int pageOffset, bool includeDef,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceContext.value] = context;
     data[OperationParam.userItemsServicePageOffset.value] = pageOffset;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.getUserItemsPageOffset, data, callback);
     _clientRef.sendRequest(sc);
@@ -192,18 +176,14 @@ class BrainCloudUserItems {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getUserItem(String itemId, bool includeDef, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceItemId.value] = itemId;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.getUserItem, data, callback);
     _clientRef.sendRequest(sc);
@@ -232,9 +212,6 @@ class BrainCloudUserItems {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void giveUserItemTo(
       String profileId,
       String itemId,
@@ -242,8 +219,7 @@ class BrainCloudUserItems {
       int quantity,
       bool immediate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceProfileId.value] = profileId;
     data[OperationParam.userItemsServiceItemId.value] = itemId;
@@ -251,9 +227,8 @@ class BrainCloudUserItems {
     data[OperationParam.userItemsServiceQuantity.value] = quantity;
     data[OperationParam.userItemsServiceImmediate.value] = immediate;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.giveUserItemTo, data, callback);
     _clientRef.sendRequest(sc);
@@ -283,26 +258,16 @@ class BrainCloudUserItems {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void purchaseUserItem(
-      String defId,
-      int quantity,
-      String shopId,
-      bool includeDef,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void purchaseUserItem(String defId, int quantity, String shopId,
+      bool includeDef, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceDefId.value] = defId;
     data[OperationParam.userItemsServiceQuantity.value] = quantity;
     data[OperationParam.userItemsServiceShopId.value] = shopId;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.purchaseUserItem, data, callback);
     _clientRef.sendRequest(sc);
@@ -330,18 +295,14 @@ class BrainCloudUserItems {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void receiveUserItemFrom(String profileId, String itemId,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceProfileId.value] = profileId;
     data[OperationParam.userItemsServiceItemId.value] = itemId;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.receiveUserItemFrom, data, callback);
     _clientRef.sendRequest(sc);
@@ -375,18 +336,8 @@ class BrainCloudUserItems {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void sellUserItem(
-      String itemId,
-      int version,
-      int quantity,
-      String shopId,
-      bool includeDef,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void sellUserItem(String itemId, int version, int quantity, String shopId,
+      bool includeDef, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceItemId.value] = itemId;
     data[OperationParam.userItemsServiceVersion.value] = version;
@@ -394,9 +345,8 @@ class BrainCloudUserItems {
     data[OperationParam.userItemsServiceShopId.value] = shopId;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.sellUserItem, data, callback);
     _clientRef.sendRequest(sc);
@@ -421,20 +371,16 @@ class BrainCloudUserItems {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void updateUserItemData(String itemId, int version, String newItemData,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceItemId.value] = itemId;
     data[OperationParam.userItemsServiceVersion.value] = version;
     var newItemDataDict = jsonDecode(newItemData);
     data[OperationParam.userItemsServiceNewItemData.value] = newItemDataDict;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.updateUserItemData, data, callback);
     _clientRef.sendRequest(sc);
@@ -461,17 +407,8 @@ class BrainCloudUserItems {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void useUserItem(
-      String itemId,
-      int version,
-      String newItemData,
-      bool includeDef,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void useUserItem(String itemId, int version, String newItemData,
+      bool includeDef, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceItemId.value] = itemId;
     data[OperationParam.userItemsServiceVersion.value] = version;
@@ -480,9 +417,8 @@ class BrainCloudUserItems {
     var newItemDataDict = jsonDecode(newItemData);
     data[OperationParam.userItemsServiceNewItemData.value] = newItemDataDict;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.useUserItem, data, callback);
     _clientRef.sendRequest(sc);
@@ -505,18 +441,14 @@ class BrainCloudUserItems {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void publishUserItemToBlockchain(String itemId, int version,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceItemId.value] = itemId;
     data[OperationParam.userItemsServiceVersion.value] = version;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.publishUserItemToBlockchain, data, callback);
     _clientRef.sendRequest(sc);
@@ -533,16 +465,12 @@ class BrainCloudUserItems {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void refreshBlockchainUserItems(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.refreshBlockchainUserItems, data, callback);
     _clientRef.sendRequest(sc);
@@ -568,18 +496,14 @@ class BrainCloudUserItems {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void removeUserItemFromBlockchain(String itemId, int version,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceItemId.value] = itemId;
     data[OperationParam.userItemsServiceVersion.value] = version;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.removeUserItemFromBlockchain, data, callback);
     _clientRef.sendRequest(sc);

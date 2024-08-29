@@ -30,23 +30,18 @@ class BrainCloudFriend {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getProfileInfoForCredential(
       String externalId,
       AuthenticationType authenticationType,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceExternalId.value] = externalId;
     data[OperationParam.friendServiceAuthenticationType.value] =
         authenticationType.toString();
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.getProfileInfoForCredential, data, callback);
     _clientRef.sendRequest(sc);
@@ -71,22 +66,17 @@ class BrainCloudFriend {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getProfileInfoForExternalAuthId(
       String externalId,
       String externalAuthType,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceExternalId.value] = externalId;
     data[OperationParam.externalAuthType.value] = externalAuthType;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.getProfileInfoForExternalAuthId, data, callback);
     _clientRef.sendRequest(sc);
@@ -111,19 +101,15 @@ class BrainCloudFriend {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getExternalIdForProfileId(String profileId, String authenticationType,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceProfileId.value] = profileId;
     data[OperationParam.friendServiceAuthenticationType.value] =
         authenticationType;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.getExternalIdForProfileId, data, callback);
     _clientRef.sendRequest(sc);
@@ -148,18 +134,14 @@ class BrainCloudFriend {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void readFriendEntity(String entityId, String friendId,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceEntityId.value] = entityId;
     data[OperationParam.friendServiceFriendId.value] = friendId;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.friend, ServiceOperation.readFriendEntity, data, callback);
     _clientRef.sendRequest(sc);
@@ -181,17 +163,13 @@ class BrainCloudFriend {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void readFriendsEntities(String entityType, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void readFriendsEntities(
+      String entityType, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceEntityType.value] = entityType;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.readFriendsEntities, data, callback);
     _clientRef.sendRequest(sc);
@@ -215,17 +193,13 @@ class BrainCloudFriend {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void readFriendUserState(String friendId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void readFriendUserState(
+      String friendId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceReadPlayerStateFriendId.value] = friendId;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.readFriendPlayerState, data, callback);
     _clientRef.sendRequest(sc);
@@ -247,17 +221,13 @@ class BrainCloudFriend {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void getSummaryDataForProfileId(String profileId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void getSummaryDataForProfileId(
+      String profileId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceProfileId.value] = profileId;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.getSummaryDataForProfileId, data, callback);
     _clientRef.sendRequest(sc);
@@ -279,17 +249,15 @@ class BrainCloudFriend {
   /// </param>
   /// <param name="success">The success callback.</param>
   /// <param name="failure">The failure callback.</param>
-  /// <param name="cbObject">The user object sent to the callback.</param>
   void findUsersByExactName(String searchText, int maxResults,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceSearchText.value] = searchText;
     data[OperationParam.friendServiceMaxResults.value] = maxResults;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.findUsersByExactName, data, callback);
     _clientRef.sendRequest(sc);
@@ -307,16 +275,14 @@ class BrainCloudFriend {
   /// </param>
   /// <param name="success">The success callback.</param>
   /// <param name="failure">The failure callback.</param>
-  /// <param name="cbObject">The user object sent to the callback.</param>
-  void findUserByExactUniversalId(String searchText, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void findUserByExactUniversalId(
+      String searchText, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceSearchText.value] = searchText;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.findUserByExactUniversalId, data, callback);
     _clientRef.sendRequest(sc);
@@ -338,17 +304,15 @@ class BrainCloudFriend {
   /// </param>
   /// <param name="success">The success callback.</param>
   /// <param name="failure">The failure callback.</param>
-  /// <param name="cbObject">The user object sent to the callback.</param>
   void findUsersBySubstrName(String searchText, int maxResults,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceSearchText.value] = searchText;
     data[OperationParam.friendServiceMaxResults.value] = maxResults;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.findUsersBySubstrName, data, callback);
     _clientRef.sendRequest(sc);
@@ -365,9 +329,8 @@ class BrainCloudFriend {
   /// <param name="includeSummaryData">True if including summary data; false otherwise.</param>
   /// <param name="success"> The success callback. </param>
   /// <param name="failure"> The failure callback. </param>
-  /// <param name="cbObject"> The user object sent to the callback. </param>
   void listFriends(FriendPlatform friendPlatform, bool includeSummaryData,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceFriendPlatform.value] =
@@ -375,9 +338,8 @@ class BrainCloudFriend {
     data[OperationParam.friendServiceIncludeSummaryData.value] =
         includeSummaryData;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.friend, ServiceOperation.listFriends, data, callback);
     _clientRef.sendRequest(sc);
@@ -394,9 +356,8 @@ class BrainCloudFriend {
   /// <param name="includeSummaryData">True if including summary data; false otherwise.</param>
   /// <param name="success"> The success callback. </param>
   /// <param name="failure"> The failure callback. </param>
-  /// <param name="cbObject"> The user object sent to the callback. </param>
   void getMySocialInfo(FriendPlatform friendPlatform, bool includeSummaryData,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceFriendPlatform.value] =
@@ -404,9 +365,8 @@ class BrainCloudFriend {
     data[OperationParam.friendServiceIncludeSummaryData.value] =
         includeSummaryData;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.friend, ServiceOperation.listFriends, data, callback);
     _clientRef.sendRequest(sc);
@@ -422,16 +382,14 @@ class BrainCloudFriend {
   /// <param name="profileIds">Collection of profile IDs.</param>
   /// <param name="success"> The success callback. </param>
   /// <param name="failure"> The failure callback. </param>
-  /// <param name="cbObject"> The user object sent to the callback. </param>
   void addFriends(List<String> profileIds, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceProfileIds.value] = profileIds;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.friend, ServiceOperation.addFriends, data, callback);
     _clientRef.sendRequest(sc);
@@ -449,14 +407,12 @@ class BrainCloudFriend {
   /// <param name="externalIds">Collection of external ID's from the friend platform</param>
   /// <param name="success"> The success callback. </param>
   /// <param name="failure"> The failure callback. </param>
-  /// <param name="cbObject"> The user object sent to the callback. </param>
   void addFriendsFromPlatform(
       FriendPlatform friendPlatform,
       String mode,
       List<String> externalIds,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceFriendPlatform.value] =
@@ -464,9 +420,8 @@ class BrainCloudFriend {
     data[OperationParam.friendServiceMode.value] = mode;
     data[OperationParam.friendServiceExternalIds.value] = externalIds;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall serverCall = ServerCall(ServiceName.friend,
         ServiceOperation.addFriendsFromPlatform, data, callback);
     _clientRef.sendRequest(serverCall);
@@ -482,16 +437,14 @@ class BrainCloudFriend {
   /// <param name="profileIds">Collection of profile IDs.</param>
   /// <param name="success"> The success callback. </param>
   /// <param name="failure"> The failure callback. </param>
-  /// <param name="cbObject"> The user object sent to the callback. </param>
   void removeFriends(List<String> profileIds, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceProfileIds.value] = profileIds;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.friend, ServiceOperation.removeFriends, data, callback);
     _clientRef.sendRequest(sc);
@@ -507,16 +460,14 @@ class BrainCloudFriend {
   /// <param name="profileIds">Collection of profile IDs.</param>
   /// <param name="success"> The success callback. </param>
   /// <param name="failure"> The failure callback. </param>
-  /// <param name="cbObject"> The user object sent to the callback. </param>
   void getUsersOnlineStatus(List<String> profileIds, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceProfileIds.value] = profileIds;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.getUsersOnlineStatus, data, callback);
     _clientRef.sendRequest(sc);
@@ -541,18 +492,14 @@ class BrainCloudFriend {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void findUsersByNameStartingWith(String searchText, int maxResults,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceSearchText.value] = searchText;
     data[OperationParam.friendServiceMaxResults.value] = maxResults;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.findUsersByNameStartingWith, data, callback);
     _clientRef.sendRequest(sc);
@@ -577,18 +524,14 @@ class BrainCloudFriend {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void findUsersByUniversalIdStartingWith(String searchText, int maxResults,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceSearchText.value] = searchText;
     data[OperationParam.friendServiceMaxResults.value] = maxResults;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.findUsersByUniversalIdStartingWith, data, callback);
     _clientRef.sendRequest(sc);

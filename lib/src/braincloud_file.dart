@@ -28,7 +28,6 @@ class BrainCloudFile {
   /// <param name="fileData">The file memory data in byte[]</param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback dynamic</param>
   bool uploadFileFromMemory(
       String cloudPath,
       String cloudFilename,
@@ -105,7 +104,6 @@ class BrainCloudFile {
   /// <param name="recurse">Whether to recurse down the path</param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback dynamic</param>
   void listUserFiles(String cloudPath, bool? recurse, SuccessCallback? success,
       FailureCallback? failure) {
     Map<String, dynamic> data = {};
@@ -132,7 +130,6 @@ class BrainCloudFile {
   /// <param name="cloudFileName"></param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback dynamic</param>
   void deleteUserFile(String cloudPath, String cloudFileName,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
@@ -154,7 +151,6 @@ class BrainCloudFile {
   /// <param name="recurse">Whether to recurse down the path</param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback dynamic</param>
   void deleteUserFiles(String cloudPath, bool recurse, SuccessCallback? success,
       FailureCallback? failure) {
     Map<String, dynamic> data = {};
@@ -176,7 +172,6 @@ class BrainCloudFile {
   /// <param name="cloudFilename">Name of file</param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback dynamic</param>
   void getCDNUrl(String cloudPath, String cloudFilename,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};

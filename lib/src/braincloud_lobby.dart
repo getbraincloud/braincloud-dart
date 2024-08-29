@@ -19,7 +19,7 @@ class BrainCloudLobby {
   /// Finds a lobby matching the specified parameters
   /// </summary>
   ///
-  void FindLobby(
+  void findLobby(
       String inRoomtype,
       int inRating,
       int inMaxsteps,
@@ -31,8 +31,7 @@ class BrainCloudLobby {
       String inTeamcode,
       List<String>? inOtherusercxids,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyRoomType.value] = inRoomtype;
     data[OperationParam.lobbyRating.value] = inRating;
@@ -47,9 +46,8 @@ class BrainCloudLobby {
     data[OperationParam.lobbyExtraJson.value] = inExtrajson;
     data[OperationParam.lobbyTeamCode.value] = inTeamcode;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.findLobby, data, callback);
     _clientRef.sendRequest(sc);
@@ -60,7 +58,7 @@ class BrainCloudLobby {
   /// prior to calling.
   /// </summary>
   ///
-  void FindLobbyWithPingData(
+  void findLobbyWithPingData(
       String inRoomtype,
       int inRating,
       int inMaxsteps,
@@ -72,8 +70,7 @@ class BrainCloudLobby {
       String inTeamcode,
       List<String>? inOtherusercxids,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyRoomType.value] = inRoomtype;
     data[OperationParam.lobbyRating.value] = inRating;
@@ -88,15 +85,15 @@ class BrainCloudLobby {
     data[OperationParam.lobbyExtraJson.value] = inExtrajson;
     data[OperationParam.lobbyTeamCode.value] = inTeamcode;
 
-    _attachPingDataAndSend(data, ServiceOperation.findLobbyWithPingData,
-        success, failure, cbObject);
+    _attachPingDataAndSend(
+        data, ServiceOperation.findLobbyWithPingData, success, failure);
   }
 
   /// <summary>
   /// Like findLobby, but explicitely geared toward creating new lobbies
   /// </summary>
   ///
-  void CreateLobby(
+  void createLobby(
       String inRoomtype,
       int inRating,
       bool inIsready,
@@ -105,8 +102,7 @@ class BrainCloudLobby {
       Map<String, dynamic> inSettings,
       List<String>? inOtherusercxids,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyRoomType.value] = inRoomtype;
     data[OperationParam.lobbyRating.value] = inRating;
@@ -118,9 +114,8 @@ class BrainCloudLobby {
     data[OperationParam.lobbyExtraJson.value] = inExtrajson;
     data[OperationParam.lobbyTeamCode.value] = inTeamcode;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.createLobby, data, callback);
     _clientRef.sendRequest(sc);
@@ -131,7 +126,7 @@ class BrainCloudLobby {
   /// prior to calling.
   /// </summary>
   ///
-  void CreateLobbyWithPingData(
+  void createLobbyWithPingData(
       String inRoomtype,
       int inRating,
       bool inIsready,
@@ -140,8 +135,7 @@ class BrainCloudLobby {
       Map<String, dynamic> inSettings,
       List<String>? inOtherusercxids,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyRoomType.value] = inRoomtype;
     data[OperationParam.lobbyRating.value] = inRating;
@@ -152,15 +146,15 @@ class BrainCloudLobby {
     }
     data[OperationParam.lobbyExtraJson.value] = inExtrajson;
     data[OperationParam.lobbyTeamCode.value] = inTeamcode;
-    _attachPingDataAndSend(data, ServiceOperation.createLobbyWithPingData,
-        success, failure, cbObject);
+    _attachPingDataAndSend(
+        data, ServiceOperation.createLobbyWithPingData, success, failure);
   }
 
   /// <summary>
   /// Finds a lobby matching the specified parameters, or creates one
   /// </summary>
   ///
-  void FindOrCreateLobby(
+  void findOrCreateLobby(
       String inRoomtype,
       int inRating,
       int inMaxsteps,
@@ -173,8 +167,7 @@ class BrainCloudLobby {
       Map<String, dynamic> inSettings,
       List<String>? inOtherusercxids,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyRoomType.value] = inRoomtype;
     data[OperationParam.lobbyRating.value] = inRating;
@@ -190,9 +183,8 @@ class BrainCloudLobby {
     data[OperationParam.lobbyExtraJson.value] = inExtrajson;
     data[OperationParam.lobbyTeamCode.value] = inTeamcode;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.findOrCreateLobby, data, callback);
     _clientRef.sendRequest(sc);
@@ -203,7 +195,7 @@ class BrainCloudLobby {
   /// prior to calling.
   /// </summary>
   ///
-  void FindOrCreateLobbyWithPingData(
+  void findOrCreateLobbyWithPingData(
       String inRoomtype,
       int inRating,
       int inMaxsteps,
@@ -216,8 +208,7 @@ class BrainCloudLobby {
       Map<String, dynamic> inSettings,
       List<String>? inOtherusercxids,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyRoomType.value] = inRoomtype;
     data[OperationParam.lobbyRating.value] = inRating;
@@ -233,21 +224,20 @@ class BrainCloudLobby {
     data[OperationParam.lobbyExtraJson.value] = inExtrajson;
     data[OperationParam.lobbyTeamCode.value] = inTeamcode;
 
-    _attachPingDataAndSend(data, ServiceOperation.findOrCreateLobbyWithPingData,
-        success, failure, cbObject);
+    _attachPingDataAndSend(
+        data, ServiceOperation.findOrCreateLobbyWithPingData, success, failure);
   }
 
   /// <summary>
   /// Gets data for the given lobby instance <lobbyId>.
   /// </summary>
-  void GetLobbyData(String inLobbyid, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void getLobbyData(
+      String inLobbyid, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyIdentifier.value] = inLobbyid;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.getLobbyData, data, callback);
     _clientRef.sendRequest(sc);
@@ -256,21 +246,19 @@ class BrainCloudLobby {
   /// <summary>
   /// updates the ready state of the player
   /// </summary>
-  void UpdateReady(
+  void updateReady(
       String inLobbyid,
       bool inIsready,
       Map<String, dynamic> inExtrajson,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyIdentifier.value] = inLobbyid;
     data[OperationParam.lobbyIsReady.value] = inIsready;
     data[OperationParam.lobbyExtraJson.value] = inExtrajson;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.updateReady, data, callback);
     _clientRef.sendRequest(sc);
@@ -279,15 +267,14 @@ class BrainCloudLobby {
   /// <summary>
   /// valid only for the owner of the group -- edits the overally lobby config data
   /// </summary>
-  void UpdateSettings(String inLobbyid, Map<String, dynamic> inSettings,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  void updateSettings(String inLobbyid, Map<String, dynamic> inSettings,
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyIdentifier.value] = inLobbyid;
     data[OperationParam.lobbySettings.value] = inSettings;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.updateSettings, data, callback);
     _clientRef.sendRequest(sc);
@@ -296,15 +283,14 @@ class BrainCloudLobby {
   /// <summary>
   /// switches to the specified team (if allowed). Note - may be blocked by cloud code script
   /// </summary>
-  void SwitchTeam(String inLobbyid, String inToteamname,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  void switchTeam(String inLobbyid, String inToteamname,
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyIdentifier.value] = inLobbyid;
     data[OperationParam.lobbyToTeamName.value] = inToteamname;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.switchTeam, data, callback);
     _clientRef.sendRequest(sc);
@@ -313,15 +299,14 @@ class BrainCloudLobby {
   /// <summary>
   /// sends LOBBY_SIGNAL_DATA message to all lobby members
   /// </summary>
-  void SendSignal(String inLobbyid, Map<String, dynamic> inSignaldata,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  void sendSignal(String inLobbyid, Map<String, dynamic> inSignaldata,
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyIdentifier.value] = inLobbyid;
     data[OperationParam.lobbySignalData.value] = inSignaldata;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.sendSignal, data, callback);
     _clientRef.sendRequest(sc);
@@ -330,15 +315,14 @@ class BrainCloudLobby {
   /// <summary>
   /// User joins the specified lobby.
   /// </summary>
-  void JoinLobby(
+  void joinLobby(
       String inLobbyid,
       bool inIsready,
       Map<String, dynamic> inExtrajson,
       String inTeamcode,
       List<String>? inOtherusercxids,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     if (inOtherusercxids != null) {
@@ -349,9 +333,8 @@ class BrainCloudLobby {
     data[OperationParam.lobbyIdentifier.value] = inLobbyid;
     data[OperationParam.lobbyIsReady.value] = inIsready;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.joinLobby, data, callback);
     _clientRef.sendRequest(sc);
@@ -361,15 +344,14 @@ class BrainCloudLobby {
   /// User joins the specified lobby WITH PING DATA.  GetRegionsForLobbies and PingRegions must be successfully responded to
   /// prior to calling.
   /// </summary>
-  void JoinLobbyWithPingData(
+  void joinLobbyWithPingData(
       String inLobbyid,
       bool inIsready,
       Map<String, dynamic> inExtrajson,
       String inTeamcode,
       List<String>? inOtherusercxids,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     if (inOtherusercxids != null) {
@@ -379,22 +361,21 @@ class BrainCloudLobby {
     data[OperationParam.lobbyTeamCode.value] = inTeamcode;
     data[OperationParam.lobbyIdentifier.value] = inLobbyid;
     data[OperationParam.lobbyIsReady.value] = inIsready;
-    _attachPingDataAndSend(data, ServiceOperation.joinLobbyWithPingData,
-        success, failure, cbObject);
+    _attachPingDataAndSend(
+        data, ServiceOperation.joinLobbyWithPingData, success, failure);
   }
 
   /// <summary>
   /// User leaves the specified lobby. if the user was the owner, a new owner will be chosen
   /// </summary>
   ///
-  void LeaveLobby(String inLobbyid, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void leaveLobby(
+      String inLobbyid, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyIdentifier.value] = inLobbyid;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.leaveLobby, data, callback);
     _clientRef.sendRequest(sc);
@@ -404,15 +385,14 @@ class BrainCloudLobby {
   /// Only valid from the owner of the lobby -- removes the specified member from the lobby
   /// </summary>
   ///
-  void RemoveMember(String inLobbyid, String inConnectionid,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  void removeMember(String inLobbyid, String inConnectionid,
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyIdentifier.value] = inLobbyid;
     data[OperationParam.lobbyConnectionId.value] = inConnectionid;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.removeMember, data, callback);
     _clientRef.sendRequest(sc);
@@ -422,15 +402,14 @@ class BrainCloudLobby {
   /// Cancel this members Find, Join and Searching of Lobbies
   /// </summary>
   ///
-  void CancelFindRequest(String inRoomtype, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void cancelFindRequest(
+      String inRoomtype, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyRoomType.value] = inRoomtype;
     data[OperationParam.lobbyConnectionId.value] = _clientRef.rttConnectionID;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.cancelFindRequest, data, callback);
     _clientRef.sendRequest(sc);
@@ -441,8 +420,8 @@ class BrainCloudLobby {
   /// Once that completes, the associated region Ping Data is retrievable via PingData and all associated <>WithPingData APIs are useable
   /// </summary>
   ///
-  void GetRegionsForLobbies(List<String> inRoomtypes, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void getRegionsForLobbies(List<String> inRoomtypes, SuccessCallback? success,
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyTypes.value] = inRoomtypes;
 
@@ -454,9 +433,8 @@ class BrainCloudLobby {
       }
     }
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        mergedCallback, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(mergedCallback, failure);
     ServerCall sc = ServerCall(ServiceName.lobby,
         ServiceOperation.getRegionsForLobbies, data, callback);
     _clientRef.sendRequest(sc);
@@ -470,15 +448,14 @@ class BrainCloudLobby {
   ///
   /// @param lobbyType The type of lobby to look for.
   /// @param criteriaJson A JSON object used to describe filter criteria.
-  void GetLobbyInstances(String inLobbytype, Map<String, dynamic> criteriaJson,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  void getLobbyInstances(String inLobbytype, Map<String, dynamic> criteriaJson,
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyRoomType.value] = inLobbytype;
     data[OperationParam.lobbyCritera.value] = criteriaJson;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.getLobbyInstances, data, callback);
     _clientRef.sendRequest(sc);
@@ -492,18 +469,17 @@ class BrainCloudLobby {
   ///
   /// @param lobbyType The type of lobby to look for.
   /// @param criteriaJson A JSON object used to describe filter criteria.
-  void GetLobbyInstancesWithPingData(
+  void getLobbyInstancesWithPingData(
       String inLobbytype,
       Map<String, dynamic> criteriaJson,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyRoomType.value] = inLobbytype;
     data[OperationParam.lobbyCritera.value] = criteriaJson;
 
-    _attachPingDataAndSend(data, ServiceOperation.getLobbyInstancesWithPingData,
-        success, failure, cbObject);
+    _attachPingDataAndSend(
+        data, ServiceOperation.getLobbyInstancesWithPingData, success, failure);
   }
 
   /// <summary>
@@ -511,11 +487,10 @@ class BrainCloudLobby {
   /// Call anytime after GetRegionsForLobbies before proceeding.
   /// </summary>
   ///
-  void PingRegions(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  void pingRegions(SuccessCallback? success, FailureCallback? failure) {
     if (_pingRegionSuccessCallback != null) {
       _queueFailure(failure, ReasonCodes.missingRequiredParameter,
-          "Ping is already happening.", cbObject);
+          "Ping is already happening.");
       return;
     }
 
@@ -525,8 +500,6 @@ class BrainCloudLobby {
     Map<String, dynamic> regionInner;
     if (_regionPingData.isNotEmpty) {
       _pingRegionSuccessCallback = success;
-      _pingRegionObject = cbObject;
-
       _regionPingData.forEach((key, value) {
         _cachedPingResponses[key] = [];
         regionInner = value;
@@ -535,11 +508,11 @@ class BrainCloudLobby {
             target: regionInner["target"].toString(),
             type: regionInner.containsKey("type")
                 ? regionInner["type"].toString().toUpperCase()
-                : RegionTarget.PING_TYPE);
+                : RegionTarget.pingType);
 
         _regionTargetsToProcessLock.acquire();
         try {
-          for (int i = 0; i < MAX_PING_CALLS; ++i) {
+          for (int i = 0; i < maxPingCalls; ++i) {
             _regionTargetsToProcess.add(regionTarget);
           }
         } finally {
@@ -549,11 +522,8 @@ class BrainCloudLobby {
 
       _pingNextItemToProcess();
     } else {
-      _queueFailure(
-          failure,
-          ReasonCodes.missingRequiredParameter,
-          "No Regions to Ping. Please call GetRegionsForLobbies and await the response before calling PingRegions.",
-          cbObject);
+      _queueFailure(failure, ReasonCodes.missingRequiredParameter,
+          "No Regions to Ping. Please call GetRegionsForLobbies and await the response before calling PingRegions.");
     }
   }
 
@@ -596,29 +566,24 @@ class BrainCloudLobby {
       Map<String, dynamic> inData,
       ServiceOperation inOperation,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     bool hasPingData = pingData.isNotEmpty;
     if (hasPingData) {
       inData[OperationParam.pingData.value] = pingData;
 
-      ServerCallback? callback = BrainCloudClient.createServerCallback(
-          success, failure,
-          cbObject: cbObject);
+      ServerCallback? callback =
+          BrainCloudClient.createServerCallback(success, failure);
       ServerCall sc =
           ServerCall(ServiceName.lobby, inOperation, inData, callback);
       _clientRef.sendRequest(sc);
     } else {
-      _queueFailure(
-          failure!,
-          ReasonCodes.missingRequiredParameter,
-          "Processing exception (message): Required message parameter 'pingData' is missing.  Please ensure PingData exists by first calling GetRegionsForLobbies and PingRegions, and waiting for response before proceeding.",
-          cbObject);
+      _queueFailure(failure!, ReasonCodes.missingRequiredParameter,
+          "Processing exception (message): Required message parameter 'pingData' is missing.  Please ensure PingData exists by first calling GetRegionsForLobbies and PingRegions, and waiting for response before proceeding.");
     }
   }
 
-  void _queueFailure(FailureCallback? inFailure, int reasonCode,
-      String statusMessage, dynamic cbObject) {
+  void _queueFailure(
+      FailureCallback? inFailure, int reasonCode, String statusMessage) {
     if (inFailure != null) {
       Map<String, dynamic> jsonError = {};
       jsonError["reason_code"] = reasonCode;
@@ -630,14 +595,13 @@ class BrainCloudLobby {
           callback: inFailure,
           status: 400,
           reasonCode: reasonCode,
-          jsonError: _clientRef.serializeJson(jsonError),
-          cbObject: cbObject);
+          jsonError: _clientRef.serializeJson(jsonError));
 
       _failureQueue.add(failure);
     }
   }
 
-  void Update() {
+  void update() {
     // trigger failure events
     for (int i = 0; i < _failureQueue.length; ++i) {
       Failure failure = _failureQueue[i];
@@ -651,7 +615,7 @@ class BrainCloudLobby {
 
     Map<String, dynamic> data = inJson["data"];
     _regionPingData = data["regionPingData"];
-    _lobbyTypeRegions = data["lobbyTypeRegions"];
+    //lobbyTypeRegions = data["lobbyTypeRegions"];
   }
 
   void _pingHost(RegionTarget inRegionTarget) {
@@ -700,30 +664,30 @@ class BrainCloudLobby {
 //             });
 //         }
 
-  void _handlePingReponse(String in_region, String in_target) {
-    // Ping pinger = new Ping();
-    // try
-    // {
-    //     pinger.PingCompleted += (o, response) =>
-    //     {
-    //         if (response.Error == null && response.Reply.Status == IPStatus.Success)
-    //         {
-    //             handlePingTimeResponse(response.Reply.RoundtripTime, in_region);
-    //         }
-    //         else
-    //         {
-    //             _pingNextItemToProcess();
-    //         }
-    //     };
+  //void _handlePingReponse(String inRegion, String inTarget) {
+  // Ping pinger = new Ping();
+  // try
+  // {
+  //     pinger.PingCompleted += (o, response) =>
+  //     {
+  //         if (response.Error == null && response.Reply.Status == IPStatus.Success)
+  //         {
+  //             handlePingTimeResponse(response.Reply.RoundtripTime, in_region);
+  //         }
+  //         else
+  //         {
+  //             _pingNextItemToProcess();
+  //         }
+  //     };
 
-    //     pinger.SendPingAsync(in_target, 10000);
-    // }
-    // catch (Exception) { }
-    // finally
-    // {
-    //     pinger?.Dispose();
-    // }
-  }
+  //     pinger.SendPingAsync(in_target, 10000);
+  // }
+  // catch (Exception) { }
+  // finally
+  // {
+  //     pinger?.Dispose();
+  // }
+  //}
 // #else
 //         private IEnumerator HandleHTTPResponse(String in_region, String in_target)
 //         {
@@ -801,12 +765,12 @@ class BrainCloudLobby {
 //         }
 // #endif
 
-  void _handlePingTimeResponse(int inResponsetime, String inRegion) {
+  void handlePingTimeResponse(int inResponsetime, String inRegion) {
     var region = _cachedPingResponses[inRegion];
 
     region?.add(inResponsetime);
     if (region != null) {
-      if (region.length == MAX_PING_CALLS) {
+      if (region.length == maxPingCalls) {
         int totalAccumulated = 0;
         int highestValue = 0;
         for (var pingResponse in region) {
@@ -826,19 +790,18 @@ class BrainCloudLobby {
   }
 
   Map<String, dynamic> _regionPingData = {};
-  Map<String, dynamic> _lobbyTypeRegions = {};
+  //Map<String, dynamic> _lobbyTypeRegions = {};
   final Map<String, List<int>> _cachedPingResponses = {};
 
   final List<RegionTarget> _regionTargetsToProcess = [];
   final Mutex _regionTargetsToProcessLock = Mutex();
   SuccessCallback? _pingRegionSuccessCallback;
-  dynamic _pingRegionObject;
 
 // #if !DOT_NET || GODOT
 //         private Dictionary<String, String> m_regionTargetIPs = new Dictionary<String, String>();
 // #endif
 
-  static const int MAX_PING_CALLS = 4;
+  static const int maxPingCalls = 4;
 
   final List<Failure> _failureQueue = [];
 }
@@ -848,26 +811,24 @@ class Failure {
   int status;
   int reasonCode;
   String jsonError;
-  dynamic cbObject;
 
   Failure(
       {this.callback,
       required this.status,
       required this.reasonCode,
-      required this.jsonError,
-      this.cbObject});
+      required this.jsonError});
 }
 
 class RegionTarget {
-  static const String PING_TYPE = "PING";
-  static const String HTTP_TYPE = "HTTP";
+  static const String pingType = "PING";
+  static const String httpType = "HTTP";
 
   String region;
   String target;
   String type;
 
-  bool isPingType() => type == PING_TYPE;
-  bool isHttpType() => type == HTTP_TYPE;
+  bool isPingType() => type == pingType;
+  bool isHttpType() => type == httpType;
 
   RegionTarget(
       {required this.region, required this.target, required this.type});

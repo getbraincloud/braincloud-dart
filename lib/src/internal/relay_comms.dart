@@ -388,12 +388,11 @@ class RelayComms {
 
   void EndMatch(Map<String, dynamic> json) {}
 
-  void Connect(
+  void connect(
       RelayConnectionType inConnectiontype,
       RelayConnectOptions inOptions,
       SuccessCallback? inSuccess,
-      FailureCallback? inFailure,
-      cbObject) {}
+      FailureCallback? inFailure) {}
 
   int GetNetIdForCxId(String cxId) {
     return -1;

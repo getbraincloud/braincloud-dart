@@ -33,13 +33,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void attachFacebookIdentity(String facebookId, String authenticationToken,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _attachIdentity(facebookId, authenticationToken,
-        AuthenticationType.facebook, success, failure, cbObject);
+        AuthenticationType.facebook, success, failure);
   }
 
   /// <summary>
@@ -63,13 +60,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void mergeFacebookIdentity(String facebookId, String authenticationToken,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _mergeIdentity(facebookId, authenticationToken, AuthenticationType.facebook,
-        success, failure, cbObject);
+        success, failure);
   }
 
   /// <summary>
@@ -91,13 +85,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void detachFacebookIdentity(String facebookId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _detachIdentity(facebookId, AuthenticationType.facebook, continueAnon,
-        success, failure, cbObject);
+        success, failure);
   }
 
   /// <summary>
@@ -127,16 +118,12 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void attachAdvancedIdentity(
       AuthenticationType authenticationType,
       AuthenticationIds ids,
       Map<String, dynamic>? extraJson,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = ids.externalId;
     data[OperationParam.identityServiceAuthenticationType.value] =
@@ -155,8 +142,9 @@ class BrainCloudIdentity {
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.attach, data, callback);
     _clientRef.sendRequest(sc);
@@ -180,16 +168,12 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void mergeAdvancedIdentity(
       AuthenticationType authenticationType,
       AuthenticationIds ids,
       Map<String, dynamic>? extraJson,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = ids.externalId;
     data[OperationParam.identityServiceAuthenticationType.value] =
@@ -208,8 +192,9 @@ class BrainCloudIdentity {
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.merge, data, callback);
     _clientRef.sendRequest(sc);
@@ -240,17 +225,13 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void detachAdvancedIdentity(
       AuthenticationType authenticationType,
       String externalId,
       bool continueAnon,
       Map<String, dynamic>? extraJson,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
     data[OperationParam.identityServiceAuthenticationType.value] =
@@ -263,8 +244,9 @@ class BrainCloudIdentity {
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.detach, data, callback);
     _clientRef.sendRequest(sc);
@@ -294,13 +276,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void attachUltraIdentity(String ultraUsername, String ultraIdToken,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _attachIdentity(ultraUsername, ultraIdToken, AuthenticationType.ultra,
-        success, failure, cbObject);
+        success, failure);
   }
 
   /// <summary>
@@ -322,13 +301,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void mergeUltraIdentity(String ultraUsername, String ultraIdToken,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _mergeIdentity(ultraUsername, ultraIdToken, AuthenticationType.ultra,
-        success, failure, cbObject);
+        success, failure);
   }
 
   /// <summary>
@@ -354,13 +330,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void detachUltraIdentity(String ultraUsername, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _detachIdentity(ultraUsername, AuthenticationType.ultra, continueAnon,
-        success, failure, cbObject);
+        success, failure);
   }
 
   /// <summary>
@@ -382,13 +355,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void attachOculusIdentity(String oculusId, String oculusNonce,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _attachIdentity(oculusId, oculusNonce, AuthenticationType.oculus, success,
-        failure, cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    _attachIdentity(
+        oculusId, oculusNonce, AuthenticationType.oculus, success, failure);
   }
 
   /// <summary>
@@ -411,13 +381,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void mergeOculusIdentity(String oculusId, String oculusNonce,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _mergeIdentity(oculusId, oculusNonce, AuthenticationType.oculus, success,
-        failure, cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    _mergeIdentity(
+        oculusId, oculusNonce, AuthenticationType.oculus, success, failure);
   }
 
   /// <summary>
@@ -439,13 +406,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void detachOculusIdentity(String oculusId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(oculusId, AuthenticationType.oculus, continueAnon, success,
-        failure, cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    _detachIdentity(
+        oculusId, AuthenticationType.oculus, continueAnon, success, failure);
   }
 
   /// <summary>
@@ -468,17 +432,13 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void attachFacebookLimitedIdentity(
       String facebookLimitedId,
       String authenticationToken,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     _attachIdentity(facebookLimitedId, authenticationToken,
-        AuthenticationType.facebookLimited, success, failure, cbObject);
+        AuthenticationType.facebookLimited, success, failure);
   }
 
   /// <summary>
@@ -502,17 +462,13 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void mergeFacebookLimitedIdentity(
       String facebookLimitedId,
       String authenticationToken,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     _mergeIdentity(facebookLimitedId, authenticationToken,
-        AuthenticationType.facebookLimited, success, failure, cbObject);
+        AuthenticationType.facebookLimited, success, failure);
   }
 
   /// <summary>
@@ -534,17 +490,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
-  void detachFacebookLimitedIdentity(
-      String facebookLimitedId,
-      bool continueAnon,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void detachFacebookLimitedIdentity(String facebookLimitedId,
+      bool continueAnon, SuccessCallback? success, FailureCallback? failure) {
     _detachIdentity(facebookLimitedId, AuthenticationType.facebookLimited,
-        continueAnon, success, failure, cbObject);
+        continueAnon, success, failure);
   }
 
   /// <summary>
@@ -566,18 +515,14 @@ class BrainCloudIdentity {
   /// </param>
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
-  /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
   /// </param>
   void attachPlaystationNetworkIdentity(
       String psnAccountId,
       String authenticationToken,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     _attachIdentity(psnAccountId, authenticationToken,
-        AuthenticationType.playstationNetwork, success, failure, cbObject);
+        AuthenticationType.playstationNetwork, success, failure);
   }
 
   /// <summary>
@@ -601,17 +546,13 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void mergePlaystationNetworkIdentity(
       String psnAccountId,
       String authenticationToken,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     _mergeIdentity(psnAccountId, authenticationToken,
-        AuthenticationType.playstationNetwork, success, failure, cbObject);
+        AuthenticationType.playstationNetwork, success, failure);
   }
 
   /// <summary>
@@ -633,13 +574,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void detachPlaystationNetworkIdentity(String psnAccountId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _detachIdentity(psnAccountId, AuthenticationType.playstationNetwork,
-        continueAnon, success, failure, cbObject);
+        continueAnon, success, failure);
   }
 
   /// <summary>
@@ -662,17 +600,13 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void attachPlaystation5Identity(
       String psnAccountId,
       String authenticationToken,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     _attachIdentity(psnAccountId, authenticationToken,
-        AuthenticationType.playstationNetwork5, success, failure, cbObject);
+        AuthenticationType.playstationNetwork5, success, failure);
   }
 
   /// <summary>
@@ -696,17 +630,13 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void mergePlaystation5Identity(
       String psnAccountId,
       String authenticationToken,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     _mergeIdentity(psnAccountId, authenticationToken,
-        AuthenticationType.playstationNetwork5, success, failure, cbObject);
+        AuthenticationType.playstationNetwork5, success, failure);
   }
 
   /// <summary>
@@ -728,13 +658,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void detachPlaystation5Identity(String psnAccountId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _detachIdentity(psnAccountId, AuthenticationType.playstationNetwork5,
-        continueAnon, success, failure, cbObject);
+        continueAnon, success, failure);
   }
 
   /// <summary>
@@ -753,13 +680,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
-  void attachGameCenterIdentity(String gameCenterId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
-    _attachIdentity(gameCenterId, "", AuthenticationType.gameCenter, success,
-        failure, cbObject);
+  void attachGameCenterIdentity(
+      String gameCenterId, SuccessCallback? success, FailureCallback? failure) {
+    _attachIdentity(
+        gameCenterId, "", AuthenticationType.gameCenter, success, failure);
   }
 
   /// <summary>Merge the profile associated with the specified Game Center identity with the current profile.
@@ -777,13 +701,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
-  void mergeGameCenterIdentity(String gameCenterId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
-    _mergeIdentity(gameCenterId, "", AuthenticationType.gameCenter, success,
-        failure, cbObject);
+  void mergeGameCenterIdentity(
+      String gameCenterId, SuccessCallback? success, FailureCallback? failure) {
+    _mergeIdentity(
+        gameCenterId, "", AuthenticationType.gameCenter, success, failure);
   }
 
   /// <summary>Detach the Game Center identity from the current profile.</summary>
@@ -803,13 +724,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void detachGameCenterIdentity(String gameCenterId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _detachIdentity(gameCenterId, AuthenticationType.gameCenter, continueAnon,
-        success, failure, cbObject);
+        success, failure);
   }
 
   /// <summary>
@@ -831,13 +749,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void attachEmailIdentity(String email, String password,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _attachIdentity(
-        email, password, AuthenticationType.email, success, failure, cbObject);
+        email, password, AuthenticationType.email, success, failure);
   }
 
   /// <summary>
@@ -859,13 +774,9 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void mergeEmailIdentity(String email, String password,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _mergeIdentity(
-        email, password, AuthenticationType.email, success, failure, cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    _mergeIdentity(email, password, AuthenticationType.email, success, failure);
   }
 
   /// <summary>Detach the e-mail identity from the current profile
@@ -886,13 +797,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void detachEmailIdentity(String email, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(email, AuthenticationType.email, continueAnon, success,
-        failure, cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    _detachIdentity(
+        email, AuthenticationType.email, continueAnon, success, failure);
   }
 
   /// <summary>
@@ -914,13 +822,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void attachUniversalIdentity(String userId, String password,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _attachIdentity(userId, password, AuthenticationType.universal, success,
-        failure, cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    _attachIdentity(
+        userId, password, AuthenticationType.universal, success, failure);
   }
 
   /// <summary>
@@ -942,13 +847,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void mergeUniversalIdentity(String userId, String password,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _mergeIdentity(userId, password, AuthenticationType.universal, success,
-        failure, cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    _mergeIdentity(
+        userId, password, AuthenticationType.universal, success, failure);
   }
 
   /// <summary>Detach the universal identity from the current profile
@@ -969,13 +871,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void detachUniversalIdentity(String userId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(userId, AuthenticationType.universal, continueAnon, success,
-        failure, cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    _detachIdentity(
+        userId, AuthenticationType.universal, continueAnon, success, failure);
   }
 
   /// <summary>
@@ -997,13 +896,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void attachSteamIdentity(String steamId, String sessionTicket,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _attachIdentity(steamId, sessionTicket, AuthenticationType.steam, success,
-        failure, cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    _attachIdentity(
+        steamId, sessionTicket, AuthenticationType.steam, success, failure);
   }
 
   /// <summary>
@@ -1025,13 +921,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void mergeSteamIdentity(String steamId, String sessionTicket,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _mergeIdentity(steamId, sessionTicket, AuthenticationType.steam, success,
-        failure, cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    _mergeIdentity(
+        steamId, sessionTicket, AuthenticationType.steam, success, failure);
   }
 
   /// <summary>Detach the steam identity from the current profile
@@ -1052,13 +945,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void detachSteamIdentity(String steamId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(steamId, AuthenticationType.steam, continueAnon, success,
-        failure, cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    _detachIdentity(
+        steamId, AuthenticationType.steam, continueAnon, success, failure);
   }
 
   /// <summary>
@@ -1081,13 +971,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void attachGoogleIdentity(String googleUserId, String serverAuthCode,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _attachIdentity(googleUserId, serverAuthCode, AuthenticationType.google,
-        success, failure, cbObject);
+        success, failure);
   }
 
   /// <summary>
@@ -1111,13 +998,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void mergeGoogleIdentity(String googleUserId, String serverAuthCode,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _mergeIdentity(googleUserId, serverAuthCode, AuthenticationType.google,
-        success, failure, cbObject);
+        success, failure);
   }
 
   /// <summary>
@@ -1139,13 +1023,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void detachGoogleIdentity(String googleUserId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _detachIdentity(googleUserId, AuthenticationType.google, continueAnon,
-        success, failure, cbObject);
+        success, failure);
   }
 
   /// <summary>
@@ -1167,13 +1048,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void attachGoogleOpenIdIdentity(String googleUserAccountEmail, String idToken,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _attachIdentity(googleUserAccountEmail, idToken,
-        AuthenticationType.googleOpenId, success, failure, cbObject);
+        AuthenticationType.googleOpenId, success, failure);
   }
 
   /// <summary>
@@ -1196,13 +1074,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void mergeGoogleOpenIdIdentity(String googleUserAccountEmail, String idToken,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _mergeIdentity(googleUserAccountEmail, idToken,
-        AuthenticationType.googleOpenId, success, failure, cbObject);
+        AuthenticationType.googleOpenId, success, failure);
   }
 
   /// <summary>
@@ -1224,17 +1099,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
-  void detachGoogleOpenIdIdentity(
-      String googleUserAccountEmail,
-      bool continueAnon,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void detachGoogleOpenIdIdentity(String googleUserAccountEmail,
+      bool continueAnon, SuccessCallback? success, FailureCallback? failure) {
     _detachIdentity(googleUserAccountEmail, AuthenticationType.googleOpenId,
-        continueAnon, success, failure, cbObject);
+        continueAnon, success, failure);
   }
 
   /// <summary>
@@ -1256,13 +1124,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void attachAppleIdentity(String appleUserId, String identityToken,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _attachIdentity(appleUserId, identityToken, AuthenticationType.apple,
-        success, failure, cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    _attachIdentity(
+        appleUserId, identityToken, AuthenticationType.apple, success, failure);
   }
 
   /// <summary>
@@ -1285,13 +1150,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void mergeAppleIdentity(String appleUserId, String identityToken,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _mergeIdentity(appleUserId, identityToken, AuthenticationType.apple,
-        success, failure, cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    _mergeIdentity(
+        appleUserId, identityToken, AuthenticationType.apple, success, failure);
   }
 
   /// <summary>
@@ -1313,13 +1175,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void detachAppleIdentity(String appleUserId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(appleUserId, AuthenticationType.apple, continueAnon,
-        success, failure, cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    _detachIdentity(
+        appleUserId, AuthenticationType.apple, continueAnon, success, failure);
   }
 
   /// <summary>
@@ -1344,18 +1203,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
-  void attachTwitterIdentity(
-      String twitterId,
-      String authenticationToken,
-      String secret,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void attachTwitterIdentity(String twitterId, String authenticationToken,
+      String secret, SuccessCallback? success, FailureCallback? failure) {
     _attachIdentity(twitterId, "$authenticationToken:$secret",
-        AuthenticationType.twitter, success, failure, cbObject);
+        AuthenticationType.twitter, success, failure);
   }
 
   /// <summary>
@@ -1381,18 +1232,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
-  void mergeTwitterIdentity(
-      String twitterId,
-      String authenticationToken,
-      String secret,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void mergeTwitterIdentity(String twitterId, String authenticationToken,
+      String secret, SuccessCallback? success, FailureCallback? failure) {
     _mergeIdentity(twitterId, "$authenticationToken:$secret",
-        AuthenticationType.twitter, success, failure, cbObject);
+        AuthenticationType.twitter, success, failure);
   }
 
   /// <summary>
@@ -1414,13 +1257,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void detachTwitterIdentity(String twitterId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(twitterId, AuthenticationType.twitter, continueAnon,
-        success, failure, cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    _detachIdentity(
+        twitterId, AuthenticationType.twitter, continueAnon, success, failure);
   }
 
   /// <summary>
@@ -1443,13 +1283,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void attachParseIdentity(String parseId, String authenticationToken,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _attachIdentity(parseId, authenticationToken, AuthenticationType.parse,
-        success, failure, cbObject);
+        success, failure);
   }
 
   /// <summary>
@@ -1473,13 +1310,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void mergeParseIdentity(String parseId, String authenticationToken,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _mergeIdentity(parseId, authenticationToken, AuthenticationType.parse,
-        success, failure, cbObject);
+        success, failure);
   }
 
   /// <summary>
@@ -1501,13 +1335,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void detachParseIdentity(String parseId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _detachIdentity(parseId, AuthenticationType.parse, continueAnon, success,
-        failure, cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    _detachIdentity(
+        parseId, AuthenticationType.parse, continueAnon, success, failure);
   }
 
   /// <summary>
@@ -1530,17 +1361,13 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void attachNintendoIdentity(
       String nintendoAccountId,
       String authenticationToken,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     _attachIdentity(nintendoAccountId, authenticationToken,
-        AuthenticationType.nintendo, success, failure, cbObject);
+        AuthenticationType.nintendo, success, failure);
   }
 
   /// <summary>
@@ -1564,17 +1391,13 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void mergeNintendoIdentity(
       String nintendoAccountId,
       String authenticationToken,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     _mergeIdentity(nintendoAccountId, authenticationToken,
-        AuthenticationType.nintendo, success, failure, cbObject);
+        AuthenticationType.nintendo, success, failure);
   }
 
   /// <summary>
@@ -1596,13 +1419,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void detachNintendoIdentity(String nintendoAccountId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _detachIdentity(nintendoAccountId, AuthenticationType.nintendo,
-        continueAnon, success, failure, cbObject);
+        continueAnon, success, failure);
   }
 
   /// <summary>
@@ -1628,18 +1448,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
-  void switchToChildProfile(
-      String childProfileId,
-      String childAppId,
-      bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
-    _switchToChildProfile(childProfileId, childAppId, forceCreate, false,
-        success, failure, cbObject);
+  void switchToChildProfile(String childProfileId, String childAppId,
+      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
+    _switchToChildProfile(
+        childProfileId, childAppId, forceCreate, false, success, failure);
   }
 
   /// <summary>
@@ -1662,13 +1474,10 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void switchToSingletonChildProfile(String childAppId, bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     _switchToChildProfile(
-        null, childAppId, forceCreate, true, success, failure, cbObject);
+        null, childAppId, forceCreate, true, success, failure);
   }
 
   /// <summary>
@@ -1683,17 +1492,15 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
-  void attachNonLoginUniversalId(String externalId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void attachNonLoginUniversalId(
+      String externalId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.attachNonLoginUniversalId, data, callback);
     _clientRef.sendRequest(sc);
@@ -1711,17 +1518,15 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
-  void updateUniversalIdLogin(String externalId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void updateUniversalIdLogin(
+      String externalId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.updateUniversalIdLogin, data, callback);
     _clientRef.sendRequest(sc);
@@ -1751,9 +1556,6 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void attachParentWithIdentity(
       String externalId,
       String authenticationToken,
@@ -1761,8 +1563,7 @@ class BrainCloudIdentity {
       String externalAuthName,
       bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.identityServiceExternalId.value] = externalId;
@@ -1780,8 +1581,9 @@ class BrainCloudIdentity {
         forceCreate;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.attachParentWithIdentity, data, callback);
     _clientRef.sendRequest(sc);
@@ -1803,18 +1605,16 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error while switching
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void switchToParentProfile(String parentLevelName, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.authenticateServiceAuthenticateLevelName.value] =
         parentLevelName;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.switchToParentProfile, data, callback);
     _clientRef.sendRequest(sc);
@@ -1833,14 +1633,11 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The method to call in the event of an error while switching
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
-  void detachParent(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  void detachParent(SuccessCallback? success, FailureCallback? failure) {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.detachParent, null, callback);
     _clientRef.sendRequest(sc);
@@ -1862,18 +1659,16 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void getChildProfiles(bool includeSummaryData, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStateServiceIncludeSummaryData.value] =
         includeSummaryData;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.getChildProfiles, data, callback);
     _clientRef.sendRequest(sc);
@@ -1892,14 +1687,11 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
-  void getIdentities(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  void getIdentities(SuccessCallback? success, FailureCallback? failure) {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.getIdentities, null, callback);
     _clientRef.sendRequest(sc);
@@ -1918,14 +1710,12 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void getExpiredIdentities(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.getExpiredIdentities, null, callback);
     _clientRef.sendRequest(sc);
@@ -1953,16 +1743,12 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void refreshIdentity(
       String externalId,
       String authenticationToken,
       AuthenticationType authenticationType,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
     data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
@@ -1971,8 +1757,9 @@ class BrainCloudIdentity {
         authenticationType.toString();
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.refreshIdentity, data, callback);
     _clientRef.sendRequest(sc);
@@ -2003,17 +1790,13 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void changeEmailIdentity(
       String oldEmailAddress,
       String password,
       String newEmailAddress,
       bool updateContactEmail,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceOldEmailAddress.value] = oldEmailAddress;
     data[OperationParam
@@ -2023,8 +1806,9 @@ class BrainCloudIdentity {
         updateContactEmail;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.changeEmailIdentity, data, callback);
     _clientRef.sendRequest(sc);
@@ -2057,9 +1841,6 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void attachPeerProfile(
       String peer,
       String externalId,
@@ -2068,8 +1849,7 @@ class BrainCloudIdentity {
       String externalAuthName,
       bool forceCreate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.identityServiceExternalId.value] = externalId;
@@ -2088,8 +1868,9 @@ class BrainCloudIdentity {
         forceCreate;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.attachPeerProfile, data, callback);
     _clientRef.sendRequest(sc);
@@ -2107,18 +1888,16 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
-  void detachPeer(String peer, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void detachPeer(
+      String peer, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.peer.value] = peer;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.detachPeer, data, callback);
     _clientRef.sendRequest(sc);
@@ -2133,14 +1912,11 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
-  void getPeerProfiles(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  void getPeerProfiles(SuccessCallback? success, FailureCallback? failure) {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.getPeerProfiles, null, callback);
     _clientRef.sendRequest(sc);
@@ -2161,18 +1937,16 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void attachBlockChainIdentity(String blockchainConfig, String publicKey,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.blockChainConfig.value] = blockchainConfig;
     data[OperationParam.publicKey.value] = publicKey;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.attachBlockChain, data, callback);
     _clientRef.sendRequest(sc);
@@ -2189,17 +1963,15 @@ class BrainCloudIdentity {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user dynamic sent to the callback.
-  /// </param>
   void detachBlockChainIdentity(String blockchainConfig,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.blockChainConfig.value] = blockchainConfig;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.detachBlockChain, data, callback);
     _clientRef.sendRequest(sc);
@@ -2210,8 +1982,7 @@ class BrainCloudIdentity {
       String authenticationToken,
       AuthenticationType authenticationType,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
     data[OperationParam.identityServiceAuthenticationType.value] =
@@ -2220,8 +1991,9 @@ class BrainCloudIdentity {
         .value] = authenticationToken;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.attach, data, callback);
     _clientRef.sendRequest(sc);
@@ -2232,8 +2004,7 @@ class BrainCloudIdentity {
       String authenticationToken,
       AuthenticationType authenticationType,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
     data[OperationParam.identityServiceAuthenticationType.value] =
@@ -2242,20 +2013,16 @@ class BrainCloudIdentity {
         .value] = authenticationToken;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.merge, data, callback);
     _clientRef.sendRequest(sc);
   }
 
-  void _detachIdentity(
-      String externalId,
-      AuthenticationType authenticationType,
-      bool continueAnon,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void _detachIdentity(String externalId, AuthenticationType authenticationType,
+      bool continueAnon, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
     data[OperationParam.identityServiceAuthenticationType.value] =
@@ -2263,8 +2030,9 @@ class BrainCloudIdentity {
     data[OperationParam.identityServiceConfirmAnonymous.value] = continueAnon;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.detach, data, callback);
     _clientRef.sendRequest(sc);
@@ -2276,8 +2044,7 @@ class BrainCloudIdentity {
       bool forceCreate,
       bool forceSingleton,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     if (Util.isOptionalParameterValid(childProfileId)) {
@@ -2300,8 +2067,9 @@ class BrainCloudIdentity {
         Util.getUTCOffsetForCurrentTimeZone();
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.switchToChildProfile, data, callback);
     _clientRef.sendRequest(sc);

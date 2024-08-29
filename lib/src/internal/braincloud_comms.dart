@@ -1108,16 +1108,6 @@ class BrainCloudComms {
         }
 
         if (_globalErrorCallback != null) {
-          dynamic cbObject;
-          if (callback != null) {
-            cbObject = callback.cbObject;
-            // if this is the internal BrainCloudWrapper callback dynamic return the user-supplied
-            // callback dynamic instead
-            if (cbObject != null && cbObject is WrapperAuthCallbackObject) {
-              cbObject = cbObject.cbObject;
-            }
-          }
-
           _globalErrorCallback!(statusCode, reasonCode, errorJson);
         }
 
@@ -1911,7 +1901,6 @@ class BrainCloudComms {
       if (_serviceCallsInProgress[i].getOperation ==
           ServiceOperation.authenticate) {
         inProgress = true;
-        _serviceCallsInProgress[i].getCallback?.addAuthCallbacks(inCallback);
       }
     }
   }

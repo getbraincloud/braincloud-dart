@@ -16,14 +16,13 @@ class BrainCloudChat {
   /// Registers a listener for incoming events from <channelId>. Also returns a list of <maxReturn> recent messages from history.
   /// </summary>
   void channelConnect(String inChannelid, int inMaxtoreturn,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.chatChannelId.value] = inChannelid;
     data[OperationParam.chatMaxReturn.value] = inMaxtoreturn;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.channelConnect, data, callback);
     _clientRef.sendRequest(sc);
@@ -32,14 +31,13 @@ class BrainCloudChat {
   /// <summary>
   /// Unregisters a listener for incoming events from <channelId>.
   /// </summary>
-  void channelDisconnect(String inChannelid, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void channelDisconnect(
+      String inChannelid, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.chatChannelId.value] = inChannelid;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.channelDisconnect, data, callback);
     _clientRef.sendRequest(sc);
@@ -49,15 +47,14 @@ class BrainCloudChat {
   /// Delete a chat message. <version> must match the latest or pass -1 to bypass version check.
   /// </summary>
   void deleteChatMessage(String inChannelid, String inMessageid, int inVersion,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.chatChannelId.value] = inChannelid;
     data[OperationParam.chatMessageId.value] = inMessageid;
     data[OperationParam.chatVersion.value] = inVersion;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.deleteChatMessage, data, callback);
     _clientRef.sendRequest(sc);
@@ -67,14 +64,13 @@ class BrainCloudChat {
   /// Gets the channelId for the given <channelType> and <channelSubId>. Channel type must be one of "gl"(GlobalChannelType) or "gr"(GroupChannelType).
   /// </summary>
   void getChannelId(String inChanneltype, String inChannelsubid,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.chatChannelType.value] = inChanneltype;
     data[OperationParam.chatChannelSubId.value] = inChannelsubid;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.getChannelId, data, callback);
     _clientRef.sendRequest(sc);
@@ -83,14 +79,13 @@ class BrainCloudChat {
   /// <summary>
   /// Gets description info and activity stats for channel <channelId>. Note that numMsgs and listeners only returned for non-global groups. Only callable for channels the user is a member of.
   /// </summary>
-  void getChannelInfo(String inChannelid, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void getChannelInfo(
+      String inChannelid, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.chatChannelId.value] = inChannelid;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.getChannelInfo, data, callback);
     _clientRef.sendRequest(sc);
@@ -100,14 +95,13 @@ class BrainCloudChat {
   /// Gets a populated chat object (normally for editing).
   /// </summary>
   void getChatMessage(String inChannelid, String inMessageid,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.chatChannelId.value] = inChannelid;
     data[OperationParam.chatMessageId.value] = inMessageid;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.getChatMessage, data, callback);
     _clientRef.sendRequest(sc);
@@ -120,15 +114,13 @@ class BrainCloudChat {
       {required String inChannelId,
       required int inMaxToReturn,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.chatChannelId.value] = inChannelId;
     data[OperationParam.chatMaxReturn.value] = inMaxToReturn;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.chat,
         ServiceOperation.getRecentChatMessages, data, callback);
     _clientRef.sendRequest(sc);
@@ -138,13 +130,12 @@ class BrainCloudChat {
   /// Gets a list of the channels of type <channelType> that the user has access to. Channel type must be one of "gl"(GlobalChannelType), "gr"(GroupChannelType) or "all"(AllChannelType).
   /// </summary>
   void getSubscribedChannels(String inChanneltype, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.chatChannelType.value] = inChanneltype;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.chat,
         ServiceOperation.getSubscribedChannels, data, callback);
     _clientRef.sendRequest(sc);
@@ -159,17 +150,15 @@ class BrainCloudChat {
       required String inContentJson,
       bool inRecordInHistory = true,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     Map<String, dynamic> data = <String, dynamic>{};
 
     data[OperationParam.chatChannelId.value] = inChannelId;
     data[OperationParam.chatContent.value] = jsonDecode(inContentJson);
     data[OperationParam.chatRecordInHistory.value] = inRecordInHistory;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.postChatMessage, data, callback);
     _clientRef.sendRequest(sc);
@@ -185,8 +174,8 @@ class BrainCloudChat {
   //     required String in_jsonRich,
   //     bool in_recordInHistory = true,
   //     SuccessCallback? success,
-  //     FailureCallback? failure,
-  //     dynamic cbObject}) {
+  //     FailureCallback? failure
+  //     }) {
   //   Map<String, dynamic> data = <String, dynamic>{};
 
   //   // Build message content
@@ -205,8 +194,7 @@ class BrainCloudChat {
   //   data[OperationParam.chatRecordInHistory.Value] = in_recordInHistory;
 
   //   ServerCallback? callback = BrainCloudClient.createServerCallback(
-  //       success, failure,
-  //       cbObject: cbObject);
+  //       success, failure);
   //   ServerCall sc = ServerCall(
   //       ServiceName.Chat, ServiceOperation.postChatMessage, data, callback);
   //   _clientRef.sendRequest(sc);
@@ -221,17 +209,15 @@ class BrainCloudChat {
       required String inPlain,
       bool inRecordInHistory = true,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     Map<String, dynamic> data = <String, dynamic>{};
 
     data[OperationParam.chatChannelId.value] = inChannelId;
     data[OperationParam.chatText.value] = inPlain;
     data[OperationParam.chatRecordInHistory.value] = inRecordInHistory;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.chat,
         ServiceOperation.postChatMessageSimple, data, callback);
     _clientRef.sendRequest(sc);
@@ -246,8 +232,7 @@ class BrainCloudChat {
       int inVersion,
       String inContentjson,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = <String, dynamic>{};
 
     data[OperationParam.chatChannelId.value] = inChannelid;
@@ -255,9 +240,8 @@ class BrainCloudChat {
     data[OperationParam.chatVersion.value] = inVersion;
     data[OperationParam.chatContent.value] = jsonDecode(inContentjson);
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.updateChatMessage, data, callback);
     _clientRef.sendRequest(sc);
@@ -273,8 +257,7 @@ class BrainCloudChat {
   //     String in_plain,
   //     String in_jsonRich,
   //     SuccessCallback? success,
-  //     FailureCallback? failure,
-  //     dynamic cbObject) {
+  //     FailureCallback? failure) {
   //   Map<String, dynamic> content = <String, dynamic>{};
   //   content[OperationParam.chatText.Value] = in_plain;
   //   if (Util.isOptionalParameterValid(in_jsonRich)) {
@@ -292,8 +275,7 @@ class BrainCloudChat {
   //   data[OperationParam.chatContent.Value] = content;
 
   //   ServerCallback? callback = BrainCloudClient.createServerCallback(
-  //       success, failure,
-  //       cbObject: cbObject);
+  //       success, failure);
   //   ServerCall sc = ServerCall(
   //       ServiceName.Chat, ServiceOperation.updateChatMessage, data, callback);
   //   _clientRef.sendRequest(sc);

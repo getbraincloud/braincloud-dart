@@ -25,17 +25,13 @@ class BrainCloudGlobalFile {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void getFileInfo(String fileId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void getFileInfo(
+      String fileId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFileId.value] = fileId;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall serverCall = ServerCall(
         ServiceName.globalFile, ServiceOperation.getFileInfo, data, callback);
     _clientRef.sendRequest(serverCall);
@@ -59,18 +55,14 @@ class BrainCloudGlobalFile {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getFileInfoSimple(String folderPath, String filename,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFolderPath.value] = folderPath;
     data[OperationParam.globalFileServiceFileName.value] = filename;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall serverCall = ServerCall(ServiceName.globalFile,
         ServiceOperation.getFileInfoSimple, data, callback);
     _clientRef.sendRequest(serverCall);
@@ -91,17 +83,13 @@ class BrainCloudGlobalFile {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void getGlobalCDNUrl(String fileId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void getGlobalCDNUrl(
+      String fileId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFileId.value] = fileId;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall serverCall = ServerCall(ServiceName.globalFile,
         ServiceOperation.getGlobalCDNUrl, data, callback);
     _clientRef.sendRequest(serverCall);
@@ -125,18 +113,14 @@ class BrainCloudGlobalFile {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getGlobalFileList(String folderPath, bool recurse,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFolderPath.value] = folderPath;
     data[OperationParam.globalFileServiceRecurse.value] = recurse;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall serverCall = ServerCall(ServiceName.globalFile,
         ServiceOperation.getGlobalFileList, data, callback);
     _clientRef.sendRequest(serverCall);

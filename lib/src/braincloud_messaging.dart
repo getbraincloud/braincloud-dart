@@ -16,15 +16,13 @@ class BrainCloudMessaging {
   /// Deletes specified user messages on the server. in_msgBox = OperationParam.inboxMessageType && OperationParam.sentMessageType
   /// </summary>
   void deleteMessages(String inMsgbox, List<String> inMsgsids,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.messagingMessageBox.value] = inMsgbox;
     data[OperationParam.messagingMessageIds.value] = inMsgsids;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.messaging, ServiceOperation.deleteMessages, data, callback);
     _clientRef.sendRequest(sc);
@@ -33,11 +31,9 @@ class BrainCloudMessaging {
   /// <summary>
   /// Retrieve user's message boxes, including 'inbox', 'sent', etc.
   /// </summary>
-  void getMessageboxes(SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+  void getMessageboxes(SuccessCallback? success, FailureCallback? failure) {
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.getMessageBoxes, null, callback);
     _clientRef.sendRequest(sc);
@@ -46,11 +42,9 @@ class BrainCloudMessaging {
   /// <summary>
   /// Returns count of user's 'total' messages and their 'unread' messages.
   /// </summary>
-  void getMessageCounts(SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+  void getMessageCounts(SuccessCallback? success, FailureCallback? failure) {
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.getMessageCounts, null, callback);
     _clientRef.sendRequest(sc);
@@ -60,16 +54,14 @@ class BrainCloudMessaging {
   /// Retrieves list of specified messages.
   /// </summary>
   void getMessages(String inMsgbox, List<String> inMsgsids, bool markAsRead,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.messagingMessageBox.value] = inMsgbox;
     data[OperationParam.messagingMessageIds.value] = inMsgsids;
     data[OperationParam.messagingMarkAsRead.value] = markAsRead;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.messaging, ServiceOperation.getMessages, data, callback);
     _clientRef.sendRequest(sc);
@@ -79,15 +71,13 @@ class BrainCloudMessaging {
   /// Retrieves a page of messages.
   /// </summary>
   void getMessagesPage(
-      String inContext, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+      String inContext, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     var context = jsonDecode(inContext);
     data[OperationParam.messagingContext.value] = context;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.getMessagesPage, data, callback);
     _clientRef.sendRequest(sc);
@@ -97,15 +87,13 @@ class BrainCloudMessaging {
   /// Gets the page of messages from the server based on the encoded context and specified page offset.
   /// </summary>
   void getMessagesPageOffset(String inContext, int pageOffset,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.messagingContext.value] = inContext;
     data[OperationParam.messagingPageOffset.value] = pageOffset;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.getMessagesPageOffset, data, callback);
     _clientRef.sendRequest(sc);
@@ -115,15 +103,13 @@ class BrainCloudMessaging {
   /// Marks list of user messages as read on the server.
   /// </summary>
   void markMessagesRead(String inMsgbox, List<String> inMsgsids,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.messagingMessageBox.value] = inMsgbox;
     data[OperationParam.messagingMessageIds.value] = inMsgsids;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.markMessagesRead, data, callback);
     _clientRef.sendRequest(sc);
@@ -133,17 +119,15 @@ class BrainCloudMessaging {
   /// Sends a message with specified 'subject' and 'text' to list of users.
   /// </summary>
   void sendMessage(List<String> inToprofileids, String inContentjson,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.messagingToProfileIds.value] = inToprofileids;
 
     var content = jsonDecode(inContentjson);
     data[OperationParam.messagingContent.value] = content;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.messaging, ServiceOperation.sendMessage, data, callback);
     _clientRef.sendRequest(sc);
@@ -154,15 +138,13 @@ class BrainCloudMessaging {
   /// </summary>
   ///
   void sendMessageSimple(List<String> inToprofileids, String inMessagetext,
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.messagingToProfileIds.value] = inToprofileids;
     data[OperationParam.messagingText.value] = inMessagetext;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.sendMessageSimple, data, callback);
     _clientRef.sendRequest(sc);

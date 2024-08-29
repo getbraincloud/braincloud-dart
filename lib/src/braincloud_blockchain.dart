@@ -15,12 +15,8 @@ class BrainCloudBlockchain {
   /// <summary>
   /// Retrieves the blockchain items owned by the caller.
   /// </summary>
-  void getBlockchainItems(
-      String? inIntegrationid,
-      String? inContextjson,
-      SuccessCallback? inSuccess,
-      FailureCallback? inFailure,
-      dynamic inCbobject) {
+  void getBlockchainItems(String? inIntegrationid, String? inContextjson,
+      SuccessCallback? inSuccess, FailureCallback? inFailure) {
     var context = jsonDecode(inContextjson ?? "{}");
     Map<String, dynamic> data = {};
 
@@ -28,9 +24,8 @@ class BrainCloudBlockchain {
         inIntegrationid ?? "default";
     data[OperationParam.blockChainContext.value] = context;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        inSuccess, inFailure,
-        cbObject: inCbobject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(inSuccess, inFailure);
     ServerCall sc = ServerCall(ServiceName.blockChain,
         ServiceOperation.getBlockchainItems, data, callback);
     _clientRef.sendRequest(sc);
@@ -39,21 +34,16 @@ class BrainCloudBlockchain {
   /// <summary>
   /// Retrieves the uniqs owned by the caller.
   /// </summary>
-  void getUniqs(
-      String inIntegrationid,
-      String inContextjson,
-      SuccessCallback? inSuccess,
-      FailureCallback? inFailure,
-      dynamic inCbobject) {
+  void getUniqs(String inIntegrationid, String inContextjson,
+      SuccessCallback? inSuccess, FailureCallback? inFailure) {
     var context = jsonDecode(inContextjson);
     Map<String, dynamic> data = {};
 
     data[OperationParam.blockChainIntegrationId.value] = inIntegrationid;
     data[OperationParam.blockChainContext.value] = context;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        inSuccess, inFailure,
-        cbObject: inCbobject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(inSuccess, inFailure);
     ServerCall sc = ServerCall(
         ServiceName.blockChain, ServiceOperation.getUniqs, data, callback);
     _clientRef.sendRequest(sc);

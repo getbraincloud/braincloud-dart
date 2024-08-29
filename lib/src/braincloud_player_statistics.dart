@@ -23,14 +23,9 @@ class BrainCloudPlayerStatistics {
   /// <param name="failure">
   /// The failure callback
   /// </param>
-  /// <param name="cbObject">
-  /// The callback object
-  /// </param>
-  void readAllUserStats(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+  void readAllUserStats(SuccessCallback? success, FailureCallback? failure) {
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.playerStatistics, ServiceOperation.read, null, callback);
     _clientRef.sendRequest(sc);
@@ -52,17 +47,13 @@ class BrainCloudPlayerStatistics {
   /// <param name="failure">
   /// The failure callback
   /// </param>
-  /// <param name="cbObject">
-  /// The callback object
-  /// </param>
   void readUserStatsSubset(List<String> playerStats, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticsServiceStats.value] = playerStats;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.readSubset, data, callback);
     _clientRef.sendRequest(sc);
@@ -84,17 +75,13 @@ class BrainCloudPlayerStatistics {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void readUserStatsForCategory(String category, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void readUserStatsForCategory(
+      String category, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.gamificationServiceCategory.value] = category;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.readForCategory, data, callback);
     _clientRef.sendRequest(sc);
@@ -114,15 +101,9 @@ class BrainCloudPlayerStatistics {
   /// <param name="failure">
   /// The failure callback
   /// </param>
-  /// <param name="cbObject">
-  /// The callback object
-  ///
-  /// </param>
-  void resetAllUserStats(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+  void resetAllUserStats(SuccessCallback? success, FailureCallback? failure) {
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.playerStatistics, ServiceOperation.reset, null, callback);
     _clientRef.sendRequest(sc);
@@ -160,17 +141,13 @@ class BrainCloudPlayerStatistics {
   /// <param name="failure">
   /// The failure callback
   /// </param>
-  /// <param name="cbObject">
-  /// The callback object
-  /// </param>
   void incrementUserStats(Map<String, dynamic> dictData,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticsServiceStats.value] = dictData;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.playerStatistics, ServiceOperation.update, data, callback);
     _clientRef.sendRequest(sc);
@@ -199,17 +176,13 @@ class BrainCloudPlayerStatistics {
   /// <param name="failure">
   /// The failure callback
   /// </param>
-  /// <param name="cbObject">
-  /// The callback object
-  /// </param>
   void processStatistics(Map<String, dynamic> statisticsData,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticsServiceStats.value] = statisticsData;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.processStatistics, data, callback);
     _clientRef.sendRequest(sc);
@@ -228,14 +201,10 @@ class BrainCloudPlayerStatistics {
   /// <param name="failure">
   /// The failure callback
   /// </param>
-  /// <param name="cbObject">
-  /// The callback object
-  /// </param>
   void getNextExperienceLevel(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.readNextXpLevel, null, callback);
     _clientRef.sendRequest(sc);
@@ -258,17 +227,13 @@ class BrainCloudPlayerStatistics {
   /// <param name="failure">
   /// The failure callback
   /// </param>
-  /// <param name="cbObject">
-  /// The callback object
-  /// </param>
-  void incrementExperiencePoints(int xpValue, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void incrementExperiencePoints(
+      int xpValue, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticsExperiencePoints.value] = xpValue;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.playerStatistics, ServiceOperation.update, data, callback);
     _clientRef.sendRequest(sc);
@@ -292,17 +257,13 @@ class BrainCloudPlayerStatistics {
   /// <param name="failure">
   /// The failure callback
   /// </param>
-  /// <param name="cbObject">
-  /// The callback object
-  /// </param>
-  void setExperiencePoints(int xpValue, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void setExperiencePoints(
+      int xpValue, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticsExperiencePoints.value] = xpValue;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.setXpPoints, data, callback);
     _clientRef.sendRequest(sc);

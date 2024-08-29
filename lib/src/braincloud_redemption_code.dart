@@ -35,16 +35,12 @@ class BrainCloudRedemptionCode {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void redeemCode(
       String scanCode,
       String codeType,
       String jsonCustomRedemptionInfo,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.redemptionCodeServiceScanCode.value] = scanCode;
     data[OperationParam.redemptionCodeServiceCodeType.value] = codeType;
@@ -56,9 +52,8 @@ class BrainCloudRedemptionCode {
           customRedemptionInfo;
     }
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.redemptionCode,
         ServiceOperation.redeemCode, data, callback);
     _clientRef.sendRequest(sc);
@@ -80,11 +75,8 @@ class BrainCloudRedemptionCode {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void getRedeemedCodes(String codeType, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void getRedeemedCodes(
+      String codeType, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     if (Util.isOptionalParameterValid(codeType)) {
@@ -92,9 +84,8 @@ class BrainCloudRedemptionCode {
       data[OperationParam.redemptionCodeServiceCodeType.value] = codeType;
     }
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.redemptionCode,
         ServiceOperation.getRedeemedCodes, data, callback);
     _clientRef.sendRequest(sc);

@@ -46,19 +46,15 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getSocialLeaderboard(String leaderboardId, bool replaceName,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceReplaceName.value] =
         replaceName;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getSocialLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
@@ -100,16 +96,8 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void getSocialLeaderboardByVersion(
-      String leaderboardId,
-      bool replaceName,
-      int versionId,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void getSocialLeaderboardByVersion(String leaderboardId, bool replaceName,
+      int versionId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -117,8 +105,7 @@ class BrainCloudSocialLeaderboard {
         replaceName;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getSocialLeaderboardByVersion, data, callback);
     _clientRef.sendRequest(sc);
@@ -147,16 +134,12 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getMultiSocialLeaderboard(
       List<String> leaderboardIds,
       int leaderboardResultCount,
       bool replaceName,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardIds.value] =
         leaderboardIds;
@@ -165,8 +148,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceReplaceName.value] =
         replaceName;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getMultiSocialLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
@@ -202,17 +184,13 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getGlobalLeaderboardPage(
       String leaderboardId,
       SortOrder sort,
       int startIndex,
       int endIndex,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -220,8 +198,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceStartIndex.value] = startIndex;
     data[OperationParam.socialLeaderboardServiceEndIndex.value] = endIndex;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardPage, data, callback);
     _clientRef.sendRequest(sc);
@@ -257,9 +234,6 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getGlobalLeaderboardPageByVersion(
       String leaderboardId,
       SortOrder sort,
@@ -267,8 +241,7 @@ class BrainCloudSocialLeaderboard {
       int endIndex,
       int versionId,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -277,8 +250,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceEndIndex.value] = endIndex;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardPage, data, callback);
     _clientRef.sendRequest(sc);
@@ -312,20 +284,15 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getGlobalLeaderboardView(
       String leaderboardId,
       SortOrder sort,
       int beforeCount,
       int afterCount,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     getGlobalLeaderboardViewByVersion(
-        leaderboardId, sort, beforeCount, afterCount, -1, success, failure,
-        cbObject: cbObject);
+        leaderboardId, sort, beforeCount, afterCount, -1, success, failure);
   }
 
   /// <summary>
@@ -358,9 +325,6 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getGlobalLeaderboardViewByVersion(
       String leaderboardId,
       SortOrder sort,
@@ -368,8 +332,7 @@ class BrainCloudSocialLeaderboard {
       int afterCount,
       int versionId,
       SuccessCallback? success,
-      FailureCallback? failure,
-      {dynamic cbObject}) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -381,8 +344,7 @@ class BrainCloudSocialLeaderboard {
       data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
     }
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardView, data, callback);
     _clientRef.sendRequest(sc);
@@ -398,15 +360,13 @@ class BrainCloudSocialLeaderboard {
   /// <param name="leaderboardId">In_leaderboard identifier.</param>
   /// <param name="success">The success callback.</param>
   /// <param name="failure">The failure callback.</param>
-  /// <param name="cbObject">The user object sent to the callback.</param>
   void getGlobalLeaderboardVersions(String leaderboardId,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardVersions, data, callback);
     _clientRef.sendRequest(sc);
@@ -423,16 +383,14 @@ class BrainCloudSocialLeaderboard {
   /// <param name="groupId">The group ID</param>
   /// <param name="success">The success callback.</param>
   /// <param name="failure">The failure callback.</param>
-  /// <param name="cbObject">The user object sent to the callback.</param>
   void getGroupSocialLeaderboard(String leaderboardId, String groupId,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGroupSocialLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
@@ -450,22 +408,15 @@ class BrainCloudSocialLeaderboard {
   /// <param name="versionId">The version ID</param>
   /// <param name="success">The success callback.</param>
   /// <param name="failure">The failure callback.</param>
-  /// <param name="cbObject">The user object sent to the callback.</param>
-  void getGroupSocialLeaderboardByVersion(
-      String leaderboardId,
-      String groupId,
-      int versionId,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void getGroupSocialLeaderboardByVersion(String leaderboardId, String groupId,
+      int versionId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGroupSocialLeaderboardByVersion, data, callback);
     _clientRef.sendRequest(sc);
@@ -500,11 +451,8 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void postScoreToLeaderboard(String leaderboardId, int score, String jsonData,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -514,8 +462,7 @@ class BrainCloudSocialLeaderboard {
       data[OperationParam.socialLeaderboardServiceData.value] = customData;
     }
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(
         ServiceName.leaderboard, ServiceOperation.postScore, data, callback);
     _clientRef.sendRequest(sc);
@@ -540,18 +487,14 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void removePlayerScore(String leaderboardId, int versionId,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.removePlayerScore, data, callback);
     _clientRef.sendRequest(sc);
@@ -595,9 +538,6 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void postScoreToDynamicLeaderboardUTC(
       String leaderboardId,
       int score,
@@ -607,8 +547,7 @@ class BrainCloudSocialLeaderboard {
       int? rotationResetUTC,
       int retainedCount,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -630,8 +569,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceRetainedCount.value] =
         retainedCount;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreDynamic, data, callback);
     _clientRef.sendRequest(sc);
@@ -678,9 +616,6 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void postScoreToDynamicGroupLeaderboardUTC(
       String leaderboardId,
       String groupId,
@@ -691,8 +626,7 @@ class BrainCloudSocialLeaderboard {
       int? rotationResetUTC,
       int retainedCount,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -715,8 +649,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceRetainedCount.value] =
         retainedCount;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreToDynamicGroupLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
@@ -760,9 +693,6 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void postScoreToDynamicLeaderboardDaysUTC(
       String leaderboardId,
       int score,
@@ -772,8 +702,7 @@ class BrainCloudSocialLeaderboard {
       int retainedCount,
       int numDaysToRotate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -795,8 +724,7 @@ class BrainCloudSocialLeaderboard {
         retainedCount;
     data[OperationParam.numDaysToRotate.value] = numDaysToRotate;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreDynamic, data, callback);
     _clientRef.sendRequest(sc);
@@ -837,9 +765,6 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void postScoreToDynamicGroupLeaderboardDaysUTC(
       String leaderboardId,
       String groupId,
@@ -850,8 +775,7 @@ class BrainCloudSocialLeaderboard {
       int retainedCount,
       int numDaysToRotate,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -874,8 +798,7 @@ class BrainCloudSocialLeaderboard {
         retainedCount;
     data[OperationParam.numDaysToRotate.value] = numDaysToRotate;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreDynamic, data, callback);
     _clientRef.sendRequest(sc);
@@ -900,22 +823,17 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getPlayersSocialLeaderboard(
       String leaderboardId,
       List<String> profileIds,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceProfileIds.value] = profileIds;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayersSocialLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
@@ -943,24 +861,19 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getPlayersSocialLeaderboardByVersion(
       String leaderboardId,
       List<String> profileIds,
       int versionId,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceProfileIds.value] = profileIds;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayersSocialLeaderboardByVersion, data, callback);
     _clientRef.sendRequest(sc);
@@ -979,13 +892,8 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void listAllLeaderboards(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+  void listAllLeaderboards(SuccessCallback? success, FailureCallback? failure) {
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.listAllLeaderboards, null, callback);
     _clientRef.sendRequest(sc);
@@ -1007,13 +915,10 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getGlobalLeaderboardEntryCount(String leaderboardId,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    getGlobalLeaderboardEntryCountByVersion(leaderboardId, -1, success, failure,
-        cbObject: cbObject);
+      SuccessCallback? success, FailureCallback? failure) {
+    getGlobalLeaderboardEntryCountByVersion(
+        leaderboardId, -1, success, failure);
   }
 
   /// <summary>
@@ -1035,12 +940,8 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getGlobalLeaderboardEntryCountByVersion(String leaderboardId,
-      int versionId, SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+      int versionId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -1049,8 +950,7 @@ class BrainCloudSocialLeaderboard {
       data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
     }
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardEntryCount, data, callback);
     _clientRef.sendRequest(sc);
@@ -1075,18 +975,14 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getPlayerScore(String leaderboardId, int versionId,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayerScore, data, callback);
     _clientRef.sendRequest(sc);
@@ -1114,19 +1010,15 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getPlayerScores(String leaderboardId, int versionId, int maxResults,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceMaxResults.value] = maxResults;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayerScores, data, callback);
     _clientRef.sendRequest(sc);
@@ -1151,17 +1043,13 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getPlayerScoresFromLeaderboards(List<String> leaderboardIds,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardIds.value] =
         leaderboardIds;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayerScoresFromLeaderboards, data, callback);
     _clientRef.sendRequest(sc);
@@ -1192,17 +1080,13 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void postScoreToGroupLeaderboard(
       String leaderboardId,
       String groupId,
       int score,
       String jsonData,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -1213,8 +1097,7 @@ class BrainCloudSocialLeaderboard {
       data[OperationParam.socialLeaderboardServiceData.value] = customData;
     }
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreToGroupLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
@@ -1242,19 +1125,15 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void removeGroupScore(String leaderboardId, String groupId, int versionId,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.removeGroupScore, data, callback);
     _clientRef.sendRequest(sc);
@@ -1288,9 +1167,6 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getGroupLeaderboardView(
       String leaderboardId,
       String groupId,
@@ -1298,8 +1174,7 @@ class BrainCloudSocialLeaderboard {
       int beforeCount,
       int afterCount,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -1309,8 +1184,7 @@ class BrainCloudSocialLeaderboard {
         beforeCount;
     data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGroupLeaderboardView, data, callback);
     _clientRef.sendRequest(sc);
@@ -1347,9 +1221,6 @@ class BrainCloudSocialLeaderboard {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getGroupLeaderboardViewByVersion(
       String leaderboardId,
       String groupId,
@@ -1358,8 +1229,7 @@ class BrainCloudSocialLeaderboard {
       int beforeCount,
       int afterCount,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -1370,8 +1240,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure,
-        cbObject: cbObject);
+    var callback = BrainCloudClient.createServerCallback(success, failure);
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGroupLeaderboardView, data, callback);
     _clientRef.sendRequest(sc);

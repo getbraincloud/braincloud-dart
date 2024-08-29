@@ -4,12 +4,10 @@ class ServerCallback {
   /// ServerCallback
   /// @param fnSuccessCallback : SuccessCallback
   /// @param fnFailureCallback : FailureCallback
-  ServerCallback(this.fnSuccessCallback, this.fnFailureCallback,
-      {this.cbObject});
+  ServerCallback(this.fnSuccessCallback, this.fnFailureCallback);
 
   SuccessCallback? fnSuccessCallback;
   FailureCallback? fnFailureCallback;
-  dynamic cbObject;
 
   void onSuccessCallback(Map<String, dynamic> jsonResponse) {
     fnSuccessCallback?.call(jsonResponse);
@@ -17,41 +15,6 @@ class ServerCallback {
 
   void onErrorCallback(int statusCode, int reasonCode, String statusMessage) {
     fnFailureCallback?.call(statusCode, reasonCode, statusMessage);
-  }
-
-  //This function can only add callbacks for Authenticate requests.
-  void addAuthCallbacks(ServerCallback? inCallback) {
-    if (inCallback != null) {
-      WrapperAuthCallbackObject? callbackObject = inCallback.cbObject;
-
-      if (callbackObject == null) {
-        return;
-      }
-
-      // add new callback to existing successCallback
-      fnSuccessCallback = (Map<String, dynamic> response) {
-        if (fnSuccessCallback != null) {
-          fnSuccessCallback!(response);
-        }
-
-        if (callbackObject.successCallback != null) {
-          callbackObject.successCallback!(response);
-        }
-      };
-
-      // add new callback to existing failureCallback
-      fnFailureCallback =
-          (int statusCode, int reasonCode, String statusMessage) {
-        if (fnFailureCallback != null) {
-          fnFailureCallback!(statusCode, reasonCode, statusMessage);
-        }
-
-        if (callbackObject.failureCallback != null) {
-          callbackObject.failureCallback!(
-              statusCode, reasonCode, statusMessage);
-        }
-      };
-    }
   }
 
   bool areCallbacksNull() {

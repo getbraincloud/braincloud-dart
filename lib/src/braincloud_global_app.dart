@@ -23,14 +23,9 @@ class BrainCloudGlobalApp {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void readProperties(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+  void readProperties(SuccessCallback? success, FailureCallback? failure) {
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall serverCall = ServerCall(
         ServiceName.globalApp, ServiceOperation.readProperties, null, callback);
     _clientRef.sendRequest(serverCall);
@@ -53,17 +48,13 @@ class BrainCloudGlobalApp {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void readSelectedProperties(List<String> propertyNames,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.globalAppPropertyNames.value] = propertyNames;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall serverCall = ServerCall(ServiceName.globalApp,
         ServiceOperation.readSelectedProperties, data, callback);
     _clientRef.sendRequest(serverCall);
@@ -86,17 +77,13 @@ class BrainCloudGlobalApp {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void readPropertiesInCategories(List<String> categories,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.globalAppCategories.value] = categories;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall serverCall = ServerCall(ServiceName.globalApp,
         ServiceOperation.readPropertiesInCategories, data, callback);
     _clientRef.sendRequest(serverCall);

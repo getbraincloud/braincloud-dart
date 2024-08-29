@@ -28,17 +28,15 @@ class BrainCloudVirtualCurrency {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void getCurrency(String currencyType, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void getCurrency(
+      String currencyType, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.virtualCurrencyServiceCurrencyId.value] = currencyType;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      success,
+      failure,
+    );
     ServerCall sc = ServerCall(ServiceName.virtualCurrency,
         ServiceOperation.getPlayerVC, data, callback);
     _clientRef.sendRequest(sc);
@@ -65,19 +63,15 @@ class BrainCloudVirtualCurrency {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getParentCurrency(String currencyType, String levelName,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.virtualCurrencyServiceCurrencyId.value] = currencyType;
     data[OperationParam.authenticateServiceAuthenticateLevelName.value] =
         levelName;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.virtualCurrency,
         ServiceOperation.getParentVC, data, callback);
     _clientRef.sendRequest(sc);
@@ -104,19 +98,15 @@ class BrainCloudVirtualCurrency {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
   void getPeerCurrency(String currencyType, String peerCode,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.virtualCurrencyServiceCurrencyId.value] = currencyType;
     data[OperationParam.authenticateServiceAuthenticatePeerCode.value] =
         peerCode;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.virtualCurrency,
         ServiceOperation.getPeerVC, data, callback);
     _clientRef.sendRequest(sc);
@@ -135,16 +125,11 @@ class BrainCloudVirtualCurrency {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void resetCurrency(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  void resetCurrency(SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.virtualCurrency,
         ServiceOperation.resetPlayerVC, data, callback);
     _clientRef.sendRequest(sc);

@@ -23,14 +23,9 @@ class BrainCloudTime {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void readServerTime(SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+  void readServerTime(SuccessCallback? success, FailureCallback? failure) {
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc =
         ServerCall(ServiceName.time, ServiceOperation.read, null, callback);
     _clientRef.sendRequest(sc);

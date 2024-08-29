@@ -48,21 +48,17 @@ class BrainCloudAsyncMatch {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void createMatch(
-      {required jsonOpponentIds,
-      required String pushNotificationMessage,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+  void createMatch({
+    required jsonOpponentIds,
+    required String pushNotificationMessage,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  }) {
     _createMatchInternal(
         jsonOpponentIds: jsonOpponentIds,
         pushNotificationMessage: pushNotificationMessage,
         success: success,
-        failure: failure,
-        cbObject: cbObject);
+        failure: failure);
   }
 
   /// <summary>
@@ -110,18 +106,15 @@ class BrainCloudAsyncMatch {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void createMatchWithInitialTurn(
-      {required String jsonOpponentIds,
-      String? jsonMatchState,
-      required String pushNotificationMessage,
-      String? nextPlayer,
-      String? jsonSummary,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+  void createMatchWithInitialTurn({
+    required String jsonOpponentIds,
+    String? jsonMatchState,
+    required String pushNotificationMessage,
+    String? nextPlayer,
+    String? jsonSummary,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  }) {
     _createMatchInternal(
         jsonOpponentIds: jsonOpponentIds,
         jsonMatchState: jsonMatchState ?? "{}",
@@ -129,8 +122,7 @@ class BrainCloudAsyncMatch {
         nextPlayer: nextPlayer,
         jsonSummary: jsonSummary,
         success: success,
-        failure: failure,
-        cbObject: cbObject);
+        failure: failure);
   }
 
   /// <summary>
@@ -171,21 +163,18 @@ class BrainCloudAsyncMatch {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void submitTurn(
-      {required String ownerId,
-      required String matchId,
-      required int version,
-      required String jsonMatchState,
-      String? pushNotificationMessage,
-      String? nextPlayer,
-      String? jsonSummary,
-      String? jsonStatistics,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+  void submitTurn({
+    required String ownerId,
+    required String matchId,
+    required int version,
+    required String jsonMatchState,
+    String? pushNotificationMessage,
+    String? nextPlayer,
+    String? jsonSummary,
+    String? jsonStatistics,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  }) {
     Map<String, dynamic> data = {};
 
     data["ownerId"] = ownerId;
@@ -211,9 +200,8 @@ class BrainCloudAsyncMatch {
       data["pushContent"] = pushNotificationMessage;
     }
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.asyncMatch, ServiceOperation.submitTurn, data, callback);
     _clientRef.sendRequest(sc);
@@ -244,17 +232,14 @@ class BrainCloudAsyncMatch {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void updateMatchSummaryData(
-      {required String ownerId,
-      required String matchId,
-      required int version,
-      String? jsonSummary,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+  void updateMatchSummaryData({
+    required String ownerId,
+    required String matchId,
+    required int version,
+    String? jsonSummary,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  }) {
     Map<String, dynamic> data = {};
 
     data["ownerId"] = ownerId;
@@ -265,9 +250,8 @@ class BrainCloudAsyncMatch {
       data["summary"] = jsonDecode(jsonSummary!);
     }
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.asyncMatch,
         ServiceOperation.updateMatchSummary, data, callback);
     _clientRef.sendRequest(sc);
@@ -292,23 +276,19 @@ class BrainCloudAsyncMatch {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void completeMatch(
-      {required String ownerId,
-      required String matchId,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+  void completeMatch({
+    required String ownerId,
+    required String matchId,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  }) {
     Map<String, dynamic> data = {};
 
     data["ownerId"] = ownerId;
     data["matchId"] = matchId;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.asyncMatch, ServiceOperation.complete, data, callback);
     _clientRef.sendRequest(sc);
@@ -333,23 +313,19 @@ class BrainCloudAsyncMatch {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void readMatch(
-      {required String ownerId,
-      required String matchId,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+  void readMatch({
+    required String ownerId,
+    required String matchId,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  }) {
     Map<String, dynamic> data = {};
 
     data["ownerId"] = ownerId;
     data["matchId"] = matchId;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.asyncMatch, ServiceOperation.readMatch, data, callback);
     _clientRef.sendRequest(sc);
@@ -374,23 +350,19 @@ class BrainCloudAsyncMatch {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void readMatchHistory(
-      {required String ownerId,
-      required String matchId,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+  void readMatchHistory({
+    required String ownerId,
+    required String matchId,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  }) {
     Map<String, dynamic> data = {};
 
     data["ownerId"] = ownerId;
     data["matchId"] = matchId;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.asyncMatch,
         ServiceOperation.readMatchHistory, data, callback);
     _clientRef.sendRequest(sc);
@@ -409,14 +381,12 @@ class BrainCloudAsyncMatch {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void findMatches(
-      {SuccessCallback? success, FailureCallback? failure, dynamic cbObject}) {
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+  void findMatches({
+    SuccessCallback? success,
+    FailureCallback? failure,
+  }) {
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.asyncMatch, ServiceOperation.findMatches, null, callback);
     _clientRef.sendRequest(sc);
@@ -435,14 +405,12 @@ class BrainCloudAsyncMatch {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.e is received.
-  /// </param>
-  void findCompleteMatches(
-      {SuccessCallback? success, FailureCallback? failure, dynamic cbObject}) {
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+  void findCompleteMatches({
+    SuccessCallback? success,
+    FailureCallback? failure,
+  }) {
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.asyncMatch,
         ServiceOperation.findMatchesCompleted, null, callback);
     _clientRef.sendRequest(sc);
@@ -467,23 +435,19 @@ class BrainCloudAsyncMatch {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void abandonMatch(
-      {required String ownerId,
-      required String matchId,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+  void abandonMatch({
+    required String ownerId,
+    required String matchId,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  }) {
     Map<String, dynamic> data = {};
 
     data["ownerId"] = ownerId;
     data["matchId"] = matchId;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.asyncMatch, ServiceOperation.abandon, data, callback);
     _clientRef.sendRequest(sc);
@@ -509,23 +473,19 @@ class BrainCloudAsyncMatch {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void deleteMatch(
-      {required String ownerId,
-      required String matchId,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+  void deleteMatch({
+    required String ownerId,
+    required String matchId,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  }) {
     Map<String, dynamic> data = {};
 
     data["ownerId"] = ownerId;
     data["matchId"] = matchId;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.asyncMatch, ServiceOperation.deleteMatch, data, callback);
     _clientRef.sendRequest(sc);
@@ -557,17 +517,14 @@ class BrainCloudAsyncMatch {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
-  void completeMatchWithSummaryData(
-      {required String ownerId,
-      required String matchId,
-      String? pushContent,
-      required summary,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+  void completeMatchWithSummaryData({
+    required String ownerId,
+    required String matchId,
+    String? pushContent,
+    required summary,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  }) {
     Map<String, dynamic> data = {};
     //completedby not needed?
     data["ownerId"] = ownerId;
@@ -577,9 +534,8 @@ class BrainCloudAsyncMatch {
     }
     data["summary"] = jsonDecode(summary);
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.asyncMatch,
         ServiceOperation.completeMatchWithSummaryData, data, callback);
     _clientRef.sendRequest(sc);
@@ -611,18 +567,16 @@ class BrainCloudAsyncMatch {
   /// <param name="failure">
   /// The failure callback.
   /// </param>
-  /// <param name="cbObject">
-  /// The user object sent to the callback.
-  /// </param>
+
   //String abandonedBy,
-  void abandonMatchWithSummaryData(
-      {required String ownerId,
-      required String matchId,
-      String? pushContent,
-      required summary,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+  void abandonMatchWithSummaryData({
+    required String ownerId,
+    required String matchId,
+    String? pushContent,
+    required summary,
+    SuccessCallback? success,
+    FailureCallback? failure,
+  }) {
     Map<String, dynamic> data = {};
     //abandoneddby not needed?
     data["ownerId"] = ownerId;
@@ -632,9 +586,8 @@ class BrainCloudAsyncMatch {
     }
     data["summary"] = jsonDecode(summary);
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.asyncMatch,
         ServiceOperation.abandonMatchWithSummaryData, data, callback);
     _clientRef.sendRequest(sc);
@@ -648,8 +601,7 @@ class BrainCloudAsyncMatch {
       String? nextPlayer,
       String? jsonSummary,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject}) {
+      FailureCallback? failure}) {
     Map<String, dynamic> data = {};
     data["players"] = jsonDecode(jsonOpponentIds);
 
@@ -675,9 +627,8 @@ class BrainCloudAsyncMatch {
       data["pushContent"] = pushNotificationMessage;
     }
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(
         ServiceName.asyncMatch, ServiceOperation.create, data, callback);
     _clientRef.sendRequest(sc);

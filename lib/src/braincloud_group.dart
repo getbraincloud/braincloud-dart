@@ -27,14 +27,13 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
-  void acceptGroupInvitation(String groupId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void acceptGroupInvitation(
+      String groupId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
 
-    _sendRequest(ServiceOperation.acceptGroupInvitation, success, failure,
-        cbObject, data);
+    _sendRequest(
+        ServiceOperation.acceptGroupInvitation, success, failure, data);
   }
 
   /// <summary>
@@ -58,15 +57,13 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void addGroupMember(
       String groupId,
       String profileId,
       Role role,
       String jsonAttributes,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupProfileId.value] = profileId;
@@ -77,8 +74,7 @@ class BrainCloudGroup {
       data[OperationParam.groupAttributes.value] = customData;
     }
 
-    _sendRequest(
-        ServiceOperation.addGroupMember, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.addGroupMember, success, failure, data);
   }
 
   /// <summary>
@@ -101,15 +97,13 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void approveGroupJoinRequest(
       String groupId,
       String profileId,
       Role role,
       String jsonAttributes,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupProfileId.value] = profileId;
@@ -120,8 +114,8 @@ class BrainCloudGroup {
       data[OperationParam.groupAttributes.value] = customData;
     }
 
-    _sendRequest(ServiceOperation.approveGroupJoinRequest, success, failure,
-        cbObject, data);
+    _sendRequest(
+        ServiceOperation.approveGroupJoinRequest, success, failure, data);
   }
 
   /// <summary>
@@ -142,14 +136,12 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void autoJoinGroup(
       String groupType,
       AutoJoinStrategy autoJoinStrategy,
       String dataQueryJson,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupType.value] = groupType;
     data[OperationParam.groupAutoJoinStrategy.value] =
@@ -159,8 +151,7 @@ class BrainCloudGroup {
       data[OperationParam.groupWhere.value] = dataQueryJson;
     }
 
-    _sendRequest(
-        ServiceOperation.autoJoinGroup, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.autoJoinGroup, success, failure, data);
   }
 
   /// <summary>
@@ -181,14 +172,12 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void autoJoinGroupMulti(
       List<String> groupTypes,
       AutoJoinStrategy autoJoinStrategy,
       String dataQueryJson,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupTypes.value] = groupTypes;
     data[OperationParam.groupAutoJoinStrategy.value] =
@@ -198,8 +187,7 @@ class BrainCloudGroup {
       data[OperationParam.groupWhere.value] = dataQueryJson;
     }
 
-    _sendRequest(
-        ServiceOperation.autoJoinGroupMulti, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.autoJoinGroupMulti, success, failure, data);
   }
 
   /// <summary>
@@ -217,15 +205,14 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void cancelGroupInvitation(String groupId, String profileId,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupProfileId.value] = profileId;
 
-    _sendRequest(ServiceOperation.cancelGroupInvitation, success, failure,
-        cbObject, data);
+    _sendRequest(
+        ServiceOperation.cancelGroupInvitation, success, failure, data);
   }
 
   /// <summary>
@@ -258,7 +245,6 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void createGroup(
       String name,
       String groupType,
@@ -268,8 +254,7 @@ class BrainCloudGroup {
       String jsonOwnerAttributes,
       String jsonDefaultMemberAttributes,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     if (!name.isEmptyOrNull) {
@@ -294,8 +279,7 @@ class BrainCloudGroup {
           jsonDecode(jsonDefaultMemberAttributes);
     }
 
-    _sendRequest(
-        ServiceOperation.createGroup, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.createGroup, success, failure, data);
   }
 
   /// <summary>
@@ -332,7 +316,6 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void createGroupWithSummaryData(
       String name,
       String groupType,
@@ -343,8 +326,7 @@ class BrainCloudGroup {
       String jsonDefaultMemberAttributes,
       String jsonSummaryData,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
 
     if (!name.isEmptyOrNull) {
@@ -372,8 +354,7 @@ class BrainCloudGroup {
       data[OperationParam.groupSummaryData.value] = jsonDecode(jsonSummaryData);
     }
 
-    _sendRequest(
-        ServiceOperation.createGroup, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.createGroup, success, failure, data);
   }
 
   /// <summary>
@@ -400,7 +381,6 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void createGroupEntity(
       String groupId,
       String entityType,
@@ -408,8 +388,7 @@ class BrainCloudGroup {
       GroupACL? acl,
       String? jsonData,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     if (!entityType.isEmptyOrNull) {
@@ -426,8 +405,7 @@ class BrainCloudGroup {
       data[OperationParam.groupData.value] = jsonDecode(jsonData!);
     }
 
-    _sendRequest(
-        ServiceOperation.createGroupEntity, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.createGroupEntity, success, failure, data);
   }
 
   /// <summary>
@@ -445,15 +423,13 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void deleteGroup(String groupId, int version, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupVersion.value] = version;
 
-    _sendRequest(
-        ServiceOperation.deleteGroup, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.deleteGroup, success, failure, data);
   }
 
   /// <summary>
@@ -474,16 +450,14 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void deleteGroupEntity(String groupId, String entityId, int version,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupEntityId.value] = entityId;
     data[OperationParam.groupVersion.value] = version;
 
-    _sendRequest(
-        ServiceOperation.deleteGroupEntity, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.deleteGroupEntity, success, failure, data);
   }
 
   /// <summary>
@@ -494,10 +468,8 @@ class BrainCloudGroup {
   /// Service Operation - GET_MY_GROUPS
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
-  void getMyGroups(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
-    _sendRequest(ServiceOperation.getMyGroups, success, failure, cbObject, {});
+  void getMyGroups(SuccessCallback? success, FailureCallback? failure) {
+    _sendRequest(ServiceOperation.getMyGroups, success, failure, {});
   }
 
   /// <summary>
@@ -515,17 +487,15 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void incrementGroupData(String groupId, String? jsonData,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     if (!jsonData.isEmptyOrNull) {
       data[OperationParam.groupData.value] = jsonDecode(jsonData!);
     }
 
-    _sendRequest(
-        ServiceOperation.incrementGroupData, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.incrementGroupData, success, failure, data);
   }
 
   /// <summary>
@@ -546,22 +516,16 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
-  void incrementGroupEntityData(
-      String groupId,
-      String entityId,
-      String? jsonData,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void incrementGroupEntityData(String groupId, String entityId,
+      String? jsonData, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupEntityId.value] = entityId;
     if (!jsonData.isEmptyOrNull) {
       data[OperationParam.groupData.value] = jsonDecode(jsonData!);
     }
-    _sendRequest(ServiceOperation.incrementGroupEntityData, success, failure,
-        cbObject, data);
+    _sendRequest(
+        ServiceOperation.incrementGroupEntityData, success, failure, data);
   }
 
   /// <summary>
@@ -585,15 +549,13 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void inviteGroupMember(
       String groupId,
       String profileId,
       Role role,
       String? jsonAttributes,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupProfileId.value] = profileId;
@@ -602,8 +564,7 @@ class BrainCloudGroup {
       data[OperationParam.groupAttributes.value] = jsonDecode(jsonAttributes!);
     }
 
-    _sendRequest(
-        ServiceOperation.inviteGroupMember, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.inviteGroupMember, success, failure, data);
   }
 
   /// <summary>
@@ -618,13 +579,12 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
-  void joinGroup(String groupId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void joinGroup(
+      String groupId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
 
-    _sendRequest(ServiceOperation.joinGroup, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.joinGroup, success, failure, data);
   }
 
   /// <summary>
@@ -639,13 +599,12 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
-  void leaveGroup(String groupId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void leaveGroup(
+      String groupId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
 
-    _sendRequest(ServiceOperation.leaveGroup, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.leaveGroup, success, failure, data);
   }
 
   /// <summary>
@@ -659,14 +618,12 @@ class BrainCloudGroup {
   /// Query context.
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
-  void listGroupsPage(String jsonContext, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void listGroupsPage(
+      String jsonContext, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupContext.value] = jsonDecode(jsonContext);
 
-    _sendRequest(
-        ServiceOperation.listGroupsPage, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.listGroupsPage, success, failure, data);
   }
 
   /// <summary>
@@ -685,15 +642,14 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void listGroupsPageByOffset(String context, int pageOffset,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupContext.value] = context;
     data[OperationParam.groupPageOffset.value] = pageOffset;
 
-    _sendRequest(ServiceOperation.listGroupsPageByOffset, success, failure,
-        cbObject, data);
+    _sendRequest(
+        ServiceOperation.listGroupsPageByOffset, success, failure, data);
   }
 
   /// <summary>
@@ -707,14 +663,12 @@ class BrainCloudGroup {
   /// User to read groups for
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
-  void listGroupsWithMember(String profileId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void listGroupsWithMember(
+      String profileId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupProfileId.value] = profileId;
 
-    _sendRequest(ServiceOperation.listGroupsWithMember, success, failure,
-        cbObject, data);
+    _sendRequest(ServiceOperation.listGroupsWithMember, success, failure, data);
   }
 
   /// <summary>
@@ -729,13 +683,12 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
-  void readGroup(String groupId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void readGroup(
+      String groupId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
 
-    _sendRequest(ServiceOperation.readGroup, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.readGroup, success, failure, data);
   }
 
   /// <summary>
@@ -750,14 +703,12 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
-  void readGroupData(String groupId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void readGroupData(
+      String groupId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
 
-    _sendRequest(
-        ServiceOperation.readGroupData, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.readGroupData, success, failure, data);
   }
 
   /// <summary>
@@ -772,14 +723,13 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
-  void readGroupEntitiesPage(String jsonContext, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void readGroupEntitiesPage(
+      String jsonContext, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupContext.value] = jsonDecode(jsonContext);
 
-    _sendRequest(ServiceOperation.readGroupEntitiesPage, success, failure,
-        cbObject, data);
+    _sendRequest(
+        ServiceOperation.readGroupEntitiesPage, success, failure, data);
   }
 
   /// <summary>
@@ -797,15 +747,14 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void readGroupEntitiesPageByOffset(String encodedContext, int pageOffset,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupContext.value] = encodedContext;
     data[OperationParam.groupPageOffset.value] = pageOffset;
 
-    _sendRequest(ServiceOperation.readGroupEntitiesPageByOffset, success,
-        failure, cbObject, data);
+    _sendRequest(
+        ServiceOperation.readGroupEntitiesPageByOffset, success, failure, data);
   }
 
   /// <summary>
@@ -823,15 +772,13 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void readGroupEntity(String groupId, String entityId,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupEntityId.value] = entityId;
 
-    _sendRequest(
-        ServiceOperation.readGroupEntity, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.readGroupEntity, success, failure, data);
   }
 
   /// <summary>
@@ -846,14 +793,12 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
-  void readGroupMembers(String groupId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void readGroupMembers(
+      String groupId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
 
-    _sendRequest(
-        ServiceOperation.readGroupMembers, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.readGroupMembers, success, failure, data);
   }
 
   /// <summary>
@@ -868,14 +813,13 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
-  void rejectGroupInvitation(String groupId, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+  void rejectGroupInvitation(
+      String groupId, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
 
-    _sendRequest(ServiceOperation.rejectGroupInvitation, success, failure,
-        cbObject, data);
+    _sendRequest(
+        ServiceOperation.rejectGroupInvitation, success, failure, data);
   }
 
   /// <summary>
@@ -893,15 +837,14 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void rejectGroupJoinRequest(String groupId, String profileId,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupProfileId.value] = profileId;
 
-    _sendRequest(ServiceOperation.rejectGroupJoinRequest, success, failure,
-        cbObject, data);
+    _sendRequest(
+        ServiceOperation.rejectGroupJoinRequest, success, failure, data);
   }
 
   /// <summary>
@@ -919,15 +862,13 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void removeGroupMember(String groupId, String profileId,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupProfileId.value] = profileId;
 
-    _sendRequest(
-        ServiceOperation.removeGroupMember, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.removeGroupMember, success, failure, data);
   }
 
   /// <summary>
@@ -948,16 +889,14 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void updateGroupData(String groupId, int version, String? jsonData,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupVersion.value] = version;
     data[OperationParam.groupData.value] = jsonDecode(jsonData ?? "");
 
-    _sendRequest(
-        ServiceOperation.updateGroupData, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.updateGroupData, success, failure, data);
   }
 
   /// <summary>
@@ -981,15 +920,8 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
-  void updateGroupEntityData(
-      String groupId,
-      String entityId,
-      int version,
-      String? jsonData,
-      SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+  void updateGroupEntityData(String groupId, String entityId, int version,
+      String? jsonData, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupEntityId.value] = entityId;
@@ -998,8 +930,7 @@ class BrainCloudGroup {
       data[OperationParam.groupData.value] = jsonDecode(jsonData);
     }
 
-    _sendRequest(
-        ServiceOperation.updateGroupEntity, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.updateGroupEntity, success, failure, data);
   }
 
   /// <summary>
@@ -1023,15 +954,13 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void updateGroupMember(
       String groupId,
       String profileId,
       Role? role,
       String? jsonAttributes,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupProfileId.value] = profileId;
@@ -1041,8 +970,7 @@ class BrainCloudGroup {
     if (!jsonAttributes.isEmptyOrNull) {
       data[OperationParam.groupAttributes.value] = jsonDecode(jsonAttributes!);
     }
-    _sendRequest(
-        ServiceOperation.updateGroupMember, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.updateGroupMember, success, failure, data);
   }
 
   /// <summary>
@@ -1060,15 +988,13 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void updateGroupName(String groupId, String name, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupName.value] = name;
 
-    _sendRequest(
-        ServiceOperation.updateGroupName, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.updateGroupName, success, failure, data);
   }
 
   /// <summary>
@@ -1086,15 +1012,13 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void setGroupOpen(String groupId, bool isOpenGroup, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupIsOpenGroup.value] = isOpenGroup;
 
-    _sendRequest(
-        ServiceOperation.setGroupOpen, success, failure, cbObject, data);
+    _sendRequest(ServiceOperation.setGroupOpen, success, failure, data);
   }
 
   /// <summary>
@@ -1115,14 +1039,12 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void updateGroupSummaryData(
       String groupId,
       int version,
       String? jsonSummaryData,
       SuccessCallback? success,
-      FailureCallback? failure,
-      dynamic cbObject) {
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupVersion.value] = version;
@@ -1131,8 +1053,8 @@ class BrainCloudGroup {
           jsonDecode(jsonSummaryData!);
     }
 
-    _sendRequest(ServiceOperation.updateGroupSummaryData, success, failure,
-        cbObject, data);
+    _sendRequest(
+        ServiceOperation.updateGroupSummaryData, success, failure, data);
   }
 
   /// <summary>
@@ -1151,9 +1073,8 @@ class BrainCloudGroup {
   /// </param>
   /// <param name="success">The success callback</param>
   /// <param name="failure">The failure callback</param>
-  /// <param name="cbObject">The callback object</param>
   void getRandomGroupsMatching(String jsonWhere, int maxReturn,
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     if (Util.isOptionalParameterValid(jsonWhere)) {
       Map<String, dynamic> customData = jsonDecode(jsonWhere);
@@ -1161,15 +1082,14 @@ class BrainCloudGroup {
     }
     data[OperationParam.groupMaxReturn.value] = maxReturn;
 
-    _sendRequest(ServiceOperation.getRandomGroupsMatching, success, failure,
-        cbObject, data);
+    _sendRequest(
+        ServiceOperation.getRandomGroupsMatching, success, failure, data);
   }
 
   void _sendRequest(ServiceOperation operation, SuccessCallback? success,
-      FailureCallback? failure, dynamic cbObject, Map<String, dynamic> data) {
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-        success, failure,
-        cbObject: cbObject);
+      FailureCallback? failure, Map<String, dynamic> data) {
+    ServerCallback? callback =
+        BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.group, operation, data, callback);
     _clientRef.sendRequest(sc);
   }

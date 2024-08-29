@@ -123,12 +123,13 @@ class BrainCloudClient {
   BrainCloudRelay? _rsService;
 
   static ServerCallback? createServerCallback(
-      SuccessCallback? success, FailureCallback? failure,
-      {dynamic cbObject}) {
+    SuccessCallback? success,
+    FailureCallback? failure,
+  ) {
     ServerCallback? newCallback;
 
     if (success != null || failure != null) {
-      newCallback = ServerCallback(success!, failure!, cbObject: cbObject);
+      newCallback = ServerCallback(success!, failure!);
     }
 
     return newCallback;
@@ -579,7 +580,7 @@ class BrainCloudClient {
 
       case BrainCloudUpdateType.PING:
         {
-          _lobbyService?.Update();
+          _lobbyService?.update();
         }
         break;
 
@@ -588,7 +589,7 @@ class BrainCloudClient {
           _rttComms?.update();
           _comms?.update();
           _rsComms?.update();
-          _lobbyService?.Update();
+          _lobbyService?.update();
         }
         break;
     }
@@ -905,10 +906,9 @@ class BrainCloudClient {
   /// Normally not needed as the brainCloud SDK sends heartbeats automatically.
   /// Regardless, this is a manual way to send a heartbeat.
   /// </summary>
-  void sendHeartbeat(
-      SuccessCallback? success, FailureCallback? failure, dynamic cbObject) {
+  void sendHeartbeat(SuccessCallback? success, FailureCallback? failure) {
     ServerCall sc = ServerCall(ServiceName.heartBeat, ServiceOperation.read,
-        null, ServerCallback(success, failure, cbObject: cbObject));
+        null, ServerCallback(success, failure));
     _comms?.addToQueue(sc);
   }
 

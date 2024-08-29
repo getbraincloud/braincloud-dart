@@ -112,7 +112,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateEmailPassword(String email, String password,
       bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
     authenticate(email, password, AuthenticationType.email, null, forceCreate,
@@ -143,7 +142,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateUniversal(
     String userId,
     String password,
@@ -178,7 +176,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateFacebook(
     String externalId,
     String authenticationToken,
@@ -213,7 +210,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateFacebookLimited(
       String externalId,
       String authenticationToken,
@@ -253,7 +249,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateOculus(
     String oculusId,
     String oculusNonce,
@@ -287,7 +282,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticatePlaystationNetwork(String accountId, String authToken,
       bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
     authenticate(accountId, authToken, AuthenticationType.playstationNetwork,
@@ -316,7 +310,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticatePlaystation5(
     String accountId,
     String authToken,
@@ -347,7 +340,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateGameCenter(
     String gameCenterId,
     bool forceCreate,
@@ -380,7 +372,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateSteam(
     String userId,
     String sessionticket,
@@ -414,7 +405,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateApple(String appleUserId, String identityToken,
       bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
     authenticate(appleUserId, identityToken, AuthenticationType.apple, null,
@@ -443,7 +433,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateGoogle(String googleUserId, String serverAuthCode,
       bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
     authenticate(googleUserId, serverAuthCode, AuthenticationType.google, null,
@@ -472,7 +461,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateGoogleOpenId(String googleUserAccountEmail, String idToken,
       bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
     authenticate(
@@ -511,7 +499,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateTwitter(String userId, String token, String secret,
       bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
     authenticate(userId, "$token:$secret", AuthenticationType.twitter, null,
@@ -540,7 +527,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateParse(
     String userId,
     String token,
@@ -568,7 +554,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateSettopHandoff(
     String handoffCode,
     SuccessCallback? success,
@@ -596,7 +581,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateHandoff(
     String handoffId,
     String securityToken,
@@ -633,7 +617,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateExternal(
       String userId,
       String token,
@@ -671,7 +654,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateAdvanced(
       AuthenticationType authenticationType,
       AuthenticationIds ids,
@@ -705,7 +687,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateUltra(String ultraUsername, String ultraidToken,
       bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
     authenticate(ultraUsername, ultraidToken, AuthenticationType.ultra, null,
@@ -734,7 +715,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-
   void authenticateNintendo(String accountId, String authToken,
       bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
     authenticate(accountId, authToken, AuthenticationType.nintendo, null,
@@ -757,7 +737,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error
   /// </param>
-
   void resetEmailPassword(
     String externalId,
     SuccessCallback? success,
@@ -795,7 +774,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error
   /// </param>
-
   void resetEmailPasswordWithExpiry(
     String externalId,
     int tokenTtlInMinutes,
@@ -842,7 +820,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error
   /// </param>
-
   void resetEmailPasswordAdvanced(
     String emailAddress,
     //Map<String, object> serviceParams,
@@ -894,7 +871,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error
   /// </param>
-
   void resetEmailPasswordAdvancedWithExpiry(
       String emailAddress,
       //Map<String, dynamic> serviceParams,
@@ -938,7 +914,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error
   /// </param>
-
   void resetUniversalIdPassword(
     String universalId,
     SuccessCallback? success,
@@ -975,7 +950,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error
   /// </param>
-
   void resetUniversalIdPasswordWithExpiry(
     String universalId,
     int tokenTtlInMinutes,
@@ -1020,7 +994,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error
   /// </param>
-
   void resetUniversalIdPasswordAdvanced(
     String universalId,
     String serviceParams,
@@ -1070,7 +1043,6 @@ class BrainCloudAuthentication {
   /// <param name="failure">
   /// The method to call in the event of an error
   /// </param>
-
   void resetUniversalIdPasswordAdvancedWithExpiry(
       String universalId,
       String serviceParams,
