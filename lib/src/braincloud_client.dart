@@ -974,8 +974,9 @@ class BrainCloudClient {
 
     //setup region/country code
     if (Util.getCurrentCountryCode().isEmpty) {
-       String locale = Intl.getCurrentLocale();      
-      String countryCode = locale.split('_').last;  // Extract the country code from locale.
+      String locale = Intl.getCurrentLocale();
+      String countryCode =
+          locale.split('_').last; // Extract the country code from locale.
       Util.setCurrentCountryCode(countryCode);
     }
   }

@@ -39,11 +39,8 @@ class RTTComms {
       _currentConnectionType = inConnectiontype ?? RTTConnectionType.websocket;
       _clientRef.rttService?.requestClientConnection((response) {
         rttConnectionServerSuccess(response);
-
-        inSuccess!(response);
       }, (statusCode, reasonCode, statusMessage) {
         rttConnectionServerError(statusCode, reasonCode, statusMessage);
-        inFailure!(statusCode, reasonCode, statusMessage);
       });
     }
   }
@@ -156,7 +153,7 @@ class RTTComms {
               seconds: DateTime.now().subtract(_sinceLastHeartbeat).second);
           _rttConnectionStatus = RTTConnectionStatus.connected;
           _connectedSuccessCallback!(
-              {"message": toProcessResponse.jsonMessage});
+              jsonDecode(toProcessResponse.jsonMessage ?? ""));
         }
 
         //if we're connected and we get a disconnect - we disconnect the comms...
