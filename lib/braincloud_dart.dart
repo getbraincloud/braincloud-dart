@@ -6,3 +6,5 @@ export 'src/Common/authentication_type.dart' show AuthenticationType;
 export 'src/internal/service_name.dart' show ServiceName;
 export 'src/reason_codes.dart' show ReasonCodes;
 export 'src/status_codes.dart' show StatusCodes;
+export 'src/braincloud_social_leaderboard.dart'
+    show SortOrder, SocialLeaderboardType, RotationType, FetchType;

@@ -414,35 +414,6 @@ class BrainCloudComms {
             }
           }
         }
-// #elif DOT_NET || GODOT
-        //HttpStatusCode.OK
-        // if (_activeRequest?.WebRequest.Result.StatusCode == 200)
-        // {
-        //     ResetIdleTimer();
-        //     HandleResponseBundle(GetWebRequestResponse(_activeRequest));
-        //     _activeRequest = null;
-        // }
-        // //HttpStatusCode.ServiceUnavailable
-        // else if (_activeRequest.WebRequest.Result.StatusCode == 503)
-        // {
-        //     //Packet in progress
-        //     _clientRef.Log("Packet in progress");
-        //     RetryRequest(status, bypassTimeout);
-        //     return;
-        // }
-        // else
-        // {
-        //     //Error Callback
-        //     var errorResponse = GetWebRequestResponse(_activeRequest);
-        //     if (_serviceCallsInProgress.isNotEmpty)
-        //     {
-        //         ServerCallback? sc = _serviceCallsInProgress[0].GetCallback!;
-        //         if (sc != null)
-        //         {
-        //             sc.onErrorCallback(404, _activeRequest.WebRequest.Result.StatusCode, errorResponse);
-        //         }
-        //     }
-        // }
       }
     }
 
