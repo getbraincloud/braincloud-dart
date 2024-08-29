@@ -8,6 +8,8 @@ import 'package:braincloud_dart/src/server_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/v1.dart';
+import 'package:uuid/v4.dart';
 
 import 'stored_ids.dart';
 
@@ -21,6 +23,7 @@ main() {
   String customEntityType = "";
   String customShardedEntityType = "";
   String customOwnedEntityType = "";
+  final String entityType = "DartUnitTests";
 
   setUpAll(() async {
     // });
@@ -28,8 +31,8 @@ main() {
     StoredIds ids = StoredIds('test/ids.txt');
     await ids.load();
 
-    email = ids.email;
-    password = ids.password;
+    email = ids.email.isEmpty ? "${UuidV4().generate()}@DartUnitTester" : ids.email;
+    password = ids.password.isEmpty ? UuidV4().generate() : ids.password;
     sharedProfileId = ids.sharedProfileId;
     customEntityType = ids.customEntityType;
     customShardedEntityType = ids.customShardedEntityType;
@@ -84,6 +87,13 @@ main() {
       expect(response.body?['createdAt'], isA<int>());
       expect(response.body?['isTester'], isA<bool>());
       expect(response.body?['currency'], isA<Object>());
+      if (sharedProfileId.isEmpty) {
+        // if no shared Profile Id define in ids then use the anonymous user
+        sharedProfileId = response.body?['profileId'];
+        // and create a shared entity too as this will be needed.
+        var jsonEntityData = {"team": "RedTeam", "quantity": 0};
+        await bcWrapper.entityService.createEntity(entityType, jsonEntityData, ACLs.readWrite);        
+      }
     });
 
     test("reconnect", () async {
@@ -135,16 +145,12 @@ main() {
   });
 
   group("User Entity Tests", () {
-    // String email = "";
-    // String password = "";
 
     const String entityType = "UnitTests";
     String entityId = "";
     int entityVersion = 0;
     String singletonEntityId = "";
     int singletonEntityVerison = 0;
-
-    // String sharedProfileId = "";
     String sharedEntityId = "";
     int sharedEntityVersion = 0;
 
