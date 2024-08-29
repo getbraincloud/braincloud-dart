@@ -25,13 +25,14 @@ enum AuthenticationType {
   ultra('Ultra'),
   nintendo(''),
   unknown('');
-  const AuthenticationType(this.value); 
+
+  const AuthenticationType(this.value);
   final String value;
 }
 
 extension AuthenticationTypeExtension on AuthenticationType {
   String toShortString() {
-    return this.value;
+    return value;
     // return toString().split('.').last;
   }
 }

@@ -252,7 +252,7 @@ class BrainCloudRelay {
       bool inReliable = true,
       bool inOrdered = true,
       int inChannel = 0}) {
-    var myProfileId = _clientRef.authenticationService?.profileId;
+    var myProfileId = _clientRef.authenticationService.profileId;
     var myNetId = getNetIdForProfileId(myProfileId!);
 
     int myBit = 1 << myNetId;

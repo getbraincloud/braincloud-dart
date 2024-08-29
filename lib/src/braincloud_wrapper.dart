@@ -1530,9 +1530,6 @@ class BrainCloudWrapper {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  /// <param name="cbObject">
-  /// The user supplied callback object
-  /// </param>
   Future<ServerResponse> smartSwitchauthenticateUniversal(
       {required String username,
       required String password,
@@ -1555,7 +1552,7 @@ class BrainCloudWrapper {
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
-    }, null);
+    });
 
     return completer.future;
   }

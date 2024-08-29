@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:braincloud_dart/src/internal/enums/file_uploader_status.dart';
-import 'package:braincloud_dart/src/internal/wrapper_auth_callback_object.dart';
 
 import 'package:crypto/crypto.dart';
 import 'package:braincloud_dart/src/braincloud_wrapper.dart';
@@ -741,7 +740,7 @@ class BrainCloudComms {
     String? profileId =
         getJsonString(responseData, OperationParam.profileId.value, null);
     if (profileId != null) {
-      _clientRef.authenticationService?.profileId = profileId;
+      _clientRef.authenticationService.profileId = profileId;
     }
   }
 
@@ -751,7 +750,7 @@ class BrainCloudComms {
       _isAuthenticated = true;
       authenticateInProgress = false;
     }
-    _clientRef.authenticationService?.profileId = data.profileId;
+    _clientRef.authenticationService.profileId = data.profileId;
     _packetId = data.lastPacketId;
     resetIdleTimer();
   }
@@ -913,7 +912,7 @@ class BrainCloudComms {
           // we are no longer authenticated
           _isAuthenticated = false;
           _sessionId = "";
-          _clientRef.authenticationService?.clearSavedProfileID();
+          _clientRef.authenticationService.clearSavedProfileID();
           resetErrorCache();
         }
         //either off of authenticate or identity call, be sure to save the profileId and sessionId
@@ -1748,7 +1747,7 @@ class BrainCloudComms {
       _serviceCallsInTimeoutQueue.clear();
       disposeUploadHandler();
       _activeRequest = null;
-      _clientRef.authenticationService?.profileId = "";
+      _clientRef.authenticationService.profileId = "";
       _sessionId = "";
       _packetId = 0;
     } finally {

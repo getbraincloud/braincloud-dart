@@ -9,7 +9,6 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
-import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/util.dart';
 import 'package:braincloud_dart/src/version.dart';
@@ -578,7 +577,7 @@ class BrainCloudAuthentication {
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
-    }, cbObject: null);
+    });
 
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetEmailPassword, data, callback);
@@ -622,7 +621,7 @@ class BrainCloudAuthentication {
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
-    }, cbObject: null);
+    });
 
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetEmailPasswordWithExpiry, data, callback);
@@ -673,7 +672,7 @@ class BrainCloudAuthentication {
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
-    }, cbObject: null);
+    });
 
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetEmailPasswordAdvanced, data, callback);
@@ -730,7 +729,7 @@ class BrainCloudAuthentication {
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
-    }, cbObject: null);
+    });
 
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetEmailPasswordAdvancedWithExpiry, data, callback);
@@ -767,7 +766,7 @@ class BrainCloudAuthentication {
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
-    }, cbObject: null);
+    });
 
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetUniversalIdPassword, data, callback);
@@ -809,7 +808,7 @@ class BrainCloudAuthentication {
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
-    }, cbObject: null);
+    });
 
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetUniversalIdPasswordWithExpiry, data, callback);
@@ -858,7 +857,7 @@ class BrainCloudAuthentication {
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
-    }, cbObject: null);
+    });
 
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetUniversalIdPasswordAdvanced, data, callback);
@@ -911,7 +910,7 @@ class BrainCloudAuthentication {
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
-    }, cbObject: null);
+    });
 
     ServerCall sc = ServerCall(
         ServiceName.authenticate,
@@ -987,7 +986,7 @@ class BrainCloudAuthentication {
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
-    }, cbObject: null);
+    });
 
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.authenticate, data, callback);

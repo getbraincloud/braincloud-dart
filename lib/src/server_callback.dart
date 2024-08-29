@@ -1,5 +1,3 @@
-import 'package:braincloud_dart/src/internal/wrapper_auth_callback_object.dart';
-
 class ServerCallback {
   /// ServerCallback
   /// @param fnSuccessCallback : SuccessCallback

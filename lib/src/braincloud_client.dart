@@ -210,7 +210,7 @@ class BrainCloudClient {
       _comms?.enableCompression(isEnabled);
 
   set enableCompressedResponses(bool isEnabled) =>
-      _authenticationService?.compressResponse = isEnabled;
+      _authenticationService.compressResponse = isEnabled;
 
   /// <summary>Returns the sessionId or empty String if no session present.</summary>
   String get sessionID => _comms?.getSessionID ?? "";
@@ -221,8 +221,7 @@ class BrainCloudClient {
     return appId;
   }
 
-  String? get profileId =>
-      authenticationService != null ? authenticationService?.profileId : "";
+  String? get profileId => authenticationService.profileId ?? "";
 
   String get rttConnectionID => _rttComms?.rttConnectionID ?? "";
 
@@ -534,7 +533,7 @@ class BrainCloudClient {
   /// <param name="profileId">The profile id</param>
   /// <param name="anonymousId">The anonymous id</param>
   void initializeIdentity(String profileId, String anonymousId) {
-    authenticationService?.initialize(profileId, anonymousId);
+    authenticationService.initialize(profileId, anonymousId);
   }
 
   /// <summary>Shuts down all systems needed for BrainCloudClient
@@ -702,7 +701,7 @@ class BrainCloudClient {
     _rttComms?.disableRTT();
     _rsComms?.disconnect();
     update();
-    authenticationService?.clearSavedProfileID();
+    authenticationService.clearSavedProfileID();
   }
 
   /// <summary>Enable Communications with the server. By default this is true</summary>

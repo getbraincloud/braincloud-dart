@@ -48,7 +48,7 @@ extension PlatformExtension on Platform {
   }
 
   String toShortString() {
-    return this.value;
+    return value;
     // return toString().split('.').last;
   }
 }
