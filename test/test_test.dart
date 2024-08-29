@@ -108,13 +108,13 @@ main() {
       expect(response.statusCode, 200);
     });
 
-    test("authenticateEmailPassword", () async {
+    test("authenticateUniversal", () async {
       expect(bcWrapper.isInitialized, true);
 
       bcWrapper.resetStoredProfileId();
       bcWrapper.resetStoredAnonymousId();
-      ServerResponse response = await bcWrapper.authenticateEmailPassword(
-          email: email, password: password, forceCreate: false);
+      ServerResponse response = await bcWrapper.authenticateUniversal(
+          username: email, password: password, forceCreate: true);
       // debugPrint(jsonEncode(response.body));
       expect(response.statusCode, 200);
       expect(response.body?['profileId'], isA<String>());
@@ -172,8 +172,8 @@ main() {
 
     setUp(() async {
       if (!bcWrapper.brainCloudClient.isAuthenticated()) {
-        await bcWrapper.authenticateEmailPassword(
-            email: email, password: password, forceCreate: false);
+        await bcWrapper.authenticateUniversal(
+            username: email, password: password, forceCreate: false);
         // bcWrapper.resetStoredProfileId();
         // bcWrapper.resetStoredAnonymousId();
         // await bcWrapper.authenticateAnonymous();
@@ -645,8 +645,8 @@ main() {
 
     setUp(() async {
       if (!bcWrapper.brainCloudClient.isAuthenticated()) {
-        await bcWrapper.authenticateEmailPassword(
-            email: email, password: password, forceCreate: false);
+        await bcWrapper.authenticateUniversal(
+            username: email, password: password, forceCreate: false);
       }
     });
 
@@ -1100,8 +1100,8 @@ main() {
 
     setUp(() async {
       if (!bcWrapper.brainCloudClient.isAuthenticated()) {
-        await bcWrapper.authenticateEmailPassword(
-            email: email, password: password, forceCreate: false);
+        await bcWrapper.authenticateUniversal(
+            username: email, password: password, forceCreate: false);
       }
     });
 
@@ -1573,8 +1573,8 @@ main() {
   group("Test RTT", () {
     setUp(() async {
       if (!bcWrapper.brainCloudClient.isAuthenticated()) {
-        await bcWrapper.authenticateEmailPassword(
-            email: email, password: password, forceCreate: false);
+        await bcWrapper.authenticateUniversal(
+            username: email, password: password, forceCreate: false);
       }
     });
 
