@@ -33,7 +33,7 @@ class BrainCloudRTT {
     Completer<ServerResponse> completer = Completer();
     _commsLayer?.enableRTT(inConnectiontype ?? RTTConnectionType.websocket,
         (response) {
-      completer.complete(ServerResponse.fromJson(response));
+      completer.complete(ServerResponse(statusCode: 200, body: response));
     }, (statusCode, reasonCode, statusMessage) {
       completer.completeError(ServerResponse(
           statusCode: statusCode,
