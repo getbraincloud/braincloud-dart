@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/Common/authentication_ids.dart';
@@ -9,6 +10,7 @@ import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/util.dart';
 import 'package:braincloud_dart/src/version.dart';
 import 'package:uuid/uuid.dart';
@@ -68,20 +70,12 @@ class BrainCloudAuthentication {
   /// </param>
   /// <param name="forceCreate">
   /// Should a new profile be created if it does not exist?
-  /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void authenticateAnonymous(
+  /// </param>  
+  Future<ServerResponse>  authenticateAnonymous(
     bool forceCreate,
-    SuccessCallback? success,
-    FailureCallback? failure,
-  ) {
-    authenticate(_anonymousId, "", AuthenticationType.anonymous, null,
-        forceCreate, null, success, failure);
+  ) async {
+    return authenticate(_anonymousId, "", AuthenticationType.anonymous, null,
+        forceCreate, null);
   }
 
   /// <summary>
@@ -106,17 +100,10 @@ class BrainCloudAuthentication {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateEmailPassword(String email, String password,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
-    authenticate(email, password, AuthenticationType.email, null, forceCreate,
-        null, success, failure);
+  Future<ServerResponse>  authenticateEmailPassword(String email, String password,
+      bool forceCreate) async {
+    return authenticate(email, password, AuthenticationType.email, null, forceCreate,
+        null);
   }
 
   /// <summary>
@@ -137,22 +124,13 @@ class BrainCloudAuthentication {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateUniversal(
+  Future<ServerResponse>  authenticateUniversal(
     String userId,
     String password,
     bool forceCreate,
-    SuccessCallback? success,
-    FailureCallback? failure,
   ) {
-    authenticate(userId, password, AuthenticationType.universal, null,
-        forceCreate, null, success, failure);
+    return authenticate(userId, password, AuthenticationType.universal, null,
+        forceCreate, null);
   }
 
   /// <summary>
@@ -172,22 +150,13 @@ class BrainCloudAuthentication {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateFacebook(
+  Future<ServerResponse>  authenticateFacebook(
     String externalId,
     String authenticationToken,
     bool forceCreate,
-    SuccessCallback? success,
-    FailureCallback? failure,
   ) {
-    authenticate(externalId, authenticationToken, AuthenticationType.facebook,
-        null, forceCreate, null, success, failure);
+    return authenticate(externalId, authenticationToken, AuthenticationType.facebook,
+        null, forceCreate, null);
   }
 
   /// <summary>
@@ -207,28 +176,17 @@ class BrainCloudAuthentication {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateFacebookLimited(
+  Future<ServerResponse>  authenticateFacebookLimited(
       String externalId,
       String authenticationToken,
-      bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure) {
-    authenticate(
+      bool forceCreate) async {
+    return authenticate(
         externalId,
         authenticationToken,
         AuthenticationType.facebookLimited,
         null,
         forceCreate,
-        null,
-        success,
-        failure);
+        null);
   }
 
   /// <summary>
@@ -247,22 +205,13 @@ class BrainCloudAuthentication {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateOculus(
+  Future<ServerResponse>  authenticateOculus(
     String oculusId,
     String oculusNonce,
     bool forceCreate,
-    SuccessCallback? success,
-    FailureCallback? failure,
   ) {
-    authenticate(oculusId, oculusNonce, AuthenticationType.oculus, null,
-        forceCreate, null, success, failure);
+    return authenticate(oculusId, oculusNonce, AuthenticationType.oculus, null,
+        forceCreate, null);
   }
 
   /// <summary>
@@ -281,17 +230,10 @@ class BrainCloudAuthentication {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticatePlaystationNetwork(String accountId, String authToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
-    authenticate(accountId, authToken, AuthenticationType.playstationNetwork,
-        null, forceCreate, null, success, failure);
+  Future<ServerResponse>  authenticatePlaystationNetwork(String accountId, String authToken,
+      bool forceCreate) async {
+    return authenticate(accountId, authToken, AuthenticationType.playstationNetwork,
+        null, forceCreate, null);
   }
 
   /// <summary>
@@ -310,22 +252,13 @@ class BrainCloudAuthentication {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticatePlaystation5(
+  Future<ServerResponse>  authenticatePlaystation5(
     String accountId,
     String authToken,
     bool forceCreate,
-    SuccessCallback? success,
-    FailureCallback? failure,
-  ) {
-    authenticate(accountId, authToken, AuthenticationType.playstationNetwork5,
-        null, forceCreate, null, success, failure);
+  ) async {
+    return authenticate(accountId, authToken, AuthenticationType.playstationNetwork5,
+        null, forceCreate, null);
   }
 
   /// <summary>
@@ -341,21 +274,12 @@ class BrainCloudAuthentication {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateGameCenter(
+  Future<ServerResponse>  authenticateGameCenter(
     String gameCenterId,
     bool forceCreate,
-    SuccessCallback? success,
-    FailureCallback? failure,
-  ) {
-    authenticate(gameCenterId, "", AuthenticationType.gameCenter, null,
-        forceCreate, null, success, failure);
+  ) async {
+    return authenticate(gameCenterId, "", AuthenticationType.gameCenter, null,
+        forceCreate, null);
   }
 
   /// <summary>
@@ -374,22 +298,13 @@ class BrainCloudAuthentication {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateSteam(
+  Future<ServerResponse>  authenticateSteam(
     String userId,
     String sessionticket,
     bool forceCreate,
-    SuccessCallback? success,
-    FailureCallback? failure,
   ) {
-    authenticate(userId, sessionticket, AuthenticationType.steam, null,
-        forceCreate, null, success, failure);
+    return authenticate(userId, sessionticket, AuthenticationType.steam, null,
+        forceCreate, null);
   }
 
   /// <summary>
@@ -408,17 +323,10 @@ class BrainCloudAuthentication {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateApple(String appleUserId, String identityToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
-    authenticate(appleUserId, identityToken, AuthenticationType.apple, null,
-        forceCreate, null, success, failure);
+  Future<ServerResponse>  authenticateApple(String appleUserId, String identityToken,
+      bool forceCreate) {
+    return authenticate(appleUserId, identityToken, AuthenticationType.apple, null,
+        forceCreate, null);
   }
 
   /// <summary>
@@ -437,17 +345,10 @@ class BrainCloudAuthentication {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateGoogle(String googleUserId, String serverAuthCode,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
-    authenticate(googleUserId, serverAuthCode, AuthenticationType.google, null,
-        forceCreate, null, success, failure);
+  Future<ServerResponse>  authenticateGoogle(String googleUserId, String serverAuthCode,
+      bool forceCreate) async {
+    return authenticate(googleUserId, serverAuthCode, AuthenticationType.google, null,
+        forceCreate, null);
   }
 
   /// <summary>
@@ -466,24 +367,15 @@ class BrainCloudAuthentication {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateGoogleOpenId(String googleUserAccountEmail, String idToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
-    authenticate(
+  Future<ServerResponse>  authenticateGoogleOpenId(String googleUserAccountEmail, String idToken,
+      bool forceCreate) async {
+    return authenticate(
         googleUserAccountEmail,
         idToken,
         AuthenticationType.googleOpenId,
         null,
         forceCreate,
-        null,
-        success,
-        failure);
+        null);
   }
 
   /// <summary>
@@ -505,17 +397,10 @@ class BrainCloudAuthentication {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateTwitter(String userId, String token, String secret,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
-    authenticate(userId, "$token:$secret", AuthenticationType.twitter, null,
-        forceCreate, null, success, failure);
+  Future<ServerResponse>  authenticateTwitter(String userId, String token, String secret,
+      bool forceCreate) async {
+    return authenticate(userId, "$token:$secret", AuthenticationType.twitter, null,
+        forceCreate, null);
   }
 
   /// <summary>
@@ -534,22 +419,13 @@ class BrainCloudAuthentication {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateParse(
+  Future<ServerResponse>  authenticateParse(
     String userId,
     String token,
     bool forceCreate,
-    SuccessCallback? success,
-    FailureCallback? failure,
-  ) {
-    authenticate(userId, token, AuthenticationType.parse, null, forceCreate,
-        null, success, failure);
+  ) async {
+    return authenticate(userId, token, AuthenticationType.parse, null, forceCreate,
+        null);
   }
 
   /// <summary>
@@ -562,20 +438,11 @@ class BrainCloudAuthentication {
   /// <param name="handoffCode">
   /// brainCloud handoffId that is generated from cloud script createSettopHandoffCode
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateSettopHandoff(
+  Future<ServerResponse>  authenticateSettopHandoff(
     String handoffCode,
-    SuccessCallback? success,
-    FailureCallback? failure,
-  ) {
-    authenticate(handoffCode, "", AuthenticationType.settopHandoff, null, false,
-        null, success, failure);
+  ) async {
+    return authenticate(handoffCode, "", AuthenticationType.settopHandoff, null, false,
+        null);
   }
 
   /// <summary>
@@ -590,21 +457,12 @@ class BrainCloudAuthentication {
   /// <param name="securityToken">
   /// brainCloud securityToken that is generated from cloud script createHandoffId()
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateHandoff(
+  Future<ServerResponse>  authenticateHandoff(
     String handoffId,
     String securityToken,
-    SuccessCallback? success,
-    FailureCallback? failure,
-  ) {
-    authenticate(handoffId, securityToken, AuthenticationType.handoff, null,
-        false, null, success, failure);
+  ) async {
+    return authenticate(handoffId, securityToken, AuthenticationType.handoff, null,
+        false, null);
   }
 
   /// <summary>
@@ -627,22 +485,13 @@ class BrainCloudAuthentication {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateExternal(
+  Future<ServerResponse>  authenticateExternal(
       String userId,
       String token,
       String externalAuthName,
-      bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure) {
-    authenticate(userId, token, AuthenticationType.external, externalAuthName,
-        forceCreate, null, success, failure);
+      bool forceCreate) async {
+    return authenticate(userId, token, AuthenticationType.external, externalAuthName,
+        forceCreate, null);
   }
 
   /// <summary>
@@ -665,22 +514,13 @@ class BrainCloudAuthentication {
   /// /// <param name="extraJson">
   /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave an empty Map for no extraJson.
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateAdvanced(
+  Future<ServerResponse> authenticateAdvanced(
       AuthenticationType authenticationType,
       AuthenticationIds ids,
       bool forceCreate,
-      Map<String, dynamic> extraJson,
-      SuccessCallback? success,
-      FailureCallback? failure) {
-    authenticate(ids.externalId, ids.authenticationToken, authenticationType,
-        ids.authenticationSubType, forceCreate, extraJson, success, failure);
+      Map<String, dynamic> extraJson) async {
+    return authenticate(ids.externalId, ids.authenticationToken, authenticationType,
+        ids.authenticationSubType, forceCreate, extraJson);
   }
 
   /// <summary>
@@ -699,17 +539,10 @@ class BrainCloudAuthentication {
   /// /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateUltra(String ultraUsername, String ultraidToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
-    authenticate(ultraUsername, ultraidToken, AuthenticationType.ultra, null,
-        forceCreate, null, success, failure);
+  Future<ServerResponse>  authenticateUltra(String ultraUsername, String ultraidToken,
+      bool forceCreate) async {
+    return authenticate(ultraUsername, ultraidToken, AuthenticationType.ultra, null,
+        forceCreate, null);
   }
 
   /// <summary>
@@ -728,17 +561,10 @@ class BrainCloudAuthentication {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-
-  void authenticateNintendo(String accountId, String authToken,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
-    authenticate(accountId, authToken, AuthenticationType.nintendo, null,
-        forceCreate, null, success, failure);
+  Future<ServerResponse>  authenticateNintendo(String accountId, String authToken,
+      bool forceCreate) async {
+    return authenticate(accountId, authToken, AuthenticationType.nintendo, null,
+        forceCreate, null);
   }
 
   /// <summary>
@@ -751,29 +577,32 @@ class BrainCloudAuthentication {
   /// <param name="externalId">
   /// The email address to send the reset email to.
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of success
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error
-  /// </param>
-
-  void resetEmailPassword(
-    String externalId,
-    SuccessCallback? success,
-    FailureCallback? failure,
-  ) {
+  Future<ServerResponse>  resetEmailPassword(
+    String externalId
+  ) async {
     Map<String, dynamic> data = {};
     data[OperationParam.authenticateServiceAuthenticateExternalId.value] =
         externalId;
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetEmailPassword, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -789,19 +618,10 @@ class BrainCloudAuthentication {
   /// <param name="expiryTimeInMin">
   /// expiry time in mins
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of success
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error
-  /// </param>
-
-  void resetEmailPasswordWithExpiry(
+  Future<ServerResponse>  resetEmailPasswordWithExpiry(
     String externalId,
     int tokenTtlInMinutes,
-    SuccessCallback? success,
-    FailureCallback? failure,
-  ) {
+  ) async {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.authenticateServiceAuthenticateExternalId.value] =
         externalId;
@@ -811,11 +631,23 @@ class BrainCloudAuthentication {
     data[OperationParam.authenticateServiceAuthenticateTokenTtlInMinutes
         .value] = tokenTtlInMinutes;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetEmailPasswordWithExpiry, data, callback);
     _clientRef.sendRequest(sc);
+    
+    return completer.future;
   }
 
   /// <summary>
@@ -836,20 +668,11 @@ class BrainCloudAuthentication {
   /// The parameters to send the email service. See documentation for full list
   /// http://getbraincloud.com/apidocs/apiref/#capi-mail
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of success
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error
-  /// </param>
-
-  void resetEmailPasswordAdvanced(
+  Future<ServerResponse>  resetEmailPasswordAdvanced(
     String emailAddress,
     //Map<String, object> serviceParams,
     String serviceParams,
-    SuccessCallback? success,
-    FailureCallback? failure,
-  ) {
+  ) async {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
@@ -860,11 +683,23 @@ class BrainCloudAuthentication {
     data[OperationParam.authenticateServiceAuthenticateServiceParams.value] =
         jsonParams;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetEmailPasswordAdvanced, data, callback);
     _clientRef.sendRequest(sc);
+    
+    return completer.future;
   }
 
   /// <summary>
@@ -888,20 +723,11 @@ class BrainCloudAuthentication {
   /// <param name="expiryTimeInMin">
   /// expiry time in mins
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of success
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error
-  /// </param>
-
-  void resetEmailPasswordAdvancedWithExpiry(
+  Future<ServerResponse>  resetEmailPasswordAdvancedWithExpiry(
       String emailAddress,
       //Map<String, dynamic> serviceParams,
       String serviceParams,
-      int tokenTtlInMinutes,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      int tokenTtlInMinutes) async {
     Map<String, dynamic> data = {};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
@@ -915,11 +741,23 @@ class BrainCloudAuthentication {
     data[OperationParam.authenticateServiceAuthenticateTokenTtlInMinutes
         .value] = tokenTtlInMinutes;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetEmailPasswordAdvancedWithExpiry, data, callback);
     _clientRef.sendRequest(sc);
+    
+    return completer.future;
   }
 
   /// <summary>
@@ -932,29 +770,32 @@ class BrainCloudAuthentication {
   /// <param name="universalId">
   /// The universalId that you want to have change password.
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of success
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error
-  /// </param>
-
-  void resetUniversalIdPassword(
+  Future<ServerResponse>  resetUniversalIdPassword(
     String universalId,
-    SuccessCallback? success,
-    FailureCallback? failure,
-  ) {
+  ) async {
     Map<String, dynamic> data = {};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
     data[OperationParam.authenticateServiceAuthenticateUniversalId.value] =
         universalId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetUniversalIdPassword, data, callback);
     _clientRef.sendRequest(sc);
+    
+    return completer.future;
   }
 
   /// <summary>
@@ -969,19 +810,10 @@ class BrainCloudAuthentication {
   /// </param>
   /// <param name="expiryTimeInMin">
   /// takes in an Expiry time in mins
-  /// <param name="success">
-  /// The method to call in event of success
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error
-  /// </param>
-
-  void resetUniversalIdPasswordWithExpiry(
+  Future<ServerResponse>  resetUniversalIdPasswordWithExpiry(
     String universalId,
     int tokenTtlInMinutes,
-    SuccessCallback? success,
-    FailureCallback? failure,
-  ) {
+  ) async {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
@@ -990,11 +822,23 @@ class BrainCloudAuthentication {
     data[OperationParam.authenticateServiceAuthenticateTokenTtlInMinutes
         .value] = tokenTtlInMinutes;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetUniversalIdPasswordWithExpiry, data, callback);
     _clientRef.sendRequest(sc);
+    
+    return completer.future;
   }
 
   /// <summary>
@@ -1014,19 +858,10 @@ class BrainCloudAuthentication {
   /// The parameters to send the email service. See documentation for full list
   /// http://getbraincloud.com/apidocs/apiref/#capi-mail
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of success
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error
-  /// </param>
-
-  void resetUniversalIdPasswordAdvanced(
+  Future<ServerResponse>  resetUniversalIdPasswordAdvanced(
     String universalId,
     String serviceParams,
-    SuccessCallback? success,
-    FailureCallback? failure,
-  ) {
+  ) async {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
@@ -1037,11 +872,23 @@ class BrainCloudAuthentication {
     data[OperationParam.authenticateServiceAuthenticateServiceParams.value] =
         jsonParams;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.resetUniversalIdPasswordAdvanced, data, callback);
     _clientRef.sendRequest(sc);
+    
+    return completer.future;
   }
 
   /// <summary>
@@ -1064,19 +911,10 @@ class BrainCloudAuthentication {
   /// <param name="expiryTimeInMin">
   /// takes in an Expiry time to determine how long it will stay available
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of success
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error
-  /// </param>
-
-  void resetUniversalIdPasswordAdvancedWithExpiry(
+  Future<ServerResponse>  resetUniversalIdPasswordAdvancedWithExpiry(
       String universalId,
       String serviceParams,
-      int tokenTtlInMinutes,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      int tokenTtlInMinutes) async {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
@@ -1090,25 +928,35 @@ class BrainCloudAuthentication {
     data[OperationParam.authenticateServiceAuthenticateTokenTtlInMinutes
         .value] = tokenTtlInMinutes;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     ServerCall sc = ServerCall(
         ServiceName.authenticate,
         ServiceOperation.resetUniversalIdPasswordAdvancedWithExpiry,
         data,
         callback);
     _clientRef.sendRequest(sc);
+    
+    return completer.future;
   }
 
-  void authenticate(
+  Future<ServerResponse>  authenticate(
       String externalId,
       String authenticationToken,
       AuthenticationType authenticationType,
       String? externalAuthName,
       bool forceCreate,
-      Map<String, dynamic>? extraJson,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      Map<String, dynamic>? extraJson) {
     String languageCode = _clientRef.languageCode;
     int utcOffset = Util.getUTCOffsetForCurrentTimeZone();
     String countryCode = _clientRef.countryCode;
@@ -1157,15 +1005,27 @@ class BrainCloudAuthentication {
     data[OperationParam.authenticateServiceAuthenticateTimeZoneOffset.value] =
         utcOffset;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    } ,
+    cbObject: null);
+    
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.authenticate, data, callback);
     if (_clientRef.comms != null &&
         _clientRef.comms!.isAuthenticateRequestInProgress()) {
       _clientRef.comms?.addCallbackToAuthenticateRequest(callback);
-      return;
+      return completer.future;
     }
     _clientRef.sendRequest(sc);
+    
+    return completer.future;
   }
 }
