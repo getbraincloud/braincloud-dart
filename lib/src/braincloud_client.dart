@@ -103,7 +103,7 @@ class BrainCloudClient {
   late BrainCloudTournament _tournamentService;
   late BrainCloudGlobalFile _globalFileService;
   late BrainCloudCustomEntity _customEntityService;
-  BrainCloudAuthentication? _authenticationService;
+  late BrainCloudAuthentication _authenticationService;
   late BrainCloudPushNotification _pushNotificationService;
   late BrainCloudPlayerStatisticsEvent _playerStatisticsEventService;
   late BrainCloudRedemptionCode _redemptionCodeService;
@@ -301,7 +301,7 @@ class BrainCloudClient {
 
   BrainCloudCustomEntity get customEntityService => _customEntityService;
 
-  BrainCloudAuthentication? get authenticationService => _authenticationService;
+  BrainCloudAuthentication get authenticationService => _authenticationService;
 
   BrainCloudPushNotification get pushNotificationService =>
       _pushNotificationService;

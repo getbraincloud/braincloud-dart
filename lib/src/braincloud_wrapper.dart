@@ -365,22 +365,14 @@ class BrainCloudWrapper {
   /// </remarks>
 
   Future<ServerResponse> authenticateAnonymous() {
-    final Completer<ServerResponse> completer = Completer();
-
     initializeIdentity(true);
 
-    _client.authenticationService?.authenticateAnonymous(true, (response) {
-      authSuccessCallback(json: response);
-      ServerResponse responseObject = ServerResponse.fromJson(response);
-      completer.complete(responseObject);
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticateAnonymous(true)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-
-    return completer.future;
   }
 
   /// <summary>
@@ -399,20 +391,13 @@ class BrainCloudWrapper {
   Future<ServerResponse> authenticateHandoff(
       {required String handoffId, required String securityToken}) {
     initializeIdentity(false);
-    Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService?.authenticateHandoff(handoffId, securityToken,
-        (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticateHandoff(handoffId, securityToken)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-
-    return completer.future;
   }
 
   /// <summary>
@@ -428,20 +413,13 @@ class BrainCloudWrapper {
     required String handoffCode,
   }) {
     initializeIdentity(false);
-    Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService?.authenticateSettopHandoff(handoffCode,
-        (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticateSettopHandoff(handoffCode)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-
-    return completer.future;
   }
 
   /// <summary>
@@ -471,22 +449,14 @@ class BrainCloudWrapper {
     required String password,
     required bool forceCreate,
   }) {
-    final Completer<ServerResponse> completer = Completer();
-
     initializeIdentity(false);
 
-    _client.authenticationService
-        ?.authenticateEmailPassword(email, password, forceCreate, (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticateEmailPassword(email, password, forceCreate)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-
-    return completer.future;
   }
 
   /// <summary>
@@ -516,20 +486,13 @@ class BrainCloudWrapper {
     required bool forceCreate,
   }) {
     initializeIdentity(false);
-    Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService?.authenticateExternal(
-        userid, token, externalAuthName, forceCreate, (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticateExternal(userid, token, externalAuthName, forceCreate)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-
-    return completer.future;
   }
 
   /// <summary>
@@ -554,19 +517,12 @@ class BrainCloudWrapper {
       required String fbAuthToken,
       required bool forceCreate}) {
     initializeIdentity(false);
-    Completer<ServerResponse> completer = Completer();
-    _client.authenticationService
-        ?.authenticateFacebook(fbUserId, fbAuthToken, forceCreate, (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticateFacebook(fbUserId, fbAuthToken, forceCreate)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-
-    return completer.future;
   }
 
   /// <summary>
@@ -591,20 +547,13 @@ class BrainCloudWrapper {
       required String fbAuthToken,
       required bool forceCreate}) {
     initializeIdentity(false);
-    Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService?.authenticateFacebookLimited(
-        fbLimitedUserId, fbAuthToken, forceCreate, (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticateFacebookLimited(fbLimitedUserId, fbAuthToken, forceCreate)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-
-    return completer.future;
   }
 
   /// <summary>
@@ -628,19 +577,13 @@ class BrainCloudWrapper {
       required String oculusNonce,
       required bool forceCreate}) {
     initializeIdentity(false);
-    Completer<ServerResponse> completer = Completer();
-    _client.authenticationService?.authenticateOculus(
-        oculusUserId, oculusNonce, forceCreate, (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
-    });
 
-    return completer.future;
+    return _client.authenticationService
+        .authenticateOculus(oculusUserId, oculusNonce, forceCreate)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
+    });
   }
 
   /// <summary>
@@ -664,19 +607,12 @@ class BrainCloudWrapper {
       required String authToken,
       required bool forceCreate}) {
     initializeIdentity(false);
-    Completer<ServerResponse> completer = Completer();
-    _client.authenticationService?.authenticatePlaystationNetwork(
-        accountId, authToken, forceCreate, (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticatePlaystationNetwork(accountId, authToken, forceCreate)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-
-    return completer.future;
   }
 
   /// <summary>
@@ -700,20 +636,13 @@ class BrainCloudWrapper {
       required String authToken,
       required bool forceCreate}) {
     initializeIdentity(false);
-    Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService?.authenticatePlaystation5(
-        accountId, authToken, forceCreate, (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticatePlaystation5(accountId, authToken, forceCreate)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-
-    return completer.future;
   }
 
   /// <summary>
@@ -732,20 +661,13 @@ class BrainCloudWrapper {
   Future<ServerResponse> authenticateGameCenter(
       {required String gameCenterId, required bool forceCreate}) {
     initializeIdentity(false);
-    Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService
-        ?.authenticateGameCenter(gameCenterId, forceCreate, (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticateGameCenter(gameCenterId, forceCreate)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-
-    return completer.future;
   }
 
   /// <summary>
@@ -769,20 +691,13 @@ class BrainCloudWrapper {
       required String identityToken,
       required bool forceCreate}) {
     initializeIdentity(false);
-    Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService?.authenticateApple(
-        appleUserId, identityToken, forceCreate, (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticateApple(appleUserId, identityToken, forceCreate)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-
-    return completer.future;
   }
 
   /// <summary>
@@ -806,20 +721,13 @@ class BrainCloudWrapper {
       required String serverAuthCode,
       required bool forceCreate}) {
     initializeIdentity(false);
-    Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService?.authenticateGoogle(
-        googleUserId, serverAuthCode, forceCreate, (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticateGoogle(googleUserId, serverAuthCode, forceCreate)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-
-    return completer.future;
   }
 
   /// <summary>
@@ -843,20 +751,13 @@ class BrainCloudWrapper {
       required String idToken,
       required bool forceCreate}) {
     initializeIdentity(false);
-    Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService?.authenticateGoogleOpenId(
-        googleUserAccountEmail, idToken, forceCreate, (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticateGoogleOpenId(googleUserAccountEmail, idToken, forceCreate)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-
-    return completer.future;
   }
 
   /// <summary>
@@ -880,18 +781,13 @@ class BrainCloudWrapper {
       required String sessionticket,
       required bool forceCreate}) {
     initializeIdentity(false);
-    Completer<ServerResponse> completer = Completer();
-    _client.authenticationService
-        ?.authenticateSteam(userid, sessionticket, forceCreate, (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+
+    return _client.authenticationService
+        .authenticateSteam(userid, sessionticket, forceCreate)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-    return completer.future;
   }
 
   /// <summary>
@@ -919,18 +815,12 @@ class BrainCloudWrapper {
       required String secret,
       required bool forceCreate}) {
     initializeIdentity(false);
-    Completer<ServerResponse> completer = Completer();
-    _client.authenticationService
-        ?.authenticateTwitter(userid, token, secret, forceCreate, (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticateTwitter(userid, token, secret, forceCreate)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-    return completer.future;
   }
 
   /// <summary>
@@ -956,20 +846,13 @@ class BrainCloudWrapper {
       required String password,
       required bool forceCreate}) {
     initializeIdentity(false);
-    Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService
-        ?.authenticateUniversal(username, password, forceCreate, (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticateUniversal(username, password, forceCreate)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-
-    return completer.future;
   }
 
   /// <summary>
@@ -999,24 +882,17 @@ class BrainCloudWrapper {
       required Map<String, dynamic> extraJson}) {
     bool isAnonymous = authenticationType == AuthenticationType.anonymous;
     initializeIdentity(isAnonymous);
-    Completer<ServerResponse> completer = Completer();
 
     ids.externalId =
         isAnonymous ? getStoredAnonymousId() ?? "" : ids.externalId;
     ids.authenticationToken = isAnonymous ? "" : ids.authenticationToken;
 
-    _client.authenticationService?.authenticateAdvanced(
-        authenticationType, ids, forceCreate, extraJson, (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticateAdvanced(authenticationType, ids, forceCreate, extraJson)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-
-    return completer.future;
   }
 
   /// <summary>
@@ -1040,20 +916,13 @@ class BrainCloudWrapper {
       required String ultraIdToken,
       required bool forceCreate}) {
     initializeIdentity(false);
-    Completer<ServerResponse> completer = Completer();
 
-    _client.authenticationService?.authenticateUltra(
-        ultraUsername, ultraIdToken, forceCreate, (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticateUltra(ultraUsername, ultraIdToken, forceCreate)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-
-    return completer.future;
   }
 
   /// <summary>
@@ -1077,21 +946,14 @@ class BrainCloudWrapper {
     required String authToken,
     required bool forceCreate,
   }) {
-    Completer<ServerResponse> completer = Completer();
     initializeIdentity(false);
 
-    _client.authenticationService
-        ?.authenticateNintendo(accountId, authToken, forceCreate, (response) {
-      authSuccessCallback(json: response);
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    return _client.authenticationService
+        .authenticateNintendo(accountId, authToken, forceCreate)
+        .then((response) {
+      authSuccessCallback(json: response.toJson());
+      return response;
     });
-
-    return completer.future;
   }
 
   /// <summary>
@@ -1668,21 +1530,34 @@ class BrainCloudWrapper {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  void smartSwitchauthenticateUniversal(
+  /// <param name="cbObject">
+  /// The user supplied callback object
+  /// </param>
+  Future<ServerResponse> smartSwitchauthenticateUniversal(
       {required String username,
       required String password,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
-    authenticateCallback(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-      authenticateUniversal(
-          username: username, password: password, forceCreate: forceCreate);
-    }
+      required bool forceCreate}) async {
+    final Completer<ServerResponse> completer = Completer();
 
-    _smartSwitchAuthentication(authenticateCallback, failure);
+    _client.identityService.getIdentities(
+        getIdentitiesCallback(success: (response) {
+          completer.complete(authenticateUniversal(
+              username: username,
+              password: password,
+              forceCreate: forceCreate));
+        }, failure: (statusCode, reasonCode, statusMessage) {
+          completer.completeError(ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage));
+        }), (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    }, null);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1828,16 +1703,27 @@ class BrainCloudWrapper {
     _smartSwitchAuthentication(authenticateCallback, failure);
   }
 
-  void _smartSwitchAuthentication(
-      SuccessCallback? authenticateCallback, FailureCallback? failureCallback) {
-    var callback = getIdentitiesCallback(
-        success: authenticateCallback, failure: failureCallback);
+  Future<ServerResponse> _smartSwitchAuthentication(
+      SuccessCallback? authenticateCallback,
+      FailureCallback? failureCallback) async {
+    final Completer<ServerResponse> completer = Completer();
+
+    var callback = getIdentitiesCallback(success: (response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, failure: (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
 
     if (_client.authenticated) {
       _client.identityService.getIdentities(callback, null);
     } else {
       authenticateCallback!({});
     }
+    return completer.future;
   }
 
   SuccessCallback getIdentitiesCallback(
@@ -1870,17 +1756,8 @@ class BrainCloudWrapper {
   /// </summary>
   ///
   Future<ServerResponse> reconnect() async {
-    Completer<ServerResponse> completer = Completer();
-
     initializeIdentity(true);
-    _client.authenticationService?.authenticateAnonymous(
-      false,
-      (response) => completer.complete(ServerResponse.fromJson(response)),
-      (status, reason, message) => completer.completeError(ServerResponse(
-          statusCode: status, reasonCode: reason, statusMessage: message)),
-    );
-
-    return completer.future;
+    return _client.authenticationService.authenticateAnonymous(false);
   }
 
   /// <summary>
@@ -1900,7 +1777,7 @@ class BrainCloudWrapper {
     String? anonymousId = getStoredAnonymousId();
 
     if ((anonymousId?.isEmpty ?? true) || (anonymousId?.isEmpty ?? true)) {
-      anonymousId = _client.authenticationService?.generateAnonymousId() ?? "";
+      anonymousId = _client.authenticationService.generateAnonymousId();
       profileId ??= "";
       setStoredAnonymousId(anonymousId);
       setStoredProfileId(profileId);
@@ -1925,17 +1802,7 @@ class BrainCloudWrapper {
   /// The email address to send the reset email to.
   /// </param>
   Future<ServerResponse> resetEmailPassword({required String externalId}) {
-    Completer<ServerResponse> completer = Completer();
-    _client.authenticationService?.resetEmailPassword(externalId, (response) {
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
-    });
-
-    return completer.future;
+    return _client.authenticationService.resetEmailPassword(externalId);
   }
 
   /// <summary>
@@ -1957,21 +1824,9 @@ class BrainCloudWrapper {
   /// http://getbraincloud.com/apidocs/apiref/#capi-mail
   /// </param>
   Future<ServerResponse> resetEmailPasswordAdvanced(
-      {required String emailAddress, required String serviceParams}) {
-    Completer<ServerResponse> completer = Completer();
-    _client.authenticationService?.resetEmailPasswordAdvanced(
-      emailAddress,
-      serviceParams,
-      (response) {
-        completer.complete(ServerResponse.fromJson(response));
-      },
-      (statusCode, reasonCode, statusMessage) {
-        completer.completeError(
-            ServerResponse(statusCode: statusCode, reasonCode: reasonCode));
-      },
-    );
-
-    return completer.future;
+      {required String emailAddress, required String serviceParams}) async {
+    return _client.authenticationService
+        .resetEmailPasswordAdvanced(emailAddress, serviceParams);
   }
 
   /// <summary>
@@ -1986,22 +1841,8 @@ class BrainCloudWrapper {
   /// </param>
   Future<ServerResponse> resetEmailPasswordWithExpiry(
       {required String externalId, required int tokenTtlInMinutes}) {
-    Completer<ServerResponse> completer = Completer();
-    _client.authenticationService?.resetEmailPasswordWithExpiry(
-      externalId,
-      tokenTtlInMinutes,
-      (response) {
-        completer.complete(ServerResponse.fromJson(response));
-      },
-      (statusCode, reasonCode, statusMessage) {
-        completer.completeError(ServerResponse(
-            statusCode: statusCode,
-            reasonCode: reasonCode,
-            statusMessage: statusMessage));
-      },
-    );
-
-    return completer.future;
+    return _client.authenticationService
+        .resetEmailPasswordWithExpiry(externalId, tokenTtlInMinutes);
   }
 
   /// <summary>
@@ -2026,18 +1867,8 @@ class BrainCloudWrapper {
       {required String emailAddress,
       required String serviceParams,
       required int tokenTtlInMinutes}) {
-    Completer<ServerResponse> completer = Completer();
-    _client.authenticationService?.resetEmailPasswordAdvancedWithExpiry(
-        emailAddress, serviceParams, tokenTtlInMinutes, (response) {
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
-    });
-
-    return completer.future;
+    return _client.authenticationService.resetEmailPasswordAdvancedWithExpiry(
+        emailAddress, serviceParams, tokenTtlInMinutes);
   }
 
   /// <summary>
@@ -2053,18 +1884,7 @@ class BrainCloudWrapper {
   Future<ServerResponse> resetUniversalIdPassword({
     required String externalId,
   }) {
-    Completer<ServerResponse> completer = Completer();
-    _client.authenticationService?.resetUniversalIdPassword(externalId,
-        (response) {
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
-    });
-
-    return completer.future;
+    return _client.authenticationService.resetUniversalIdPassword(externalId);
   }
 
   /// <summary>
@@ -2089,18 +1909,8 @@ class BrainCloudWrapper {
     required String emailAddress,
     required String serviceParams,
   }) {
-    Completer<ServerResponse> completer = Completer();
-    _client.authenticationService?.resetUniversalIdPasswordAdvanced(
-        emailAddress, serviceParams, (response) {
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
-    });
-
-    return completer.future;
+    return _client.authenticationService
+        .resetUniversalIdPasswordAdvanced(emailAddress, serviceParams);
   }
 
   /// <summary>
@@ -2115,18 +1925,8 @@ class BrainCloudWrapper {
   /// </param>
   Future<ServerResponse> resetUniversalIdPasswordWithExpiry(
       {required String externalId, required int tokenTtlInMinutes}) {
-    Completer<ServerResponse> completer = Completer();
-    _client.authenticationService?.resetUniversalIdPasswordWithExpiry(
-        externalId, tokenTtlInMinutes, (response) {
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
-    });
-
-    return completer.future;
+    return _client.authenticationService
+        .resetUniversalIdPasswordWithExpiry(externalId, tokenTtlInMinutes);
   }
 
   /// <summary>
@@ -2151,19 +1951,9 @@ class BrainCloudWrapper {
       {required String emailAddress,
       required String serviceParams,
       required int tokenTtlInMinutes}) {
-    Completer<ServerResponse> completer = Completer();
-
-    _client.authenticationService?.resetUniversalIdPasswordAdvancedWithExpiry(
-        emailAddress, serviceParams, tokenTtlInMinutes, (response) {
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
-    });
-
-    return completer.future;
+    return _client.authenticationService
+        .resetUniversalIdPasswordAdvancedWithExpiry(
+            emailAddress, serviceParams, tokenTtlInMinutes);
   }
 
   /// <summary>

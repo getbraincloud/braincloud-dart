@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:braincloud_dart/src/Common/acl.dart';
-import 'package:braincloud_dart/src/braincloud_wrapper.dart';
-import 'package:braincloud_dart/src/internal/braincloud_comms.dart';
 import 'package:braincloud_dart/src/internal/rtt_comms.dart';
 import 'package:braincloud_dart/src/server_response.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +70,15 @@ main() {
   });
   group("Authentication Tests", () {
     // end test
+
+    test("authenticateSpam", () async {
+      expect(bcWrapper.isInitialized, true);
+
+      // ServerResponse response = await bcWrapper.brainCloudClient.authenticationService.authenticateAnonymous(true);
+      // expect(response.statusCode, 200);
+      // expect(response.reasonCode, ReasonCodes.switchingProfiles);
+
+    });
 
     test("authenticateAnonymous", () async {
       expect(bcWrapper.isInitialized, true);
@@ -142,6 +150,23 @@ main() {
           expect(response.statusCode, 403);
         };
       }
+    });
+
+    test("smartSwitchauthenticateUniversal", () async {
+      expect(bcWrapper.isInitialized, true);
+      bcWrapper.resetStoredProfileId();
+      bcWrapper.resetStoredAnonymousId();
+      ServerResponse response = await bcWrapper.authenticateAnonymous();
+      expect(response.statusCode, 200);
+
+      response = await bcWrapper.smartSwitchauthenticateUniversal(
+          username: email, password: password, forceCreate: true);
+           expect(response.statusCode, 200);
+      expect(response.body?['profileId'], isA<String>());
+      expect(response.body?['server_time'], isA<int>());
+      expect(response.body?['createdAt'], isA<int>());
+      expect(response.body?['isTester'], isA<bool>());
+      expect(response.body?['currency'], isA<Object>());
     });
   });
 
