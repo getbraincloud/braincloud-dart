@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:braincloud_dart/src/Common/authentication_ids.dart';
 import 'package:braincloud_dart/src/Common/authentication_type.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
@@ -6,6 +8,7 @@ import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/util.dart';
 
 class BrainCloudIdentity {
@@ -1680,21 +1683,25 @@ class BrainCloudIdentity {
   /// <remarks>
   /// Service Name - identity
   /// Service Operation - GET_IDENTITIES
-  /// </remarks>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getIdentities(SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+  /// </remarks>  
+  Future<ServerResponse>  getIdentities() async {
+   
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    });
+    
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.getIdentities, null, callback);
     _clientRef.sendRequest(sc);
+    
+    return completer.future;
   }
 
   /// <summary>

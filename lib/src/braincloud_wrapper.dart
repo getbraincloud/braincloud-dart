@@ -980,26 +980,14 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  void smartSwitchauthenticateEmail(
-      {required String email,
-      required String password,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
-    // SuccessCallback authenticateCallback = (response, o) =>
-    // {
-    //     authenticateEmailPassword(email, password, forceCreate, success, failure);
-    // };
-
-    authenticateCallback(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-      authenticateEmailPassword(
-          email: email, password: password, forceCreate: forceCreate);
-    }
-
-    _smartSwitchAuthentication(authenticateCallback, failure);
+  Future<ServerResponse> smartSwitchauthenticateEmail({
+    required String email,
+    required String password,
+    required bool forceCreate,
+  }) async {
+    await _smartSwitchAuthentication();
+    return authenticateEmailPassword(
+        email: email, password: password, forceCreate: forceCreate);
   }
 
   /// <summary>
@@ -1026,32 +1014,17 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void smartSwitchauthenticateExternal(
+  Future<ServerResponse> smartSwitchauthenticateExternal(
       {required String userid,
       required String token,
       required String externalAuthName,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
-    authenticateCallback(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-
-      authenticateExternal(
-          userid: userid,
-          token: token,
-          externalAuthName: externalAuthName,
-          forceCreate: forceCreate);
-    }
-
-    _smartSwitchAuthentication(authenticateCallback, failure);
+      required bool forceCreate}) async {
+    await _smartSwitchAuthentication();
+    return authenticateExternal(
+        userid: userid,
+        token: token,
+        externalAuthName: externalAuthName,
+        forceCreate: forceCreate);
   }
 
   /// <summary>
@@ -1075,30 +1048,13 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void smartSwitchauthenticateFacebook(
+  Future<ServerResponse> smartSwitchauthenticateFacebook(
       {required String fbUserId,
       required String fbAuthToken,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
-    mergedSuccess(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-
-      authenticateFacebook(
-          fbUserId: fbUserId,
-          fbAuthToken: fbAuthToken,
-          forceCreate: forceCreate);
-    }
-
-    _smartSwitchAuthentication(mergedSuccess, failure);
+      required bool forceCreate}) async {
+    await _smartSwitchAuthentication();
+    return authenticateFacebook(
+        fbUserId: fbUserId, fbAuthToken: fbAuthToken, forceCreate: forceCreate);
   }
 
   /// <summary>
@@ -1122,29 +1078,15 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void smartSwitchauthenticateFacebookLimited(
+  Future<ServerResponse> smartSwitchauthenticateFacebookLimited(
       {required String fbLimitedUserId,
       required String fbAuthToken,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
-    authenticateCallback(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-      authenticateFacebookLimited(
-          fbLimitedUserId: fbLimitedUserId,
-          fbAuthToken: fbAuthToken,
-          forceCreate: forceCreate);
-    }
-
-    _smartSwitchAuthentication(authenticateCallback, failure);
+      required bool forceCreate}) async {
+    await _smartSwitchAuthentication();
+    return authenticateFacebookLimited(
+        fbLimitedUserId: fbLimitedUserId,
+        fbAuthToken: fbAuthToken,
+        forceCreate: forceCreate);
   }
 
   /// <summary>
@@ -1167,29 +1109,16 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void smartSwitchauthenticateOculus(
+  Future<ServerResponse> smartSwitchauthenticateOculus(
       {required String oculusUserId,
       required String oculusNonce,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
-    authenticateCallback(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-      authenticateOculus(
-          oculusUserId: oculusUserId,
-          oculusNonce: oculusNonce,
-          forceCreate: forceCreate);
-    }
+      required bool forceCreate}) async {
+    await _smartSwitchAuthentication();
 
-    _smartSwitchAuthentication(authenticateCallback, failure);
+    return authenticateOculus(
+        oculusUserId: oculusUserId,
+        oculusNonce: oculusNonce,
+        forceCreate: forceCreate);
   }
 
   /// <summary>
@@ -1213,29 +1142,16 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void smartSwitchauthenticatePlaystationNetwork(
+
+  Future<ServerResponse> smartSwitchauthenticatePlaystationNetwork(
       {required String psnAccountId,
       required String psnAuthToken,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
-    authenticateCallback(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-      authenticatePlaystationNetwork(
-          accountId: psnAccountId,
-          authToken: psnAuthToken,
-          forceCreate: forceCreate);
-    }
-
-    _smartSwitchAuthentication(authenticateCallback, failure);
+      required bool forceCreate}) async {
+    await _smartSwitchAuthentication();
+    return authenticatePlaystationNetwork(
+        accountId: psnAccountId,
+        authToken: psnAuthToken,
+        forceCreate: forceCreate);
   }
 
   /// <summary>
@@ -1259,29 +1175,15 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void smartSwitchauthenticateApple(
+  Future<ServerResponse> smartSwitchauthenticateApple(
       {required String appleUserId,
       required String appleAuthToken,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
-    authenticateCallback(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-      authenticateApple(
-          appleUserId: appleUserId,
-          identityToken: appleAuthToken,
-          forceCreate: forceCreate);
-    }
-
-    _smartSwitchAuthentication(authenticateCallback, failure);
+      required bool forceCreate}) async {
+    await _smartSwitchAuthentication();
+    return authenticateApple(
+        appleUserId: appleUserId,
+        identityToken: appleAuthToken,
+        forceCreate: forceCreate);
   }
 
   /// <summary>
@@ -1301,26 +1203,11 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void smartSwitchauthenticateGameCenter(
-      {required String gameCenterId,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
-    authenticateCallback(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-      authenticateGameCenter(
-          gameCenterId: gameCenterId, forceCreate: forceCreate);
-    }
-
-    _smartSwitchAuthentication(authenticateCallback, failure);
+  Future<ServerResponse> smartSwitchauthenticateGameCenter(
+      {required String gameCenterId, required bool forceCreate}) async {
+    await _smartSwitchAuthentication();
+    return authenticateGameCenter(
+        gameCenterId: gameCenterId, forceCreate: forceCreate);
   }
 
   /// <summary>
@@ -1343,29 +1230,13 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void smartSwitchauthenticateGoogle(
+  Future<ServerResponse> smartSwitchauthenticateGoogle(
       {required String userid,
       required String token,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
-    authenticateCallback(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-      authenticateGoogle(
-          googleUserId: userid,
-          serverAuthCode: token,
-          forceCreate: forceCreate);
-    }
-
-    _smartSwitchAuthentication(authenticateCallback, failure);
+      required bool forceCreate}) async {
+    await _smartSwitchAuthentication();
+    return authenticateGoogle(
+        googleUserId: userid, serverAuthCode: token, forceCreate: forceCreate);
   }
 
   /// <summary>
@@ -1388,29 +1259,15 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void smartSwitchauthenticateGoogleOpenId(
+  Future<ServerResponse> smartSwitchauthenticateGoogleOpenId(
       {required String userid,
       required String token,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
-    authenticateCallback(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-      authenticateGoogleOpenId(
-          googleUserAccountEmail: userid,
-          idToken: token,
-          forceCreate: forceCreate);
-    }
-
-    _smartSwitchAuthentication(authenticateCallback, failure);
+      required bool forceCreate}) async {
+    await _smartSwitchAuthentication();
+    return authenticateGoogleOpenId(
+        googleUserAccountEmail: userid,
+        idToken: token,
+        forceCreate: forceCreate);
   }
 
   /// <summary>
@@ -1433,23 +1290,14 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  void smartSwitchauthenticateSteam(
+  Future<ServerResponse> smartSwitchauthenticateSteam(
       {required String userid,
       required String sessionticket,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
-    authenticateCallback(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-      authenticateSteam(
-          userid: userid,
-          sessionticket: sessionticket,
-          forceCreate: forceCreate);
-    }
+      required bool forceCreate}) async {
+    await _smartSwitchAuthentication();
 
-    _smartSwitchAuthentication(authenticateCallback, failure);
+    return authenticateSteam(
+        userid: userid, sessionticket: sessionticket, forceCreate: forceCreate);
   }
 
   /// <summary>
@@ -1481,25 +1329,14 @@ class BrainCloudWrapper {
   /// <param name="failure">
   /// The method to call in the event of an error during authentication
   /// </param>
-  void smartSwitchauthenticateTwitter(
+  Future<ServerResponse> smartSwitchauthenticateTwitter(
       {required String userid,
       required String token,
       required String secret,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
-    authenticateCallback(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-      authenticateTwitter(
-          userid: userid,
-          token: token,
-          secret: secret,
-          forceCreate: forceCreate);
-    }
-
-    _smartSwitchAuthentication(authenticateCallback, failure);
+      required bool forceCreate}) async {
+    await _smartSwitchAuthentication();
+    return authenticateTwitter(
+        userid: userid, token: token, secret: secret, forceCreate: forceCreate);
   }
 
   /// <summary>
@@ -1524,37 +1361,14 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
   Future<ServerResponse> smartSwitchauthenticateUniversal(
       {required String username,
       required String password,
       required bool forceCreate}) async {
-    final Completer<ServerResponse> completer = Completer();
+    await _smartSwitchAuthentication();
 
-    _client.identityService.getIdentities(
-        getIdentitiesCallback(success: (response) {
-          completer.complete(authenticateUniversal(
-              username: username,
-              password: password,
-              forceCreate: forceCreate));
-        }, failure: (statusCode, reasonCode, statusMessage) {
-          completer.completeError(ServerResponse(
-              statusCode: statusCode,
-              reasonCode: reasonCode,
-              statusMessage: statusMessage));
-        }), (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
-    });
-
-    return completer.future;
+    return authenticateUniversal(
+        username: username, password: password, forceCreate: forceCreate);
   }
 
   /// <summary>
@@ -1581,31 +1395,18 @@ class BrainCloudWrapper {
   /// /// <param name="extraJson">
   /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty String for no extraJson.
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void smartSwitchauthenticateAdvanced(
+
+  Future<ServerResponse> smartSwitchauthenticateAdvanced(
       {required AuthenticationType authenticationType,
       required AuthenticationIds ids,
       required bool forceCreate,
-      required Map<String, dynamic> extraJson,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
-    authenticateCallback(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-      authenticateAdvanced(
-          authenticationType: authenticationType,
-          ids: ids,
-          forceCreate: forceCreate,
-          extraJson: extraJson);
-    }
-
-    _smartSwitchAuthentication(authenticateCallback, failure);
+      required Map<String, dynamic> extraJson}) async {
+    await _smartSwitchAuthentication();
+    return authenticateAdvanced(
+        authenticationType: authenticationType,
+        ids: ids,
+        forceCreate: forceCreate,
+        extraJson: extraJson);
   }
 
   /// <summary>
@@ -1629,29 +1430,16 @@ class BrainCloudWrapper {
   /// /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void smartSwitchauthenticateUltra(
+
+  Future<ServerResponse> smartSwitchauthenticateUltra(
       {required String ultraUsername,
       required String ultraIdToken,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
-    authenticateCallback(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-      authenticateUltra(
-          ultraUsername: ultraUsername,
-          ultraIdToken: ultraIdToken,
-          forceCreate: forceCreate);
-    }
-
-    _smartSwitchAuthentication(authenticateCallback, failure);
+      required bool forceCreate}) async {
+    await _smartSwitchAuthentication();
+    return authenticateUltra(
+        ultraUsername: ultraUsername,
+        ultraIdToken: ultraIdToken,
+        forceCreate: forceCreate);
   }
 
   /// <summary>
@@ -1675,78 +1463,47 @@ class BrainCloudWrapper {
   /// <param name="forceCreate">
   /// Should a new profile be created for this user if the account does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void smartSwitchauthenticateNintendo(
+
+  Future<ServerResponse> smartSwitchauthenticateNintendo(
       {required String nintendoAccountId,
       required String nintendoAuthToken,
-      required bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
-    authenticateCallback(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-      authenticateNintendo(
-          accountId: nintendoAccountId,
-          authToken: nintendoAuthToken,
-          forceCreate: forceCreate);
-    }
-
-    _smartSwitchAuthentication(authenticateCallback, failure);
+      required bool forceCreate}) async {
+    await _smartSwitchAuthentication();
+    return authenticateNintendo(
+        accountId: nintendoAccountId,
+        authToken: nintendoAuthToken,
+        forceCreate: forceCreate);
   }
 
-  Future<ServerResponse> _smartSwitchAuthentication(
-      SuccessCallback? authenticateCallback,
-      FailureCallback? failureCallback) async {
+  Future<ServerResponse> _smartSwitchAuthentication() async {
     final Completer<ServerResponse> completer = Completer();
 
-    var callback = getIdentitiesCallback(success: (response) {
-      ServerResponse responseObject = ServerResponse.fromJson(response);
-      completer.complete(responseObject);
-    }, failure: (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+    _client.identityService.getIdentities().then((response) {
+      if (_client.authenticated) {
+        if (response.body?['identities'] is Map && response.body?['identities'].isEmpty) {          
+          // was anonymous delete user
+          brainCloudClient.playerStateService.deleteUser(
+              (response) => completer.complete(ServerResponse(statusCode: 200)),
+              (statusCode, reasonCode, statusMessage) =>
+                  completer.complete(ServerResponse(statusCode: 200)));
+        } else {
+          // else just logout
+          brainCloudClient.playerStateService.logout(
+              (response) => completer.complete(ServerResponse(statusCode: 200)),
+              (statusCode, reasonCode, statusMessage) =>
+                  completer.complete(ServerResponse(statusCode: 200)));
+        }
+      }
+    }).onError<ServerResponse>((error, stack) {
+      brainCloudClient.playerStateService.logout(
+          (response) => completer.complete(ServerResponse(statusCode: 200)),
+          (statusCode, reasonCode, statusMessage) =>
+              completer.complete(ServerResponse(statusCode: 200)));
     });
 
-    if (_client.authenticated) {
-      _client.identityService.getIdentities(callback, null);
-    } else {
-      authenticateCallback!({});
-    }
     return completer.future;
   }
 
-  SuccessCallback getIdentitiesCallback(
-      {SuccessCallback? success, FailureCallback? failure}) {
-    const String keyJsonData = "data";
-    const String keyJsonIdentities = "identities";
-
-    callback(Map<String, dynamic> response) {
-      if (success != null) {
-        success(response);
-      }
-
-      Map<String, dynamic> jsonData = response[keyJsonData];
-
-      if (jsonData.containsKey(keyJsonIdentities)) {
-        Map<String, dynamic> jsonIdentities = jsonData[keyJsonIdentities];
-        if (jsonIdentities.isEmpty) {
-          _client.playerStateService.deleteUser(success, failure);
-        } else {
-          _client.playerStateService.logout(success, failure);
-        }
-      }
-    }
-
-    return callback;
-  }
 
   /// <summary>
   /// Re-authenticates the user with brainCloud
