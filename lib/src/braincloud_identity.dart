@@ -30,16 +30,10 @@ class BrainCloudIdentity {
   /// The validated token from the Facebook SDK
   ///   (that will be further validated when sent to the bC service)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void attachFacebookIdentity(String facebookId, String authenticationToken,
-      SuccessCallback? success, FailureCallback? failure) {
-    _attachIdentity(facebookId, authenticationToken,
-        AuthenticationType.facebook, success, failure);
+  Future<ServerResponse> attachFacebookIdentity(
+      String facebookId, String authenticationToken) async {
+    return _attachIdentity(
+        facebookId, authenticationToken, AuthenticationType.facebook);
   }
 
   /// <summary>
@@ -57,16 +51,11 @@ class BrainCloudIdentity {
   /// The validated token from the Facebook SDK
   /// (that will be further validated when sent to the bC service)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void mergeFacebookIdentity(String facebookId, String authenticationToken,
-      SuccessCallback? success, FailureCallback? failure) {
-    _mergeIdentity(facebookId, authenticationToken, AuthenticationType.facebook,
-        success, failure);
+
+  Future<ServerResponse> mergeFacebookIdentity(
+      String facebookId, String authenticationToken) async {
+    return _mergeIdentity(
+        facebookId, authenticationToken, AuthenticationType.facebook);
   }
 
   /// <summary>
@@ -82,16 +71,11 @@ class BrainCloudIdentity {
   /// <param name="continueAnon">
   /// Proceed even if the profile will revert to anonymous?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void detachFacebookIdentity(String facebookId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure) {
-    _detachIdentity(facebookId, AuthenticationType.facebook, continueAnon,
-        success, failure);
+
+  Future<ServerResponse> detachFacebookIdentity(
+      String facebookId, bool continueAnon) async {
+    return _detachIdentity(
+        facebookId, AuthenticationType.facebook, continueAnon);
   }
 
   /// <summary>
@@ -115,22 +99,15 @@ class BrainCloudIdentity {
   /// <param name="extraJson">
   /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave an empty Map for no extraJson.
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void attachAdvancedIdentity(
+
+  Future<ServerResponse> attachAdvancedIdentity(
       AuthenticationType authenticationType,
       AuthenticationIds ids,
-      Map<String, dynamic>? extraJson,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      Map<String, dynamic>? extraJson) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = ids.externalId;
     data[OperationParam.identityServiceAuthenticationType.value] =
-        authenticationType.toString();
+        authenticationType.value;
     data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
         .value] = ids.authenticationToken;
 
@@ -144,13 +121,22 @@ class BrainCloudIdentity {
           extraJson;
     }
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.attach, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -165,22 +151,15 @@ class BrainCloudIdentity {
   /// <param name="extraJson">
   /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave an empty Map for no extraJson.
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void mergeAdvancedIdentity(
+
+  Future<ServerResponse> mergeAdvancedIdentity(
       AuthenticationType authenticationType,
       AuthenticationIds ids,
-      Map<String, dynamic>? extraJson,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      Map<String, dynamic>? extraJson) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = ids.externalId;
     data[OperationParam.identityServiceAuthenticationType.value] =
-        authenticationType.toString();
+        authenticationType.value;
     data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
         .value] = ids.authenticationToken;
 
@@ -194,13 +173,22 @@ class BrainCloudIdentity {
           extraJson;
     }
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.merge, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -222,23 +210,16 @@ class BrainCloudIdentity {
   /// <param name="extraJson">
   /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave an empty Map for no extraJson.
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void detachAdvancedIdentity(
+
+  Future<ServerResponse> detachAdvancedIdentity(
       AuthenticationType authenticationType,
       String externalId,
       bool continueAnon,
-      Map<String, dynamic>? extraJson,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      Map<String, dynamic>? extraJson) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
     data[OperationParam.identityServiceAuthenticationType.value] =
-        authenticationType.toString();
+        authenticationType.value;
     data[OperationParam.identityServiceConfirmAnonymous.value] = continueAnon;
 
     if (extraJson != null) {
@@ -246,13 +227,22 @@ class BrainCloudIdentity {
           extraJson;
     }
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.detach, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -273,16 +263,10 @@ class BrainCloudIdentity {
   /// <param name="ultraIdToken">
   /// The "id_token" taken from Ultra's JWT.
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void attachUltraIdentity(String ultraUsername, String ultraIdToken,
-      SuccessCallback? success, FailureCallback? failure) {
-    _attachIdentity(ultraUsername, ultraIdToken, AuthenticationType.ultra,
-        success, failure);
+  Future<ServerResponse> attachUltraIdentity(
+      String ultraUsername, String ultraIdToken) async {
+    return _attachIdentity(
+        ultraUsername, ultraIdToken, AuthenticationType.ultra);
   }
 
   /// <summary>
@@ -298,16 +282,11 @@ class BrainCloudIdentity {
   /// <param name="ultraIdToken">
   /// The "id_token" taken from Ultra's JWT.
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void mergeUltraIdentity(String ultraUsername, String ultraIdToken,
-      SuccessCallback? success, FailureCallback? failure) {
-    _mergeIdentity(ultraUsername, ultraIdToken, AuthenticationType.ultra,
-        success, failure);
+
+  Future<ServerResponse> mergeUltraIdentity(
+      String ultraUsername, String ultraIdToken) async {
+    return _mergeIdentity(
+        ultraUsername, ultraIdToken, AuthenticationType.ultra);
   }
 
   /// <summary>
@@ -327,16 +306,11 @@ class BrainCloudIdentity {
   /// <param name="continueAnon">
   /// Proceed even if the profile will revert to anonymous?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void detachUltraIdentity(String ultraUsername, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure) {
-    _detachIdentity(ultraUsername, AuthenticationType.ultra, continueAnon,
-        success, failure);
+
+  Future<ServerResponse> detachUltraIdentity(
+      String ultraUsername, bool continueAnon) async {
+    return _detachIdentity(
+        ultraUsername, AuthenticationType.ultra, continueAnon);
   }
 
   /// <summary>
@@ -352,16 +326,10 @@ class BrainCloudIdentity {
   /// <param name="oculusNonce">
   /// token from the Oculus SDK
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void attachOculusIdentity(String oculusId, String oculusNonce,
-      SuccessCallback? success, FailureCallback? failure) {
-    _attachIdentity(
-        oculusId, oculusNonce, AuthenticationType.oculus, success, failure);
+
+  Future<ServerResponse> attachOculusIdentity(
+      String oculusId, String oculusNonce) async {
+    return _attachIdentity(oculusId, oculusNonce, AuthenticationType.oculus);
   }
 
   /// <summary>
@@ -378,16 +346,10 @@ class BrainCloudIdentity {
   /// <param name="oculusNonce">
   /// token from the Oculus SDK
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void mergeOculusIdentity(String oculusId, String oculusNonce,
-      SuccessCallback? success, FailureCallback? failure) {
-    _mergeIdentity(
-        oculusId, oculusNonce, AuthenticationType.oculus, success, failure);
+
+  Future<ServerResponse> mergeOculusIdentity(
+      String oculusId, String oculusNonce) async {
+    return _mergeIdentity(oculusId, oculusNonce, AuthenticationType.oculus);
   }
 
   /// <summary>
@@ -403,16 +365,10 @@ class BrainCloudIdentity {
   /// <param name="continueAnon">
   /// Proceed even if the profile will revert to anonymous?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void detachOculusIdentity(String oculusId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure) {
-    _detachIdentity(
-        oculusId, AuthenticationType.oculus, continueAnon, success, failure);
+
+  Future<ServerResponse> detachOculusIdentity(
+      String oculusId, bool continueAnon) {
+    return _detachIdentity(oculusId, AuthenticationType.oculus, continueAnon);
   }
 
   /// <summary>
@@ -429,19 +385,11 @@ class BrainCloudIdentity {
   /// The validated token from the Facebook SDK
   ///   (that will be further validated when sent to the bC service)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void attachFacebookLimitedIdentity(
-      String facebookLimitedId,
-      String authenticationToken,
-      SuccessCallback? success,
-      FailureCallback? failure) {
-    _attachIdentity(facebookLimitedId, authenticationToken,
-        AuthenticationType.facebookLimited, success, failure);
+
+  Future<ServerResponse> attachFacebookLimitedIdentity(
+      String facebookLimitedId, String authenticationToken) async {
+    return _attachIdentity(facebookLimitedId, authenticationToken,
+        AuthenticationType.facebookLimited);
   }
 
   /// <summary>
@@ -459,19 +407,10 @@ class BrainCloudIdentity {
   /// The validated token from the Facebook SDK
   /// (that will be further validated when sent to the bC service)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void mergeFacebookLimitedIdentity(
-      String facebookLimitedId,
-      String authenticationToken,
-      SuccessCallback? success,
-      FailureCallback? failure) {
-    _mergeIdentity(facebookLimitedId, authenticationToken,
-        AuthenticationType.facebookLimited, success, failure);
+  Future<ServerResponse> mergeFacebookLimitedIdentity(
+      String facebookLimitedId, String authenticationToken) async {
+    return _mergeIdentity(facebookLimitedId, authenticationToken,
+        AuthenticationType.facebookLimited);
   }
 
   /// <summary>
@@ -487,16 +426,11 @@ class BrainCloudIdentity {
   /// <param name="continueAnon">
   /// Proceed even if the profile will revert to anonymous?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void detachFacebookLimitedIdentity(String facebookLimitedId,
-      bool continueAnon, SuccessCallback? success, FailureCallback? failure) {
-    _detachIdentity(facebookLimitedId, AuthenticationType.facebookLimited,
-        continueAnon, success, failure);
+
+  Future<ServerResponse> detachFacebookLimitedIdentity(
+      String facebookLimitedId, bool continueAnon) async {
+    return _detachIdentity(
+        facebookLimitedId, AuthenticationType.facebookLimited, continueAnon);
   }
 
   /// <summary>
@@ -513,19 +447,11 @@ class BrainCloudIdentity {
   /// The validated token from the Playstation SDK
   ///   (that will be further validated when sent to the bC service)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void attachPlaystationNetworkIdentity(
-      String psnAccountId,
-      String authenticationToken,
-      SuccessCallback? success,
-      FailureCallback? failure) {
-    _attachIdentity(psnAccountId, authenticationToken,
-        AuthenticationType.playstationNetwork, success, failure);
+
+  Future<ServerResponse> attachPlaystationNetworkIdentity(
+      String psnAccountId, String authenticationToken) async {
+    return _attachIdentity(psnAccountId, authenticationToken,
+        AuthenticationType.playstationNetwork);
   }
 
   /// <summary>
@@ -543,19 +469,11 @@ class BrainCloudIdentity {
   /// The validated token from the Playstation SDK
   /// (that will be further validated when sent to the bC service)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void mergePlaystationNetworkIdentity(
-      String psnAccountId,
-      String authenticationToken,
-      SuccessCallback? success,
-      FailureCallback? failure) {
-    _mergeIdentity(psnAccountId, authenticationToken,
-        AuthenticationType.playstationNetwork, success, failure);
+
+  Future<ServerResponse> mergePlaystationNetworkIdentity(
+      String psnAccountId, String authenticationToken) async {
+    return _mergeIdentity(psnAccountId, authenticationToken,
+        AuthenticationType.playstationNetwork);
   }
 
   /// <summary>
@@ -571,16 +489,11 @@ class BrainCloudIdentity {
   /// <param name="continueAnon">
   /// Proceed even if the profile will revert to anonymous?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void detachPlaystationNetworkIdentity(String psnAccountId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure) {
-    _detachIdentity(psnAccountId, AuthenticationType.playstationNetwork,
-        continueAnon, success, failure);
+
+  Future<ServerResponse> detachPlaystationNetworkIdentity(
+      String psnAccountId, bool continueAnon) async {
+    return _detachIdentity(
+        psnAccountId, AuthenticationType.playstationNetwork, continueAnon);
   }
 
   /// <summary>
@@ -597,19 +510,11 @@ class BrainCloudIdentity {
   /// The validated token from the Playstation SDK
   ///   (that will be further validated when sent to the bC service)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void attachPlaystation5Identity(
-      String psnAccountId,
-      String authenticationToken,
-      SuccessCallback? success,
-      FailureCallback? failure) {
-    _attachIdentity(psnAccountId, authenticationToken,
-        AuthenticationType.playstationNetwork5, success, failure);
+
+  Future<ServerResponse> attachPlaystation5Identity(
+      String psnAccountId, String authenticationToken) async {
+    return _attachIdentity(psnAccountId, authenticationToken,
+        AuthenticationType.playstationNetwork5);
   }
 
   /// <summary>
@@ -627,19 +532,11 @@ class BrainCloudIdentity {
   /// The validated token from the Playstation SDK
   /// (that will be further validated when sent to the bC service)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void mergePlaystation5Identity(
-      String psnAccountId,
-      String authenticationToken,
-      SuccessCallback? success,
-      FailureCallback? failure) {
-    _mergeIdentity(psnAccountId, authenticationToken,
-        AuthenticationType.playstationNetwork5, success, failure);
+
+  Future<ServerResponse> mergePlaystation5Identity(
+      String psnAccountId, String authenticationToken) async {
+    return _mergeIdentity(psnAccountId, authenticationToken,
+        AuthenticationType.playstationNetwork5);
   }
 
   /// <summary>
@@ -655,16 +552,11 @@ class BrainCloudIdentity {
   /// <param name="continueAnon">
   /// Proceed even if the profile will revert to anonymous?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void detachPlaystation5Identity(String psnAccountId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure) {
-    _detachIdentity(psnAccountId, AuthenticationType.playstationNetwork5,
-        continueAnon, success, failure);
+
+  Future<ServerResponse> detachPlaystation5Identity(
+      String psnAccountId, bool continueAnon) async {
+    return _detachIdentity(
+        psnAccountId, AuthenticationType.playstationNetwork5, continueAnon);
   }
 
   /// <summary>
@@ -677,16 +569,10 @@ class BrainCloudIdentity {
   /// <param name="gameCenterId">
   /// The user's game center id  (use the playerID property from the local GKPlayer dynamic)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void attachGameCenterIdentity(
-      String gameCenterId, SuccessCallback? success, FailureCallback? failure) {
-    _attachIdentity(
-        gameCenterId, "", AuthenticationType.gameCenter, success, failure);
+
+  Future<ServerResponse> attachGameCenterIdentity(String gameCenterId,
+      SuccessCallback? success, FailureCallback? failure) async {
+    return _attachIdentity(gameCenterId, "", AuthenticationType.gameCenter);
   }
 
   /// <summary>Merge the profile associated with the specified Game Center identity with the current profile.
@@ -698,16 +584,9 @@ class BrainCloudIdentity {
   /// <param name="gameCenterId">
   /// The user's game center id  (use the playerID property from the local GKPlayer dynamic)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void mergeGameCenterIdentity(
-      String gameCenterId, SuccessCallback? success, FailureCallback? failure) {
-    _mergeIdentity(
-        gameCenterId, "", AuthenticationType.gameCenter, success, failure);
+
+  Future<ServerResponse> mergeGameCenterIdentity(String gameCenterId) async {
+    return _mergeIdentity(gameCenterId, "", AuthenticationType.gameCenter);
   }
 
   /// <summary>Detach the Game Center identity from the current profile.</summary>
@@ -721,16 +600,11 @@ class BrainCloudIdentity {
   /// <param name="continueAnon">
   /// Proceed even if the profile will revert to anonymous?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void detachGameCenterIdentity(String gameCenterId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure) {
-    _detachIdentity(gameCenterId, AuthenticationType.gameCenter, continueAnon,
-        success, failure);
+
+  Future<ServerResponse> detachGameCenterIdentity(
+      String gameCenterId, bool continueAnon) async {
+    return _detachIdentity(
+        gameCenterId, AuthenticationType.gameCenter, continueAnon);
   }
 
   /// <summary>
@@ -746,16 +620,10 @@ class BrainCloudIdentity {
   /// <param name="password">
   /// The user's password
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void attachEmailIdentity(String email, String password,
-      SuccessCallback? success, FailureCallback? failure) {
-    _attachIdentity(
-        email, password, AuthenticationType.email, success, failure);
+
+  Future<ServerResponse> attachEmailIdentity(
+      String email, String password) async {
+    return _attachIdentity(email, password, AuthenticationType.email);
   }
 
   /// <summary>
@@ -771,15 +639,10 @@ class BrainCloudIdentity {
   /// <param name="password">
   /// The user's password
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void mergeEmailIdentity(String email, String password,
-      SuccessCallback? success, FailureCallback? failure) {
-    _mergeIdentity(email, password, AuthenticationType.email, success, failure);
+
+  Future<ServerResponse> mergeEmailIdentity(
+      String email, String password) async {
+    return _mergeIdentity(email, password, AuthenticationType.email);
   }
 
   /// <summary>Detach the e-mail identity from the current profile
@@ -794,16 +657,10 @@ class BrainCloudIdentity {
   /// <param name="continueAnon">
   /// Proceed even if the profile will revert to anonymous?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void detachEmailIdentity(String email, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure) {
-    _detachIdentity(
-        email, AuthenticationType.email, continueAnon, success, failure);
+
+  Future<ServerResponse> detachEmailIdentity(
+      String email, bool continueAnon) async {
+    return _detachIdentity(email, AuthenticationType.email, continueAnon);
   }
 
   /// <summary>
@@ -819,16 +676,9 @@ class BrainCloudIdentity {
   /// <param name="password">
   /// The user's password
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void attachUniversalIdentity(String userId, String password,
-      SuccessCallback? success, FailureCallback? failure) {
-    _attachIdentity(
-        userId, password, AuthenticationType.universal, success, failure);
+  Future<ServerResponse> attachUniversalIdentity(
+      String userId, String password) async {
+    return _attachIdentity(userId, password, AuthenticationType.universal);
   }
 
   /// <summary>
@@ -844,16 +694,10 @@ class BrainCloudIdentity {
   /// <param name="password">
   /// The user's password
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void mergeUniversalIdentity(String userId, String password,
-      SuccessCallback? success, FailureCallback? failure) {
-    _mergeIdentity(
-        userId, password, AuthenticationType.universal, success, failure);
+
+  Future<ServerResponse> mergeUniversalIdentity(
+      String userId, String password) {
+    return _mergeIdentity(userId, password, AuthenticationType.universal);
   }
 
   /// <summary>Detach the universal identity from the current profile
@@ -868,16 +712,10 @@ class BrainCloudIdentity {
   /// <param name="continueAnon">
   /// Proceed even if the profile will revert to anonymous?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void detachUniversalIdentity(String userId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure) {
-    _detachIdentity(
-        userId, AuthenticationType.universal, continueAnon, success, failure);
+
+  Future<ServerResponse> detachUniversalIdentity(
+      String userId, bool continueAnon) async {
+    return _detachIdentity(userId, AuthenticationType.universal, continueAnon);
   }
 
   /// <summary>
@@ -893,16 +731,10 @@ class BrainCloudIdentity {
   /// <param name="sessionTicket">
   /// The user's session ticket (hex encoded)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void attachSteamIdentity(String steamId, String sessionTicket,
-      SuccessCallback? success, FailureCallback? failure) {
-    _attachIdentity(
-        steamId, sessionTicket, AuthenticationType.steam, success, failure);
+
+  Future<ServerResponse> attachSteamIdentity(
+      String steamId, String sessionTicket) {
+    return _attachIdentity(steamId, sessionTicket, AuthenticationType.steam);
   }
 
   /// <summary>
@@ -918,16 +750,10 @@ class BrainCloudIdentity {
   /// <param name="sessionTicket">
   /// The user's session ticket (hex encoded)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void mergeSteamIdentity(String steamId, String sessionTicket,
-      SuccessCallback? success, FailureCallback? failure) {
-    _mergeIdentity(
-        steamId, sessionTicket, AuthenticationType.steam, success, failure);
+
+  Future<ServerResponse> mergeSteamIdentity(
+      String steamId, String sessionTicket) async {
+    return _mergeIdentity(steamId, sessionTicket, AuthenticationType.steam);
   }
 
   /// <summary>Detach the steam identity from the current profile
@@ -942,16 +768,10 @@ class BrainCloudIdentity {
   /// <param name="continueAnon">
   /// Proceed even if the profile will revert to anonymous?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void detachSteamIdentity(String steamId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure) {
-    _detachIdentity(
-        steamId, AuthenticationType.steam, continueAnon, success, failure);
+
+  Future<ServerResponse> detachSteamIdentity(
+      String steamId, bool continueAnon) async {
+    return _detachIdentity(steamId, AuthenticationType.steam, continueAnon);
   }
 
   /// <summary>
@@ -968,16 +788,11 @@ class BrainCloudIdentity {
   /// The validated token from the Google SDK
   ///   (that will be further validated when sent to the bC service)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void attachGoogleIdentity(String googleUserId, String serverAuthCode,
-      SuccessCallback? success, FailureCallback? failure) {
-    _attachIdentity(googleUserId, serverAuthCode, AuthenticationType.google,
-        success, failure);
+
+  Future<ServerResponse> attachGoogleIdentity(
+      String googleUserId, String serverAuthCode) async {
+    return _attachIdentity(
+        googleUserId, serverAuthCode, AuthenticationType.google);
   }
 
   /// <summary>
@@ -995,16 +810,11 @@ class BrainCloudIdentity {
   /// The validated token from the Google SDK
   /// (that will be further validated when sent to the bC service)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void mergeGoogleIdentity(String googleUserId, String serverAuthCode,
-      SuccessCallback? success, FailureCallback? failure) {
-    _mergeIdentity(googleUserId, serverAuthCode, AuthenticationType.google,
-        success, failure);
+
+  Future<ServerResponse> mergeGoogleIdentity(
+      String googleUserId, String serverAuthCode) async {
+    return _mergeIdentity(
+        googleUserId, serverAuthCode, AuthenticationType.google);
   }
 
   /// <summary>
@@ -1020,16 +830,11 @@ class BrainCloudIdentity {
   /// <param name="continueAnon">
   /// Proceed even if the profile will revert to anonymous?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void detachGoogleIdentity(String googleUserId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure) {
-    _detachIdentity(googleUserId, AuthenticationType.google, continueAnon,
-        success, failure);
+
+  Future<ServerResponse> detachGoogleIdentity(
+      String googleUserId, bool continueAnon) async {
+    return _detachIdentity(
+        googleUserId, AuthenticationType.google, continueAnon);
   }
 
   /// <summary>
@@ -1045,16 +850,10 @@ class BrainCloudIdentity {
   /// <param name="IdToken">
   /// The id token of the google account. Can get with calls like requestIdToken
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void attachGoogleOpenIdIdentity(String googleUserAccountEmail, String idToken,
-      SuccessCallback? success, FailureCallback? failure) {
-    _attachIdentity(googleUserAccountEmail, idToken,
-        AuthenticationType.googleOpenId, success, failure);
+  Future<ServerResponse> attachGoogleOpenIdIdentity(
+      String googleUserAccountEmail, String idToken) async {
+    return _attachIdentity(
+        googleUserAccountEmail, idToken, AuthenticationType.googleOpenId);
   }
 
   /// <summary>
@@ -1071,16 +870,11 @@ class BrainCloudIdentity {
   /// <param name="IdToken">
   /// The id token of the google account. Can get with calls like requestIdToken
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void mergeGoogleOpenIdIdentity(String googleUserAccountEmail, String idToken,
-      SuccessCallback? success, FailureCallback? failure) {
-    _mergeIdentity(googleUserAccountEmail, idToken,
-        AuthenticationType.googleOpenId, success, failure);
+
+  Future<ServerResponse> mergeGoogleOpenIdIdentity(
+      String googleUserAccountEmail, String idToken) async {
+    return _mergeIdentity(
+        googleUserAccountEmail, idToken, AuthenticationType.googleOpenId);
   }
 
   /// <summary>
@@ -1096,16 +890,11 @@ class BrainCloudIdentity {
   /// <param name="continueAnon">
   /// Proceed even if the profile will revert to anonymous?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void detachGoogleOpenIdIdentity(String googleUserAccountEmail,
-      bool continueAnon, SuccessCallback? success, FailureCallback? failure) {
-    _detachIdentity(googleUserAccountEmail, AuthenticationType.googleOpenId,
-        continueAnon, success, failure);
+
+  Future<ServerResponse> detachGoogleOpenIdIdentity(
+      String googleUserAccountEmail, bool continueAnon) async {
+    return _detachIdentity(
+        googleUserAccountEmail, AuthenticationType.googleOpenId, continueAnon);
   }
 
   /// <summary>
@@ -1121,16 +910,10 @@ class BrainCloudIdentity {
   /// <param name="identityToken">
   /// The token confirming the user's identity
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void attachAppleIdentity(String appleUserId, String identityToken,
-      SuccessCallback? success, FailureCallback? failure) {
-    _attachIdentity(
-        appleUserId, identityToken, AuthenticationType.apple, success, failure);
+  Future<ServerResponse> attachAppleIdentity(
+      String appleUserId, String identityToken) async {
+    return _attachIdentity(
+        appleUserId, identityToken, AuthenticationType.apple);
   }
 
   /// <summary>
@@ -1147,16 +930,10 @@ class BrainCloudIdentity {
   /// <param name="identityToken">
   /// The token confirming the user's identity
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void mergeAppleIdentity(String appleUserId, String identityToken,
-      SuccessCallback? success, FailureCallback? failure) {
-    _mergeIdentity(
-        appleUserId, identityToken, AuthenticationType.apple, success, failure);
+
+  Future<ServerResponse> mergeAppleIdentity(
+      String appleUserId, String identityToken) {
+    return _mergeIdentity(appleUserId, identityToken, AuthenticationType.apple);
   }
 
   /// <summary>
@@ -1172,16 +949,10 @@ class BrainCloudIdentity {
   /// <param name="continueAnon">
   /// Proceed even if the profile will revert to anonymous?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void detachAppleIdentity(String appleUserId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure) {
-    _detachIdentity(
-        appleUserId, AuthenticationType.apple, continueAnon, success, failure);
+
+  Future<ServerResponse> detachAppleIdentity(
+      String appleUserId, bool continueAnon) async {
+    return _detachIdentity(appleUserId, AuthenticationType.apple, continueAnon);
   }
 
   /// <summary>
@@ -1200,16 +971,10 @@ class BrainCloudIdentity {
   /// <param name="secret">
   /// The secret given when attempting to link with Twitter
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void attachTwitterIdentity(String twitterId, String authenticationToken,
-      String secret, SuccessCallback? success, FailureCallback? failure) {
-    _attachIdentity(twitterId, "$authenticationToken:$secret",
-        AuthenticationType.twitter, success, failure);
+  Future<ServerResponse> attachTwitterIdentity(
+      String twitterId, String authenticationToken, String secret) async {
+    return _attachIdentity(
+        twitterId, "$authenticationToken:$secret", AuthenticationType.twitter);
   }
 
   /// <summary>
@@ -1229,16 +994,11 @@ class BrainCloudIdentity {
   /// <param name="secret">
   /// The secret given when attempting to link with Twitter
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void mergeTwitterIdentity(String twitterId, String authenticationToken,
-      String secret, SuccessCallback? success, FailureCallback? failure) {
-    _mergeIdentity(twitterId, "$authenticationToken:$secret",
-        AuthenticationType.twitter, success, failure);
+
+  Future<ServerResponse> mergeTwitterIdentity(
+      String twitterId, String authenticationToken, String secret) async {
+    return _mergeIdentity(
+        twitterId, "$authenticationToken:$secret", AuthenticationType.twitter);
   }
 
   /// <summary>
@@ -1254,16 +1014,10 @@ class BrainCloudIdentity {
   /// <param name="continueAnon">
   /// Proceed even if the profile will revert to anonymous?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void detachTwitterIdentity(String twitterId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure) {
-    _detachIdentity(
-        twitterId, AuthenticationType.twitter, continueAnon, success, failure);
+
+  Future<ServerResponse> detachTwitterIdentity(
+      String twitterId, bool continueAnon) async {
+    return _detachIdentity(twitterId, AuthenticationType.twitter, continueAnon);
   }
 
   /// <summary>
@@ -1280,16 +1034,11 @@ class BrainCloudIdentity {
   /// The validated token from Parse
   ///   (that will be further validated when sent to the bC service)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void attachParseIdentity(String parseId, String authenticationToken,
-      SuccessCallback? success, FailureCallback? failure) {
-    _attachIdentity(parseId, authenticationToken, AuthenticationType.parse,
-        success, failure);
+
+  Future<ServerResponse> attachParseIdentity(
+      String parseId, String authenticationToken) async {
+    return _attachIdentity(
+        parseId, authenticationToken, AuthenticationType.parse);
   }
 
   /// <summary>
@@ -1307,16 +1056,11 @@ class BrainCloudIdentity {
   /// The validated token from Parse
   /// (that will be further validated when sent to the bC service)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void mergeParseIdentity(String parseId, String authenticationToken,
-      SuccessCallback? success, FailureCallback? failure) {
-    _mergeIdentity(parseId, authenticationToken, AuthenticationType.parse,
-        success, failure);
+
+  Future<ServerResponse> mergeParseIdentity(
+      String parseId, String authenticationToken) async {
+    return _mergeIdentity(
+        parseId, authenticationToken, AuthenticationType.parse);
   }
 
   /// <summary>
@@ -1332,16 +1076,10 @@ class BrainCloudIdentity {
   /// <param name="continueAnon">
   /// Proceed even if the profile will revert to anonymous?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void detachParseIdentity(String parseId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure) {
-    _detachIdentity(
-        parseId, AuthenticationType.parse, continueAnon, success, failure);
+
+  Future<ServerResponse> detachParseIdentity(
+      String parseId, bool continueAnon) async {
+    return _detachIdentity(parseId, AuthenticationType.parse, continueAnon);
   }
 
   /// <summary>
@@ -1358,19 +1096,10 @@ class BrainCloudIdentity {
   /// The validated token from the Nintendo SDK
   ///   (that will be further validated when sent to the bC service)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void attachNintendoIdentity(
-      String nintendoAccountId,
-      String authenticationToken,
-      SuccessCallback? success,
-      FailureCallback? failure) {
-    _attachIdentity(nintendoAccountId, authenticationToken,
-        AuthenticationType.nintendo, success, failure);
+  Future<ServerResponse> attachNintendoIdentity(
+      String nintendoAccountId, String authenticationToken) {
+    return _attachIdentity(
+        nintendoAccountId, authenticationToken, AuthenticationType.nintendo);
   }
 
   /// <summary>
@@ -1388,19 +1117,11 @@ class BrainCloudIdentity {
   /// The validated token from the Nintendo SDK
   /// (that will be further validated when sent to the bC service)
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void mergeNintendoIdentity(
-      String nintendoAccountId,
-      String authenticationToken,
-      SuccessCallback? success,
-      FailureCallback? failure) {
-    _mergeIdentity(nintendoAccountId, authenticationToken,
-        AuthenticationType.nintendo, success, failure);
+
+  Future<ServerResponse> mergeNintendoIdentity(
+      String nintendoAccountId, String authenticationToken) {
+    return _mergeIdentity(
+        nintendoAccountId, authenticationToken, AuthenticationType.nintendo);
   }
 
   /// <summary>
@@ -1416,16 +1137,11 @@ class BrainCloudIdentity {
   /// <param name="continueAnon">
   /// Proceed even if the profile will revert to anonymous?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void detachNintendoIdentity(String nintendoAccountId, bool continueAnon,
-      SuccessCallback? success, FailureCallback? failure) {
-    _detachIdentity(nintendoAccountId, AuthenticationType.nintendo,
-        continueAnon, success, failure);
+
+  Future<ServerResponse> detachNintendoIdentity(
+      String nintendoAccountId, bool continueAnon) async {
+    return _detachIdentity(
+        nintendoAccountId, AuthenticationType.nintendo, continueAnon);
   }
 
   /// <summary>
@@ -1445,16 +1161,11 @@ class BrainCloudIdentity {
   /// <param name="forceCreate">
   /// Should a new profile be created if it does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void switchToChildProfile(String childProfileId, String childAppId,
-      bool forceCreate, SuccessCallback? success, FailureCallback? failure) {
-    _switchToChildProfile(
-        childProfileId, childAppId, forceCreate, false, success, failure);
+
+  Future<ServerResponse> switchToChildProfile(
+      String childProfileId, String childAppId, bool forceCreate) async {
+    return _switchToChildProfile(
+        childProfileId, childAppId, forceCreate, false);
   }
 
   /// <summary>
@@ -1471,16 +1182,10 @@ class BrainCloudIdentity {
   /// <param name="forceCreate">
   /// Should a new profile be created if one does not exist?
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error during authentication
-  /// </param>
-  void switchToSingletonChildProfile(String childAppId, bool forceCreate,
-      SuccessCallback? success, FailureCallback? failure) {
-    _switchToChildProfile(
-        null, childAppId, forceCreate, true, success, failure);
+
+  Future<ServerResponse> switchToSingletonChildProfile(
+      String childAppId, bool forceCreate) async {
+    return _switchToChildProfile(null, childAppId, forceCreate, true);
   }
 
   /// <summary>
@@ -1489,24 +1194,27 @@ class BrainCloudIdentity {
   /// <param name="externalId">
   /// User ID
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void attachNonLoginUniversalId(
-      String externalId, SuccessCallback? success, FailureCallback? failure) {
+
+  Future<ServerResponse> attachNonLoginUniversalId(String externalId) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.attachNonLoginUniversalId, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1515,24 +1223,26 @@ class BrainCloudIdentity {
   /// <param name="externalId">
   /// User ID
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void updateUniversalIdLogin(
-      String externalId, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> updateUniversalIdLogin(String externalId) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.updateUniversalIdLogin, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1553,27 +1263,19 @@ class BrainCloudIdentity {
   /// <param name="forceCreate">
   /// If the profile does not exist, should it be created?
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void attachParentWithIdentity(
+  Future<ServerResponse> attachParentWithIdentity(
       String externalId,
       String authenticationToken,
       AuthenticationType authenticationType,
       String externalAuthName,
-      bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      bool forceCreate) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.identityServiceExternalId.value] = externalId;
     data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
         .value] = authenticationToken;
     data[OperationParam.identityServiceAuthenticationType.value] =
-        authenticationType.toString();
+        authenticationType.value;
 
     if (Util.isOptionalParameterValid(externalAuthName)) {
       data[OperationParam.authenticateServiceAuthenticateExternalAuthName
@@ -1583,13 +1285,22 @@ class BrainCloudIdentity {
     data[OperationParam.authenticateServiceAuthenticateForceCreate.value] =
         forceCreate;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.attachParentWithIdentity, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1602,25 +1313,27 @@ class BrainCloudIdentity {
   /// <param name="parentLevelName">
   /// The level of the parent to switch to
   /// </param>
-  /// <param name="success">
-  /// The method to call in event of successful switch
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error while switching
-  /// </param>
-  void switchToParentProfile(String parentLevelName, SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> switchToParentProfile(String parentLevelName) async {
     Map<String, dynamic> data = {};
     data[OperationParam.authenticateServiceAuthenticateLevelName.value] =
         parentLevelName;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.switchToParentProfile, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1630,20 +1343,23 @@ class BrainCloudIdentity {
   /// Service Name - identity
   /// Service Operation - DETACH_PARENT
   /// </remarks>
-  /// <param name="success">
-  /// The method to call in event of successful switch
-  /// </param>
-  /// <param name="failure">
-  /// The method to call in the event of an error while switching
-  /// </param>
-  void detachParent(SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+  Future<ServerResponse> detachParent() async {
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.detachParent, null, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1656,25 +1372,28 @@ class BrainCloudIdentity {
   /// <param name="includeSummaryData">
   /// Whether to return the summary friend data along with this call
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getChildProfiles(bool includeSummaryData, SuccessCallback? success,
-      FailureCallback? failure) {
+
+  Future<ServerResponse> getChildProfiles(bool includeSummaryData) async {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStateServiceIncludeSummaryData.value] =
         includeSummaryData;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.getChildProfiles, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1683,24 +1402,23 @@ class BrainCloudIdentity {
   /// <remarks>
   /// Service Name - identity
   /// Service Operation - GET_IDENTITIES
-  /// </remarks>  
-  Future<ServerResponse>  getIdentities() async {
-   
+  /// </remarks>
+  Future<ServerResponse> getIdentities() async {
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
       ServerResponse responseObject = ServerResponse.fromJson(response);
-      completer.complete(responseObject); 
-    },(statusCode, reasonCode, statusMessage) {
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
       completer.completeError(ServerResponse(
-        statusCode: statusCode,
-        reasonCode: reasonCode,
-        statusMessage: statusMessage));
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
     });
-    
+
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.getIdentities, null, callback);
     _clientRef.sendRequest(sc);
-    
+
     return completer.future;
   }
 
@@ -1711,21 +1429,24 @@ class BrainCloudIdentity {
   /// Service Name - identity
   /// Service Operation - GET_EXPIRED_IDENTITIES
   /// </remarks>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getExpiredIdentities(
-      SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+
+  Future<ServerResponse> getExpiredIdentities() async {
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.getExpiredIdentities, null, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1744,32 +1465,32 @@ class BrainCloudIdentity {
   /// <param name="authenticationType">
   /// Type of authentication
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void refreshIdentity(
-      String externalId,
-      String authenticationToken,
-      AuthenticationType authenticationType,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+
+  Future<ServerResponse> refreshIdentity(String externalId,
+      String authenticationToken, AuthenticationType authenticationType) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
     data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
         .value] = authenticationToken;
     data[OperationParam.identityServiceAuthenticationType.value] =
-        authenticationType.toString();
+        authenticationType.value;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.refreshIdentity, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1791,19 +1512,9 @@ class BrainCloudIdentity {
   /// <param name="updateContactEmail">
   /// Whether to update contact email in profile
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void changeEmailIdentity(
-      String oldEmailAddress,
-      String password,
-      String newEmailAddress,
-      bool updateContactEmail,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+
+  Future<ServerResponse> changeEmailIdentity(String oldEmailAddress,
+      String password, String newEmailAddress, bool updateContactEmail) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceOldEmailAddress.value] = oldEmailAddress;
     data[OperationParam
@@ -1812,13 +1523,22 @@ class BrainCloudIdentity {
     data[OperationParam.identityServiceUpdateContactEmail.value] =
         updateContactEmail;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.changeEmailIdentity, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1842,28 +1562,21 @@ class BrainCloudIdentity {
   /// <param name="forceCreate">
   /// If the profile does not exist, should it be created?
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void attachPeerProfile(
+
+  Future<ServerResponse> attachPeerProfile(
       String peer,
       String externalId,
       String authenticationToken,
       AuthenticationType authenticationType,
       String externalAuthName,
-      bool forceCreate,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      bool forceCreate) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.identityServiceExternalId.value] = externalId;
     data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
         .value] = authenticationToken;
     data[OperationParam.identityServiceAuthenticationType.value] =
-        authenticationType.toString();
+        authenticationType.value;
 
     if (Util.isOptionalParameterValid(externalAuthName)) {
       data[OperationParam.authenticateServiceAuthenticateExternalAuthName
@@ -1874,13 +1587,22 @@ class BrainCloudIdentity {
     data[OperationParam.authenticateServiceAuthenticateForceCreate.value] =
         forceCreate;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.attachPeerProfile, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1889,44 +1611,49 @@ class BrainCloudIdentity {
   /// <param name="peer">
   /// Name of the peer to connect to
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void detachPeer(
-      String peer, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> detachPeer(String peer) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.peer.value] = peer;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.detachPeer, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
   /// Retrieves a list of attached peer profiles
   /// </summary>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getPeerProfiles(SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+  Future<ServerResponse> getPeerProfiles() async {
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.getPeerProfiles, null, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1938,25 +1665,28 @@ class BrainCloudIdentity {
   /// <param name="publicKey">
   ///
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void attachBlockChainIdentity(String blockchainConfig, String publicKey,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> attachBlockChainIdentity(
+      String blockchainConfig, String publicKey) async {
     Map<String, dynamic> data = {};
     data[OperationParam.blockChainConfig.value] = blockchainConfig;
     data[OperationParam.publicKey.value] = publicKey;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.attachBlockChain, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1964,94 +1694,111 @@ class BrainCloudIdentity {
   /// </summary>
   /// <param name="blockchainConfig">
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void detachBlockChainIdentity(String blockchainConfig,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> detachBlockChainIdentity(
+      String blockchainConfig) async {
     Map<String, dynamic> data = {};
     data[OperationParam.blockChainConfig.value] = blockchainConfig;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.detachBlockChain, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
-  void _attachIdentity(
-      String externalId,
-      String authenticationToken,
-      AuthenticationType authenticationType,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> _attachIdentity(String externalId,
+      String authenticationToken, AuthenticationType authenticationType) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
     data[OperationParam.identityServiceAuthenticationType.value] =
-        authenticationType.toString();
+        authenticationType.value;
     data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
         .value] = authenticationToken;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.attach, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
-  void _mergeIdentity(
-      String externalId,
-      String authenticationToken,
-      AuthenticationType authenticationType,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> _mergeIdentity(String externalId,
+      String authenticationToken, AuthenticationType authenticationType) {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
     data[OperationParam.identityServiceAuthenticationType.value] =
-        authenticationType.toString();
+        authenticationType.value;
     data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
         .value] = authenticationToken;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.merge, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
-  void _detachIdentity(String externalId, AuthenticationType authenticationType,
-      bool continueAnon, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> _detachIdentity(String externalId,
+      AuthenticationType authenticationType, bool continueAnon) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
     data[OperationParam.identityServiceAuthenticationType.value] =
-        authenticationType.toString();
+        authenticationType.value;
     data[OperationParam.identityServiceConfirmAnonymous.value] = continueAnon;
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(
         ServiceName.identity, ServiceOperation.detach, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
-  void _switchToChildProfile(
-      String? childProfileId,
-      String childAppd,
-      bool forceCreate,
-      bool forceSingleton,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> _switchToChildProfile(String? childProfileId,
+      String childAppd, bool forceCreate, bool forceSingleton) async {
     Map<String, dynamic> data = {};
 
     if (Util.isOptionalParameterValid(childProfileId)) {
@@ -2073,12 +1820,21 @@ class BrainCloudIdentity {
     data[OperationParam.authenticateServiceAuthenticateTimeZoneOffset.value] =
         Util.getUTCOffsetForCurrentTimeZone();
 
-    ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
-    );
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
     ServerCall sc = ServerCall(ServiceName.identity,
         ServiceOperation.switchToChildProfile, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 }
