@@ -25,9 +25,7 @@ class BrainCloudRTT {
   /// <param name="in_connectionType"></param>
   /// <param name="in_success"></param>
   /// <param name="in_failure"></param>
-  Future<ServerResponse> enableRTT(
-    RTTConnectionType? inConnectiontype,
-  ) {
+  Future<ServerResponse> enableRTT({RTTConnectionType? inConnectiontype}) {
     Completer<ServerResponse> completer = Completer();
     _commsLayer?.enableRTT(inConnectiontype ?? RTTConnectionType.websocket,
         (response) {

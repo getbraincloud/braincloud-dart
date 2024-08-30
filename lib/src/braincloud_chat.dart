@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -6,6 +7,7 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 
 class BrainCloudChat {
   final BrainCloudClient _clientRef;
@@ -15,153 +17,230 @@ class BrainCloudChat {
   /// <summary>
   /// Registers a listener for incoming events from <channelId>. Also returns a list of <maxReturn> recent messages from history.
   /// </summary>
-  void channelConnect(String inChannelid, int inMaxtoreturn,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> channelConnect(
+      {required String channelid, required int maxtoreturn}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.chatChannelId.value] = inChannelid;
-    data[OperationParam.chatMaxReturn.value] = inMaxtoreturn;
+    data[OperationParam.chatChannelId.value] = channelid;
+    data[OperationParam.chatMaxReturn.value] = maxtoreturn;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.channelConnect, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
   /// Unregisters a listener for incoming events from <channelId>.
   /// </summary>
-  void channelDisconnect(
-      String inChannelid, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> channelDisconnect({required String channelid}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.chatChannelId.value] = inChannelid;
+    data[OperationParam.chatChannelId.value] = channelid;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.channelDisconnect, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
   /// Delete a chat message. <version> must match the latest or pass -1 to bypass version check.
   /// </summary>
-  void deleteChatMessage(String inChannelid, String inMessageid, int inVersion,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> deleteChatMessage(
+      {required String channelid,
+      required String messageid,
+      required int version}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.chatChannelId.value] = inChannelid;
-    data[OperationParam.chatMessageId.value] = inMessageid;
-    data[OperationParam.chatVersion.value] = inVersion;
+    data[OperationParam.chatChannelId.value] = channelid;
+    data[OperationParam.chatMessageId.value] = messageid;
+    data[OperationParam.chatVersion.value] = version;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.deleteChatMessage, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
   /// Gets the channelId for the given <channelType> and <channelSubId>. Channel type must be one of "gl"(GlobalChannelType) or "gr"(GroupChannelType).
   /// </summary>
-  void getChannelId(String inChanneltype, String inChannelsubid,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getChannelId(
+      {required String channeltype, required String channelsubid}) {
+    Completer<ServerResponse> completer = Completer();
+
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.chatChannelType.value] = inChanneltype;
-    data[OperationParam.chatChannelSubId.value] = inChannelsubid;
+    data[OperationParam.chatChannelType.value] = channeltype;
+    data[OperationParam.chatChannelSubId.value] = channelsubid;
 
     ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+        BrainCloudClient.createServerCallback((response) {
+      completer.complete(ServerResponse(statusCode: 200, body: response));
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.getChannelId, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
   /// Gets description info and activity stats for channel <channelId>. Note that numMsgs and listeners only returned for non-global groups. Only callable for channels the user is a member of.
   /// </summary>
-  void getChannelInfo(
-      String inChannelid, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getChannelInfo({required String channelid}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.chatChannelId.value] = inChannelid;
+    data[OperationParam.chatChannelId.value] = channelid;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.getChannelInfo, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
   /// Gets a populated chat object (normally for editing).
   /// </summary>
-  void getChatMessage(String inChannelid, String inMessageid,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getChatMessage(
+      {required String channelid, required String messageid}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.chatChannelId.value] = inChannelid;
-    data[OperationParam.chatMessageId.value] = inMessageid;
+    data[OperationParam.chatChannelId.value] = channelid;
+    data[OperationParam.chatMessageId.value] = messageid;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.getChatMessage, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
   /// Get a list of <maxReturn> messages from history of channel <channelId>
   /// </summary>
-  void getRecentChatMessages(
-      {required String inChannelId,
-      required int inMaxToReturn,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
+  Future<ServerResponse> getRecentChatMessages(
+      {required String channelId, required int maxToReturn}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.chatChannelId.value] = inChannelId;
-    data[OperationParam.chatMaxReturn.value] = inMaxToReturn;
+    data[OperationParam.chatChannelId.value] = channelId;
+    data[OperationParam.chatMaxReturn.value] = maxToReturn;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.chat,
         ServiceOperation.getRecentChatMessages, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
   /// Gets a list of the channels of type <channelType> that the user has access to. Channel type must be one of "gl"(GlobalChannelType), "gr"(GroupChannelType) or "all"(AllChannelType).
   /// </summary>
-  void getSubscribedChannels(String inChanneltype, SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> getSubscribedChannels({required String channeltype}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.chatChannelType.value] = inChanneltype;
+    data[OperationParam.chatChannelType.value] = channeltype;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.chat,
         ServiceOperation.getSubscribedChannels, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
   /// Sends a potentially richer member chat message. By convention, content should contain a field named text for plain-text content. Returns the id of the message created.
   /// </summary>
   ///
-  void postChatMessage(
-      {required String inChannelId,
-      required String inContentJson,
-      bool inRecordInHistory = true,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
+  Future<ServerResponse> postChatMessage(
+      {required String channelId,
+      required String contentJson,
+      bool inRecordInHistory = true}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
 
-    data[OperationParam.chatChannelId.value] = inChannelId;
-    data[OperationParam.chatContent.value] = jsonDecode(inContentJson);
+    data[OperationParam.chatChannelId.value] = channelId;
+    data[OperationParam.chatContent.value] = jsonDecode(contentJson);
     data[OperationParam.chatRecordInHistory.value] = inRecordInHistory;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.postChatMessage, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -169,29 +248,27 @@ class BrainCloudChat {
   /// </summary>
   ///
   // void postChatMessage(
-  //     {required String in_channelId,
-  //     required String in_plain,
-  //     required String in_jsonRich,
-  //     bool in_recordInHistory = true,
-  //     SuccessCallback? success,
-  //     FailureCallback? failure
+  //     {required String channelId,
+  //     required String plain,
+  //     required String jsonRich,
+  //     bool recordInHistory = true
   //     }) {
   //   Map<String, dynamic> data = <String, dynamic>{};
 
   //   // Build message content
   //   Map<String, dynamic> content = {};
-  //   content[OperationParam.chatText.Value] = in_plain;
-  //   if (Util.isOptionalParameterValid(in_jsonRich)) {
-  //     Map<String, dynamic> jsonRich = jsonDecode(in_jsonRich);
+  //   content[OperationParam.chatText.Value] = plain;
+  //   if (Util.isOptionalParameterValid(jsonRich)) {
+  //     Map<String, dynamic> jsonRich = jsonDecode(jsonRich);
   //     content[OperationParam.chatRich.Value] = jsonRich;
   //   } else {
   //     Map<String, dynamic> jsonRich = jsonDecode("{}");
   //     content[OperationParam.chatRich.Value] = jsonRich;
   //   }
 
-  //   data[OperationParam.chatChannelId.Value] = in_channelId;
+  //   data[OperationParam.chatChannelId.Value] = channelId;
   //   data[OperationParam.chatContent.Value] = content;
-  //   data[OperationParam.chatRecordInHistory.Value] = in_recordInHistory;
+  //   data[OperationParam.chatRecordInHistory.Value] = recordInHistory;
 
   //   ServerCallback? callback = BrainCloudClient.createServerCallback(
   //       success, failure);
@@ -204,64 +281,78 @@ class BrainCloudChat {
   /// Sends a plain-text chat message.
   /// </summary>
   ///
-  void postChatMessageSimple(
-      {required String inChannelId,
-      required String inPlain,
-      bool inRecordInHistory = true,
-      SuccessCallback? success,
-      FailureCallback? failure}) {
+  Future<ServerResponse> postChatMessageSimple(
+      {required String channelId,
+      required String plain,
+      bool recordInHistory = true}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
 
-    data[OperationParam.chatChannelId.value] = inChannelId;
-    data[OperationParam.chatText.value] = inPlain;
-    data[OperationParam.chatRecordInHistory.value] = inRecordInHistory;
+    data[OperationParam.chatChannelId.value] = channelId;
+    data[OperationParam.chatText.value] = plain;
+    data[OperationParam.chatRecordInHistory.value] = recordInHistory;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.chat,
         ServiceOperation.postChatMessageSimple, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
   /// Update the specified chat message. Message must have been from this user. Version provided must match (or pass -1 to bypass version enforcement).
   /// </summary>
-  void updateChatMessage(
-      String inChannelid,
-      String inMessageid,
-      int inVersion,
-      String inContentjson,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> updateChatMessage(
+      {required String channelid,
+      required String messageid,
+      required int version,
+      required String contentjson}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
 
-    data[OperationParam.chatChannelId.value] = inChannelid;
-    data[OperationParam.chatMessageId.value] = inMessageid;
-    data[OperationParam.chatVersion.value] = inVersion;
-    data[OperationParam.chatContent.value] = jsonDecode(inContentjson);
+    data[OperationParam.chatChannelId.value] = channelid;
+    data[OperationParam.chatMessageId.value] = messageid;
+    data[OperationParam.chatVersion.value] = version;
+    data[OperationParam.chatContent.value] = jsonDecode(contentjson);
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.updateChatMessage, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   // /// <summary>
   // /// Update a chat message. <content> must contain at least a "plain" field for plain-text messaging. <version> must match the latest or pass -1 to bypass version check.
   // /// </summary>
   // void UpdateChatMessage(
-  //     String in_channelId,
+  //     String channelId,
   //     String in_messageId,
   //     int in_version,
-  //     String in_plain,
-  //     String in_jsonRich,
+  //     String plain,
+  //     String jsonRich,
   //     SuccessCallback? success,
   //     FailureCallback? failure) {
   //   Map<String, dynamic> content = <String, dynamic>{};
-  //   content[OperationParam.chatText.Value] = in_plain;
-  //   if (Util.isOptionalParameterValid(in_jsonRich)) {
-  //     Map<String, dynamic> jsonRich = jsonDecode(in_jsonRich);
+  //   content[OperationParam.chatText.Value] = plain;
+  //   if (Util.isOptionalParameterValid(jsonRich)) {
+  //     Map<String, dynamic> jsonRich = jsonDecode(jsonRich);
   //     content[OperationParam.chatRich.Value] = jsonRich;
   //   } else {
   //     Map<String, dynamic> jsonRich = {};
@@ -269,7 +360,7 @@ class BrainCloudChat {
   //   }
 
   //   Map<String, dynamic> data = {};
-  //   data[OperationParam.chatChannelId.Value] = in_channelId;
+  //   data[OperationParam.chatChannelId.Value] = channelId;
   //   data[OperationParam.chatMessageId.Value] = in_messageId;
   //   data[OperationParam.chatVersion.Value] = in_version;
   //   data[OperationParam.chatContent.Value] = content;
