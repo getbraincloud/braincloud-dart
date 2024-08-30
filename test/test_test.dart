@@ -235,7 +235,7 @@ main() {
 
     test("getChannelId", () async {
       ServerResponse? response = await bcWrapper.chatService
-          ?.getChannelId(channeltype: "gl", channelsubid: "32");
+          ?.getChannelId(channeltype: "gl", channelsubid: "valid");
 
       if (response?.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");
