@@ -49,7 +49,6 @@ import 'package:braincloud_dart/src/braincloud_time.dart';
 import 'package:braincloud_dart/src/braincloud_tournament.dart';
 import 'package:braincloud_dart/src/braincloud_user_items.dart';
 import 'package:braincloud_dart/src/braincloud_virtual_currency.dart';
-import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// <summary>
@@ -1480,7 +1479,8 @@ class BrainCloudWrapper {
 
     _client.identityService.getIdentities().then((response) {
       if (_client.authenticated) {
-        if (response.body?['identities'] is Map && response.body?['identities'].isEmpty) {          
+        if (response.body?['identities'] is Map &&
+            response.body?['identities'].isEmpty) {
           // was anonymous delete user
           brainCloudClient.playerStateService.deleteUser(
               (response) => completer.complete(ServerResponse(statusCode: 200)),
@@ -1503,7 +1503,6 @@ class BrainCloudWrapper {
 
     return completer.future;
   }
-
 
   /// <summary>
   /// Re-authenticates the user with brainCloud
