@@ -18,10 +18,10 @@ class BrainCloudChat {
   /// Registers a listener for incoming events from <channelId>. Also returns a list of <maxReturn> recent messages from history.
   /// </summary>
   Future<ServerResponse> channelConnect(
-      {required String channelid, required int maxtoreturn}) {
+      {required String channelId, required int maxtoreturn}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.chatChannelId.value] = channelid;
+    data[OperationParam.chatChannelId.value] = channelId;
     data[OperationParam.chatMaxReturn.value] = maxtoreturn;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -42,10 +42,10 @@ class BrainCloudChat {
   /// <summary>
   /// Unregisters a listener for incoming events from <channelId>.
   /// </summary>
-  Future<ServerResponse> channelDisconnect({required String channelid}) {
+  Future<ServerResponse> channelDisconnect({required String channelId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.chatChannelId.value] = channelid;
+    data[OperationParam.chatChannelId.value] = channelId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
@@ -66,12 +66,12 @@ class BrainCloudChat {
   /// Delete a chat message. <version> must match the latest or pass -1 to bypass version check.
   /// </summary>
   Future<ServerResponse> deleteChatMessage(
-      {required String channelid,
+      {required String channelId,
       required String messageid,
       required int version}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.chatChannelId.value] = channelid;
+    data[OperationParam.chatChannelId.value] = channelId;
     data[OperationParam.chatMessageId.value] = messageid;
     data[OperationParam.chatVersion.value] = version;
 
@@ -120,10 +120,10 @@ class BrainCloudChat {
   /// <summary>
   /// Gets description info and activity stats for channel <channelId>. Note that numMsgs and listeners only returned for non-global groups. Only callable for channels the user is a member of.
   /// </summary>
-  Future<ServerResponse> getChannelInfo({required String channelid}) {
+  Future<ServerResponse> getChannelInfo({required String channelId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.chatChannelId.value] = channelid;
+    data[OperationParam.chatChannelId.value] = channelId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
@@ -144,10 +144,10 @@ class BrainCloudChat {
   /// Gets a populated chat object (normally for editing).
   /// </summary>
   Future<ServerResponse> getChatMessage(
-      {required String channelid, required String messageid}) {
+      {required String channelId, required String messageid}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
-    data[OperationParam.chatChannelId.value] = channelid;
+    data[OperationParam.chatChannelId.value] = channelId;
     data[OperationParam.chatMessageId.value] = messageid;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -311,14 +311,14 @@ class BrainCloudChat {
   /// Update the specified chat message. Message must have been from this user. Version provided must match (or pass -1 to bypass version enforcement).
   /// </summary>
   Future<ServerResponse> updateChatMessage(
-      {required String channelid,
+      {required String channelId,
       required String messageid,
       required int version,
       required String contentjson}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
 
-    data[OperationParam.chatChannelId.value] = channelid;
+    data[OperationParam.chatChannelId.value] = channelId;
     data[OperationParam.chatMessageId.value] = messageid;
     data[OperationParam.chatVersion.value] = version;
     data[OperationParam.chatContent.value] = jsonDecode(contentjson);

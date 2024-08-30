@@ -74,7 +74,6 @@ main() {
       // ServerResponse response = await bcWrapper.brainCloudClient.authenticationService.authenticateAnonymous(true);
       // expect(response.statusCode, 200);
       // expect(response.reasonCode, ReasonCodes.switchingProfiles);
-
     });
 
     test("authenticateAnonymous", () async {
@@ -158,7 +157,7 @@ main() {
 
       response = await bcWrapper.smartSwitchauthenticateUniversal(
           username: email, password: password, forceCreate: true);
-           expect(response.statusCode, 200);
+      expect(response.statusCode, 200);
       expect(response.body?['profileId'], isA<String>());
       expect(response.body?['server_time'], isA<int>());
       expect(response.body?['createdAt'], isA<int>());
@@ -170,11 +169,15 @@ main() {
       expect(bcWrapper.isInitialized, true);
       bcWrapper.resetStoredProfileId();
       bcWrapper.resetStoredAnonymousId();
-      ServerResponse response = await bcWrapper.authenticateUniversal(username: email, password: password, forceCreate: false);
+      ServerResponse response = await bcWrapper.authenticateUniversal(
+          username: email, password: password, forceCreate: false);
       expect(response.statusCode, 200);
 
       response = await bcWrapper.smartSwitchauthenticateAdvanced(
-          authenticationType: AuthenticationType.anonymous, ids: AuthenticationIds("", "", ""),forceCreate: true,extraJson: {});
+          authenticationType: AuthenticationType.anonymous,
+          ids: AuthenticationIds("", "", ""),
+          forceCreate: true,
+          extraJson: {});
       expect(response.statusCode, 200);
       expect(response.body?['profileId'], isA<String>());
       expect(response.body?['server_time'], isA<int>());
@@ -186,11 +189,12 @@ main() {
       expect(bcWrapper.isInitialized, true);
       bcWrapper.resetStoredProfileId();
       bcWrapper.resetStoredAnonymousId();
-      ServerResponse response = await bcWrapper.authenticateUniversal(username: email, password: password, forceCreate: false);
+      ServerResponse response = await bcWrapper.authenticateUniversal(
+          username: email, password: password, forceCreate: false);
       expect(response.statusCode, 200);
 
       response = await bcWrapper.smartSwitchauthenticateEmail(
-          email:email,password: password,forceCreate: true);
+          email: email, password: password, forceCreate: true);
       expect(response.statusCode, 200);
       expect(response.body?['profileId'], isA<String>());
       expect(response.body?['server_time'], isA<int>());
@@ -199,7 +203,6 @@ main() {
       expect(response.body?['currency'], isA<Object>());
     });
   });
-
 
   group("Test RTT", () {
     setUp(() async {
@@ -212,11 +215,12 @@ main() {
     test("enableRTT", () async {
       bcWrapper.rTTService?.disableRTT();
 
-      ServerResponse? response =
-          await bcWrapper.rTTService?.enableRTT(RTTConnectionType.websocket).onError<ServerResponse>((error,_) {
-            expect(error.reasonCode, ReasonCodes.featureNotEnabled);
-            return error ; //ServerResponse(statusCode: 200);
-          });
+      ServerResponse? response = await bcWrapper.rTTService
+          ?.enableRTT(connectiontype: RTTConnectionType.websocket)
+          .onError<ServerResponse>((error, _) {
+        expect(error.reasonCode, ReasonCodes.featureNotEnabled);
+        return error; //ServerResponse(statusCode: 200);
+      });
 
       if (response?.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");
@@ -227,15 +231,86 @@ main() {
       }
     });
 
-    test("rttChatCallback", () async {
-      String channelId = "32:gl:valid";
+    String channelId = "";
 
-      //Connect to channel
-      bcWrapper.chatService?.channelConnect(channelId, 50, (response) {
-        debugPrint(jsonEncode(response));
-      }, (statusCode, reasonCode, statusMessage) {
-        debugPrint(statusMessage);
-      });
+    test("getChannelId", () async {
+      ServerResponse? response = await bcWrapper.chatService
+          ?.getChannelId(channeltype: "gl", channelsubid: "32");
+
+      if (response?.reasonCode == ReasonCodes.featureNotEnabled) {
+        markTestSkipped("Rtt not enable for this app.");
+      } else if (response != null) {
+        channelId = response.body?["data"]["channelId"];
+        expect(response.statusCode, 200);
+      } else {
+        throw "rtt response was null";
+      }
+    });
+
+    test("getChannelInfo", () async {
+      ServerResponse? response =
+          await bcWrapper.chatService?.getChannelInfo(channelId: channelId);
+
+      if (response?.reasonCode == ReasonCodes.featureNotEnabled) {
+        markTestSkipped("Rtt not enable for this app.");
+      } else if (response != null) {
+        expect(response.statusCode, 200);
+      } else {
+        throw "rtt response was null";
+      }
+    });
+
+    test("channelConnect", () async {
+      ServerResponse? response = await bcWrapper.chatService
+          ?.channelConnect(channelId: channelId, maxtoreturn: 50);
+
+      if (response?.reasonCode == ReasonCodes.featureNotEnabled) {
+        markTestSkipped("Rtt not enable for this app.");
+      } else if (response != null) {
+        expect(response.statusCode, 200);
+      } else {
+        throw "rtt response was null";
+      }
+    });
+
+    test("getSubscribedChannels", () async {
+      ServerResponse? response =
+          await bcWrapper.chatService?.getSubscribedChannels(channeltype: "gl");
+
+      if (response?.reasonCode == ReasonCodes.featureNotEnabled) {
+        markTestSkipped("Rtt not enable for this app.");
+      } else if (response != null) {
+        List channels = response.body?['data']['channels'];
+
+        for (var chan in channels) {
+          debugPrint(">> Channel Found << ");
+          debugPrint(chan['id']);
+          debugPrint(chan['type']);
+          debugPrint(chan['name']);
+          debugPrint(chan['desc']);
+        }
+
+        expect(response.statusCode, 200);
+      } else {
+        throw "rtt response was null";
+      }
+    });
+
+    String msgId = "";
+
+    test("postChatMessageSimple", () async {
+      ServerResponse? response = await bcWrapper.chatService
+          ?.postChatMessageSimple(channelId: channelId, plain: "Hello World!!");
+
+      if (response?.reasonCode == ReasonCodes.featureNotEnabled) {
+        markTestSkipped("Rtt not enable for this app.");
+      } else if (response != null) {
+        msgId = response.body?['data']['msgId'];
+        debugPrint("Message sent: $msgId");
+        expect(response.statusCode, 200);
+      } else {
+        throw "rtt response was null";
+      }
     });
   });
 }
