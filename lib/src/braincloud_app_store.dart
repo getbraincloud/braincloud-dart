@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -6,6 +7,7 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/util.dart';
 
 class BrainCloudAppStore {
@@ -35,15 +37,10 @@ class BrainCloudAppStore {
   /// The currency to retrieve the sales
   /// inventory for. This is only used for Steam and Facebook stores.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getSalesInventory(String platform, String userCurrency,
-      SuccessCallback? success, FailureCallback? failure) {
-    getSalesInventoryByCategory(platform, userCurrency, null, success, failure);
+  Future<ServerResponse> getSalesInventory(
+      {required String platform, required String userCurrency}) {
+    return getSalesInventoryByCategory(
+        storeId: platform, userCurrency: userCurrency);
   }
 
   /// <summary>
@@ -71,14 +68,11 @@ class BrainCloudAppStore {
   /// <param name="category">
   /// The AppStore category
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getSalesInventoryByCategory(String storeId, String userCurrency,
-      String? category, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getSalesInventoryByCategory(
+      {required String storeId,
+      required String userCurrency,
+      String? category}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.appStoreServiceStoreId.value] = storeId;
 
@@ -94,11 +88,19 @@ class BrainCloudAppStore {
       data[OperationParam.appStoreServiceCategory.value] = category;
     }
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.appStore, ServiceOperation.getInventory, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -108,19 +110,20 @@ class BrainCloudAppStore {
   /// Service Name - AppStore
   /// Service Operation - EligiblePromotions
   /// </remarks>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getEligiblePromotions(
-      SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+  Future<ServerResponse> getEligiblePromotions() {
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.appStore,
         ServiceOperation.eligiblePromotions, null, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -143,25 +146,29 @@ class BrainCloudAppStore {
   /// <param name="receiptJson">
   /// The specific store data required
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void verifyPurchase(String storeId, String receiptJson,
-      SuccessCallback? success, FailureCallback? failure) {
+
+  Future<ServerResponse> verifyPurchase(
+      {required String storeId, required String receiptJson}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.appStoreServiceStoreId.value] = storeId;
 
     var receiptData = jsonDecode(receiptJson);
     data[OperationParam.appStoreServiceReceiptData.value] = receiptData;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.appStore, ServiceOperation.verifyPurchase, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -184,25 +191,28 @@ class BrainCloudAppStore {
   /// <param name="purchaseJson">
   /// The specific store data required
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void startPurchase(String storeId, String purchaseJson,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> startPurchase(
+      {required String storeId, required String purchaseJson}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.appStoreServiceStoreId.value] = storeId;
 
     var purchaseData = jsonDecode(purchaseJson);
     data[OperationParam.appStoreServicePurchaseData.value] = purchaseData;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.appStore, ServiceOperation.startPurchase, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -228,18 +238,11 @@ class BrainCloudAppStore {
   /// <param name="transactionJson">
   /// The specific store data required
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void finalizePurchase(
-      String storeId,
-      String transactionId,
-      String transactionJson,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> finalizePurchase(
+      {required String storeId,
+      required String transactionId,
+      required String transactionJson}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.appStoreServiceStoreId.value] = storeId;
     data[OperationParam.appStoreServiceTransactionId.value] = transactionId;
@@ -247,30 +250,42 @@ class BrainCloudAppStore {
     var transactionData = jsonDecode(transactionJson);
     data[OperationParam.appStoreServiceTransactionData.value] = transactionData;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.appStore,
         ServiceOperation.finalizePurchase, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
   /// Returns up-to-date eligible 'promotions' for the user and a 'promotionsRefreshed' flag indicating whether the user's promotion info required refreshing
   /// Service Name - appStore
   /// Service Operation - RefreshPromotions
-  /// /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
   /// </summary>
-  void refreshPromotions(SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> refreshPromotions() {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
-    ServerCallback? callback = ServerCallback(success, failure);
+    ServerCallback? callback = ServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.appStore,
         ServiceOperation.refreshPromotions, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 }
