@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -6,6 +7,7 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 
 class BrainCloudBlockchain {
   final BrainCloudClient _clientRef;
@@ -15,37 +17,55 @@ class BrainCloudBlockchain {
   /// <summary>
   /// Retrieves the blockchain items owned by the caller.
   /// </summary>
-  void getBlockchainItems(String? inIntegrationid, String? inContextjson,
-      SuccessCallback? inSuccess, FailureCallback? inFailure) {
-    var context = jsonDecode(inContextjson ?? "{}");
+  Future<ServerResponse> getBlockchainItems(
+      {String? integrationid, String? contextjson}) {
+    Completer<ServerResponse> completer = Completer();
+    var context = jsonDecode(contextjson ?? "{}");
     Map<String, dynamic> data = {};
 
     data[OperationParam.blockChainIntegrationId.value] =
-        inIntegrationid ?? "default";
+        integrationid ?? "default";
     data[OperationParam.blockChainContext.value] = context;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(inSuccess, inFailure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.blockChain,
         ServiceOperation.getBlockchainItems, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
   /// Retrieves the uniqs owned by the caller.
   /// </summary>
-  void getUniqs(String inIntegrationid, String inContextjson,
-      SuccessCallback? inSuccess, FailureCallback? inFailure) {
+  Future<ServerResponse> getUniqs(
+      {required String inIntegrationid, required String inContextjson}) {
+    Completer<ServerResponse> completer = Completer();
     var context = jsonDecode(inContextjson);
     Map<String, dynamic> data = {};
 
     data[OperationParam.blockChainIntegrationId.value] = inIntegrationid;
     data[OperationParam.blockChainContext.value] = context;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(inSuccess, inFailure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.blockChain, ServiceOperation.getUniqs, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 }
