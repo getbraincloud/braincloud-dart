@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -6,6 +7,7 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/util.dart';
 
 class BrainCloudDataStream {
@@ -26,14 +28,9 @@ class BrainCloudDataStream {
   /// <param name="jsonEventProperties">
   /// The properties of the event
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void customPageEvent(String eventName, String jsonEventProperties,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> customPageEvent(
+      {required String eventName, required String jsonEventProperties}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.dataStreamEventName.value] = eventName;
 
@@ -42,11 +39,18 @@ class BrainCloudDataStream {
       data[OperationParam.dataStreamEventProperties.value] = eventProperties;
     }
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall serverCall = ServerCall(ServiceName.dataStream,
         ServiceOperation.customPageEvent, data, callback);
     _clientRef.sendRequest(serverCall);
+    return completer.future;
   }
 
   /// <summary>
@@ -62,14 +66,9 @@ class BrainCloudDataStream {
   /// <param name="jsonEventProperties">
   /// The properties of the event
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void customScreenEvent(String eventName, String jsonEventProperties,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> customScreenEvent(
+      {required String eventName, required String jsonEventProperties}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.dataStreamEventName.value] = eventName;
 
@@ -78,11 +77,18 @@ class BrainCloudDataStream {
       data[OperationParam.dataStreamEventProperties.value] = eventProperties;
     }
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall serverCall = ServerCall(ServiceName.dataStream,
         ServiceOperation.customScreenEvent, data, callback);
     _clientRef.sendRequest(serverCall);
+    return completer.future;
   }
 
   /// <summary>
@@ -98,14 +104,9 @@ class BrainCloudDataStream {
   /// <param name="jsonEventProperties">
   /// The properties of the event
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void customTrackEvent(String eventName, String jsonEventProperties,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> customTrackEvent(
+      {required String eventName, required String jsonEventProperties}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.dataStreamEventName.value] = eventName;
 
@@ -114,11 +115,18 @@ class BrainCloudDataStream {
       data[OperationParam.dataStreamEventProperties.value] = eventProperties;
     }
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall serverCall = ServerCall(ServiceName.dataStream,
         ServiceOperation.customTrackEvent, data, callback);
     _clientRef.sendRequest(serverCall);
+    return completer.future;
   }
 
   /// <summary>
@@ -152,23 +160,16 @@ class BrainCloudDataStream {
   /// <param name="userSubmitted">
   /// The bool passed by the user
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void submitCrashReport(
-      String crashType,
-      String errorMsg,
-      String crashJson,
-      String crashLog,
-      String userName,
-      String userEmail,
-      String userNotes,
-      bool userSubmitted,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> submitCrashReport(
+      {required String crashType,
+      required String errorMsg,
+      required String crashJson,
+      required String crashLog,
+      required String userName,
+      required String userEmail,
+      required String userNotes,
+      required bool userSubmitted}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.dataStreamCrashType.value] = crashType;
     data[OperationParam.dataStreamErrorMsg.value] = errorMsg;
@@ -180,10 +181,17 @@ class BrainCloudDataStream {
     data[OperationParam.dataStreamUserNotes.value] = userNotes;
     data[OperationParam.dataStreamUserSubmitted.value] = userSubmitted;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall serverCall = ServerCall(ServiceName.dataStream,
         ServiceOperation.submitCrashReport, data, callback);
     _clientRef.sendRequest(serverCall);
+    return completer.future;
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -6,6 +7,7 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/util.dart';
 
 class BrainCloudEvent {
@@ -33,14 +35,11 @@ class BrainCloudEvent {
   /// <param name="jsonEventData">
   /// The user-defined data for this event encoded in JSON.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void sendEvent(String toProfileId, String eventType, String jsonEventData,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> sendEvent(
+      {required String toProfileId,
+      required String eventType,
+      required String jsonEventData}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
     data[OperationParam.eventServiceSendToId.value] = toProfileId;
@@ -51,11 +50,18 @@ class BrainCloudEvent {
       data[OperationParam.eventServiceSendEventData.value] = eventData;
     }
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc =
         ServerCall(ServiceName.event, ServiceOperation.send, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -71,14 +77,9 @@ class BrainCloudEvent {
   /// <param name="jsonEventData">
   /// The user-defined data for this event encoded in JSON.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void updateIncomingEventData(String evId, String jsonEventData,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> updateIncomingEventData(
+      {required String evId, required String jsonEventData}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.evId.value] = evId;
 
@@ -87,11 +88,18 @@ class BrainCloudEvent {
       data[OperationParam.eventServiceUpdateEventDataData.value] = eventData;
     }
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.event, ServiceOperation.updateEventData, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -104,22 +112,23 @@ class BrainCloudEvent {
   /// <param name="evId">
   /// The event id
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void deleteIncomingEvent(
-      String evId, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> deleteIncomingEvent({required String evId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.evId.value] = evId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.event, ServiceOperation.deleteIncoming, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -132,22 +141,24 @@ class BrainCloudEvent {
   /// <param name="in_eventIds">
   /// Collection of event ids
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void deleteIncomingEvents(List<String> inEventids, SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> deleteIncomingEvents(
+      {required List<String> inEventids}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.eventServiceEvIds.value] = inEventids;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.event,
         ServiceOperation.deleteIncomingEvents, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// /// <summary>
@@ -160,22 +171,24 @@ class BrainCloudEvent {
   /// <param name="in_dateMillis">
   /// CreatedAt cut-off time whereby older events will be deleted (In UTC since Epoch)
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void deleteIncomingEventsOlderThan(
-      int inDatemillis, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> deleteIncomingEventsOlderThan(
+      {required int inDatemillis}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.eventServiceDateMillis.value] = inDatemillis;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.event,
         ServiceOperation.deleteIncomingEventsOlderThan, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -191,37 +204,45 @@ class BrainCloudEvent {
   /// <param name="in_dateMillis">
   /// CreatedAt cut-off time whereby older events will be deleted (In UTC since Epoch)
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void deleteIncomingEventsByTypeOlderThan(String inEventid, int inDatemillis,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> deleteIncomingEventsByTypeOlderThan(
+      {required String inEventid, required int inDatemillis}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.eventServiceDateMillis.value] = inDatemillis;
     data[OperationParam.eventServiceEventType.value] = inEventid;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.event,
         ServiceOperation.deleteIncomingEventsByTypeOlderThan, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
   /// Get the events currently queued for the user.
   /// </summary>
-  /// <param name="success">The success callback.</param>
-  /// <param name="failure">The failure callback.</param>
-  void getEvents(SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getEvents() {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.event, ServiceOperation.getEvents, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 }

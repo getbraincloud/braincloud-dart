@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:braincloud_dart/src/Common/authentication_type.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
@@ -5,6 +7,7 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 
 class BrainCloudFriend {
   final BrainCloudClient _clientRef;
@@ -24,27 +27,28 @@ class BrainCloudFriend {
   /// <param name="authenticationType">
   /// The authentication type used for the user's ID
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getProfileInfoForCredential(
-      String externalId,
-      AuthenticationType authenticationType,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> getProfileInfoForCredential(
+      {required String externalId,
+      required AuthenticationType authenticationType}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceExternalId.value] = externalId;
     data[OperationParam.friendServiceAuthenticationType.value] =
         authenticationType.toString();
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.getProfileInfoForCredential, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -60,26 +64,26 @@ class BrainCloudFriend {
   /// <param name="externalAuthType">
   /// The external authentication type used for this friend's external id
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getProfileInfoForExternalAuthId(
-      String externalId,
-      String externalAuthType,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> getProfileInfoForExternalAuthId(
+      {required String externalId, required String externalAuthType}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceExternalId.value] = externalId;
     data[OperationParam.externalAuthType.value] = externalAuthType;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.getProfileInfoForExternalAuthId, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -95,24 +99,27 @@ class BrainCloudFriend {
   /// <param name="authenticationType">
   /// Associated authentication type.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getExternalIdForProfileId(String profileId, String authenticationType,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getExternalIdForProfileId(
+      {required String profileId, required String authenticationType}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceProfileId.value] = profileId;
     data[OperationParam.friendServiceAuthenticationType.value] =
         authenticationType;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.getExternalIdForProfileId, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -128,23 +135,25 @@ class BrainCloudFriend {
   /// <param name="friendId">
   /// Profile Id of friend who owns entity.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void readFriendEntity(String entityId, String friendId,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> readFriendEntity(
+      {required String entityId, required String friendId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceEntityId.value] = entityId;
     data[OperationParam.friendServiceFriendId.value] = friendId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.friend, ServiceOperation.readFriendEntity, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -157,22 +166,24 @@ class BrainCloudFriend {
   /// <param name="entityType">
   /// Types of entities to retrieve.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void readFriendsEntities(
-      String entityType, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> readFriendsEntities({required String entityType}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceEntityType.value] = entityType;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.readFriendsEntities, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -187,22 +198,24 @@ class BrainCloudFriend {
   /// <param name="friendId">
   /// Profile Id of friend to retrieve user state for.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void readFriendUserState(
-      String friendId, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> readFriendUserState({required String friendId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceReadPlayerStateFriendId.value] = friendId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.readFriendPlayerState, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -215,22 +228,25 @@ class BrainCloudFriend {
   /// <param name="profileId">
   /// Profile Id of user to retrieve player state for.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getSummaryDataForProfileId(
-      String profileId, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getSummaryDataForProfileId(
+      {required String profileId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceProfileId.value] = profileId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.getSummaryDataForProfileId, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -247,20 +263,27 @@ class BrainCloudFriend {
   /// <param name="maxResults">
   /// Maximum number of results to return.
   /// </param>
-  /// <param name="success">The success callback.</param>
-  /// <param name="failure">The failure callback.</param>
-  void findUsersByExactName(String searchText, int maxResults,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> findUsersByExactName(
+      {required String searchText, required int maxResults}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceSearchText.value] = searchText;
     data[OperationParam.friendServiceMaxResults.value] = maxResults;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.findUsersByExactName, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -273,19 +296,26 @@ class BrainCloudFriend {
   /// <param name="searchText">
   /// The String to search for.
   /// </param>
-  /// <param name="success">The success callback.</param>
-  /// <param name="failure">The failure callback.</param>
-  void findUserByExactUniversalId(
-      String searchText, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> findUserByExactUniversalId(
+      {required String searchText}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceSearchText.value] = searchText;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.findUserByExactUniversalId, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -302,20 +332,27 @@ class BrainCloudFriend {
   /// <param name="maxResults">
   /// Maximum number of results to return.
   /// </param>
-  /// <param name="success">The success callback.</param>
-  /// <param name="failure">The failure callback.</param>
-  void findUsersBySubstrName(String searchText, int maxResults,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> findUsersBySubstrName(
+      {required String searchText, required int maxResults}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceSearchText.value] = searchText;
     data[OperationParam.friendServiceMaxResults.value] = maxResults;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.findUsersBySubstrName, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -327,10 +364,10 @@ class BrainCloudFriend {
   /// </remarks>
   /// <param name="friendPlatform">Friend platform to query.</param>
   /// <param name="includeSummaryData">True if including summary data; false otherwise.</param>
-  /// <param name="success"> The success callback. </param>
-  /// <param name="failure"> The failure callback. </param>
-  void listFriends(FriendPlatform friendPlatform, bool includeSummaryData,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> listFriends(
+      {required FriendPlatform friendPlatform,
+      required bool includeSummaryData}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceFriendPlatform.value] =
@@ -338,11 +375,19 @@ class BrainCloudFriend {
     data[OperationParam.friendServiceIncludeSummaryData.value] =
         includeSummaryData;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.friend, ServiceOperation.listFriends, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -354,10 +399,10 @@ class BrainCloudFriend {
   /// </remarks>
   /// <param name="friendPlatform">Friend platform to query.</param>
   /// <param name="includeSummaryData">True if including summary data; false otherwise.</param>
-  /// <param name="success"> The success callback. </param>
-  /// <param name="failure"> The failure callback. </param>
-  void getMySocialInfo(FriendPlatform friendPlatform, bool includeSummaryData,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getMySocialInfo(
+      {required FriendPlatform friendPlatform,
+      required bool includeSummaryData}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceFriendPlatform.value] =
@@ -365,11 +410,19 @@ class BrainCloudFriend {
     data[OperationParam.friendServiceIncludeSummaryData.value] =
         includeSummaryData;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.friend, ServiceOperation.listFriends, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -380,19 +433,25 @@ class BrainCloudFriend {
   /// Service Operation - ADD_FRIENDS
   /// </remarks>
   /// <param name="profileIds">Collection of profile IDs.</param>
-  /// <param name="success"> The success callback. </param>
-  /// <param name="failure"> The failure callback. </param>
-  void addFriends(List<String> profileIds, SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> addFriends({required List<String> profileIds}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceProfileIds.value] = profileIds;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.friend, ServiceOperation.addFriends, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -405,14 +464,11 @@ class BrainCloudFriend {
   /// <param name="friendPlatform">Platform to add from (i.e: FriendPlatform:Facebook)</param>
   /// <param name="mode">ADD or SYNC</param>
   /// <param name="externalIds">Collection of external ID's from the friend platform</param>
-  /// <param name="success"> The success callback. </param>
-  /// <param name="failure"> The failure callback. </param>
-  void addFriendsFromPlatform(
-      FriendPlatform friendPlatform,
-      String mode,
-      List<String> externalIds,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> addFriendsFromPlatform(
+      {required FriendPlatform friendPlatform,
+      required String mode,
+      required List<String> externalIds}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceFriendPlatform.value] =
@@ -420,11 +476,19 @@ class BrainCloudFriend {
     data[OperationParam.friendServiceMode.value] = mode;
     data[OperationParam.friendServiceExternalIds.value] = externalIds;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall serverCall = ServerCall(ServiceName.friend,
         ServiceOperation.addFriendsFromPlatform, data, callback);
     _clientRef.sendRequest(serverCall);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -435,19 +499,25 @@ class BrainCloudFriend {
   /// Service Operation - REMOVE_FRIENDS
   /// </remarks>
   /// <param name="profileIds">Collection of profile IDs.</param>
-  /// <param name="success"> The success callback. </param>
-  /// <param name="failure"> The failure callback. </param>
-  void removeFriends(List<String> profileIds, SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> removeFriends({required List<String> profileIds}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceProfileIds.value] = profileIds;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.friend, ServiceOperation.removeFriends, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -458,19 +528,26 @@ class BrainCloudFriend {
   /// Service Operation - GET_USERS_ONLINE_STATUS
   /// </remarks>
   /// <param name="profileIds">Collection of profile IDs.</param>
-  /// <param name="success"> The success callback. </param>
-  /// <param name="failure"> The failure callback. </param>
-  void getUsersOnlineStatus(List<String> profileIds, SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> getUsersOnlineStatus(
+      {required List<String> profileIds}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
     data[OperationParam.friendServiceProfileIds.value] = profileIds;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.getUsersOnlineStatus, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -486,23 +563,26 @@ class BrainCloudFriend {
   /// <param name="maxResults">
   /// Maximum number of results to return.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void findUsersByNameStartingWith(String searchText, int maxResults,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> findUsersByNameStartingWith(
+      {required String searchText, required int maxResults}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceSearchText.value] = searchText;
     data[OperationParam.friendServiceMaxResults.value] = maxResults;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.findUsersByNameStartingWith, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -518,23 +598,26 @@ class BrainCloudFriend {
   /// <param name="maxResults">
   /// Maximum number of results to return.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void findUsersByUniversalIdStartingWith(String searchText, int maxResults,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> findUsersByUniversalIdStartingWith(
+      {required String searchText, required int maxResults}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceSearchText.value] = searchText;
     data[OperationParam.friendServiceMaxResults.value] = maxResults;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.findUsersByUniversalIdStartingWith, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 }
 
