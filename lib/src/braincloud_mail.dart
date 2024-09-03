@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -6,6 +7,7 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 
 class BrainCloudMail {
   final BrainCloudClient _clientRef;
@@ -28,21 +30,17 @@ class BrainCloudMail {
   /// <param name="body">
   /// The email body
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void sendBasicEmail(String profileId, String subject, String body,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> sendBasicEmail(
+      {required String profileId,
+      required String subject,
+      required String body}) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.profileId.value] = profileId;
     data[OperationParam.subject.value] = subject;
     data[OperationParam.body.value] = body;
 
-    _sendMessage(ServiceOperation.sendBasicEmail, data, success, failure);
+    return _sendMessage(ServiceOperation.sendBasicEmail, data);
   }
 
   /// <summary>
@@ -59,20 +57,17 @@ class BrainCloudMail {
   /// Parameters to send to the email service. See the documentation for
   /// a full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void sendAdvancedEmail(String profileId, String jsonServiceParams,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> sendAdvancedEmail(
+      {required String profileId, required String jsonServiceParams}) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.profileId.value] = profileId;
     data[OperationParam.serviceParams.value] = jsonDecode(jsonServiceParams);
 
-    _sendMessage(ServiceOperation.sendAdvancedEmail, data, success, failure);
+    return _sendMessage(
+      ServiceOperation.sendAdvancedEmail,
+      data,
+    );
   }
 
   /// <summary>
@@ -89,29 +84,31 @@ class BrainCloudMail {
   /// Parameters to send to the email service. See the documentation for
   /// a full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void sendAdvancedEmailByAddress(String emailAddress, String jsonServiceParams,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> sendAdvancedEmailByAddress(
+      {required String emailAddress, required String jsonServiceParams}) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.emailAddress.value] = emailAddress;
     data[OperationParam.serviceParams.value] = jsonDecode(jsonServiceParams);
 
-    _sendMessage(
-        ServiceOperation.sendAdvancedEmailByAddress, data, success, failure);
+    return _sendMessage(ServiceOperation.sendAdvancedEmailByAddress, data);
   }
 
   // Private
-  void _sendMessage(ServiceOperation operation, Map<String, dynamic> data,
-      SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+  Future<ServerResponse> _sendMessage(
+      ServiceOperation operation, Map<String, dynamic> data) {
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     _clientRef
         .sendRequest(ServerCall(ServiceName.mail, operation, data, callback));
+
+    return completer.future;
   }
 }
