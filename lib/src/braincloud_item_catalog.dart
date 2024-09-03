@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -6,6 +7,7 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 
 class BrainCloudItemCatalog {
   final BrainCloudClient _clientRef;
@@ -23,22 +25,25 @@ class BrainCloudItemCatalog {
   /// </remarks>
   /// <param name="defId">
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getCatalogItemDefinition(
-      String defId, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getCatalogItemDefinition({required String defId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.itemCatalogServiceDefId.value] = defId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.itemCatalog,
         ServiceOperation.getCatalogItemDefinition, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -52,24 +57,26 @@ class BrainCloudItemCatalog {
   /// </remarks>
   /// <param name="context">
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getCatalogItemsPage(
-      String context, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getCatalogItemsPage({required String context}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
     var contextData = jsonDecode(context);
     data[OperationParam.itemCatalogServiceContext.value] = contextData;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.itemCatalog,
         ServiceOperation.getCatalogItemsPage, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -87,22 +94,25 @@ class BrainCloudItemCatalog {
   /// </param>
   /// <param name="pageOffset">
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getCatalogItemsPageOffset(String context, int pageOffset,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getCatalogItemsPageOffset(
+      {required String context, required int pageOffset}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.itemCatalogServiceContext.value] = context;
     data[OperationParam.itemCatalogServicePageOffset.value] = pageOffset;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.itemCatalog,
         ServiceOperation.getCatalogItemsPageOffset, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 }
