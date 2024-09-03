@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
-import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 
 class BrainCloudGlobalFile {
   final BrainCloudClient _clientRef;
@@ -19,22 +21,27 @@ class BrainCloudGlobalFile {
   /// <param name="fileId">
   /// The Id of the file
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getFileInfo(
-      String fileId, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse>  getFileInfo(
+      String fileId) {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFileId.value] = fileId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    });
+    
     ServerCall serverCall = ServerCall(
         ServiceName.globalFile, ServiceOperation.getFileInfo, data, callback);
     _clientRef.sendRequest(serverCall);
+    
+    return completer.future;
   }
 
   /// <summary>
@@ -48,24 +55,28 @@ class BrainCloudGlobalFile {
   /// </param>
   /// <param name="filename">
   /// The filename
-  /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getFileInfoSimple(String folderPath, String filename,
-      SuccessCallback? success, FailureCallback? failure) {
+  /// </param>  
+  Future<ServerResponse>  getFileInfoSimple(String folderPath, String filename) {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFolderPath.value] = folderPath;
     data[OperationParam.globalFileServiceFileName.value] = filename;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    });
+    
     ServerCall serverCall = ServerCall(ServiceName.globalFile,
         ServiceOperation.getFileInfoSimple, data, callback);
     _clientRef.sendRequest(serverCall);
+    
+    return completer.future;
   }
 
   /// <summary>
@@ -77,22 +88,26 @@ class BrainCloudGlobalFile {
   /// <param name="fileId">
   /// The Id of the file
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getGlobalCDNUrl(
-      String fileId, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse>  getGlobalCDNUrl(String fileId) {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFileId.value] = fileId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    });
+    
     ServerCall serverCall = ServerCall(ServiceName.globalFile,
         ServiceOperation.getGlobalCDNUrl, data, callback);
     _clientRef.sendRequest(serverCall);
+    
+    return completer.future;
   }
 
   /// <summary>
@@ -106,23 +121,27 @@ class BrainCloudGlobalFile {
   /// </param>
   /// <param name="recurse">
   /// do we recurse?
-  /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getGlobalFileList(String folderPath, bool recurse,
-      SuccessCallback? success, FailureCallback? failure) {
+  /// </param>  
+  Future<ServerResponse>  getGlobalFileList(String folderPath, bool recurse) {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFolderPath.value] = folderPath;
     data[OperationParam.globalFileServiceRecurse.value] = recurse;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    final Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject); 
+    },(statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+        statusCode: statusCode,
+        reasonCode: reasonCode,
+        statusMessage: statusMessage));
+    });
+    
     ServerCall serverCall = ServerCall(ServiceName.globalFile,
         ServiceOperation.getGlobalFileList, data, callback);
     _clientRef.sendRequest(serverCall);
+    
+    return completer.future;
   }
 }
