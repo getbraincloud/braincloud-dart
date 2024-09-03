@@ -50,7 +50,7 @@ class BrainCloudGlobalStatistics {
   /// A list containing the statistics to read
   /// </param>
   Future<ServerResponse> readGlobalStatsSubset(
-      {List<String> globalStats = const []}) {
+      {required List<String> globalStats}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticsServiceStats.value] = globalStats;
@@ -80,7 +80,8 @@ class BrainCloudGlobalStatistics {
   /// <param name="category">
   /// The global statistics category
   /// </param>
-  Future<ServerResponse> readGlobalStatsForCategory({String category = ""}) {
+  Future<ServerResponse> readGlobalStatsForCategory(
+      {required String category}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.gamificationServiceCategory.value] = category;
@@ -122,7 +123,7 @@ class BrainCloudGlobalStatistics {
   /// }
   /// which increments stat1 by 9 up to a limit of 30.
   /// </param>
-  Future<ServerResponse> incrementGlobalStats({String jsonData = "{}"}) {
+  Future<ServerResponse> incrementGlobalStats({required String jsonData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     Map<String, dynamic> stats = jsonDecode(jsonData);
@@ -161,7 +162,7 @@ class BrainCloudGlobalStatistics {
   /// }
   /// </param>
   Future<ServerResponse> processStatistics(
-      {Map<String, dynamic> statisticsData = const {}}) {
+      {required Map<String, dynamic> statisticsData}) {
     Completer<ServerResponse> completer = Completer();
 
     Map<String, dynamic> data = {};
