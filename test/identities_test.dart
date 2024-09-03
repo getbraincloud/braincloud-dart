@@ -5,7 +5,6 @@ import 'package:braincloud_dart/src/server_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/v4.dart';
 import 'stored_ids.dart';
 
 class TestUser {
@@ -35,8 +34,6 @@ main() {
   SharedPreferences.setMockInitialValues({});
   debugPrint('Braindcloud Dart Client unit tests');
   final bcWrapper = BrainCloudWrapper(wrapperName: "FlutterTest");
-  String email = "";
-  String password = "";
   String customEntityType = "";
 
   setUpAll(() async {
@@ -45,10 +42,6 @@ main() {
     StoredIds ids = StoredIds('test/ids.txt');
     await ids.load();
 
-    email = ids.email.isEmpty
-        ? "${const UuidV4().generate()}@DartUnitTester"
-        : ids.email;
-    password = ids.password.isEmpty ? const UuidV4().generate() : ids.password;
     customEntityType = ids.customEntityType;
 
     debugPrint(
@@ -87,17 +80,6 @@ main() {
     TestUser userA = TestUser("UserA", generateRandomString(8));
     TestUser userB = TestUser("UserB", generateRandomString(8));
     TestUser userC = TestUser("UserC", generateRandomString(8));
-
-    /// <summary>
-    /// Utility to create account for tests requiring one.
-    /// </summary>
-    // Future testEmailIdentityFactory() async {
-    //   if (currentPassword.isEmpty || currentEmail.isEmpty) {
-    //     currentEmail = "fakeEmail@dartUnitTests.test";
-    //     currentPassword = "badPassword";
-    //   }
-    //   return Future.value();
-    // }
 
     setUp(() async {
       if (!bcWrapper.brainCloudClient.isAuthenticated()) {
