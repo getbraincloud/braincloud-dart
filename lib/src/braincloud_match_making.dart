@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -6,6 +7,7 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/util.dart';
 
 class BrainCloudMatchMaking {
@@ -20,18 +22,22 @@ class BrainCloudMatchMaking {
   /// Service Name - MatchMaking
   /// Service Operation - Read
   /// </remarks>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void read(SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+  Future<ServerResponse> read() {
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.matchMaking, ServiceOperation.read, null, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -44,22 +50,24 @@ class BrainCloudMatchMaking {
   /// <param name="playerRating">
   /// The new player rating.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void setPlayerRating(
-      int playerRating, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> setPlayerRating({required int playerRating}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.matchMakingServicePlayerRating.value] = playerRating;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.matchMaking,
         ServiceOperation.setPlayerRating, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -69,18 +77,21 @@ class BrainCloudMatchMaking {
   /// Service Name - MatchMaking
   /// Service Operation - resetPlayerRating
   /// </remarks>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void resetPlayerRating(SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+  Future<ServerResponse> resetPlayerRating() {
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.matchMaking,
         ServiceOperation.resetPlayerRating, null, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -93,22 +104,24 @@ class BrainCloudMatchMaking {
   /// <param name="increment">
   /// The increment amount
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void incrementPlayerRating(
-      int increment, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> incrementPlayerRating({required int increment}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.matchMakingServicePlayerRating.value] = increment;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.matchMaking,
         ServiceOperation.incrementPlayerRating, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -121,22 +134,24 @@ class BrainCloudMatchMaking {
   /// <param name="decrement">
   /// The decrement amount
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void decrementPlayerRating(
-      int decrement, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> decrementPlayerRating({required int decrement}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.matchMakingServicePlayerRating.value] = decrement;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.matchMaking,
         ServiceOperation.decrementPlayerRating, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -146,18 +161,21 @@ class BrainCloudMatchMaking {
   /// Service Name - MatchMaking
   /// Service Operation - ShieldOn
   /// </remarks>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void turnShieldOn(SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+  Future<ServerResponse> turnShieldOn() {
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.matchMaking, ServiceOperation.shieldOn, null, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -170,22 +188,24 @@ class BrainCloudMatchMaking {
   /// <param name="minutes">
   /// Number of minutes to turn the shield on for
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void turnShieldOnFor(
-      int minutes, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> turnShieldOnFor({required int minutes}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.matchMakingServiceMinutes.value] = minutes;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.matchMaking, ServiceOperation.shieldOnFor, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -195,18 +215,21 @@ class BrainCloudMatchMaking {
   /// Service Name - MatchMaking
   /// Service Operation - ShieldOff
   /// </remarks>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void turnShieldOff(SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+  Future<ServerResponse> turnShieldOff() {
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.matchMaking, ServiceOperation.shieldOff, null, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -219,22 +242,26 @@ class BrainCloudMatchMaking {
   /// <param name="minutes">
   /// Number of minutes to increase the shield time for
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void incrementShieldOnFor(
-      int minutes, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> incrementShieldOnFor({required int minutes}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.matchMakingServiceMinutes.value] = minutes;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
+
     ServerCall sc = ServerCall(ServiceName.matchMaking,
         ServiceOperation.incrementShieldOnFor, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -249,24 +276,27 @@ class BrainCloudMatchMaking {
   /// <param name="playerId">
   /// The player id or use null to retrieve for the current player
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getShieldExpiry(
-      String playerId, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getShieldExpiry({required String playerId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     if (Util.isOptionalParameterValid(playerId)) {
       data[OperationParam.matchMakingServicePlayerId.value] = playerId;
     }
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.matchMaking,
         ServiceOperation.getShieldExpiry, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -282,15 +312,10 @@ class BrainCloudMatchMaking {
   /// <param name="numMatches">
   /// The maximum number of matches to return
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void findPlayers(int rangeDelta, int numMatches, SuccessCallback? success,
-      FailureCallback? failure) {
-    findPlayersWithAttributes(rangeDelta, numMatches, "", success, failure);
+  Future<ServerResponse> findPlayers(
+      {required int rangeDelta, required int numMatches}) {
+    return findPlayersWithAttributes(
+        rangeDelta: rangeDelta, numMatches: numMatches, jsonAttributes: "");
   }
 
   /// <summary>
@@ -309,18 +334,11 @@ class BrainCloudMatchMaking {
   /// <param name="jsonAttributes">
   /// Attributes match criteria
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void findPlayersWithAttributes(
-      int rangeDelta,
-      int numMatches,
-      String jsonAttributes,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> findPlayersWithAttributes(
+      {required int rangeDelta,
+      required int numMatches,
+      required String jsonAttributes}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.matchMakingServiceRangeDelta.value] = rangeDelta;
     data[OperationParam.matchMakingServiceNumMatches.value] = numMatches;
@@ -330,11 +348,20 @@ class BrainCloudMatchMaking {
       data[OperationParam.matchMakingServiceAttributes.value] = attribs;
     }
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.matchMaking, ServiceOperation.findPlayers, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -353,20 +380,15 @@ class BrainCloudMatchMaking {
   /// <param name="jsonExtraParms">
   /// Parameters to pass to the CloudCode filter script
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void findPlayersUsingFilter(
-      int rangeDelta,
-      int numMatches,
-      String jsonExtraParms,
-      SuccessCallback? success,
-      FailureCallback? failure) {
-    findPlayersWithAttributesUsingFilter(
-        rangeDelta, numMatches, "", jsonExtraParms, success, failure);
+  Future<ServerResponse> findPlayersUsingFilter(
+      {required int rangeDelta,
+      required int numMatches,
+      required String jsonExtraParms}) {
+    return findPlayersWithAttributesUsingFilter(
+        rangeDelta: rangeDelta,
+        numMatches: numMatches,
+        jsonAttributes: "",
+        jsonExtraParms: jsonExtraParms);
   }
 
   /// <summary>
@@ -389,19 +411,12 @@ class BrainCloudMatchMaking {
   /// <param name="jsonExtraParms">
   /// Parameters to pass to the CloudCode filter script
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void findPlayersWithAttributesUsingFilter(
-      int rangeDelta,
-      int numMatches,
-      String jsonAttributes,
-      String jsonExtraParms,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> findPlayersWithAttributesUsingFilter(
+      {required int rangeDelta,
+      required int numMatches,
+      required String jsonAttributes,
+      required String jsonExtraParms}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.matchMakingServiceRangeDelta.value] = rangeDelta;
     data[OperationParam.matchMakingServiceNumMatches.value] = numMatches;
@@ -416,11 +431,20 @@ class BrainCloudMatchMaking {
       data[OperationParam.matchMakingServiceExtraParams.value] = extraParms;
     }
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.matchMaking,
         ServiceOperation.findPlayersUsingFilter, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -430,18 +454,22 @@ class BrainCloudMatchMaking {
   /// Service Name - MatchMaking
   /// Service Operation - EnableMatchMaking
   /// </remarks>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void enableMatchMaking(SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+  Future<ServerResponse> enableMatchMaking() {
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.matchMaking,
         ServiceOperation.enableMatchMaking, null, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -451,17 +479,21 @@ class BrainCloudMatchMaking {
   /// Service Name - MatchMaking
   /// Service Operation - EnableMatchMaking
   /// </remarks>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void disableMatchMaking(SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+  Future<ServerResponse> disableMatchMaking() {
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.matchMaking,
         ServiceOperation.disableMatchMaking, null, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 }
