@@ -156,8 +156,7 @@ class OperationParam {
   static OperationParam globalEntityServiceContext = OperationParam("context");
   static OperationParam globalEntityServicePageOffset =
       OperationParam("pageOffset");
-  static OperationParam globalEntityServiceHint =
-      OperationParam("hintJson");
+  static OperationParam globalEntityServiceHint = OperationParam("hintJson");
   static OperationParam ownerId = OperationParam("ownerId");
 
   // Event Service - Send Params
@@ -333,6 +332,10 @@ class OperationParam {
   static OperationParam socialLeaderboardServiceReplaceName =
       OperationParam("replaceName");
   static OperationParam socialLeaderboardServiceScore = OperationParam("score");
+  static OperationParam socialLeaderboardServiceScoreData =
+      OperationParam("scoreData");
+  static OperationParam socialLeaderboardServiceConfigJson =
+      OperationParam("configJson");
   static OperationParam socialLeaderboardServiceData = OperationParam("data");
   static OperationParam socialLeaderboardServiceEventName =
       OperationParam("eventName");
