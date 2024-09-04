@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -6,6 +7,7 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/util.dart';
 
 class BrainCloudPlaybackStream {
@@ -26,25 +28,29 @@ class BrainCloudPlaybackStream {
   /// <param name="includeSharedData">
   /// Whether to include shared data in the stream
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void startStream(String targetPlayerId, bool includeSharedData,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> startStream(
+      {required String targetPlayerId, required bool includeSharedData}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.playbackStreamServiceTargetPlayerId.value] =
         targetPlayerId;
     data[OperationParam.playbackStreamServiceIncludeSharedData.value] =
         includeSharedData;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.startStream, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -57,23 +63,26 @@ class BrainCloudPlaybackStream {
   /// <param name="playbackStreamId">
   /// Identifies the stream to read
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void readStream(String playbackStreamId, SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> readStream({required String playbackStreamId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.playbackStreamServicePlaybackStreamId.value] =
         playbackStreamId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.readStream, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -86,23 +95,26 @@ class BrainCloudPlaybackStream {
   /// <param name="playbackStreamId">
   /// Identifies the stream to read
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void endStream(String playbackStreamId, SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> endStream({required String playbackStreamId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.playbackStreamServicePlaybackStreamId.value] =
         playbackStreamId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.playbackStream, ServiceOperation.endStream, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -115,23 +127,26 @@ class BrainCloudPlaybackStream {
   /// <param name="playbackStreamId">
   /// Identifies the stream to read
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void deleteStream(String playbackStreamId, SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> deleteStream({required String playbackStreamId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.playbackStreamServicePlaybackStreamId.value] =
         playbackStreamId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.deleteStream, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -150,14 +165,11 @@ class BrainCloudPlaybackStream {
   /// <param name="summary">
   /// Current summary data as of this event
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void addEvent(String playbackStreamId, String eventData, String summary,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> addEvent(
+      {required String playbackStreamId,
+      required String eventData,
+      required String summary}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.playbackStreamServicePlaybackStreamId.value] =
         playbackStreamId;
@@ -172,11 +184,20 @@ class BrainCloudPlaybackStream {
       data[OperationParam.playbackStreamServiceSummary.value] = jsonSummary;
     }
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.playbackStream, ServiceOperation.addEvent, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -192,25 +213,29 @@ class BrainCloudPlaybackStream {
   /// <param name="maxNumStreams">
   /// The player that started the stream
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getRecentStreamsForInitiatingPlayer(String initiatingPlayerId,
-      int maxNumStreams, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getRecentStreamsForInitiatingPlayer(
+      {required String initiatingPlayerId, required int maxNumStreams}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.playbackStreamServiceInitiatingPlayerId.value] =
         initiatingPlayerId;
     data[OperationParam.playbackStreamServiceMaxNumberOfStreams.value] =
         maxNumStreams;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.getRecentStreamsForInitiatingPlayer, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -226,24 +251,28 @@ class BrainCloudPlaybackStream {
   /// <param name="maxNumStreams">
   /// The player that started the stream
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getRecentStreamsForTargetPlayer(String targetPlayerId, int maxNumStreams,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getRecentStreamsForTargetPlayer(
+      {required String targetPlayerId, required int maxNumStreams}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.playbackStreamServiceTargetPlayerId.value] =
         targetPlayerId;
     data[OperationParam.playbackStreamServiceMaxNumberOfStreams.value] =
         maxNumStreams;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.getAttributes, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 }
