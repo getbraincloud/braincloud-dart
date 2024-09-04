@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -6,6 +7,7 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 
 class BrainCloudPresence {
   final BrainCloudClient _clientRef;
@@ -19,20 +21,23 @@ class BrainCloudPresence {
   /// Service Name - Presence
   /// Service Operation - ForcePush
   /// </remarks>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void forcePush(SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> forcePush() {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.presence, ServiceOperation.forcePush, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -51,23 +56,27 @@ class BrainCloudPresence {
   /// <param name="includeOffline">
   /// Will not include offline profiles unless includeOffline is set to true.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getPresenceOfFriends(String platform, bool includeOffline,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getPresenceOfFriends(
+      {required String platform, required bool includeOffline}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.presenceServicePlatform.value] = platform;
     data[OperationParam.presenceServiceIncludeOffline.value] = includeOffline;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.getPresenceOfFriends, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -84,23 +93,27 @@ class BrainCloudPresence {
   /// <param name="includeOffline">
   /// Will not include offline profiles unless includeOffline is set to true.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getPresenceOfGroup(String groupId, bool includeOffline,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getPresenceOfGroup(
+      {required String groupId, required bool includeOffline}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.presenceServiceGroupId.value] = groupId;
     data[OperationParam.presenceServiceIncludeOffline.value] = includeOffline;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.getPresenceOfGroup, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -117,23 +130,27 @@ class BrainCloudPresence {
   /// <param name="includeOffline">
   /// Will not include offline profiles unless includeOffline is set to true.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getPresenceOfUsers(List<String> profileIds, bool includeOffline,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getPresenceOfUsers(
+      {required List<String> profileIds, required bool includeOffline}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.presenceServiceProfileIds.value] = profileIds;
     data[OperationParam.presenceServiceIncludeOffline.value] = includeOffline;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.getPresenceOfUsers, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -155,23 +172,27 @@ class BrainCloudPresence {
   /// <param name="bidirectional">
   /// Allows registration of target user for presence update
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void registerListenersForFriends(String platform, bool bidirectional,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> registerListenersForFriends(
+      {required String platform, required bool bidirectional}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.presenceServicePlatform.value] = platform;
     data[OperationParam.presenceServiceBidirectional.value] = bidirectional;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.registerListenersForFriends, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -187,23 +208,26 @@ class BrainCloudPresence {
   /// <param name="bidirectional">
   /// Allows registration of target user for presence update
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void registerListenersForGroup(String groupId, bool bidirectional,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> registerListenersForGroup(
+      {required String groupId, required bool bidirectional}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.presenceServiceGroupId.value] = groupId;
     data[OperationParam.presenceServiceBidirectional.value] = bidirectional;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.registerListenersForGroup, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -221,23 +245,27 @@ class BrainCloudPresence {
   /// <param name="bidirectional">
   /// Allows registration of target user for presence update
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void registerListenersForProfiles(List<String> profileIds, bool bidirectional,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> registerListenersForProfiles(
+      {required List<String> profileIds, required bool bidirectional}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.presenceServiceProfileIds.value] = profileIds;
     data[OperationParam.presenceServiceBidirectional.value] = bidirectional;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.registerListenersForProfiles, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -250,22 +278,25 @@ class BrainCloudPresence {
   /// <param name="visible">
   /// Determines if the user is visible
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void setVisibility(
-      bool visible, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> setVisibility({required bool visible}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.presenceServiceVisibile.value] = visible;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.presence, ServiceOperation.setVisibility, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -277,20 +308,24 @@ class BrainCloudPresence {
   /// Service Name - Presence
   /// Service Operation - StopListening
   /// </remarks>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void stopListening(SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> stopListening() {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.presence, ServiceOperation.stopListening, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -303,22 +338,25 @@ class BrainCloudPresence {
   /// <param name="jsonActivity">
   /// the Json data
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void updateActivity(
-      String jsonActivity, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> updateActivity({required String jsonActivity}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     var jsonActivityString = jsonDecode(jsonActivity);
     data[OperationParam.presenceServiceActivity.value] = jsonActivityString;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.presence, ServiceOperation.updateActivity, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 }
