@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 
 class BrainCloudVirtualCurrency {
   final BrainCloudClient _clientRef;
@@ -22,24 +25,25 @@ class BrainCloudVirtualCurrency {
   /// The currency type to retrieve or null
   /// if all currency types are being requested.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getCurrency(
-      String currencyType, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getCurrency({required String currencyType}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.virtualCurrencyServiceCurrencyId.value] = currencyType;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      success,
-      failure,
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.virtualCurrency,
         ServiceOperation.getPlayerVC, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -57,24 +61,28 @@ class BrainCloudVirtualCurrency {
   /// <param name="levelName">
   /// The parent level name
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getParentCurrency(String currencyType, String levelName,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getParentCurrency(
+      {required String currencyType, required String levelName}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.virtualCurrencyServiceCurrencyId.value] = currencyType;
     data[OperationParam.authenticateServiceAuthenticateLevelName.value] =
         levelName;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.virtualCurrency,
         ServiceOperation.getParentVC, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -92,24 +100,28 @@ class BrainCloudVirtualCurrency {
   /// <param name="peerCode">
   /// The peer code
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getPeerCurrency(String currencyType, String peerCode,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getPeerCurrency(
+      {required String currencyType, required String peerCode}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.virtualCurrencyServiceCurrencyId.value] = currencyType;
     data[OperationParam.authenticateServiceAuthenticatePeerCode.value] =
         peerCode;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.virtualCurrency,
         ServiceOperation.getPeerVC, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -119,19 +131,23 @@ class BrainCloudVirtualCurrency {
   /// Service Name - VirtalCurrency
   /// Service Operation - ResetCurrency
   /// </remarks>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void resetCurrency(SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> resetCurrency() {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.virtualCurrency,
         ServiceOperation.resetPlayerVC, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 }
