@@ -1475,33 +1475,19 @@ class BrainCloudWrapper {
   }
 
   Future<ServerResponse> _smartSwitchAuthentication() async {
-    final Completer<ServerResponse> completer = Completer();
-
-    _client.identityService.getIdentities().then((response) {
-      if (_client.authenticated) {
-        if (response.body?['identities'] is Map &&
-            response.body?['identities'].isEmpty) {
-          // was anonymous delete user
-          brainCloudClient.playerStateService.deleteUser(
-              (response) => completer.complete(ServerResponse(statusCode: 200)),
-              (statusCode, reasonCode, statusMessage) =>
-                  completer.complete(ServerResponse(statusCode: 200)));
-        } else {
-          // else just logout
-          brainCloudClient.playerStateService.logout(
-              (response) => completer.complete(ServerResponse(statusCode: 200)),
-              (statusCode, reasonCode, statusMessage) =>
-                  completer.complete(ServerResponse(statusCode: 200)));
-        }
+    ServerResponse? response = await _client.identityService.getIdentities();
+    if (_client.authenticated) {
+      if (response.body?['identities'] is Map &&
+          response.body?['identities'].isEmpty) {
+        // was anonymous delete user
+        return brainCloudClient.playerStateService.deleteUser();
+      } else {
+        // else just logout
+        return brainCloudClient.playerStateService.logout();
       }
-    }).onError<ServerResponse>((error, stack) {
-      brainCloudClient.playerStateService.logout(
-          (response) => completer.complete(ServerResponse(statusCode: 200)),
-          (statusCode, reasonCode, statusMessage) =>
-              completer.complete(ServerResponse(statusCode: 200)));
-    });
-
-    return completer.future;
+    } else {
+      return brainCloudClient.playerStateService.logout();
+    }
   }
 
   /// <summary>
@@ -1855,17 +1841,10 @@ class BrainCloudWrapper {
   /// <param name="forgetUser">{boolean} forgetUser Determines whether the stored profile ID should be reset or not </param>
   /// <param name="responseHandler">{*} responseHandler Function to invoke when request is processed </param>
   Future<ServerResponse> logout(bool forgetUser) async {
-    Completer<ServerResponse> completer = Completer();
-
     if (forgetUser) {
       resetStoredProfileId();
     }
-    _client.getPlayerStateService().logout(
-        (response) => completer.complete(ServerResponse.fromJson(response)),
-        (status, reason, mesage) => completer.completeError(ServerResponse(
-            statusCode: status, reasonCode: reason, statusMessage: mesage)));
-
-    return completer.future;
+    return _client.getPlayerStateService().logout();
   }
 
   /// <summary>
