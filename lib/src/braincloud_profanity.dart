@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 
 class BrainCloudProfanity {
   final BrainCloudClient _clientRef;
@@ -22,16 +25,13 @@ class BrainCloudProfanity {
   /// <param name="flagEmail">Optional processing of email addresses</param>
   /// <param name="flagPhone">Optional processing of phone numbers</param>
   /// <param name="flagUrls">Optional processing of urls</param>
-  /// <param name="success">The success callback.</param>
-  /// <param name="failure">The failure callback.</param>
-  void profanityCheck(
-      String text,
+  Future<ServerResponse> profanityCheck(
+      {required String text,
       String? languages,
-      bool flagEmail,
-      bool flagPhone,
-      bool flagUrls,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      required bool flagEmail,
+      required bool flagPhone,
+      required bool flagUrls}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.profanityText.value] = text;
     if (languages != null) {
@@ -41,11 +41,20 @@ class BrainCloudProfanity {
     data[OperationParam.profanityFlagPhone.value] = flagPhone;
     data[OperationParam.profanityFlagUrls.value] = flagUrls;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.profanity, ServiceOperation.profanityCheck, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -61,17 +70,14 @@ class BrainCloudProfanity {
   /// <param name="flagEmail">Optional processing of email addresses</param>
   /// <param name="flagPhone">Optional processing of phone numbers</param>
   /// <param name="flagUrls">Optional processing of urls</param>
-  /// <param name="success">The success callback.</param>
-  /// <param name="failure">The failure callback.</param>
-  void profanityReplaceText(
-      String text,
-      String replaceSymbol,
+  Future<ServerResponse> profanityReplaceText(
+      {required String text,
+      required String replaceSymbol,
       String? languages,
-      bool flagEmail,
-      bool flagPhone,
-      bool flagUrls,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      required bool flagEmail,
+      required bool flagPhone,
+      required bool flagUrls}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.profanityText.value] = text;
     data[OperationParam.profanityReplaceSymbol.value] = replaceSymbol;
@@ -82,11 +88,20 @@ class BrainCloudProfanity {
     data[OperationParam.profanityFlagPhone.value] = flagPhone;
     data[OperationParam.profanityFlagUrls.value] = flagUrls;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.profanity,
         ServiceOperation.profanityReplaceText, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -101,16 +116,13 @@ class BrainCloudProfanity {
   /// <param name="flagEmail">Optional processing of email addresses</param>
   /// <param name="flagPhone">Optional processing of phone numbers</param>
   /// <param name="flagUrls">Optional processing of urls</param>
-  /// <param name="success">The success callback.</param>
-  /// <param name="failure">The failure callback.</param>
-  void profanityIdentifyBadWords(
-      String text,
+  Future<ServerResponse> profanityIdentifyBadWords(
+      {required String text,
       String? languages,
-      bool flagEmail,
-      bool flagPhone,
-      bool flagUrls,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      required bool flagEmail,
+      required bool flagPhone,
+      required bool flagUrls}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.profanityText.value] = text;
     if (languages != null) {
@@ -120,10 +132,18 @@ class BrainCloudProfanity {
     data[OperationParam.profanityFlagPhone.value] = flagPhone;
     data[OperationParam.profanityFlagUrls.value] = flagUrls;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.profanity,
         ServiceOperation.profanityIdentifyBadWords, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 }
