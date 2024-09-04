@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -5,7 +6,7 @@ import 'package:braincloud_dart/src/internal/operation_param.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
-import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/util.dart';
 
 class BrainCloudSocialLeaderboard {
@@ -40,24 +41,29 @@ class BrainCloudSocialLeaderboard {
   /// If true, the currently logged in player's name will be replaced
   /// by the String "You".
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getSocialLeaderboard(String leaderboardId, bool replaceName,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getSocialLeaderboard(
+      {required String leaderboardId, required bool replaceName}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceReplaceName.value] =
         replaceName;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getSocialLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -90,14 +96,11 @@ class BrainCloudSocialLeaderboard {
   /// <param name="versionId">
   /// The version
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getSocialLeaderboardByVersion(String leaderboardId, bool replaceName,
-      int versionId, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getSocialLeaderboardByVersion(
+      {required String leaderboardId,
+      required bool replaceName,
+      required int versionId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -105,10 +108,20 @@ class BrainCloudSocialLeaderboard {
         replaceName;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getSocialLeaderboardByVersion, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -128,18 +141,11 @@ class BrainCloudSocialLeaderboard {
   /// If true, the currently logged in player's name will be replaced
   /// by the String "You".
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getMultiSocialLeaderboard(
-      List<String> leaderboardIds,
-      int leaderboardResultCount,
-      bool replaceName,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> getMultiSocialLeaderboard(
+      {required List<String> leaderboardIds,
+      required int leaderboardResultCount,
+      required bool replaceName}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardIds.value] =
         leaderboardIds;
@@ -148,10 +154,20 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceReplaceName.value] =
         replaceName;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getMultiSocialLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -178,19 +194,12 @@ class BrainCloudSocialLeaderboard {
   /// <param name="endIndex">
   /// The index at which to end the page.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getGlobalLeaderboardPage(
-      String leaderboardId,
-      SortOrder sort,
-      int startIndex,
-      int endIndex,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> getGlobalLeaderboardPage(
+      {required String leaderboardId,
+      required SortOrder sort,
+      required int startIndex,
+      required int endIndex}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -198,10 +207,20 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceStartIndex.value] = startIndex;
     data[OperationParam.socialLeaderboardServiceEndIndex.value] = endIndex;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardPage, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -228,20 +247,13 @@ class BrainCloudSocialLeaderboard {
   /// <param name="versionId">
   /// The historical version to retrieve.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getGlobalLeaderboardPageByVersion(
-      String leaderboardId,
-      SortOrder sort,
-      int startIndex,
-      int endIndex,
-      int versionId,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> getGlobalLeaderboardPageByVersion(
+      {required String leaderboardId,
+      required SortOrder sort,
+      required int startIndex,
+      required int endIndex,
+      required int versionId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -250,10 +262,20 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceEndIndex.value] = endIndex;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardPage, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -278,21 +300,17 @@ class BrainCloudSocialLeaderboard {
   /// <param name="afterCount">
   /// The count of number of players after the current player to include.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getGlobalLeaderboardView(
-      String leaderboardId,
-      SortOrder sort,
-      int beforeCount,
-      int afterCount,
-      SuccessCallback? success,
-      FailureCallback? failure) {
-    getGlobalLeaderboardViewByVersion(
-        leaderboardId, sort, beforeCount, afterCount, -1, success, failure);
+  Future<ServerResponse> getGlobalLeaderboardView(
+      {required String leaderboardId,
+      required SortOrder sort,
+      required int beforeCount,
+      required int afterCount}) {
+    return getGlobalLeaderboardViewByVersion(
+        leaderboardId: leaderboardId,
+        sort: sort,
+        beforeCount: beforeCount,
+        afterCount: afterCount,
+        versionId: -1);
   }
 
   /// <summary>
@@ -319,20 +337,13 @@ class BrainCloudSocialLeaderboard {
   /// <param name="versionId">
   /// The historial version to retrieve. Use -1 for current leaderboard.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getGlobalLeaderboardViewByVersion(
-      String leaderboardId,
-      SortOrder sort,
-      int beforeCount,
-      int afterCount,
-      int versionId,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> getGlobalLeaderboardViewByVersion(
+      {required String leaderboardId,
+      required SortOrder sort,
+      required int beforeCount,
+      required int afterCount,
+      required int versionId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -344,10 +355,20 @@ class BrainCloudSocialLeaderboard {
       data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
     }
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardView, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -358,18 +379,27 @@ class BrainCloudSocialLeaderboard {
   /// Service Operation - GetGlobalLeaderboardVersions
   /// </remarks>
   /// <param name="leaderboardId">In_leaderboard identifier.</param>
-  /// <param name="success">The success callback.</param>
-  /// <param name="failure">The failure callback.</param>
-  void getGlobalLeaderboardVersions(String leaderboardId,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getGlobalLeaderboardVersions(
+      {required String leaderboardId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardVersions, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -381,19 +411,28 @@ class BrainCloudSocialLeaderboard {
   /// </remarks>
   /// <param name="leaderboardId">The leaderboard to read</param>
   /// <param name="groupId">The group ID</param>
-  /// <param name="success">The success callback.</param>
-  /// <param name="failure">The failure callback.</param>
-  void getGroupSocialLeaderboard(String leaderboardId, String groupId,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getGroupSocialLeaderboard(
+      {required String leaderboardId, required String groupId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGroupSocialLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -406,20 +445,31 @@ class BrainCloudSocialLeaderboard {
   /// <param name="leaderboardId">The leaderboard to read</param>
   /// <param name="groupId">The group ID</param>
   /// <param name="versionId">The version ID</param>
-  /// <param name="success">The success callback.</param>
-  /// <param name="failure">The failure callback.</param>
-  void getGroupSocialLeaderboardByVersion(String leaderboardId, String groupId,
-      int versionId, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getGroupSocialLeaderboardByVersion(
+      {required String leaderboardId,
+      required String groupId,
+      required int versionId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGroupSocialLeaderboardByVersion, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -445,14 +495,11 @@ class BrainCloudSocialLeaderboard {
   /// <param name="data">
   /// Optional user-defined data to post with the score
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void postScoreToLeaderboard(String leaderboardId, int score, String jsonData,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> postScoreToLeaderboard(
+      {required String leaderboardId,
+      required int score,
+      required String jsonData}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -462,10 +509,20 @@ class BrainCloudSocialLeaderboard {
       data[OperationParam.socialLeaderboardServiceData.value] = customData;
     }
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(
         ServiceName.leaderboard, ServiceOperation.postScore, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -481,23 +538,28 @@ class BrainCloudSocialLeaderboard {
   /// <param name="versionId">
   /// The version of the leaderboard
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void removePlayerScore(String leaderboardId, int versionId,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> removePlayerScore(
+      {required String leaderboardId, required int versionId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.removePlayerScore, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -532,22 +594,15 @@ class BrainCloudSocialLeaderboard {
   /// <param name="retainedCount">
   /// How many rotations to keep
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void postScoreToDynamicLeaderboardUTC(
-      String leaderboardId,
-      int score,
-      String jsonData,
-      SocialLeaderboardType leaderboardType,
-      RotationType rotationType,
+  Future<ServerResponse> postScoreToDynamicLeaderboardUTC(
+      {required String leaderboardId,
+      required int score,
+      required String jsonData,
+      required SocialLeaderboardType leaderboardType,
+      required RotationType rotationType,
       int? rotationResetUTC,
-      int retainedCount,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      required int retainedCount}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -569,10 +624,20 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceRetainedCount.value] =
         retainedCount;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreDynamic, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -610,23 +675,16 @@ class BrainCloudSocialLeaderboard {
   /// <param name="retainedCount">
   /// How many rotations to keep
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void postScoreToDynamicGroupLeaderboardUTC(
-      String leaderboardId,
-      String groupId,
-      int score,
-      String jsonData,
-      SocialLeaderboardType leaderboardType,
-      RotationType rotationType,
+  Future<ServerResponse> postScoreToDynamicGroupLeaderboardUTC(
+      {required String leaderboardId,
+      required String groupId,
+      required int score,
+      required String jsonData,
+      required SocialLeaderboardType leaderboardType,
+      required RotationType rotationType,
       int? rotationResetUTC,
-      int retainedCount,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      required int retainedCount}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -649,10 +707,20 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceRetainedCount.value] =
         retainedCount;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreToDynamicGroupLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -687,22 +755,15 @@ class BrainCloudSocialLeaderboard {
   /// <param name="numDaysToRotate">
   /// How many days between each rotation
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void postScoreToDynamicLeaderboardDaysUTC(
-      String leaderboardId,
-      int score,
-      String jsonData,
-      SocialLeaderboardType leaderboardType,
+  Future<ServerResponse> postScoreToDynamicLeaderboardDaysUTC(
+      {required String leaderboardId,
+      required int score,
+      required String jsonData,
+      required SocialLeaderboardType leaderboardType,
       int? rotationResetUTC,
-      int retainedCount,
-      int numDaysToRotate,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      required int retainedCount,
+      required int numDaysToRotate}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -724,10 +785,20 @@ class BrainCloudSocialLeaderboard {
         retainedCount;
     data[OperationParam.numDaysToRotate.value] = numDaysToRotate;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreDynamic, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -759,23 +830,16 @@ class BrainCloudSocialLeaderboard {
   /// <param name="numDaysToRotate">
   /// How many days between each rotation
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void postScoreToDynamicGroupLeaderboardDaysUTC(
-      String leaderboardId,
-      String groupId,
-      int score,
-      String jsonData,
-      SocialLeaderboardType leaderboardType,
+  Future<ServerResponse> postScoreToDynamicGroupLeaderboardDaysUTC(
+      {required String leaderboardId,
+      required String groupId,
+      required int score,
+      required String jsonData,
+      required SocialLeaderboardType leaderboardType,
       int? rotationResetUTC,
-      int retainedCount,
-      int numDaysToRotate,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      required int retainedCount,
+      required int numDaysToRotate}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -798,10 +862,20 @@ class BrainCloudSocialLeaderboard {
         retainedCount;
     data[OperationParam.numDaysToRotate.value] = numDaysToRotate;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreDynamic, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -817,26 +891,28 @@ class BrainCloudSocialLeaderboard {
   /// <param name="profileIds">
   /// The IDs of the players
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getPlayersSocialLeaderboard(
-      String leaderboardId,
-      List<String> profileIds,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> getPlayersSocialLeaderboard(
+      {required String leaderboardId, required List<String> profileIds}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceProfileIds.value] = profileIds;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayersSocialLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -855,28 +931,31 @@ class BrainCloudSocialLeaderboard {
   /// <param name="versionId">
   /// The version
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getPlayersSocialLeaderboardByVersion(
-      String leaderboardId,
-      List<String> profileIds,
-      int versionId,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> getPlayersSocialLeaderboardByVersion(
+      {required String leaderboardId,
+      required List<String> profileIds,
+      required int versionId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceProfileIds.value] = profileIds;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayersSocialLeaderboardByVersion, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -886,17 +965,22 @@ class BrainCloudSocialLeaderboard {
   /// Service Name - leaderboard
   /// Service Operation - LIST_LEADERBOARDS
   /// </remarks>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void listAllLeaderboards(SuccessCallback? success, FailureCallback? failure) {
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+  Future<ServerResponse> listAllLeaderboards() {
+    Completer<ServerResponse> completer = Completer();
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.listAllLeaderboards, null, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -909,16 +993,10 @@ class BrainCloudSocialLeaderboard {
   /// <param name="leaderboardId">
   /// The ID of the leaderboard
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getGlobalLeaderboardEntryCount(String leaderboardId,
-      SuccessCallback? success, FailureCallback? failure) {
-    getGlobalLeaderboardEntryCountByVersion(
-        leaderboardId, -1, success, failure);
+  Future<ServerResponse> getGlobalLeaderboardEntryCount(
+      {required String leaderboardId}) {
+    return getGlobalLeaderboardEntryCountByVersion(
+        leaderboardId: leaderboardId, versionId: -1);
   }
 
   /// <summary>
@@ -934,14 +1012,9 @@ class BrainCloudSocialLeaderboard {
   /// <param name="versionId">
   /// The version of the leaderboard
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getGlobalLeaderboardEntryCountByVersion(String leaderboardId,
-      int versionId, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getGlobalLeaderboardEntryCountByVersion(
+      {required String leaderboardId, required int versionId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -950,10 +1023,20 @@ class BrainCloudSocialLeaderboard {
       data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
     }
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardEntryCount, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -969,23 +1052,28 @@ class BrainCloudSocialLeaderboard {
   /// <param name="versionId">
   /// The version of the leaderboard. Use -1 for current.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getPlayerScore(String leaderboardId, int versionId,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getPlayerScore(
+      {required String leaderboardId, required int versionId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayerScore, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1004,24 +1092,31 @@ class BrainCloudSocialLeaderboard {
   /// <param name="maxResults">
   /// The number of max results to return.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getPlayerScores(String leaderboardId, int versionId, int maxResults,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getPlayerScores(
+      {required String leaderboardId,
+      required int versionId,
+      required int maxResults}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceMaxResults.value] = maxResults;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayerScores, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1037,22 +1132,27 @@ class BrainCloudSocialLeaderboard {
   /// <param name="versionId">
   /// The version of the leaderboard. Use -1 for current.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getPlayerScoresFromLeaderboards(List<String> leaderboardIds,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getPlayerScoresFromLeaderboards(
+      {required List<String> leaderboardIds}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardIds.value] =
         leaderboardIds;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayerScoresFromLeaderboards, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1074,19 +1174,12 @@ class BrainCloudSocialLeaderboard {
   /// <param name="data">
   /// Extra data json
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void postScoreToGroupLeaderboard(
-      String leaderboardId,
-      String groupId,
-      int score,
-      String jsonData,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> postScoreToGroupLeaderboard(
+      {required String leaderboardId,
+      required String groupId,
+      required int score,
+      required String jsonData}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -1097,10 +1190,20 @@ class BrainCloudSocialLeaderboard {
       data[OperationParam.socialLeaderboardServiceData.value] = customData;
     }
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreToGroupLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1119,24 +1222,31 @@ class BrainCloudSocialLeaderboard {
   /// <param name="versionId">
   /// The version defaults to -1
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void removeGroupScore(String leaderboardId, String groupId, int versionId,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> removeGroupScore(
+      {required String leaderboardId,
+      required String groupId,
+      required int versionId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.removeGroupScore, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1161,20 +1271,13 @@ class BrainCloudSocialLeaderboard {
   /// <param name="afterCount">
   /// The count of number of players after the current player to include.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getGroupLeaderboardView(
-      String leaderboardId,
-      String groupId,
-      SortOrder sort,
-      int beforeCount,
-      int afterCount,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> getGroupLeaderboardView(
+      {required String leaderboardId,
+      required String groupId,
+      required SortOrder sort,
+      required int beforeCount,
+      required int afterCount}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -1184,10 +1287,20 @@ class BrainCloudSocialLeaderboard {
         beforeCount;
     data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGroupLeaderboardView, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -1215,21 +1328,14 @@ class BrainCloudSocialLeaderboard {
   /// <param name="versionId">
   /// The version
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getGroupLeaderboardViewByVersion(
-      String leaderboardId,
-      String groupId,
-      int versionId,
-      SortOrder sort,
-      int beforeCount,
-      int afterCount,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> getGroupLeaderboardViewByVersion(
+      {required String leaderboardId,
+      required String groupId,
+      required int versionId,
+      required SortOrder sort,
+      required int beforeCount,
+      required int afterCount}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -1240,10 +1346,20 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGroupLeaderboardView, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 }
 
