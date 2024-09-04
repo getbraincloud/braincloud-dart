@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -6,6 +7,7 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 
 class BrainCloudPlayerStatisticsEvent {
   final BrainCloudClient _clientRef;
@@ -28,24 +30,28 @@ class BrainCloudPlayerStatisticsEvent {
   ///
   /// @see BrainCloudPlayerStatistics
   /// </remarks>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void triggerUserStatsEvent(String eventName, int eventMultiplier,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> triggerUserStatsEvent(
+      {required String eventName, required int eventMultiplier}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticEventServiceEventName.value] = eventName;
     data[OperationParam.playerStatisticEventServiceEventMultiplier.value] =
         eventMultiplier;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.playerStatisticsEvent,
         ServiceOperation.trigger, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -69,16 +75,25 @@ class BrainCloudPlayerStatisticsEvent {
   ///     }
   ///   ]
   /// </param>
-  void triggerUserStatsEvents(
-      String jsonData, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> triggerUserStatsEvents({required String jsonData}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     List events = jsonDecode(jsonData);
     data[OperationParam.playerStatisticEventServiceEvents.value] = events;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.playerStatisticsEvent,
         ServiceOperation.triggerMultiple, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 }
