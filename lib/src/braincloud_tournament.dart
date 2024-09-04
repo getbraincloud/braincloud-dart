@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -7,6 +8,7 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/util.dart';
 
 class BrainCloudTournament {
@@ -28,23 +30,27 @@ class BrainCloudTournament {
   /// Version of the tournament to claim rewards for.
   /// Use -1 for the latest version.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void claimTournamentReward(String leaderboardId, int versionId,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> claimTournamentReward(
+      {required String leaderboardId, required int versionId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.leaderboardId.value] = leaderboardId;
     data[OperationParam.versionId.value] = versionId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.claimTournamentReward, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -57,22 +63,25 @@ class BrainCloudTournament {
   /// <param name="divSetId">
   /// The division
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getDivisionInfo(
-      String divSetId, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getDivisionInfo({required String divSetId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.divSetId.value] = divSetId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.getDivisionInfo, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -82,19 +91,22 @@ class BrainCloudTournament {
   /// Service Name - tournament
   /// Service Operation - GET_MY_DIVISIONS
   /// </remarks>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-
-  void getMyDivisions(SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+  Future<ServerResponse> getMyDivisions() {
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.getMyDivisions, null, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -110,24 +122,27 @@ class BrainCloudTournament {
   /// <param name="versionId">
   /// Version of the tournament. Use -1 for the latest version.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-
-  void getTournamentStatus(String leaderboardId, int versionId,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getTournamentStatus(
+      {required String leaderboardId, required int versionId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.leaderboardId.value] = leaderboardId;
     data[OperationParam.versionId.value] = versionId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.getTournamentStatus, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -147,24 +162,30 @@ class BrainCloudTournament {
   /// The initial score for players first joining a tournament
   /// Usually 0, unless leaderboard is LOW_VALUE
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void joinDivision(String divSetId, String tournamentCode, int initialScore,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> joinDivision(
+      {required String divSetId,
+      required String tournamentCode,
+      required int initialScore}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.divSetId.value] = divSetId;
     data[OperationParam.tournamentCode.value] = tournamentCode;
     data[OperationParam.initialScore.value] = initialScore;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.tournament, ServiceOperation.joinDivision, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -185,24 +206,30 @@ class BrainCloudTournament {
   /// The initial score for players first joining a tournament
   /// Usually 0, unless leaderboard is LOW_VALUE
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void joinTournament(String leaderboardId, String tournamentCode,
-      int initialScore, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> joinTournament(
+      {required String leaderboardId,
+      required String tournamentCode,
+      required int initialScore}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.leaderboardId.value] = leaderboardId;
     data[OperationParam.tournamentCode.value] = tournamentCode;
     data[OperationParam.initialScore.value] = initialScore;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.joinTournament, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -215,22 +242,26 @@ class BrainCloudTournament {
   /// <param name="learboardId">
   /// The division
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void leaveDivisionInstance(String leaderboardId, SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> leaveDivisionInstance(
+      {required String leaderboardId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.leaderboardId.value] = leaderboardId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.leaveDivisionInstance, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -243,22 +274,25 @@ class BrainCloudTournament {
   /// <param name="leaderboardId">
   /// The leaderboard for the tournament
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void leaveTournament(String leaderboardId, SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> leaveTournament({required String leaderboardId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.leaderboardId.value] = leaderboardId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.leaveTournament, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -280,19 +314,12 @@ class BrainCloudTournament {
   /// <param name="roundStartTimeUTC">
   /// Uses UTC time in milliseconds since epoch
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void postTournamentScoreUTC(
-      String leaderboardId,
-      int score,
-      String jsonData,
-      int roundStartTimeUTC,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> postTournamentScoreUTC(
+      {required String leaderboardId,
+      required int score,
+      required String jsonData,
+      required int roundStartTimeUTC}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.leaderboardId.value] = leaderboardId;
     data[OperationParam.score.value] = score;
@@ -302,11 +329,20 @@ class BrainCloudTournament {
       Map<String, dynamic> scoreData = jsonDecode(jsonData);
       data[OperationParam.data.value] = scoreData;
     }
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.postTournamentScore, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -341,23 +377,16 @@ class BrainCloudTournament {
   /// The initial score for players first joining a tournament
   /// Usually 0, unless leaderboard is LOW_VALUE
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void postTournamentScoreWithResultsUTC(
-      String leaderboardId,
-      int score,
-      String jsonData,
-      int roundStartTimeUTC,
-      SortOrder sort,
-      int beforeCount,
-      int afterCount,
-      int initialScore,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> postTournamentScoreWithResultsUTC(
+      {required String leaderboardId,
+      required int score,
+      required String jsonData,
+      required int roundStartTimeUTC,
+      required SortOrder sort,
+      required int beforeCount,
+      required int afterCount,
+      required int initialScore}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
@@ -375,9 +404,19 @@ class BrainCloudTournament {
         beforeCount;
     data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
 
-    var callback = BrainCloudClient.createServerCallback(success, failure);
+    var callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     _clientRef.sendRequest(ServerCall(ServiceName.tournament,
         ServiceOperation.postTournamentScoreWithResults, data, callback));
+
+    return completer.future;
   }
 
   /// <summary>
@@ -390,22 +429,25 @@ class BrainCloudTournament {
   /// <param name="leaderboardId">
   /// The leaderboard for the tournament
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void viewCurrentReward(String leaderboardId, SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> viewCurrentReward(String leaderboardId) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.leaderboardId.value] = leaderboardId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.viewCurrentReward, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -421,22 +463,26 @@ class BrainCloudTournament {
   /// <param name="versionId">
   /// Version of the tournament. Use -1 for the latest version.
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void viewReward(String leaderboardId, int versionId, SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> viewReward(
+      {required String leaderboardId, required int versionId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.leaderboardId.value] = leaderboardId;
     data[OperationParam.versionId.value] = versionId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.tournament, ServiceOperation.viewReward, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 }

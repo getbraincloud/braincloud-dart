@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 
 class BrainCloudTime {
   final BrainCloudClient _clientRef;
@@ -17,17 +20,21 @@ class BrainCloudTime {
   /// Service Name - Time
   /// Service Operation - Read
   /// </remarks>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void readServerTime(SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+  Future<ServerResponse> readServerTime() {
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc =
         ServerCall(ServiceName.time, ServiceOperation.read, null, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 }
