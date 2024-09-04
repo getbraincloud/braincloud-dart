@@ -494,7 +494,7 @@ class BrainCloudComms {
     }
   }
 
-  double getUploadBytesTransferred(String uploadFileId) {
+  int getUploadBytesTransferred(String uploadFileId) {
     FileUploader? uploader = getFileUploader(uploadFileId);
     if (uploader != null) {
       return uploader.bytesTransferred;

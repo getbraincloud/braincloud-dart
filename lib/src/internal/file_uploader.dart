@@ -1,7 +1,7 @@
-import 'dart:typed_data';
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import 'package:braincloud_dart/src/internal/enums/file_uploader_status.dart';
-import 'package:braincloud_dart/src/internal/progress_stream.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:braincloud_dart/src/internal/braincloud_comms.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -13,7 +13,7 @@ class FileUploader {
 
   double progress = 0;
 
-  double get bytesTransferred => (totalBytesToTransfer * progress);
+  int get bytesTransferred => (totalBytesToTransfer * progress).round();
 
   int totalBytesToTransfer = 0;
 
@@ -25,7 +25,6 @@ class FileUploader {
 
   int reasonCode = 0;
 
-  //Silencing Unity WebPlayer && WebGL Warnings with Pragma Disable: FileUploader not supported on WebPlayer && WebGL
   final BrainCloudClient clientRef;
   final String sessionId;
   final String guidLocalPath;
@@ -39,8 +38,9 @@ class FileUploader {
   final double timeInterval = 0.25;
   double _transferElapsedTime = 0;
   double _transferRatesTotal = 0;
-  double _lastTransferTotal = 0;
+  int _lastTransferTotal = 0;
   double _transferRatePerSecond = 0;
+  int chunkSize = 2048; // You can adjust the chunk size if needed
 
   //delta time
   DateTime _lastTime = DateTime.now();
@@ -49,6 +49,8 @@ class FileUploader {
   //timeout
   double _elapsedTime = 0;
   double _timeUnderMinRate = 0;
+
+  HttpClientRequest? _request;
 
   //CancellationTokenSource _cancelToken;
 
@@ -64,53 +66,80 @@ class FileUploader {
     this.timeoutThreshold = 120,
   });
 
-  void start() {
-    Uint8List? file = clientRef.fileService.fileStorage[guidLocalPath];
-    Map<String, String> postForm = {};
-    postForm["sessionId"] = sessionId;
+  void start() async {
+    String boundary =
+        '----dartFormBoundary${DateTime.now().millisecondsSinceEpoch}';
+    var data = clientRef.fileService.fileStorage[guidLocalPath];
+    if (data != null) {
+      var uri = Uri.parse(serverUrl);
+      _request = await HttpClient().postUrl(uri);
+      _request!.bufferOutput = false;
+      if (_request != null) {
+        Map<String, String> postForm = {};
+        postForm["sessionId"] = sessionId;
+        if (peerCode != "") {
+          postForm["peerCode"] = peerCode;
+        }
+        postForm["uploadId"] = uploadId;
+        postForm["fileSize"] = data.length.toString();
 
-    if (peerCode != "") {
-      postForm["peerCode"] = peerCode;
+        // Set headers
+        _request!.headers.set(HttpHeaders.contentTypeHeader,
+            'multipart/form-data; boundary=$boundary');
+
+        // Construct the form data.
+        StringBuffer postFormData = StringBuffer();
+        postForm.forEach((key, value) {
+          postFormData.write('--$boundary\r\n');
+          postFormData
+              .write('Content-Disposition: form-data; name="$key"\r\n\r\n');
+          postFormData.write('$value\r\n');
+        });
+
+        // Write the start of the multipart form data for the file
+        postFormData.write('--$boundary\r\n');
+        postFormData.write(
+            'Content-Disposition: form-data; name="file"; filename="$fileName"\r\n');
+        postFormData.write('Content-Type: application/octet-stream\r\n\r\n');
+        var postFormDataClosing = '\r\n--$boundary--\r\n';
+
+        // Calculate content length
+        var contentLength =
+            postFormData.length + data.length + postFormDataClosing.length;
+
+        _request!.headers.set(HttpHeaders.contentLengthHeader, contentLength);
+
+        // Write the start of the multipart form data
+        _request!.write(postFormData);
+
+        // Stream the data in chunks and monitor progress
+        int bytesSent = 0;
+
+        for (int i = 0; i < data.length; i += chunkSize) {
+          int end = (i + chunkSize < data.length) ? i + chunkSize : data.length;
+          _request!.add(data.sublist(i, end));
+          await _request!
+              .flush(); // This force the sending of current data and makes the progress report more useful data.
+          bytesSent += (end - i);
+          this.progress = bytesSent / data.length;
+        }
+
+        // Write the end of the multipart form data
+        _request!.write(postFormDataClosing);
+
+        // Send the request
+        _request!.close().then(handleResponse);
+      }
     }
-    postForm["uploadId"] = uploadId;
-    postForm["fileSize"] = file?.length.toString() ?? "";
-
-    http
-        .post(Uri.parse(serverUrl), headers: postForm)
-        .then((response) => handleResponse(response));
-
-    status = FileUploaderStatus.Uploading;
-    if (clientRef.loggingEnabled) {
-      clientRef.log("Started upload of $fileName");
-    }
-    _lastTime = DateTime.now();
-  }
-
-  void handleResponse(http.Response response) {
-    statusCode = response.statusCode;
-    if (clientRef.loggingEnabled) {
-      clientRef.log("${"Uploaded $fileName"} in $_elapsedTime seconds");
-    }
-  }
-
-  void bytesReadCallback(dynamic sender, ProgressStreamReportEventArgs args) {
-    progress = args.streamPosition / args.streamLength;
   }
 
   void cancelUpload() {
-// #if USE_WEB_REQUEST
-//             _request.Abort();
-// #elif (!(DOT_NET || GODOT))
-//             _request = null;
-// #else
-//             _cancelToken.Cancel();
-// #endif
+    _request?.abort();
+
     status = FileUploaderStatus.CompleteFailed;
     statusCode = StatusCodes.clientNetworkError;
     reasonCode = ReasonCodes.clientUploadFileCancelled;
-    response = createErrorString(
-        statusCode, reasonCode, "Upload of $fileName cancelled by user ");
-
+    response = "Upload of $fileName cancelled by user ";
     if (clientRef.loggingEnabled) {
       clientRef.log("Upload of $fileName cancelled by user");
     }
@@ -138,60 +167,50 @@ class FileUploader {
 // #endif
   }
 
-  // void handleFileResponse()
-  // {
-  //     _transferRatePerSecond = 0;
+  FutureOr handleResponse(HttpClientResponse _response) async {
+    _transferRatePerSecond = 0;
 
-  //     statusCode = response.responseCode;
+    statusCode = _response.statusCode;
 
-  //     if (statusCode != StatusCodes.OK)
-  //     {
-  //         status = FileUploaderStatus.CompleteFailed;
-  //         clientRef.fileService.fileStorage.remove(guidLocalPath);
-  //         if (_response.error != null)
-  //         {
-  //             reasonCode = ReasonCodes.CLIENT_UPLOAD_FILE_UNKNOWN;
-  //             response = createErrorString(statusCode, reasonCode, _response.error ?? "");
-  //         }
-  //         else
+    if (statusCode != StatusCodes.ok) {
+      status = FileUploaderStatus.CompleteFailed;
+      clientRef.fileService.fileStorage.remove(guidLocalPath);
+      if (_response.reasonPhrase.isNotEmpty) {
+        reasonCode = ReasonCodes.clientUploadFileUnknown;
+        response = _response.reasonPhrase;
+      } else {
+        response = await _response.transform(utf8.decoder).join();
+      }
 
-  //             Response = _response.downloadHandler.text;
+      JsonErrorMessage? resp = null;
 
-  //         JsonErrorMessage resp = null;
+      try {
+        resp = JsonErrorMessage.fromJson(jsonDecode(response));
+      } catch (e) {
+        if (clientRef.loggingEnabled) {
+          clientRef.log(e.toString());
+        }
+      }
 
-  //         try { resp = jsonDecode(Response); }
-  //         catch (e)
-  //         {
-  //             if (clientRef.loggingEnabled)
-  //             {
-  //                 clientRef.log(e.toString());
-  //             }
-  //         }
+      if (resp != null)
+        reasonCode = resp.reasonCode;
+      else {
+        reasonCode = ReasonCodes.clientUploadFileUnknown;
+        response = response;
+      }
+    } else {
+      status = FileUploaderStatus.CompleteSuccess;
+      clientRef.fileService.fileStorage.remove(guidLocalPath);
 
-  //         if (resp != null)
-  //             ReasonCode = resp.reason_code;
-  //         else
-  //         {
-  //             ReasonCode = ReasonCodes.CLIENT_UPLOAD_FILE_UNKNOWN;
-  //             Response = createErrorString(statusCode, reasonCode, response);
-  //         }
-  //     }
-  //     else
-  //     {
-  //         Status = FileUploaderStatus.CompleteSuccess;
-  //         clientRef.fileService.fileStorage.Remove(guidLocalPath);
+      response = await _response.transform(utf8.decoder).join();
 
-  //         Response = _response.downloadHandler.text;
+      if (clientRef.loggingEnabled) {
+        clientRef.log("Uploaded $fileName in $_elapsedTime seconds");
+      }
+    }
 
-  //         if (clientRef.loggingEnabled)
-  //         {
-  //             clientRef.log("${"Uploaded $fileName in $elapsedTime seconds");
-  //         }
-  //     }
-
-  //     cleanupRequest();
-
-  // }
+    cleanupRequest();
+  }
 
   void updateTransferRate() {
     _transferElapsedTime += _deltaTime;
@@ -231,14 +250,16 @@ class FileUploader {
     status = FileUploaderStatus.CompleteFailed;
     statusCode = StatusCodes.clientNetworkError;
     reasonCode = reasonCode;
-    response = createErrorString(statusCode, reasonCode, message);
+    response = message;
+    // response = createErrorString(statusCode, reasonCode, message);
   }
 
   String createErrorString(int statusCode, int reasonCode, String message) {
-    return JsonErrorMessage(statusCode, reasonCode, message).toString();
+    return JsonErrorMessage(statusCode, reasonCode, message).toJson().toString();
   }
 
   void cleanupRequest() {
+    _request?.close();
     // if (_request == null) return;
     // _request.Dispose();
     // _request = null;

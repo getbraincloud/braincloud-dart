@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:braincloud_dart/src/server_response.dart';
 import 'package:flutter/material.dart';
 import 'package:braincloud_dart/src/Common/platform.dart';
 import 'package:braincloud_dart/src/internal/braincloud_comms.dart';
@@ -642,9 +646,23 @@ class BrainCloudClient {
   /// <summary>
   /// Registers the file upload callbacks.
   /// </summary>
-  void registerFileUploadCallback(
-      FileUploadSuccessCallback success, FileUploadFailedCallback failure) {
-    _comms?.registerFileUploadCallbacks(success, failure);
+  Future<ServerResponse>  registerFileUploadCallback() {
+      final Completer<ServerResponse> completer = Completer();
+      
+    _comms?.registerFileUploadCallbacks(
+          (a, b) {
+            var data = jsonDecode(b)['data'];
+            completer.complete(
+              ServerResponse(statusCode: 200, body:data));
+          },
+          (a, statusCode, reasonCode, statusMessage) => completer.completeError(
+              ServerResponse(
+                  statusCode: statusCode,
+                  reasonCode: reasonCode,
+                 statusMessage: statusMessage)));
+    
+    return completer.future;
+        
   }
 
   /// <summary>
