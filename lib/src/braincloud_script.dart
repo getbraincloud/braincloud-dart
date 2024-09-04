@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -6,6 +7,7 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/util.dart';
 
 class BrainCloudScript {
@@ -26,14 +28,9 @@ class BrainCloudScript {
   /// <param name="jsonScriptData">
   /// Data to be sent to the script in json format
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void runScript(String scriptName, String jsonScriptData,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> runScript(
+      {required String scriptName, required String jsonScriptData}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
@@ -42,11 +39,20 @@ class BrainCloudScript {
       data[OperationParam.scriptServiceRunScriptData.value] = scriptData;
     }
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc =
         ServerCall(ServiceName.script, ServiceOperation.run, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -59,14 +65,11 @@ class BrainCloudScript {
   /// <param name="scriptName"> Name of script </param>
   /// <param name="jsonScriptData"> JSON bundle to pass to script </param>
   /// <param name="roundStartTimeUTC">  use UTC time in milliseconds since epoch </param>
-  /// <param name="success"> The success callback. </param>
-  /// <param name="failure"> The failure callback. </param>
-  void scheduleRunScriptMillisUTC(
-      String scriptName,
-      String jsonScriptData,
-      int roundStartTimeUTC,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> scheduleRunScriptMillisUTC(
+      {required String scriptName,
+      required String jsonScriptData,
+      required int roundStartTimeUTC}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
@@ -78,11 +81,20 @@ class BrainCloudScript {
     data[OperationParam.scriptServiceStartDateUTC.value] =
         roundStartTimeUTC.toUnsigned(64);
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.scheduleCloudScript, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -95,10 +107,11 @@ class BrainCloudScript {
   /// <param name="scriptName"> Name of script </param>
   /// <param name="jsonScriptData"> JSON bundle to pass to script </param>
   /// <param name="minutesFromNow"> Number of minutes from now to run script </param>
-  /// <param name="success"> The success callback. </param>
-  /// <param name="failure"> The failure callback. </param>
-  void scheduleRunScriptMinutes(String scriptName, String jsonScriptData,
-      int minutesFromNow, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> scheduleRunScriptMinutes(
+      {required String scriptName,
+      required String jsonScriptData,
+      required int minutesFromNow}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
@@ -110,11 +123,20 @@ class BrainCloudScript {
     data[OperationParam.scriptServiceStartMinutesFromNow.value] =
         minutesFromNow;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.scheduleCloudScript, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -127,10 +149,11 @@ class BrainCloudScript {
   /// <param name="scriptName"> Name of script </param>
   /// <param name="jsonScriptData"> JSON bundle to pass to script </param>
   /// <param name="parentLevel"> The level name of the parent to run the script from </param>
-  /// <param name="success"> The success callback. </param>
-  /// <param name="failure"> The failure callback. </param>
-  void runParentScript(String scriptName, String jsonScriptData,
-      String parentLevel, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> runParentScript(
+      {required String scriptName,
+      required String jsonScriptData,
+      required String parentLevel}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
@@ -141,11 +164,20 @@ class BrainCloudScript {
 
     data[OperationParam.scriptServiceParentLevel.value] = parentLevel;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.script, ServiceOperation.runParentScript, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -156,18 +188,25 @@ class BrainCloudScript {
   /// Service Operation - CANCEL_SCHEDULED_SCRIPT
   /// </remarks>
   /// <param name="jobId"> ID of script job to cancel </param>
-  /// <param name="success"> The success callback. </param>
-  /// <param name="failure"> The failure callback. </param>
-  void cancelScheduledScript(
-      String jobId, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> cancelScheduledScript({required String jobId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceJobId.value] = jobId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.cancelScheduledScript, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -178,18 +217,26 @@ class BrainCloudScript {
   /// Service Operation - GET_SCHEDULED_CLOUD_SCRIPTS
   /// </remarks>
   /// <param name="startDateUTC"> ID of script job to cancel </param>
-  /// <param name="success"> The success callback. </param>
-  /// <param name="failure"> The failure callback. </param>
-  void getScheduledCloudScripts(DateTime startDateUTC, SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> getScheduledCloudScripts(
+      {required DateTime startDateUTC}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceStartDateUTC.value] = startDateUTC;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.getScheduledCloudScripts, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -200,15 +247,22 @@ class BrainCloudScript {
   /// Service Operation - GET_RUNNING_OR_QUEUED_CLOUD_SCRIPTS
   /// </remarks>
   /// <param name="startDateUTC"> ID of script job to cancel </param>
-  /// <param name="success"> The success callback. </param>
-  /// <param name="failure"> The failure callback. </param>
-  void getRunningOrQueuedCloudScripts(
-      SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+  Future<ServerResponse> getRunningOrQueuedCloudScripts() {
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.getRunningOrQueuedCloudScripts, null, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -221,10 +275,11 @@ class BrainCloudScript {
   /// <param name="scriptName">The name of the script to run</param>
   /// <param name="jsonScriptData">JSON data to pass into the script</param>
   /// <param name="peer">Identifies the peer</param>
-  /// <param name="success">The success callback</param>
-  /// <param name="failure">The failure callback</param>
-  void runPeerScript(String scriptName, String jsonScriptData, String peer,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> runPeerScript(
+      {required String scriptName,
+      required String jsonScriptData,
+      required String peer}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
@@ -235,11 +290,20 @@ class BrainCloudScript {
 
     data[OperationParam.peer.value] = peer;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.script, ServiceOperation.runPeerScript, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -253,10 +317,11 @@ class BrainCloudScript {
   /// <param name="scriptName">The name of the script to run</param>
   /// <param name="jsonScriptData">JSON data to pass into the script</param>
   /// <param name="peer">Identifies the peer</param>
-  /// <param name="success">The success callback</param>
-  /// <param name="failure">The failure callback</param>
-  void runPeerScriptAsync(String scriptName, String jsonScriptData, String peer,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> runPeerScriptAsync(
+      {required String scriptName,
+      required String jsonScriptData,
+      required String peer}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
@@ -267,10 +332,19 @@ class BrainCloudScript {
 
     data[OperationParam.peer.value] = peer;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.runPeerScriptAsync, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 }
