@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -6,6 +7,7 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 
 class BrainCloudUserItems {
   final BrainCloudClient _clientRef;
@@ -28,24 +30,30 @@ class BrainCloudUserItems {
   /// </param>
   /// <param name="includeDef">
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void awardUserItem(String defId, int quantity, bool includeDef,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> awardUserItem(
+      {required String defId,
+      required int quantity,
+      required bool includeDef}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceDefId.value] = defId;
     data[OperationParam.userItemsServiceQuantity.value] = quantity;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.awardUserItem, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -65,24 +73,30 @@ class BrainCloudUserItems {
   /// </param>
   /// <param name="includeDef">
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void dropUserItem(String itemId, int quantity, bool includeDef,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> dropUserItem(
+      {required String itemId,
+      required int quantity,
+      required bool includeDef}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceItemId.value] = itemId;
     data[OperationParam.userItemsServiceQuantity.value] = quantity;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.dropUserItem, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -99,24 +113,28 @@ class BrainCloudUserItems {
   /// </param>
   /// <param name="includeDef">
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getUserItemsPage(String context, bool includeDef,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getUserItemsPage(
+      {required String context, required bool includeDef}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     var contextData = jsonDecode(context);
     data[OperationParam.userItemsServiceContext.value] = contextData;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.getUserItemsPage, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -136,24 +154,30 @@ class BrainCloudUserItems {
   /// </param>
   /// <param name="includeDef">
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getUserItemsPageOffset(String context, int pageOffset, bool includeDef,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getUserItemsPageOffset(
+      {required String context,
+      required int pageOffset,
+      required bool includeDef}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceContext.value] = context;
     data[OperationParam.userItemsServicePageOffset.value] = pageOffset;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.getUserItemsPageOffset, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -170,23 +194,27 @@ class BrainCloudUserItems {
   /// </param>
   /// <param name="includeDef">
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void getUserItem(String itemId, bool includeDef, SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> getUserItem(
+      {required String itemId, required bool includeDef}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceItemId.value] = itemId;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.getUserItem, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -206,20 +234,13 @@ class BrainCloudUserItems {
   /// </param>
   /// <param name="immediate">
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void giveUserItemTo(
-      String profileId,
-      String itemId,
-      int version,
-      int quantity,
-      bool immediate,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> giveUserItemTo(
+      {required String profileId,
+      required String itemId,
+      required int version,
+      required int quantity,
+      required bool immediate}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceProfileId.value] = profileId;
     data[OperationParam.userItemsServiceItemId.value] = itemId;
@@ -227,11 +248,20 @@ class BrainCloudUserItems {
     data[OperationParam.userItemsServiceQuantity.value] = quantity;
     data[OperationParam.userItemsServiceImmediate.value] = immediate;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.giveUserItemTo, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -252,25 +282,32 @@ class BrainCloudUserItems {
   /// </param>
   /// <param name="includeDef">
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void purchaseUserItem(String defId, int quantity, String shopId,
-      bool includeDef, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> purchaseUserItem(
+      {required String defId,
+      required int quantity,
+      required String shopId,
+      required bool includeDef}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceDefId.value] = defId;
     data[OperationParam.userItemsServiceQuantity.value] = quantity;
     data[OperationParam.userItemsServiceShopId.value] = shopId;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.purchaseUserItem, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -289,23 +326,27 @@ class BrainCloudUserItems {
   /// </param>
   /// <param name="includeDef">
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void receiveUserItemFrom(String profileId, String itemId,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> receiveUserItemFrom(
+      {required String profileId, required String itemId}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceProfileId.value] = profileId;
     data[OperationParam.userItemsServiceItemId.value] = itemId;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.receiveUserItemFrom, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -330,14 +371,13 @@ class BrainCloudUserItems {
   /// </param>
   /// <param name="includeDef">
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void sellUserItem(String itemId, int version, int quantity, String shopId,
-      bool includeDef, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> sellUserItem(
+      {required String itemId,
+      required int version,
+      required int quantity,
+      required String shopId,
+      required bool includeDef}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceItemId.value] = itemId;
     data[OperationParam.userItemsServiceVersion.value] = version;
@@ -345,11 +385,20 @@ class BrainCloudUserItems {
     data[OperationParam.userItemsServiceShopId.value] = shopId;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.sellUserItem, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -365,25 +414,31 @@ class BrainCloudUserItems {
   /// </param>
   /// <param name="newItemData">
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void updateUserItemData(String itemId, int version, String newItemData,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> updateUserItemData(
+      {required String itemId,
+      required int version,
+      required String newItemData}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceItemId.value] = itemId;
     data[OperationParam.userItemsServiceVersion.value] = version;
     var newItemDataDict = jsonDecode(newItemData);
     data[OperationParam.userItemsServiceNewItemData.value] = newItemDataDict;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.updateUserItemData, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -401,14 +456,12 @@ class BrainCloudUserItems {
   /// </param>
   /// <param name="includeDef">
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void useUserItem(String itemId, int version, String newItemData,
-      bool includeDef, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> useUserItem(
+      {required String itemId,
+      required int version,
+      required String newItemData,
+      required bool includeDef}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceItemId.value] = itemId;
     data[OperationParam.userItemsServiceVersion.value] = version;
@@ -417,11 +470,20 @@ class BrainCloudUserItems {
     var newItemDataDict = jsonDecode(newItemData);
     data[OperationParam.userItemsServiceNewItemData.value] = newItemDataDict;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.useUserItem, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -435,23 +497,27 @@ class BrainCloudUserItems {
   /// </param>
   /// <param name="version">
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void publishUserItemToBlockchain(String itemId, int version,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> publishUserItemToBlockchain(
+      {required String itemId, required int version}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceItemId.value] = itemId;
     data[OperationParam.userItemsServiceVersion.value] = version;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.publishUserItemToBlockchain, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -460,20 +526,24 @@ class BrainCloudUserItems {
   /// <remarks>
   /// Service Name - UserInventoryManagement
   /// Service Operation - RefreshBlockchainUserItems
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void refreshBlockchainUserItems(
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> refreshBlockchainUserItems() {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.refreshBlockchainUserItems, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -490,22 +560,26 @@ class BrainCloudUserItems {
   /// <param name="version">
   ///
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void removeUserItemFromBlockchain(String itemId, int version,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> removeUserItemFromBlockchain(
+      {required String itemId, required int version}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceItemId.value] = itemId;
     data[OperationParam.userItemsServiceVersion.value] = version;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.removeUserItemFromBlockchain, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 }
