@@ -163,6 +163,8 @@ class ServiceOperation {
   static ServiceOperation postScore = ServiceOperation._("POST_SCORE");
   static ServiceOperation postScoreDynamic =
       ServiceOperation._("POST_SCORE_DYNAMIC");
+  static ServiceOperation postScoreDynamicUsingConfig =
+      ServiceOperation._("POST_SCORE_DYNAMIC_USING_CONFIG");
   static ServiceOperation postScoreToDynamicGroupLeaderboard =
       ServiceOperation._("POST_GROUP_SCORE_DYNAMIC");
   static ServiceOperation removePlayerScore =
@@ -398,11 +400,13 @@ class ServiceOperation {
   static ServiceOperation readSharedEntitiesList =
       ServiceOperation._("READ_SHARED_ENTITIES_LIST");
   static ServiceOperation getList = ServiceOperation._("GET_LIST");
-  static ServiceOperation getListWithHint = ServiceOperation._("GET_LIST_WITH_HINT");
+  static ServiceOperation getListWithHint =
+      ServiceOperation._("GET_LIST_WITH_HINT");
   static ServiceOperation getListByIndexedId =
       ServiceOperation._("GET_LIST_BY_INDEXED_ID");
   static ServiceOperation getListCount = ServiceOperation._("GET_LIST_COUNT");
-  static ServiceOperation getListCountWithHint = ServiceOperation._("GET_LIST_COUNT_WITH_HINT");
+  static ServiceOperation getListCountWithHint =
+      ServiceOperation._("GET_LIST_COUNT_WITH_HINT");
   static ServiceOperation getPage = ServiceOperation._("GET_PAGE");
   static ServiceOperation getPageOffset =
       ServiceOperation._("GET_PAGE_BY_OFFSET");
@@ -728,7 +732,8 @@ class ServiceOperation {
   static ServiceOperation getEntityPage = ServiceOperation._("GET_ENTITY_PAGE");
   static ServiceOperation readCustomEntity = ServiceOperation._("READ_ENTITY");
   static ServiceOperation incrementData = ServiceOperation._("INCREMENT_DATA");
-  static ServiceOperation incrementDataSharded = ServiceOperation._("INCREMENT_DATA_SHARDED");
+  static ServiceOperation incrementDataSharded =
+      ServiceOperation._("INCREMENT_DATA_SHARDED");
   static ServiceOperation incrementSingletonData =
       ServiceOperation._("INCREMENT_SINGLETON_DATA");
   static ServiceOperation updateCustomEntity =
