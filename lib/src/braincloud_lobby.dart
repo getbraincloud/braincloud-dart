@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
@@ -5,6 +7,7 @@ import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/reason_codes.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 import 'package:mutex/mutex.dart';
 
 class BrainCloudLobby {
@@ -19,19 +22,18 @@ class BrainCloudLobby {
   /// Finds a lobby matching the specified parameters
   /// </summary>
   ///
-  void findLobby(
-      String inRoomtype,
-      int inRating,
-      int inMaxsteps,
-      Map<String, dynamic> inAlgo,
-      Map<String, dynamic> inFilterjson,
-      int inTimeoutsecs,
-      bool inIsready,
-      Map<String, dynamic> inExtrajson,
-      String inTeamcode,
-      List<String>? inOtherusercxids,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> findLobby(
+      {required String inRoomtype,
+      required int inRating,
+      required int inMaxsteps,
+      required Map<String, dynamic> inAlgo,
+      required Map<String, dynamic> inFilterjson,
+      required int inTimeoutsecs,
+      required bool inIsready,
+      required Map<String, dynamic> inExtrajson,
+      required String inTeamcode,
+      List<String>? inOtherusercxids}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyRoomType.value] = inRoomtype;
     data[OperationParam.lobbyRating.value] = inRating;
@@ -46,11 +48,20 @@ class BrainCloudLobby {
     data[OperationParam.lobbyExtraJson.value] = inExtrajson;
     data[OperationParam.lobbyTeamCode.value] = inTeamcode;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.findLobby, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 
   /// <summary>
@@ -58,19 +69,18 @@ class BrainCloudLobby {
   /// prior to calling.
   /// </summary>
   ///
-  void findLobbyWithPingData(
-      String inRoomtype,
-      int inRating,
-      int inMaxsteps,
-      Map<String, dynamic> inAlgo,
-      Map<String, dynamic> inFilterjson,
-      int inTimeoutsecs,
-      bool inIsready,
-      Map<String, dynamic> inExtrajson,
-      String inTeamcode,
-      List<String>? inOtherusercxids,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> findLobbyWithPingData(
+      {required String inRoomtype,
+      required int inRating,
+      required int inMaxsteps,
+      required Map<String, dynamic> inAlgo,
+      required Map<String, dynamic> inFilterjson,
+      required int inTimeoutsecs,
+      required bool inIsready,
+      required Map<String, dynamic> inExtrajson,
+      required String inTeamcode,
+      List<String>? inOtherusercxids}) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyRoomType.value] = inRoomtype;
     data[OperationParam.lobbyRating.value] = inRating;
@@ -86,7 +96,18 @@ class BrainCloudLobby {
     data[OperationParam.lobbyTeamCode.value] = inTeamcode;
 
     _attachPingDataAndSend(
-        data, ServiceOperation.findLobbyWithPingData, success, failure);
+      data,
+      ServiceOperation.findLobbyWithPingData,
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.completeError(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
+
+    return completer.future;
   }
 
   /// <summary>
@@ -601,14 +622,14 @@ class BrainCloudLobby {
     }
   }
 
-  void update() {
-    // trigger failure events
-    for (int i = 0; i < _failureQueue.length; ++i) {
-      Failure failure = _failureQueue[i];
-      failure.callback!(failure.status, failure.reasonCode, failure.jsonError);
-    }
-    _failureQueue.clear();
-  }
+  // void update() {
+  //   // trigger failure events
+  //   for (int i = 0; i < _failureQueue.length; ++i) {
+  //     Failure failure = _failureQueue[i];
+  //     failure.callback!(failure.status, failure.reasonCode, failure.jsonError);
+  //   }
+  //   _failureQueue.clear();
+  // }
 
   void _onRegionForLobbiesSuccess(Map<String, dynamic> inJson, dynamic inObj) {
     pingData = {};
