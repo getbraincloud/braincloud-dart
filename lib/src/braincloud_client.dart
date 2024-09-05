@@ -76,9 +76,9 @@ class BrainCloudClient {
   final Mutex _loggingMutex = Mutex();
   LogCallback? _logDelegate;
 
-  BrainCloudComms? _comms;
-  RTTComms? _rttComms;
-  RelayComms? _rsComms;
+  late BrainCloudComms _comms;
+  late RTTComms _rttComms;
+  late RelayComms _rsComms;
 
   late BrainCloudWrapper wrapper;
 
@@ -121,10 +121,10 @@ class BrainCloudClient {
   late BrainCloudGroupFile _groupFileService;
 
   // RTT service
-  BrainCloudLobby? _lobbyService;
-  BrainCloudChat? _chatService;
-  BrainCloudRTT? _rttService;
-  BrainCloudRelay? _rsService;
+  late BrainCloudLobby _lobbyService;
+  late BrainCloudChat _chatService;
+  late BrainCloudRTT _rttService;
+  late BrainCloudRelay _rsService;
 
   static ServerCallback? createServerCallback(
     SuccessCallback? success,
@@ -206,20 +206,20 @@ class BrainCloudClient {
   }
   //---------------------------------------------------------------
 
-  bool get authenticated => _comms?.isAuthenticated ?? false;
+  bool get authenticated => _comms.isAuthenticated;
 
   bool get initialized => _initialized;
 
   set enableCompressedRequests(bool isEnabled) =>
-      _comms?.enableCompression(isEnabled);
+      _comms.enableCompression(isEnabled);
 
   set enableCompressedResponses(bool isEnabled) =>
       _authenticationService.compressResponse = isEnabled;
 
   /// <summary>Returns the sessionId or empty String if no session present.</summary>
-  String get sessionID => _comms?.getSessionID ?? "";
+  String get sessionID => _comms.getSessionID;
 
-  String get appId => _comms?.getAppId ?? "";
+  String get appId => _comms.getAppId;
 
   String getAppId() {
     return appId;
@@ -227,9 +227,9 @@ class BrainCloudClient {
 
   String? get profileId => authenticationService.profileId ?? "";
 
-  String get rttConnectionID => _rttComms?.rttConnectionID ?? "";
+  String get rttConnectionID => _rttComms.rttConnectionID;
 
-  String get rttEventServer => _rttComms?.rttEventServer ?? "";
+  String get rttEventServer => _rttComms.rttEventServer;
 
   String get appVersion => _appVersion;
 
@@ -477,14 +477,14 @@ class BrainCloudClient {
   }
 
   int getReceivedPacketId() {
-    return _comms?.getReceivedPacketId() ?? -1;
+    return _comms.getReceivedPacketId();
   }
 
   /// <summary>
   /// Restore packetId found in localstorage
   /// </summary>
   void restorePacketId(int id) {
-    _comms?.receivedPacketIdChecker = id;
+    _comms.receivedPacketIdChecker = id;
   }
 
   /// <summary>
@@ -508,7 +508,7 @@ class BrainCloudClient {
         serverURL!, appIdSecretMap[defaultAppId]!, defaultAppId, appVersion);
 
     // set up braincloud which does the message handling
-    _comms?.initializeWithApps(serverURL, defaultAppId, appIdSecretMap);
+    _comms.initializeWithApps(serverURL, defaultAppId, appIdSecretMap);
 
     _initialized = true;
   }
@@ -528,7 +528,7 @@ class BrainCloudClient {
     initializeHelper(serverURL, secretKey, appId, appVersion);
 
     // set up braincloud which does the message handling
-    _comms?.initialize(serverURL, appId, secretKey);
+    _comms.initialize(serverURL, appId, secretKey);
 
     _initialized = true;
   }
@@ -545,7 +545,7 @@ class BrainCloudClient {
   /// Should be used at the end of the app, and opposite of Initialize Client
   /// </summary>
   void shutDown() {
-    _comms?.shutDown();
+    _comms.shutDown();
   }
 
   /// <summary>Update method needs to be called regularly in order
@@ -565,34 +565,34 @@ class BrainCloudClient {
     switch (inUpdateType) {
       case BrainCloudUpdateType.REST:
         {
-          if (_comms != null) _comms?.update();
+          _comms.update();
         }
         break;
 
       case BrainCloudUpdateType.RTT:
         {
-          _rttComms?.update();
+          _rttComms.update();
         }
         break;
 
       case BrainCloudUpdateType.RS:
         {
-          _rsComms?.update();
+          _rsComms.update();
         }
         break;
 
       case BrainCloudUpdateType.PING:
         {
-          _lobbyService?.update();
+          _lobbyService.update();
         }
         break;
 
       default:
         {
-          _rttComms?.update();
-          _comms?.update();
-          _rsComms?.update();
-          _lobbyService?.update();
+          _rttComms.update();
+          _comms.update();
+          _rsComms.update();
+          _lobbyService.update();
         }
         break;
     }
@@ -617,14 +617,14 @@ class BrainCloudClient {
   ///    ]
   ///  }
   void registerEventCallback(EventCallback cb) {
-    _comms?.registerEventCallback(cb);
+    _comms.registerEventCallback(cb);
   }
 
   /// <summary>
   /// De-registers the event callback.
   /// </summary>
   void deregisterEventCallback() {
-    _comms?.deregisterEventCallback();
+    _comms.deregisterEventCallback();
   }
 
   /// <summary>
@@ -633,57 +633,54 @@ class BrainCloudClient {
   /// <param name="cb">The reward callback handler.</param>
   /// <see cref="http://getbraincloud.com/apidocs">The brainCloud API docs site for more information on the return JSON</see>
   void registerRewardCallback(RewardCallback cb) {
-    _comms?.registerRewardCallback(cb);
+    _comms.registerRewardCallback(cb);
   }
 
   /// <summary>
   /// De-registers the reward callback.
   /// </summary>
   void deregisterRewardCallback() {
-    _comms?.deregisterRewardCallback();
+    _comms.deregisterRewardCallback();
   }
 
   /// <summary>
   /// Registers the file upload callbacks.
   /// </summary>
-  Future<ServerResponse>  registerFileUploadCallback() {
-      final Completer<ServerResponse> completer = Completer();
-      
-    _comms?.registerFileUploadCallbacks(
-          (a, b) {
-            var data = jsonDecode(b)['data'];
-            completer.complete(
-              ServerResponse(statusCode: 200, body:data));
-          },
-          (a, statusCode, reasonCode, statusMessage) => completer.completeError(
-              ServerResponse(
-                  statusCode: statusCode,
-                  reasonCode: reasonCode,
-                 statusMessage: statusMessage)));
-    
+  Future<ServerResponse> registerFileUploadCallback() {
+    final Completer<ServerResponse> completer = Completer();
+
+    _comms.registerFileUploadCallbacks((a, b) {
+      var data = jsonDecode(b)['data'];
+      completer.complete(ServerResponse(statusCode: 200, body: data));
+    },
+        (a, statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
+
     return completer.future;
-        
   }
 
   /// <summary>
   /// De-registers the file upload callbacks.
   /// </summary>
   void deregisterFileUploadCallback() {
-    _comms?.deregisterFileUploadCallbacks();
+    _comms.deregisterFileUploadCallbacks();
   }
 
   /// <summary>
   /// Failure callback invoked for all errors generated
   /// </summary>
   void registerGlobalErrorCallback(FailureCallback callback) {
-    _comms?.registerGlobalErrorCallback(callback);
+    _comms.registerGlobalErrorCallback(callback);
   }
 
   /// <summary>
   /// De-registers the global error callback.
   /// </summary>
   void deregisterGlobalErrorCallback() {
-    _comms?.deregisterGlobalErrorCallback();
+    _comms.deregisterGlobalErrorCallback();
   }
 
   /// <summary>
@@ -692,14 +689,14 @@ class BrainCloudClient {
   /// has been set to true.
   /// </summary>
   void registerNetworkErrorCallback(NetworkErrorCallback callback) {
-    _comms?.registerNetworkErrorCallback(callback);
+    _comms.registerNetworkErrorCallback(callback);
   }
 
   /// <summary>
   /// De-registers the network error callback.
   /// </summary>
   void deregisterNetworkErrorCallback() {
-    _comms?.deregisterNetworkErrorCallback();
+    _comms.deregisterNetworkErrorCallback();
   }
 
   /// <summary> Enable logging of brainCloud transactions (comms etc)</summary>
@@ -710,14 +707,14 @@ class BrainCloudClient {
 
   /// <summary>Get the Server URL</summary>
   String getUrl() {
-    return _comms?.getServerURL ?? "";
+    return _comms.getServerURL;
   }
 
   /// <summary>Resets all messages and calls to the server</summary>
   void resetCommunication() {
-    _comms?.resetCommunication();
-    _rttComms?.disableRTT();
-    _rsComms?.disconnect();
+    _comms.resetCommunication();
+    _rttComms.disableRTT();
+    _rsComms.disconnect();
     update();
     authenticationService.clearSavedProfileID();
   }
@@ -725,7 +722,7 @@ class BrainCloudClient {
   /// <summary>Enable Communications with the server. By default this is true</summary>
   /// <param name="value">True to enable comms, false otherwise.</param>
   void enableCommunications(bool value) {
-    _comms?.enableComms(value);
+    _comms.enableComms(value);
   }
 
   /// <summary>
@@ -745,21 +742,21 @@ class BrainCloudClient {
   /// </summary>
   /// <param name="timeouts">An array of packet timeouts.</param>
   void setPacketTimeouts(List<int> timeouts) {
-    _comms?.packetTimeouts = timeouts;
+    _comms.packetTimeouts = timeouts;
   }
 
   /// <summary>
   /// Sets the packet timeouts back to default.
   /// </summary>
   void setPacketTimeoutsToDefault() {
-    _comms?.setPacketTimeoutsToDefault();
+    _comms.setPacketTimeoutsToDefault();
   }
 
   /// <summary>
   /// Returns the list of packet timeouts.
   /// </summary>
   List<int> getPacketTimeouts() {
-    return _comms?.packetTimeouts ?? [];
+    return _comms.packetTimeouts;
   }
 
   /// <summary>
@@ -771,7 +768,7 @@ class BrainCloudClient {
   /// </summary>
   /// <param name="valueSecs">The timeout in seconds.</param>
   void setAuthenticationPacketTimeout(int timeoutSecs) {
-    _comms?.authenticationPacketTimeoutSecs = timeoutSecs;
+    _comms.authenticationPacketTimeoutSecs = timeoutSecs;
   }
 
   /// <summary>
@@ -782,7 +779,7 @@ class BrainCloudClient {
   /// this timeout is set to 15 seconds.
   /// </summary>
   int getAuthenticationPacketTimeout() {
-    return _comms?.authenticationPacketTimeoutSecs ?? 0;
+    return _comms.authenticationPacketTimeoutSecs;
   }
 
   /// <summary>
@@ -792,14 +789,14 @@ class BrainCloudClient {
   /// </summary>
   /// <param name="enabled">If set to <c>true</c>, enable.</param>
   void setOldStyleStatusMessageErrorCallback(bool enabled) {
-    _comms?.oldStyleStatusResponseInErrorCallback = enabled;
+    _comms.oldStyleStatusResponseInErrorCallback = enabled;
   }
 
   /// <summary>
   /// Returns the low transfer rate timeout in secs
   /// </summary>
   int getUploadLowTransferRateTimeout() {
-    return _comms?.uploadLowTransferRateTimeout ?? 0;
+    return _comms.uploadLowTransferRateTimeout;
   }
 
   /// <summary>
@@ -811,14 +808,14 @@ class BrainCloudClient {
   /// </summary>
   /// <param name="timeoutSecs"></param>
   void setUploadLowTransferRateTimeout(int timeoutSecs) {
-    _comms?.uploadLowTransferRateTimeout = timeoutSecs;
+    _comms.uploadLowTransferRateTimeout = timeoutSecs;
   }
 
   /// <summary>
   /// Returns the low transfer rate threshold in bytes/sec
   /// </summary>
   int getUploadLowTransferRateThreshold() {
-    return _comms?.uploadLowTransferRateThreshold ?? 0;
+    return _comms.uploadLowTransferRateThreshold;
   }
 
   /// <summary>
@@ -830,7 +827,7 @@ class BrainCloudClient {
   /// </summary>
   /// <param name="bytesPerSec">The low transfer rate threshold in bytes/sec</param>
   void setUploadLowTransferRateThreshold(int bytesPerSec) {
-    _comms?.uploadLowTransferRateThreshold = bytesPerSec;
+    _comms.uploadLowTransferRateThreshold = bytesPerSec;
   }
 
   /// <summary>
@@ -860,7 +857,7 @@ class BrainCloudClient {
   /// </summary>
   /// <param name="enabled">True if message should be cached on timeout</param>
   void enableNetworkErrorMessageCaching(bool enabled) {
-    _comms?.enableNetworkErrorMessageCaching(enabled);
+    _comms.enableNetworkErrorMessageCaching(enabled);
   }
 
   /// <summary>
@@ -868,7 +865,7 @@ class BrainCloudClient {
   /// this method does nothing.
   /// </summary>
   void retryCachedMessages() {
-    _comms?.retryCachedMessages();
+    _comms.retryCachedMessages();
   }
 
   /// <summary>
@@ -879,7 +876,7 @@ class BrainCloudClient {
   /// be called for every cached message with statusCode CLIENT_NETWORK_ERROR and reasonCode CLIENT_NETWORK_ERROR_TIMEOUT.
   /// </param>
   void flushCachedMessages(bool sendApiErrorCallbacks) {
-    _comms?.flushCachedMessages(sendApiErrorCallbacks);
+    _comms.flushCachedMessages(sendApiErrorCallbacks);
   }
 
   /// <summary>
@@ -897,7 +894,7 @@ class BrainCloudClient {
   ///
   /// </summary>
   void insertEndOfMessageBundleMarker() {
-    _comms?.insertEndOfMessageBundleMarker();
+    _comms.insertEndOfMessageBundleMarker();
   }
 
   /// <summary>
@@ -926,7 +923,7 @@ class BrainCloudClient {
   void sendHeartbeat(SuccessCallback? success, FailureCallback? failure) {
     ServerCall sc = ServerCall(ServiceName.heartBeat, ServiceOperation.read,
         null, ServerCallback(success, failure));
-    _comms?.addToQueue(sc);
+    _comms.addToQueue(sc);
   }
 
   /// <summary>Method writes log if logging is enabled</summary>
@@ -954,19 +951,31 @@ class BrainCloudClient {
   void sendRequest(ServerCall serviceMessage) {
     // pass this directly to the brainCloud Class
     // which will add it to its queue and send back responses accordingly
-    _comms?.addToQueue(serviceMessage);
+    _comms.addToQueue(serviceMessage);
 
     wrapper.setStoredPacketId(serviceMessage.packetID);
   }
 
   String serializeJson(dynamic payLoad) {
-    return _comms?.serializeJson(payLoad) ??
-        "Error BrainCloudClient.SerializeJson _comms is null";
+    var retVal = "";
+    try {
+      retVal = _comms.serializeJson(payLoad);
+    } catch (_) {
+      retVal = "Error BrainCloudClient.SerializeJson _comms is null";
+    }
+
+    return retVal;
   }
 
   Map<String, dynamic> deserializeJson(String jsonData) {
-    return _comms?.deserializeJson(jsonData) ??
-        {"Error": "BrainCloudClient.DeserializeJson _comms is null"};
+    Map<String, dynamic> retVal = {};
+    try {
+      retVal = _comms.deserializeJson(jsonData);
+    } catch (_) {
+      retVal = {"Error": "BrainCloudClient.DeserializeJson _comms is null"};
+    }
+
+    return retVal;
   }
 
   void initializeHelper(
