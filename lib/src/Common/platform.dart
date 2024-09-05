@@ -35,20 +35,14 @@ enum Platform {
 
   const Platform(this.value);
   final String value;
-}
 
-extension PlatformExtension on Platform {
   static Platform fromString(String s) {
-    //TODO: Is this right?
-    Platform type = Platform.values.firstWhere(
-        (e) => e.toString() == 'AuthTypes.$s',
-        orElse: () => Platform.unknown);
+    Platform type = Platform.values
+        .firstWhere((e) => e.value == s, orElse: () => Platform.unknown);
 
     return type;
   }
 
-  String toShortString() {
-    return value;
-    // return toString().split('.').last;
-  }
+  @override
+  String toString() => value;
 }
