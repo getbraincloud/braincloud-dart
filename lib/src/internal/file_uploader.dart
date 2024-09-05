@@ -167,22 +167,22 @@ class FileUploader {
 // #endif
   }
 
-  FutureOr handleResponse(HttpClientResponse _response) async {
+  FutureOr handleResponse(HttpClientResponse clientResponse) async {
     _transferRatePerSecond = 0;
 
-    statusCode = _response.statusCode;
+    statusCode = clientResponse.statusCode;
 
     if (statusCode != StatusCodes.ok) {
       status = FileUploaderStatus.CompleteFailed;
       clientRef.fileService.fileStorage.remove(guidLocalPath);
-      if (_response.reasonPhrase.isNotEmpty) {
+      if (clientResponse.reasonPhrase.isNotEmpty) {
         reasonCode = ReasonCodes.clientUploadFileUnknown;
-        response = _response.reasonPhrase;
+        response = clientResponse.reasonPhrase;
       } else {
-        response = await _response.transform(utf8.decoder).join();
+        response = await clientResponse.transform(utf8.decoder).join();
       }
 
-      JsonErrorMessage? resp = null;
+      JsonErrorMessage? resp;
 
       try {
         resp = JsonErrorMessage.fromJson(jsonDecode(response));
@@ -192,9 +192,9 @@ class FileUploader {
         }
       }
 
-      if (resp != null)
+      if (resp != null) {
         reasonCode = resp.reasonCode;
-      else {
+      } else {
         reasonCode = ReasonCodes.clientUploadFileUnknown;
         response = response;
       }
@@ -202,7 +202,7 @@ class FileUploader {
       status = FileUploaderStatus.CompleteSuccess;
       clientRef.fileService.fileStorage.remove(guidLocalPath);
 
-      response = await _response.transform(utf8.decoder).join();
+      response = await clientResponse.transform(utf8.decoder).join();
 
       if (clientRef.loggingEnabled) {
         clientRef.log("Uploaded $fileName in $_elapsedTime seconds");
