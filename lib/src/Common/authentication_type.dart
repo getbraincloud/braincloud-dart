@@ -28,11 +28,15 @@ enum AuthenticationType {
 
   const AuthenticationType(this.value);
   final String value;
-}
 
-extension AuthenticationTypeExtension on AuthenticationType {
-  String toShortString() {
-    return value;
-    // return toString().split('.').last;
+  static AuthenticationType fromString(String s) {
+    AuthenticationType type = AuthenticationType.values.firstWhere(
+        (e) => e.value == s,
+        orElse: () => AuthenticationType.unknown);
+
+    return type;
   }
+
+  @override
+  String toString() => value;
 }
