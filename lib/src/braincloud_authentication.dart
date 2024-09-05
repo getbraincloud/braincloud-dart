@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:braincloud_dart/src/Common/authentication_ids.dart';
 import 'package:braincloud_dart/src/Common/authentication_type.dart';
-import 'package:braincloud_dart/src/Common/platform.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
@@ -939,7 +938,7 @@ class BrainCloudAuthentication {
     data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
         .value] = authenticationToken;
     data[OperationParam.authenticateServiceAuthenticateAuthenticationType
-        .value] = authenticationType.toShortString();
+        .value] = authenticationType.toString();
     data[OperationParam.authenticateServiceAuthenticateForceCreate.value] =
         forceCreate;
     data[OperationParam.authenticateServiceAuthenticateCompressResponses
@@ -952,7 +951,7 @@ class BrainCloudAuthentication {
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
     data[OperationParam.authenticateServiceAuthenticateReleasePlatform.value] =
-        _clientRef.releasePlatform.toShortString();
+        _clientRef.releasePlatform.toString();
     data[OperationParam.authenticateServiceAuthenticateGameVersion.value] =
         _clientRef.appVersion;
     data[OperationParam.authenticateServiceAuthenticateBrainCloudVersion

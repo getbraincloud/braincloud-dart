@@ -622,14 +622,14 @@ class BrainCloudLobby {
     }
   }
 
-  // void update() {
-  //   // trigger failure events
-  //   for (int i = 0; i < _failureQueue.length; ++i) {
-  //     Failure failure = _failureQueue[i];
-  //     failure.callback!(failure.status, failure.reasonCode, failure.jsonError);
-  //   }
-  //   _failureQueue.clear();
-  // }
+  void update() {
+    // trigger failure events
+    for (int i = 0; i < _failureQueue.length; ++i) {
+      Failure failure = _failureQueue[i];
+      failure.callback!(failure.status, failure.reasonCode, failure.jsonError);
+    }
+    _failureQueue.clear();
+  }
 
   void _onRegionForLobbiesSuccess(Map<String, dynamic> inJson, dynamic inObj) {
     pingData = {};
