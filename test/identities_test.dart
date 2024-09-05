@@ -15,8 +15,8 @@ class TestUser {
 
   TestUser(String name, String randomId) {
     this.name = "${name}_$randomId";
-    this.password = "${name}_$randomId";
-    this.email = "${name}_$randomId@test.getbraincloud.com";
+    password = "${name}_$randomId";
+    email = "${name}_$randomId@test.getbraincloud.com";
   }
 }
 
@@ -83,10 +83,9 @@ main() {
 
     setUp(() async {
       if (!bcWrapper.brainCloudClient.isAuthenticated()) {
-
         await bcWrapper.authenticateEmailPassword(
             email: userC.email, password: userC.password, forceCreate: true);
-        
+
         await bcWrapper.authenticateUniversal(
             username: userB.name, password: userB.password, forceCreate: true);
       }
@@ -133,7 +132,7 @@ main() {
       expect(response.statusCode, 200);
       // expect(response.body, isMAp);
     });
-    
+
     test("detachEmailIdentity", () async {
       expect(bcWrapper.isInitialized, true);
 
@@ -146,13 +145,14 @@ main() {
 
     test("mergeEmailIdentity", () async {
       expect(bcWrapper.isInitialized, true);
-    
+
       // if there is already a email identity detach it
       ServerResponse checks = await bcWrapper.identityService.getIdentities();
       if (checks.statusCode == 200 && checks.body != null) {
         Map<String, dynamic> body = checks.body!;
         if (body['identities']['Email'] != null) {
-           checks = await bcWrapper.identityService.detachEmailIdentity(body['identities']['Email'], true);           
+          checks = await bcWrapper.identityService
+              .detachEmailIdentity(body['identities']['Email'], true);
         }
       }
 
@@ -162,7 +162,5 @@ main() {
       expect(response.statusCode, 200);
       // expect(response.body, isNull);
     });
-
   });
-
 }

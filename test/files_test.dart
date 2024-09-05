@@ -17,11 +17,10 @@ class TestUser {
 
   TestUser(String name, String randomId) {
     this.name = "${name}_$randomId";
-    this.password = "${name}_$randomId";
-    this.email = "${name}_$randomId@test.getbraincloud.com";
+    password = "${name}_$randomId";
+    email = "${name}_$randomId@test.getbraincloud.com";
   }
 }
-
 
 String generateRandomString(int length) {
   const characters =
@@ -40,9 +39,9 @@ main() {
   String customEntityType = "";
   Map<String, dynamic> testFile = {};
   TestUser userA = TestUser("UserA", generateRandomString(8));
-  final String fileNameLarge = "largeFile.txt";
-  final String cloudPath = "sub";
-  final String fileNameImage = "TestFromMemory.png";
+  const String fileNameLarge = "largeFile.txt";
+  const String cloudPath = "sub";
+  const String fileNameImage = "TestFromMemory.png";
 
   setUpAll(() async {
     // });
@@ -107,7 +106,8 @@ main() {
           bcWrapper.brainCloudClient.registerFileUploadCallback();
 
       ServerResponse response = await bcWrapper.fileService
-          .uploadFileFromMemory(cloudPath, fileNameImage, true, true, imageData);
+          .uploadFileFromMemory(
+              cloudPath, fileNameImage, true, true, imageData);
 
       ServerResponse uploadResponse = await uploadCompleterFuture;
 
@@ -180,7 +180,7 @@ main() {
           bcWrapper.fileService.getUploadBytesTransferred(uploadId) ?? 0;
       int maxTries = 10;
       while (bytesTransferred == 0 && maxTries > 0) {
-        await Future.delayed(Duration(milliseconds: 50));
+        await Future.delayed(const Duration(milliseconds: 50));
         maxTries--;
         bytesTransferred =
             bcWrapper.fileService.getUploadBytesTransferred(uploadId) ?? 0;
@@ -200,10 +200,9 @@ main() {
         if (error.body != null) {
           expect(error.body, isMap);
           Map<String, dynamic> body = error.body!;
-          print(body);
+          debugPrint(body.toString());
         }
       }
-      ;
     });
 
     test("getUploadProgress", () async {
@@ -248,11 +247,14 @@ main() {
             var total =
                 bcWrapper.fileService.getUploadTotalBytesToTransfer(uploadId);
             expect(progress, isA<double>());
-            expect(progress, isNot(-1),reason: "getUploadProgress should not be -1 yet");
+            expect(progress, isNot(-1),
+                reason: "getUploadProgress should not be -1 yet");
             // expect(transferred, isA<double>());
-            expect(transferred, isNot(-1),reason: "getUploadBytesTransferred should not be -1 yet");
+            expect(transferred, isNot(-1),
+                reason: "getUploadBytesTransferred should not be -1 yet");
             // expect(total, isA<double>());
-            expect(total, isNot(-1),reason: "getUploadTotalBytesToTransfer should not be -1 yet");
+            expect(total, isNot(-1),
+                reason: "getUploadTotalBytesToTransfer should not be -1 yet");
             // print('progress: $progress  => $transferred of $total');
           },
         );
@@ -264,9 +266,11 @@ main() {
           bcWrapper.fileService.getUploadBytesTransferred(uploadId);
       var total = bcWrapper.fileService.getUploadTotalBytesToTransfer(uploadId);
       // print('final progress: $progress  => $transferred of $total');
-      expect(progress, -1,reason: "getUploadProgress should now be -1");
-      expect(transferred, -1,reason: "getUploadBytesTransferred should now be -1");
-      expect(total, -1,reason: "getUploadTotalBytesToTransfer should now be -1");
+      expect(progress, -1, reason: "getUploadProgress should now be -1");
+      expect(transferred, -1,
+          reason: "getUploadBytesTransferred should now be -1");
+      expect(total, -1,
+          reason: "getUploadTotalBytesToTransfer should now be -1");
 
       expect(uploadResponse.statusCode, 200);
       if (uploadResponse.body != null) {
@@ -290,13 +294,12 @@ main() {
       if (response.body != null) {
         expect(response.body, isMap);
         Map<String, dynamic> body = response.body!;
-        expect(body['fileList'], isList);         
+        expect(body['fileList'], isList);
       }
-
     });
     test("getCDNUrl", () async {
       expect(bcWrapper.isInitialized, true);
-      
+
       ServerResponse response =
           await bcWrapper.fileService.getCDNUrl(cloudPath, fileNameLarge);
       expect(response.statusCode, 200);
@@ -306,7 +309,6 @@ main() {
         expect(body['appServerUrl'], isA<String>());
         expect(body['cdnUrl'], isA<String>());
       }
-
     });
 
     test("deleteUserFile", () async {
@@ -318,16 +320,14 @@ main() {
       if (response.body != null) {
         expect(response.body, isMap);
         Map<String, dynamic> body = response.body!;
-        print(body);
+        debugPrint(body.toString());
         expect(body['fileDetails'], isMap);
         expect(body['fileDetails']['cloudFilename'], fileNameLarge);
       }
-
-
     });
     test("deleteUserFiles", () async {
       expect(bcWrapper.isInitialized, true);
-            ServerResponse response =
+      ServerResponse response =
           await bcWrapper.fileService.deleteUserFiles(cloudPath, true);
       expect(response.statusCode, 200);
       if (response.body != null) {
@@ -335,7 +335,6 @@ main() {
         Map<String, dynamic> body = response.body!;
         expect(body['fileList'], isList);
       }
-
     });
   });
   group("GlobalFile Tests", () {
