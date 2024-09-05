@@ -121,7 +121,7 @@ class FileUploader {
           await _request!
               .flush(); // This force the sending of current data and makes the progress report more useful data.
           bytesSent += (end - i);
-          this.progress = bytesSent / data.length;
+          progress = bytesSent / data.length;
         }
 
         // Write the end of the multipart form data
@@ -255,7 +255,9 @@ class FileUploader {
   }
 
   String createErrorString(int statusCode, int reasonCode, String message) {
-    return JsonErrorMessage(statusCode, reasonCode, message).toJson().toString();
+    return JsonErrorMessage(statusCode, reasonCode, message)
+        .toJson()
+        .toString();
   }
 
   void cleanupRequest() {
