@@ -324,15 +324,15 @@ class BrainCloudClient {
 
   BrainCloudMail get mailService => _mailService;
 
-  BrainCloudRTT? get rttService => _rttService;
+  BrainCloudRTT get rttService => _rttService;
 
-  BrainCloudLobby? get lobbyService => _lobbyService;
+  BrainCloudLobby get lobbyService => _lobbyService;
 
-  BrainCloudChat? get chatService => _chatService;
+  BrainCloudChat get chatService => _chatService;
 
   BrainCloudMessaging get messagingService => _messagingService;
 
-  BrainCloudRelay? get relayService => _rsService;
+  BrainCloudRelay get relayService => _rsService;
 
   BrainCloudBlockchain get blockchain => _blockchain;
 
