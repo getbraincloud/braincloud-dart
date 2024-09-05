@@ -138,8 +138,8 @@ class BrainCloudWrapper {
 
   void onDestroy() {
     //StopAllCoroutines();
-    rTTService?.disableRTT();
-    relayService?.disconnect();
+    rTTService.disableRTT();
+    relayService.disconnect();
     _client.update();
   }
 
@@ -225,15 +225,15 @@ class BrainCloudWrapper {
 
   BrainCloudMail get mailService => _client.mailService;
 
-  BrainCloudRTT? get rTTService => _client.rttService;
+  BrainCloudRTT get rTTService => _client.rttService;
 
-  BrainCloudLobby? get lobbyService => _client.lobbyService;
+  BrainCloudLobby get lobbyService => _client.lobbyService;
 
-  BrainCloudChat? get chatService => _client.chatService;
+  BrainCloudChat get chatService => _client.chatService;
 
   BrainCloudMessaging get messagingService => _client.messagingService;
 
-  BrainCloudRelay? get relayService => _client.relayService;
+  BrainCloudRelay get relayService => _client.relayService;
 
   BrainCloudGroupFile get groupFileService => _client.groupFileService;
 
