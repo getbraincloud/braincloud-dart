@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 
 class BrainCloudGroupFile {
   final BrainCloudClient _clientRef;
@@ -16,16 +19,15 @@ class BrainCloudGroupFile {
   /// <param name="groupId">ID of the group.</param>
   /// <param name="folderPath">File located cloud path/folder</param>
   /// <param name="fileName">File cloud name</param>
-  /// <param name="success">The success callback</param>
-  /// <param name="failure">The failure callback</param>
-  void checkFilenameExists(String groupId, String folderPath, String fileName,
-      SuccessCallback? success, FailureCallback? failure) {
+
+  Future<ServerResponse> checkFilenameExists(String groupId, String folderPath,
+      String fileName, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.folderPath.value] = folderPath;
     data[OperationParam.fileName.value] = fileName;
 
-    _sendRequest(ServiceOperation.checkFilenameExists, success, failure, data);
+    return _sendRequest(ServiceOperation.checkFilenameExists, data);
   }
 
   /// <summary>
@@ -33,16 +35,17 @@ class BrainCloudGroupFile {
   /// </summary>
   /// <param name="groupId">ID of the group.</param>
   /// <param name="fullPathFilename">File cloud name in full path</param>
-  /// <param name="success">The success callback</param>
-  /// <param name="failure">The failure callback</param>
-  void checkFullpathFilenameExists(String groupId, String fullPathFilename,
-      SuccessCallback? success, FailureCallback? failure) {
+
+  Future<ServerResponse> checkFullpathFilenameExists(
+      String groupId,
+      String fullPathFilename,
+      SuccessCallback? success,
+      FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.fullPathFilename.value] = fullPathFilename;
 
-    _sendRequest(
-        ServiceOperation.checkFullpathFilenameExists, success, failure, data);
+    return _sendRequest(ServiceOperation.checkFullpathFilenameExists, data);
   }
 
   /// <summary>
@@ -55,9 +58,8 @@ class BrainCloudGroupFile {
   /// <param name="treeVersion">The target version of the folder tree.</param>
   /// <param name="newFilename">The optional new file name.</param>
   /// <param name="overwriteIfPresent">Whether to allow overwrite of an existing file if present.</param>
-  /// <param name="success">The success callback</param>
-  /// <param name="failure">The failure callback</param>
-  void copyFile(
+
+  Future<ServerResponse> copyFile(
       String groupId,
       String fileId,
       int version,
@@ -76,7 +78,7 @@ class BrainCloudGroupFile {
     data[OperationParam.newFilename.value] = newFilename;
     data[OperationParam.overwriteIfPresent.value] = overwriteIfPresent;
 
-    _sendRequest(ServiceOperation.copyFile, success, failure, data);
+    return _sendRequest(ServiceOperation.copyFile, data);
   }
 
   /// <summary>
@@ -86,17 +88,16 @@ class BrainCloudGroupFile {
   /// <param name="fileId">The id of the file.</param>
   /// <param name="version">The target version of the file.</param>
   /// <param name="filename">The file name for verification purposes.</param>
-  /// <param name="success">The success callback</param>
-  /// <param name="failure">The failure callback</param>
-  void deleteFile(String groupId, String fileId, int version, String filename,
-      SuccessCallback? success, FailureCallback? failure) {
+
+  Future<ServerResponse> deleteFile(String groupId, String fileId, int version,
+      String filename, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.fileId.value] = fileId;
     data[OperationParam.version.value] = version;
     data[OperationParam.fileName.value] = filename;
 
-    _sendRequest(ServiceOperation.deleteFile, success, failure, data);
+    return _sendRequest(ServiceOperation.deleteFile, data);
   }
 
   /// <summary>
@@ -104,15 +105,14 @@ class BrainCloudGroupFile {
   /// </summary>
   /// <param name="groupId">The id of the group.</param>
   /// <param name="fileId">The id of the file.</param>
-  /// <param name="success">The success callback</param>
-  /// <param name="failure">The failure callback</param>
-  void getCDNUrl(String groupId, String fileId, SuccessCallback? success,
-      FailureCallback? failure) {
+
+  Future<ServerResponse> getCDNUrl(String groupId, String fileId,
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.fileId.value] = fileId;
 
-    _sendRequest(ServiceOperation.getCdnUrl, success, failure, data);
+    return _sendRequest(ServiceOperation.getCdnUrl, data);
   }
 
   /// <summary>
@@ -120,15 +120,13 @@ class BrainCloudGroupFile {
   /// </summary>
   /// <param name="groupId">ID of the group.</param>
   /// <param name="fileId">The id of the file.</param>
-  /// <param name="success">The success callback</param>
-  /// <param name="failure">The failure callback</param>
-  void getFileInfo(String groupId, String fileId, SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> getFileInfo(String groupId, String fileId,
+      SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.fileId.value] = fileId;
 
-    _sendRequest(ServiceOperation.getFileInfo, success, failure, data);
+    return _sendRequest(ServiceOperation.getFileInfo, data);
   }
 
   /// <summary>
@@ -137,16 +135,14 @@ class BrainCloudGroupFile {
   /// <param name="groupId">The id of the group.</param>
   /// <param name="folderPath">The folder path.</param>
   /// <param name="filename">The file name.</param>
-  /// <param name="success">The success callback</param>
-  /// <param name="failure">The failure callback</param>
-  void getFileInfoSimple(String groupId, String folderPath, String filename,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getFileInfoSimple(String groupId, String folderPath,
+      String filename, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.folderPath.value] = folderPath;
     data[OperationParam.fileName.value] = filename;
 
-    _sendRequest(ServiceOperation.getFileInfoSimple, success, failure, data);
+    return _sendRequest(ServiceOperation.getFileInfoSimple, data);
   }
 
   /// <summary>
@@ -155,16 +151,14 @@ class BrainCloudGroupFile {
   /// <param name="groupId">The id of the group.</param>
   /// <param name="folderPath">The folder path.</param>
   /// <param name="recurse">Whether to recurse beyond the starting folder.</param>
-  /// <param name="success">The success callback</param>
-  /// <param name="failure">The failure callback</param>
-  void getFileList(String groupId, String folderPath, bool recurse,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getFileList(String groupId, String folderPath,
+      bool recurse, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.folderPath.value] = folderPath;
     data[OperationParam.recurse.value] = recurse;
 
-    _sendRequest(ServiceOperation.getFileList, success, failure, data);
+    return _sendRequest(ServiceOperation.getFileList, data);
   }
 
   /// <summary>
@@ -177,9 +171,7 @@ class BrainCloudGroupFile {
   /// <param name="treeVersion">The target version of the folder tree.</param>
   /// <param name="newFilename">The optional new file name.</param>
   /// <param name="overwriteIfPresent">Whether to allow overwrite of an existing file if present.</param>
-  /// <param name="success">The success callback</param>
-  /// <param name="failure">The failure callback</param>
-  void moveFile(
+  Future<ServerResponse> moveFile(
       String groupId,
       String fileId,
       int version,
@@ -198,7 +190,7 @@ class BrainCloudGroupFile {
     data[OperationParam.newFilename.value] = newFilename;
     data[OperationParam.overwriteIfPresent.value] = overwriteIfPresent;
 
-    _sendRequest(ServiceOperation.moveFile, success, failure, data);
+    return _sendRequest(ServiceOperation.moveFile, data);
   }
 
   /// <summary>
@@ -211,9 +203,7 @@ class BrainCloudGroupFile {
   /// <param name="groupFilename">The group file name.</param>
   /// <param name="groupFileAcl">The acl of the new group file.</param>
   /// <param name="overwriteIfPresent">Whether to allow overwrite of an existing file if present.</param>
-  /// <param name="success">The success callback</param>
-  /// <param name="failure">The failure callback</param>
-  void moveUserToGroupFile(
+  Future<ServerResponse> moveUserToGroupFile(
       String userCloudPath,
       String userCloudFilename,
       String groupId,
@@ -232,7 +222,7 @@ class BrainCloudGroupFile {
     data[OperationParam.groupFileACL.value] = groupFileAcl;
     data[OperationParam.overwriteIfPresent.value] = overwriteIfPresent;
 
-    _sendRequest(ServiceOperation.moveUserToGroupFile, success, failure, data);
+    return _sendRequest(ServiceOperation.moveUserToGroupFile, data);
   }
 
   /// <summary>
@@ -243,16 +233,12 @@ class BrainCloudGroupFile {
   /// <param name="version">The target version of the file. As an option, you can use -1 for the latest version of the file</param>
   /// <param name="newFilename">The optional new file name.</param>
   /// <param name="newACL"> 	The optional new acl.</param>
-  /// <param name="success">The success callback</param>
-  /// <param name="failure">The failure callback</param>
-  void updateFileInfo(
-      String groupId,
-      String fileId,
-      int version,
-      String newFilename,
-      Map<String, dynamic> newACL,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> updateFileInfo(
+      {required String groupId,
+      required String fileId,
+      required int version,
+      required String newFilename,
+      required Map<String, dynamic> newACL}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.fileId.value] = fileId;
@@ -260,15 +246,25 @@ class BrainCloudGroupFile {
     data[OperationParam.newFilename.value] = newFilename;
     data[OperationParam.newACL.value] = newACL;
 
-    _sendRequest(ServiceOperation.updateFileInfo, success, failure, data);
+    return _sendRequest(ServiceOperation.updateFileInfo, data);
   }
 
-  void _sendRequest(ServiceOperation operation, SuccessCallback? success,
-      FailureCallback? failure, Map<String, dynamic> data) {
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+  Future<ServerResponse> _sendRequest(
+      ServiceOperation operation, Map<String, dynamic> data) {
+    Completer<ServerResponse> completer = Completer();
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc =
         ServerCall(ServiceName.groupFile, operation, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
   }
 }
