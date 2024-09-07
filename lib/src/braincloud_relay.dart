@@ -41,20 +41,20 @@ class BrainCloudRelay {
   /// Returns the profileId associated with a netId.
   /// </summary>
   String? getProfileIdForNetId(int netId) {
-    return _commsLayer?.GetProfileIdForNetId(netId);
+    return _commsLayer?.getProfileIdForNetId(netId);
   }
 
   /// <summary>
   /// Returns the netId associated with a profileId.
   /// </summary>
   int getNetIdForProfileId(String profileId) {
-    return _commsLayer?.GetNetIdForProfileId(profileId) ?? 0;
+    return _commsLayer?.getNetIdForProfileId(profileId) ?? 0;
   }
 
   /// <summary>
   /// et the lobby's owner RTT connection Id.
   /// </summary>
-  String get ownerCxId => _commsLayer?.GetOwnerCxId() ?? "";
+  String get ownerCxId => _commsLayer?.getOwnerCxId() ?? "";
 
   /// <summary>
   /// et the lobby's owner profile Id.
@@ -67,14 +67,14 @@ class BrainCloudRelay {
   /// Returns the RTT connection Id associated with a netId.
   /// </summary>
   String getCxIdForNetId(int netId) {
-    return _commsLayer?.GetCxIdForNetId(netId) ?? "";
+    return _commsLayer?.getCxIdForNetId(netId) ?? "";
   }
 
   /// <summary>
   /// Returns the netId associated with an RTT connection Id.
   /// </summary>
   int getNetIdForCxId(String cxId) {
-    return _commsLayer?.GetNetIdForCxId(cxId) ?? 0;
+    return _commsLayer?.getNetIdForCxId(cxId) ?? 0;
   }
 
   /// <summary>
@@ -105,7 +105,7 @@ class BrainCloudRelay {
   /// </summary>
   /// <param name="json">payload data sent in JSON format. It will be relayed to other connnected players.</param>
   void endMatch(Map<String, dynamic> json) {
-    _commsLayer?.EndMatch(json);
+    _commsLayer?.endMatch(json);
   }
 
   /// <summary>
