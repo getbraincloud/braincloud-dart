@@ -43,18 +43,18 @@ class RelayComms {
   int _pingInterval = 1000; // one second
   DateTime _lastRecvTime = DateTime.fromMicrosecondsSinceEpoch(1);
 
-  static const int _MAX_PACKET_ID_HISTORY =
-      60 * 10; // So we last 10 seconds at 60 fps
-  static const int _MAX_RELIABLE_RESEND_INTERVAL = 500;
+  // static const int _max_packet_id_history =
+  //     60 * 10; // So we last 10 seconds at 60 fps
+  // static const int _MAX_RELIABLE_RESEND_INTERVAL = 500;
   static const int _MAX_PACKET_ID = 0xFFF;
-  static const int _MAX_CHANNELS = 4;
-  static const double _PACKET_LOWER_THRESHOLD = _MAX_PACKET_ID * 25 / 100;
-  static const double _PACKET_HIGHER_THRESHOLD = _MAX_PACKET_ID * 75 / 100;
+  // static const int _MAX_CHANNELS = 4;
+  // static const double _PACKET_LOWER_THRESHOLD = _MAX_PACKET_ID * 25 / 100;
+  // static const double _PACKET_HIGHER_THRESHOLD = _MAX_PACKET_ID * 75 / 100;
 
-  String _ownerCxId = "";
-  Map<String, int> _cxIdToNetId = {};
+  // String _ownerCxId = "";
+  // Map<String, int> _cxIdToNetId = {};
   Map<int, String> _netIdToCxId = {};
-  int _netId = INVALID_NET_ID;
+  // int _netId = INVALID_NET_ID;
 
   // start
   // different connection types
@@ -96,7 +96,7 @@ class RelayComms {
   static const int RELIABLE_BIT = 0x8000;
   static const int ORDERED_BIT = 0x4000;
 
-  final int _sentPing = DateTime.now().millisecond;
+  // final int _sentPing = DateTime.now().millisecond;
   Uint8List DISCONNECT_ARR = Uint8List(CL2RS_DISCONNECT);
   Uint8List CONNECT_ARR = Uint8List(CL2RS_CONNECT);
   Uint8List ENDMATCH_ARR = Uint8List(CL2RS_ENDMATCH);
@@ -104,7 +104,6 @@ class RelayComms {
   // success callbacks
   SuccessCallback? _connectedSuccessCallback;
   FailureCallback? _connectionFailureCallback;
-  dynamic _connectedObj;
 
   RelayCallback? _registeredRelayCallback;
   RelaySystemCallback? _registeredSystemCallback;
@@ -148,14 +147,14 @@ class RelayComms {
       if (_connectionType == RelayConnectionType.udp) {
         _reliables.values.forEach((value) {
           _UDPPacket packet = value;
-          if ((packet.TimeSinceFirstSend - nowMS).Milliseconds > 10000) {
+          if ((packet.timeSinceFirstSend - nowMS).Milliseconds > 10000) {
             disconnect();
             queueErrorEvent("Relay disconnected, too many packet lost");
             //break;
           }
-          if ((packet.LastTimeSent - nowMS).Milliseconds >
-              packet.TimeInterval) {
-            packet.UpdateTimeIntervalSent();
+          if ((packet.lastTimeSent - nowMS).Milliseconds >
+              packet.timeInterval) {
+            packet.updateTimeIntervalSent();
             //TODO: send(packet.RawData);
           }
         }); //for (var kv in _reliables)
@@ -183,15 +182,15 @@ class RelayComms {
       for (int j = 0; j < eventsCopy.length; ++j) {
         _Event evt = eventsCopy[j];
         switch (evt.type) {
-          case _EventType.SocketData:
+          case _EventType.socketData:
             _lastRecvTime = DateTime.now();
             //TODO: onRecv(evt.data);
             break;
-          case _EventType.SocketError:
+          case _EventType.socketError:
             disconnect();
             queueErrorEvent(evt.message);
             break;
-          case _EventType.SocketConnected:
+          case _EventType.socketConnected:
             {
               _lastNowMS = DateTime.now();
               _lastRecvTime = DateTime.now();
@@ -203,12 +202,12 @@ class RelayComms {
               }
               break;
             }
-          case _EventType.ConnectSuccess:
+          case _EventType.connectSuccess:
             if (_connectedSuccessCallback != null) {
               _connectedSuccessCallback!({"message": evt.message});
             }
             break;
-          case _EventType.ConnectFailure:
+          case _EventType.connectFailure:
             //When End Match is requested, then the server will close the connection
             if (_connectionFailureCallback != null && !_endMatchRequested) {
               eventsCopy.clear();
@@ -217,18 +216,17 @@ class RelayComms {
               }
 
               var callback = _connectionFailureCallback;
-              var callbackObj = _connectedObj;
               _connectionFailureCallback = null;
-              _connectedObj = null;
+
               //TODO: callback(200, ReasonCodes.RS_ENDMATCH_REQUESTED, buildRSRequestError(evt.message), callbackObj);
             }
             break;
-          case _EventType.System:
+          case _EventType.system:
             if (_registeredSystemCallback != null) {
               _registeredSystemCallback!(evt.message);
             }
             break;
-          case _EventType.Relay:
+          case _EventType.relay:
             if (_registeredRelayCallback != null) {
               // Callback data without headers
               Uint8List data = Uint8List(evt.data.length - 11);
@@ -259,27 +257,27 @@ class RelayComms {
   Uint8List buildConnectionRequest() {
     //TODO:
     // Dictionary<string, object> json = new Dictionary<string, object>();
-    // json["cxId"] = m_clientRef.RTTConnectionID;
+    // json["cxId"] = _clientRef.RTTConnectionID;
     // json["lobbyId"] = m_connectOptions.lobbyId;
     // json["passcode"] = m_connectOptions.passcode;
-    // json["version"] = m_clientRef.BrainCloudClientVersion;
+    // json["version"] = _clientRef.BrainCloudClientVersion;
 
-    // Uint8List array = concatenateByteArrays(CONNECT_ARR, Encoding.ASCII.GetBytes(m_clientRef.SerializeJson(json)));
+    // Uint8List array = concatenateByteArrays(CONNECT_ARR, Encoding.ASCII.GetBytes(_clientRef.SerializeJson(json)));
     Uint8List array = Uint8List(0);
     return array;
   }
 
-  Uint8List buildEndMatchRequest(Map<String, dynamic> in_jsonPayload) {
+  Uint8List buildEndMatchRequest(Map<String, dynamic> inJsonpayload) {
     Uint8List array = Uint8List(
-        0); //TODO: concatenateByteArrays(ENDMATCH_ARR, Encoding.ASCII.GetBytes(m_clientRef.SerializeJson(in_jsonPayload)));
+        0); //TODO: concatenateByteArrays(ENDMATCH_ARR, Encoding.ASCII.GetBytes(_clientRef.SerializeJson(in_jsonPayload)));
     return array;
   }
 
-  String buildRSRequestError(String in_statusMessage) {
+  String buildRSRequestError(String inStatusmessage) {
     Map<String, dynamic> json = {};
     json["status"] = 403;
     json["reason_code"] = ReasonCodes.rsClientError;
-    json["status_message"] = in_statusMessage;
+    json["status_message"] = inStatusmessage;
     json["severity"] = "ERROR";
 
     return _clientRef.serializeJson(json);
@@ -364,7 +362,7 @@ class RelayComms {
     Uint8List header = _concatenateByteArrays(controlByteHeader, ackIdData);
     Uint8List packetData = _concatenateByteArrays(header, inData);
 
-    //send(packetData); TODO: call send
+    _send(packetData); //TODO: call send
 
     // UDP, store reliable in send map
     if (inReliable && _connectionType == RelayConnectionType.udp) {
@@ -374,6 +372,167 @@ class RelayComms {
       int ackId = (ackIdData as ByteData).getUint16(0, Endian.little);
       _reliables[ackId] = packet;
     }
+  }
+
+  _send(Uint8List data) {
+    bool bMessageSent = false;
+    // early return, based on type
+    switch (_connectionType) {
+      case RelayConnectionType.websocket:
+        {
+          if (_webSocket == null) {
+            return bMessageSent;
+          }
+        }
+        break;
+      // case RelayConnectionType.tcp:
+      //     {
+      //         if (_tcpClient == null)
+      //            { return bMessageSent;}
+      //     }
+      //     break;
+      // case RelayConnectionType.udp:
+      //     {
+      //         if (_udpClient == null)
+      //             {return bMessageSent;}
+      //     }
+      //     break;
+      default:
+        break;
+    }
+    // actually do the send
+    try {
+      Uint8List newData = appendSizeBytes(data);
+      switch (_connectionType) {
+        case RelayConnectionType.websocket:
+          {
+            _webSocket?.sendAsync(newData);
+            bMessageSent = true;
+          }
+          break;
+        // case RelayConnectionType.TCP:
+        //     {
+        //         tcpWrite(data);
+        //         bMessageSent = true;
+        //     }
+        //     break;
+        // case RelayConnectionType.UDP:
+        //     {
+        //         _udpClient.SendAsync(data, data.Length);
+        //         bMessageSent = true;
+        //     }
+        //     break;
+        default:
+          break;
+      }
+    } catch (socketException) {
+      if (_clientRef.loggingEnabled) {
+        _clientRef.log("send exception: $socketException");
+      }
+      queueSocketErrorEvent(socketException.toString());
+    }
+
+    return bMessageSent;
+  }
+
+  void queueSocketErrorEvent(String message) {
+    // var evt = new Event();
+    // evt.type = EventType.SocketError;
+    // evt.message = message;
+    // lock (m_events)
+    // {
+    //     m_events.Add(evt);
+    // }
+  }
+
+  Uint8List appendSizeBytes(Uint8List data) {
+    return Uint8List(data.length);
+  }
+
+  void startReceivingRSConnectionAsync() {
+    bool sslEnabled = _connectOptions.ssl;
+    String host = _connectOptions.host;
+    int port = _connectOptions.port;
+    switch (_connectionType) {
+      case RelayConnectionType.websocket:
+        {
+          connectWebSocket(host, port, sslEnabled);
+        }
+        break;
+      // case RelayConnectionType.tcp:
+      //     {
+      //         connectTCPAsync(host, port);
+      //     }
+      //     break;
+      // case RelayConnectionType.udp:
+      //     {
+      //         connectUDPAsync(host, port);
+      //     }
+      //     break;
+      default:
+        break;
+    }
+  }
+
+  void connectWebSocket(String host, int port, bool sslEnabled) {
+    String sslString = sslEnabled ? "wss://" : "ws://";
+    String url = "$sslString$host:$port";
+    _webSocket = BrainCloudWebSocket(url,
+        onClose: _webSocketOnClose,
+        onOpen: websocketOnOpen,
+        onMessage: webSocketOnMessage,
+        onError: websocketOnError);
+  }
+
+  void _webSocketOnClose({required int code, required String reason}) {
+    if (_clientRef.loggingEnabled) {
+      if (_endMatchRequested) {
+        _clientRef.log("Relay: Connection closed by end match");
+      } else {
+        _clientRef.log("Relay: Connection closed: $reason");
+      }
+    }
+    queueErrorEvent(reason);
+  }
+
+  void websocketOnOpen() {
+    if (_clientRef.loggingEnabled) {
+      _clientRef.log("Relay: Connection established.");
+    }
+    // initial connect call, sets connection requests if not connected
+    queueSocketConnectedEvent();
+  }
+
+  void webSocketOnMessage({required Uint8List data}) {
+    queueSocketDataEvent(data, data.length);
+  }
+
+  void websocketOnError({required String message}) {
+    if (_clientRef.loggingEnabled) {
+      _clientRef.log("Relay Error: $message");
+    }
+    queueErrorEvent(message);
+  }
+
+  void queueSocketDataEvent(Uint8List data, int length) {
+    // var evt = _Event(_EventType.SocketData, in_data, );
+
+    // evt.data = new byte[length];
+    // Buffer.BlockCopy(in_data, 0, evt.data, 0, length);
+
+    // lock (m_events)
+    // {
+    //     m_events.Add(evt);
+    // }
+  }
+
+  void queueSocketConnectedEvent() {
+    // var evt = new Event();
+    // evt.type = EventType.SocketConnected;
+    // lock (m_events)
+    // {
+    //     m_events.Add(evt);
+    // }
   }
 
   void setPingInterval(int inInterval) {}
@@ -386,23 +545,36 @@ class RelayComms {
 
   void registerRelayCallback(RelayCallback inCallback) {}
 
-  void EndMatch(Map<String, dynamic> json) {}
+  void endMatch(Map<String, dynamic> json) {}
 
   void connect(
-      RelayConnectionType inConnectiontype,
+      RelayConnectionType inConnectionType,
       RelayConnectOptions inOptions,
       SuccessCallback? inSuccess,
-      FailureCallback? inFailure) {}
+      FailureCallback? inFailure) {
+    _ping = 999;
+    if (!isConnected) {
+      _endMatchRequested = false;
+      // the callback
+      _connectOptions = inOptions;
+      _connectedSuccessCallback = inSuccess;
+      _connectionFailureCallback = inFailure;
+      // connection type
+      _connectionType = inConnectionType;
+      // now connect
+      startReceivingRSConnectionAsync();
+    }
+  }
 
-  int GetNetIdForCxId(String cxId) {
+  int getNetIdForCxId(String cxId) {
     return -1;
   }
 
-  GetCxIdForNetId(int netId) {}
+  getCxIdForNetId(int netId) {}
 
-  GetOwnerCxId() {}
+  getOwnerCxId() {}
 
-  int GetNetIdForProfileId(String profileId) {
+  int getNetIdForProfileId(String profileId) {
     // _cxIdToNetId.forEach(key, value)
     //           {
     //               List<String> splits = key.Split(':');
@@ -416,7 +588,7 @@ class RelayComms {
     return INVALID_NET_ID;
   }
 
-  String? GetProfileIdForNetId(int netId) {
+  String? getProfileIdForNetId(int netId) {
     if (_netIdToCxId.containsKey(netId)) {
       String? cxId = _netIdToCxId[netId];
       List<String>? splits = cxId?.split(':');
@@ -459,13 +631,13 @@ class RelayComms {
 enum RelayConnectionType { invalid, websocket, tcp, udp, max }
 
 enum _EventType {
-  SocketError,
-  SocketConnected,
-  SocketData,
-  ConnectSuccess,
-  ConnectFailure,
-  Relay,
-  System
+  socketError,
+  socketConnected,
+  socketData,
+  connectSuccess,
+  connectFailure,
+  relay,
+  system
 }
 
 class _Event {
@@ -478,43 +650,42 @@ class _Event {
 }
 
 class _UDPPacket {
-  _UDPPacket(
-      List<int> inData, int inChannel, int in_packetId, ByteData in_netId) {
-    _LastTimeSent = DateTime.now();
-    _TimeSinceFirstSend = DateTime.now();
-    _TimeInterval = inChannel <= 1
+  _UDPPacket(List<int> inData, int inChannel, int packetId, ByteData netId) {
+    _lastTimeSent = DateTime.now();
+    _timeSinceFirstSend = DateTime.now();
+    _timeInterval = inChannel <= 1
         ? 50
         : inChannel == 2
             ? 150
             : 250; // ms
-    _RawData = inData;
-    _Id = in_packetId;
-    _NetId = in_netId;
+    _rawData = inData;
+    _id = packetId;
+    _netId = netId;
   }
 
-  void UpdateTimeIntervalSent() {
-    _LastTimeSent = DateTime.now();
-    _TimeInterval = min((TimeInterval * 1.25), MAX_RELIABLE_RESEND_INTERVAL);
+  void updateTimeIntervalSent() {
+    _lastTimeSent = DateTime.now();
+    _timeInterval = min((timeInterval * 1.25), maxReliableResendInterval);
   }
 
-  DateTime _TimeSinceFirstSend = DateTime.now();
-  DateTime _LastTimeSent = DateTime.now();
-  late int _TimeInterval;
-  late List<int> _RawData;
-  late int _Id;
-  ByteData? _NetId;
+  DateTime _timeSinceFirstSend = DateTime.now();
+  DateTime _lastTimeSent = DateTime.now();
+  late int _timeInterval;
+  late List<int> _rawData;
+  late int _id;
+  ByteData? _netId;
 
-  get TimeSinceFirstSend => _TimeSinceFirstSend;
-  get LastTimeSent => _LastTimeSent;
-  get TimeInterval => _TimeInterval;
-  get RawData => _RawData;
-  get Id => _Id;
-  get NetId => _NetId;
+  get timeSinceFirstSend => _timeSinceFirstSend;
+  get lastTimeSent => _lastTimeSent;
+  get timeInterval => _timeInterval;
+  get rawData => _rawData;
+  get id => _id;
+  get netId => _netId;
 
-  final int MAX_PACKET_ID_HISTORY = 60 * 10; // So we last 10 seconds at 60 fps
-  final int MAX_RELIABLE_RESEND_INTERVAL = 500;
-  static int MAX_PACKET_ID = 0xFFF;
-  final int MAX_CHANNELS = 4;
-  final int PACKET_LOWER_THRESHOLD = MAX_PACKET_ID * 25 / 100 as int;
-  final int PACKET_HIGHER_THRESHOLD = MAX_PACKET_ID * 75 / 100 as int;
+  final int maxPacketIdHistory = 60 * 10; // So we last 10 seconds at 60 fps
+  final int maxReliableResendInterval = 500;
+  static int maxPacketId = 0xFFF;
+  final int maxChannels = 4;
+  final int packetLowerThreshold = maxPacketId * 25 / 100 as int;
+  final int packetHigherThreshold = maxPacketId * 75 / 100 as int;
 }

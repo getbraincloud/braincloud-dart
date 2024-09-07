@@ -1,13 +1,16 @@
 import 'dart:async';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
+
 import 'package:braincloud_dart/src/internal/operation_param.dart';
+import 'package:braincloud_dart/src/internal/request_state.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/reason_codes.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:braincloud_dart/src/server_response.dart';
+
 import 'package:mutex/mutex.dart';
 
 class BrainCloudLobby {
@@ -640,109 +643,56 @@ class BrainCloudLobby {
   }
 
   void _pingHost(RegionTarget inRegionTarget) {
-    // if (inRegionTarget.isHttpType())
-    // {
-    //     HandleHTTPResponse(inRegionTarget.region, inRegionTarget.target);
-    // }
-    // else
-    // {
-    //     _handlePingReponse(inRegionTarget.region, inRegionTarget.target);
-    // }
-// #else
-//             if (_clientRef.Wrapper != null)
-//             {
-//                 _clientRef.Wrapper.StartCoroutine(in_regionTarget.IsHttpType ? HandleHTTPResponse(in_regionTarget.region, in_regionTarget.target)
-//                                                                               : HandlePingReponse(in_regionTarget.region, in_regionTarget.target));
-//             }
-// #endif
+    if (inRegionTarget.isHttpType()) {
+      _handleHTTPResponse(inRegionTarget.region, inRegionTarget.target);
+    } else {
+      _handlePingReponse(inRegionTarget.region, inRegionTarget.target);
+    }
   }
 
-// #if DOT_NET || GODOT
-//         private void HandleHTTPResponse(String in_region, String in_target)
-//         {
-//             if (!in_target.StartsWith("http"))
-//             {
-//                 in_target = (UseHttps ? "https://" : "http://") + in_target;
-//             }
+  void _handlePingReponse(String inRegion, String inTarget) {
+    // Ping pinger = new Ping();
+    // try
+    // {
+    //     pinger.PingCompleted += (o, response) =>
+    //     {
+    //         if (response.Error == null && response.Reply.Status == IPStatus.Success)
+    //         {
+    //             handlePingTimeResponse(response.Reply.RoundtripTime, in_region);
+    //         }
+    //         else
+    //         {
+    //             _pingNextItemToProcess();
+    //         }
+    //     };
 
-//             DateTime RoundtripTime = DateTime.UtcNow;
+    //     pinger.SendPingAsync(in_target, 10000);
+    // }
+    // catch (Exception) { }
+    // finally
+    // {
+    //     pinger?.Dispose();
+    // }
+  }
 
-//             HttpClient client = new HttpClient();
-//             client.Timeout = new TimeSpan(100000000); // 10 seconds
+  void _handleHTTPResponse(String region, String target) async {
+    if (!target.startsWith("http")) {
+      target = (useHttps ? "https://" : "http://") + target;
+    }
 
-//             client.GetAsync(in_target).ContinueWith((Task<HttpResponseMessage> task) =>
-//             {
-//                 if (task.IsCompleted && task.Result is HttpResponseMessage response && response.IsSuccessStatusCode)
-//                 {
-//                     handlePingTimeResponse((long)(DateTime.UtcNow - RoundtripTime).TotalMilliseconds, in_region);
-//                 }
-//                 else
-//                 {
-//                     _pingNextItemToProcess();
-//                 }
+    DateTime roundtripTime = DateTime.now().toUtc();
+    WebRequest request = WebRequest(region, Uri.parse(target));
 
-//                 client.Dispose();
-//             });
-//         }
+    await request.send();
 
-  //void _handlePingReponse(String inRegion, String inTarget) {
-  // Ping pinger = new Ping();
-  // try
-  // {
-  //     pinger.PingCompleted += (o, response) =>
-  //     {
-  //         if (response.Error == null && response.Reply.Status == IPStatus.Success)
-  //         {
-  //             handlePingTimeResponse(response.Reply.RoundtripTime, in_region);
-  //         }
-  //         else
-  //         {
-  //             _pingNextItemToProcess();
-  //         }
-  //     };
-
-  //     pinger.SendPingAsync(in_target, 10000);
-  // }
-  // catch (Exception) { }
-  // finally
-  // {
-  //     pinger?.Dispose();
-  // }
-  //}
-// #else
-//         private IEnumerator HandleHTTPResponse(String in_region, String in_target)
-//         {
-//             if (!in_target.StartsWith("http"))
-//             {
-//                 in_target = (UseHttps ? "https://" : "http://") + in_target;
-//             }
-
-//             DateTime RoundtripTime = DateTime.UtcNow;
-// #if USE_WEB_REQUEST
-//             UnityWebRequest request = UnityWebRequest.Get(in_target);
-//             request.timeout = 10;
-
-//             yield return request.SendWebRequest();
-// #else
-//             WWWForm postForm = new WWWForm();
-//             WWW request = new WWW(in_target, postForm);
-
-//             while (!request.isDone && (DateTime.UtcNow - RoundtripTime).TotalMilliseconds < 10000)
-//             {
-//                 yield return null;
-//             }
-// #endif
-//             if (request.isDone && String.IsNullOrWhiteSpace(request.error))
-//             {
-//                 handlePingTimeResponse((long)(DateTime.UtcNow - RoundtripTime).TotalMilliseconds, in_region);
-//             }
-//             else
-//             {
-//                 _pingNextItemToProcess();
-//             }
-
-//             request.Dispose();
-//         }
+    if (request.isDone && request.error!.isEmpty) {
+      handlePingTimeResponse(
+          DateTime.now().toUtc().difference(roundtripTime).inMilliseconds,
+          region);
+    } else {
+      _pingNextItemToProcess();
+    }
+  }
 
 //         private IEnumerator HandlePingReponse(String in_region, String in_target)
 //         {

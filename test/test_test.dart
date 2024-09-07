@@ -212,21 +212,16 @@ main() {
     });
 
     test("enableRTT", () async {
-      bcWrapper.rTTService?.disableRTT();
+      bcWrapper.rTTService.disableRTT();
 
       ServerResponse? response = await bcWrapper.rTTService
-          ?.enableRTT(connectiontype: RTTConnectionType.websocket)
-          .onError<ServerResponse>((error, _) {
-        expect(error.reasonCode, ReasonCodes.featureNotEnabled);
-        return error; //ServerResponse(statusCode: 200);
-      });
+          .enableRTT(connectiontype: RTTConnectionType.websocket);
 
-      if (response?.reasonCode == ReasonCodes.featureNotEnabled) {
+      if (response.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");
-      } else if (response != null) {
-        expect(response.body?['operation'], 'CONNECT');
       } else {
-        throw "rtt response was null";
+        expect(response.statusCode, 200);
+        expect(response.body?['operation'], 'CONNECT');
       }
     });
 
@@ -234,51 +229,47 @@ main() {
 
     test("getChannelId", () async {
       ServerResponse? response = await bcWrapper.chatService
-          ?.getChannelId(channeltype: "gl", channelsubid: "valid");
+          .getChannelId(channeltype: "gl", channelsubid: "valid");
 
-      if (response?.reasonCode == ReasonCodes.featureNotEnabled) {
+      if (response.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");
-      } else if (response != null) {
-        channelId = response.body?["data"]["channelId"];
-        expect(response.statusCode, 200);
       } else {
-        throw "rtt response was null";
+        expect(response.statusCode, 200);
+        channelId = response.body?["data"]["channelId"];
+        expect(channelId, isNotEmpty);
       }
     });
 
     test("getChannelInfo", () async {
       ServerResponse? response =
-          await bcWrapper.chatService?.getChannelInfo(channelId: channelId);
+          await bcWrapper.chatService.getChannelInfo(channelId: channelId);
 
-      if (response?.reasonCode == ReasonCodes.featureNotEnabled) {
+      if (response.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");
-      } else if (response != null) {
-        expect(response.statusCode, 200);
       } else {
-        throw "rtt response was null";
+        expect(response.statusCode, 200);
       }
     });
 
     test("channelConnect", () async {
       ServerResponse? response = await bcWrapper.chatService
-          ?.channelConnect(channelId: channelId, maxtoreturn: 50);
+          .channelConnect(channelId: channelId, maxtoreturn: 50);
 
-      if (response?.reasonCode == ReasonCodes.featureNotEnabled) {
+      if (response.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");
-      } else if (response != null) {
-        expect(response.statusCode, 200);
       } else {
-        throw "rtt response was null";
+        expect(response.statusCode, 200);
       }
     });
 
     test("getSubscribedChannels", () async {
-      ServerResponse? response =
-          await bcWrapper.chatService?.getSubscribedChannels(channeltype: "gl");
+      ServerResponse response =
+          await bcWrapper.chatService.getSubscribedChannels(channeltype: "gl");
 
-      if (response?.reasonCode == ReasonCodes.featureNotEnabled) {
+      if (response.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");
-      } else if (response != null) {
+      } else {
+        expect(response.statusCode, 200);
         List channels = response.body?['data']['channels'];
 
         for (var chan in channels) {
@@ -288,27 +279,36 @@ main() {
           debugPrint(chan['name']);
           debugPrint(chan['desc']);
         }
-
-        expect(response.statusCode, 200);
-      } else {
-        throw "rtt response was null";
       }
     });
 
     String msgId = "";
 
-    test("postChatMessageSimple", () async {
-      ServerResponse? response = await bcWrapper.chatService
-          ?.postChatMessageSimple(channelId: channelId, plain: "Hello World!!");
+    String msgToSend = "Hello World!!";
 
-      if (response?.reasonCode == ReasonCodes.featureNotEnabled) {
+    test("postChatMessageSimple", () async {
+      ServerResponse response = await bcWrapper.chatService
+          .postChatMessageSimple(channelId: channelId, plain: msgToSend);
+
+      if (response.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");
-      } else if (response != null) {
+      } else {
+        expect(response.statusCode, 200);
         msgId = response.body?['data']['msgId'];
         debugPrint("Message sent: $msgId");
-        expect(response.statusCode, 200);
+      }
+    });
+
+    test("getChatMessage", () async {
+      ServerResponse response = await bcWrapper.chatService
+          .getChatMessage(channelId: channelId, messageid: msgId);
+
+      if (response.reasonCode == ReasonCodes.featureNotEnabled) {
+        markTestSkipped("Rtt not enable for this app.");
       } else {
-        throw "rtt response was null";
+        expect(response.statusCode, 200);
+        String txt = response.body?['data']['content']['text'];
+        expect(txt, msgToSend);
       }
     });
   });
