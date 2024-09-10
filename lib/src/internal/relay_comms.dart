@@ -64,12 +64,16 @@ class RelayComms {
   // TcpClient _tcpClient = null;
   // NetworkStream _tcpStream = null;
   Uint8List _tcpReadBuffer = Uint8List(MAX_PACKETSIZE);
+  Uint8List get tcpReadBuffer => _tcpReadBuffer;
 
   // ASync TCP Reads
   static const int SIZE_OF_LENGTH_PREFIX_BYTE_ARRAY = 2;
   int _tcpBytesRead = 0; // the ones already processed
+  int get tcpBytesRead => _tcpBytesRead;
   int _tcpBytesToRead = 0; // the number to finish reading
+  int get tcpBytesToRead => _tcpBytesToRead;
   Uint8List _tcpHeaderReadBuffer = Uint8List(SIZE_OF_LENGTH_PREFIX_BYTE_ARRAY);
+  Uint8List get tcpHeaderReadBuffer => _tcpHeaderReadBuffer;
 
   // ASync TCP Writes
   dynamic fLock;
@@ -80,16 +84,20 @@ class RelayComms {
 
   // Packet history
   List<int> _rsmgHistory = [];
+  List<int> get rsmgHistory => _rsmgHistory;
   Map<int, int> _sendPacketId = {};
   Map<int, int> _recvPacketId = {};
+  Map<int, int> get recvPacketId => _recvPacketId;
   Map<int, _UDPPacket> _reliables = {};
   Map<int, List<_UDPPacket>> _orderedReliablePackets = {};
+  Map<int, List<_UDPPacket>> get orderedReliablePackets =>
+      _orderedReliablePackets;
   // end
 
   bool _resendConnectRequest = false;
   bool _endMatchRequested = false;
   DateTime _lastConnectResendTime = DateTime.now();
-
+  DateTime get lastConnectResendTime => _lastConnectResendTime;
   static const int CONTROL_BYTE_HEADER_LENGTH = 1;
   static const int SIZE_OF_RELIABLE_FLAGS = 2;
 
@@ -218,7 +226,8 @@ class RelayComms {
               var callback = _connectionFailureCallback;
               _connectionFailureCallback = null;
 
-              //TODO: callback(200, ReasonCodes.RS_ENDMATCH_REQUESTED, buildRSRequestError(evt.message), callbackObj);
+              callback!(200, ReasonCodes.rsEndmatchRequested,
+                  buildRSRequestError(evt.message));
             }
             break;
           case _EventType.system:
@@ -332,9 +341,9 @@ class RelayComms {
     // Add packet id to the header, then encode
     rh |= packetId;
 
-    int playerMask0 = ((playerMask >> 32) & 0xFFFF);
-    int playerMask1 = ((playerMask >> 16) & 0xFFFF);
-    int playerMask2 = ((playerMask) & 0xFFFF);
+    // int playerMask0 = ((playerMask >> 32) & 0xFFFF);
+    // int playerMask1 = ((playerMask >> 16) & 0xFFFF);
+    // int playerMask2 = ((playerMask) & 0xFFFF);
 
     int header0, header1, header2, header3, header4, header5, header6, header7;
 

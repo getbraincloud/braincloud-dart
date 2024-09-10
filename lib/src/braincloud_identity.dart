@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:braincloud_dart/src/Common/authentication_ids.dart';
-import 'package:braincloud_dart/src/Common/authentication_type.dart';
+import 'package:braincloud_dart/src/common/authentication_ids.dart';
+import 'package:braincloud_dart/src/common/authentication_type.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';

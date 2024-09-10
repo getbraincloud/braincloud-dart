@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:braincloud_dart/src/server_response.dart';
 import 'package:flutter/material.dart';
-import 'package:braincloud_dart/src/Common/platform.dart';
+import 'package:braincloud_dart/src/common/platform.dart';
 import 'package:braincloud_dart/src/internal/braincloud_comms.dart';
 import 'package:braincloud_dart/src/internal/relay_comms.dart';
 import 'package:braincloud_dart/src/internal/rtt_comms.dart';
@@ -337,130 +337,6 @@ class BrainCloudClient {
   BrainCloudBlockchain get blockchain => _blockchain;
 
   BrainCloudGroupFile get groupFileService => _groupFileService;
-
-  BrainCloudEntity getEntityService() {
-    return entityService;
-  }
-
-  BrainCloudGlobalApp getGlobalAppService() {
-    return globalAppService;
-  }
-
-  BrainCloudGlobalEntity getGlobalEntityService() {
-    return globalEntityService;
-  }
-
-  BrainCloudPresence getPresenceService() {
-    return presenceService;
-  }
-
-  BrainCloudPlayerStatistics getPlayerStatisticsService() {
-    return playerStatisticsService;
-  }
-
-  BrainCloudGlobalStatistics getGlobalStatisticsService() {
-    return globalStatisticsService;
-  }
-
-  BrainCloudIdentity getIdentityService() {
-    return identityService;
-  }
-
-  BrainCloudItemCatalog getItemCatalogService() {
-    return itemCatalogService;
-  }
-
-  BrainCloudUserItems getUserItemsService() {
-    return userItemsService;
-  }
-
-  BrainCloudScript getScriptService() {
-    return scriptService;
-  }
-
-  BrainCloudMatchMaking getMatchMakingService() {
-    return matchMakingService;
-  }
-
-  BrainCloudOneWayMatch getOneWayMatchService() {
-    return oneWayMatchService;
-  }
-
-  BrainCloudPlaybackStream getPlaybackStreamService() {
-    return playbackStreamService;
-  }
-
-  BrainCloudGamification getGamificationService() {
-    return gamificationService;
-  }
-
-  BrainCloudPlayerState getPlayerStateService() {
-    return _playerStateService;
-  }
-
-  BrainCloudAsyncMatch getAsyncMatchService() {
-    return _asyncMatchService;
-  }
-
-  BrainCloudFriend getFriendService() {
-    return _friendService;
-  }
-
-  BrainCloudEvent getEventService() {
-    return _eventService;
-  }
-
-  BrainCloudSocialLeaderboard getSocialLeaderboardService() {
-    return _leaderboardService;
-  }
-
-  BrainCloudTime getTimeService() {
-    return _timeService;
-  }
-
-  BrainCloudTournament getTournamentService() {
-    return _tournamentService;
-  }
-
-  BrainCloudGlobalFile getGlobalFileService() {
-    return _globalFileService;
-  }
-
-  BrainCloudCustomEntity getCustomEntityService() {
-    return _customEntityService;
-  }
-
-  BrainCloudAuthentication? getAuthenticationService() {
-    return _authenticationService;
-  }
-
-  BrainCloudPushNotification getPushNotificationService() {
-    return _pushNotificationService;
-  }
-
-  BrainCloudPlayerStatisticsEvent getPlayerStatisticsEventService() {
-    return _playerStatisticsEventService;
-  }
-
-  BrainCloudRedemptionCode getRedemptionCodeService() {
-    return _redemptionCodeService;
-  }
-
-  BrainCloudDataStream getDataStreamService() {
-    return _dataStreamService;
-  }
-
-  BrainCloudProfanity getProfanityService() {
-    return _profanityService;
-  }
-
-  BrainCloudFile getFileService() {
-    return _fileService;
-  }
-
-  BrainCloudGroup getGroupService() {
-    return _groupService;
-  }
 
   /// <summary>Returns the sessionId or empty String if no session present.</summary>
   String getSessionId() {
