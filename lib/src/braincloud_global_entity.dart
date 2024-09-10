@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:braincloud_dart/src/Common/acl.dart';
+import 'package:braincloud_dart/src/common/acl.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';

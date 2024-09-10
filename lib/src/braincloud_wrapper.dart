@@ -7,8 +7,8 @@ import 'dart:async';
 import 'package:braincloud_dart/src/server_response.dart';
 import 'package:dart_extensions/dart_extensions.dart';
 
-import 'package:braincloud_dart/src/Common/authentication_ids.dart';
-import 'package:braincloud_dart/src/Common/authentication_type.dart';
+import 'package:braincloud_dart/src/common/authentication_ids.dart';
+import 'package:braincloud_dart/src/common/authentication_type.dart';
 import 'package:braincloud_dart/src/braincloud_app_store.dart';
 import 'package:braincloud_dart/src/braincloud_async_match.dart';
 import 'package:braincloud_dart/src/braincloud_chat.dart';
@@ -1844,7 +1844,7 @@ class BrainCloudWrapper {
     if (forgetUser) {
       resetStoredProfileId();
     }
-    return _client.getPlayerStateService().logout();
+    return _client.playerStateService.logout();
   }
 
   /// <summary>

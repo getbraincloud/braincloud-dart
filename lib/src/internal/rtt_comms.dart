@@ -37,7 +37,7 @@ class RTTComms {
       _connectionFailureCallback = inFailure;
 
       _currentConnectionType = inConnectiontype ?? RTTConnectionType.websocket;
-      _clientRef.rttService?.requestClientConnection((response) {
+      _clientRef.rttService.requestClientConnection((response) {
         rttConnectionServerSuccess(response);
       }, (statusCode, reasonCode, statusMessage) {
         rttConnectionServerError(statusCode, reasonCode, statusMessage);
