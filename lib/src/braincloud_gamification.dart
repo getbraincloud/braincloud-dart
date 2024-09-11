@@ -107,7 +107,7 @@ class BrainCloudGamification {
   /// Service Name - Gamification
   /// Service Operation - ReadXpLevels
   /// </remarks>
-  Future<ServerResponse> readXpLevelsMetaData() {
+  Future<ServerResponse> readXPLevelsMetaData() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>

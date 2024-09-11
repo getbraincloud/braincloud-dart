@@ -351,7 +351,7 @@ main() {
       expect(bcWrapper.isInitialized, true);
 
       ServerResponse response =
-          await bcWrapper.globalFileService.getGlobalFileList('/', true);
+          await bcWrapper.globalFileService.getGlobalFileList('/fname', true);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
