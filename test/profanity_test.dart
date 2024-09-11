@@ -55,7 +55,7 @@ main() {
     });
   });
 
-  group("Test Gamification", () {
+  group("Test Profanity", () {
     setUp(() async {
       bcWrapper.brainCloudClient.enableLogging(false);
       if (!bcWrapper.brainCloudClient.isAuthenticated()) {

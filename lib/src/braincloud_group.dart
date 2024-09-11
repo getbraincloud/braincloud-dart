@@ -227,8 +227,8 @@ class BrainCloudGroup {
       bool? isOpenGroup,
       GroupACL? acl,
       String? jsonData,
-      required String jsonOwnerAttributes,
-      required String jsonDefaultMemberAttributes}) {
+      String? jsonOwnerAttributes,
+      String? jsonDefaultMemberAttributes}) {
     Map<String, dynamic> data = {};
 
     if (!name.isEmptyOrNull) {
@@ -246,11 +246,11 @@ class BrainCloudGroup {
     }
     if (!jsonOwnerAttributes.isEmptyOrNull) {
       data[OperationParam.groupOwnerAttributes.value] =
-          jsonDecode(jsonOwnerAttributes);
+          jsonDecode(jsonOwnerAttributes!);
     }
     if (!jsonDefaultMemberAttributes.isEmptyOrNull) {
       data[OperationParam.groupDefaultMemberAttributes.value] =
-          jsonDecode(jsonDefaultMemberAttributes);
+          jsonDecode(jsonDefaultMemberAttributes!);
     }
 
     return _sendRequest(ServiceOperation.createGroup, data);
