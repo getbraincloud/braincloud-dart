@@ -1,102 +1,69 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:braincloud_dart/src/common/platform.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import 'stored_ids.dart';
+import 'test_base.dart';
 import 'test_users.dart';
 
 main() {
-  SharedPreferences.setMockInitialValues({});
-  debugPrint('Braindcloud Dart Client unit tests');
-  final bcWrapper = BrainCloudWrapper(wrapperName: "FlutterTest");
-
-  setUpAll(() async {
-    // });
-    // test("Init", () async {
-    StoredIds ids = StoredIds('test/ids.txt');
-    await ids.load();
-
-    //start test
-
-    bcWrapper
-        .init(
-            secretKey: ids.secretKey,
-            appId: ids.appId,
-            version: ids.version,
-            url: ids.url)
-        .then((_) {
-      bool hadSession = bcWrapper.getStoredSessionId().isNotEmpty;
-
-      if (hadSession) {
-        bcWrapper.restoreSession();
-      }
-
-      int packetId = bcWrapper.getStoredPacketId();
-      if (packetId > BrainCloudComms.noPacketExpected) {
-        bcWrapper.restorePacketId();
-      }
-
-      Timer.periodic(const Duration(milliseconds: 100), (timer) {
-        bcWrapper.update();
-      });
-    }).onError((error, stackTrace) {
-      debugPrint(error.toString());
-    });
-  });
+  BCTest bcTest = BCTest();
+  setUpAll(bcTest.setupBC);
 
   group("Test Push Notifications", () {
     TestUser userA = TestUser("userA", generateRandomString(8));
     TestUser userB = TestUser("UserB", generateRandomString(8));
 
     setUp(() async {
-      bcWrapper.brainCloudClient.enableLogging(false);
-      if (!bcWrapper.brainCloudClient.isAuthenticated()) {
-        ServerResponse userA_response = await bcWrapper.authenticateUniversal(
-            username: userA.name, password: userA.password, forceCreate: true);
+      if (!bcTest.bcWrapper.brainCloudClient.isAuthenticated()) {
+        ServerResponse userA_response = await bcTest.bcWrapper
+            .authenticateUniversal(
+                username: userA.name,
+                password: userA.password,
+                forceCreate: true);
 
         userA.profileId = userA_response.body?["profileId"];
 
-        ServerResponse userB_response = await bcWrapper.authenticateUniversal(
-            username: userB.name, password: userB.password, forceCreate: true);
+        ServerResponse userB_response = await bcTest.bcWrapper
+            .authenticateUniversal(
+                username: userB.name,
+                password: userB.password,
+                forceCreate: true);
 
         userB.profileId = userB_response.body?["profileId"];
       }
     });
 
     test("deregisterAllPushNotificationDeviceTokens()", () async {
-      ServerResponse response = await bcWrapper.pushNotificationService
+      ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .deregisterAllPushNotificationDeviceTokens();
       expect(response.statusCode, StatusCodes.ok);
     });
 
     test("registerPushNotificationDeviceToken()", () async {
-      ServerResponse response = await bcWrapper.pushNotificationService
+      ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .registerPushNotificationDeviceToken(
               platform: Platform.iOS, token: "GARBAGE_TOKEN");
       expect(response.statusCode, StatusCodes.ok);
     });
 
     test("deregisterPushNotificationDeviceToken()", () async {
-      ServerResponse response = await bcWrapper.pushNotificationService
+      ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .deregisterPushNotificationDeviceToken(
               platform: Platform.iOS, token: "GARBAGE_TOKEN");
       expect(response.statusCode, StatusCodes.ok);
     });
 
     test("sendSimplePushNotification()", () async {
-      ServerResponse response = await bcWrapper.pushNotificationService
+      ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .sendSimplePushNotification(
               toProfileId: userA.profileId as String, message: "Test message.");
       expect(response.statusCode, StatusCodes.ok);
     });
 
     test("sendRichPushNotification()", () async {
-      ServerResponse response = await bcWrapper.pushNotificationService
+      ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .sendRichPushNotification(
               toProfileId: userA.profileId as String,
               notificationTemplateId: 1,
@@ -106,7 +73,7 @@ main() {
     });
 
     test("sendRichPushNotificationWithParams()", () async {
-      ServerResponse response = await bcWrapper.pushNotificationService
+      ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .sendRichPushNotificationWithParams(
               toProfileId: userA.profileId as String,
               notificationTemplateId: 1,
@@ -117,7 +84,7 @@ main() {
     String groupId = "";
 
     test("createGroup()", () async {
-      ServerResponse response = await bcWrapper.groupService.createGroup(
+      ServerResponse response = await bcTest.bcWrapper.groupService.createGroup(
           name: "test",
           groupType: "test",
           isOpenGroup: false,
@@ -128,7 +95,7 @@ main() {
     });
 
     test("sendTemplatedPushNotificationToGroup()", () async {
-      ServerResponse response = await bcWrapper.pushNotificationService
+      ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .sendTemplatedPushNotificationToGroup(
               groupId: groupId,
               notificationTemplateId: 1,
@@ -138,7 +105,7 @@ main() {
     });
 
     test("sendNormalizedPushNotificationToGroup()", () async {
-      ServerResponse response = await bcWrapper.pushNotificationService
+      ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .sendNormalizedPushNotificationToGroup(
         groupId: groupId,
         alertContentJson: jsonEncode(
@@ -149,7 +116,7 @@ main() {
     });
 
     test("scheduleNormalizedPushNotificationUTC()", () async {
-      ServerResponse response = await bcWrapper.pushNotificationService
+      ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .scheduleNormalizedPushNotificationUTC(
               profileId: userA.profileId as String,
               alertContentJson: jsonEncode(
@@ -160,7 +127,7 @@ main() {
     });
 
     test("scheduleNormalizedPushNotificationMinutes()", () async {
-      ServerResponse response = await bcWrapper.pushNotificationService
+      ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .scheduleNormalizedPushNotificationMinutes(
               profileId: userA.profileId as String,
               alertContentJson: jsonEncode(
@@ -171,7 +138,7 @@ main() {
     });
 
     test("scheduleRichPushNotificationUTC()", () async {
-      ServerResponse response = await bcWrapper.pushNotificationService
+      ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .scheduleRichPushNotificationUTC(
               profileId: userA.profileId as String,
               notificationTemplateId: 1,
@@ -182,7 +149,7 @@ main() {
     });
 
     test("scheduleRichPushNotificationMinutes()", () async {
-      ServerResponse response = await bcWrapper.pushNotificationService
+      ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .scheduleRichPushNotificationMinutes(
               profileId: userA.profileId as String,
               notificationTemplateId: 1,
@@ -193,7 +160,7 @@ main() {
     });
 
     test("deleteGroup()", () async {
-      ServerResponse response = await bcWrapper.groupService.deleteGroup(
+      ServerResponse response = await bcTest.bcWrapper.groupService.deleteGroup(
         groupId: groupId,
         version: -1,
       );
@@ -202,7 +169,7 @@ main() {
     });
 
     test("sendNormalizedPushNotification()", () async {
-      ServerResponse response = await bcWrapper.pushNotificationService
+      ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .sendNormalizedPushNotification(
               toProfileId: userB.profileId as String,
               alertContentJson: jsonEncode(
@@ -212,7 +179,7 @@ main() {
     });
 
     test("sendNormalizedPushNotificationBatch()", () async {
-      ServerResponse response = await bcWrapper.pushNotificationService
+      ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .sendNormalizedPushNotificationBatch(
               profileIds: [
             userA.profileId as String,

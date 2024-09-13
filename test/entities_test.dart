@@ -1,72 +1,12 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:braincloud_dart/src/common/acl.dart';
-import 'package:braincloud_dart/src/server_response.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/v4.dart';
-import 'stored_ids.dart';
+import 'test_base.dart';
 
 main() {
-  SharedPreferences.setMockInitialValues({});
-  debugPrint('Braindcloud Dart Client unit tests');
-  final bcWrapper = BrainCloudWrapper(wrapperName: "FlutterTest");
-  String email = "";
-  String password = "";
-  String sharedProfileId = "";
-  String customEntityType = "";
-  String customShardedEntityType = "";
-  String customOwnedEntityType = "";
-  const String entityType = "DartUnitTests";
-
-  setUpAll(() async {
-    // });
-    // test("Init", () async {
-    StoredIds ids = StoredIds('test/ids.txt');
-    await ids.load();
-
-    email = ids.email.isEmpty
-        ? "${const UuidV4().generate()}@DartUnitTester"
-        : ids.email;
-    password = ids.password.isEmpty ? const UuidV4().generate() : ids.password;
-    sharedProfileId = ids.sharedProfileId;
-    customEntityType = ids.customEntityType;
-    customShardedEntityType = ids.customShardedEntityType;
-    customOwnedEntityType = ids.customOwnedEntityType;
-
-    debugPrint(
-        'email: ${ids.email} in appId: ${ids.appId} at ${ids.url}  with customEntityType $customEntityType');
-    //start test
-
-    bcWrapper
-        .init(
-            secretKey: ids.secretKey,
-            appId: ids.appId,
-            version: ids.version,
-            url: ids.url)
-        .then((_) {
-      // expect(bcWrapper.isInitialized, false);
-
-      bool hadSession = bcWrapper.getStoredSessionId().isNotEmpty;
-
-      if (hadSession) {
-        bcWrapper.restoreSession();
-      }
-
-      int packetId = bcWrapper.getStoredPacketId();
-      if (packetId > BrainCloudComms.noPacketExpected) {
-        bcWrapper.restorePacketId();
-      }
-
-      Timer.periodic(const Duration(milliseconds: 100), (timer) {
-        bcWrapper.update();
-      });
-    }).onError((error, stackTrace) {
-      debugPrint(error.toString());
-    });
-  });
+  BCTest bcTest = BCTest();
+  setUpAll(bcTest.setupBC);
 
   group("User Entity Tests", () {
     String entityId = "";
@@ -82,7 +22,7 @@ main() {
     Future testEntityFactory(String entityType) async {
       var jsonEntityData = {"team": "RedTeam", "quantity": 0};
       var jsonEntityAcl = {"other": 0};
-      ServerResponse response = await bcWrapper.entityService
+      ServerResponse response = await bcTest.bcWrapper.entityService
           .createEntity(entityType, jsonEntityData, jsonEntityAcl);
       if (response.body != null) {
         expect(response.body, isMap);
@@ -92,26 +32,16 @@ main() {
       }
     }
 
-    setUp(() async {
-      if (!bcWrapper.brainCloudClient.isAuthenticated()) {
-        await bcWrapper.authenticateUniversal(
-            username: email, password: password, forceCreate: false);
-        // bcWrapper.resetStoredProfileId();
-        // bcWrapper.resetStoredAnonymousId();
-        // await bcWrapper.authenticateAnonymous();
-      }
-    });
-
-    // end test
+    setUp(bcTest.auth);
 
     test("createEntity", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       var jsonEntityData = {"team": "RedTeam"};
       var jsonEntityAcl = {"other": 0};
 
-      ServerResponse response = await bcWrapper.entityService
-          .createEntity(entityType, jsonEntityData, jsonEntityAcl);
+      ServerResponse response = await bcTest.bcWrapper.entityService
+          .createEntity(bcTest.entityType, jsonEntityData, jsonEntityAcl);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -125,12 +55,12 @@ main() {
       }
     });
     test("deleteEntity", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
-      if (entityId.isEmpty) await testEntityFactory(entityType);
+      if (entityId.isEmpty) await testEntityFactory(bcTest.entityType);
 
-      ServerResponse response =
-          await bcWrapper.entityService.deleteEntity(entityId, entityVersion);
+      ServerResponse response = await bcTest.bcWrapper.entityService
+          .deleteEntity(entityId, entityVersion);
 
       expect(response.statusCode, 200);
       expect(response.body, isNull);
@@ -140,12 +70,12 @@ main() {
     });
 
     test("createEntity_noACL", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       var jsonEntityData = {"team": "RedTeam"};
 
-      ServerResponse response = await bcWrapper.entityService
-          .createEntity(entityType, jsonEntityData, null);
+      ServerResponse response = await bcTest.bcWrapper.entityService
+          .createEntity(bcTest.entityType, jsonEntityData, null);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -162,12 +92,12 @@ main() {
     });
 
     test("getEntitiesByType", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
-      if (entityId.isEmpty) await testEntityFactory(entityType);
+      if (entityId.isEmpty) await testEntityFactory(bcTest.entityType);
 
-      ServerResponse response =
-          await bcWrapper.entityService.getEntitiesByType(entityType);
+      ServerResponse response = await bcTest.bcWrapper.entityService
+          .getEntitiesByType(bcTest.entityType);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -179,12 +109,12 @@ main() {
     });
 
     test("getEntity", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
-      if (entityId.isEmpty) await testEntityFactory(entityType);
+      if (entityId.isEmpty) await testEntityFactory(bcTest.entityType);
 
       ServerResponse response =
-          await bcWrapper.entityService.getEntity(entityId);
+          await bcTest.bcWrapper.entityService.getEntity(entityId);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -197,15 +127,15 @@ main() {
     });
 
     test("getList", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
-      if (entityId.isEmpty) await testEntityFactory(entityType);
+      if (entityId.isEmpty) await testEntityFactory(bcTest.entityType);
 
-      var whereJson = {"entityType": entityType, "data.team": "RedTeam"};
+      var whereJson = {"entityType": bcTest.entityType, "data.team": "RedTeam"};
       var orderByJson = {"data.team": 1};
       var maxReturn = 50;
 
-      ServerResponse response = await bcWrapper.entityService
+      ServerResponse response = await bcTest.bcWrapper.entityService
           .getList(whereJson, orderByJson, maxReturn);
 
       expect(response.statusCode, 200);
@@ -219,14 +149,14 @@ main() {
     });
 
     test("getListCount", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
-      if (entityId.isEmpty) await testEntityFactory(entityType);
+      if (entityId.isEmpty) await testEntityFactory(bcTest.entityType);
 
-      var whereJson = {"entityType": entityType, "data.team": "RedTeam"};
+      var whereJson = {"entityType": bcTest.entityType, "data.team": "RedTeam"};
 
       ServerResponse response =
-          await bcWrapper.entityService.getListCount(whereJson);
+          await bcTest.bcWrapper.entityService.getListCount(whereJson);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -239,17 +169,18 @@ main() {
     });
 
     test("getPage", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
-      if (entityId.isEmpty) await testEntityFactory(entityType);
+      if (entityId.isEmpty) await testEntityFactory(bcTest.entityType);
 
       var context = {
         "pagination": {"rowsPerPage": 3, "pageNumber": 1},
-        "searchCriteria": {"entityType": entityType},
+        "searchCriteria": {"entityType": bcTest.entityType},
         "sortCriteria": {"createdAt": 1, "updatedAt": -1}
       };
 
-      ServerResponse response = await bcWrapper.entityService.getPage(context);
+      ServerResponse response =
+          await bcTest.bcWrapper.entityService.getPage(context);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -266,20 +197,20 @@ main() {
     });
 
     test("getPageOffset", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
-      if (entityId.isEmpty) await testEntityFactory(entityType);
+      if (entityId.isEmpty) await testEntityFactory(bcTest.entityType);
 
       var context = {
         "pagination": {"rowsPerPage": 3, "pageNumber": 1},
-        "searchCriteria": {"entityType": entityType},
+        "searchCriteria": {"entityType": bcTest.entityType},
         "sortCriteria": {"createdAt": 1, "updatedAt": -1}
       };
 
       String contextString = base64Encode(jsonEncode(context).codeUnits);
 
       ServerResponse response =
-          await bcWrapper.entityService.getPageOffset(contextString, 1);
+          await bcTest.bcWrapper.entityService.getPageOffset(contextString, 1);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -296,16 +227,16 @@ main() {
     });
 
     test("getSharedEntitiesForProfileId", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
-      if (sharedProfileId.isEmpty) {
+      if (bcTest.ids.sharedProfileId.isEmpty) {
         markTestSkipped(
             'No Shared Entities ProfileId profided skipping test getSharedEntitiesForProfileId');
         return;
       }
 
-      ServerResponse response = await bcWrapper.entityService
-          .getSharedEntitiesForProfileId(sharedProfileId);
+      ServerResponse response = await bcTest.bcWrapper.entityService
+          .getSharedEntitiesForProfileId(bcTest.ids.sharedProfileId);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -322,21 +253,21 @@ main() {
     });
 
     test("getSharedEntitiesListForProfileId", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
-      if (sharedProfileId.isEmpty) {
+      if (bcTest.ids.sharedProfileId.isEmpty) {
         markTestSkipped(
             'No Shared Entities ProfileId profided skipping test getSharedEntitiesForProfileId');
         return;
       }
 
-      var whereJson = {"entityType": entityType, "data.team": "RedTeam"};
+      var whereJson = {"entityType": bcTest.entityType, "data.team": "RedTeam"};
       var orderByJson = {"data.team": 1};
       var maxReturn = 50;
 
-      ServerResponse response = await bcWrapper.entityService
+      ServerResponse response = await bcTest.bcWrapper.entityService
           .getSharedEntitiesListForProfileId(
-              sharedProfileId, whereJson, orderByJson, maxReturn);
+              bcTest.ids.sharedProfileId, whereJson, orderByJson, maxReturn);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -349,9 +280,9 @@ main() {
     });
 
     test("getSharedEntityForProfileId", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
-      if (sharedProfileId.isEmpty) {
+      if (bcTest.ids.sharedProfileId.isEmpty) {
         markTestSkipped(
             'No Shared Entities ProfileId profided skipping test getSharedEntitiesForProfileId');
         return;
@@ -362,8 +293,9 @@ main() {
         return;
       }
 
-      ServerResponse response = await bcWrapper.entityService
-          .getSharedEntityForProfileId(sharedProfileId, sharedEntityId);
+      ServerResponse response = await bcTest.bcWrapper.entityService
+          .getSharedEntityForProfileId(
+              bcTest.ids.sharedProfileId, sharedEntityId);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -377,14 +309,14 @@ main() {
     });
 
     test("getSingleton", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       if (singletonEntityId.isEmpty) {
-        await testEntityFactory('${entityType}Singleton');
+        await testEntityFactory('${bcTest.entityType}Singleton');
       }
 
-      ServerResponse response =
-          await bcWrapper.entityService.getSingleton('${entityType}Singleton');
+      ServerResponse response = await bcTest.bcWrapper.entityService
+          .getSingleton('${bcTest.entityType}Singleton');
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -399,17 +331,15 @@ main() {
     });
 
     test("updateSingleton", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
-      // if (singletonEntityId.isEmpty) await testEntityFactory('${entityType}Singleton');
+      // if (singletonEntityId.isEmpty) await testEntityFactory('${bcTest.entityType}Singleton');
       var jsonEntityData = {"team": "Moved"};
       var jsonEntityAcl = {"other": 0};
 
-      ServerResponse response = await bcWrapper.entityService.updateSingleton(
-          '${entityType}Singleton',
-          jsonEntityData,
-          jsonEntityAcl,
-          singletonEntityVerison);
+      ServerResponse response = await bcTest.bcWrapper.entityService
+          .updateSingleton('${bcTest.entityType}Singleton', jsonEntityData,
+              jsonEntityAcl, singletonEntityVerison);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -422,14 +352,15 @@ main() {
     });
 
     test("deleteSingleton", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       if (singletonEntityId.isEmpty) {
-        await testEntityFactory('${entityType}Singleton');
+        await testEntityFactory('${bcTest.entityType}Singleton');
       }
 
-      ServerResponse response = await bcWrapper.entityService
-          .deleteSingleton('${entityType}Singleton', singletonEntityVerison);
+      ServerResponse response = await bcTest.bcWrapper.entityService
+          .deleteSingleton(
+              '${bcTest.entityType}Singleton', singletonEntityVerison);
 
       expect(response.statusCode, 200);
       expect(response.body, isNull);
@@ -439,9 +370,9 @@ main() {
     });
 
     test("updateSharedUserEntityData", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
-      if (sharedProfileId.isEmpty) {
+      if (bcTest.ids.sharedProfileId.isEmpty) {
         markTestSkipped(
             'No Shared Entities ProfileId profided skipping test getSharedEntitiesForProfileId');
         return;
@@ -454,9 +385,9 @@ main() {
 
       var jsonEntityData = {"team": "main", "quantity": 1};
 
-      ServerResponse response = await bcWrapper.entityService
-          .updateSharedEntity(sharedEntityId, sharedProfileId, entityType,
-              jsonEntityData, sharedEntityVersion);
+      ServerResponse response = await bcTest.bcWrapper.entityService
+          .updateSharedEntity(sharedEntityId, bcTest.ids.sharedProfileId,
+              bcTest.entityType, jsonEntityData, sharedEntityVersion);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -468,9 +399,9 @@ main() {
       }
     });
     test("incrementSharedUserEntityData", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
-      if (sharedProfileId.isEmpty) {
+      if (bcTest.ids.sharedProfileId.isEmpty) {
         markTestSkipped(
             'No Shared Entities ProfileId profided skipping test getSharedEntitiesForProfileId');
         return;
@@ -483,9 +414,9 @@ main() {
 
       var jsonEntityData = {"quantity": 2.5};
 
-      ServerResponse response = await bcWrapper.entityService
+      ServerResponse response = await bcTest.bcWrapper.entityService
           .incrementSharedUserEntityData(
-              sharedEntityId, sharedProfileId, jsonEntityData);
+              sharedEntityId, bcTest.ids.sharedProfileId, jsonEntityData);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -500,15 +431,16 @@ main() {
     });
 
     test("updateEntity", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
-      if (entityId.isEmpty) await testEntityFactory(entityType);
+      if (entityId.isEmpty) await testEntityFactory(bcTest.entityType);
 
       var jsonEntityData = {"team": "main", "quantity": 2};
       var jsonEntityAcl = {"other": 0};
 
-      ServerResponse response = await bcWrapper.entityService.updateEntity(
-          entityId, entityType, jsonEntityData, jsonEntityAcl, entityVersion);
+      ServerResponse response = await bcTest.bcWrapper.entityService
+          .updateEntity(entityId, bcTest.entityType, jsonEntityData,
+              jsonEntityAcl, entityVersion);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -520,13 +452,13 @@ main() {
       }
     });
     test("incrementUserEntityData", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       var jsonEntityData = {"quantity": 2.5};
 
-      if (entityId.isEmpty) await testEntityFactory(entityType);
+      if (entityId.isEmpty) await testEntityFactory(bcTest.entityType);
 
-      ServerResponse response = await bcWrapper.entityService
+      ServerResponse response = await bcTest.bcWrapper.entityService
           .incrementUserEntityData(entityId, jsonEntityData);
 
       expect(response.statusCode, 200);
@@ -554,7 +486,7 @@ main() {
     Future createGlobalTestEntity(String entityType) async {
       var jsonEntityData = {"team": "RedTeam", "games": 0};
       var jsonEntityAcl = {"other": 0};
-      ServerResponse response = await bcWrapper.globalEntityService
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .createEntity(entityType, const Duration(hours: 12), jsonEntityAcl,
               jsonEntityData);
       if (response.body != null) {
@@ -565,15 +497,10 @@ main() {
       }
     }
 
-    setUp(() async {
-      if (!bcWrapper.brainCloudClient.isAuthenticated()) {
-        await bcWrapper.authenticateUniversal(
-            username: email, password: password, forceCreate: false);
-      }
-    });
+    setUp(bcTest.auth);
 
     test("createEntity", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       var jsonEntityData = {
         "team": "RedTeam",
@@ -582,7 +509,7 @@ main() {
       };
       var jsonEntityAcl = {"other": 0};
 
-      ServerResponse response = await bcWrapper.globalEntityService
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .createEntity(entityType, const Duration(hours: 1), jsonEntityAcl,
               jsonEntityData);
 
@@ -599,7 +526,7 @@ main() {
     });
 
     test("createEntity_min_params", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       var jsonEntityData = {
         "team": "RedTeam",
@@ -607,7 +534,7 @@ main() {
         "role": "guard"
       };
 
-      ServerResponse response = await bcWrapper.globalEntityService
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .createEntity(entityType, null, null, jsonEntityData);
 
       expect(response.statusCode, 200);
@@ -623,13 +550,13 @@ main() {
     });
 
     test("GetList", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       var where = {"entityType": entityType};
       var orderBy = {"data.team": 1};
 
       ServerResponse response =
-          await bcWrapper.globalEntityService.getList(where, orderBy, 1);
+          await bcTest.bcWrapper.globalEntityService.getList(where, orderBy, 1);
       expect(response.statusCode, 200);
       expect(response.body, isMap);
       if (response.body != null) {
@@ -641,12 +568,12 @@ main() {
     });
 
     test("GetListCount", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       var where = {"entityType": entityType};
 
       ServerResponse response =
-          await bcWrapper.globalEntityService.getListCount(where);
+          await bcTest.bcWrapper.globalEntityService.getListCount(where);
       expect(response.statusCode, 200);
       expect(response.body, isMap);
       if (response.body != null) {
@@ -658,13 +585,13 @@ main() {
     });
 
     test("GetListCountWithHint", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       var where = {"entityIndexedId": entityIndexedId};
       var hint = {"gameId": 1, "entityIndexedId": 1};
 
-      ServerResponse response =
-          await bcWrapper.globalEntityService.getListCountWithHint(where, hint);
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
+          .getListCountWithHint(where, hint);
       expect(response.statusCode, 200);
       expect(response.body, isMap);
       if (response.body != null) {
@@ -675,13 +602,13 @@ main() {
       }
     });
     test("GetListWithHint", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       var where = {"entityIndexedId": entityIndexedId};
       var hint = {"gameId": 1, "entityIndexedId": 1};
       var orderBy = {"data.team": 1};
 
-      ServerResponse response = await bcWrapper.globalEntityService
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .getListWithHint(where, orderBy, 2, hint);
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -693,7 +620,7 @@ main() {
       }
     });
     test("GetPage", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       var context = {
         "pagination": {"rowsPerPage": 50, "pageNumber": 1},
@@ -702,7 +629,7 @@ main() {
       };
 
       ServerResponse response =
-          await bcWrapper.globalEntityService.getPage(context);
+          await bcTest.bcWrapper.globalEntityService.getPage(context);
       expect(response.statusCode, 200);
       expect(response.body, isMap);
       if (response.body != null) {
@@ -717,7 +644,7 @@ main() {
       }
     });
     test("GetPageOffset", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       var context = {
         "pagination": {"rowsPerPage": 50, "pageNumber": 1},
@@ -726,8 +653,8 @@ main() {
       };
       String contextString = base64Encode(jsonEncode(context).codeUnits);
 
-      ServerResponse response =
-          await bcWrapper.globalEntityService.getPageOffset(contextString, 1);
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
+          .getPageOffset(contextString, 1);
       expect(response.statusCode, 200);
       expect(response.body, isMap);
       if (response.body != null) {
@@ -742,11 +669,11 @@ main() {
       }
     });
     test("GetRandomEntitiesMatching", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       var where = {"data.team": "RedTeam"};
 
-      ServerResponse response = await bcWrapper.globalEntityService
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .getRandomEntitiesMatching(where, 2);
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -758,12 +685,12 @@ main() {
       }
     });
     test("GetRandomEntitiesMatchingWithHint", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       var where = {"entityIndexedId": entityIndexedId};
       var hint = {"gameId": 1, "entityIndexedId": 1};
 
-      ServerResponse response = await bcWrapper.globalEntityService
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .getRandomEntitiesMatchingWithHint(where, hint, 2);
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -775,12 +702,12 @@ main() {
       }
     });
     test("IncrementGlobalEntityData", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
       if (entityId.isEmpty) await createGlobalTestEntity(entityType);
 
       var jsonInc = {"games": 2};
 
-      ServerResponse response = await bcWrapper.globalEntityService
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .incrementGlobalEntityData(entityId, jsonInc);
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -794,11 +721,11 @@ main() {
       }
     });
     test("ReadEntity", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
       if (entityId.isEmpty) await createGlobalTestEntity(entityType);
 
       ServerResponse response =
-          await bcWrapper.globalEntityService.readEntity(entityId);
+          await bcTest.bcWrapper.globalEntityService.readEntity(entityId);
       expect(response.statusCode, 200);
       expect(response.body, isMap);
       if (response.body != null) {
@@ -811,12 +738,12 @@ main() {
       }
     });
     test("UpdateEntity", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
       if (entityId.isEmpty) await createGlobalTestEntity(entityType);
 
       var jsonData = {"team": "BlueTeam", "games": 1};
 
-      ServerResponse response = await bcWrapper.globalEntityService
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .updateEntity(entityId, entityVersion, jsonData);
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -829,12 +756,12 @@ main() {
       }
     });
     test("UpdateEntityAcl", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
       if (entityId.isEmpty) await createGlobalTestEntity(entityType);
 
       var jsonEntityAcl = {"other": 2};
 
-      ServerResponse response = await bcWrapper.globalEntityService
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .updateEntityAcl(entityId, entityVersion, jsonEntityAcl);
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -849,9 +776,9 @@ main() {
       }
     });
     test("UpdateEntityOwnerAndAcl", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
-      if (sharedProfileId.isEmpty) {
+      if (bcTest.ids.sharedProfileId.isEmpty) {
         markTestSkipped(
             'No Shared Entities ProfileId profided skipping test getSharedEntitiesForProfileId');
         return;
@@ -861,9 +788,9 @@ main() {
 
       var jsonEntityAcl = ACLs.readWrite;
 
-      ServerResponse response = await bcWrapper.globalEntityService
-          .updateEntityOwnerAndAcl(
-              entityId, entityVersion, sharedProfileId, jsonEntityAcl);
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
+          .updateEntityOwnerAndAcl(entityId, entityVersion,
+              bcTest.ids.sharedProfileId, jsonEntityAcl);
       expect(response.statusCode, 200);
       expect(response.body, isMap);
       if (response.body != null) {
@@ -875,13 +802,13 @@ main() {
       }
     });
     test("UpdateEntityTimeToLive", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       if (entityId.isEmpty) await createGlobalTestEntity(entityType);
 
       var timeToLive = const Duration(hours: 6);
 
-      ServerResponse response = await bcWrapper.globalEntityService
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .updateEntityTimeToLive(entityId, entityVersion, timeToLive);
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -894,10 +821,10 @@ main() {
       }
     });
     test("DeleteEntity", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
       if (entityId.isEmpty) await createGlobalTestEntity(entityType);
 
-      ServerResponse response = await bcWrapper.globalEntityService
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .deleteEntity(entityId, entityVersion);
       expect(response.statusCode, 200);
       expect(response.body, isNull);
@@ -908,12 +835,12 @@ main() {
     /// IndextedId...
     ///
     test("createEntityWithIndexedId", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       var jsonEntityData = {"team": "RedTeam"};
       var jsonEntityAcl = {"other": 0};
 
-      ServerResponse response = await bcWrapper.globalEntityService
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .createEntityWithIndexedId(entityType, entityIndexedId,
               const Duration(hours: 1), jsonEntityAcl, jsonEntityData);
 
@@ -930,9 +857,9 @@ main() {
     });
 
     test("GetListByIndexedld", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
-      ServerResponse response = await bcWrapper.globalEntityService
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .getListByIndexedId(entityIndexedId, 4);
 
       expect(response.statusCode, 200);
@@ -951,11 +878,11 @@ main() {
       }
     });
     test("UpdateEntityIndexedld", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       if (entityId.isEmpty) await createGlobalTestEntity(entityType);
 
-      ServerResponse response = await bcWrapper.globalEntityService
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .updateEntityIndexedId(
               entityId, entityVersion, '${entityIndexedId}New');
 
@@ -975,12 +902,12 @@ main() {
     /// SystemEntities...
     ///
     test("MakeSystemEntity", () async {
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
 
       if (entityId.isEmpty) await createGlobalTestEntity(entityType);
       var jsonEntityAcl = ACLs.readWrite;
 
-      ServerResponse response = await bcWrapper.globalEntityService
+      ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .makeSystemEntity(entityId, entityVersion, jsonEntityAcl);
 
       expect(response.statusCode, 200);
@@ -1009,7 +936,7 @@ main() {
         {bool owned = false}) async {
       var jsonEntityData = {"testId": "RedTeam", "team": "RedTeam", "games": 0};
       var jsonEntityAcl = {"other": 2};
-      ServerResponse response = await bcWrapper.customEntityService
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
           .createEntity(entityType, jsonEntityData, jsonEntityAcl,
               const Duration(hours: 12), owned);
       if (response.body != null) {
@@ -1020,16 +947,11 @@ main() {
       }
     }
 
-    setUp(() async {
-      if (!bcWrapper.brainCloudClient.isAuthenticated()) {
-        await bcWrapper.authenticateUniversal(
-            username: email, password: password, forceCreate: false);
-      }
-    });
+    setUp(bcTest.auth);
 
     test("CreateEntity", () async {
-      expect(bcWrapper.isInitialized, true);
-      if (customEntityType.isEmpty) {
+      expect(bcTest.bcWrapper.isInitialized, true);
+      if (bcTest.ids.customEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
         return;
@@ -1042,9 +964,9 @@ main() {
       };
       var jsonEntityAcl = ACLs.readWrite;
 
-      ServerResponse response = await bcWrapper.customEntityService
-          .createEntity(customEntityType, jsonEntityData, jsonEntityAcl,
-              const Duration(hours: 1), false);
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
+          .createEntity(bcTest.ids.customEntityType, jsonEntityData,
+              jsonEntityAcl, const Duration(hours: 1), false);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -1058,8 +980,8 @@ main() {
       }
     });
     test("GetCount", () async {
-      expect(bcWrapper.isInitialized, true);
-      if (customEntityType.isEmpty) {
+      expect(bcTest.bcWrapper.isInitialized, true);
+      if (bcTest.ids.customEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
         return;
@@ -1067,8 +989,8 @@ main() {
 
       var where = {"data.teamId": "RedTeam"};
 
-      ServerResponse response =
-          await bcWrapper.customEntityService.getCount(customEntityType, where);
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
+          .getCount(bcTest.ids.customEntityType, where);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -1081,8 +1003,8 @@ main() {
       }
     });
     test("GetEntityPage", () async {
-      expect(bcWrapper.isInitialized, true);
-      if (customEntityType.isEmpty) {
+      expect(bcTest.bcWrapper.isInitialized, true);
+      if (bcTest.ids.customEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
         return;
@@ -1094,8 +1016,8 @@ main() {
         "sortCriteria": {}
       };
 
-      ServerResponse response = await bcWrapper.customEntityService
-          .getEntityPage(customEntityType, jsonContext);
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
+          .getEntityPage(bcTest.ids.customEntityType, jsonContext);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -1111,8 +1033,8 @@ main() {
       }
     });
     test("GetEntityPageOffset", () async {
-      expect(bcWrapper.isInitialized, true);
-      if (customEntityType.isEmpty) {
+      expect(bcTest.bcWrapper.isInitialized, true);
+      if (bcTest.ids.customEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
         return;
@@ -1125,8 +1047,8 @@ main() {
       };
       String contextString = base64Encode(jsonEncode(jsonContext).codeUnits);
 
-      ServerResponse response = await bcWrapper.customEntityService
-          .getEntityPageOffset(customEntityType, contextString, 1);
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
+          .getEntityPageOffset(bcTest.ids.customEntityType, contextString, 1);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -1142,8 +1064,8 @@ main() {
       }
     });
     test("GetRandomEntitiesMatching", () async {
-      expect(bcWrapper.isInitialized, true);
-      if (customEntityType.isEmpty) {
+      expect(bcTest.bcWrapper.isInitialized, true);
+      if (bcTest.ids.customEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
         return;
@@ -1151,8 +1073,8 @@ main() {
 
       var where = {"data.teamId": "RedTeam"};
 
-      ServerResponse response = await bcWrapper.customEntityService
-          .getRandomEntitiesMatching(customEntityType, where, 2);
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
+          .getRandomEntitiesMatching(bcTest.ids.customEntityType, where, 2);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -1165,18 +1087,19 @@ main() {
       }
     });
     test("IncrementData", () async {
-      expect(bcWrapper.isInitialized, true);
-      if (customEntityType.isEmpty) {
+      expect(bcTest.bcWrapper.isInitialized, true);
+      if (bcTest.ids.customEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
         return;
       }
-      if (entityId.isEmpty) await createCustomTestEntity(customEntityType);
+      if (entityId.isEmpty)
+        await createCustomTestEntity(bcTest.ids.customEntityType);
 
       var jsonInc = {"games": 2};
 
-      ServerResponse response = await bcWrapper.customEntityService
-          .incrementData(customEntityType, entityId, jsonInc);
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
+          .incrementData(bcTest.ids.customEntityType, entityId, jsonInc);
       expect(response.statusCode, 200);
       expect(response.body, isMap);
       if (response.body != null) {
@@ -1189,16 +1112,17 @@ main() {
       }
     });
     test("ReadEntity", () async {
-      expect(bcWrapper.isInitialized, true);
-      if (customEntityType.isEmpty) {
+      expect(bcTest.bcWrapper.isInitialized, true);
+      if (bcTest.ids.customEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
         return;
       }
-      if (entityId.isEmpty) await createCustomTestEntity(customEntityType);
+      if (entityId.isEmpty)
+        await createCustomTestEntity(bcTest.ids.customEntityType);
 
-      ServerResponse response = await bcWrapper.customEntityService
-          .readEntity(customEntityType, entityId);
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
+          .readEntity(bcTest.ids.customEntityType, entityId);
       expect(response.statusCode, 200);
       expect(response.body, isMap);
       if (response.body != null) {
@@ -1211,14 +1135,15 @@ main() {
       }
     });
     test("UpdateEntity", () async {
-      expect(bcWrapper.isInitialized, true);
-      if (customEntityType.isEmpty) {
+      expect(bcTest.bcWrapper.isInitialized, true);
+      if (bcTest.ids.customEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
         return;
       }
 
-      if (entityId.isEmpty) await createCustomTestEntity(customEntityType);
+      if (entityId.isEmpty)
+        await createCustomTestEntity(bcTest.ids.customEntityType);
 
       var jsonEntityData = {
         "team": "RedTeam",
@@ -1228,8 +1153,8 @@ main() {
       };
       var jsonEntityAcl = ACLs.readWrite;
 
-      ServerResponse response = await bcWrapper.customEntityService
-          .updateEntity(customEntityType, entityId, entityVersion,
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
+          .updateEntity(bcTest.ids.customEntityType, entityId, entityVersion,
               jsonEntityData, jsonEntityAcl, const Duration(hours: 1));
 
       expect(response.statusCode, 200);
@@ -1244,18 +1169,19 @@ main() {
       }
     });
     test("UpdateEntityFields", () async {
-      expect(bcWrapper.isInitialized, true);
-      if (customEntityType.isEmpty) {
+      expect(bcTest.bcWrapper.isInitialized, true);
+      if (bcTest.ids.customEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
         return;
       }
-      if (entityId.isEmpty) await createCustomTestEntity(customEntityType);
+      if (entityId.isEmpty)
+        await createCustomTestEntity(bcTest.ids.customEntityType);
       var jsonEntityData = {"position": "right"};
 
-      ServerResponse response = await bcWrapper.customEntityService
-          .updateEntityFields(
-              customEntityType, entityId, entityVersion, jsonEntityData);
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
+          .updateEntityFields(bcTest.ids.customEntityType, entityId,
+              entityVersion, jsonEntityData);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -1270,23 +1196,23 @@ main() {
     });
 
     test("IncrementDataSharded", () async {
-      if (customShardedEntityType.isEmpty) {
+      if (bcTest.ids.customShardedEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
         return;
       }
 
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
       //Force the creation to ensure the current entityId is of a sharded entity
-      await createCustomTestEntity(customShardedEntityType);
+      await createCustomTestEntity(bcTest.ids.customShardedEntityType);
 
       var jsonInc = {"games": 2};
       // This shard hkey may not be valie
       var shardKeyJson = {"ownerId": "profileIdOfEntityOwner"};
 
-      ServerResponse response = await bcWrapper.customEntityService
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
           .incrementDataSharded(
-              customEntityType, entityId, jsonInc, shardKeyJson);
+              bcTest.ids.customEntityType, entityId, jsonInc, shardKeyJson);
       expect(response.statusCode, 200);
       expect(response.body, isMap);
       if (response.body != null) {
@@ -1299,20 +1225,20 @@ main() {
       }
     });
     test("UpdateEntityFieldsSharded", () async {
-      if (customShardedEntityType.isEmpty) {
+      if (bcTest.ids.customShardedEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test UpdateEntityFieldsSharded");
         return;
       }
-      expect(bcWrapper.isInitialized, true);
+      expect(bcTest.bcWrapper.isInitialized, true);
       //Force the creation to ensure the current entityId is of a sharded entity
-      await createCustomTestEntity(customShardedEntityType);
+      await createCustomTestEntity(bcTest.ids.customShardedEntityType);
       var jsonEntityData = {"position": "right"};
       var shardKeyJson = {"ownerId": "profileIdOfEntityOwner"};
 
-      ServerResponse response = await bcWrapper.customEntityService
-          .updateEntityFieldsSharded(customShardedEntityType, entityId,
-              entityVersion, jsonEntityData, shardKeyJson);
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
+          .updateEntityFieldsSharded(bcTest.ids.customShardedEntityType,
+              entityId, entityVersion, jsonEntityData, shardKeyJson);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -1327,35 +1253,38 @@ main() {
     });
 
     test("DeleteEntity", () async {
-      expect(bcWrapper.isInitialized, true);
-      if (customOwnedEntityType.isEmpty) {
+      expect(bcTest.bcWrapper.isInitialized, true);
+      if (bcTest.ids.customOwnedEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
         return;
       }
-      await createCustomTestEntity(customOwnedEntityType, owned: true);
+      await createCustomTestEntity(bcTest.ids.customOwnedEntityType,
+          owned: true);
 
-      ServerResponse response = await bcWrapper.customEntityService
-          .deleteEntity(customOwnedEntityType, entityId, entityVersion);
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
+          .deleteEntity(
+              bcTest.ids.customOwnedEntityType, entityId, entityVersion);
 
       expect(response.statusCode, 200);
       expect(response.body, isNull);
     });
 
     test("DeleteEntities", () async {
-      expect(bcWrapper.isInitialized, true);
-      if (customOwnedEntityType.isEmpty) {
+      expect(bcTest.bcWrapper.isInitialized, true);
+      if (bcTest.ids.customOwnedEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
         return;
       }
 
       // Ensure at least one entity will be deleted
-      await createCustomTestEntity(customOwnedEntityType, owned: true);
+      await createCustomTestEntity(bcTest.ids.customOwnedEntityType,
+          owned: true);
       var deleteCriteria = {"data.testId": "RedTeam"};
 
-      ServerResponse response = await bcWrapper.customEntityService
-          .deleteEntities(customOwnedEntityType, deleteCriteria);
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
+          .deleteEntities(bcTest.ids.customOwnedEntityType, deleteCriteria);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -1370,20 +1299,21 @@ main() {
 
     /// Singleton
     test("UpdateSingleton", () async {
-      expect(bcWrapper.isInitialized, true);
-      if (customOwnedEntityType.isEmpty) {
+      expect(bcTest.bcWrapper.isInitialized, true);
+      if (bcTest.ids.customOwnedEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
         return;
       }
 
-      await createCustomTestEntity(customOwnedEntityType, owned: true);
+      await createCustomTestEntity(bcTest.ids.customOwnedEntityType,
+          owned: true);
       var jsonEntityData = {"testId": "RedTeam", "team": "RedTeam", "games": 0};
       var jsonEntityAcl = {"other": 0};
 
-      ServerResponse response = await bcWrapper.customEntityService
-          .updateSingleton(customOwnedEntityType, entityVersion, jsonEntityData,
-              jsonEntityAcl, const Duration(hours: 4));
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
+          .updateSingleton(bcTest.ids.customOwnedEntityType, entityVersion,
+              jsonEntityData, jsonEntityAcl, const Duration(hours: 4));
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -1395,21 +1325,23 @@ main() {
       }
     });
     test("IncrementSingletonData", () async {
-      expect(bcWrapper.isInitialized, true);
-      if (customOwnedEntityType.isEmpty) {
+      expect(bcTest.bcWrapper.isInitialized, true);
+      if (bcTest.ids.customOwnedEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
         return;
       }
 
       if (entityId.isEmpty) {
-        await createCustomTestEntity(customOwnedEntityType, owned: true);
+        await createCustomTestEntity(bcTest.ids.customOwnedEntityType,
+            owned: true);
       }
 
       var jsonFieldsData = {"games": 2};
 
-      ServerResponse response = await bcWrapper.customEntityService
-          .incrementSingletonData(customOwnedEntityType, jsonFieldsData);
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
+          .incrementSingletonData(
+              bcTest.ids.customOwnedEntityType, jsonFieldsData);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -1422,19 +1354,20 @@ main() {
       }
     });
     test("ReadSingleton", () async {
-      expect(bcWrapper.isInitialized, true);
-      if (customOwnedEntityType.isEmpty) {
+      expect(bcTest.bcWrapper.isInitialized, true);
+      if (bcTest.ids.customOwnedEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
         return;
       }
 
       if (entityId.isEmpty) {
-        await createCustomTestEntity(customOwnedEntityType, owned: true);
+        await createCustomTestEntity(bcTest.ids.customOwnedEntityType,
+            owned: true);
       }
 
-      ServerResponse response = await bcWrapper.customEntityService
-          .readSingleton(customOwnedEntityType);
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
+          .readSingleton(bcTest.ids.customOwnedEntityType);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -1448,20 +1381,22 @@ main() {
       }
     });
     test("UpdateSingletonFields", () async {
-      expect(bcWrapper.isInitialized, true);
-      if (customOwnedEntityType.isEmpty) {
+      expect(bcTest.bcWrapper.isInitialized, true);
+      if (bcTest.ids.customOwnedEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
         return;
       }
 
       if (entityId.isEmpty) {
-        await createCustomTestEntity(customOwnedEntityType, owned: true);
+        await createCustomTestEntity(bcTest.ids.customOwnedEntityType,
+            owned: true);
       }
       var jsonFieldsData = {"team": "BlueTeam"};
 
-      ServerResponse response = await bcWrapper.customEntityService
-          .updateSingletonFields(customOwnedEntityType, -1, jsonFieldsData);
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
+          .updateSingletonFields(
+              bcTest.ids.customOwnedEntityType, -1, jsonFieldsData);
 
       expect(response.statusCode, 200);
       expect(response.body, isMap);
@@ -1473,19 +1408,20 @@ main() {
       }
     });
     test("DeleteSingleton", () async {
-      expect(bcWrapper.isInitialized, true);
-      if (customOwnedEntityType.isEmpty) {
+      expect(bcTest.bcWrapper.isInitialized, true);
+      if (bcTest.ids.customOwnedEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
         return;
       }
 
       if (entityId.isEmpty) {
-        await createCustomTestEntity(customOwnedEntityType, owned: true);
+        await createCustomTestEntity(bcTest.ids.customOwnedEntityType,
+            owned: true);
       }
 
-      ServerResponse response = await bcWrapper.customEntityService
-          .deleteSingleton(customOwnedEntityType, -1);
+      ServerResponse response = await bcTest.bcWrapper.customEntityService
+          .deleteSingleton(bcTest.ids.customOwnedEntityType, -1);
 
       expect(response.statusCode, 200);
       expect(response.body, isNull);

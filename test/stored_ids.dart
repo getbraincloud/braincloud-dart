@@ -35,10 +35,12 @@ class StoredIds {
   String get version => ids['version'] ?? "";
   String get url => ids['url'] ?? "";
   String get email => ids['email'] ?? "";
+  set email(val) => ids['email'] = val;
   String get password => ids['password'] ?? "";
+  set password(val) => ids['password'] = val;
   String get sharedProfileId => ids['sharedProfileId'] ?? "";
+  set sharedProfileId(val) => ids['sharedProfileId'] = val;
   String get customEntityType => ids['customEntityType'] ?? "";
   String get customShardedEntityType => ids['customShardedEntityType'] ?? "";
   String get customOwnedEntityType => ids['customOwnedEntityType'] ?? "";
-  
 }
