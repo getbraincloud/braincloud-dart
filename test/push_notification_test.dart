@@ -16,8 +16,9 @@ main() {
     TestUser userB = TestUser("UserB", generateRandomString(8));
 
     setUp(() async {
-      
-      await bcTest.bcWrapper.logout();
+      if (bcTest.bcWrapper.brainCloudClient.isAuthenticated()) {
+        await bcTest.bcWrapper.logout();
+      }
 
       ServerResponse userA_response = await bcTest.bcWrapper
           .authenticateUniversal(
