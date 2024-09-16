@@ -243,6 +243,8 @@ class ServiceOperation {
   static ServiceOperation send = ServiceOperation._("SEND");
   static ServiceOperation updateEventData =
       ServiceOperation._("UPDATE_EVENT_DATA");
+  static ServiceOperation updateEventDataIfExists =
+      ServiceOperation._("UPDATE_EVENT_DATA_IF_EXISTS");
   static ServiceOperation deleteSent = ServiceOperation._("DELETE_SENT");
   static ServiceOperation deleteIncoming =
       ServiceOperation._("DELETE_INCOMING");
