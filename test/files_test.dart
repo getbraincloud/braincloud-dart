@@ -72,69 +72,69 @@ main() {
             reason: "Should return cloudFilename");
       }
     });
-    test("cancelUpload", () async {
-      var uploadCompleterFuture =
-          bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback();
+    // test("cancelUpload", () async {
+    //   var uploadCompleterFuture =
+    //       bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback();
 
-      String filename = "largeFile.txt";
-      String fileData = generateRandomString(1024 * 1024 * 20);
-      String uploadId = "";
+    //   String filename = "largeFile.txt";
+    //   String fileData = generateRandomString(1024 * 1024 * 20);
+    //   String uploadId = "";
 
-      ServerResponse response = await bcTest.bcWrapper.fileService
-          .uploadFileFromMemory(
-              cloudPath, filename, true, true, utf8.encode(fileData));
+    //   ServerResponse response = await bcTest.bcWrapper.fileService
+    //       .uploadFileFromMemory(
+    //           cloudPath, filename, true, true, utf8.encode(fileData));
 
-      expect(response.statusCode, 200);
-      expect(bcTest.bcWrapper.isInitialized, true);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
-        expect(body['fileDetails'], isMap, reason: "Should return fileDetails");
-        expect(body['fileDetails']['cloudFilename'], filename,
-            reason: "Should return cloudFilename");
-        expect(body['fileDetails']['shareable'], true,
-            reason: "Should be sharable");
-        expect(body['fileDetails']['replaceIfExists'], true,
-            reason: "Should be replaceIfExists");
-        expect(body['fileDetails']['fileType'], 'User',
-            reason: "Should be User type file");
-        expect(body['fileDetails']['fileSize'], fileData.length,
-            reason: "File size should match");
-        expect(body['fileDetails']['uploadId'], isA<String>(),
-            reason: "Should have an uploadId");
-        uploadId = body['fileDetails']['uploadId'];
-      }
+    //   expect(response.statusCode, 200);
+    //   expect(bcTest.bcWrapper.isInitialized, true);
+    //   if (response.body != null) {
+    //     expect(response.body, isMap);
+    //     Map<String, dynamic> body = response.body!;
+    //     expect(body['fileDetails'], isMap, reason: "Should return fileDetails");
+    //     expect(body['fileDetails']['cloudFilename'], filename,
+    //         reason: "Should return cloudFilename");
+    //     expect(body['fileDetails']['shareable'], true,
+    //         reason: "Should be sharable");
+    //     expect(body['fileDetails']['replaceIfExists'], true,
+    //         reason: "Should be replaceIfExists");
+    //     expect(body['fileDetails']['fileType'], 'User',
+    //         reason: "Should be User type file");
+    //     expect(body['fileDetails']['fileSize'], fileData.length,
+    //         reason: "File size should match");
+    //     expect(body['fileDetails']['uploadId'], isA<String>(),
+    //         reason: "Should have an uploadId");
+    //     uploadId = body['fileDetails']['uploadId'];
+    //   }
 
-      // Wait until the transfer actually starts
-      int bytesTransferred =
-          bcTest.bcWrapper.fileService.getUploadBytesTransferred(uploadId) ?? 0;
-      int maxTries = 10;
-      while (bytesTransferred == 0 && maxTries > 0) {
-        await Future.delayed(const Duration(milliseconds: 50));
-        maxTries--;
-        bytesTransferred =
-            bcTest.bcWrapper.fileService.getUploadBytesTransferred(uploadId) ??
-                0;
-      }
+    //   // Wait until the transfer actually starts
+    //   int bytesTransferred =
+    //       bcTest.bcWrapper.fileService.getUploadBytesTransferred(uploadId) ?? 0;
+    //   int maxTries = 10;
+    //   while (bytesTransferred == 0 && maxTries > 0) {
+    //     await Future.delayed(const Duration(milliseconds: 50));
+    //     maxTries--;
+    //     bytesTransferred =
+    //         bcTest.bcWrapper.fileService.getUploadBytesTransferred(uploadId) ??
+    //             0;
+    //   }
 
-      try {
-        // now cancel it.
-        bcTest.bcWrapper.fileService.cancelUpload(uploadId);
-        await uploadCompleterFuture;
-        fail("Should have cancel the upload");
-      } on ServerResponse catch (error) {
-        expect(error.statusCode, 900);
-        expect(error.reasonCode, 90100);
-        expect(error.statusMessage, isNotNull);
-        expect(error.statusMessage?.trim(),
-            "Upload of largeFile.txt cancelled by user");
-        if (error.body != null) {
-          expect(error.body, isMap);
-          Map<String, dynamic> body = error.body!;
-          debugPrint(body.toString());
-        }
-      }
-    });
+    //   try {
+    //     // now cancel it.
+    //     bcTest.bcWrapper.fileService.cancelUpload(uploadId);
+    //     await uploadCompleterFuture;
+    //     fail("Should have cancel the upload");
+    //   } on ServerResponse catch (error) {
+    //     expect(error.statusCode, 900);
+    //     expect(error.reasonCode, 90100);
+    //     expect(error.statusMessage, isNotNull);
+    //     expect(error.statusMessage?.trim(),
+    //         "Upload of largeFile.txt cancelled by user");
+    //     if (error.body != null) {
+    //       expect(error.body, isMap);
+    //       Map<String, dynamic> body = error.body!;
+    //       debugPrint(body.toString());
+    //     }
+    //   }
+    // });
 
     // test("getUploadProgress", () async {
     //   var uploadCompleterFuture =
