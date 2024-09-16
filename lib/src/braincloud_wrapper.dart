@@ -1840,7 +1840,7 @@ class BrainCloudWrapper {
   /// </summary>
   /// <param name="forgetUser">{boolean} forgetUser Determines whether the stored profile ID should be reset or not </param>
   /// <param name="responseHandler">{*} responseHandler Function to invoke when request is processed </param>
-  Future<ServerResponse> logout(bool forgetUser) async {
+  Future<ServerResponse> logout({bool forgetUser = false}) async {
     if (forgetUser) {
       resetStoredProfileId();
     }

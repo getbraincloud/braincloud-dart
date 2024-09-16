@@ -16,23 +16,24 @@ main() {
     TestUser userB = TestUser("UserB", generateRandomString(8));
 
     setUp(() async {
-      if (!bcTest.bcWrapper.brainCloudClient.isAuthenticated()) {
-        ServerResponse userA_response = await bcTest.bcWrapper
-            .authenticateUniversal(
-                username: userA.name,
-                password: userA.password,
-                forceCreate: true);
+      
+      await bcTest.bcWrapper.logout();
 
-        userA.profileId = userA_response.body?["profileId"];
+      ServerResponse userA_response = await bcTest.bcWrapper
+          .authenticateUniversal(
+              username: userA.name,
+              password: userA.password,
+              forceCreate: true);
 
-        ServerResponse userB_response = await bcTest.bcWrapper
-            .authenticateUniversal(
-                username: userB.name,
-                password: userB.password,
-                forceCreate: true);
+      userA.profileId = userA_response.body?["profileId"];
 
-        userB.profileId = userB_response.body?["profileId"];
-      }
+      ServerResponse userB_response = await bcTest.bcWrapper
+          .authenticateUniversal(
+              username: userB.name,
+              password: userB.password,
+              forceCreate: true);
+
+      userB.profileId = userB_response.body?["profileId"];
     });
 
     test("deregisterAllPushNotificationDeviceTokens()", () async {

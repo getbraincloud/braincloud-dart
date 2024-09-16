@@ -44,7 +44,7 @@ main() async {
     test("reconnect", () async {
       ServerResponse response;
       if (bcTest.bcWrapper.brainCloudClient.authenticated) {
-        response = await bcTest.bcWrapper.logout(false);
+        response = await bcTest.bcWrapper.logout();
         expect(response.statusCode, 200);
         expect(bcTest.bcWrapper.brainCloudClient.isAuthenticated(), false);
       }
@@ -79,7 +79,7 @@ main() async {
             forceCreate: false);
       }
 
-      ServerResponse response = await bcTest.bcWrapper.logout(true);
+      ServerResponse response = await bcTest.bcWrapper.logout(forgetUser: true);
       expect(response.statusCode, 200);
 
       try {
