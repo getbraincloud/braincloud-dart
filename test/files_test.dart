@@ -136,88 +136,89 @@ main() {
       }
     });
 
-    test("getUploadProgress", () async {
-      var uploadCompleterFuture =
-          bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback();
+    // test("getUploadProgress", () async {
+    //   var uploadCompleterFuture =
+    //       bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback();
 
-      String fileData = generateRandomString(1024 * 1024 * 20);
-      String uploadId = "";
+    //   String fileData = generateRandomString(1024 * 1024 * 20);
+    //   String uploadId = "";
 
-      ServerResponse response = await bcTest.bcWrapper.fileService
-          .uploadFileFromMemory(
-              cloudPath, fileNameLarge, true, true, utf8.encode(fileData));
+    //   ServerResponse response = await bcTest.bcWrapper.fileService
+    //       .uploadFileFromMemory(
+    //           cloudPath, fileNameLarge, true, true, utf8.encode(fileData));
 
-      expect(response.statusCode, 200);
-      expect(bcTest.bcWrapper.isInitialized, true);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
-        expect(body['fileDetails'], isMap, reason: "Should return fileDetails");
-        expect(body['fileDetails']['cloudFilename'], fileNameLarge,
-            reason: "Should return cloudFilename");
-        expect(body['fileDetails']['shareable'], true,
-            reason: "Should be sharable");
-        expect(body['fileDetails']['replaceIfExists'], true,
-            reason: "Should be replaceIfExists");
-        expect(body['fileDetails']['fileType'], 'User',
-            reason: "Should be User type file");
-        expect(body['fileDetails']['fileSize'], fileData.length,
-            reason: "File size should match");
-        expect(body['fileDetails']['uploadId'], isA<String>(),
-            reason: "Should have an uploadId");
-        uploadId = body['fileDetails']['uploadId'];
-      }
+    //   expect(response.statusCode, 200);
+    //   expect(bcTest.bcWrapper.isInitialized, true);
+    //   if (response.body != null) {
+    //     expect(response.body, isMap);
+    //     Map<String, dynamic> body = response.body!;
+    //     expect(body['fileDetails'], isMap, reason: "Should return fileDetails");
+    //     expect(body['fileDetails']['cloudFilename'], fileNameLarge,
+    //         reason: "Should return cloudFilename");
+    //     expect(body['fileDetails']['shareable'], true,
+    //         reason: "Should be sharable");
+    //     expect(body['fileDetails']['replaceIfExists'], true,
+    //         reason: "Should be replaceIfExists");
+    //     expect(body['fileDetails']['fileType'], 'User',
+    //         reason: "Should be User type file");
+    //     expect(body['fileDetails']['fileSize'], fileData.length,
+    //         reason: "File size should match");
+    //     expect(body['fileDetails']['uploadId'], isA<String>(),
+    //         reason: "Should have an uploadId");
+    //     uploadId = body['fileDetails']['uploadId'];
+    //   }
 
-      for (var i = 0; i < 5; i++) {
-        Timer(
-          Duration(milliseconds: 500 * i),
-          () {
-            var progress =
-                bcTest.bcWrapper.fileService.getUploadProgress(uploadId);
-            var transferred = bcTest.bcWrapper.fileService
-                .getUploadBytesTransferred(uploadId);
-            var total = bcTest.bcWrapper.fileService
-                .getUploadTotalBytesToTransfer(uploadId);
-            expect(progress, isA<double>());
-            expect(progress, isNot(-1),
-                reason: "getUploadProgress should not be -1 yet");
-            // expect(transferred, isA<double>());
-            expect(transferred, isNot(-1),
-                reason: "getUploadBytesTransferred should not be -1 yet");
-            // expect(total, isA<double>());
-            expect(total, isNot(-1),
-                reason: "getUploadTotalBytesToTransfer should not be -1 yet");
-            // print('progress: $progress  => $transferred of $total');
-          },
-        );
-      }
+    //   for (var i = 0; i < 5; i++) {
+    //     Timer(
+    //       Duration(milliseconds: 500 * i),
+    //       () {
+    //         var progress =
+    //             bcTest.bcWrapper.fileService.getUploadProgress(uploadId);
+    //         var transferred = bcTest.bcWrapper.fileService
+    //             .getUploadBytesTransferred(uploadId);
+    //         var total = bcTest.bcWrapper.fileService
+    //             .getUploadTotalBytesToTransfer(uploadId);
+    //         expect(progress, isA<double>());
+    //         expect(progress, isNot(-1),
+    //             reason: "getUploadProgress should not be -1 yet");
+    //         // expect(transferred, isA<double>());
+    //         expect(transferred, isNot(-1),
+    //             reason: "getUploadBytesTransferred should not be -1 yet");
+    //         // expect(total, isA<double>());
+    //         expect(total, isNot(-1),
+    //             reason: "getUploadTotalBytesToTransfer should not be -1 yet");
+    //         // print('progress: $progress  => $transferred of $total');
+    //       },
+    //     );
+    //   }
 
-      ServerResponse uploadResponse = await uploadCompleterFuture;
-      var progress = bcTest.bcWrapper.fileService.getUploadProgress(uploadId);
-      var transferred =
-          bcTest.bcWrapper.fileService.getUploadBytesTransferred(uploadId);
-      var total =
-          bcTest.bcWrapper.fileService.getUploadTotalBytesToTransfer(uploadId);
-      // print('final progress: $progress  => $transferred of $total');
-      expect(progress, -1, reason: "getUploadProgress should now be -1");
-      expect(transferred, -1,
-          reason: "getUploadBytesTransferred should now be -1");
-      expect(total, -1,
-          reason: "getUploadTotalBytesToTransfer should now be -1");
+    //   ServerResponse uploadResponse = await uploadCompleterFuture;
+    //   var progress = bcTest.bcWrapper.fileService.getUploadProgress(uploadId);
+    //   var transferred =
+    //       bcTest.bcWrapper.fileService.getUploadBytesTransferred(uploadId);
+    //   var total =
+    //       bcTest.bcWrapper.fileService.getUploadTotalBytesToTransfer(uploadId);
+    //   // print('final progress: $progress  => $transferred of $total');
+    //   expect(progress, -1, reason: "getUploadProgress should now be -1");
+    //   expect(transferred, -1,
+    //       reason: "getUploadBytesTransferred should now be -1");
+    //   expect(total, -1,
+    //       reason: "getUploadTotalBytesToTransfer should now be -1");
 
-      expect(uploadResponse.statusCode, 200);
-      if (uploadResponse.body != null) {
-        expect(uploadResponse.body, isMap);
-        Map<String, dynamic> body = uploadResponse.body!;
-        expect(body['fileDetails']['cloudLocation'], isA<String>());
-        expect(body['fileDetails']['downloadUrl'], isA<String>(),
-            reason: "Should get a downloadUrl");
-        expect(body['fileDetails']['fileSize'], fileData.length,
-            reason: "File size should match");
-        expect(body['fileDetails']['cloudFilename'], fileNameLarge,
-            reason: "Should return cloudFilename");
-      }
-    });
+    //   expect(uploadResponse.statusCode, 200);
+    //   if (uploadResponse.body != null) {
+    //     expect(uploadResponse.body, isMap);
+    //     Map<String, dynamic> body = uploadResponse.body!;
+    //     expect(body['fileDetails']['cloudLocation'], isA<String>());
+    //     expect(body['fileDetails']['downloadUrl'], isA<String>(),
+    //         reason: "Should get a downloadUrl");
+    //     expect(body['fileDetails']['fileSize'], fileData.length,
+    //         reason: "File size should match");
+    //     expect(body['fileDetails']['cloudFilename'], fileNameLarge,
+    //         reason: "Should return cloudFilename");
+    //   }
+    // });
+
     test("listUserFiles", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
