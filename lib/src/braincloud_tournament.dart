@@ -314,7 +314,7 @@ class BrainCloudTournament {
   /// <param name="roundStartTimeUTC">
   /// Uses UTC time in milliseconds since epoch
   /// </param>
-  Future<ServerResponse> postTournamentScoreUTC(
+  Future<ServerResponse> postTournamentScore(
       {required String leaderboardId,
       required int score,
       required String jsonData,
@@ -377,7 +377,7 @@ class BrainCloudTournament {
   /// The initial score for players first joining a tournament
   /// Usually 0, unless leaderboard is LOW_VALUE
   /// </param>
-  Future<ServerResponse> postTournamentScoreWithResultsUTC(
+  Future<ServerResponse> postTournamentScoreWithResults(
       {required String leaderboardId,
       required int score,
       required String jsonData,
@@ -399,7 +399,7 @@ class BrainCloudTournament {
       data[OperationParam.data.value] = scoreData;
     }
 
-    data[OperationParam.socialLeaderboardServiceSort.value] = sort.toString();
+    data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
     data[OperationParam.socialLeaderboardServiceBeforeCount.value] =
         beforeCount;
     data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
@@ -429,7 +429,7 @@ class BrainCloudTournament {
   /// <param name="leaderboardId">
   /// The leaderboard for the tournament
   /// </param>
-  Future<ServerResponse> viewCurrentReward(String leaderboardId) {
+  Future<ServerResponse> viewCurrentReward({required String leaderboardId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.leaderboardId.value] = leaderboardId;

@@ -203,7 +203,7 @@ class BrainCloudSocialLeaderboard {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
-    data[OperationParam.socialLeaderboardServiceSort.value] = sort.toString();
+    data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
     data[OperationParam.socialLeaderboardServiceStartIndex.value] = startIndex;
     data[OperationParam.socialLeaderboardServiceEndIndex.value] = endIndex;
 
@@ -257,7 +257,7 @@ class BrainCloudSocialLeaderboard {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
-    data[OperationParam.socialLeaderboardServiceSort.value] = sort.toString();
+    data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
     data[OperationParam.socialLeaderboardServiceStartIndex.value] = startIndex;
     data[OperationParam.socialLeaderboardServiceEndIndex.value] = endIndex;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
@@ -347,7 +347,7 @@ class BrainCloudSocialLeaderboard {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
-    data[OperationParam.socialLeaderboardServiceSort.value] = sort.toString();
+    data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
     data[OperationParam.socialLeaderboardServiceBeforeCount.value] =
         beforeCount;
     data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
@@ -1354,7 +1354,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
-    data[OperationParam.socialLeaderboardServiceSort.value] = sort.toString();
+    data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
     data[OperationParam.socialLeaderboardServiceBeforeCount.value] =
         beforeCount;
     data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
@@ -1412,7 +1412,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
-    data[OperationParam.socialLeaderboardServiceSort.value] = sort.toString();
+    data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
     data[OperationParam.socialLeaderboardServiceBeforeCount.value] =
         beforeCount;
     data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
@@ -1435,14 +1435,10 @@ class BrainCloudSocialLeaderboard {
   }
 }
 
-// ignore: constant_identifier_names
 enum SocialLeaderboardType { HIGH_VALUE, CUMULATIVE, LAST_VALUE, LOW_VALUE }
 
-// ignore: constant_identifier_names
 enum RotationType { NEVER, DAILY, WEEKLY, MONTHLY, YEARLY }
 
-// ignore: constant_identifier_names
 enum FetchType { HIGHEST_RANKED }
 
-// ignore: constant_identifier_names
 enum SortOrder { HIGH_TO_LOW, LOW_TO_HIGH }
