@@ -527,6 +527,8 @@ class ServiceOperation {
       ServiceOperation._("AUTO_JOIN_GROUP_MULTI");
   static ServiceOperation cancelGroupInvitation =
       ServiceOperation._("CANCEL_GROUP_INVITATION");
+  static ServiceOperation deleteGroupJoinRequest =
+      ServiceOperation._("DELETE_GROUP_JOIN_REQUEST");
   static ServiceOperation createGroup = ServiceOperation._("CREATE_GROUP");
   static ServiceOperation createGroupEntity =
       ServiceOperation._("CREATE_GROUP_ENTITY");

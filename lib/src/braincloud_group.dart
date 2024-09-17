@@ -57,14 +57,14 @@ class BrainCloudGroup {
       {required String groupId,
       required String profileId,
       required Role role,
-      required String jsonAttributes}) {
+      String? jsonAttributes}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupProfileId.value] = profileId;
     data[OperationParam.groupRole.value] = role.toString();
 
     if (Util.isOptionalParameterValid(jsonAttributes)) {
-      Map<String, dynamic> customData = jsonDecode(jsonAttributes);
+      Map<String, dynamic> customData = jsonDecode(jsonAttributes!);
       data[OperationParam.groupAttributes.value] = customData;
     }
 
@@ -93,14 +93,14 @@ class BrainCloudGroup {
       {required String groupId,
       required String profileId,
       required Role role,
-      required String jsonAttributes}) {
+      String? jsonAttributes}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupProfileId.value] = profileId;
     data[OperationParam.groupRole.value] = role.toString();
 
     if (Util.isOptionalParameterValid(jsonAttributes)) {
-      Map<String, dynamic> customData = jsonDecode(jsonAttributes);
+      Map<String, dynamic> customData = jsonDecode(jsonAttributes!);
       data[OperationParam.groupAttributes.value] = customData;
     }
 
@@ -126,7 +126,7 @@ class BrainCloudGroup {
   Future<ServerResponse> autoJoinGroup(
       {required String groupType,
       required AutoJoinStrategy autoJoinStrategy,
-      required String dataQueryJson}) {
+      String? dataQueryJson}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupType.value] = groupType;
     data[OperationParam.groupAutoJoinStrategy.value] =
@@ -158,7 +158,7 @@ class BrainCloudGroup {
   Future<ServerResponse> autoJoinGroupMulti(
       {required List<String> groupTypes,
       required AutoJoinStrategy autoJoinStrategy,
-      required String dataQueryJson}) {
+      String? dataQueryJson}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupTypes.value] = groupTypes;
     data[OperationParam.groupAutoJoinStrategy.value] =
@@ -191,6 +191,23 @@ class BrainCloudGroup {
     data[OperationParam.groupProfileId.value] = profileId;
 
     return _sendRequest(ServiceOperation.cancelGroupInvitation, data);
+  }
+
+  /// <summary>
+  /// Delete a request to join the group.
+  /// </summary>
+  /// <remarks>
+  /// Service Name - Group
+  /// Service Operation - DELETE_GROUP_JOIN_REQUEST
+  /// </remarks>
+  /// <param name="groupId">
+  /// The id of the group.
+  /// </param>
+  Future<ServerResponse> deleteGroupJoinRequest({required String groupId}) {
+    Map<String, dynamic> data = {};
+    data[OperationParam.groupId.value] = groupId;
+
+    return _sendRequest(ServiceOperation.deleteGroupJoinRequest, data);
   }
 
   /// <summary>
@@ -295,7 +312,7 @@ class BrainCloudGroup {
       GroupACL? acl,
       String? jsonData,
       required String jsonOwnerAttributes,
-      required String jsonDefaultMemberAttributes,
+      String? jsonDefaultMemberAttributes,
       required String jsonSummaryData}) {
     Map<String, dynamic> data = {};
 
@@ -318,7 +335,7 @@ class BrainCloudGroup {
     }
     if (!jsonDefaultMemberAttributes.isEmptyOrNull) {
       data[OperationParam.groupDefaultMemberAttributes.value] =
-          jsonDecode(jsonDefaultMemberAttributes);
+          jsonDecode(jsonDefaultMemberAttributes!);
     }
     if (!jsonSummaryData.isEmptyOrNull) {
       data[OperationParam.groupSummaryData.value] = jsonDecode(jsonSummaryData);
@@ -731,7 +748,7 @@ class BrainCloudGroup {
   /// <param name="groupId">
   /// ID of the group.
   /// </param>
-  Future<ServerResponse> rejectGroupInvitation(String groupId) {
+  Future<ServerResponse> rejectGroupInvitation({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
 
@@ -998,6 +1015,40 @@ class BrainCloudGroup {
   }
 }
 
-enum Role { owner, admin, member, other }
+enum Role {
+  owner("OWNER"),
+  admin("ADMIN"),
+  member("MEMBER"),
+  other("OTHER");
 
-enum AutoJoinStrategy { joinFirstGroup, joinRandomGroup }
+  const Role(this.value);
+  final String value;
+
+  static Role fromString(String s) {
+    Role role =
+        Role.values.firstWhere((e) => e.value == s, orElse: () => Role.other);
+
+    return role;
+  }
+
+  @override
+  String toString() => value;
+}
+
+enum AutoJoinStrategy {
+  joinFirstGroup("JoinFirstGroup"),
+  joinRandomGroup("JoinRandomGroup");
+
+  const AutoJoinStrategy(this.value);
+  final String value;
+
+  static AutoJoinStrategy fromString(String s) {
+    AutoJoinStrategy autoJoinStrategy = AutoJoinStrategy.values.firstWhere(
+        (e) => e.value == s,
+        orElse: () => AutoJoinStrategy.joinRandomGroup);
+    return autoJoinStrategy;
+  }
+
+  @override
+  String toString() => value;
+}
