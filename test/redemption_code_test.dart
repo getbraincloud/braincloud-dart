@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'test_base.dart';
+import 'utils/test_base.dart';
 
 void main() {
   BCTest bcTest = BCTest();

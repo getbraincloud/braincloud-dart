@@ -4,8 +4,8 @@ import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:braincloud_dart/src/common/platform.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'test_base.dart';
-import 'test_users.dart';
+import 'utils/test_base.dart';
+import 'utils/test_users.dart';
 
 main() {
   BCTest bcTest = BCTest();
