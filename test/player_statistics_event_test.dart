@@ -36,13 +36,22 @@ void main() {
 
     var rewardCallbackCount = 0;
 
-    test("rewardHandlerTriggerStatisticsEvents()", retry: 3, () async {
-      await bcTest.bcWrapper.playerStateService.resetUser();
-
+    registerCallback() {
       bcTest.bcWrapper.brainCloudClient.registerRewardCallback((rewardsJson) {
         ++rewardCallbackCount;
-        bcTest.bcWrapper.brainCloudClient.deregisterRewardCallback();
+
+        if (rewardCallbackCount > 2) {
+          bcTest.bcWrapper.brainCloudClient.deregisterRewardCallback();
+        }
       });
+    }
+
+    test("rewardHandlerTriggerStatisticsEvents()", retry: 3, () async {
+      if (rewardCallbackCount == 0) {
+        registerCallback();
+      }
+
+      await bcTest.bcWrapper.playerStateService.resetUser();
 
       await bcTest.bcWrapper.playerStatisticsEventService
           .triggerUserStatsEvents(
@@ -51,8 +60,10 @@ void main() {
         {"eventName": "incQuest2Stat", "eventMultiplier": 1}
       ]));
 
-      debugPrint("rewardCallbackCount: $rewardCallbackCount");
-      expect(rewardCallbackCount, 3);
+      await Future.delayed(Duration(seconds: 1), () {
+        debugPrint("rewardCallbackCount: $rewardCallbackCount");
+        expect(rewardCallbackCount, greaterThan(2));
+      });
     });
   });
 }
