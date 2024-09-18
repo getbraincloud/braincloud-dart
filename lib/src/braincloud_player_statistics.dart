@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:braincloud_dart/src/server_response.dart';
 
 class BrainCloudPlayerStatistics {
   final BrainCloudClient _clientRef;
@@ -17,18 +20,20 @@ class BrainCloudPlayerStatistics {
   /// Service Name - PlayerStatistics
   /// Service Operation - Read
   /// </remarks>
-  /// <param name="success">
-  /// The success callback
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback
-  /// </param>
-  void readAllUserStats(SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+  Future<ServerResponse> readAllUserStats() {
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.playerStatistics, ServiceOperation.read, null, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -38,25 +43,27 @@ class BrainCloudPlayerStatistics {
   /// Service Name - PlayerStatistics
   /// Service Operation - ReadSubset
   /// </remarks>
-  /// <param name="userStats">
+  /// <param name="playerStats">
   /// A list containing the subset of statistics to read.
   /// </param>
-  /// <param name="success">
-  /// The success callback
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback
-  /// </param>
-  void readUserStatsSubset(List<String> playerStats, SuccessCallback? success,
-      FailureCallback? failure) {
+  Future<ServerResponse> readUserStatsSubset(
+      {required List<String> playerStats}) {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticsServiceStats.value] = playerStats;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.readSubset, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -69,22 +76,23 @@ class BrainCloudPlayerStatistics {
   /// <param name="category">
   /// The user statistics category
   /// </param>
-  /// <param name="success">
-  /// The success callback.
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback.
-  /// </param>
-  void readUserStatsForCategory(
-      String category, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> readUserStatsForCategory({required String category}) {
     Map<String, dynamic> data = {};
     data[OperationParam.gamificationServiceCategory.value] = category;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.readForCategory, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -95,18 +103,20 @@ class BrainCloudPlayerStatistics {
   /// Service Operation - Reset
   ///
   /// </remarks>
-  /// <param name="success">
-  /// The success callback
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback
-  /// </param>
-  void resetAllUserStats(SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+  Future<ServerResponse> resetAllUserStats() {
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.playerStatistics, ServiceOperation.reset, null, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -120,7 +130,7 @@ class BrainCloudPlayerStatistics {
   /// Service Name - PlayerStatistics
   /// Service Operation - Update
   /// </remarks>
-  /// <param name="dictData">
+  /// <param name="stats">
   /// Stats name and their increments:
   /// {
   ///  {"stat1", 10},
@@ -135,22 +145,24 @@ class BrainCloudPlayerStatistics {
   /// }
   /// which increments stat1 by 9 up to a limit of 30.
   /// </param>
-  /// <param name="success">
-  /// The success callback
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback
-  /// </param>
-  void incrementUserStats(Map<String, dynamic> dictData,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> incrementUserStats(
+      {required Map<String, dynamic> stats}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.playerStatisticsServiceStats.value] = dictData;
+    data[OperationParam.playerStatisticsServiceStats.value] = stats;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.playerStatistics, ServiceOperation.update, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -170,22 +182,24 @@ class BrainCloudPlayerStatistics {
   ///     "TREES_CLIMBED": 1
   /// }
   /// </param>
-  /// <param name="success">
-  /// The success callback
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback
-  /// </param>
-  void processStatistics(Map<String, dynamic> statisticsData,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> processStatistics(
+      {required Map<String, dynamic> statisticsData}) {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticsServiceStats.value] = statisticsData;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.processStatistics, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -195,19 +209,20 @@ class BrainCloudPlayerStatistics {
   /// Service Name - PlayerStatistics
   /// Service Operation - ReadNextXpLevel
   /// </remarks>
-  /// <param name="success">
-  /// The success callback
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback
-  /// </param>
-  void getNextExperienceLevel(
-      SuccessCallback? success, FailureCallback? failure) {
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+  Future<ServerResponse> getNextExperienceLevel() {
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.readNextXpLevel, null, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -221,22 +236,23 @@ class BrainCloudPlayerStatistics {
   /// <param name="xpValue">
   /// The amount to increase the user's experience by
   /// </param>
-  /// <param name="success">
-  /// The success callback
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback
-  /// </param>
-  void incrementExperiencePoints(
-      int xpValue, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> incrementExperiencePoints({required int xpValue}) {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticsExperiencePoints.value] = xpValue;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.playerStatistics, ServiceOperation.update, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -251,21 +267,22 @@ class BrainCloudPlayerStatistics {
   /// <param name="xpValue">
   /// The amount to set the the player's experience to
   /// </param>
-  /// <param name="success">
-  /// The success callback
-  /// </param>
-  /// <param name="failure">
-  /// The failure callback
-  /// </param>
-  void setExperiencePoints(
-      int xpValue, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> setExperiencePoints({required int xpValue}) {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticsExperiencePoints.value] = xpValue;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    Completer<ServerResponse> completer = Completer();
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.setXpPoints, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 }

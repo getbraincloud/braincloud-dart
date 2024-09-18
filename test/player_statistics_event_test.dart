@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:braincloud_dart/braincloud_dart.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'utils/test_base.dart';
 
@@ -50,6 +51,7 @@ void main() {
         {"eventName": "incQuest2Stat", "eventMultiplier": 1}
       ]));
 
+      debugPrint("rewardCallbackCount: $rewardCallbackCount");
       expect(rewardCallbackCount, 3);
     });
   });
