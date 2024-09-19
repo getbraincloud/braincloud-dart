@@ -60,10 +60,9 @@ void main() {
         {"eventName": "incQuest2Stat", "eventMultiplier": 1}
       ]));
 
-      await Future.delayed(Duration(seconds: 1), () {
-        debugPrint("rewardCallbackCount: $rewardCallbackCount");
-        expect(rewardCallbackCount, greaterThan(2));
-      });
+      await pumpEventQueue(times: 3);
+      debugPrint("DONE");
+      expect(rewardCallbackCount, greaterThan(2));
     });
   });
 }
