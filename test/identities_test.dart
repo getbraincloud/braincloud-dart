@@ -59,7 +59,7 @@ main() {
       expect(bcTest.bcWrapper.isInitialized, true);
 
       ServerResponse response = await bcTest.bcWrapper.identityService
-          .attachEmailIdentity(userA.email, userA.password);
+          .attachEmailIdentity(email: userA.email, password: userA.password);
 
       expect(response.statusCode, 200);
       // expect(response.body, isMAp);
@@ -69,7 +69,7 @@ main() {
       expect(bcTest.bcWrapper.isInitialized, true);
 
       ServerResponse response = await bcTest.bcWrapper.identityService
-          .detachEmailIdentity(userA.email, true);
+          .detachEmailIdentity(email: userA.email, continueAnon: true);
 
       expect(response.statusCode, 200);
       // expect(response.body, isNull);
@@ -84,13 +84,13 @@ main() {
       if (checks.statusCode == 200 && checks.body != null) {
         Map<String, dynamic> body = checks.body!;
         if (body['identities']['Email'] != null) {
-          checks = await bcTest.bcWrapper.identityService
-              .detachEmailIdentity(body['identities']['Email'], true);
+          checks = await bcTest.bcWrapper.identityService.detachEmailIdentity(
+              email: body['identities']['Email'], continueAnon: true);
         }
       }
 
       ServerResponse response = await bcTest.bcWrapper.identityService
-          .mergeEmailIdentity(userC.email, userC.password);
+          .mergeEmailIdentity(email: userC.email, password: userC.password);
 
       expect(response.statusCode, 200);
       // expect(response.body, isNull);
