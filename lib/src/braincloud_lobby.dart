@@ -99,16 +99,15 @@ class BrainCloudLobby {
     data[OperationParam.lobbyTeamCode.value] = inTeamcode;
 
     _attachPingDataAndSend(
-      data,
-      ServiceOperation.findLobbyWithPingData,
-      (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
-          ServerResponse(
-              statusCode: statusCode,
-              reasonCode: reasonCode,
-              statusMessage: statusMessage)),
-    );
+        data,
+        ServiceOperation.findLobbyWithPingData,
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
 
     return completer.future;
   }
@@ -117,16 +116,15 @@ class BrainCloudLobby {
   /// Like findLobby, but explicitely geared toward creating new lobbies
   /// </summary>
   ///
-  void createLobby(
+  Future<ServerResponse> createLobby(
       String inRoomtype,
       int inRating,
       bool inIsready,
       Map<String, dynamic> inExtrajson,
       String inTeamcode,
       Map<String, dynamic> inSettings,
-      List<String>? inOtherusercxids,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      List<String>? inOtherusercxids) {
+    Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyRoomType.value] = inRoomtype;
     data[OperationParam.lobbyRating.value] = inRating;
@@ -138,11 +136,18 @@ class BrainCloudLobby {
     data[OperationParam.lobbyExtraJson.value] = inExtrajson;
     data[OperationParam.lobbyTeamCode.value] = inTeamcode;
 
-    ServerCallback? callback =
-        BrainCloudClient.createServerCallback(success, failure);
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.createLobby, data, callback);
     _clientRef.sendRequest(sc);
+    return completer.future;
   }
 
   /// <summary>
@@ -150,16 +155,16 @@ class BrainCloudLobby {
   /// prior to calling.
   /// </summary>
   ///
-  void createLobbyWithPingData(
+  Future<ServerResponse> createLobbyWithPingData(
       String inRoomtype,
       int inRating,
       bool inIsready,
       Map<String, dynamic> inExtrajson,
       String inTeamcode,
       Map<String, dynamic> inSettings,
-      List<String>? inOtherusercxids,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      List<String>? inOtherusercxids) {
+    Completer<ServerResponse> completer = Completer();
+
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyRoomType.value] = inRoomtype;
     data[OperationParam.lobbyRating.value] = inRating;
@@ -171,7 +176,17 @@ class BrainCloudLobby {
     data[OperationParam.lobbyExtraJson.value] = inExtrajson;
     data[OperationParam.lobbyTeamCode.value] = inTeamcode;
     _attachPingDataAndSend(
-        data, ServiceOperation.createLobbyWithPingData, success, failure);
+        data,
+        ServiceOperation.createLobbyWithPingData,
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.completeError(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
+
+    return completer.future;
   }
 
   /// <summary>
