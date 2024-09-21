@@ -21,6 +21,6 @@ class GroupACL {
         member = json["member"];
 
   String toJsonString() {
-    return json.encode(this);
+    return jsonEncode({"other": this.other.index, "member": this.member.index});
   }
 }

@@ -95,5 +95,10 @@ main() {
       expect(response.statusCode, 200);
       // expect(response.body, isNull);
     });
+
+    /// END TEST
+    test("Dispose", () {
+      bcTest.dispose();
+    });
   });
 }

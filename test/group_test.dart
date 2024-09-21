@@ -423,77 +423,79 @@ void main() {
 
     var testGroupId = "";
 
-    completeDeleteGroupJoinRequestTest() {
-      bcTest.bcWrapper.logout(forgetUser: true).then((response) {
-        bcTest.bcWrapper
-            .authenticateUniversal(
-                username: "JS-Tester1",
-                password: "JS-Tester1",
-                forceCreate: false)
-            .then((response) {
-          bcTest.bcWrapper.groupService
-              .deleteGroup(groupId: testGroupId, version: -1)
-              .then((response) {
-            expect(response.statusCode, StatusCodes.ok);
+    completeDeleteGroupJoinRequestTest() async {
+      await bcTest.bcWrapper.logout(forgetUser: true);
 
-            bcTest.bcWrapper.logout(forgetUser: true).then(
-                (response) => expect(response.statusCode, StatusCodes.ok));
-          });
-        });
-      });
+      await bcTest.bcWrapper.authenticateUniversal(
+          username: "JS-Tester1", password: "JS-Tester1", forceCreate: false);
+
+      ServerResponse response = await bcTest.bcWrapper.groupService
+          .deleteGroup(groupId: testGroupId, version: -1);
+
+      expect(response.statusCode, StatusCodes.ok);
+
+      response = await bcTest.bcWrapper.logout(forgetUser: true);
+
+      expect(response.statusCode, StatusCodes.ok);
     }
 
-    testDeleteGroupJoinRequest() {
+    testDeleteGroupJoinRequest() async {
       var groupJoinRequestExists = false;
 
-      bcTest.bcWrapper
+      ServerResponse authResponse = await bcTest.bcWrapper
           .authenticateUniversal(
-              username: "JS-Tester2", password: "JS-Tester2", forceCreate: true)
-          .then((response) {
-        debugPrint("Authenticated group tester");
+              username: "JS-Tester2",
+              password: "JS-Tester2",
+              forceCreate: true);
 
-        bcTest.bcWrapper.groupService
-            .joinGroup(groupId: testGroupId)
-            .then((response) {
-          bcTest.bcWrapper.groupService.getMyGroups().then((response) {
-            var requestedGroups = response.body?["data"]["requested"];
-            requestedGroups.forEach((requestedGroup) => {
-                  if (requestedGroup.groupId == testGroupId)
-                    {groupJoinRequestExists = true}
-                });
+      expect(authResponse.statusCode, StatusCodes.ok);
 
-            if (groupJoinRequestExists) {
-              debugPrint("Group Join Request exists");
+      debugPrint("Authenticated group tester");
 
-              // Reset for second check
-              groupJoinRequestExists = false;
+      ServerResponse joinResponse =
+          await bcTest.bcWrapper.groupService.joinGroup(groupId: testGroupId);
 
-              bcTest.bcWrapper.groupService
-                  .deleteGroupJoinRequest(groupId: testGroupId)
-                  .then((response) {
-                bcTest.bcWrapper.groupService.getMyGroups().then((response) {
-                  requestedGroups = response.body?["data"]["requested"];
-                  requestedGroups.forEach((requestedGroup) {
-                    if (requestedGroup.groupId == testGroupId) {
-                      groupJoinRequestExists = true;
-                    }
-                  });
+      expect(joinResponse.statusCode, StatusCodes.ok);
 
-                  if (groupJoinRequestExists) {
-                    expect(groupJoinRequestExists, true);
-                  } else {
-                    debugPrint("Group Join Request no longer exists");
+      ServerResponse groupsResponse =
+          await bcTest.bcWrapper.groupService.getMyGroups();
 
-                    completeDeleteGroupJoinRequestTest();
-                  }
-                });
-              });
-            } else {
-              expect(groupJoinRequestExists, true);
-            }
-          });
-        });
+      List requestedGroups = groupsResponse.body?["data"]["requested"];
+      requestedGroups.forEach((requestedGroup) {
+        if (requestedGroup["groupId"] == testGroupId) {
+          groupJoinRequestExists = true;
+        }
       });
+
+      if (groupJoinRequestExists) {
+        debugPrint("Group Join Request exists");
+
+        // Reset for second check
+        groupJoinRequestExists = false;
+
+        await bcTest.bcWrapper.groupService
+            .deleteGroupJoinRequest(groupId: testGroupId);
+
+        ServerResponse response =
+            await bcTest.bcWrapper.groupService.getMyGroups();
+
+        requestedGroups = response.body?["data"]["requested"];
+        requestedGroups.forEach((requestedGroup) {
+          if (requestedGroup["groupId"] == testGroupId) {
+            groupJoinRequestExists = true;
+          }
+        });
+
+        if (groupJoinRequestExists) {
+          expect(groupJoinRequestExists, true);
+        } else {
+          debugPrint("Group Join Request no longer exists");
+
+          await completeDeleteGroupJoinRequestTest();
+        }
+      } else {
+        expect(groupJoinRequestExists, true);
+      }
     }
 
     setupGroupForTest() async {
@@ -525,22 +527,26 @@ void main() {
 
         testGroupId = response.body?["data"]["groupId"];
 
-        bcTest.bcWrapper.logout().then((_) {
-          testDeleteGroupJoinRequest();
-        });
+        await bcTest.bcWrapper.logout();
+        await testDeleteGroupJoinRequest();
       } else {
-        debugPrint("Failed to create group");
+        expect(1, "Failed to create group");
       }
     }
 
-    test("deleteGroupJoinRequest()", () {
+    test("deleteGroupJoinRequest()", () async {
       if (bcTest.bcWrapper.brainCloudClient.isAuthenticated()) {
-        bcTest.bcWrapper.playerStateService
-            .logout()
-            .then((_) => setupGroupForTest());
+        await bcTest.bcWrapper.playerStateService.logout();
+        await setupGroupForTest();
       } else {
-        setupGroupForTest();
+        await setupGroupForTest();
       }
+      expect(true, true);
+    });
+
+    /// END TEST
+    test("Dispose", () {
+      bcTest.dispose();
     });
   });
 }

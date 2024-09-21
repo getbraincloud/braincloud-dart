@@ -155,5 +155,10 @@ main() async {
       expect(response.body?['isTester'], isA<bool>());
       expect(response.body?['currency'], isA<Object>());
     });
+
+    /// END TEST
+    test("Dispose", () {
+      bcTest.dispose();
+    });
   });
 }

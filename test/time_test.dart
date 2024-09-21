@@ -34,5 +34,10 @@ void main() {
 
       expect(_dateBefore, _dateAfter);
     });
+
+     /// END TEST
+    test("Dispose", () {
+      bcTest.dispose();
+    });
   });
 }

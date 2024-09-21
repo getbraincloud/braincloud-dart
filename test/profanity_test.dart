@@ -46,5 +46,10 @@ main() {
 
       expect(response.statusCode, StatusCodes.ok);
     });
+
+    /// END TEST
+    test("Dispose", () {
+      bcTest.dispose();
+    });
   });
 }

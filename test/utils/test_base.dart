@@ -20,16 +20,21 @@ class BCTest {
     return _bcTest;
   }
 
+  dispose() {
+    //this will stop the update timer
+    bcWrapper.onDestroy();
+  }
+
   BCTest._internal();
 
+  /// Initialize the wrapper and load StoredIds
   setupBC() async {
-    // });
-    // test("Init", () async {
-
     SharedPreferences.setMockInitialValues({});
 
+    //load StoredIds
     await ids.load();
 
+    // set email and password
     ids.email = ids.email.isEmpty
         ? "${const UuidV4().generate()}@DartUnitTester"
         : ids.email;
@@ -37,8 +42,8 @@ class BCTest {
         ids.password.isEmpty ? const UuidV4().generate() : ids.password;
 
     debugPrint('email: ${ids.email} in appId: ${ids.appId} at ${ids.url}');
-    //start test
 
+    //init wrapper (this will start the update loop)
     bcWrapper
         .init(
             secretKey: ids.secretKey,
@@ -46,25 +51,24 @@ class BCTest {
             version: ids.version,
             url: ids.url)
         .then((_) {
+      //retore session if there was one.
       bool hadSession = bcWrapper.getStoredSessionId().isNotEmpty;
 
       if (hadSession) {
         bcWrapper.restoreSession();
       }
 
+      //restore packetId if there was one
       int packetId = bcWrapper.getStoredPacketId();
       if (packetId > BrainCloudComms.noPacketExpected) {
         bcWrapper.restorePacketId();
       }
-
-      Timer.periodic(const Duration(milliseconds: 100), (timer) {
-        bcWrapper.update();
-      });
     }).onError((error, stackTrace) {
       debugPrint(error.toString());
     });
   }
 
+  /// Authenticate with email and password found in test/ids.txt
   auth() async {
     bcWrapper.brainCloudClient.enableLogging(false);
     if (!bcWrapper.brainCloudClient.isAuthenticated()) {

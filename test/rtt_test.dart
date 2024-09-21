@@ -111,5 +111,10 @@ main() {
         expect(txt, msgToSend);
       }
     });
+
+     /// END TEST
+    test("Dispose", () {
+      bcTest.dispose();
+    });
   });
 }

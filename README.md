@@ -41,6 +41,8 @@ void main() => runApp(const MyApp());
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  
+
   /// Future to init the BrainCloud Client
   Future<String> _initAndUpdateRoute() async {
     await _bcWrapper.init(
@@ -55,10 +57,6 @@ class MyApp extends StatelessWidget {
     if (hadSession) {
       _bcWrapper.restoreSession();
     }
-
-    Timer.periodic(const Duration(milliseconds: 500), (timer) {
-      _bcWrapper.update();
-    });
 
     ///return the route name base on existing session
     return Future<String>.delayed(

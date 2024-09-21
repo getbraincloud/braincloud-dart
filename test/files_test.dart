@@ -370,5 +370,10 @@ main() {
         expect(body['cdnUrl'], isA<String>());
       }
     });
+
+    /// END TEST
+    test("Dispose", () {
+      bcTest.dispose();
+    });
   });
 }

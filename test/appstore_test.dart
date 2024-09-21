@@ -104,5 +104,10 @@ main() {
           await bcTest.bcWrapper.appStoreService.refreshPromotions();
       expect(response.statusCode, 200);
     });
+
+    /// END TEST
+    test("Dispose", () {
+      bcTest.dispose();
+    });
   });
 }

@@ -137,6 +137,7 @@ class BrainCloudWrapper {
   }
 
   void onDestroy() {
+    _updateTimer?.cancel();
     //StopAllCoroutines();
     rTTService.disableRTT();
     relayService.disconnect();
@@ -237,6 +238,8 @@ class BrainCloudWrapper {
 
   BrainCloudGroupFile get groupFileService => _client.groupFileService;
 
+  Timer? _updateTimer;
+
   /// <summary>
   /// Create the brainCloud Wrapper, which has utility helpers for using the brainCloud API
   /// </summary>
@@ -247,6 +250,14 @@ class BrainCloudWrapper {
     } else {
       _client = BrainCloudClient(this);
     }
+  }
+
+  void _startTimer() {
+    _updateTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      Timer.periodic(const Duration(milliseconds: 50), (timer) {
+        update();
+      });
+    });
   }
 
   void runCallbacks() {
@@ -286,6 +297,7 @@ class BrainCloudWrapper {
         appVersion: version);
 
     await _loadData();
+    _startTimer();
   }
 
   bool get isInitialized => _client.isInitialized();
@@ -315,6 +327,7 @@ class BrainCloudWrapper {
         appVersion: version);
 
     await _loadData();
+    _startTimer();
   }
 
   /// <summary>
@@ -333,6 +346,7 @@ class BrainCloudWrapper {
     if (resetWrapperName) {
       wrapperName = "";
     }
+    _updateTimer?.cancel();
   }
 
   /// <summary>

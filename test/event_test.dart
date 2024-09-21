@@ -67,7 +67,7 @@ void main() {
           eventType: eventType,
           jsonEventData: jsonEncode({eventDataKey: 24}));
 
-       response = await bcTest.bcWrapper.eventService.sendEvent(
+      response = await bcTest.bcWrapper.eventService.sendEvent(
           toProfileId: userA.profileId!,
           eventType: eventType,
           jsonEventData: jsonEncode({eventDataKey: 24}));
@@ -154,6 +154,11 @@ void main() {
       });
 
       expect(found.length, greaterThan(0));
+    });
+
+    /// END TEST
+    test("Dispose", () {
+      bcTest.dispose();
     });
   });
 }
