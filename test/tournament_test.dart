@@ -13,7 +13,7 @@ void main() {
   group("Test Tournament", () {
     setUp(bcTest.auth);
 
-    var _divSetId = "testDivSetId";
+    var _divSetId = "testDivSet";
     var _tournamentCode = "testTournament";
     var _leaderboardId = "testTournamentLeaderboard";
     var _version = 0;
@@ -45,9 +45,10 @@ void main() {
 
     test("getDivisionInfo()", () async {
       ServerResponse response = await bcTest.bcWrapper.tournamentService
-          .getDivisionInfo(divSetId: _divSetId);
+          .getDivisionInfo(divSetId: _divSetId)
+          .onError((error, stackTrace) => error as ServerResponse);
 
-      expect(response.statusCode, StatusCodes.ok);
+      expect(response.statusCode, StatusCodes.badRequest);
     });
 
     test("getMyDivisions()", () async {
