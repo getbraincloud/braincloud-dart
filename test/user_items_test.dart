@@ -38,8 +38,6 @@ void main() {
     var item4;
     var item5;
 
-    var _userItems = [];
-
     test("AwardUserItem() and Drop", () async {
       ServerResponse response = await bcTest.bcWrapper.userItemsService
           .awardUserItem(defId: "sword001", quantity: 5, includeDef: true);
@@ -185,7 +183,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.userItemsService
           .removeUserItemFromBlockchain(itemId: "InvalidForNow", version: 1)
           .onError((error, stackTrace) => error as ServerResponse);
-          
+
       expect(response.statusCode, StatusCodes.badRequest);
     });
   });
