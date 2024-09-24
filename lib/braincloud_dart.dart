@@ -9,6 +9,8 @@ export 'src/braincloud_group.dart' show Role, AutoJoinStrategy;
 export 'src/internal/service_name.dart' show ServiceName;
 export 'src/reason_codes.dart' show ReasonCodes;
 export 'src/status_codes.dart' show StatusCodes;
+export 'src/braincloud_friend.dart' show FriendPlatform;
+export 'src/common/platform.dart' show Platform;
 export 'src/braincloud_social_leaderboard.dart'
     show SortOrder, SocialLeaderboardType, RotationType, FetchType;
 export 'src/server_response.dart';

@@ -621,4 +621,22 @@ class BrainCloudFriend {
   }
 }
 
-enum FriendPlatform { all, brainCloud, facebook }
+enum FriendPlatform {
+  all("All"),
+  brainCloud("brainCloud"),
+  facebook("Facebook");
+
+  const FriendPlatform(this.value);
+
+  final String value;
+
+  static FriendPlatform fromString(String s) {
+    FriendPlatform type = FriendPlatform.values
+        .firstWhere((e) => e.value == s, orElse: () => FriendPlatform.all);
+
+    return type;
+  }
+
+  @override
+  String toString() => value;
+}

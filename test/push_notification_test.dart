@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:braincloud_dart/src/common/platform.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'utils/test_base.dart';
