@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'utils/test_base.dart';
@@ -29,7 +30,7 @@ void main() {
               password: userA.password,
               forceCreate: true);
 
-      userA.profileId = userB_response.body?["profileId"];
+      userA.profileId = userA_response.body?["profileId"];
     });
 
     var itemId;
@@ -159,6 +160,7 @@ void main() {
     });
 
     test("PublishUserItemToBlockchain())", () async {
+      debugPrint("$item5");
       // bc.userInventoryManagement.publishUserItemToBlockchain(item5, 1, result
       // {
       //     equal(result.status, 200, "Expecting 200");
