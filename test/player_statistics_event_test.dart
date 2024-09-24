@@ -64,5 +64,10 @@ void main() {
       debugPrint("DONE");
       expect(rewardCallbackCount, greaterThan(2));
     });
+
+    /// END TEST
+    test("Dispose", () {
+      bcTest.dispose();
+    });
   });
 }

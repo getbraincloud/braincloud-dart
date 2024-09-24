@@ -11,7 +11,7 @@ void main() {
 
   group("Test Presence", () {
     setUp(bcTest.auth);
-    
+
     test("forcePush()", () async {
       ServerResponse response =
           await bcTest.bcWrapper.presenceService.forcePush();
@@ -91,6 +91,11 @@ void main() {
           .onError((error, stackTrace) => error as ServerResponse);
 
       expect(response.statusCode, StatusCodes.badRequest);
+    });
+
+    /// END TEST
+    test("Dispose", () {
+      bcTest.dispose();
     });
   });
 }

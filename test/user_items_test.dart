@@ -188,5 +188,10 @@ void main() {
 
       expect(response.statusCode, StatusCodes.badRequest);
     });
+
+    /// END TEST
+    test("Dispose", () {
+      bcTest.dispose();
+    });
   });
 }
