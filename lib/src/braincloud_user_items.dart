@@ -285,7 +285,7 @@ class BrainCloudUserItems {
   Future<ServerResponse> purchaseUserItem(
       {required String defId,
       required int quantity,
-      required String shopId,
+      String? shopId,
       required bool includeDef}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -375,7 +375,7 @@ class BrainCloudUserItems {
       {required String itemId,
       required int version,
       required int quantity,
-      required String shopId,
+      String? shopId,
       required bool includeDef}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};

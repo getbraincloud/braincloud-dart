@@ -12,7 +12,7 @@ void main() {
 
   group("Test Script", () {
     TestUser userA = TestUser("UserA", generateRandomString(8));
-    TestUser userB = TestUser("UserA", generateRandomString(8));
+    TestUser userB = TestUser("UserB", generateRandomString(8));
 
     setUp(() async {
       if (bcTest.bcWrapper.brainCloudClient.isAuthenticated()) {
