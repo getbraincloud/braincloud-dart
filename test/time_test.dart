@@ -35,8 +35,8 @@ void main() {
       expect(_dateBefore, _dateAfter);
     });
 
-     /// END TEST
-    test("Dispose", () {
+    /// END TEST
+    tearDown(() {
       bcTest.dispose();
     });
   });

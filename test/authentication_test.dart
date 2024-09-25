@@ -157,7 +157,7 @@ main() async {
     });
 
     /// END TEST
-    test("Dispose", () {
+    tearDown(() {
       bcTest.dispose();
     });
   });

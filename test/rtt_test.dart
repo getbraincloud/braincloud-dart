@@ -112,8 +112,8 @@ main() {
       }
     });
 
-     /// END TEST
-    test("Dispose", () {
+    /// END TEST
+    tearDown(() {
       bcTest.dispose();
     });
   });

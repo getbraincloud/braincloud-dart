@@ -194,7 +194,7 @@ main() {
   });
 
   /// END TEST
-  test("Dispose", () {
+  tearDown(() {
     bcTest.dispose();
   });
 }
