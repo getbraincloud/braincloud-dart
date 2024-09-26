@@ -222,5 +222,10 @@ void main() {
 
       expect(response3.statusCode, StatusCodes.ok);
     });
+
+     /// END TEST
+    tearDown(() {
+      bcTest.dispose();
+    });
   });
 }
