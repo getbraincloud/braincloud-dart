@@ -529,7 +529,7 @@ class BrainCloudClient {
       var data = jsonDecode(b)['data'];
       completer.complete(ServerResponse(statusCode: 200, body: data));
     },
-        (a, statusCode, reasonCode, statusMessage) => completer.completeError(
+        (a, statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,

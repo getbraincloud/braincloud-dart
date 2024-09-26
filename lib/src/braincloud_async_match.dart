@@ -45,10 +45,10 @@ class BrainCloudAsyncMatch {
   /// Refer to the Push Notification functions for the syntax required.
   /// </param>
   Future<ServerResponse> createMatch(
-      {required jsonOpponentIds, required String pushNotificationMessage}) {
+      {required String jsonOpponentIds, String? pushNotificationMessage}) {
     return _createMatchInternal(
       jsonOpponentIds: jsonOpponentIds,
-      pushNotificationMessage: pushNotificationMessage,
+      pushNotificationMessage: pushNotificationMessage ?? '',
     );
   }
 
@@ -94,14 +94,14 @@ class BrainCloudAsyncMatch {
   Future<ServerResponse> createMatchWithInitialTurn({
     required String jsonOpponentIds,
     String? jsonMatchState,
-    required String pushNotificationMessage,
+    String? pushNotificationMessage,
     String? nextPlayer,
     String? jsonSummary,
   }) {
     return _createMatchInternal(
         jsonOpponentIds: jsonOpponentIds,
         jsonMatchState: jsonMatchState ?? "{}",
-        pushNotificationMessage: pushNotificationMessage,
+        pushNotificationMessage: pushNotificationMessage ?? "",
         nextPlayer: nextPlayer,
         jsonSummary: jsonSummary);
   }
@@ -176,7 +176,7 @@ class BrainCloudAsyncMatch {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -226,13 +226,66 @@ class BrainCloudAsyncMatch {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
                 statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.asyncMatch,
         ServiceOperation.updateMatchSummary, data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
+  /// <summary>
+  /// Allows the current player in the game to overwrite the matchState and
+  /// statistics without completing their turn or adding to matchHistory.
+  /// </summary>
+  /// <param name="ownerId">
+  /// Match owner identfier
+  /// </param>
+  /// <param name="matchId">
+  /// Match identifier
+  /// </param>
+  /// <param name="version">
+  /// Game state version to ensure turns are submitted once and in order
+  /// </param>
+  /// <param name="jsonMatchState">
+  /// Dictionary provided by the caller to represent the match state
+  /// </param>
+  /// <param name="jsonStatistics">
+  /// Optional JSON Stringblob provided by the caller
+  /// </param>
+  Future<ServerResponse> updateMatchStateCurrentTurn(
+      {required String ownerId,
+      required String matchId,
+      required int version,
+      required Map<String, dynamic> jsonMatchState,
+      Map<String, dynamic>? jsonStatistics}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+
+    data["ownerId"] = ownerId;
+    data["matchId"] = matchId;
+    data["version"] = version;
+    data["matchState"] = jsonMatchState;
+
+    //if (Util.isOptionalParameterValid(jsonStatistics)) {
+    data["statistics"] = jsonStatistics;
+//}
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.complete(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
+
+    ServerCall sc = ServerCall(ServiceName.asyncMatch,
+        ServiceOperation.updateMatchStateCurrentTurn, data, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;
@@ -262,7 +315,7 @@ class BrainCloudAsyncMatch {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -298,7 +351,7 @@ class BrainCloudAsyncMatch {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -334,7 +387,7 @@ class BrainCloudAsyncMatch {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -358,7 +411,7 @@ class BrainCloudAsyncMatch {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -381,7 +434,7 @@ class BrainCloudAsyncMatch {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -417,7 +470,7 @@ class BrainCloudAsyncMatch {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -453,7 +506,7 @@ class BrainCloudAsyncMatch {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -504,7 +557,7 @@ class BrainCloudAsyncMatch {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -554,7 +607,7 @@ class BrainCloudAsyncMatch {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -602,7 +655,7 @@ class BrainCloudAsyncMatch {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,

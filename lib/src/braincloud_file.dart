@@ -27,7 +27,7 @@ class BrainCloudFile {
   /// <param name="shareable">True if the file is shareable</param>
   /// <param name="replaceIfExists">Whether to replace file if it exists</param>
   /// <param name="fileData">The file memory data in byte[]</param>
-  Future<ServerResponse>  uploadFileFromMemory(
+  Future<ServerResponse> uploadFileFromMemory(
       String cloudPath,
       String cloudFilename,
       bool shareable,
@@ -35,7 +35,7 @@ class BrainCloudFile {
       Uint8List fileData) async {
     if (fileData.isEmpty) {
       _clientRef.log("File data is empty");
-      Future.error(Exception('File data is empty')) ;
+      Future.error(Exception('File data is empty'));
     }
     String guid = const Uuid().v4();
     _clientRef.fileService.fileStorage[guid] = fileData;
@@ -51,14 +51,14 @@ class BrainCloudFile {
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
       ServerResponse responseObject = ServerResponse.fromJson(response);
-      completer.complete(responseObject); 
-    },(statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-        statusCode: statusCode,
-        reasonCode: reasonCode,
-        statusMessage: statusMessage));
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.complete(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
     });
-    
+
     ServerCall sc = ServerCall(
         ServiceName.file, ServiceOperation.prepareUserUpload, data, callback);
     _clientRef.sendRequest(sc);
@@ -108,7 +108,7 @@ class BrainCloudFile {
   /// </summary>
   /// <param name="cloudPath">File path</param>
   /// <param name="recurse">Whether to recurse down the path</param>
-  Future<ServerResponse>  listUserFiles(String cloudPath, bool? recurse) async {
+  Future<ServerResponse> listUserFiles(String cloudPath, bool? recurse) async {
     Map<String, dynamic> data = {};
 
     if (Util.isOptionalParameterValid(cloudPath)) {
@@ -122,18 +122,18 @@ class BrainCloudFile {
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
       ServerResponse responseObject = ServerResponse.fromJson(response);
-      completer.complete(responseObject); 
-    },(statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-        statusCode: statusCode,
-        reasonCode: reasonCode,
-        statusMessage: statusMessage));
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.complete(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
     });
-    
+
     ServerCall sc = ServerCall(
         ServiceName.file, ServiceOperation.listUserFiles, data, callback);
     _clientRef.sendRequest(sc);
-    
+
     return completer.future;
   }
 
@@ -142,7 +142,8 @@ class BrainCloudFile {
   /// </summary>
   /// <param name="cloudPath">File path</param>
   /// <param name="cloudFileName"></param>
-  Future<ServerResponse>  deleteUserFile(String cloudPath, String cloudFileName) async {
+  Future<ServerResponse> deleteUserFile(
+      String cloudPath, String cloudFileName) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.uploadCloudPath.value] = cloudPath;
@@ -151,18 +152,18 @@ class BrainCloudFile {
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
       ServerResponse responseObject = ServerResponse.fromJson(response);
-      completer.complete(responseObject); 
-    },(statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-        statusCode: statusCode,
-        reasonCode: reasonCode,
-        statusMessage: statusMessage));
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.complete(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
     });
-    
+
     ServerCall sc = ServerCall(
         ServiceName.file, ServiceOperation.deleteUserFile, data, callback);
     _clientRef.sendRequest(sc);
-    
+
     return completer.future;
   }
 
@@ -171,7 +172,7 @@ class BrainCloudFile {
   /// </summary>
   /// <param name="cloudPath">File path</param>
   /// <param name="recurse">Whether to recurse down the path</param>
-  Future<ServerResponse>  deleteUserFiles(String cloudPath, bool recurse) async {
+  Future<ServerResponse> deleteUserFiles(String cloudPath, bool recurse) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.uploadCloudPath.value] = cloudPath;
@@ -180,18 +181,18 @@ class BrainCloudFile {
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
       ServerResponse responseObject = ServerResponse.fromJson(response);
-      completer.complete(responseObject); 
-    },(statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-        statusCode: statusCode,
-        reasonCode: reasonCode,
-        statusMessage: statusMessage));
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.complete(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
     });
-    
+
     ServerCall sc = ServerCall(
         ServiceName.file, ServiceOperation.deleteUserFiles, data, callback);
     _clientRef.sendRequest(sc);
-    
+
     return completer.future;
   }
 
@@ -200,7 +201,8 @@ class BrainCloudFile {
   /// </summary>
   /// <param name="cloudPath">File path</param>
   /// <param name="cloudFilename">Name of file</param>
-  Future<ServerResponse>  getCDNUrl(String cloudPath, String cloudFilename) async {
+  Future<ServerResponse> getCDNUrl(
+      String cloudPath, String cloudFilename) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.uploadCloudPath.value] = cloudPath;
@@ -209,18 +211,18 @@ class BrainCloudFile {
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
       ServerResponse responseObject = ServerResponse.fromJson(response);
-      completer.complete(responseObject); 
-    },(statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-        statusCode: statusCode,
-        reasonCode: reasonCode,
-        statusMessage: statusMessage));
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.complete(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
     });
-    
+
     ServerCall sc = ServerCall(
         ServiceName.file, ServiceOperation.getCdnUrl, data, callback);
     _clientRef.sendRequest(sc);
-    
+
     return completer.future;
   }
 }

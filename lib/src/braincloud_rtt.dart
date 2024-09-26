@@ -31,7 +31,7 @@ class BrainCloudRTT {
         (response) {
       completer.complete(ServerResponse(statusCode: 200, body: response));
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));

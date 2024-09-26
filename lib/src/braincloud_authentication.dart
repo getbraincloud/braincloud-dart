@@ -572,7 +572,7 @@ class BrainCloudAuthentication {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -616,7 +616,7 @@ class BrainCloudAuthentication {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -667,7 +667,7 @@ class BrainCloudAuthentication {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -724,7 +724,7 @@ class BrainCloudAuthentication {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -761,7 +761,7 @@ class BrainCloudAuthentication {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -803,7 +803,7 @@ class BrainCloudAuthentication {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -852,7 +852,7 @@ class BrainCloudAuthentication {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -905,7 +905,7 @@ class BrainCloudAuthentication {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -981,7 +981,7 @@ class BrainCloudAuthentication {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));

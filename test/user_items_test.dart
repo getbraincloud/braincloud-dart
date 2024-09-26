@@ -122,8 +122,8 @@ void main() {
 
     test("ReceiveUserItemFrom())", () async {
       ServerResponse response = await bcTest.bcWrapper.userItemsService
-          .receiveUserItemFrom(profileId: userB.profileId!, itemId: itemIdToGet)
-          .onError((error, stackTrace) => error as ServerResponse);
+          .receiveUserItemFrom(
+              profileId: userB.profileId!, itemId: itemIdToGet);
 
       expect(response.statusCode, StatusCodes.badRequest,
           reason: "Cannot receive item gift from self");
@@ -168,8 +168,7 @@ void main() {
       // });
 
       ServerResponse response = await bcTest.bcWrapper.userItemsService
-          .publishUserItemToBlockchain(itemId: "InvalidForNow", version: 1)
-          .onError((error, stackTrace) => error as ServerResponse);
+          .publishUserItemToBlockchain(itemId: "InvalidForNow", version: 1);
 
       expect(response.statusCode, StatusCodes.badRequest);
     });
@@ -183,8 +182,7 @@ void main() {
 
     test("RemoveUserItemFromBlockchain())", () async {
       ServerResponse response = await bcTest.bcWrapper.userItemsService
-          .removeUserItemFromBlockchain(itemId: "InvalidForNow", version: 1)
-          .onError((error, stackTrace) => error as ServerResponse);
+          .removeUserItemFromBlockchain(itemId: "InvalidForNow", version: 1);
 
       expect(response.statusCode, StatusCodes.badRequest);
     });

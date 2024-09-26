@@ -21,25 +21,25 @@ class BrainCloudGlobalFile {
   /// <param name="fileId">
   /// The Id of the file
   /// </param>
-  Future<ServerResponse>  getFileInfo(String fileId) async {
+  Future<ServerResponse> getFileInfo(String fileId) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFileId.value] = fileId;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
       ServerResponse responseObject = ServerResponse.fromJson(response);
-      completer.complete(responseObject); 
-    },(statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-        statusCode: statusCode,
-        reasonCode: reasonCode,
-        statusMessage: statusMessage));
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.complete(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
     });
-    
+
     ServerCall serverCall = ServerCall(
         ServiceName.globalFile, ServiceOperation.getFileInfo, data, callback);
     _clientRef.sendRequest(serverCall);
-    
+
     return completer.future;
   }
 
@@ -54,8 +54,9 @@ class BrainCloudGlobalFile {
   /// </param>
   /// <param name="filename">
   /// The filename
-  /// </param>  
-  Future<ServerResponse>  getFileInfoSimple(String folderPath, String filename) async {
+  /// </param>
+  Future<ServerResponse> getFileInfoSimple(
+      String folderPath, String filename) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFolderPath.value] = folderPath;
     data[OperationParam.globalFileServiceFileName.value] = filename;
@@ -63,18 +64,18 @@ class BrainCloudGlobalFile {
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
       ServerResponse responseObject = ServerResponse.fromJson(response);
-      completer.complete(responseObject); 
-    },(statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-        statusCode: statusCode,
-        reasonCode: reasonCode,
-        statusMessage: statusMessage));
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.complete(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
     });
-    
+
     ServerCall serverCall = ServerCall(ServiceName.globalFile,
         ServiceOperation.getFileInfoSimple, data, callback);
     _clientRef.sendRequest(serverCall);
-    
+
     return completer.future;
   }
 
@@ -87,25 +88,25 @@ class BrainCloudGlobalFile {
   /// <param name="fileId">
   /// The Id of the file
   /// </param>
-  Future<ServerResponse>  getGlobalCDNUrl(String fileId) async {
+  Future<ServerResponse> getGlobalCDNUrl(String fileId) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFileId.value] = fileId;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
       ServerResponse responseObject = ServerResponse.fromJson(response);
-      completer.complete(responseObject); 
-    },(statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-        statusCode: statusCode,
-        reasonCode: reasonCode,
-        statusMessage: statusMessage));
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.complete(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
     });
-    
+
     ServerCall serverCall = ServerCall(ServiceName.globalFile,
         ServiceOperation.getGlobalCDNUrl, data, callback);
     _clientRef.sendRequest(serverCall);
-    
+
     return completer.future;
   }
 
@@ -120,8 +121,9 @@ class BrainCloudGlobalFile {
   /// </param>
   /// <param name="recurse">
   /// do we recurse?
-  /// </param>  
-  Future<ServerResponse>  getGlobalFileList(String folderPath, bool recurse) async {
+  /// </param>
+  Future<ServerResponse> getGlobalFileList(
+      String folderPath, bool recurse) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFolderPath.value] = folderPath;
     data[OperationParam.globalFileServiceRecurse.value] = recurse;
@@ -129,18 +131,18 @@ class BrainCloudGlobalFile {
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
       ServerResponse responseObject = ServerResponse.fromJson(response);
-      completer.complete(responseObject); 
-    },(statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-        statusCode: statusCode,
-        reasonCode: reasonCode,
-        statusMessage: statusMessage));
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.complete(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
     });
-    
+
     ServerCall serverCall = ServerCall(ServiceName.globalFile,
         ServiceOperation.getGlobalFileList, data, callback);
     _clientRef.sendRequest(serverCall);
-    
+
     return completer.future;
   }
 }

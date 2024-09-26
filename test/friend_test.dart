@@ -41,8 +41,7 @@ void main() {
     test("getProfileInfoForExternalAuthId()", retry: 2, () async {
       ServerResponse response = await bcTest.bcWrapper.friendService
           .getProfileInfoForExternalAuthId(
-              externalId: "externalId", externalAuthType: "Facebook")
-          .onError((error, stackTrace) => error as ServerResponse);
+              externalId: "externalId", externalAuthType: "Facebook");
 
       expect(response.statusCode, StatusCodes.badRequest);
     });

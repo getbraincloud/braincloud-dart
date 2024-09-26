@@ -156,6 +156,8 @@ class ServiceOperation {
       ServiceOperation._("GET_GLOBAL_LEADERBOARD");
   static ServiceOperation getGlobalLeaderboardPage =
       ServiceOperation._("GET_GLOBAL_LEADERBOARD_PAGE");
+  static ServiceOperation getGlobalLeaderboardPageIfExists =
+      ServiceOperation._("GET_GLOBAL_LEADERBOARD_PAGE_IF_EXISTS");
   static ServiceOperation getGlobalLeaderboardView =
       ServiceOperation._("GET_GLOBAL_LEADERBOARD_VIEW");
   static ServiceOperation getGlobalLeaderboardVersions =
@@ -305,6 +307,8 @@ class ServiceOperation {
   static ServiceOperation submitTurn = ServiceOperation._("SUBMIT_TURN");
   static ServiceOperation updateMatchSummary =
       ServiceOperation._("UPDATE_SUMMARY");
+  static ServiceOperation updateMatchStateCurrentTurn =
+      ServiceOperation._("UPDATE_MATCH_STATE_CURRENT_TURN");
   static ServiceOperation abandon = ServiceOperation._("ABANDON");
   static ServiceOperation abandonMatchWithSummaryData =
       ServiceOperation._("ABANDON_MATCH_WITH_SUMMARY_DATA");

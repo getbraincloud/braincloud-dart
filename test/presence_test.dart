@@ -28,8 +28,7 @@ void main() {
 
     test("getPresenceOfGroup()", () async {
       ServerResponse response = await bcTest.bcWrapper.presenceService
-          .getPresenceOfGroup(groupId: "testPlatform", includeOffline: true)
-          .onError((error, stackTrace) => error as ServerResponse);
+          .getPresenceOfGroup(groupId: "testPlatform", includeOffline: true);
 
       expect(response.statusCode, StatusCodes.badRequest);
     });
@@ -54,8 +53,8 @@ void main() {
     test("registerListenersForGroup()", () async {
       ServerResponse response = await bcTest.bcWrapper.presenceService
           .registerListenersForGroup(
-              groupId: "bad_group_id", bidirectional: true)
-          .onError((error, stackTrace) => error as ServerResponse);
+              groupId: "bad_group_id", bidirectional: true);
+
       expect(response.statusCode, StatusCodes.badRequest);
     });
 
@@ -70,25 +69,22 @@ void main() {
     });
 
     test("setVisibility()", () async {
-      ServerResponse response = await bcTest.bcWrapper.presenceService
-          .setVisibility(visible: true)
-          .onError((error, stackTrace) => error as ServerResponse);
+      ServerResponse response =
+          await bcTest.bcWrapper.presenceService.setVisibility(visible: true);
 
       expect(response.statusCode, StatusCodes.badRequest);
     });
 
     test("stopListening()", () async {
-      ServerResponse response = await bcTest.bcWrapper.presenceService
-          .stopListening()
-          .onError((error, stackTrace) => error as ServerResponse);
+      ServerResponse response =
+          await bcTest.bcWrapper.presenceService.stopListening();
 
       expect(response.statusCode, StatusCodes.badRequest);
     });
 
     test("updateActivity()", () async {
       ServerResponse response = await bcTest.bcWrapper.presenceService
-          .updateActivity(jsonActivity: jsonEncode({"status": "waiting"}))
-          .onError((error, stackTrace) => error as ServerResponse);
+          .updateActivity(jsonActivity: jsonEncode({"status": "waiting"}));
 
       expect(response.statusCode, StatusCodes.badRequest);
     });

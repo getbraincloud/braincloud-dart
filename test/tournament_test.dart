@@ -23,8 +23,7 @@ void main() {
           .joinTournament(
               leaderboardId: _leaderboardId,
               tournamentCode: _tournamentCode,
-              initialScore: 0)
-          .onError((error, stackTrace) => error as ServerResponse);
+              initialScore: 0);
 
       if (response.reasonCode ==
           ReasonCodes.playerAlreadyTournamentForLeaderboard) {
@@ -45,8 +44,7 @@ void main() {
 
     test("getDivisionInfo()", () async {
       ServerResponse response = await bcTest.bcWrapper.tournamentService
-          .getDivisionInfo(divSetId: _divSetId)
-          .onError((error, stackTrace) => error as ServerResponse);
+          .getDivisionInfo(divSetId: _divSetId);
 
       expect(response.statusCode, StatusCodes.badRequest);
     });
@@ -63,27 +61,24 @@ void main() {
           .joinDivision(
               divSetId: _divSetId,
               tournamentCode: _tournamentCode,
-              initialScore: 0)
-          .onError((error, stackTrace) => error as ServerResponse);
+              initialScore: 0);
 
       expect(response.statusCode, StatusCodes.badRequest);
     });
 
     test("leaveDivisionInstance()", retry: 2, () async {
       ServerResponse response = await bcTest.bcWrapper.tournamentService
-          .leaveDivisionInstance(leaderboardId: _divSetId)
-          .onError((error, stackTrace) => error as ServerResponse);
+          .leaveDivisionInstance(leaderboardId: _divSetId);
 
       expect(response.statusCode, StatusCodes.badRequest);
     });
 
     test("claimTournamentReward()", retry: 2, () async {
-      ServerResponse response = await bcTest.bcWrapper.tournamentService
-          .claimTournamentReward(
-            leaderboardId: _leaderboardId,
-            versionId: _version,
-          )
-          .onError((error, stackTrace) => error as ServerResponse);
+      ServerResponse response =
+          await bcTest.bcWrapper.tournamentService.claimTournamentReward(
+        leaderboardId: _leaderboardId,
+        versionId: _version,
+      );
 
       expect(response.statusCode, StatusCodes.badRequest);
     });
@@ -124,8 +119,7 @@ void main() {
 
     test("viewReward()", retry: 2, () async {
       ServerResponse response = await bcTest.bcWrapper.tournamentService
-          .viewReward(leaderboardId: _leaderboardId, versionId: _version)
-          .onError((error, stackTrace) => error as ServerResponse);
+          .viewReward(leaderboardId: _leaderboardId, versionId: _version);
 
       expect(response.statusCode, StatusCodes.badRequest);
     });
@@ -141,6 +135,5 @@ void main() {
     tearDown(() {
       bcTest.dispose();
     });
-
   });
 }

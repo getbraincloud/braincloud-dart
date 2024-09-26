@@ -15,14 +15,14 @@ void main() {
     test("getChannelId() with valid channel", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
           .getChannelId(channeltype: "gl", channelsubid: "valid");
+
       channelId = response.body?["data"]["channelId"];
       expect(response.statusCode, StatusCodes.ok);
     });
 
     test("getChannelId() with invalid channel", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
-          .getChannelId(channeltype: "gl", channelsubid: "invalid")
-          .onError((error, stackTrace) => error as ServerResponse);
+          .getChannelId(channeltype: "gl", channelsubid: "invalid");
 
       expect(response.statusCode, StatusCodes.badRequest);
     });
@@ -36,6 +36,7 @@ void main() {
     test("channelConnect()", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
           .channelConnect(channelId: channelId, maxtoreturn: 50);
+
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -71,6 +72,7 @@ void main() {
               channelId: channelId,
               plain: "Hello World Simple!",
               recordInHistory: true);
+
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -96,6 +98,7 @@ void main() {
               version: msgVersion,
               contentjson:
                   '{"text": "Hello World! edited", "rich":{"custom": 2}}');
+
       expect(response.statusCode, StatusCodes.ok);
     });
 

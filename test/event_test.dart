@@ -46,8 +46,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.eventService
           .updateIncomingEventDataIfExists(
               evId: nonExistentEventId,
-              jsonEventData: jsonEncode({eventDataKey: 118}))
-          .onError((error, stackTrace) => error as ServerResponse);
+              jsonEventData: jsonEncode({eventDataKey: 118}));
 
       expect(response.statusCode, StatusCodes.ok);
     });

@@ -39,14 +39,13 @@ class BrainCloudPlayerStatisticsEvent {
         eventMultiplier;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
-          ServerResponse(
-              statusCode: statusCode,
-              reasonCode: reasonCode,
-              statusMessage: statusMessage))
-    );
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.complete(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.playerStatisticsEvent,
         ServiceOperation.trigger, data, callback);
     _clientRef.sendRequest(sc);
@@ -82,14 +81,13 @@ class BrainCloudPlayerStatisticsEvent {
     data[OperationParam.playerStatisticEventServiceEvents.value] = events;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
-          ServerResponse(
-              statusCode: statusCode,
-              reasonCode: reasonCode,
-              statusMessage: statusMessage))
-    );
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.complete(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.playerStatisticsEvent,
         ServiceOperation.triggerMultiple, data, callback);
     _clientRef.sendRequest(sc);
