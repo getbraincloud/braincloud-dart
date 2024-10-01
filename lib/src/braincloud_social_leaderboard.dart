@@ -29,17 +29,17 @@ class BrainCloudSocialLeaderboard {
   ///
   /// Note: If no friends have played the game, the bestScore, createdAt, updatedAt
   /// will contain NULL.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_SOCIAL_LEADERBOARD
-
+  ///
   /// @param leaderboardId
   /// The id of the leaderboard to retrieve
-
+  ///
   /// @param replaceName
   /// If true, the currently logged in player's name will be replaced
   /// by the String "You".
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getSocialLeaderboard(
       {required String leaderboardId, required bool replaceName}) {
@@ -82,17 +82,17 @@ class BrainCloudSocialLeaderboard {
   /// will contain NULL.
   ///
   /// This method returns the same data as GetSocialLeaderboard, but it will not return an error if the leaderboard is not found.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_SOCIAL_LEADERBOARD_IF_EXISTS
-
+  ///
   /// @param leaderboardId
   /// The id of the leaderboard to retrieve
-
+  ///
   /// @param replaceName
   /// If true, the currently logged in player's name will be replaced
   /// by the string "You".
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getSocialLeaderboardIfExists(
       {required String leaderboardId, required bool replaceName}) {
@@ -132,20 +132,20 @@ class BrainCloudSocialLeaderboard {
   ///
   /// Note: If no friends have played the game, the bestScore, createdAt, updatedAt
   /// will contain NULL.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_SOCIAL_LEADERBOARD
-
+  ///
   /// @param leaderboardId
   /// The id of the leaderboard to retrieve
-
+  ///
   /// @param replaceName
   /// If true, the currently logged in player's name will be replaced
   /// by the String "You".
-
+  ///
   /// @param versionId
   /// The version
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getSocialLeaderboardByVersion(
       {required String leaderboardId,
@@ -191,20 +191,20 @@ class BrainCloudSocialLeaderboard {
   /// will contain NULL.
   ///
   /// This method returns the same data as GetSocialLeaderboardByVersion, but it will not return an error if the leaderboard does not exist.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_SOCIAL_LEADERBOARD_BY_VERSION_IF_EXISTS
-
+  ///
   /// @param leaderboardId
   /// The id of the leaderboard to retrieve
-
+  ///
   /// @param replaceName
   /// If true, the currently logged in player's name will be replaced
   /// by the string "You".
-
+  ///
   /// @param versionId
   /// The version
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getSocialLeaderboardByVersionIfExists(
       {required String leaderboardId,
@@ -235,20 +235,20 @@ class BrainCloudSocialLeaderboard {
   }
 
   /// Reads multiple social leaderboards.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_MULTI_SOCIAL_LEADERBOARD
-
+  ///
   /// @param leaderboardIds
   /// Array of leaderboard id Strings
-
+  ///
   /// @param leaderboardResultCount
   /// Maximum count of entries to return for each leaderboard.
-
+  ///
   /// @param replaceName
   /// If true, the currently logged in player's name will be replaced
   /// by the String "You".
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getMultiSocialLeaderboard(
       {required List<String> leaderboardIds,
@@ -285,22 +285,22 @@ class BrainCloudSocialLeaderboard {
   /// data associated with the score.
   ///
   /// Note: This method allows the client to retrieve pages from within the global leaderboard list
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GetGlobalLeaderboardPage
-
+  ///
   /// @param leaderboardId
   /// The id of the leaderboard to retrieve.
-
+  ///
   /// @param sort
   /// Sort key Sort order of page.
-
+  ///
   /// @param startIndex
   /// The index at which to start the page.
-
+  ///
   /// @param endIndex
   /// The index at which to end the page.
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardPage(
       {required String leaderboardId,
@@ -339,22 +339,22 @@ class BrainCloudSocialLeaderboard {
   /// Note: This method allows the client to retrieve pages from within the global leaderboard list
   ///
   /// This method returns the same data as GetGlobalLeaderboardPage, but will not return an error if the leaderboard does not exist.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_GLOBAL_LEADERBOARD_PAGE_IF_EXISTS
-
+  ///
   /// @param leaderboardId
   /// The id of the leaderboard to retrieve.
-
+  ///
   /// @param sort
   /// Sort key Sort order of page.
-
+  ///
   /// @param startIndex
   /// The index at which to start the page.
-
+  ///
   /// @param endIndex
   /// The index at which to end the page.
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardPageIfExists(
       {required String leaderboardId,
@@ -389,25 +389,25 @@ class BrainCloudSocialLeaderboard {
   /// Method returns a page of global leaderboard results. By using a non-current version id,
   /// the user can retrieve a historical leaderboard. See GetGlobalLeaderboardVersions method
   /// to retrieve the version id.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GetGlobalLeaderboardPage
-
+  ///
   /// @param leaderboardId
   /// The id of the leaderboard to retrieve.
-
+  ///
   /// @param sort
   /// Sort key Sort order of page.
-
+  ///
   /// @param startIndex
   /// The index at which to start the page.
-
+  ///
   /// @param endIndex
   /// The index at which to end the page.
-
+  ///
   /// @param versionId
   /// The historical version to retrieve.
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardPageByVersion(
       {required String leaderboardId,
@@ -445,25 +445,25 @@ class BrainCloudSocialLeaderboard {
   /// to retrieve the version id.
   ///
   /// This method returns the same data as GetGlobalLeaderboardPage, but it will not return an error if the leaderboard does not exist.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_GLOBAL_LEADERBOARD_PAGE_IF_EXISTS
-
+  ///
   /// @param leaderboardId
   /// The id of the leaderboard to retrieve.
-
+  ///
   /// @param sort
   /// Sort key Sort order of page.
-
+  ///
   /// @param startIndex
   /// The index at which to start the page.
-
+  ///
   /// @param endIndex
   /// The index at which to end the page.
-
+  ///
   /// @param versionId
   /// The historical version to retrieve.
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardPageByVersionIfExists(
       {required String leaderboardId,
@@ -500,22 +500,22 @@ class BrainCloudSocialLeaderboard {
   ///
   /// Leaderboards entries contain the player's score and optionally, some user-defined
   /// data associated with the score.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GetGlobalLeaderboardView
-
+  ///
   /// @param leaderboardId
   /// The id of the leaderboard to retrieve.
-
+  ///
   /// @param sort
   /// Sort key Sort order of page.
-
+  ///
   /// @param beforeCount
   /// The count of number of players before the current player to include.
-
+  ///
   /// @param afterCount
   /// The count of number of players after the current player to include.
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardView(
       {required String leaderboardId,
@@ -536,22 +536,22 @@ class BrainCloudSocialLeaderboard {
   /// data associated with the score.
   ///
   /// This method returns the same data as GetGlobalLeaderboardView, but it will not return an error if the leaderboard does not exist.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_GLOBAL_LEADERBOARD_VIEW_IF_EXISTS
-
+  ///
   /// @param leaderboardId
   /// The id of the leaderboard to retrieve.
-
+  ///
   /// @param sort
   /// Sort key Sort order of page.
-
+  ///
   /// @param beforeCount
   /// The count of number of players before the current player to include.
-
+  ///
   /// @param afterCount
   /// The count of number of players after the current player to include.
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardViewIfExists(
       {required String leaderboardId,
@@ -569,25 +569,25 @@ class BrainCloudSocialLeaderboard {
   /// Method returns a view of global leaderboard results that centers on the current player.
   /// By using a non-current version id, the user can retrieve a historical leaderboard.
   /// See GetGlobalLeaderboardVersions method to retrieve the version id.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GetGlobalLeaderboardView
-
+  ///
   /// @param leaderboardId
   /// The id of the leaderboard to retrieve.
-
+  ///
   /// @param sort
   /// Sort key Sort order of page.
-
+  ///
   /// @param beforeCount
   /// The count of number of players before the current player to include.
-
+  ///
   /// @param afterCount
   /// The count of number of players after the current player to include.
-
+  ///
   /// @param versionId
   /// The historial version to retrieve. Use -1 for current leaderboard.
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardViewByVersion(
       {required String leaderboardId,
@@ -628,25 +628,25 @@ class BrainCloudSocialLeaderboard {
   /// See GetGlobalLeaderboardVersions method to retrieve the version id.
   ///
   /// This method returns the same data as GetGlobalLeaderboardViewByVersion, but it will not return an error if the leaderboard does not exist.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_GLOBAL_LEADERBOARD_VIEW_IF_EXISTS
-
+  ///
   /// @param leaderboardId
   /// The id of the leaderboard to retrieve.
-
+  ///
   /// @param sort
   /// Sort key Sort order of page.
-
+  ///
   /// @param beforeCount
   /// The count of number of players before the current player to include.
-
+  ///
   /// @param afterCount
   /// The count of number of players after the current player to include.
-
+  ///
   /// @param versionId
   /// The historial version to retrieve. Use -1 for current leaderboard.
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardViewByVersionIfExists(
       {required String leaderboardId,
@@ -681,10 +681,10 @@ class BrainCloudSocialLeaderboard {
   }
 
   /// Gets the global leaderboard versions.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GetGlobalLeaderboardVersions
-
+  ///
   /// @param leaderboardIdIn_leaderboard identifier.
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardVersions(
@@ -711,10 +711,10 @@ class BrainCloudSocialLeaderboard {
   }
 
   /// Retrieve the social leaderboard for a group.
-
+  ///
   /// Service Name - ocialLeaderboard
   /// Service Operation - GET_GROUP_SOCIAL_LEADERBOARD
-
+  ///
   /// @param leaderboardIdThe leaderboard to read
   /// @param groupIdThe group ID
   /// @returns Future<ServerResponse>
@@ -743,10 +743,10 @@ class BrainCloudSocialLeaderboard {
   }
 
   /// Retrieve the social leaderboard for a group by its version.
-
+  ///
   /// Service Name - ocialLeaderboard
   /// Service Operation - GET_GROUP_SOCIAL_LEADERBOARD_BY_VERSION
-
+  ///
   /// @param leaderboardIdThe leaderboard to read
   /// @param groupIdThe group ID
   /// @param versionIdThe version ID
@@ -786,19 +786,19 @@ class BrainCloudSocialLeaderboard {
   /// Note that the behaviour of posting a score can be modified in
   /// the brainCloud portal. By default, the server will only keep
   /// the player's best score.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - PostScore
-
+  ///
   /// @param leaderboardId
   /// The leaderboard to post to
-
+  ///
   /// @param score
   /// The score to post
-
+  ///
   /// @param data
   /// Optional user-defined data to post with the score
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> postScoreToLeaderboard(
       {required String leaderboardId,
@@ -831,16 +831,16 @@ class BrainCloudSocialLeaderboard {
   }
 
   /// Removes a player's score from the leaderboard
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - REMOVE_PLAYER_SCORE
-
+  ///
   /// @param leaderboardId
   /// The ID of the leaderboard
-
+  ///
   /// @param versionId
   /// The version of the leaderboard
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> removePlayerScore(
       {required String leaderboardId, required int versionId}) {
@@ -871,31 +871,31 @@ class BrainCloudSocialLeaderboard {
   /// You can optionally send a user-defined json String of data
   /// with the posted score. This String could include information
   /// relevant to the posted score.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - PostScoreDynamic
-
+  ///
   /// @param leaderboardId
   /// The leaderboard to post to
-
+  ///
   /// @param score
   /// The score to post
-
+  ///
   /// @param data
   /// Optional user-defined data to post with the score
-
+  ///
   /// @param leaderboardType
   /// leaderboard type
-
+  ///
   /// @param rotationType
   /// Type of rotation
-
+  ///
   /// @param rotationResetUTC
   /// Date to reset the leaderboard using UTC time in milliseconds since epoch
-
+  ///
   /// @param retainedCount
   /// How many rotations to keep
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> postScoreToDynamicLeaderboardUTC(
       {required String leaderboardId,
@@ -948,10 +948,10 @@ class BrainCloudSocialLeaderboard {
   /// To create new leaderboard, configJson must specify
   /// leaderboardType, rotationType, resetAt, and retainedCount, at a minimum,
   /// with support to optionally specify an expiry in minutes.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - POST_SCORE_DYNAMIC_USING_CONFIG
-
+  ///
   /// @param leaderboardIdThe leaderboard to post to.
   /// @param scoreA score to post.
   /// @param scoreDataOptional user-defined data to post with the score.
@@ -976,7 +976,7 @@ class BrainCloudSocialLeaderboard {
   ///     'resetAt': UTC timestamp, in milliseconds, at which to rotate the period. Always null if 'NEVER' rotation type;
   ///     'retainedCount': Required. Number of rotations (versions) of the leaderboard to retain;
   ///     'expireInMins': Optional. Duration, in minutes, before the leaderboard is to automatically expire.
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> postScoreToDynamicLeaderboardUsingConfig(
       {required String leaderboardId,
@@ -1019,34 +1019,34 @@ class BrainCloudSocialLeaderboard {
   /// You can optionally send a user-defined json String of data
   /// with the posted score. This String could include information
   /// relevant to the posted score.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - PostScoreToDynamicLeaderboard
-
+  ///
   /// @param leaderboardId
   /// The leaderboard to post to
-
+  ///
   /// @param groupId
   /// group ID the leaderboard belongs to
-
+  ///
   /// @param score
   /// The score to post
-
+  ///
   /// @param data
   /// Optional user-defined data to post with the score
-
+  ///
   /// @param leaderboardType
   /// leaderboard type
-
+  ///
   /// @param rotationType
   /// Type of rotation
-
+  ///
   /// @param rotationResetUTC
   /// Date to reset the leaderboard UTC
-
+  ///
   /// @param retainedCount
   /// How many rotations to keep
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> postScoreToDynamicGroupLeaderboardUTC(
       {required String leaderboardId,
@@ -1101,31 +1101,31 @@ class BrainCloudSocialLeaderboard {
   /// You can optionally send a user-defined json String of data
   /// with the posted score. This String could include information
   /// relevant to the posted score.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - PostScoreDynamic
-
+  ///
   /// @param leaderboardId
   /// The leaderboard to post to
-
+  ///
   /// @param score
   /// The score to post
-
+  ///
   /// @param data
   /// Optional user-defined data to post with the score
-
+  ///
   /// @param leaderboardType
   /// leaderboard type
-
+  ///
   /// @param rotationResetUTC
   /// Date to reset the leaderboard using UTC time since epoch
-
+  ///
   /// @param retainedCount
   /// How many rotations to keep
-
+  ///
   /// @param numDaysToRotate
   /// How many days between each rotation
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> postScoreToDynamicLeaderboardDaysUTC(
       {required String leaderboardId,
@@ -1176,31 +1176,31 @@ class BrainCloudSocialLeaderboard {
   /// Post the group score to the given group leaderboard
   /// and dynamically create if necessary. LeaderboardType,
   /// rotationType, rotationReset, and retainedCount are required.
-
+  ///
   /// @param leaderboardId
   /// The leaderboard to post to
-
+  ///
   /// @param groupId
   /// The id of the group.
-
+  ///
   /// @param score
   /// The score to post
-
+  ///
   /// @param data
   /// Optional user-defined data to post with the score
-
+  ///
   /// @param leaderboardType
   /// leaderboard type
-
+  ///
   /// @param rotationResetUTC
   /// Date to reset the leaderboard using UTC time since epoch
-
+  ///
   /// @param retainedCount
   /// How many rotations to keep
-
+  ///
   /// @param numDaysToRotate
   /// How many days between each rotation
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> postScoreToDynamicGroupLeaderboardDaysUTC(
       {required String leaderboardId,
@@ -1244,23 +1244,23 @@ class BrainCloudSocialLeaderboard {
               statusMessage: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
-        ServiceOperation.postScoreDynamic, data, callback);
+        ServiceOperation.postScoreToDynamicGroupLeaderboard, data, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;
   }
 
   /// Retrieve the social leaderboard for a list of players.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_PLAYERS_SOCIAL_LEADERBOARD
-
+  ///
   /// @param leaderboardId
   /// The ID of the leaderboard
-
+  ///
   /// @param profileIds
   /// The IDs of the players
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getPlayersSocialLeaderboard(
       {required String leaderboardId, required List<String> profileIds}) {
@@ -1288,16 +1288,16 @@ class BrainCloudSocialLeaderboard {
 
   /// Retrieve the social leaderboard for a list of players.
   /// This function returns the same data as GetPlayersSocialLeaderboard, but it will not return an error if the leaderboard does not exist.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_PLAYERS_SOCIAL_LEADERBOARD_IF_EXISTS
-
+  ///
   /// @param leaderboardId
   /// The ID of the leaderboard
-
+  ///
   /// @param profileIds
   /// The IDs of the players
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getPlayersSocialLeaderboardIfExists(
       {required String leaderboardId, required List<String> profileIds}) {
@@ -1323,19 +1323,19 @@ class BrainCloudSocialLeaderboard {
   }
 
   /// Retrieve the social leaderboard for a list of players by their version.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_PLAYERS_SOCIAL_LEADERBOARD_BY_VERSION
-
+  ///
   /// @param leaderboardId
   /// The ID of the leaderboard
-
+  ///
   /// @param profileIds
   /// The IDs of the players
-
+  ///
   /// @param versionId
   /// The version
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getPlayersSocialLeaderboardByVersion(
       {required String leaderboardId,
@@ -1366,19 +1366,19 @@ class BrainCloudSocialLeaderboard {
 
   /// Retrieve the social leaderboard for a list of players by their version.
   /// This function returns the same data as GetPlayersSocialLeaderboardByVersion, but it will not return an error if the leaderboard does not exist.
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_PLAYERS_SOCIAL_LEADERBOARD_BY_VERSION_IF_EXISTS
-
+  ///
   /// @param leaderboardId
   /// The ID of the leaderboard
-
+  ///
   /// @param profileIds
   /// The IDs of the players
-
+  ///
   /// @param versionId
   /// The version
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getPlayersSocialLeaderboardByVersionIfExists(
       {required String leaderboardId,
@@ -1411,10 +1411,10 @@ class BrainCloudSocialLeaderboard {
   }
 
   /// Retrieve a list of all leaderboards
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - LIST_LEADERBOARDS
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> listAllLeaderboards() {
     Completer<ServerResponse> completer = Completer();
@@ -1435,13 +1435,13 @@ class BrainCloudSocialLeaderboard {
   }
 
   /// Gets the number of entries in a global leaderboard
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_GLOBAL_LEADERBOARD_ENTRY_COUNT
-
+  ///
   /// @param leaderboardId
   /// The ID of the leaderboard
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardEntryCount(
       {required String leaderboardId}) {
@@ -1450,16 +1450,16 @@ class BrainCloudSocialLeaderboard {
   }
 
   /// Gets the number of entries in a global leaderboard
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_GLOBAL_LEADERBOARD_ENTRY_COUNT
-
+  ///
   /// @param leaderboardId
   /// The ID of the leaderboard
-
+  ///
   /// @param versionId
   /// The version of the leaderboard
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardEntryCountByVersion(
       {required String leaderboardId, required int versionId}) {
@@ -1489,16 +1489,16 @@ class BrainCloudSocialLeaderboard {
   }
 
   /// Gets a player's score from a leaderboard
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_PLAYER_SCORE
-
+  ///
   /// @param leaderboardId
   /// The ID of the leaderboard
-
+  ///
   /// @param versionId
   /// The version of the leaderboard. Use -1 for current.
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getPlayerScore(
       {required String leaderboardId, required int versionId}) {
@@ -1525,19 +1525,19 @@ class BrainCloudSocialLeaderboard {
   }
 
   /// Gets a player's highest scores from a leaderboard
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_PLAYER_SCORES
-
+  ///
   /// @param leaderboardId
   /// The ID of the leaderboard
-
+  ///
   /// @param versionId
   /// The version of the leaderboard. Use -1 for current.
-
+  ///
   /// @param maxResults
   /// The number of max results to return.
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getPlayerScores(
       {required String leaderboardId,
@@ -1567,16 +1567,16 @@ class BrainCloudSocialLeaderboard {
   }
 
   /// Gets a player's score from multiple leaderboards
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_PLAYER_SCORES_FROM_LEADERBOARDS
-
+  ///
   /// @param leaderboardIds
   /// A collection of leaderboardIds to retrieve scores from
-
+  ///
   /// @param versionId
   /// The version of the leaderboard. Use -1 for current.
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getPlayerScoresFromLeaderboards(
       {required List<String> leaderboardIds}) {
@@ -1602,22 +1602,22 @@ class BrainCloudSocialLeaderboard {
   }
 
   /// Posts score to Group's leaderboard - NOTE the user must be a member of the group
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - POST_SCORE_TO_GROUP_LEADERBOARD
-
+  ///
   /// @param leaderboardId
   /// the id of the leaderboard
-
+  ///
   /// @param groupId
   /// The groups Id
-
+  ///
   /// @param score
   /// The score you wish to post
-
+  ///
   /// @param data
   /// Extra data json
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> postScoreToGroupLeaderboard(
       {required String leaderboardId,
@@ -1652,19 +1652,19 @@ class BrainCloudSocialLeaderboard {
   }
 
   /// Posts score to Group's leaderboard - NOTE the user must be a member of the group
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - POST_SCORE_TO_GROUP_LEADERBOARD
-
+  ///
   /// @param leaderboardId
   /// the id of the leaderboard
-
+  ///
   /// @param groupId
   /// The groups Id
-
+  ///
   /// @param versionId
   /// The version defaults to -1
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> removeGroupScore(
       {required String leaderboardId,
@@ -1694,25 +1694,25 @@ class BrainCloudSocialLeaderboard {
   }
 
   /// Retrieve a view of the group leaderboard surrounding the current group
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_GROUP_LEADERBOARD_VIEW
-
+  ///
   /// @param leaderboardId
   /// the id of the leaderboard
-
+  ///
   /// @param groupId
   /// The groups Id
-
+  ///
   /// @param sort
   /// The groups Id
-
+  ///
   /// @param beforeCount
   /// The count of number of players before the current player to include.
-
+  ///
   /// @param afterCount
   /// The count of number of players after the current player to include.
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getGroupLeaderboardView(
       {required String leaderboardId,
@@ -1747,28 +1747,28 @@ class BrainCloudSocialLeaderboard {
   }
 
   /// Retrieve a view of the group leaderboard surrounding the current group
-
+  ///
   /// Service Name - leaderboard
   /// Service Operation - GET_GROUP_LEADERBOARD_VIEW_BY_VERSION
-
+  ///
   /// @param leaderboardId
   /// the id of the leaderboard
-
+  ///
   /// @param groupId
   /// The groups Id
-
+  ///
   /// @param sort
   /// The groups Id
-
+  ///
   /// @param beforeCount
   /// The count of number of players before the current player to include.
-
+  ///
   /// @param afterCount
   /// The count of number of players after the current player to include.
-
+  ///
   /// @param versionId
   /// The version
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getGroupLeaderboardViewByVersion(
       {required String leaderboardId,
