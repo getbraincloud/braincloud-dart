@@ -66,7 +66,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// functionality as you see fit. It is simply used as a starting point to get developers off the
 /// ground - especially with authentications.
 ///
-/// See http://getbraincloud.com/apidocs/ for the full list of brainCloud APIs.
+/// [ref link]: See http://getbraincloud.com/apidocs/ for the full list of brainCloud APIs.
 class BrainCloudWrapper {
   /// The key for the user prefs profile id
   static String prefsProfileId = "brainCloud.profileId";
@@ -100,10 +100,14 @@ class BrainCloudWrapper {
   late BrainCloudClient _client;
   BrainCloudClient get brainCloudClient => _client;
 
+  /// @returns _alwaysAllowProfileSwitch
   getAllowProfileSwitch() {
     return _alwaysAllowProfileSwitch;
   }
 
+  /// Sets _alwaysAllowProfileSwitch
+  ///
+  /// @param value bool
   setAllowProfileSwitch(bool value) {
     _alwaysAllowProfileSwitch = value;
   }
@@ -244,11 +248,16 @@ class BrainCloudWrapper {
   }
 
   /// Initialize the brainCloud client with the passed in parameters.
-
+  ///
   /// @param urlThe brainCloud server url
+  ///
   /// @param secretKeyThe app's secret
+  ///
   /// @param appIdThe app's id
+  ///
   /// @param versionThe app's version
+  ///
+  /// @return Future
   Future<void> init(
       {required String secretKey,
       required String appId,
@@ -347,7 +356,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateAnonymous(true)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -371,7 +382,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateHandoff(handoffId, securityToken)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -392,7 +405,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateSettopHandoff(handoffCode)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -428,7 +443,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateEmailPassword(email, password, forceCreate)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -463,7 +480,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateExternal(userid, token, externalAuthName, forceCreate)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -492,7 +511,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateFacebook(fbUserId, fbAuthToken, forceCreate)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -522,7 +543,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateFacebookLimited(fbLimitedUserId, fbAuthToken, forceCreate)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -551,7 +574,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateOculus(oculusUserId, oculusNonce, forceCreate)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -579,7 +604,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticatePlaystationNetwork(accountId, authToken, forceCreate)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -608,7 +635,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticatePlaystation5(accountId, authToken, forceCreate)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -632,7 +661,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateGameCenter(gameCenterId, forceCreate)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -661,7 +692,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateApple(appleUserId, identityToken, forceCreate)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -690,7 +723,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateGoogle(googleUserId, serverAuthCode, forceCreate)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -719,7 +754,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateGoogleOpenId(googleUserAccountEmail, idToken, forceCreate)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -748,7 +785,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateSteam(userid, sessionticket, forceCreate)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -780,7 +819,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateTwitter(userid, token, secret, forceCreate)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -811,8 +852,12 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateUniversal(username, password, forceCreate)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
+    }).onError((error, stackTrace) {
+      return ServerResponse(statusCode: 400);
     });
   }
 
@@ -850,7 +895,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateAdvanced(authenticationType, ids, forceCreate, extraJson)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -879,7 +926,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateUltra(ultraUsername, ultraIdToken, forceCreate)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -909,7 +958,9 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateNintendo(accountId, authToken, forceCreate)
         .then((response) {
-      authSuccessCallback(json: response.toJson());
+      if (response.isSuccess()) {
+        authSuccessCallback(json: response.toJson());
+      }
       return response;
     });
   }
@@ -1764,7 +1815,7 @@ class BrainCloudWrapper {
 
   /// Callback for authentication success using the BrainCloudWrapper class.
 
-  /// @param jsonThe returned json
+  /// @param json The returned json
   void authSuccessCallback({required Map<String, dynamic> json}) {
     // grab the profileId and save it in PlayerPrefs
 

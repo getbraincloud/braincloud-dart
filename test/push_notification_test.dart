@@ -11,21 +11,19 @@ main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Push Notifications", () {
-    TestUser userA = TestUser("userA", generateRandomString(8));
+    TestUser userA = TestUser("UserA", generateRandomString(8));
     TestUser userB = TestUser("UserB", generateRandomString(8));
 
     setUp(() async {
-      if (bcTest.bcWrapper.brainCloudClient.isAuthenticated()) {
-        await bcTest.bcWrapper.logout();
-      }
-
       ServerResponse userA_response = await bcTest.bcWrapper
           .authenticateUniversal(
               username: userA.name,
               password: userA.password,
               forceCreate: true);
 
-      userA.profileId = userA_response.body?["profileId"];
+      expect(userA_response.statusCode, StatusCodes.ok);
+
+      userA.profileId = userA_response.body!["profileId"];
 
       ServerResponse userB_response = await bcTest.bcWrapper
           .authenticateUniversal(
@@ -33,7 +31,9 @@ main() {
               password: userB.password,
               forceCreate: true);
 
-      userB.profileId = userB_response.body?["profileId"];
+      expect(userB_response.statusCode, StatusCodes.ok);
+
+      userB.profileId = userB_response.body!["profileId"];
     });
 
     test("deregisterAllPushNotificationDeviceTokens()", () async {
@@ -59,14 +59,14 @@ main() {
     test("sendSimplePushNotification()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .sendSimplePushNotification(
-              toProfileId: userA.profileId as String, message: "Test message.");
+              toProfileId: userA.profileId!, message: "Test message.");
       expect(response.statusCode, StatusCodes.ok);
     });
 
     test("sendRichPushNotification()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .sendRichPushNotification(
-              toProfileId: userA.profileId as String,
+              toProfileId: userA.profileId!,
               notificationTemplateId: 1,
               substitutionJson: "");
 
@@ -76,7 +76,7 @@ main() {
     test("sendRichPushNotificationWithParams()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .sendRichPushNotificationWithParams(
-              toProfileId: userA.profileId as String,
+              toProfileId: userA.profileId!,
               notificationTemplateId: 1,
               substitutionJson: jsonEncode({"1": userA.name}));
       expect(response.statusCode, StatusCodes.ok);
@@ -119,7 +119,7 @@ main() {
     test("scheduleNormalizedPushNotificationUTC()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .scheduleNormalizedPushNotificationUTC(
-              profileId: userA.profileId as String,
+              profileId: userA.profileId!,
               alertContentJson: jsonEncode(
                   {"body": "content of message", "title": "message title"}),
               startTimeUTC: 0);
@@ -130,7 +130,7 @@ main() {
     test("scheduleNormalizedPushNotificationMinutes()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .scheduleNormalizedPushNotificationMinutes(
-              profileId: userA.profileId as String,
+              profileId: userA.profileId!,
               alertContentJson: jsonEncode(
                   {"body": "content of message", "title": "message title"}),
               minutesFromNow: 42);
@@ -141,7 +141,7 @@ main() {
     test("scheduleRichPushNotificationUTC()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .scheduleRichPushNotificationUTC(
-              profileId: userA.profileId as String,
+              profileId: userA.profileId!,
               notificationTemplateId: 1,
               substitutionsJson: jsonEncode({"1": userA.name}),
               startTimeUTC: 0);
@@ -152,7 +152,7 @@ main() {
     test("scheduleRichPushNotificationMinutes()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .scheduleRichPushNotificationMinutes(
-              profileId: userA.profileId as String,
+              profileId: userA.profileId!,
               notificationTemplateId: 1,
               substitutionsJson: jsonEncode({"1": userA.name}),
               minutesFromNow: 42);
@@ -172,7 +172,7 @@ main() {
     test("sendNormalizedPushNotification()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .sendNormalizedPushNotification(
-              toProfileId: userB.profileId as String,
+              toProfileId: userB.profileId!,
               alertContentJson: jsonEncode(
                   {"body": "content of message", "title": "message title"}));
 
@@ -182,10 +182,7 @@ main() {
     test("sendNormalizedPushNotificationBatch()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .sendNormalizedPushNotificationBatch(
-              profileIds: [
-            userA.profileId as String,
-            userB.profileId as String
-          ],
+              profileIds: [userA.profileId!, userB.profileId!],
               alertContentJson: jsonEncode(
                   {"body": "content of message", "title": "message title"}));
 
