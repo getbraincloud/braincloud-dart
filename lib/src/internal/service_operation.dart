@@ -148,8 +148,12 @@ class ServiceOperation {
       ServiceOperation._("GET_USERS_ONLINE_STATUS");
   static ServiceOperation getSocialLeaderboard =
       ServiceOperation._("GET_SOCIAL_LEADERBOARD");
+  static ServiceOperation GetSocialLeaderboardIfExists =
+      ServiceOperation._("GET_SOCIAL_LEADERBOARD_IF_EXISTS");
   static ServiceOperation getSocialLeaderboardByVersion =
       ServiceOperation._("GET_SOCIAL_LEADERBOARD_BY_VERSION");
+  static ServiceOperation getSocialLeaderboardByVersionIfExists =
+      ServiceOperation._("GET_SOCIAL_LEADERBOARD_BY_VERSION_IF_EXISTS");
   static ServiceOperation getMultiSocialLeaderboard =
       ServiceOperation._("GET_MULTI_SOCIAL_LEADERBOARD");
   static ServiceOperation getGlobalLeaderboard =
@@ -160,6 +164,8 @@ class ServiceOperation {
       ServiceOperation._("GET_GLOBAL_LEADERBOARD_PAGE_IF_EXISTS");
   static ServiceOperation getGlobalLeaderboardView =
       ServiceOperation._("GET_GLOBAL_LEADERBOARD_VIEW");
+  static ServiceOperation getGlobalLeaderboardViewIfExists =
+      ServiceOperation._("GET_GLOBAL_LEADERBOARD_VIEW_IF_EXISTS");
   static ServiceOperation getGlobalLeaderboardVersions =
       ServiceOperation._("GET_GLOBAL_LEADERBOARD_VERSIONS");
   static ServiceOperation postScore = ServiceOperation._("POST_SCORE");
@@ -181,8 +187,12 @@ class ServiceOperation {
       ServiceOperation._("GET_GROUP_SOCIAL_LEADERBOARD_BY_VERSION");
   static ServiceOperation getPlayersSocialLeaderboard =
       ServiceOperation._("GET_PLAYERS_SOCIAL_LEADERBOARD");
+  static ServiceOperation GetPlayersSocialLeaderboardIfExists =
+      ServiceOperation._("GET_PLAYERS_SOCIAL_LEADERBOARD_IF_EXISTS");
   static ServiceOperation getPlayersSocialLeaderboardByVersion =
       ServiceOperation._("GET_PLAYERS_SOCIAL_LEADERBOARD_BY_VERSION");
+  static ServiceOperation getPlayersSocialLeaderboardByVersionIfExists =
+      ServiceOperation._("GET_PLAYERS_SOCIAL_LEADERBOARD_BY_VERSION_IF_EXISTS");
   static ServiceOperation listAllLeaderboards =
       ServiceOperation._("LIST_ALL_LEADERBOARDS");
   static ServiceOperation getGlobalLeaderboardEntryCount =

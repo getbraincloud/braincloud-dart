@@ -51,7 +51,6 @@ import 'package:braincloud_dart/src/braincloud_user_items.dart';
 import 'package:braincloud_dart/src/braincloud_virtual_currency.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// <summary>
 /// The BrainCloudWrapper class provides some glue between the Unity environment and the
 /// brainCloud C# library. Specifically the BrainCloudWrapper does the following:
 ///
@@ -67,49 +66,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// functionality as you see fit. It is simply used as a starting point to get developers off the
 /// ground - especially with authentications.
 ///
-/// The meat of the BrainCloud api is available by using
-///
-/// BrainCloudWrapper.GetBC()
-///
-/// to grab an instance of the BrainCloudClient. From here you have access to all of the brainCloud
-/// API service. So for instance, to execute a read player statistics API you would do the following:
-///
-/// BrainCloudWrapper.GetBC().PlayerStatisticsService.ReadAllUserStats()
-///
-/// Similar services exist for other APIs.
-///
 /// See http://getbraincloud.com/apidocs/ for the full list of brainCloud APIs.
-/// </summary>
-
 class BrainCloudWrapper {
-  /// <summary>
   /// The key for the user prefs profile id
-  /// </summary>
   static String prefsProfileId = "brainCloud.profileId";
 
-  /// <summary>
   /// The key for the user prefs anonymous id
-  /// </summary>
   static String prefsAnonymousId = "brainCloud.anonymousId";
 
-  /// <summary>
   /// The key for the user prefs authentication type
-  /// </summary>
   static String prefsAuthenticationType = "brainCloud.authenticationType";
 
-  /// <summary>
   /// The key for the user prefs session id
-  /// </summary>
   static String prefsSessionId = "brainCloud.authenticationType";
 
-  /// <summary>
   /// The key for the user prefs session id
-  /// </summary>
   static String prefsLastPacketId = "brainCloud.lastPacketId";
 
-  /// <summary>
   /// The name of the singleton brainCloud game object
-  /// </summary>
   static String gameobjectBraincloud = "BrainCloudWrapper";
 
   static String authenticationAnonymous = "anonymous";
@@ -123,8 +97,6 @@ class BrainCloudWrapper {
 
   WrapperData _wrapperData = WrapperData();
 
-  //Getting this error? - "An object reference is required for the non-static field, method, or property 'BrainCloudWrapper.Client'"
-  //Switch to BrainCloudWrapper.GetBC();
   late BrainCloudClient _client;
   BrainCloudClient get brainCloudClient => _client;
 
@@ -144,9 +116,8 @@ class BrainCloudWrapper {
     _client.update();
   }
 
-  /// <summary>
   /// Name of this wrapper instance. Used for data loading
-  /// </summary>
+
   String? wrapperName;
 
   BrainCloudEntity get entityService => _client.entityService;
@@ -240,9 +211,8 @@ class BrainCloudWrapper {
 
   Timer? _updateTimer;
 
-  /// <summary>
   /// Create the brainCloud Wrapper, which has utility helpers for using the brainCloud API
-  /// </summary>
+
   BrainCloudWrapper({BrainCloudClient? client, this.wrapperName}) {
     if (client != null) {
       _client = client;
@@ -273,13 +243,12 @@ class BrainCloudWrapper {
     runCallbacks();
   }
 
-  /// <summary>
   /// Initialize the brainCloud client with the passed in parameters.
-  /// </summary>
-  /// <param name="url">The brainCloud server url</param>
-  /// <param name="secretKey">The app's secret</param>
-  /// <param name="appId">The app's id</param>
-  /// <param name="version">The app's version</param>
+
+  /// @param urlThe brainCloud server url
+  /// @param secretKeyThe app's secret
+  /// @param appIdThe app's id
+  /// @param versionThe app's version
   Future<void> init(
       {required String secretKey,
       required String appId,
@@ -302,14 +271,13 @@ class BrainCloudWrapper {
 
   bool get isInitialized => _client.isInitialized();
 
-  /// <summary>
   /// Initialize the brainCloud client with the passed in parameters. This version of Initialize
   /// overrides the parameters configured in the Unity brainCloud settings window.
-  /// </summary>
-  /// <param name="url">The brainCloud server url</param>
-  /// <param name="secretKey">The app's secret</param>
-  /// <param name="appId">The app's id</param>
-  /// <param name="version">The app's version</param>
+
+  /// @param urlThe brainCloud server url
+  /// @param secretKeyThe app's secret
+  /// @param appIdThe app's id
+  /// @param versionThe app's version
   Future<void> initWithApps(
       {required String url,
       required String defaultAppId,
@@ -330,11 +298,10 @@ class BrainCloudWrapper {
     _startTimer();
   }
 
-  /// <summary>
   /// Resets the wrapper.
   /// Since the WrapperName is set upon re-initialization of the wrapper, the name is reset by choice here. As the user
   /// may want to reset the wrapper's fields without also restting the name.
-  /// </summary>
+
   void resetWrapper({bool resetWrapperName = false}) {
     _wrapperData = WrapperData();
     _client
@@ -349,18 +316,16 @@ class BrainCloudWrapper {
     _updateTimer?.cancel();
   }
 
-  /// <summary>
   /// If set to true, profile id is never sent along with non-anonymous authenticates
   /// thereby ensuring that valid credentials always work but potentially cause a profile switch.
   /// If set to false, profile id is passed to the server (if it has been stored) and a profile id
   /// to non-anonymous credential mismatch will cause an error.
-  /// </summary>
-  /// <param name="enabled">True if we always allow profile switch</param>
+
+  /// @param enabledTrue if we always allow profile switch
   void setAlwaysAllowProfileSwitch(bool enabled) {
     _alwaysAllowProfileSwitch = enabled;
   }
 
-  /// <summary>
   /// authenticate a user anonymously with brainCloud - used for apps that don't want to bother
   /// the user to login, or for users who are sensitive to their privacy
   ///
@@ -371,12 +336,11 @@ class BrainCloudWrapper {
   /// once the user has been created results in an inability to log into that account!
   /// For this reason, using other recoverable authentication methods (like email/password, Facebook)
   /// are encouraged.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
 
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateAnonymous() {
     initializeIdentity(true);
 
@@ -388,19 +352,18 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate the user using a Pase userid and authentication token
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="handoffId">
+
+  /// @param handoffId
   /// The method to call in event of successful login
-  /// </param>
-  /// <param name="securityToken">
+
+  /// @param securityToken
   /// The method to call in event of successful login
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateHandoff(
       {required String handoffId, required String securityToken}) {
     initializeIdentity(false);
@@ -413,15 +376,14 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate user with handoffCode
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="handoffCode">
-  /// </param>
+
+  /// @param handoffCode
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateSettopHandoff({
     required String handoffCode,
   }) {
@@ -435,28 +397,27 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate the user with a custom Email and Password.  Note that the client app
   /// is responsible for collecting (and storing) the e-mail and potentially password
   /// (for convenience) in the client data.  For the greatest security,
   /// force the user to re-enter their password at each login.
   /// (Or at least give them that option).
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
   ///
   /// Note that the password sent from the client to the server is protected via SSL.
-  /// </remarks>
-  /// <param name="email">
+
+  /// @param email
   /// The e-mail address of the user
-  /// </param>
-  /// <param name="password">
+
+  /// @param password
   /// The password of the user
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateEmailPassword({
     required String email,
     required String password,
@@ -472,26 +433,25 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate the user via cloud code (which in turn validates the supplied credentials against an external system).
   /// This allows the developer to extend brainCloud authentication to support other backend authentication systems.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="userid">
+
+  /// @param userid
   /// The user id
-  /// </param>
-  /// <param name="token">
+
+  /// @param token
   /// The user token (password etc)
-  /// </param>
-  /// /// <param name="externalAuthName">
+
+  /// /// @param externalAuthName
   /// The name of the cloud script to call for external authentication
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateExternal({
     required String userid,
     required String token,
@@ -508,23 +468,22 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate the user with brainCloud using their Facebook Credentials
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="externalId">
+
+  /// @param externalId
   /// The facebook id of the user
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// The validated token from the Facebook SDK (that will be further
   /// validated when sent to the bC service)
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateFacebook(
       {required String fbUserId,
       required String fbAuthToken,
@@ -538,23 +497,22 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate the user with brainCloud using their FacebookLimited Credentials
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="externalId">
+
+  /// @param externalId
   /// The facebookLimited id of the user
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// The validated token from the FacebookLimited SDK (that will be further
   /// validated when sent to the bC service)
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateFacebookLimited(
       {required String fbLimitedUserId,
       required String fbAuthToken,
@@ -569,22 +527,21 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate the user with brainCloud using their Oculus Credentials
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="oculusUserId">
+
+  /// @param oculusUserId
   /// The oculus id of the user
-  /// </param>
-  /// <param name="oculusNonce">
+
+  /// @param oculusNonce
   /// Validation token from Oculus gotten through the Oculus sdk
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateOculus(
       {required String oculusUserId,
       required String oculusNonce,
@@ -599,22 +556,21 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate the user using their psn account id and an auth token
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="accountId">
+
+  /// @param accountId
   /// The user's PSN account id
-  /// </param>
-  /// <param name="authToken">
+
+  /// @param authToken
   /// The user's PSN auth token
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticatePlaystationNetwork(
       {required String accountId,
       required String authToken,
@@ -628,22 +584,21 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate the user using their psn account id and an auth token
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="accountId">
+
+  /// @param accountId
   /// The user's PSN account id
-  /// </param>
-  /// <param name="authToken">
+
+  /// @param authToken
   /// The user's PSN auth token
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticatePlaystation5(
       {required String accountId,
       required String authToken,
@@ -658,19 +613,18 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate the user using their Game Center id
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="gameCenterId">
+
+  /// @param gameCenterId
   /// The user's game center id  (use the playerID property from the local GKPlayer object)
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateGameCenter(
       {required String gameCenterId, required bool forceCreate}) {
     initializeIdentity(false);
@@ -683,22 +637,21 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate the user using an apple id
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="appleUserId">
+
+  /// @param appleUserId
   /// This can be the user id OR the email of the user for the account
-  /// </param>
-  /// <param name="identityToken">
+
+  /// @param identityToken
   /// The token confirming the user's identity
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateApple(
       {required String appleUserId,
       required String identityToken,
@@ -713,22 +666,21 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate the user using a google userId and google server authentication code.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="googleUserId">
+
+  /// @param googleUserId
   /// String representation of google+ userId. Gotten with calls like RequestUserId
-  /// </param>
-  /// <param name="serverAuthCode">
+
+  /// @param serverAuthCode
   /// The server authentication token derived via the google apis. Gotten with calls like RequestServerAuthCode
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateGoogle(
       {required String googleUserId,
       required String serverAuthCode,
@@ -743,22 +695,21 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate the user using a google openId.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="googleUserAccountEmail"
+
+  /// @param googleUserAccountEmail
   /// The email associated with the google user
-  /// </param>
-  /// <param name="IdToken">
+
+  /// @param IdToken
   /// The id token of the google account. Can get with calls like requestIdToken
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateGoogleOpenId(
       {required String googleUserAccountEmail,
       required String idToken,
@@ -773,22 +724,21 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate the user using a steam userid and session ticket (without any validation on the userid).
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="userid">
+
+  /// @param userid
   /// String representation of 64 bit steam id
-  /// </param>
-  /// <param name="sessionticket">
+
+  /// @param sessionticket
   /// The session ticket of the user (hex encoded)
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateSteam(
       {required String userid,
       required String sessionticket,
@@ -803,25 +753,24 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate the user using a Twitter userid, authentication token, and secret from twitter.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="userid">
+
+  /// @param userid
   /// String representation of a Twitter user ID
-  /// </param>
-  /// <param name="token">
+
+  /// @param token
   /// The authentication token derived via the Twitter apis
-  /// </param>
-  /// <param name="secret">
+
+  /// @param secret
   /// The secret given when attempting to link with Twitter
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateTwitter(
       {required String userid,
       required String token,
@@ -836,24 +785,23 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate the user using a userid and password (without any validation on the userid).
   /// Similar to authenticateEmailPassword - except that that method has additional features to
   /// allow for e-mail validation, password resets, etc.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="email">
+
+  /// @param email
   /// The e-mail address of the user
-  /// </param>
-  /// <param name="password">
+
+  /// @param password
   /// The password of the user
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateUniversal(
       {required String username,
       required String password,
@@ -868,26 +816,25 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// A generic authenticate method that translates to the same as calling a specific one, except it takes an extraJson
   /// that will be passed along to pre-post hooks.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="authenticationType">
+
+  /// @param authenticationType
   ///  Universal, Email, Facebook, etc
-  /// </param>
-  /// <param name="ids">
+
+  /// @param ids
   /// Auth IDs structure
-  /// </param>
-  /// /// <param name="forceCreate">
+
+  /// /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
-  /// /// <param name="extraJson">
+
+  /// /// @param extraJson
   /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty String for no extraJson.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateAdvanced(
       {required AuthenticationType authenticationType,
       required AuthenticationIds ids,
@@ -908,22 +855,21 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate the user for Ultra.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="ultraUsername">
+
+  /// @param ultraUsername
   /// It's what the user uses to log into the Ultra endpoint initially
-  /// </param>
-  /// <param name="ultraIdToken">
+
+  /// @param ultraIdToken
   /// The "id_token" taken from Ultra's JWT.
-  /// </param>
-  /// /// <param name="forceCreate">
+
+  /// /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateUltra(
       {required String ultraUsername,
       required String ultraIdToken,
@@ -938,22 +884,21 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// authenticate the user using their Nintendo account id and an auth token
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="accountId">
+
+  /// @param accountId
   /// The user's Nintendo account id
-  /// </param>
-  /// <param name="authToken">
+
+  /// @param authToken
   /// The user's Nintendo auth token
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> authenticateNintendo({
     required String accountId,
     required String authToken,
@@ -969,7 +914,6 @@ class BrainCloudWrapper {
     });
   }
 
-  /// <summary>
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean designflow from anonymous to signed profiles
@@ -979,20 +923,20 @@ class BrainCloudWrapper {
   /// (for convenience) in the client data.  For the greatest security,
   /// force the user to re-enter their password at each login.
   /// (Or at least give them that option).
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="email">
+
+  /// @param email
   /// The e-mail address of the user
-  /// </param>
-  /// <param name="password">
+
+  /// @param password
   /// The password of the user
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> smartSwitchauthenticateEmail({
     required String email,
     required String password,
@@ -1003,30 +947,29 @@ class BrainCloudWrapper {
         email: email, password: password, forceCreate: forceCreate);
   }
 
-  /// <summary>
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean designflow from anonymous to signed profiles
   ///
   /// authenticate the user via cloud code (which in turn validates the supplied credentials against an external system).
   /// This allows the developer to extend brainCloud authentication to support other backend authentication systems.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="userid">
+
+  /// @param userid
   /// The user id
-  /// </param>
-  /// <param name="token">
+
+  /// @param token
   /// The user token (password etc)
-  /// </param>
-  /// /// <param name="externalAuthName">
+
+  /// /// @param externalAuthName
   /// The name of the cloud script to call for external authentication
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> smartSwitchauthenticateExternal(
       {required String userid,
       required String token,
@@ -1040,27 +983,26 @@ class BrainCloudWrapper {
         forceCreate: forceCreate);
   }
 
-  /// <summary>
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean designflow from anonymous to signed profiles
   ///
   /// authenticate the user with brainCloud using their Facebook Credentials
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="externalId">
+
+  /// @param externalId
   /// The facebook id of the user
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// The validated token from the Facebook SDK (that will be further
   /// validated when sent to the bC service)
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> smartSwitchauthenticateFacebook(
       {required String fbUserId,
       required String fbAuthToken,
@@ -1070,27 +1012,26 @@ class BrainCloudWrapper {
         fbUserId: fbUserId, fbAuthToken: fbAuthToken, forceCreate: forceCreate);
   }
 
-  /// <summary>
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean designflow from anonymous to signed profiles
   ///
   /// authenticate the user with brainCloud using their FacebookLimited Credentials
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="externalId">
+
+  /// @param externalId
   /// The facebookLimited id of the user
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// The validated token from the Facebook SDK (that will be further
   /// validated when sent to the bC service)
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> smartSwitchauthenticateFacebookLimited(
       {required String fbLimitedUserId,
       required String fbAuthToken,
@@ -1102,26 +1043,25 @@ class BrainCloudWrapper {
         forceCreate: forceCreate);
   }
 
-  /// <summary>
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean designflow from anonymous to signed profiles
   ///
   /// authenticate the user with brainCloud using their Oculus Credentials
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="oculusUserId">
+
+  /// @param oculusUserId
   /// The Oculus id of the user
-  /// </param>
-  /// <param name="oculusNonce">
+
+  /// @param oculusNonce
   /// Validation token from Oculus gotten through the Oculus sdk
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> smartSwitchauthenticateOculus(
       {required String oculusUserId,
       required String oculusNonce,
@@ -1134,28 +1074,26 @@ class BrainCloudWrapper {
         forceCreate: forceCreate);
   }
 
-  /// <summary>
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean designflow from anonymous to signed profiles
   ///
   /// authenticate the user with brainCloud using their PSN Credentials
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="psnAccountId">
+
+  /// @param psnAccountId
   /// The psn account id of the user
-  /// </param>
-  /// <param name="psnAuthToken">
+
+  /// @param psnAuthToken
   /// The validated token from the Playstation SDK (that will be further
   /// validated when sent to the bC service)
-  /// </param>
-  /// <param name="forceCreate">
-  /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
 
+  /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> smartSwitchauthenticatePlaystationNetwork(
       {required String psnAccountId,
       required String psnAuthToken,
@@ -1167,27 +1105,26 @@ class BrainCloudWrapper {
         forceCreate: forceCreate);
   }
 
-  /// <summary>
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean designflow from anonymous to signed profiles
   ///
   /// authenticate the user with brainCloud using their Apple Credentials
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="externalId">
+
+  /// @param externalId
   /// The apple id of the user
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// The validated token from the Apple SDK (that will be further
   /// validated when sent to the bC service)
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> smartSwitchauthenticateApple(
       {required String appleUserId,
       required String appleAuthToken,
@@ -1199,23 +1136,22 @@ class BrainCloudWrapper {
         forceCreate: forceCreate);
   }
 
-  /// <summary>
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean designflow from anonymous to signed profiles
   ///
   /// authenticate the user using their Game Center id
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="gameCenterId">
+
+  /// @param gameCenterId
   /// The user's game center id  (use the playerID property from the local GKPlayer object)
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> smartSwitchauthenticateGameCenter(
       {required String gameCenterId, required bool forceCreate}) async {
     await _smartSwitchAuthentication();
@@ -1223,26 +1159,25 @@ class BrainCloudWrapper {
         gameCenterId: gameCenterId, forceCreate: forceCreate);
   }
 
-  /// <summary>
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean designflow from anonymous to signed profiles
   ///
   /// authenticate the user using a google userid(email address) and google authentication token.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="userid">
+
+  /// @param userid
   /// String representation of google+ userid (email)
-  /// </param>
-  /// <param name="token">
+
+  /// @param token
   /// The authentication token derived via the google apis.
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> smartSwitchauthenticateGoogle(
       {required String userid,
       required String token,
@@ -1252,26 +1187,25 @@ class BrainCloudWrapper {
         googleUserId: userid, serverAuthCode: token, forceCreate: forceCreate);
   }
 
-  /// <summary>
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean designflow from anonymous to signed profiles
   ///
   /// authenticate the user using a google userid(email address) and google authentication token.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="userid">
+
+  /// @param userid
   /// String representation of google+ userid (email)
-  /// </param>
-  /// <param name="token">
+
+  /// @param token
   /// The authentication token derived via the google apis.
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> smartSwitchauthenticateGoogleOpenId(
       {required String userid,
       required String token,
@@ -1283,26 +1217,25 @@ class BrainCloudWrapper {
         forceCreate: forceCreate);
   }
 
-  /// <summary>
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean designflow from anonymous to signed profiles
   ///
   /// authenticate the user using a steam userid and session ticket (without any validation on the userid).
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="userid">
+
+  /// @param userid
   /// String representation of 64 bit steam id
-  /// </param>
-  /// <param name="sessionticket">
+
+  /// @param sessionticket
   /// The session ticket of the user (hex encoded)
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> smartSwitchauthenticateSteam(
       {required String userid,
       required String sessionticket,
@@ -1313,35 +1246,34 @@ class BrainCloudWrapper {
         userid: userid, sessionticket: sessionticket, forceCreate: forceCreate);
   }
 
-  /// <summary>
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean designflow from anonymous to signed profiles
   ///
   /// authenticate the user using a Twitter userid, authentication token, and secret from twitter.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="userid">
+
+  /// @param userid
   /// String representation of a Twitter user ID
-  /// </param>
-  /// <param name="token">
+
+  /// @param token
   /// The authentication token derived via the Twitter apis
-  /// </param>
-  /// <param name="secret">
+
+  /// @param secret
   /// The secret given when attempting to link with Twitter
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
-  /// <param name="success">
+
+  /// @param success
   /// The method to call in event of successful login
-  /// </param>
-  /// <param name="failure">
+
+  /// @param failure
   /// The method to call in the event of an error during authentication
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> smartSwitchauthenticateTwitter(
       {required String userid,
       required String token,
@@ -1352,7 +1284,6 @@ class BrainCloudWrapper {
         userid: userid, token: token, secret: secret, forceCreate: forceCreate);
   }
 
-  /// <summary>
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean designflow from anonymous to signed profiles
@@ -1360,20 +1291,20 @@ class BrainCloudWrapper {
   /// authenticate the user using a userid and password (without any validation on the userid).
   /// Similar to authenticateEmailPassword - except that that method has additional features to
   /// allow for e-mail validation, password resets, etc.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="email">
+
+  /// @param email
   /// The e-mail address of the user
-  /// </param>
-  /// <param name="password">
+
+  /// @param password
   /// The password of the user
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> smartSwitchauthenticateUniversal(
       {required String username,
       required String password,
@@ -1384,31 +1315,29 @@ class BrainCloudWrapper {
         username: username, password: password, forceCreate: forceCreate);
   }
 
-  /// <summary>
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean design flow from anonymous to signed profiles
   ///
   /// A generic authenticate method that translates to the same as calling a specific one, except it takes an extraJson
   /// that will be passed along to pre- or post- hooks.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="authenticationType">
-  /// Universal, Email, Facebook, etc
-  /// </param>
-  /// <param name="ids">
-  /// Auth IDs structure
-  /// </param>
-  /// /// <param name="forceCreate">
-  /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
-  /// /// <param name="extraJson">
-  /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty String for no extraJson.
-  /// </param>
 
+  /// @param authenticationType
+  /// Universal, Email, Facebook, etc
+
+  /// @param ids
+  /// Auth IDs structure
+
+  /// /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+
+  /// /// @param extraJson
+  /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty String for no extraJson.
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> smartSwitchauthenticateAdvanced(
       {required AuthenticationType authenticationType,
       required AuthenticationIds ids,
@@ -1422,28 +1351,26 @@ class BrainCloudWrapper {
         extraJson: extraJson);
   }
 
-  /// <summary>
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean designflow from anonymous to signed profiles
   ///
   /// authenticate the user for Ultra.
   ///
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="ultraUsername">
-  /// It's what the user uses to log into the Ultra endpoint initially
-  /// </param>
-  /// <param name="ultraIdToken">
-  /// The "id_token" taken from Ultra's JWT.
-  /// </param>
-  /// /// <param name="forceCreate">
-  /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
 
+  /// @param ultraUsername
+  /// It's what the user uses to log into the Ultra endpoint initially
+
+  /// @param ultraIdToken
+  /// The "id_token" taken from Ultra's JWT.
+
+  /// /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> smartSwitchauthenticateUltra(
       {required String ultraUsername,
       required String ultraIdToken,
@@ -1455,28 +1382,26 @@ class BrainCloudWrapper {
         forceCreate: forceCreate);
   }
 
-  /// <summary>
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean designflow from anonymous to signed profiles
   ///
   /// authenticate the user with brainCloud using their Nintendo Credentials
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Service Operation - authenticate
-  /// </remarks>
-  /// <param name="nintendoAccountId">
+
+  /// @param nintendoAccountId
   /// The Nintendo account id of the user
-  /// </param>
-  /// <param name="nintendoAuthToken">
+
+  /// @param nintendoAuthToken
   /// The validated token from the Nintendo SDK (that will be further
   /// validated when sent to the bC service)
-  /// </param>
-  /// <param name="forceCreate">
-  /// Should a new profile be created for this user if the account does not exist?
-  /// </param>
 
+  /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> smartSwitchauthenticateNintendo(
       {required String nintendoAccountId,
       required String nintendoAuthToken,
@@ -1488,6 +1413,7 @@ class BrainCloudWrapper {
         forceCreate: forceCreate);
   }
 
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> _smartSwitchAuthentication() async {
     ServerResponse? response = await _client.identityService.getIdentities();
     if (_client.authenticated) {
@@ -1504,16 +1430,15 @@ class BrainCloudWrapper {
     }
   }
 
-  /// <summary>
   /// Re-authenticates the user with brainCloud
-  /// </summary>
+
   ///
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> reconnect() async {
     initializeIdentity(true);
     return _client.authenticationService.authenticateAnonymous(false);
   }
 
-  /// <summary>
   /// Method initializes the identity information from the player prefs cache.
   /// This is specifically useful for an Anonymous authentication as Anonymous authentications
   /// require both the anonymous id *and* the profile id. By using the BrainCloudWrapper
@@ -1523,7 +1448,7 @@ class BrainCloudWrapper {
   ///
   /// Note that clients are free to implement this logic on their own as well if they
   /// wish to store the information in another location and/or change the behaviour.
-  /// </summary>
+
   void initializeIdentity(bool isAnonymousAuth) {
     // retrieve profile and anonymous ids out of the cache
     String? profileId = getStoredProfileId();
@@ -1544,78 +1469,74 @@ class BrainCloudWrapper {
         profileIdToauthenticateWith ?? "", anonymousId ?? "");
   }
 
-  /// <summary>
   /// Reset Email password - Sends a password reset email to the specified address
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Operation - ResetEmailPassword
-  /// </remarks>
-  /// <param name="externalId">
+
+  /// @param externalId
   /// The email address to send the reset email to.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> resetEmailPassword({required String externalId}) {
     return _client.authenticationService.resetEmailPassword(externalId);
   }
 
-  /// <summary>
   /// Reset Email password with service parameters - sends a password reset email to
   ///the specified addresses.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Operation - ResetEmailPasswordAdvanced
-  /// </remarks>
-  /// <param name="appId">
+
+  /// @param appId
   /// The app id
-  /// </param>
-  /// <param name="emailAddress">
+
+  /// @param emailAddress
   /// The email address to send the reset email to
-  /// </param>
-  /// <param name="serviceParams">
+
+  /// @param serviceParams
   /// The parameters to send the email service. See documentation for full list
   /// http://getbraincloud.com/apidocs/apiref/#capi-mail
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> resetEmailPasswordAdvanced(
       {required String emailAddress, required String serviceParams}) async {
     return _client.authenticationService
         .resetEmailPasswordAdvanced(emailAddress, serviceParams);
   }
 
-  /// <summary>
   /// Reset Email password - Sends a password reset email to the specified address
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Operation - ResetEmailPassword
-  /// </remarks>
-  /// <param name="externalId">
+
+  /// @param externalId
   /// The email address to send the reset email to.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> resetEmailPasswordWithExpiry(
       {required String externalId, required int tokenTtlInMinutes}) {
     return _client.authenticationService
         .resetEmailPasswordWithExpiry(externalId, tokenTtlInMinutes);
   }
 
-  /// <summary>
   /// Reset Email password with service parameters - sends a password reset email to
   ///the specified addresses.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Operation - ResetEmailPasswordAdvanced
-  /// </remarks>
-  /// <param name="appId">
+
+  /// @param appId
   /// The app id
-  /// </param>
-  /// <param name="emailAddress">
+
+  /// @param emailAddress
   /// The email address to send the reset email to
-  /// </param>
-  /// <param name="serviceParams">
+
+  /// @param serviceParams
   /// The parameters to send the email service. See documentation for full list
   /// http://getbraincloud.com/apidocs/apiref/#capi-mail
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> resetEmailPasswordAdvancedWithExpiry(
       {required String emailAddress,
       required String serviceParams,
@@ -1624,40 +1545,38 @@ class BrainCloudWrapper {
         emailAddress, serviceParams, tokenTtlInMinutes);
   }
 
-  /// <summary>
   /// Reset Email password - Sends a password reset email to the specified address
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Operation - ResetEmailPassword
-  /// </remarks>
-  /// <param name="externalId">
+
+  /// @param externalId
   /// The email address to send the reset email to.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> resetUniversalIdPassword({
     required String externalId,
   }) {
     return _client.authenticationService.resetUniversalIdPassword(externalId);
   }
 
-  /// <summary>
   /// Reset Email password with service parameters - sends a password reset email to
   ///the specified addresses.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Operation - ResetEmailPasswordAdvanced
-  /// </remarks>
-  /// <param name="appId">
+
+  /// @param appId
   /// The app id
-  /// </param>
-  /// <param name="emailAddress">
+
+  /// @param emailAddress
   /// The email address to send the reset email to
-  /// </param>
-  /// <param name="serviceParams">
+
+  /// @param serviceParams
   /// The parameters to send the email service. See documentation for full list
   /// http://getbraincloud.com/apidocs/apiref/#capi-mail
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> resetUniversalIdPasswordAdvanced({
     required String emailAddress,
     required String serviceParams,
@@ -1666,40 +1585,38 @@ class BrainCloudWrapper {
         .resetUniversalIdPasswordAdvanced(emailAddress, serviceParams);
   }
 
-  /// <summary>
   /// Reset Email password - Sends a password reset email to the specified address
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Operation - ResetEmailPassword
-  /// </remarks>
-  /// <param name="externalId">
+
+  /// @param externalId
   /// The email address to send the reset email to.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> resetUniversalIdPasswordWithExpiry(
       {required String externalId, required int tokenTtlInMinutes}) {
     return _client.authenticationService
         .resetUniversalIdPasswordWithExpiry(externalId, tokenTtlInMinutes);
   }
 
-  /// <summary>
   /// Reset Email password with service parameters - sends a password reset email to
   ///the specified addresses.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - authenticate
   /// Operation - ResetEmailPasswordAdvanced
-  /// </remarks>
-  /// <param name="appId">
+
+  /// @param appId
   /// The app id
-  /// </param>
-  /// <param name="emailAddress">
+
+  /// @param emailAddress
   /// The email address to send the reset email to
-  /// </param>
-  /// <param name="serviceParams">
+
+  /// @param serviceParams
   /// The parameters to send the email service. See documentation for full list
   /// http://getbraincloud.com/apidocs/apiref/#capi-mail
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> resetUniversalIdPasswordAdvancedWithExpiry(
       {required String emailAddress,
       required String serviceParams,
@@ -1709,121 +1626,106 @@ class BrainCloudWrapper {
             emailAddress, serviceParams, tokenTtlInMinutes);
   }
 
-  /// <summary>
   /// Gets the stored profile id from user prefs.
-  /// </summary>
-  /// <returns>The stored profile id.</returns>
+
+  /// @returns The stored profile id.
   String? getStoredProfileId() {
     return _wrapperData.profileId;
   }
 
-  /// <summary>
   /// sets the stored profile id to user prefs.
-  /// </summary>
-  /// <param name="profileId">Profile id.</param>
+
+  /// @param profileIdProfile id.
   void setStoredProfileId(String profileId) {
     _wrapperData.profileId = profileId;
     _saveData();
   }
 
-  /// <summary>
   /// Resets the stored profile id to empty string.
-  /// </summary>
+
   void resetStoredProfileId() {
     _wrapperData.profileId = "";
     _saveData();
   }
 
-  /// <summary>
   /// Gets the stored anonymous id from user prefs.
-  /// </summary>
-  /// <returns>The stored anonymous id.</returns>
+
+  /// @returns The stored anonymous id.
   String? getStoredAnonymousId() {
     return _wrapperData.anonymousId;
   }
 
-  /// <summary>
   /// sets the stored anonymous id to user prefs.
-  /// </summary>
-  /// <param name="anonymousId">Anonymous id</param>
+
+  /// @param anonymousIdAnonymous id
   void setStoredAnonymousId(String anonymousId) {
     _wrapperData.anonymousId = anonymousId;
     _saveData();
   }
 
-  /// <summary>
   /// Resets the stored anonymous id to empty string.
-  /// </summary>
+
   void resetStoredAnonymousId() {
     _wrapperData.anonymousId = "";
     _saveData();
   }
 
-  /// <summary>
   /// Gets the type of the stored authentication.
-  /// </summary>
-  /// <returns>The stored authentication type.</returns>
+
+  /// @returns The stored authentication type.
   String? getStoredAuthenticationType() {
     return _wrapperData.authenticationType;
   }
 
-  /// <summary>
   /// sets the type of the stored authentication.
-  /// </summary>
-  /// <param name="authenticationType">Authentication type.</param>
+
+  /// @param authenticationTypeAuthentication type.
   void setStoredAuthenticationType(String authenticationType) {
     _wrapperData.authenticationType = authenticationType;
     _saveData();
   }
 
-  /// <summary>
   /// Resets the type of the stored authentication to empty string
-  /// </summary>
+
   void resetStoredAuthenticationType() {
     _wrapperData.authenticationType = "";
     _saveData();
   }
 
-  /// <summary>
   /// Gets the stored sessionId
-  /// </summary>
+
   String getStoredSessionId() {
     return _wrapperData.sessionId;
   }
 
-  /// <summary>
   /// sets the stored sessionId
-  /// </summary>
+
   void setStoredSessionId(String sessionId) {
     _wrapperData.sessionId = sessionId;
     _saveData();
   }
 
-  /// <summary>
   /// Resets the stored sessionId
-  /// </summary>
+
   void resetStoredSessionId() {
     setStoredSessionId("");
   }
 
-  /// <summary>
   /// Gets the stored lastPacketId
-  /// </summary>
+
   int getStoredPacketId() {
     return _wrapperData.lastPacketId;
   }
 
-  /// <summary>
   /// sets the stored lastPacketId
-  /// </summary>
+
   void setStoredPacketId(int lastPacketId) {
     _wrapperData.lastPacketId = lastPacketId;
     _saveData();
   }
 
-  /// <summary>
   /// Resets the stored lastPacketId
-  /// </summary>
+
   void resetStoredPacketId() {
     setStoredPacketId(1);
   }
@@ -1833,10 +1735,9 @@ class BrainCloudWrapper {
     _client.restorePacketId(_wrapperData.lastPacketId);
   }
 
-  /// <summary>
   /// Provides a way to reauthenticate with the stored anonymous and profile id.
   /// Only works for Anonymous authentications.
-  /// </summary>
+
   void reauthenticate() {
     init(
         secretKey: _lastSecretKey,
@@ -1849,11 +1750,11 @@ class BrainCloudWrapper {
     }
   }
 
-  ///<summary>
   /// Logs user out of server.
-  /// </summary>
-  /// <param name="forgetUser">{boolean} forgetUser Determines whether the stored profile ID should be reset or not </param>
-  /// <param name="responseHandler">{*} responseHandler Function to invoke when request is processed </param>
+
+  /// @param forgetUser{boolean} forgetUser Determines whether the stored profile ID should be reset or not
+  /// @param responseHandler{*} responseHandler Function to invoke when request is processed
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> logout({bool forgetUser = false}) async {
     if (forgetUser) {
       resetStoredProfileId();
@@ -1861,10 +1762,9 @@ class BrainCloudWrapper {
     return _client.playerStateService.logout();
   }
 
-  /// <summary>
   /// Callback for authentication success using the BrainCloudWrapper class.
-  /// </summary>
-  /// <param name="json">The returned json</param>
+
+  /// @param jsonThe returned json
   void authSuccessCallback({required Map<String, dynamic> json}) {
     // grab the profileId and save it in PlayerPrefs
 

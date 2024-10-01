@@ -14,17 +14,16 @@ class BrainCloudItemCatalog {
 
   BrainCloudItemCatalog(this._clientRef);
 
-  /// <summary>
   /// Reads an existing item definition from the
   ///server, with language fields limited to the
   /// current or default language.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - ItemCatalog
   /// Service Operation - GetCatalogItemDefinition
-  /// </remarks>
-  /// <param name="defId">
-  /// </param>
+
+  /// @param defId
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getCatalogItemDefinition({required String defId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -46,17 +45,16 @@ class BrainCloudItemCatalog {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieves page of catalog items from the server,
   ///with language fields limited to the text for the
   ///current or default language.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - ItemCatalog
   /// Service Operation - GetCatalogItemDefinition
-  /// </remarks>
-  /// <param name="context">
-  /// </param>
+
+  /// @param context
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getCatalogItemsPage({required String context}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -79,21 +77,20 @@ class BrainCloudItemCatalog {
     return completer.future;
   }
 
-  /// <summary>
   /// Gets the page of catalog items from the
   ///server based on the encoded context and
   ///specified page offset, with language fields
   ///limited to the text for the current or default
   ///language.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - ItemCatalog
   /// Service Operation - GetCatalogItemDefinition
-  /// </remarks>
-  /// <param name="context">
-  /// </param>
-  /// <param name="pageOffset">
-  /// </param>
+
+  /// @param context
+
+  /// @param pageOffset
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getCatalogItemsPageOffset(
       {required String context, required int pageOffset}) {
     Completer<ServerResponse> completer = Completer();

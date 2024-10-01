@@ -12,15 +12,14 @@ class BrainCloudGlobalFile {
 
   BrainCloudGlobalFile(this._clientRef);
 
-  /// <summary>
   /// Returns information on a file using fileId.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - GlobalFile
   /// Service Operation - GetFileInfo
-  /// <param name="fileId">
+  /// @param fileId
   /// The Id of the file
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getFileInfo(String fileId) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFileId.value] = fileId;
@@ -43,18 +42,17 @@ class BrainCloudGlobalFile {
     return completer.future;
   }
 
-  /// <summary>
   /// Returns information on a file using path and name
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - GlobalFile
   /// Service Operation - GetFileInfoSimple
-  /// <param name="folderPath">
+  /// @param folderPath
   /// The folderpath
-  /// </param>
-  /// <param name="filename">
+
+  /// @param filename
   /// The filename
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getFileInfoSimple(
       String folderPath, String filename) async {
     Map<String, dynamic> data = {};
@@ -79,15 +77,14 @@ class BrainCloudGlobalFile {
     return completer.future;
   }
 
-  /// <summary>
   /// Return CDN url for file for clients that cannot handle redirect.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - GlobalFile
   /// Service Operation - GetGlobalCDNUrl
-  /// <param name="fileId">
+  /// @param fileId
   /// The Id of the file
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalCDNUrl(String fileId) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFileId.value] = fileId;
@@ -110,18 +107,17 @@ class BrainCloudGlobalFile {
     return completer.future;
   }
 
-  /// <summary>
   /// Returns a list of files.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - GlobalFile
   /// Service Operation - GetGlobalFileList
-  /// <param name="folderPath">
+  /// @param folderPath
   /// The folderpath
-  /// </param>
-  /// <param name="recurse">
+
+  /// @param recurse
   /// do we recurse?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalFileList(
       String folderPath, bool recurse) async {
     Map<String, dynamic> data = {};

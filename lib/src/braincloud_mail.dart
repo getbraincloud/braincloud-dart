@@ -14,22 +14,21 @@ class BrainCloudMail {
 
   BrainCloudMail(this._clientRef);
 
-  /// <summary>
   /// Sends a simple text email to the specified user
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - mail
   /// Service Operation - SEND_BASIC_EMAIL
-  /// </remarks>
-  /// <param name="toProfileId">
+
+  /// @param toProfileId
   /// The user to send the email to
-  /// </param>
-  /// <param name="subject">
+
+  /// @param subject
   /// The email subject
-  /// </param>
-  /// <param name="body">
+
+  /// @param body
   /// The email body
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> sendBasicEmail(
       {required String profileId,
       required String subject,
@@ -43,20 +42,19 @@ class BrainCloudMail {
     return _sendMessage(ServiceOperation.sendBasicEmail, data);
   }
 
-  /// <summary>
   /// Sends an advanced email to the specified user
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - mail
   /// Service Operation - SEND_ADVANCED_EMAIL
-  /// </remarks>
-  /// <param name="toProfileId">
+
+  /// @param toProfileId
   /// The user to send the email to
-  /// </param>
-  /// <param name="jsonServiceParams">
+
+  /// @param jsonServiceParams
   /// Parameters to send to the email service. See the documentation for
   /// a full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> sendAdvancedEmail(
       {required String profileId, required String jsonServiceParams}) {
     Map<String, dynamic> data = {};
@@ -70,20 +68,19 @@ class BrainCloudMail {
     );
   }
 
-  /// <summary>
   /// Sends an advanced email to the specified email address
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - mail
   /// Service Operation - SEND_ADVANCED_EMAIL_BY_EMAIL
-  /// </remarks>
-  /// <param name="emailAddress">
+
+  /// @param emailAddress
   /// The address to send the email to
-  /// </param>
-  /// <param name="jsonServiceParams">
+
+  /// @param jsonServiceParams
   /// Parameters to send to the email service. See the documentation for
   /// a full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> sendAdvancedEmailByAddress(
       {required String emailAddress, required String jsonServiceParams}) {
     Map<String, dynamic> data = {};
@@ -95,6 +92,7 @@ class BrainCloudMail {
   }
 
   // Private
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> _sendMessage(
       ServiceOperation operation, Map<String, dynamic> data) {
     Completer<ServerResponse> completer = Completer();

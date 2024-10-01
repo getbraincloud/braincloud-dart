@@ -16,17 +16,17 @@ class BrainCloudFile {
 
   BrainCloudFile(this._clientRef);
 
-  /// <summary>
   /// Prepares a user file upload from memory, allowing the user to bypass
   /// the need to read or write on disk before uploading. On success the file will begin uploading
   /// to the brainCloud server.To be informed of success/failure of the upload
   /// register an IFileUploadCallback with the BrainCloudClient class.
-  /// </summary>
-  /// <param name="cloudPath">The desired cloud path of the file</param>
-  /// <param name="cloudFilename">The desired cloud fileName of the file</param>
-  /// <param name="shareable">True if the file is shareable</param>
-  /// <param name="replaceIfExists">Whether to replace file if it exists</param>
-  /// <param name="fileData">The file memory data in byte[]</param>
+
+  /// @param cloudPathThe desired cloud path of the file
+  /// @param cloudFilenameThe desired cloud fileName of the file
+  /// @param shareableTrue if the file is shareable
+  /// @param replaceIfExistsWhether to replace file if it exists
+  /// @param fileDataThe file memory data in byte[]
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> uploadFileFromMemory(
       String cloudPath,
       String cloudFilename,
@@ -66,48 +66,44 @@ class BrainCloudFile {
     return completer.future;
   }
 
-  /// <summary>
   /// Method cancels an upload. If an IFileUploadCallback has been registered with the BrainCloudClient class,
   /// the fileUploadFailed callback method will be called once the upload has been canceled.
   /// NOTE: The upload will still continue in the background on versions of Unity before 5.3
   /// and on Unity mobile platforms.
-  /// </summary>
-  /// <param name="uploadId">Upload ID of the file to cancel</param>
+
+  /// @param uploadIdUpload ID of the file to cancel
   void cancelUpload(String uploadId) {
     _clientRef.comms?.cancelUpload(uploadId);
   }
 
-  /// <summary>
   /// Returns the progress of the given upload from 0.0 to 1.0 or -1 if upload not found.
   /// NOTE: This will always return 1 on Unity mobile platforms.
-  /// </summary>
-  /// <param name="uploadId">The id of the upload</param>
+
+  /// @param uploadIdThe id of the upload
   double? getUploadProgress(String uploadId) {
     return _clientRef.comms?.getUploadProgress(uploadId);
   }
 
-  /// <summary>
   /// Returns the number of bytes uploaded or -1 if upload not found.
   /// NOTE: This will always return the total bytes to transfer on Unity mobile platforms.
-  /// </summary>
-  /// <param name="uploadId">The id of the upload</param>
+
+  /// @param uploadIdThe id of the upload
   int? getUploadBytesTransferred(String uploadId) {
     return _clientRef.comms?.getUploadBytesTransferred(uploadId);
   }
 
-  /// <summary>
   /// Returns the total number of bytes that will be uploaded or -1 if upload not found.
-  /// </summary>
-  /// <param name="uploadId">The id of the upload</param>
+
+  /// @param uploadIdThe id of the upload
   int? getUploadTotalBytesToTransfer(String uploadId) {
     return _clientRef.comms?.getUploadTotalBytesToTransfer(uploadId);
   }
 
-  /// <summary>
   /// List user files from the given cloud path
-  /// </summary>
-  /// <param name="cloudPath">File path</param>
-  /// <param name="recurse">Whether to recurse down the path</param>
+
+  /// @param cloudPathFile path
+  /// @param recurseWhether to recurse down the path
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> listUserFiles(String cloudPath, bool? recurse) async {
     Map<String, dynamic> data = {};
 
@@ -137,11 +133,11 @@ class BrainCloudFile {
     return completer.future;
   }
 
-  /// <summary>
   /// Deletes a single user file.
-  /// </summary>
-  /// <param name="cloudPath">File path</param>
-  /// <param name="cloudFileName"></param>
+
+  /// @param cloudPathFile path
+  /// @param cloudFileName
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> deleteUserFile(
       String cloudPath, String cloudFileName) async {
     Map<String, dynamic> data = {};
@@ -167,11 +163,11 @@ class BrainCloudFile {
     return completer.future;
   }
 
-  /// <summary>
   /// Delete multiple user files
-  /// </summary>
-  /// <param name="cloudPath">File path</param>
-  /// <param name="recurse">Whether to recurse down the path</param>
+
+  /// @param cloudPathFile path
+  /// @param recurseWhether to recurse down the path
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> deleteUserFiles(String cloudPath, bool recurse) async {
     Map<String, dynamic> data = {};
 
@@ -196,11 +192,11 @@ class BrainCloudFile {
     return completer.future;
   }
 
-  /// <summary>
   /// Returns the CDN URL for a file dynamic.
-  /// </summary>
-  /// <param name="cloudPath">File path</param>
-  /// <param name="cloudFilename">Name of file</param>
+
+  /// @param cloudPathFile path
+  /// @param cloudFilenameName of file
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getCDNUrl(
       String cloudPath, String cloudFilename) async {
     Map<String, dynamic> data = {};

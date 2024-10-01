@@ -21,10 +21,10 @@ class BrainCloudLobby {
 
   BrainCloudLobby(this._clientRef);
 
-  /// <summary>
   /// Finds a lobby matching the specified parameters
-  /// </summary>
+
   ///
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> findLobby(
       {required String inRoomtype,
       required int inRating,
@@ -67,11 +67,11 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// <summary>
   /// Finds a lobby matching the specified parameters WITH PING DATA.  GetRegionsForLobbies and PingRegions must be successfully responded to
   /// prior to calling.
-  /// </summary>
+
   ///
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> findLobbyWithPingData(
       {required String inRoomtype,
       required int inRating,
@@ -112,10 +112,10 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// <summary>
   /// Like findLobby, but explicitely geared toward creating new lobbies
-  /// </summary>
+
   ///
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> createLobby(
       String inRoomtype,
       int inRating,
@@ -150,11 +150,11 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// <summary>
   /// Like findLobby, but explicitely geared toward creating new lobbies WITH PING DATA.  GetRegionsForLobbies and PingRegions must be successfully responded to
   /// prior to calling.
-  /// </summary>
+
   ///
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> createLobbyWithPingData(
       String inRoomtype,
       int inRating,
@@ -189,9 +189,8 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// <summary>
   /// Finds a lobby matching the specified parameters, or creates one
-  /// </summary>
+
   ///
   void findOrCreateLobby(
       String inRoomtype,
@@ -229,10 +228,9 @@ class BrainCloudLobby {
     _clientRef.sendRequest(sc);
   }
 
-  /// <summary>
   /// Finds a lobby matching the specified parameters, or creates one WITH PING DATA.  GetRegionsForLobbies and PingRegions must be successfully responded to
   /// prior to calling.
-  /// </summary>
+
   ///
   void findOrCreateLobbyWithPingData(
       String inRoomtype,
@@ -267,9 +265,8 @@ class BrainCloudLobby {
         data, ServiceOperation.findOrCreateLobbyWithPingData, success, failure);
   }
 
-  /// <summary>
   /// Gets data for the given lobby instance <lobbyId>.
-  /// </summary>
+
   void getLobbyData(
       String inLobbyid, SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
@@ -282,9 +279,8 @@ class BrainCloudLobby {
     _clientRef.sendRequest(sc);
   }
 
-  /// <summary>
   /// updates the ready state of the player
-  /// </summary>
+
   void updateReady(
       String inLobbyid,
       bool inIsready,
@@ -303,9 +299,8 @@ class BrainCloudLobby {
     _clientRef.sendRequest(sc);
   }
 
-  /// <summary>
   /// valid only for the owner of the group -- edits the overally lobby config data
-  /// </summary>
+
   void updateSettings(String inLobbyid, Map<String, dynamic> inSettings,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
@@ -319,9 +314,8 @@ class BrainCloudLobby {
     _clientRef.sendRequest(sc);
   }
 
-  /// <summary>
   /// switches to the specified team (if allowed). Note - may be blocked by cloud code script
-  /// </summary>
+
   void switchTeam(String inLobbyid, String inToteamname,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
@@ -335,9 +329,8 @@ class BrainCloudLobby {
     _clientRef.sendRequest(sc);
   }
 
-  /// <summary>
   /// sends LOBBY_SIGNAL_DATA message to all lobby members
-  /// </summary>
+
   void sendSignal(String inLobbyid, Map<String, dynamic> inSignaldata,
       SuccessCallback? success, FailureCallback? failure) {
     Map<String, dynamic> data = {};
@@ -351,9 +344,8 @@ class BrainCloudLobby {
     _clientRef.sendRequest(sc);
   }
 
-  /// <summary>
   /// User joins the specified lobby.
-  /// </summary>
+
   void joinLobby(
       String inLobbyid,
       bool inIsready,
@@ -379,10 +371,9 @@ class BrainCloudLobby {
     _clientRef.sendRequest(sc);
   }
 
-  /// <summary>
   /// User joins the specified lobby WITH PING DATA.  GetRegionsForLobbies and PingRegions must be successfully responded to
   /// prior to calling.
-  /// </summary>
+
   void joinLobbyWithPingData(
       String inLobbyid,
       bool inIsready,
@@ -404,9 +395,8 @@ class BrainCloudLobby {
         data, ServiceOperation.joinLobbyWithPingData, success, failure);
   }
 
-  /// <summary>
   /// User leaves the specified lobby. if the user was the owner, a new owner will be chosen
-  /// </summary>
+
   ///
   void leaveLobby(
       String inLobbyid, SuccessCallback? success, FailureCallback? failure) {
@@ -420,9 +410,8 @@ class BrainCloudLobby {
     _clientRef.sendRequest(sc);
   }
 
-  /// <summary>
   /// Only valid from the owner of the lobby -- removes the specified member from the lobby
-  /// </summary>
+
   ///
   void removeMember(String inLobbyid, String inConnectionid,
       SuccessCallback? success, FailureCallback? failure) {
@@ -437,9 +426,8 @@ class BrainCloudLobby {
     _clientRef.sendRequest(sc);
   }
 
-  /// <summary>
   /// Cancel this members Find, Join and Searching of Lobbies
-  /// </summary>
+
   ///
   void cancelFindRequest(
       String inRoomtype, SuccessCallback? success, FailureCallback? failure) {
@@ -454,10 +442,9 @@ class BrainCloudLobby {
     _clientRef.sendRequest(sc);
   }
 
-  /// <summary>
   /// Retrieves the region settings for each of the given lobby types. Upon SuccessCallback or afterwards, call PingRegions to start retrieving appropriate data.
   /// Once that completes, the associated region Ping Data is retrievable via PingData and all associated <>WithPingData APIs are useable
-  /// </summary>
+
   ///
   void getRegionsForLobbies(List<String> inRoomtypes, SuccessCallback? success,
       FailureCallback? failure) {
@@ -521,10 +508,9 @@ class BrainCloudLobby {
         data, ServiceOperation.getLobbyInstancesWithPingData, success, failure);
   }
 
-  /// <summary>
   /// Retrieves associated PingData averages to be used with all associated <>WithPingData APIs.
   /// Call anytime after GetRegionsForLobbies before proceeding.
-  /// </summary>
+
   ///
   void pingRegions(SuccessCallback? success, FailureCallback? failure) {
     if (_pingRegionSuccessCallback != null) {

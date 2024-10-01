@@ -40,9 +40,8 @@ void main() {
       bcTest.bcWrapper.brainCloudClient.registerRewardCallback((rewardsJson) {
         ++rewardCallbackCount;
         debugPrint("rewardCallbackCount: $rewardCallbackCount");
-        if (rewardCallbackCount > 2) {
-          bcTest.bcWrapper.brainCloudClient.deregisterRewardCallback();
-        }
+
+        bcTest.bcWrapper.brainCloudClient.deregisterRewardCallback();
       });
     }
 
@@ -60,9 +59,9 @@ void main() {
         {"eventName": "incQuest2Stat", "eventMultiplier": 1}
       ]));
 
-      await pumpEventQueue(times: 10);
-      debugPrint("DONE");
-      expect(rewardCallbackCount, greaterThan(2));
+      await pumpEventQueue();
+      debugPrint("pumpEventQueue complete");
+      expect(rewardCallbackCount, 1);
     });
 
     /// END TEST

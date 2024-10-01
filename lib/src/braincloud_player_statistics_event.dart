@@ -14,7 +14,6 @@ class BrainCloudPlayerStatisticsEvent {
 
   BrainCloudPlayerStatisticsEvent(this._clientRef);
 
-  /// <summary>
   /// Trigger an event server side that will increase the user statistics.
   /// This may cause one or more awards to be sent back to the user -
   /// could be achievements, experience, etc. Achievements will be sent by this
@@ -23,13 +22,13 @@ class BrainCloudPlayerStatisticsEvent {
   /// This mechanism supercedes the PlayerStatisticsService API methods, since
   /// PlayerStatisticsService API method only update the raw statistics without
   /// triggering the rewards.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerStatisticsEvent
   /// Service Operation - Trigger
   ///
   /// @see BrainCloudPlayerStatistics
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> triggerUserStatsEvent(
       {required String eventName, required int eventMultiplier}) {
     Completer<ServerResponse> completer = Completer();
@@ -53,15 +52,13 @@ class BrainCloudPlayerStatisticsEvent {
     return completer.future;
   }
 
-  /// <summary>
   /// See documentation for TriggerStatsEvent for more
   /// documentation.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerStatisticsEvent
   /// Service Operation - TriggerMultiple
-  /// </remarks>
-  /// <param name="jsonData">
+
+  /// @param jsonData
   /// jsonData
   ///   [
   ///     {
@@ -73,7 +70,8 @@ class BrainCloudPlayerStatisticsEvent {
   ///       "eventMultiplier": 1
   ///     }
   ///   ]
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> triggerUserStatsEvents({required String jsonData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};

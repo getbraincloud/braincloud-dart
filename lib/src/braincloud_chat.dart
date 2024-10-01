@@ -14,9 +14,9 @@ class BrainCloudChat {
 
   BrainCloudChat(this._clientRef);
 
-  /// <summary>
   /// Registers a listener for incoming events from <channelId>. Also returns a list of <maxReturn> recent messages from history.
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> channelConnect(
       {required String channelId, required int maxtoreturn}) {
     Completer<ServerResponse> completer = Completer();
@@ -39,9 +39,9 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// <summary>
   /// Unregisters a listener for incoming events from <channelId>.
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> channelDisconnect({required String channelId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
@@ -62,9 +62,9 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// <summary>
   /// Delete a chat message. <version> must match the latest or pass -1 to bypass version check.
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> deleteChatMessage(
       {required String channelId,
       required String messageid,
@@ -90,9 +90,9 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// <summary>
   /// Gets the channelId for the given <channelType> and <channelSubId>. Channel type must be one of "gl"(GlobalChannelType) or "gr"(GroupChannelType).
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getChannelId(
       {required String channeltype, required String channelsubid}) {
     Completer<ServerResponse> completer = Completer();
@@ -117,9 +117,9 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// <summary>
   /// Gets description info and activity stats for channel <channelId>. Note that numMsgs and listeners only returned for non-global groups. Only callable for channels the user is a member of.
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getChannelInfo({required String channelId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
@@ -140,9 +140,9 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// <summary>
   /// Gets a populated chat object (normally for editing).
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getChatMessage(
       {required String channelId, required String messageid}) {
     Completer<ServerResponse> completer = Completer();
@@ -165,9 +165,9 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// <summary>
   /// Get a list of <maxReturn> messages from history of channel <channelId>
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getRecentChatMessages(
       {required String channelId, required int maxToReturn}) {
     Completer<ServerResponse> completer = Completer();
@@ -190,9 +190,9 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// <summary>
   /// Gets a list of the channels of type <channelType> that the user has access to. Channel type must be one of "gl"(GlobalChannelType), "gr"(GroupChannelType) or "all"(AllChannelType).
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getSubscribedChannels({required String channeltype}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
@@ -213,10 +213,10 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// <summary>
   /// Sends a potentially richer member chat message. By convention, content should contain a field named text for plain-text content. Returns the id of the message created.
-  /// </summary>
+
   ///
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> postChatMessage(
       {required String channelId,
       required String contentJson,
@@ -243,9 +243,8 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// <summary>
   /// Send a potentially rich chat message. <content> must contain at least a "plain" field for plain-text messaging.
-  /// </summary>
+
   ///
   // void postChatMessage(
   //     {required String channelId,
@@ -277,10 +276,10 @@ class BrainCloudChat {
   //   _clientRef.sendRequest(sc);
   // }
 
-  /// <summary>
   /// Sends a plain-text chat message.
-  /// </summary>
+
   ///
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> postChatMessageSimple(
       {required String channelId,
       required String plain,
@@ -307,9 +306,9 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// <summary>
   /// Update the specified chat message. Message must have been from this user. Version provided must match (or pass -1 to bypass version enforcement).
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateChatMessage(
       {required String channelId,
       required String messageid,
@@ -338,9 +337,9 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  // /// <summary>
+  //
   // /// Update a chat message. <content> must contain at least a "plain" field for plain-text messaging. <version> must match the latest or pass -1 to bypass version check.
-  // /// </summary>
+  //
   // void UpdateChatMessage(
   //     String channelId,
   //     String in_messageId,

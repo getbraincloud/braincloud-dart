@@ -14,9 +14,9 @@ class BrainCloudMessaging {
 
   BrainCloudMessaging(this._clientRef);
 
-  /// <summary>
   /// Deletes specified user messages on the server. in_msgBox = OperationParam.inboxMessageType && OperationParam.sentMessageType
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> deleteMessages(
       {required String msgBox, required List<String> msgsIds}) {
     Completer<ServerResponse> completer = Completer();
@@ -40,9 +40,9 @@ class BrainCloudMessaging {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieve user's message boxes, including 'inbox', 'sent', etc.
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getMessageboxes() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -60,9 +60,9 @@ class BrainCloudMessaging {
     return completer.future;
   }
 
-  /// <summary>
   /// Returns count of user's 'total' messages and their 'unread' messages.
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getMessageCounts() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -80,9 +80,9 @@ class BrainCloudMessaging {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieves list of specified messages.
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getMessages(
       {required String inMsgbox,
       required List<String> inMsgsids,
@@ -108,9 +108,9 @@ class BrainCloudMessaging {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieves a page of messages.
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getMessagesPage({required String context}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -132,9 +132,9 @@ class BrainCloudMessaging {
     return completer.future;
   }
 
-  /// <summary>
   /// Gets the page of messages from the server based on the encoded context and specified page offset.
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getMessagesPageOffset(
       {required String context, required int pageOffset}) {
     Completer<ServerResponse> completer = Completer();
@@ -156,9 +156,9 @@ class BrainCloudMessaging {
     return completer.future;
   }
 
-  /// <summary>
   /// Marks list of user messages as read on the server.
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> markMessagesRead(
       {required String msgBox, required List<String> msgsIds}) {
     Completer<ServerResponse> completer = Completer();
@@ -180,9 +180,9 @@ class BrainCloudMessaging {
     return completer.future;
   }
 
-  /// <summary>
   /// Sends a message with specified 'subject' and 'text' to list of users.
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> sendMessage(
       {required List<String> toprofileids, required String contentjson}) {
     Completer<ServerResponse> completer = Completer();
@@ -206,10 +206,10 @@ class BrainCloudMessaging {
     return completer.future;
   }
 
-  /// <summary>
   /// Send a potentially rich chat message. <content> must contain at least a "plain" field for plain-text messaging.
-  /// </summary>
+
   ///
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> sendMessageSimple(
       {required List<String> toprofileids, required String messagetext}) {
     Completer<ServerResponse> completer = Completer();

@@ -20,71 +20,61 @@ class BrainCloudRelay {
     _commsLayer = inComms;
   }
 
-  /// <summary>
   /// Use Ping() in order to properly calculate the Last ping received
-  /// </summary>
+
   int get lastPing => _commsLayer?.getPing ?? 0;
 
-  /// <summary>
   /// et the lobby's owner profile Id.
-  /// </summary>
+
   String get ownerProfileId => _commsLayer?.getOwnerProfileId() ?? "";
 
-  /// <summary>
   /// et the lobby's owner profile Id.
-  /// </summary>
+
   String getOwnerProfileId() {
     return ownerProfileId;
   }
 
-  /// <summary>
   /// Returns the profileId associated with a netId.
-  /// </summary>
+
   String? getProfileIdForNetId(int netId) {
     return _commsLayer?.getProfileIdForNetId(netId);
   }
 
-  /// <summary>
   /// Returns the netId associated with a profileId.
-  /// </summary>
+
   int getNetIdForProfileId(String profileId) {
     return _commsLayer?.getNetIdForProfileId(profileId) ?? 0;
   }
 
-  /// <summary>
   /// et the lobby's owner RTT connection Id.
-  /// </summary>
+
   String get ownerCxId => _commsLayer?.getOwnerCxId() ?? "";
 
-  /// <summary>
   /// et the lobby's owner profile Id.
-  /// </summary>
+
   String getOwnerCxId() {
     return ownerCxId;
   }
 
-  /// <summary>
   /// Returns the RTT connection Id associated with a netId.
-  /// </summary>
+
   String getCxIdForNetId(int netId) {
     return _commsLayer?.getCxIdForNetId(netId) ?? "";
   }
 
-  /// <summary>
   /// Returns the netId associated with an RTT connection Id.
-  /// </summary>
+
   int getNetIdForCxId(String cxId) {
     return _commsLayer?.getNetIdForCxId(cxId) ?? 0;
   }
 
-  /// <summary>
   /// Start off a connection, based off connection type to brainClouds Relay Servers.  Connect options come in from "ROOM_ASSIGNED" lobby callback
-  /// </summary>
-  /// <param name="in_connectionType"></param>
-  /// <param name="in_options"></param>
-  /// <param name="in_success"></param>
-  /// <param name="in_failure"></param>
-  /// <param name="cb_object"></param>
+
+  /// @param in_connectionType
+  /// @param in_options
+  /// @param in_success
+  /// @param in_failure
+  /// @param cb_object
   void connect(
       RelayConnectionType inConnectiontype,
       RelayConnectOptions inOptions,
@@ -93,43 +83,37 @@ class BrainCloudRelay {
     _commsLayer?.connect(inConnectiontype, inOptions, inSuccess, inFailure);
   }
 
-  /// <summary>
   /// Disables relay event for this session.
-  /// </summary>
+
   void disconnect() {
     _commsLayer?.disconnect();
   }
 
-  /// <summary>
   /// Terminate the match instance by the owner.
-  /// </summary>
-  /// <param name="json">payload data sent in JSON format. It will be relayed to other connnected players.</param>
+
+  /// @param jsonpayload data sent in JSON format. It will be relayed to other connnected players.
   void endMatch(Map<String, dynamic> json) {
     _commsLayer?.endMatch(json);
   }
 
-  /// <summary>
   /// Is Connected
-  /// </summary>
+
   bool isConnected() {
     return _commsLayer?.isConnected ?? false;
   }
 
-  /// <summary>
   /// Register callback for relay messages coming from peers on the main thread
-  /// </summary>
+
   void registerRelayCallback(RelayCallback inCallback) {
     _commsLayer?.registerRelayCallback(inCallback);
   }
 
-  /// <summary>
   /// Deregister the relay callback
-  /// </summary>
+
   void deregisterRelayCallback() {
     _commsLayer?.deregisterRelayCallback();
   }
 
-  /// <summary>
   /// Register callback for RelayServer system messages.
   ///
   /// # CONNECT
@@ -170,31 +154,29 @@ class BrainCloudRelay {
   ///   op: "MIGRATE_OWNER",
   ///   profileId: "..."
   /// }
-  /// </summary>
+
   void registerSystemCallback(RelaySystemCallback inCallback) {
     _commsLayer?.registerSystemCallback(inCallback);
   }
 
-  /// <summary>
   /// Deregister the relay callback
-  /// </summary>
+
   void deregisterSystemCallback() {
     _commsLayer?.deregisterSystemCallback();
   }
 
-  /// <summary>
   /// Send a packet to peer(s)
-  /// </summary>
-  /// <param in_data="message to be sent"></param>
-  /// <param to_netId="the net id to send to, BrainCloudRelay.TO_ALL_PLAYERS to relay to all"></param>
-  /// <param in_reliable="send this reliably or not"></param>
-  /// <param in_ordered="received this ordered or not"></param>
+
+  /// <param in_data="message to be sent">
+  /// <param to_netId="the net id to send to, BrainCloudRelay.TO_ALL_PLAYERS to relay to all">
+  /// <param in_reliable="send this reliably or not">
+  /// <param in_ordered="received this ordered or not">
   /// <param in_channel="0,1,2,3 (max of four channels)">
   /// CHANNEL_HIGH_PRIORITY_1 = 0;
   /// CHANNEL_HIGH_PRIORITY_2 = 1;
   /// CHANNEL_NORMAL_PRIORITY = 2;
   /// CHANNEL_LOW_PRIORITY = 3;
-  /// </param>
+
   void send(Uint8List inData, int toNetid,
       {bool inReliable = true, bool inOrdered = true, int inChannel = 0}) {
     if (toNetid == toAllPlayers) {
@@ -213,19 +195,18 @@ class BrainCloudRelay {
     }
   }
 
-  /// <summary>
   /// Send a packet to any players by using a mask
-  /// </summary>
-  /// <param in_data="message to be sent"></param>
-  /// <param in_playerMask="Mask of the players to send to. 0001 = netId 0, 0010 = netId 1, etc. If you pass ALL_PLAYER_MASK you will be included and you will get an echo for your message. Use sendToAll instead, you will be filtered out. You can manually filter out by : ALL_PLAYER_MASK &= ~(1 << myNetId)"></param>
-  /// <param in_reliable="send this reliably or not"></param>
-  /// <param in_ordered="received this ordered or not"></param>
+
+  /// <param in_data="message to be sent">
+  /// <param in_playerMask="Mask of the players to send to. 0001 = netId 0, 0010 = netId 1, etc. If you pass ALL_PLAYER_MASK you will be included and you will get an echo for your message. Use sendToAll instead, you will be filtered out. You can manually filter out by : ALL_PLAYER_MASK &= ~(1 << myNetId)">
+  /// <param in_reliable="send this reliably or not">
+  /// <param in_ordered="received this ordered or not">
   /// <param in_channel="0,1,2,3 (max of four channels)">
   /// CHANNEL_HIGH_PRIORITY_1 = 0;
   /// CHANNEL_HIGH_PRIORITY_2 = 1;
   /// CHANNEL_NORMAL_PRIORITY = 2;
   /// CHANNEL_LOW_PRIORITY = 3;
-  /// </param>
+
   void sendToPlayers(
       {required inData,
       required inPlayerMask,
@@ -235,18 +216,17 @@ class BrainCloudRelay {
     _commsLayer?.send(inData, inPlayerMask, inReliable, inOrdered, inChannel);
   }
 
-  /// <summary>
   /// Send a packet to all except yourself
-  /// </summary>
-  /// <param in_data="message to be sent"></param>
-  /// <param in_reliable="send this reliably or not"></param>
-  /// <param in_ordered="received this ordered or not"></param>
+
+  /// <param in_data="message to be sent">
+  /// <param in_reliable="send this reliably or not">
+  /// <param in_ordered="received this ordered or not">
   /// <param in_channel="0,1,2,3 (max of four channels)">
   /// CHANNEL_HIGH_PRIORITY_1 = 0;
   /// CHANNEL_HIGH_PRIORITY_2 = 1;
   /// CHANNEL_NORMAL_PRIORITY = 2;
   /// CHANNEL_LOW_PRIORITY = 3;
-  /// </param>
+
   void sendToAll(
       {required inData,
       bool inReliable = true,
@@ -261,9 +241,8 @@ class BrainCloudRelay {
     _commsLayer?.send(inData, playerMask, inReliable, inOrdered, inChannel);
   }
 
-  /// <summary>
   /// Set the ping interval.
-  /// </summary>
+
   void setPingInterval(int inInterval) {
     _commsLayer?.setPingInterval(inInterval);
   }

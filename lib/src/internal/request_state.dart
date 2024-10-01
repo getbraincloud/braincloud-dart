@@ -2,19 +2,16 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 
 enum WebRequestStatus {
-  /// <summary>
   /// Pending status indicating web request is still active
-  /// </summary>
+
   pending,
 
-  /// <summary>
   /// Done status indicating web request has completed successfully
-  /// </summary>
+
   done,
 
-  /// <summary>
   /// Error status indicating there was a network error or error http code returned
-  /// </summary>
+
   error
 }
 

@@ -15,19 +15,18 @@ class BrainCloudScript {
 
   BrainCloudScript(this._clientRef);
 
-  /// <summary>
   /// Executes a script on the server.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Script
   /// Service Operation - Run
-  /// </remarks>
-  /// <param name="scriptName">
+
+  /// @param scriptName
   /// The name of the script to be run
-  /// </param>
-  /// <param name="jsonScriptData">
+
+  /// @param jsonScriptData
   /// Data to be sent to the script in json format
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> runScript(
       {required String scriptName, required String jsonScriptData}) {
     Completer<ServerResponse> completer = Completer();
@@ -55,16 +54,15 @@ class BrainCloudScript {
     return completer.future;
   }
 
-  /// <summary>
   /// Allows cloud script executions to be scheduled
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Script
   /// Service Operation - ScheduleCloudScriptMillisUTC
-  /// </remarks>
-  /// <param name="scriptName"> Name of script </param>
-  /// <param name="jsonScriptData"> JSON bundle to pass to script </param>
-  /// <param name="roundStartTimeUTC">  use UTC time in milliseconds since epoch </param>
+
+  /// @param scriptName Name of script
+  /// @param jsonScriptData JSON bundle to pass to script
+  /// @param roundStartTimeUTC  use UTC time in milliseconds since epoch
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> scheduleRunScriptMillisUTC(
       {required String scriptName,
       required String jsonScriptData,
@@ -97,16 +95,15 @@ class BrainCloudScript {
     return completer.future;
   }
 
-  /// <summary>
   /// Allows cloud script executions to be scheduled
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Script
   /// Service Operation - ScheduleCloudScript
-  /// </remarks>
-  /// <param name="scriptName"> Name of script </param>
-  /// <param name="jsonScriptData"> JSON bundle to pass to script </param>
-  /// <param name="minutesFromNow"> Number of minutes from now to run script </param>
+
+  /// @param scriptName Name of script
+  /// @param jsonScriptData JSON bundle to pass to script
+  /// @param minutesFromNow Number of minutes from now to run script
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> scheduleRunScriptMinutes(
       {required String scriptName,
       required String jsonScriptData,
@@ -139,16 +136,15 @@ class BrainCloudScript {
     return completer.future;
   }
 
-  /// <summary>
   /// Run a cloud script in a parent app
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Script
   /// Service Operation - RUN_PARENT_SCRIPT
-  /// </remarks>
-  /// <param name="scriptName"> Name of script </param>
-  /// <param name="jsonScriptData"> JSON bundle to pass to script </param>
-  /// <param name="parentLevel"> The level name of the parent to run the script from </param>
+
+  /// @param scriptName Name of script
+  /// @param jsonScriptData JSON bundle to pass to script
+  /// @param parentLevel The level name of the parent to run the script from
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> runParentScript(
       {required String scriptName,
       required String jsonScriptData,
@@ -180,14 +176,13 @@ class BrainCloudScript {
     return completer.future;
   }
 
-  /// <summary>
   /// Cancels a scheduled cloud code script
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Script
   /// Service Operation - CANCEL_SCHEDULED_SCRIPT
-  /// </remarks>
-  /// <param name="jobId"> ID of script job to cancel </param>
+
+  /// @param jobId ID of script job to cancel
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> cancelScheduledScript({required String jobId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -209,14 +204,13 @@ class BrainCloudScript {
     return completer.future;
   }
 
-  /// <summary>
   /// get a scheduled cloud code script
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Script
   /// Service Operation - GET_SCHEDULED_CLOUD_SCRIPTS
-  /// </remarks>
-  /// <param name="startDateUTC"> ID of script job to cancel </param>
+
+  /// @param startDateUTC ID of script job to cancel
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getScheduledCloudScripts(
       {required DateTime startDateUTC}) {
     Completer<ServerResponse> completer = Completer();
@@ -239,14 +233,13 @@ class BrainCloudScript {
     return completer.future;
   }
 
-  /// <summary>
   /// get a scheduled cloud code script
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Script
   /// Service Operation - GET_RUNNING_OR_QUEUED_CLOUD_SCRIPTS
-  /// </remarks>
-  /// <param name="startDateUTC"> ID of script job to cancel </param>
+
+  /// @param startDateUTC ID of script job to cancel
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getRunningOrQueuedCloudScripts() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -265,16 +258,15 @@ class BrainCloudScript {
     return completer.future;
   }
 
-  /// <summary>
   /// Runs a script from the context of a peer
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Script
   /// Service Operation - RUN_PEER_SCRIPT
-  /// </remarks>
-  /// <param name="scriptName">The name of the script to run</param>
-  /// <param name="jsonScriptData">JSON data to pass into the script</param>
-  /// <param name="peer">Identifies the peer</param>
+
+  /// @param scriptNameThe name of the script to run
+  /// @param jsonScriptDataJSON data to pass into the script
+  /// @param peerIdentifies the peer
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> runPeerScript(
       {required String scriptName,
       required String jsonScriptData,
@@ -306,17 +298,16 @@ class BrainCloudScript {
     return completer.future;
   }
 
-  /// <summary>
   /// Runs a script asynchronously from the context of a peer
   /// This operation does not wait for the script to complete before returning
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Script
   /// Service Operation - RUN_PEER_SCRIPT
-  /// </remarks>
-  /// <param name="scriptName">The name of the script to run</param>
-  /// <param name="jsonScriptData">JSON data to pass into the script</param>
-  /// <param name="peer">Identifies the peer</param>
+
+  /// @param scriptNameThe name of the script to run
+  /// @param jsonScriptDataJSON data to pass into the script
+  /// @param peerIdentifies the peer
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> runPeerScriptAsync(
       {required String scriptName,
       required String jsonScriptData,

@@ -13,13 +13,12 @@ class BrainCloudGamification {
 
   BrainCloudGamification(this._clientRef);
 
-  /// <summary>
   /// Method retrieves all gamification data for the player.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Gamification
   /// Service Operation - Read
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readAllGamification({required bool includeMetaData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -42,13 +41,12 @@ class BrainCloudGamification {
     return completer.future;
   }
 
-  /// <summary>
   /// Method retrieves all milestones defined for the game.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Gamification
   /// Service Operation - ReadMilestones
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readMilestones({required bool includeMetaData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -71,13 +69,12 @@ class BrainCloudGamification {
     return completer.future;
   }
 
-  /// <summary>
   /// Read all of the achievements defined for the game.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Gamification
   /// Service Operation - ReadAchievements
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readAchievements({required bool includeMetaData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -99,14 +96,13 @@ class BrainCloudGamification {
     return completer.future;
   }
 
-  /// <summary>
   /// Method returns all defined xp levels and any rewards associated
   /// with those xp levels.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Gamification
   /// Service Operation - ReadXpLevels
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readXPLevelsMetaData() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -125,13 +121,12 @@ class BrainCloudGamification {
     return completer.future;
   }
 
-  /// <summary>
   /// Method retrives the list of achieved achievements.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Gamification
   /// Service Operation - ReadAchievedAchievements
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readAchievedAchievements(
       {required bool includeMetaData}) {
     Completer<ServerResponse> completer = Completer();
@@ -155,13 +150,12 @@ class BrainCloudGamification {
     return completer.future;
   }
 
-  /// <summary>
   /// Method retrieves the list of completed milestones.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Gamification
   /// Service Operation - ReadCompleteMilestones
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readCompletedMilestones(
       {required bool includeMetaData}) {
     Completer<ServerResponse> completer = Completer();
@@ -185,13 +179,12 @@ class BrainCloudGamification {
     return completer.future;
   }
 
-  /// <summary>
   /// Method retrieves the list of in progress milestones
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Gamification
   /// Service Operation - ReadInProgressMilestones
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readInProgressMilestones(
       {required bool includeMetaData}) {
     Completer<ServerResponse> completer = Completer();
@@ -215,16 +208,15 @@ class BrainCloudGamification {
     return completer.future;
   }
 
-  /// <summary>
   /// Method retrieves milestones of the given category.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Gamification
   /// Service Operation - ReadMilestonesByCategory
-  /// </remarks>
-  /// <param name="category">
+
+  /// @param category
   /// The milestone category
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readMilestonesByCategory(
       {required String category, required bool includeMetaData}) {
     Completer<ServerResponse> completer = Completer();
@@ -249,18 +241,17 @@ class BrainCloudGamification {
     return completer.future;
   }
 
-  /// <summary>
   /// Method will award the achievements specified. On success, this will
   /// call AwardThirdPartyAchievement to hook into the client-side Achievement
   /// service (ie GameCentre, Facebook etc).
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Gamification
   /// Service Operation - AwardAchievements
-  /// </remarks>
-  /// <param name="achievementIds">
+
+  /// @param achievementIds
   /// A collection of achievement ids to award
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> awardAchievements(
       {required List<String> achievementIds}) {
     Completer<ServerResponse> completer = Completer();
@@ -284,13 +275,12 @@ class BrainCloudGamification {
     return completer.future;
   }
 
-  /// <summary>
   /// Method retrieves all of the quests defined for the game.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Gamification
   /// Service Operation - ReadQuests
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readQuests({required bool includeMetaData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -312,13 +302,12 @@ class BrainCloudGamification {
     return completer.future;
   }
 
-  /// <summary>
   ///  Method returns all completed quests.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Gamification
   /// Service Operation - ReadCompletedQuests
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readCompletedQuests({required bool includeMetaData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -340,13 +329,12 @@ class BrainCloudGamification {
     return completer.future;
   }
 
-  /// <summary>
   /// Method returns all in progress quests.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Gamification
   /// Service Operation - ReadInProgressQuests
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readInProgressQuests({required bool includeMetaData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -368,13 +356,12 @@ class BrainCloudGamification {
     return completer.future;
   }
 
-  /// <summary>
   /// Method returns all quests that haven't been started.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Gamification
   /// Service Operation - ReadNotStartedQuests
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readNotStartedQuests({required bool includeMetaData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -396,13 +383,12 @@ class BrainCloudGamification {
     return completer.future;
   }
 
-  /// <summary>
   ///  Method returns all quests with status.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Gamification
   /// Service Operation - ReadQuestsWithStatus
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readQuestsWithStatus({required bool includeMetaData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -424,13 +410,12 @@ class BrainCloudGamification {
     return completer.future;
   }
 
-  /// <summary>
   /// Method returns all quests with a basic percentage.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Gamification
   /// Service Operation - ReadQuestsWithBasicPercentage
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readQuestsWithBasicPercentage(
       {required bool includeMetaData}) {
     Completer<ServerResponse> completer = Completer();
@@ -453,13 +438,12 @@ class BrainCloudGamification {
     return completer.future;
   }
 
-  /// <summary>
   ///  Method returns all quests with a complex percentage.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Gamification
   /// Service Operation - ReadQuestsWithComplexPercentage
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readQuestsWithComplexPercentage(
       {required bool includeMetaData}) {
     Completer<ServerResponse> completer = Completer();
@@ -482,16 +466,15 @@ class BrainCloudGamification {
     return completer.future;
   }
 
-  /// <summary>
   /// Method returns all quests for the given category.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Gamification
   /// Service Operation - ReadQuestsByCategory
-  /// </remarks>
-  /// <param name="category">
+
+  /// @param category
   /// The quest category
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readQuestsByCategory(
       {required String category, required bool includeMetaData}) {
     Completer<ServerResponse> completer = Completer();

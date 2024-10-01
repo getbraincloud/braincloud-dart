@@ -15,13 +15,12 @@ class BrainCloudMatchMaking {
 
   BrainCloudMatchMaking(this._clientRef);
 
-  /// <summary>
   /// Read match making record
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - MatchMaking
   /// Service Operation - Read
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> read() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -40,16 +39,15 @@ class BrainCloudMatchMaking {
     return completer.future;
   }
 
-  /// <summary>
   /// Sets player rating
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - MatchMaking
   /// Service Operation - SetPlayerRating
-  /// </remarks>
-  /// <param name="playerRating">
+
+  /// @param playerRating
   /// The new player rating.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> setPlayerRating({required int playerRating}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -70,13 +68,12 @@ class BrainCloudMatchMaking {
     return completer.future;
   }
 
-  /// <summary>
   /// Resets player rating
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - MatchMaking
   /// Service Operation - resetPlayerRating
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> resetPlayerRating() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -94,16 +91,15 @@ class BrainCloudMatchMaking {
     return completer.future;
   }
 
-  /// <summary>
   /// Increments player rating
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - MatchMaking
   /// Service Operation - incrementPlayerRating
-  /// </remarks>
-  /// <param name="increment">
+
+  /// @param increment
   /// The increment amount
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> incrementPlayerRating({required int increment}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -124,16 +120,15 @@ class BrainCloudMatchMaking {
     return completer.future;
   }
 
-  /// <summary>
   /// Decrements player rating
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - MatchMaking
   /// Service Operation - decrementPlayerRating
-  /// </remarks>
-  /// <param name="decrement">
+
+  /// @param decrement
   /// The decrement amount
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> decrementPlayerRating({required int decrement}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -154,13 +149,12 @@ class BrainCloudMatchMaking {
     return completer.future;
   }
 
-  /// <summary>
   /// Turns shield on
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - MatchMaking
   /// Service Operation - ShieldOn
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> turnShieldOn() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -178,16 +172,15 @@ class BrainCloudMatchMaking {
     return completer.future;
   }
 
-  /// <summary>
   /// Turns shield on for the specified number of minutes
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - MatchMaking
   /// Service Operation - ShieldOnFor
-  /// </remarks>
-  /// <param name="minutes">
+
+  /// @param minutes
   /// Number of minutes to turn the shield on for
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> turnShieldOnFor({required int minutes}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -208,13 +201,12 @@ class BrainCloudMatchMaking {
     return completer.future;
   }
 
-  /// <summary>
   /// Turns shield off
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - MatchMaking
   /// Service Operation - ShieldOff
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> turnShieldOff() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -232,16 +224,15 @@ class BrainCloudMatchMaking {
     return completer.future;
   }
 
-  /// <summary>
   /// Increases the shield on time by specified number of minutes
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - MatchMaking
   /// Service Operation - IncrementShieldOnFor
-  /// </remarks>
-  /// <param name="minutes">
+
+  /// @param minutes
   /// Number of minutes to increase the shield time for
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> incrementShieldOnFor({required int minutes}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -264,18 +255,17 @@ class BrainCloudMatchMaking {
     return completer.future;
   }
 
-  /// <summary>
   /// Gets the shield expiry for the given player id. Passing in a null player id
   /// will return the shield expiry for the current player. The value returned is
   /// the time in UTC millis when the shield will expire.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - MatchMaking
   /// Service Operation - getShieldExpiry
-  /// </remarks>
-  /// <param name="playerId">
+
+  /// @param playerId
   /// The player id or use null to retrieve for the current player
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getShieldExpiry({required String playerId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -299,41 +289,39 @@ class BrainCloudMatchMaking {
     return completer.future;
   }
 
-  /// <summary>
   /// Finds matchmaking enabled players
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - MatchMaking
   /// Service Operation - FIND_PLAYERS
-  /// </remarks>
-  /// <param name="rangeDelta">
+
+  /// @param rangeDelta
   /// The range delta
-  /// </param>
-  /// <param name="numMatches">
+
+  /// @param numMatches
   /// The maximum number of matches to return
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> findPlayers(
       {required int rangeDelta, required int numMatches}) {
     return findPlayersWithAttributes(
         rangeDelta: rangeDelta, numMatches: numMatches, jsonAttributes: "");
   }
 
-  /// <summary>
   /// Finds matchmaking enabled players with additional attributes
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - MatchMaking
   /// Service Operation - FIND_PLAYERS
-  /// </remarks>
-  /// <param name="rangeDelta">
+
+  /// @param rangeDelta
   /// The range delta
-  /// </param>
-  /// <param name="numMatches">
+
+  /// @param numMatches
   /// The maximum number of matches to return
-  /// </param>
-  /// <param name="jsonAttributes">
+
+  /// @param jsonAttributes
   /// Attributes match criteria
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> findPlayersWithAttributes(
       {required int rangeDelta,
       required int numMatches,
@@ -364,22 +352,21 @@ class BrainCloudMatchMaking {
     return completer.future;
   }
 
-  /// <summary>
   /// Finds matchmaking enabled players using a cloud code filter
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - MatchMaking
   /// Service Operation - FIND_PLAYERS_USING_FILTER
-  /// </remarks>
-  /// <param name="rangeDelta">
+
+  /// @param rangeDelta
   /// The range delta
-  /// </param>
-  /// <param name="numMatches">
+
+  /// @param numMatches
   /// The maximum number of matches to return
-  /// </param>
-  /// <param name="jsonExtraParms">
+
+  /// @param jsonExtraParms
   /// Parameters to pass to the CloudCode filter script
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> findPlayersUsingFilter(
       {required int rangeDelta,
       required int numMatches,
@@ -391,26 +378,25 @@ class BrainCloudMatchMaking {
         jsonExtraParms: jsonExtraParms);
   }
 
-  /// <summary>
   /// Finds matchmaking enabled players using a cloud code filter
   /// and additional attributes
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - MatchMaking
   /// Service Operation - FIND_PLAYERS_USING_FILTER
-  /// </remarks>
-  /// <param name="rangeDelta">
+
+  /// @param rangeDelta
   /// The range delta
-  /// </param>
-  /// <param name="numMatches">
+
+  /// @param numMatches
   /// The maximum number of matches to return
-  /// </param>
-  /// <param name="jsonAttributes">
+
+  /// @param jsonAttributes
   /// Attributes match criteria
-  /// </param>
-  /// <param name="jsonExtraParms">
+
+  /// @param jsonExtraParms
   /// Parameters to pass to the CloudCode filter script
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> findPlayersWithAttributesUsingFilter(
       {required int rangeDelta,
       required int numMatches,
@@ -447,13 +433,12 @@ class BrainCloudMatchMaking {
     return completer.future;
   }
 
-  /// <summary>
   /// Enables Match Making for the Player
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - MatchMaking
   /// Service Operation - EnableMatchMaking
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> enableMatchMaking() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -472,13 +457,12 @@ class BrainCloudMatchMaking {
     return completer.future;
   }
 
-  /// <summary>
   /// Disables Match Making for the Player
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - MatchMaking
   /// Service Operation - EnableMatchMaking
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> disableMatchMaking() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(

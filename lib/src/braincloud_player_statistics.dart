@@ -13,13 +13,12 @@ class BrainCloudPlayerStatistics {
 
   BrainCloudPlayerStatistics(this._clientRef);
 
-  /// <summary>
   /// Read all available user statistics.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerStatistics
   /// Service Operation - Read
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readAllUserStats() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -36,16 +35,15 @@ class BrainCloudPlayerStatistics {
     return completer.future;
   }
 
-  /// <summary>
   /// Reads a subset of user statistics as defined by the input JSON.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerStatistics
   /// Service Operation - ReadSubset
-  /// </remarks>
-  /// <param name="playerStats">
+
+  /// @param playerStats
   /// A list containing the subset of statistics to read.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readUserStatsSubset(
       {required List<String> playerStats}) {
     Map<String, dynamic> data = {};
@@ -66,16 +64,15 @@ class BrainCloudPlayerStatistics {
     return completer.future;
   }
 
-  /// <summary>
   /// Method retrieves the user statistics for the given category.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerStatistics
   /// Service Operation - READ_FOR_CATEGORY
-  /// </remarks>
-  /// <param name="category">
+
+  /// @param category
   /// The user statistics category
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readUserStatsForCategory({required String category}) {
     Map<String, dynamic> data = {};
     data[OperationParam.gamificationServiceCategory.value] = category;
@@ -95,14 +92,13 @@ class BrainCloudPlayerStatistics {
     return completer.future;
   }
 
-  /// <summary>
   /// Reset all of the statistics for this user back to their initial value.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerStatistics
   /// Service Operation - Reset
   ///
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> resetAllUserStats() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -119,18 +115,16 @@ class BrainCloudPlayerStatistics {
     return completer.future;
   }
 
-  /// <summary>
   /// Atomically increment (or decrement) user statistics.
   /// Any rewards that are triggered from user statistic increments
   /// will be considered. User statistics are defined through the brainCloud portal.
   /// Note also that the "xpCapped" property is returned (true/false depending on whether
   /// the xp cap is turned on and whether the user has hit it).
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerStatistics
   /// Service Operation - Update
-  /// </remarks>
-  /// <param name="stats">
+
+  /// @param stats
   /// Stats name and their increments:
   /// {
   ///  {"stat1", 10},
@@ -144,7 +138,8 @@ class BrainCloudPlayerStatistics {
   ///   stat1:INC_TO_LIMIT#9#30
   /// }
   /// which increments stat1 by 9 up to a limit of 30.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> incrementUserStats(
       {required Map<String, dynamic> stats}) {
     Map<String, dynamic> data = {};
@@ -165,14 +160,12 @@ class BrainCloudPlayerStatistics {
     return completer.future;
   }
 
-  /// <summary>
   /// Apply statistics grammar to a partial set of statistics.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - playerStatistics
   /// Service Operation - PROCESS_STATISTICS
-  /// </remarks>
-  /// <param name="statisticsData">
+
+  /// @param statisticsData
   /// Example data to be passed to method:
   /// {
   ///     "DEAD_CATS": "RESET",
@@ -181,7 +174,8 @@ class BrainCloudPlayerStatistics {
   ///     "DOG_SCARE_BONUS_POINTS": "INC#10",
   ///     "TREES_CLIMBED": 1
   /// }
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> processStatistics(
       {required Map<String, dynamic> statisticsData}) {
     Map<String, dynamic> data = {};
@@ -202,13 +196,12 @@ class BrainCloudPlayerStatistics {
     return completer.future;
   }
 
-  /// <summary>
   /// Returns JSON representing the next experience level for the user.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerStatistics
   /// Service Operation - ReadNextXpLevel
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getNextExperienceLevel() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -225,17 +218,16 @@ class BrainCloudPlayerStatistics {
     return completer.future;
   }
 
-  /// <summary>
   /// Increments the user's experience. If the user goes up a level,
   /// the new level details will be returned along with a list of rewards.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerStatistics
   /// Service Operation - Update
-  /// </remarks>
-  /// <param name="xpValue">
+
+  /// @param xpValue
   /// The amount to increase the user's experience by
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> incrementExperiencePoints({required int xpValue}) {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticsExperiencePoints.value] = xpValue;
@@ -255,18 +247,17 @@ class BrainCloudPlayerStatistics {
     return completer.future;
   }
 
-  /// <summary>
   /// Sets the user's experience to an absolute value. Note that this
   /// is simply a set and will not reward the user if their level changes
   /// as a result.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerStatistics
   /// Service Operation - SetXpPoints
-  /// </remarks>
-  /// <param name="xpValue">
+
+  /// @param xpValue
   /// The amount to set the the player's experience to
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> setExperiencePoints({required int xpValue}) {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticsExperiencePoints.value] = xpValue;

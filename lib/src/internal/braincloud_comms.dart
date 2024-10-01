@@ -40,140 +40,116 @@ class BrainCloudComms {
 
   void enableCompression(bool compress) => _supportsCompression = compress;
 
-  /// <summary>
   /// Byte size threshold that determines if the message size is something we want to compress or not. We make an initial value, but recevie the value for future calls based on the servers
   ///auth response
-  /// </summary>
+
   int _clientSideCompressionThreshold = 50000;
   int get clientSideCompressionThreshold => _clientSideCompressionThreshold;
 
-  /// <summary>
   /// The id of _expectedIncomingPacketId when no packet expected
-  /// </summary>
+
   static int noPacketExpected = -1;
 
-  /// <summary>
   /// Reference to the brainCloud client dynamic
-  /// </summary>
+
   final BrainCloudClient _clientRef;
 
-  /// <summary>
   /// Set to true once Initialize has been called.
-  /// </summary>
+
   bool _initialized = false;
 
-  /// <summary>
   /// Set to false if you want to shutdown processing on the Update.
-  /// </summary>
+
   bool _enabled = true;
 
-  /// <summary>
   /// The next packet id to send
-  /// </summary>
+
   int _packetId = 1;
 
-  /// <summary>
   /// The packet id we're expecting
-  /// </summary>
+
   int _expectedIncomingPacketId = noPacketExpected;
 
-  /// <summary>
   /// The service calls that are waiting to be sent.
-  /// </summary>
+
   final List<ServerCall> _serviceCallsWaiting = [];
   final _serviceCallsWaitingLock = Mutex();
 
-  /// <summary>
   /// The service calls that have been sent for which we are waiting for a reply
-  /// </summary>
+
   List<ServerCall> _serviceCallsInProgress = [];
   final _serviceCallsInProgressLock = Mutex();
 
-  /// <summary>
   /// The service calls in the timeout queue.
-  /// </summary>
+
   final List<ServerCall> _serviceCallsInTimeoutQueue = [];
   final _serviceCallsInTimeoutQueueLock = Mutex();
 
-  /// <summary>
   /// The current request state. Null if no request is in progress.
-  /// </summary>
+
   RequestState? _activeRequest;
 
-  /// <summary>
   /// The last time a packet was sent
-  /// </summary>
+
   late DateTime _lastTimePacketSent;
 
-  /// <summary>
   /// How long we wait to send a heartbeat if no packets have been sent or received.
   /// This value is set to a percentage of the heartbeat timeout sent by the authenticate response.
-  /// </summary>
+
   Duration _idleTimeout = const Duration(seconds: 5 * 60);
 
-  /// <summary>
   /// The maximum number of messages in a bundle.
   /// This is set to a value from the server on authenticate
-  /// </summary>
+
   int _maxBundleMessages = 10;
 
-  /// <summary>
   /// The maximum number of sequential errors before client lockout
   /// This is set to a value from the server on authenticate
-  /// </summary>
+
   int _killSwitchThreshold = 11;
 
-  ///<summary>
   ///The maximum number of attempts that the client can use
   ///while trying to successfully authenticate before the client
   ///is disabled.
-  ///<summary>
+
   final int _identicalFailedAuthAttemptThreshold = 3;
 
-  ///<summary>
   ///The current number of identical failed attempts at authenticating. This
   ///will reset when a successful authentication is made.
-  ///<summary>
+
   int _failedAuthenticationAttempts = 0;
 
-  ///<summary>
   ///A blank reference for response data so we don't need to continually allocate new dictionaries when trying to
   ///make the data blank again.
-  ///<summary>
+
   final Map<String, dynamic> _blankResponseData = {};
 
-  ///<summary>
   ///An array that stores the most recent response jsons as dictionaries.
-  ///<summary>
+
   final List<Map<String, dynamic>> _recentResponseJsonData = [{}, {}];
 
-  /// <summary>
   /// When we have too many authentication errors under the same credentials,
   /// the client will not be able to try and authenticate again until the timer is up.
-  /// </summary>
+
   final Duration _authenticationTimeoutDuration = const Duration(seconds: 30);
 
-  /// <summary>
   /// When the authentication timer began
-  /// </summary>
+
   late DateTime _authenticationTimeoutStart;
 
   /// a checker to see what the packet Id we are receiving is
   int receivedPacketIdChecker = 0;
 
-  /// <summary>
   /// Debug value to introduce packet loss for testing retries etc.
-  /// </summary>
+
   //double _debugPacketLossRate = 0;
 
-  /// <summary>
   /// The event handler callback method
-  /// </summary>
+
   EventCallback? _eventCallback;
 
-  /// <summary>
   /// The reward handler callback method
-  /// </summary>
+
   RewardCallback? _rewardCallback;
 
   FileUploadSuccessCallback? _fileUploadSuccessCallback;
@@ -236,9 +212,8 @@ class BrainCloudComms {
 
   int uploadLowTransferRateThreshold = 50;
 
-  /// <summary>
   /// A list of packet timeouts. Index represents the packet attempt number.
-  /// </summary>
+
   List<int> packetTimeouts = [15, 20, 35, 50];
 
   void setPacketTimeoutsToDefault() {
@@ -263,12 +238,11 @@ class BrainCloudComms {
     resetErrorCache();
   }
 
-  /// <summary>
   /// Initialize the communications library with the specified serverURL and secretKey.
-  /// </summary>
-  /// <param name="serverURL">Server URL.</param>
-  /// /// <param name="appId">AppId</param>
-  /// <param name="secretKey">Secret key.</param>
+
+  /// @param serverURLServer URL.
+  /// /// @param appIdAppId
+  /// @param secretKeySecret key.
   void initialize(String serverURL, String appId, String secretKey) {
     resetCommunication(); //resets comms, packetId and SessionId
     _expectedIncomingPacketId = noPacketExpected;
@@ -295,12 +269,11 @@ class BrainCloudComms {
     _initialized = true;
   }
 
-  /// <summary>
   /// Initialize the communications library with the specified serverURL and secretKey.
-  /// </summary>
-  /// <param name="serverURL">Server URL.</param>
-  /// <param name="defaultAppId">default appId </param>
-  /// /// <param name="appIdSecretMap">map of appId -> secrets, to allow the client to safely switch between apps with secret being secure</param>
+
+  /// @param serverURLServer URL.
+  /// @param defaultAppIddefault appId
+  /// /// @param appIdSecretMapmap of appId -> secrets, to allow the client to safely switch between apps with secret being secure
   void initializeWithApps(String serverURL, String defaultAppId,
       Map<String, String> appIdSecretMap) {
     getAppIdSecretMap.clear();
@@ -352,10 +325,9 @@ class BrainCloudComms {
     _networkErrorCallback = null;
   }
 
-  /// <summary>
   /// The update method needs to be called periodically to send/receive responses
   /// and run the associated callbacks.
-  /// </summary>
+
   void update() {
     // basic flow here is to:
     // 1- process existing requests
@@ -449,9 +421,8 @@ class BrainCloudComms {
     runFileUploadCallbacks();
   }
 
-  /// <summary>
   /// Checks the status of active file uploads
-  /// </summary>
+
   void runFileUploadCallbacks() {
     for (int i = _fileUploads.length - 1; i >= 0; i--) {
       _fileUploads[i].update();
@@ -523,13 +494,12 @@ class BrainCloudComms {
     return null;
   }
 
-  /// <summary>
   /// Method fakes a json error from the server and sends
   /// it along to the response callbacks.
-  /// </summary>
-  /// <param name="status">status.</param>
-  /// <param name="reasonCode">reason code.</param>
-  /// <param name="statusMessage">status message.</param>
+
+  /// @param statusstatus.
+  /// @param reasonCodereason code.
+  /// @param statusMessagestatus message.
   void triggerCommsError(int status, int reasonCode, String statusMessage) {
     // error json format is
     // {
@@ -564,10 +534,9 @@ class BrainCloudComms {
     handleResponseBundle(jsonError);
   }
 
-  /// <summary>
   /// Shuts down the communications layer.
   /// Make sure to only call this from the main thread!
-  /// </summary>
+
   void shutDown() {
     _serviceCallsWaitingLock.acquire();
     try {
@@ -674,23 +643,20 @@ class BrainCloudComms {
     addToQueue(EndOfBundleMarker());
   }
 
-  /// <summary>
   /// Resets the idle timer.
-  /// </summary>
+
   void resetIdleTimer() {
     _lastTimePacketSent = DateTime.now();
   }
 
-  /// <summary>
   /// Starts timeout of authentication calls.
-  /// </summary>
+
   void resetAuthenticationTimer() {
     _authenticationTimeoutStart = DateTime.now();
   }
 
-  ///<summary>
   ///keeps track of if the client has made too many authentication attempts.
-  ///<summary>
+
   bool tooManyAuthenticationAttempts() {
     return _failedAuthenticationAttempts >=
         _identicalFailedAuthAttemptThreshold;
@@ -726,10 +692,9 @@ class BrainCloudComms {
     resetIdleTimer();
   }
 
-  /// <summary>
   /// Handles the response bundle and calls registered callbacks.
-  /// </summary>
-  /// <param name="jsonData">The received message bundle.</param>
+
+  /// @param jsonDataThe received message bundle.
   void handleResponseBundle(String jsonData) {
     if (_clientRef.loggingEnabled) {
       _clientRef.log("RESPONSE ${DateTime.now()}\n $jsonData");
@@ -1169,10 +1134,9 @@ class BrainCloudComms {
     _recentResponseJsonData[1] = _blankResponseData;
   }
 
-  /// <summary>
   /// Creates the request state dynamic and sends the message bundle
-  /// </summary>
-  /// <returns>The and send next request bundle.</returns>
+
+  /// @returns The and send next request bundle.
   RequestState? createAndSendNextRequestBundle() {
     RequestState? requestState;
     _serviceCallsWaitingLock.acquire();
@@ -1332,9 +1296,8 @@ class BrainCloudComms {
     return requestState;
   }
 
-  /// <summary>
   /// Creates a fake response to stop packets being sent to the server without a valid session.
-  /// </summary>
+
   void fakeErrorResponse(RequestState requestState, int statusCode,
       int reasonCode, String statusMessage) {
     Map<String, dynamic> packet = {};
@@ -1420,12 +1383,11 @@ class BrainCloudComms {
     return jsonDecode(jsonData);
   }
 
-  /// <summary>
   /// Method creates the web request and sends it immediately.
   /// Relies upon the requestState PacketId and MessageList being
   /// set appropriately.
-  /// </summary>
-  /// <param name="requestState">Request state.</param>
+
+  /// @param requestStateRequest state.
   Future<dynamic> internalSendMessage(RequestState requestState) async {
     // #if DOT_NET || GODOT
     //             // During retry, the RequestState is reused so we have to make sure its state goes back to PENDING.
@@ -1506,12 +1468,11 @@ class BrainCloudComms {
     return Uint8List.fromList(gzip.decode(compressedBytes.toList()));
   }
 
-  /// <summary>
   /// Resends a message bundle. Returns true if sent or
   /// false if max retries has been reached.
-  /// </summary>
-  /// <returns><c>true</c>, if message was resent, <c>false</c> if max retries hit.</returns>
-  /// <param name="requestState">Request state.</param>
+
+  /// @returns <c>true</c>, if message was resent, <c>false</c> if max retries hit.
+  /// @param requestStateRequest state.
   bool resendMessage(RequestState requestState) {
     if (_activeRequest!.retries >= getMaxRetriesForPacket(requestState)) {
       return false;
@@ -1521,11 +1482,10 @@ class BrainCloudComms {
     return true;
   }
 
-  /// <summary>
   /// Gets the web request status.
-  /// </summary>
-  /// <returns>The web request status.</returns>
-  /// <param name="requestState">request state.</param>
+
+  /// @returns The web request status.
+  /// @param requestStaterequest state.
   WebRequestStatus getWebRequestStatus(RequestState requestState) {
     WebRequestStatus status = WebRequestStatus.pending;
 
@@ -1548,20 +1508,19 @@ class BrainCloudComms {
     return status;
   }
 
-//         /// <summary>
+//
 //         /// Gets the web request response.
-//         /// </summary>
-//         /// <returns>The web request response.</returns>
-//         /// <param name="requestState">request state.</param>
+//
+//         /// @returns The web request response.
+//         /// @param requestStaterequest state.
   String getWebRequestResponse(RequestState? requestState) {
     return requestState?.webRequest?.response?.body ?? "";
   }
 
-  /// <summary>
   /// Method returns the maximum retries for the given packet
-  /// </summary>
-  /// <returns>The maximum retries for the given packet.</returns>
-  /// <param name="requestState">The active request.</param>
+
+  /// @returns The maximum retries for the given packet.
+  /// @param requestStateThe active request.
   int getMaxRetriesForPacket(RequestState requestState) {
     if (requestState.packetNoRetry) {
       return 0;
@@ -1569,11 +1528,10 @@ class BrainCloudComms {
     return packetTimeouts.length;
   }
 
-  /// <summary>
   /// Method staggers the packet timeout value based on the currentRetry
-  /// </summary>
-  /// <returns>The packet timeout.</returns>
-  /// <param name="requestState">The active request.</param>
+
+  /// @returns The packet timeout.
+  /// @param requestStateThe active request.
   Duration getPacketTimeout(RequestState requestState) {
     if (requestState.packetNoRetry) {
       if (DateTime.now().difference(_activeRequest!.timeSent) >
@@ -1612,19 +1570,17 @@ class BrainCloudComms {
     return ret;
   }
 
-  /// <summary>
   /// Sends the heartbeat.
-  /// </summary>
+
   void sendHeartbeat() {
     ServerCall sc =
         ServerCall(ServiceName.heartBeat, ServiceOperation.read, null, null);
     addToQueue(sc);
   }
 
-  /// <summary>
   /// Adds a server call to the internal queue.
-  /// </summary>
-  /// <param name="call">The server call to execute</param>
+
+  /// @param callThe server call to execute
   void addToQueue(ServerCall call) {
     _serviceCallsWaitingLock.acquire();
     try {
@@ -1634,19 +1590,17 @@ class BrainCloudComms {
     }
   }
 
-  /// <summary>
   /// Enables the communications layer.
-  /// </summary>
-  /// <param name="value">If set to <c>true</c> value.</param>
+
+  /// @param valueIf set to <c>true</c> value.
   void enableComms(bool value) {
     _enabled = value;
   }
 
-  /// <summary>
   /// Checks if json is valid then returns json dynamic
-  /// </summary>
-  /// <param name="jsonData"></param>
-  /// <returns></returns>
+
+  /// @param jsonData
+  /// @returns
   JsonResponseBundleV2? deserializeJsonBundle(String jsonData) {
     if (jsonData.isNullOrWhiteSpace) {
       return null;
@@ -1704,10 +1658,9 @@ class BrainCloudComms {
     return null;
   }
 
-  /// <summary>
   /// Resets the communication layer. Clients will need to
   /// reauthenticate after this method is called.
-  /// </summary>
+
   void resetCommunication() {
     _serviceCallsWaitingLock.acquire();
     try {
@@ -1730,10 +1683,9 @@ class BrainCloudComms {
     return md5.convert(utf8.encode(input)).toString();
   }
 
-  /// <summary>
   /// Handles authenticate-specific data from successful request
-  /// </summary>
-  /// <param name="jsonString"></param>
+
+  /// @param jsonString
   void processAuthenticate(Map<String, dynamic> jsonData) {
     //we want to extract the compressIfLarger amount
     if (jsonData.containsKey("compressIfLarger")) {
@@ -1784,12 +1736,11 @@ class BrainCloudComms {
     return retVal ?? defaultReturn;
   }
 
-  /// <summary>
   /// Attempts to create and send next request bundle.
   /// If to many attempts have been made, the request becomes an error
-  /// </summary>
-  /// <param name="status">Current Request Status</param>
-  /// <param name="bypassTimeout">Was there an error on the request?</param>
+
+  /// @param statusCurrent Request Status
+  /// @param bypassTimeoutWas there an error on the request?
   Future<void> retryRequest(WebRequestStatus status, bool bypassTimeout) async {
     if (_activeRequest != null) {
       if (bypassTimeout ||
@@ -1848,9 +1799,8 @@ class BrainCloudComms {
     }
   }
 
-  /// <summary>
   /// Resets the cached error message for local session error handling to default
-  /// </summary>
+
   void resetErrorCache() {
     _cachedStatusCode = StatusCodes.forbidden;
     _cachedReasonCode = ReasonCodes.noSession;

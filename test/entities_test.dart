@@ -16,9 +16,8 @@ main() {
     String sharedEntityId = "";
     int sharedEntityVersion = 0;
 
-    /// <summary>
     /// Utility to create entity for tests requiring one.
-    /// </summary>
+
     Future testEntityFactory(String entityType) async {
       var jsonEntityData = {"team": "RedTeam", "quantity": 0};
       var jsonEntityAcl = {"other": 0};
@@ -480,9 +479,8 @@ main() {
     String entityType = "UnitTest_Glb";
     String entityIndexedId = "UnitTest-GlobalService";
 
-    /// <summary>
     /// Utility to create entity for tests requiring one.
-    /// </summary>
+
     Future createGlobalTestEntity(String entityType) async {
       var jsonEntityData = {"team": "RedTeam", "games": 0};
       var jsonEntityAcl = {"other": 0};
@@ -929,9 +927,8 @@ main() {
     String entityId = "";
     int entityVersion = 0;
 
-    /// <summary>
     /// Utility to create entity for tests requiring one.
-    /// </summary>
+
     Future createCustomTestEntity(String entityType,
         {bool owned = false}) async {
       var jsonEntityData = {"testId": "RedTeam", "team": "RedTeam", "games": 0};

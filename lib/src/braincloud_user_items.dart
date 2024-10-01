@@ -14,22 +14,21 @@ class BrainCloudUserItems {
 
   BrainCloudUserItems(this._clientRef);
 
-  /// <summary>
   /// Allows item(s) to be awarded to a user without collecting
   ///the purchase amount. If includeDef is true, response
   ///includes associated itemDef with language fields limited
   ///to the current or default language.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - UserInventoryManagement
   /// Service Operation - AwardUserItem
-  /// </remarks>
-  /// <param name="defId">
-  /// </param>
-  /// <param name="quantity">
-  /// </param>
-  /// <param name="includeDef">
-  /// </param>
+
+  /// @param defId
+
+  /// @param quantity
+
+  /// @param includeDef
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> awardUserItem(
       {required String defId,
       required int quantity,
@@ -56,23 +55,22 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// <summary>
   /// Allows a quantity of a specified user item to be dropped,
   ///without any recovery of the money paid for the item. If any
   ///quantity of the user item remains, it will be returned, potentially
   ///with the associated itemDef (with language fields limited to the
   ///current or default language).
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - UserInventoryManagement
   /// Service Operation - DropUserItem
-  /// </remarks>
-  /// <param name="itemId">
-  /// </param>
-  /// <param name="quantity">
-  /// </param>
-  /// <param name="includeDef">
-  /// </param>
+
+  /// @param itemId
+
+  /// @param quantity
+
+  /// @param includeDef
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> dropUserItem(
       {required String itemId,
       required int quantity,
@@ -99,20 +97,19 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieves the page of user's inventory from the server
   ///based on the context. If includeDef is true, response includes
   /// associated itemDef with each user item, with language fields
   ///limited to the current or default language.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - UserInventoryManagement
   /// Service Operation - GetUserInventoryPage
-  /// </remarks>
-  /// <param name="context">
-  /// </param>
-  /// <param name="includeDef">
-  /// </param>
+
+  /// @param context
+
+  /// @param includeDef
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getUserItemsPage(
       {required String context, required bool includeDef}) {
     Completer<ServerResponse> completer = Completer();
@@ -137,23 +134,22 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieves the page of user's inventory
   ///from the server based on the encoded context.
   ///If includeDef is true, response includes associated
   ///itemDef with each user item, with language fields limited
   ///to the current or default language.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - UserInventoryManagement
   /// Service Operation - GetUserInventoryPageOffset
-  /// </remarks>
-  /// <param name="context">
-  /// </param>
-  /// <param name="pageOffset">
-  /// </param>
-  /// <param name="includeDef">
-  /// </param>
+
+  /// @param context
+
+  /// @param pageOffset
+
+  /// @param includeDef
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getUserItemsPageOffset(
       {required String context,
       required int pageOffset,
@@ -180,20 +176,19 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieves the identified user item from the server.
   /// If includeDef is true, response includes associated
   /// itemDef with language fields limited to the current
   ///or default language.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - UserInventoryManagement
   /// Service Operation - GetUserItem
-  /// </remarks>
-  /// <param name="itemId">
-  /// </param>
-  /// <param name="includeDef">
-  /// </param>
+
+  /// @param itemId
+
+  /// @param includeDef
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getUserItem(
       {required String itemId, required bool includeDef}) {
     Completer<ServerResponse> completer = Completer();
@@ -217,23 +212,22 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// <summary>
   /// Gifts item to the specified player.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - UserInventoryManagement
   /// Service Operation - GetUserItem
-  /// </remarks>
-  /// <param name="profileId">
-  /// </param>
-  /// <param name="itemId">
-  /// </param>
-  /// <param name="version">
-  /// </param>
-  /// <param name="quantity">
-  /// </param>
-  /// <param name="immediate">
-  /// </param>
+
+  /// @param profileId
+
+  /// @param itemId
+
+  /// @param version
+
+  /// @param quantity
+
+  /// @param immediate
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> giveUserItemTo(
       {required String profileId,
       required String itemId,
@@ -264,24 +258,23 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// <summary>
   /// Purchases a quantity of an item from the specified store,
   ///if the user has enough funds. If includeDef is true,
   ///response includes associated itemDef with language fields
   /// limited to the current or default language.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - UserInventoryManagement
   /// Service Operation - GetUserItem
-  /// </remarks>
-  /// <param name="defId">
-  /// </param>
-  /// <param name="quatity">
-  /// </param>
-  /// <param name="shopId">
-  /// </param>
-  /// <param name="includeDef">
-  /// </param>
+
+  /// @param defId
+
+  /// @param quatity
+
+  /// @param shopId
+
+  /// @param includeDef
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> purchaseUserItem(
       {required String defId,
       required int quantity,
@@ -310,22 +303,21 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieves and transfers the gift item from the specified player,
   //who must have previously called giveUserItemTo.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - UserInventoryManagement
   /// Service Operation - GetUserItem
-  /// </remarks>
-  /// <param name="defId">
-  /// </param>
-  /// <param name="quatity">
-  /// </param>
-  /// <param name="shopId">
-  /// </param>
-  /// <param name="includeDef">
-  /// </param>
+
+  /// @param defId
+
+  /// @param quatity
+
+  /// @param shopId
+
+  /// @param includeDef
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> receiveUserItemFrom(
       {required String profileId, required String itemId}) {
     Completer<ServerResponse> completer = Completer();
@@ -349,28 +341,27 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// <summary>
   /// Allows a quantity of a specified user item to be sold.
   ///If any quantity of the user item remains,
   ///it will be returned, potentially with the associated
   ///itemDef (with language fields limited to the current
   ///or default language), along with the currency refunded
   ///and currency balances.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - UserInventoryManagement
   /// Service Operation - SellUserItem
-  /// </remarks>
-  /// <param name="itemId">
-  /// </param>
-  /// <param name="version">
-  /// </param>
-  /// <param name="quantity">
-  /// </param>
-  /// <param name="shopId">
-  /// </param>
-  /// <param name="includeDef">
-  /// </param>
+
+  /// @param itemId
+
+  /// @param version
+
+  /// @param quantity
+
+  /// @param shopId
+
+  /// @param includeDef
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> sellUserItem(
       {required String itemId,
       required int version,
@@ -401,19 +392,18 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// <summary>
   /// Updates the item data on the specified user item.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - UserInventoryManagement
   /// Service Operation - UpdateUserItemData
-  /// </remarks>
-  /// <param name="itemId">
-  /// </param>
-  /// <param name="version">
-  /// </param>
-  /// <param name="newItemData">
-  /// </param>
+
+  /// @param itemId
+
+  /// @param version
+
+  /// @param newItemData
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateUserItemData(
       {required String itemId,
       required int version,
@@ -441,21 +431,20 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// <summary>
   /// Uses the specified item, potentially consuming it.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - UserInventoryManagement
   /// Service Operation - UseUserItem
-  /// </remarks>
-  /// <param name="itemId">
-  /// </param>
-  /// <param name="version">
-  /// </param>
-  /// <param name="newItemData">
-  /// </param>
-  /// <param name="includeDef">
-  /// </param>
+
+  /// @param itemId
+
+  /// @param version
+
+  /// @param newItemData
+
+  /// @param includeDef
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> useUserItem(
       {required String itemId,
       required int version,
@@ -486,17 +475,16 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// <summary>
   /// Publishes the specified item to the item management attached blockchain. Results are reported asynchronously via an RTT event.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - UserInventoryManagement
   /// Service Operation - PublishUserItemToBlockchain
-  /// </remarks>
-  /// <param name="itemId">
-  /// </param>
-  /// <param name="version">
-  /// </param>
+
+  /// @param itemId
+
+  /// @param version
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> publishUserItemToBlockchain(
       {required String itemId, required int version}) {
     Completer<ServerResponse> completer = Completer();
@@ -520,12 +508,11 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// <summary>
   /// Syncs the caller's user items with the item management attached blockchain. Results are reported asynchronously via an RTT event.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - UserInventoryManagement
   /// Service Operation - RefreshBlockchainUserItems
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> refreshBlockchainUserItems() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -546,20 +533,19 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// <summary>
   /// removes item from a blockchain.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - UserInventoryManagement
   /// Service Operation - RemoveUserItemFromBlockchain
   ///
-  /// </param>
-  /// <param name="itemId">
+
+  /// @param itemId
   ///
-  /// </param>
-  /// <param name="version">
+
+  /// @param version
   ///
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> removeUserItemFromBlockchain(
       {required String itemId, required int version}) {
     Completer<ServerResponse> completer = Completer();

@@ -15,7 +15,6 @@ class BrainCloudSocialLeaderboard {
 
   BrainCloudSocialLeaderboard(this._clientRef);
 
-  /// <summary>
   /// Method returns the social leaderboard. A player's social leaderboard is
   /// comprised of players who are recognized as being your friend.
   ///
@@ -30,18 +29,18 @@ class BrainCloudSocialLeaderboard {
   ///
   /// Note: If no friends have played the game, the bestScore, createdAt, updatedAt
   /// will contain NULL.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GET_SOCIAL_LEADERBOARD
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The id of the leaderboard to retrieve
-  /// </param>
-  /// <param name="replaceName">
+
+  /// @param replaceName
   /// If true, the currently logged in player's name will be replaced
   /// by the String "You".
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getSocialLeaderboard(
       {required String leaderboardId, required bool replaceName}) {
     Completer<ServerResponse> completer = Completer();
@@ -51,7 +50,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceReplaceName.value] =
         replaceName;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -67,7 +66,58 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
+  /// Method returns the social leaderboard. A player's social leaderboard is
+  /// comprised of players who are recognized as being your friend.
+  ///
+  /// The getSocialLeaderboard will retrieve all friends from all friend platforms, so
+  /// - all external friends (Facebook, Steam, PlaystationNetwork)
+  /// - all internal friends (brainCloud)
+  /// - plus "self".
+  ///
+  /// Leaderboards entries contain the player's score and optionally, some user-defined
+  /// data associated with the score. The currently logged in player will also
+  /// be returned in the social leaderboard.
+  ///
+  /// Note: If no friends have played the game, the bestScore, createdAt, updatedAt
+  /// will contain NULL.
+  ///
+  /// This method returns the same data as GetSocialLeaderboard, but it will not return an error if the leaderboard is not found.
+
+  /// Service Name - leaderboard
+  /// Service Operation - GET_SOCIAL_LEADERBOARD_IF_EXISTS
+
+  /// @param leaderboardId
+  /// The id of the leaderboard to retrieve
+
+  /// @param replaceName
+  /// If true, the currently logged in player's name will be replaced
+  /// by the string "You".
+
+  /// @returns Future<ServerResponse>
+  Future<ServerResponse> getSocialLeaderboardIfExists(
+      {required String leaderboardId, required bool replaceName}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
+        leaderboardId;
+    data[OperationParam.socialLeaderboardServiceReplaceName.value] =
+        replaceName;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.complete(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
+    var sc = new ServerCall(ServiceName.leaderboard,
+        ServiceOperation.GetSocialLeaderboardIfExists, data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
   /// Method returns the social leaderboard by its version. A player's social leaderboard is
   /// comprised of players who are recognized as being your friend.
   ///
@@ -82,21 +132,21 @@ class BrainCloudSocialLeaderboard {
   ///
   /// Note: If no friends have played the game, the bestScore, createdAt, updatedAt
   /// will contain NULL.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GET_SOCIAL_LEADERBOARD
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The id of the leaderboard to retrieve
-  /// </param>
-  /// <param name="replaceName">
+
+  /// @param replaceName
   /// If true, the currently logged in player's name will be replaced
   /// by the String "You".
-  /// </param>
-  /// <param name="versionId">
+
+  /// @param versionId
   /// The version
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getSocialLeaderboardByVersion(
       {required String leaderboardId,
       required bool replaceName,
@@ -109,7 +159,7 @@ class BrainCloudSocialLeaderboard {
         replaceName;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -125,23 +175,81 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
+  /// Method returns the social leaderboard by its version. A player's social leaderboard is
+  /// comprised of players who are recognized as being your friend.
+  ///
+  /// The getSocialLeaderboard will retrieve all friends from all friend platforms, so
+  /// - all external friends (Facebook, Steam, PlaystationNetwork)
+  /// - all internal friends (brainCloud)
+  /// - plus "self".
+  ///
+  /// Leaderboards entries contain the player's score and optionally, some user-defined
+  /// data associated with the score. The currently logged in player will also
+  /// be returned in the social leaderboard.
+  ///
+  /// Note: If no friends have played the game, the bestScore, createdAt, updatedAt
+  /// will contain NULL.
+  ///
+  /// This method returns the same data as GetSocialLeaderboardByVersion, but it will not return an error if the leaderboard does not exist.
+
+  /// Service Name - leaderboard
+  /// Service Operation - GET_SOCIAL_LEADERBOARD_BY_VERSION_IF_EXISTS
+
+  /// @param leaderboardId
+  /// The id of the leaderboard to retrieve
+
+  /// @param replaceName
+  /// If true, the currently logged in player's name will be replaced
+  /// by the string "You".
+
+  /// @param versionId
+  /// The version
+
+  /// @returns Future<ServerResponse>
+  Future<ServerResponse> getSocialLeaderboardByVersionIfExists(
+      {required String leaderboardId,
+      required bool replaceName,
+      required int versionId}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
+        leaderboardId;
+    data[OperationParam.socialLeaderboardServiceReplaceName.value] =
+        replaceName;
+    data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.complete(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
+    var sc = new ServerCall(ServiceName.leaderboard,
+        ServiceOperation.getSocialLeaderboardByVersionIfExists, data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
   /// Reads multiple social leaderboards.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GET_MULTI_SOCIAL_LEADERBOARD
-  /// </remarks>
-  /// <param name="leaderboardIds">
+
+  /// @param leaderboardIds
   /// Array of leaderboard id Strings
-  /// </param>
-  /// <param name="leaderboardResultCount">
+
+  /// @param leaderboardResultCount
   /// Maximum count of entries to return for each leaderboard.
-  /// </param>
-  /// <param name="replaceName">
+
+  /// @param replaceName
   /// If true, the currently logged in player's name will be replaced
   /// by the String "You".
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getMultiSocialLeaderboard(
       {required List<String> leaderboardIds,
       required int leaderboardResultCount,
@@ -155,7 +263,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceReplaceName.value] =
         replaceName;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -171,30 +279,29 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Method returns a page of global leaderboard results.
   ///
   /// Leaderboards entries contain the player's score and optionally, some user-defined
   /// data associated with the score.
   ///
   /// Note: This method allows the client to retrieve pages from within the global leaderboard list
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GetGlobalLeaderboardPage
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The id of the leaderboard to retrieve.
-  /// </param>
-  /// <param name="sort">
+
+  /// @param sort
   /// Sort key Sort order of page.
-  /// </param>
-  /// <param name="startIndex">
+
+  /// @param startIndex
   /// The index at which to start the page.
-  /// </param>
-  /// <param name="endIndex">
+
+  /// @param endIndex
   /// The index at which to end the page.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardPage(
       {required String leaderboardId,
       required SortOrder sort,
@@ -208,7 +315,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceStartIndex.value] = startIndex;
     data[OperationParam.socialLeaderboardServiceEndIndex.value] = endIndex;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -224,7 +331,6 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Method returns a page of global leaderboard results.
   ///
   /// Leaderboards entries contain the player's score and optionally, some user-defined
@@ -233,23 +339,23 @@ class BrainCloudSocialLeaderboard {
   /// Note: This method allows the client to retrieve pages from within the global leaderboard list
   ///
   /// This method returns the same data as GetGlobalLeaderboardPage, but will not return an error if the leaderboard does not exist.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GET_GLOBAL_LEADERBOARD_PAGE_IF_EXISTS
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The id of the leaderboard to retrieve.
-  /// </param>
-  /// <param name="sort">
+
+  /// @param sort
   /// Sort key Sort order of page.
-  /// </param>
-  /// <param name="startIndex">
+
+  /// @param startIndex
   /// The index at which to start the page.
-  /// </param>
-  /// <param name="endIndex">
+
+  /// @param endIndex
   /// The index at which to end the page.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardPageIfExists(
       {required String leaderboardId,
       required SortOrder sort,
@@ -280,30 +386,29 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Method returns a page of global leaderboard results. By using a non-current version id,
   /// the user can retrieve a historical leaderboard. See GetGlobalLeaderboardVersions method
   /// to retrieve the version id.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GetGlobalLeaderboardPage
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The id of the leaderboard to retrieve.
-  /// </param>
-  /// <param name="sort">
+
+  /// @param sort
   /// Sort key Sort order of page.
-  /// </param>
-  /// <param name="startIndex">
+
+  /// @param startIndex
   /// The index at which to start the page.
-  /// </param>
-  /// <param name="endIndex">
+
+  /// @param endIndex
   /// The index at which to end the page.
-  /// </param>
-  /// <param name="versionId">
+
+  /// @param versionId
   /// The historical version to retrieve.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardPageByVersion(
       {required String leaderboardId,
       required SortOrder sort,
@@ -319,7 +424,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceEndIndex.value] = endIndex;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -335,28 +440,83 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
+  /// Method returns a page of global leaderboard results. By using a non-current version id,
+  /// the user can retrieve a historical leaderboard. See GetGlobalLeaderboardVersions method
+  /// to retrieve the version id.
+  ///
+  /// This method returns the same data as GetGlobalLeaderboardPage, but it will not return an error if the leaderboard does not exist.
+
+  /// Service Name - leaderboard
+  /// Service Operation - GET_GLOBAL_LEADERBOARD_PAGE_IF_EXISTS
+
+  /// @param leaderboardId
+  /// The id of the leaderboard to retrieve.
+
+  /// @param sort
+  /// Sort key Sort order of page.
+
+  /// @param startIndex
+  /// The index at which to start the page.
+
+  /// @param endIndex
+  /// The index at which to end the page.
+
+  /// @param versionId
+  /// The historical version to retrieve.
+
+  /// @returns Future<ServerResponse>
+  Future<ServerResponse> getGlobalLeaderboardPageByVersionIfExists(
+      {required String leaderboardId,
+      required SortOrder sort,
+      required int startIndex,
+      required int endIndex,
+      required int versionId}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
+        leaderboardId;
+    data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
+    data[OperationParam.socialLeaderboardServiceStartIndex.value] = startIndex;
+    data[OperationParam.socialLeaderboardServiceEndIndex.value] = endIndex;
+    data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) =>
+          completer.complete(ServerResponse(statusCode: 200, body: response)),
+      (statusCode, reasonCode, statusMessage) => completer.complete(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage)),
+    );
+    var sc = new ServerCall(ServiceName.leaderboard,
+        ServiceOperation.getGlobalLeaderboardPageIfExists, data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
   /// Method returns a view of global leaderboard results that centers on the current player.
   ///
   /// Leaderboards entries contain the player's score and optionally, some user-defined
   /// data associated with the score.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GetGlobalLeaderboardView
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The id of the leaderboard to retrieve.
-  /// </param>
-  /// <param name="sort">
+
+  /// @param sort
   /// Sort key Sort order of page.
-  /// </param>
-  /// <param name="beforeCount">
+
+  /// @param beforeCount
   /// The count of number of players before the current player to include.
-  /// </param>
-  /// <param name="afterCount">
+
+  /// @param afterCount
   /// The count of number of players after the current player to include.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardView(
       {required String leaderboardId,
       required SortOrder sort,
@@ -370,30 +530,65 @@ class BrainCloudSocialLeaderboard {
         versionId: -1);
   }
 
-  /// <summary>
+  /// Method returns a view of global leaderboard results that centers on the current player.
+  ///
+  /// Leaderboards entries contain the player's score and optionally, some user-defined
+  /// data associated with the score.
+  ///
+  /// This method returns the same data as GetGlobalLeaderboardView, but it will not return an error if the leaderboard does not exist.
+
+  /// Service Name - leaderboard
+  /// Service Operation - GET_GLOBAL_LEADERBOARD_VIEW_IF_EXISTS
+
+  /// @param leaderboardId
+  /// The id of the leaderboard to retrieve.
+
+  /// @param sort
+  /// Sort key Sort order of page.
+
+  /// @param beforeCount
+  /// The count of number of players before the current player to include.
+
+  /// @param afterCount
+  /// The count of number of players after the current player to include.
+
+  /// @returns Future<ServerResponse>
+  Future<ServerResponse> getGlobalLeaderboardViewIfExists(
+      {required String leaderboardId,
+      required SortOrder sort,
+      required int beforeCount,
+      required int afterCount}) {
+    return getGlobalLeaderboardViewByVersionIfExists(
+        leaderboardId: leaderboardId,
+        sort: sort,
+        beforeCount: beforeCount,
+        afterCount: afterCount,
+        versionId: -1);
+  }
+
   /// Method returns a view of global leaderboard results that centers on the current player.
   /// By using a non-current version id, the user can retrieve a historical leaderboard.
   /// See GetGlobalLeaderboardVersions method to retrieve the version id.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GetGlobalLeaderboardView
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The id of the leaderboard to retrieve.
-  /// </param>
-  /// <param name="sort">
+
+  /// @param sort
   /// Sort key Sort order of page.
-  /// </param>
-  /// <param name="beforeCount">
+
+  /// @param beforeCount
   /// The count of number of players before the current player to include.
-  /// </param>
-  /// <param name="afterCount">
+
+  /// @param afterCount
   /// The count of number of players after the current player to include.
-  /// </param>
-  /// <param name="versionId">
+
+  /// @param versionId
   /// The historial version to retrieve. Use -1 for current leaderboard.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardViewByVersion(
       {required String leaderboardId,
       required SortOrder sort,
@@ -412,7 +607,7 @@ class BrainCloudSocialLeaderboard {
       data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
     }
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -428,14 +623,70 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
+  /// Method returns a view of global leaderboard results that centers on the current player.
+  /// By using a non-current version id, the user can retrieve a historical leaderboard.
+  /// See GetGlobalLeaderboardVersions method to retrieve the version id.
+  ///
+  /// This method returns the same data as GetGlobalLeaderboardViewByVersion, but it will not return an error if the leaderboard does not exist.
+
+  /// Service Name - leaderboard
+  /// Service Operation - GET_GLOBAL_LEADERBOARD_VIEW_IF_EXISTS
+
+  /// @param leaderboardId
+  /// The id of the leaderboard to retrieve.
+
+  /// @param sort
+  /// Sort key Sort order of page.
+
+  /// @param beforeCount
+  /// The count of number of players before the current player to include.
+
+  /// @param afterCount
+  /// The count of number of players after the current player to include.
+
+  /// @param versionId
+  /// The historial version to retrieve. Use -1 for current leaderboard.
+
+  /// @returns Future<ServerResponse>
+  Future<ServerResponse> getGlobalLeaderboardViewByVersionIfExists(
+      {required String leaderboardId,
+      required SortOrder sort,
+      required int beforeCount,
+      required int afterCount,
+      required int versionId}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
+        leaderboardId;
+    data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
+    data[OperationParam.socialLeaderboardServiceBeforeCount.value] =
+        beforeCount;
+    data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
+    if (versionId != -1) {
+      data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
+    }
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.complete(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
+    var sc = new ServerCall(ServiceName.leaderboard,
+        ServiceOperation.getGlobalLeaderboardViewIfExists, data, callback);
+    _clientRef.sendRequest(sc);
+    return completer.future;
+  }
+
   /// Gets the global leaderboard versions.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GetGlobalLeaderboardVersions
-  /// </remarks>
-  /// <param name="leaderboardId">In_leaderboard identifier.</param>
+
+  /// @param leaderboardIdIn_leaderboard identifier.
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardVersions(
       {required String leaderboardId}) {
     Completer<ServerResponse> completer = Completer();
@@ -443,7 +694,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -459,15 +710,14 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieve the social leaderboard for a group.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - ocialLeaderboard
   /// Service Operation - GET_GROUP_SOCIAL_LEADERBOARD
-  /// </remarks>
-  /// <param name="leaderboardId">The leaderboard to read</param>
-  /// <param name="groupId">The group ID</param>
+
+  /// @param leaderboardIdThe leaderboard to read
+  /// @param groupIdThe group ID
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getGroupSocialLeaderboard(
       {required String leaderboardId, required String groupId}) {
     Completer<ServerResponse> completer = Completer();
@@ -476,7 +726,7 @@ class BrainCloudSocialLeaderboard {
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -492,16 +742,15 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieve the social leaderboard for a group by its version.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - ocialLeaderboard
   /// Service Operation - GET_GROUP_SOCIAL_LEADERBOARD_BY_VERSION
-  /// </remarks>
-  /// <param name="leaderboardId">The leaderboard to read</param>
-  /// <param name="groupId">The group ID</param>
-  /// <param name="versionId">The version ID</param>
+
+  /// @param leaderboardIdThe leaderboard to read
+  /// @param groupIdThe group ID
+  /// @param versionIdThe version ID
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getGroupSocialLeaderboardByVersion(
       {required String leaderboardId,
       required String groupId,
@@ -513,7 +762,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -529,7 +778,6 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Post the players score to the given social leaderboard.
   /// You can optionally send a user-defined json String of data
   /// with the posted score. This String could include information
@@ -538,20 +786,20 @@ class BrainCloudSocialLeaderboard {
   /// Note that the behaviour of posting a score can be modified in
   /// the brainCloud portal. By default, the server will only keep
   /// the player's best score.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - PostScore
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The leaderboard to post to
-  /// </param>
-  /// <param name="score">
+
+  /// @param score
   /// The score to post
-  /// </param>
-  /// <param name="data">
+
+  /// @param data
   /// Optional user-defined data to post with the score
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> postScoreToLeaderboard(
       {required String leaderboardId,
       required int score,
@@ -566,7 +814,7 @@ class BrainCloudSocialLeaderboard {
       data[OperationParam.socialLeaderboardServiceData.value] = customData;
     }
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -582,19 +830,18 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Removes a player's score from the leaderboard
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - REMOVE_PLAYER_SCORE
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The ID of the leaderboard
-  /// </param>
-  /// <param name="versionId">
+
+  /// @param versionId
   /// The version of the leaderboard
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> removePlayerScore(
       {required String leaderboardId, required int versionId}) {
     Completer<ServerResponse> completer = Completer();
@@ -603,7 +850,7 @@ class BrainCloudSocialLeaderboard {
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -619,38 +866,37 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Post the players score to the given social leaderboard.
   /// Pass leaderboard config data to dynamically create if necessary.
   /// You can optionally send a user-defined json String of data
   /// with the posted score. This String could include information
   /// relevant to the posted score.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - PostScoreDynamic
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The leaderboard to post to
-  /// </param>
-  /// <param name="score">
+
+  /// @param score
   /// The score to post
-  /// </param>
-  /// <param name="data">
+
+  /// @param data
   /// Optional user-defined data to post with the score
-  /// </param>
-  /// <param name="leaderboardType">
+
+  /// @param leaderboardType
   /// leaderboard type
-  /// </param>
-  /// <param name="rotationType">
+
+  /// @param rotationType
   /// Type of rotation
-  /// </param>
-  /// <param name="rotationResetUTC">
+
+  /// @param rotationResetUTC
   /// Date to reset the leaderboard using UTC time in milliseconds since epoch
-  /// </param>
-  /// <param name="retainedCount">
+
+  /// @param retainedCount
   /// How many rotations to keep
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> postScoreToDynamicLeaderboardUTC(
       {required String leaderboardId,
       required int score,
@@ -681,7 +927,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceRetainedCount.value] =
         retainedCount;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -697,21 +943,19 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Post the player's score to the given social leaderboard,
   /// dynamically creating the leaderboard if it does not exist yet.
   /// To create new leaderboard, configJson must specify
   /// leaderboardType, rotationType, resetAt, and retainedCount, at a minimum,
   /// with support to optionally specify an expiry in minutes.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - POST_SCORE_DYNAMIC_USING_CONFIG
-  /// </remarks>
-  /// <param name="leaderboardId">The leaderboard to post to.</param>
-  /// <param name="score">A score to post.</param>
-  /// <param name="scoreData">Optional user-defined data to post with the score.</param>
-  /// <param name="configJson">
+
+  /// @param leaderboardIdThe leaderboard to post to.
+  /// @param scoreA score to post.
+  /// @param scoreDataOptional user-defined data to post with the score.
+  /// @param configJson
   /// Configuration for the leaderboard if it does not exist yet, specified as JSON object.
   /// Configuration fields supported are:
   ///     leaderboardType': Required. Type of leaderboard. Valid values are:
@@ -732,7 +976,8 @@ class BrainCloudSocialLeaderboard {
   ///     'resetAt': UTC timestamp, in milliseconds, at which to rotate the period. Always null if 'NEVER' rotation type;
   ///     'retainedCount': Required. Number of rotations (versions) of the leaderboard to retain;
   ///     'expireInMins': Optional. Duration, in minutes, before the leaderboard is to automatically expire.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> postScoreToDynamicLeaderboardUsingConfig(
       {required String leaderboardId,
       required int score,
@@ -753,7 +998,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceConfigJson.value] =
         leaderboardConfigJson;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -769,41 +1014,40 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Post the group score to the given social group leaderboard.
   /// Pass leaderboard config data to dynamically create if necessary.
   /// You can optionally send a user-defined json String of data
   /// with the posted score. This String could include information
   /// relevant to the posted score.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - PostScoreToDynamicLeaderboard
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The leaderboard to post to
-  /// </param>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// group ID the leaderboard belongs to
-  /// </param>
-  /// <param name="score">
+
+  /// @param score
   /// The score to post
-  /// </param>
-  /// <param name="data">
+
+  /// @param data
   /// Optional user-defined data to post with the score
-  /// </param>
-  /// <param name="leaderboardType">
+
+  /// @param leaderboardType
   /// leaderboard type
-  /// </param>
-  /// <param name="rotationType">
+
+  /// @param rotationType
   /// Type of rotation
-  /// </param>
-  /// <param name="rotationResetUTC">
+
+  /// @param rotationResetUTC
   /// Date to reset the leaderboard UTC
-  /// </param>
-  /// <param name="retainedCount">
+
+  /// @param retainedCount
   /// How many rotations to keep
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> postScoreToDynamicGroupLeaderboardUTC(
       {required String leaderboardId,
       required String groupId,
@@ -836,7 +1080,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceRetainedCount.value] =
         retainedCount;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -852,38 +1096,37 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Post the players score to the given social leaderboard with a rotation type of DAYS.
   /// Pass leaderboard config data to dynamically create if necessary.
   /// You can optionally send a user-defined json String of data
   /// with the posted score. This String could include information
   /// relevant to the posted score.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - PostScoreDynamic
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The leaderboard to post to
-  /// </param>
-  /// <param name="score">
+
+  /// @param score
   /// The score to post
-  /// </param>
-  /// <param name="data">
+
+  /// @param data
   /// Optional user-defined data to post with the score
-  /// </param>
-  /// <param name="leaderboardType">
+
+  /// @param leaderboardType
   /// leaderboard type
-  /// </param>
-  /// <param name="rotationResetUTC">
+
+  /// @param rotationResetUTC
   /// Date to reset the leaderboard using UTC time since epoch
-  /// </param>
-  /// <param name="retainedCount">
+
+  /// @param retainedCount
   /// How many rotations to keep
-  /// </param>
-  /// <param name="numDaysToRotate">
+
+  /// @param numDaysToRotate
   /// How many days between each rotation
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> postScoreToDynamicLeaderboardDaysUTC(
       {required String leaderboardId,
       required int score,
@@ -914,7 +1157,7 @@ class BrainCloudSocialLeaderboard {
         retainedCount;
     data[OperationParam.numDaysToRotate.value] = numDaysToRotate;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -930,35 +1173,35 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Post the group score to the given group leaderboard
   /// and dynamically create if necessary. LeaderboardType,
   /// rotationType, rotationReset, and retainedCount are required.
-  /// </summary>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The leaderboard to post to
-  /// </param>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// The id of the group.
-  /// </param>
-  /// <param name="score">
+
+  /// @param score
   /// The score to post
-  /// </param>
-  /// <param name="data">
+
+  /// @param data
   /// Optional user-defined data to post with the score
-  /// </param>
-  /// <param name="leaderboardType">
+
+  /// @param leaderboardType
   /// leaderboard type
-  /// </param>
-  /// <param name="rotationResetUTC">
+
+  /// @param rotationResetUTC
   /// Date to reset the leaderboard using UTC time since epoch
-  /// </param>
-  /// <param name="retainedCount">
+
+  /// @param retainedCount
   /// How many rotations to keep
-  /// </param>
-  /// <param name="numDaysToRotate">
+
+  /// @param numDaysToRotate
   /// How many days between each rotation
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> postScoreToDynamicGroupLeaderboardDaysUTC(
       {required String leaderboardId,
       required String groupId,
@@ -991,7 +1234,7 @@ class BrainCloudSocialLeaderboard {
         retainedCount;
     data[OperationParam.numDaysToRotate.value] = numDaysToRotate;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -1007,19 +1250,18 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieve the social leaderboard for a list of players.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GET_PLAYERS_SOCIAL_LEADERBOARD
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The ID of the leaderboard
-  /// </param>
-  /// <param name="profileIds">
+
+  /// @param profileIds
   /// The IDs of the players
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getPlayersSocialLeaderboard(
       {required String leaderboardId, required List<String> profileIds}) {
     Completer<ServerResponse> completer = Completer();
@@ -1028,7 +1270,7 @@ class BrainCloudSocialLeaderboard {
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceProfileIds.value] = profileIds;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -1044,22 +1286,57 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
+  /// Retrieve the social leaderboard for a list of players.
+  /// This function returns the same data as GetPlayersSocialLeaderboard, but it will not return an error if the leaderboard does not exist.
+
+  /// Service Name - leaderboard
+  /// Service Operation - GET_PLAYERS_SOCIAL_LEADERBOARD_IF_EXISTS
+
+  /// @param leaderboardId
+  /// The ID of the leaderboard
+
+  /// @param profileIds
+  /// The IDs of the players
+
+  /// @returns Future<ServerResponse>
+  Future<ServerResponse> getPlayersSocialLeaderboardIfExists(
+      {required String leaderboardId, required List<String> profileIds}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
+        leaderboardId;
+    data[OperationParam.socialLeaderboardServiceProfileIds.value] = profileIds;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.complete(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
+    var sc = new ServerCall(ServiceName.leaderboard,
+        ServiceOperation.GetPlayersSocialLeaderboardIfExists, data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
   /// Retrieve the social leaderboard for a list of players by their version.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GET_PLAYERS_SOCIAL_LEADERBOARD_BY_VERSION
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The ID of the leaderboard
-  /// </param>
-  /// <param name="profileIds">
+
+  /// @param profileIds
   /// The IDs of the players
-  /// </param>
-  /// <param name="versionId">
+
+  /// @param versionId
   /// The version
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getPlayersSocialLeaderboardByVersion(
       {required String leaderboardId,
       required List<String> profileIds,
@@ -1071,7 +1348,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceProfileIds.value] = profileIds;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -1087,16 +1364,61 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
+  /// Retrieve the social leaderboard for a list of players by their version.
+  /// This function returns the same data as GetPlayersSocialLeaderboardByVersion, but it will not return an error if the leaderboard does not exist.
+
+  /// Service Name - leaderboard
+  /// Service Operation - GET_PLAYERS_SOCIAL_LEADERBOARD_BY_VERSION_IF_EXISTS
+
+  /// @param leaderboardId
+  /// The ID of the leaderboard
+
+  /// @param profileIds
+  /// The IDs of the players
+
+  /// @param versionId
+  /// The version
+
+  /// @returns Future<ServerResponse>
+  Future<ServerResponse> getPlayersSocialLeaderboardByVersionIfExists(
+      {required String leaderboardId,
+      required List<String> profileIds,
+      required int versionId}) {
+    Completer<ServerResponse> completer = Completer();
+
+    Map<String, dynamic> data = {};
+    data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
+        leaderboardId;
+    data[OperationParam.socialLeaderboardServiceProfileIds.value] = profileIds;
+    data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.complete(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
+    var sc = new ServerCall(
+        ServiceName.leaderboard,
+        ServiceOperation.getPlayersSocialLeaderboardByVersionIfExists,
+        data,
+        callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
   /// Retrieve a list of all leaderboards
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - LIST_LEADERBOARDS
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> listAllLeaderboards() {
     Completer<ServerResponse> completer = Completer();
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -1112,35 +1434,33 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Gets the number of entries in a global leaderboard
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GET_GLOBAL_LEADERBOARD_ENTRY_COUNT
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The ID of the leaderboard
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardEntryCount(
       {required String leaderboardId}) {
     return getGlobalLeaderboardEntryCountByVersion(
         leaderboardId: leaderboardId, versionId: -1);
   }
 
-  /// <summary>
   /// Gets the number of entries in a global leaderboard
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GET_GLOBAL_LEADERBOARD_ENTRY_COUNT
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The ID of the leaderboard
-  /// </param>
-  /// <param name="versionId">
+
+  /// @param versionId
   /// The version of the leaderboard
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardEntryCountByVersion(
       {required String leaderboardId, required int versionId}) {
     Completer<ServerResponse> completer = Completer();
@@ -1152,7 +1472,7 @@ class BrainCloudSocialLeaderboard {
       data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
     }
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -1168,19 +1488,18 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Gets a player's score from a leaderboard
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GET_PLAYER_SCORE
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The ID of the leaderboard
-  /// </param>
-  /// <param name="versionId">
+
+  /// @param versionId
   /// The version of the leaderboard. Use -1 for current.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getPlayerScore(
       {required String leaderboardId, required int versionId}) {
     Completer<ServerResponse> completer = Completer();
@@ -1189,7 +1508,7 @@ class BrainCloudSocialLeaderboard {
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -1205,22 +1524,21 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Gets a player's highest scores from a leaderboard
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GET_PLAYER_SCORES
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// The ID of the leaderboard
-  /// </param>
-  /// <param name="versionId">
+
+  /// @param versionId
   /// The version of the leaderboard. Use -1 for current.
-  /// </param>
-  /// <param name="maxResults">
+
+  /// @param maxResults
   /// The number of max results to return.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getPlayerScores(
       {required String leaderboardId,
       required int versionId,
@@ -1232,7 +1550,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceMaxResults.value] = maxResults;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -1248,19 +1566,18 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Gets a player's score from multiple leaderboards
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GET_PLAYER_SCORES_FROM_LEADERBOARDS
-  /// </remarks>
-  /// <param name="leaderboardIds">
+
+  /// @param leaderboardIds
   /// A collection of leaderboardIds to retrieve scores from
-  /// </param>
-  /// <param name="versionId">
+
+  /// @param versionId
   /// The version of the leaderboard. Use -1 for current.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getPlayerScoresFromLeaderboards(
       {required List<String> leaderboardIds}) {
     Completer<ServerResponse> completer = Completer();
@@ -1268,7 +1585,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceLeaderboardIds.value] =
         leaderboardIds;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -1284,25 +1601,24 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Posts score to Group's leaderboard - NOTE the user must be a member of the group
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - POST_SCORE_TO_GROUP_LEADERBOARD
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// the id of the leaderboard
-  /// </param>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// The groups Id
-  /// </param>
-  /// <param name="score">
+
+  /// @param score
   /// The score you wish to post
-  /// </param>
-  /// <param name="data">
+
+  /// @param data
   /// Extra data json
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> postScoreToGroupLeaderboard(
       {required String leaderboardId,
       required String groupId,
@@ -1319,7 +1635,7 @@ class BrainCloudSocialLeaderboard {
       data[OperationParam.socialLeaderboardServiceData.value] = customData;
     }
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -1335,22 +1651,21 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Posts score to Group's leaderboard - NOTE the user must be a member of the group
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - POST_SCORE_TO_GROUP_LEADERBOARD
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// the id of the leaderboard
-  /// </param>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// The groups Id
-  /// </param>
-  /// <param name="versionId">
+
+  /// @param versionId
   /// The version defaults to -1
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> removeGroupScore(
       {required String leaderboardId,
       required String groupId,
@@ -1362,7 +1677,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -1378,28 +1693,27 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieve a view of the group leaderboard surrounding the current group
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GET_GROUP_LEADERBOARD_VIEW
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// the id of the leaderboard
-  /// </param>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// The groups Id
-  /// </param>
-  /// <param name="sort">
+
+  /// @param sort
   /// The groups Id
-  /// </param>
-  /// <param name="beforeCount">
+
+  /// @param beforeCount
   /// The count of number of players before the current player to include.
-  /// </param>
-  /// <param name="afterCount">
+
+  /// @param afterCount
   /// The count of number of players after the current player to include.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getGroupLeaderboardView(
       {required String leaderboardId,
       required String groupId,
@@ -1416,7 +1730,7 @@ class BrainCloudSocialLeaderboard {
         beforeCount;
     data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
@@ -1432,31 +1746,30 @@ class BrainCloudSocialLeaderboard {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieve a view of the group leaderboard surrounding the current group
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - leaderboard
   /// Service Operation - GET_GROUP_LEADERBOARD_VIEW_BY_VERSION
-  /// </remarks>
-  /// <param name="leaderboardId">
+
+  /// @param leaderboardId
   /// the id of the leaderboard
-  /// </param>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// The groups Id
-  /// </param>
-  /// <param name="sort">
+
+  /// @param sort
   /// The groups Id
-  /// </param>
-  /// <param name="beforeCount">
+
+  /// @param beforeCount
   /// The count of number of players before the current player to include.
-  /// </param>
-  /// <param name="afterCount">
+
+  /// @param afterCount
   /// The count of number of players after the current player to include.
-  /// </param>
-  /// <param name="versionId">
+
+  /// @param versionId
   /// The version
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getGroupLeaderboardViewByVersion(
       {required String leaderboardId,
       required String groupId,
@@ -1475,7 +1788,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
-    var callback = BrainCloudClient.createServerCallback(
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(

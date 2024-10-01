@@ -15,19 +15,18 @@ class BrainCloudDataStream {
 
   BrainCloudDataStream(this._clientRef);
 
-  /// <summary>
   /// Creates custom data stream page event
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - DataStream
   /// Service Operation - CustomPageEvent
-  /// </remarks>
-  /// <param name="eventName">
+
+  /// @param eventName
   /// The name of the event
-  /// </param>
-  /// <param name="jsonEventProperties">
+
+  /// @param jsonEventProperties
   /// The properties of the event
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> customPageEvent(
       {required String eventName, required String jsonEventProperties}) {
     Completer<ServerResponse> completer = Completer();
@@ -53,19 +52,18 @@ class BrainCloudDataStream {
     return completer.future;
   }
 
-  /// <summary>
   /// Creates custom data stream screen event
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - DataStream
   /// Service Operation - CustomScreenEvent
-  /// </remarks>
-  /// <param name="eventName">
+
+  /// @param eventName
   /// The name of the event
-  /// </param>
-  /// <param name="jsonEventProperties">
+
+  /// @param jsonEventProperties
   /// The properties of the event
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> customScreenEvent(
       {required String eventName, required String jsonEventProperties}) {
     Completer<ServerResponse> completer = Completer();
@@ -91,19 +89,18 @@ class BrainCloudDataStream {
     return completer.future;
   }
 
-  /// <summary>
   /// Creates custom data stream track event
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - DataStream
   /// Service Operation - CustomTrackEvent
-  /// </remarks>
-  /// <param name="eventName">
+
+  /// @param eventName
   /// The name of the event
-  /// </param>
-  /// <param name="jsonEventProperties">
+
+  /// @param jsonEventProperties
   /// The properties of the event
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> customTrackEvent(
       {required String eventName, required String jsonEventProperties}) {
     Completer<ServerResponse> completer = Completer();
@@ -129,37 +126,36 @@ class BrainCloudDataStream {
     return completer.future;
   }
 
-  /// <summary>
   /// Sends a crash report data
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - DataStream
   /// Service Operation - SubmitCrashReport
-  /// </remarks>
-  /// <param name="crashType">
+
+  /// @param crashType
   /// The type of the crash
-  /// </param>
-  /// <param name="errorMsg">
+
+  /// @param errorMsg
   /// The error message
-  /// </param>
-  /// <param name="crashJson">
+
+  /// @param crashJson
   /// The data from the error
-  /// </param>
-  /// <param name="crashLog">
+
+  /// @param crashLog
   /// The crash logs
-  /// </param>
-  /// <param name="userName">
+
+  /// @param userName
   /// The user email
-  /// </param>
-  /// <param name="userEmail">
+
+  /// @param userEmail
   /// The user email
-  /// </param>
-  /// <param name="userNotes">
+
+  /// @param userNotes
   /// The notes related to the user
-  /// </param>
-  /// <param name="userSubmitted">
+
+  /// @param userSubmitted
   /// The bool passed by the user
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> submitCrashReport(
       {required String crashType,
       required String errorMsg,

@@ -17,16 +17,15 @@ class BrainCloudGroup {
 
   BrainCloudGroup(this._clientRef);
 
-  /// <summary>
   /// Accept an outstanding invitation to join the group.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - ACCEPT_GROUP_INVITATION
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> acceptGroupInvitation({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -34,25 +33,24 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.acceptGroupInvitation, data);
   }
 
-  /// <summary>
   /// Add a member to the group.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - ADD_GROUP_MEMBER
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="profileId">
+
+  /// @param profileId
   /// Profile ID of the member being added.
-  /// </param>
-  /// <param name="role">
+
+  /// @param role
   /// Role of the member being added.
-  /// </param>
-  /// <param name="jsonAttributes">
+
+  /// @param jsonAttributes
   /// Attributes of the member being added.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> addGroupMember(
       {required String groupId,
       required String profileId,
@@ -71,24 +69,23 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.addGroupMember, data);
   }
 
-  /// <summary>
   /// Approve an outstanding request to join the group.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - APPROVE_GROUP_JOIN_REQUEST
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="profileId">
+
+  /// @param profileId
   /// Profile ID of the invitation being deleted.
-  /// </param>
-  /// <param name="role">
+
+  /// @param role
   /// Role of the member being invited.
-  /// <param name="jsonAttributes">
+  /// @param jsonAttributes
   /// Attributes of the member being invited.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> approveGroupJoinRequest(
       {required String groupId,
       required String profileId,
@@ -107,22 +104,21 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.approveGroupJoinRequest, data);
   }
 
-  /// <summary>
   /// Automatically join an open group that matches the search criteria and has space available.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - AUTO_JOIN_GROUP
-  /// </remarks>
-  /// <param name="groupType">
+
+  /// @param groupType
   /// Name of the associated group type.
-  /// </param>
-  /// <param name="autoJoinStrategy">
+
+  /// @param autoJoinStrategy
   /// Selection strategy to employ when there are multiple matches
-  /// </param>
-  /// <param name="dataQueryJson">
+
+  /// @param dataQueryJson
   /// Query parameters (optional)
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> autoJoinGroup(
       {required String groupType,
       required AutoJoinStrategy autoJoinStrategy,
@@ -139,22 +135,21 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.autoJoinGroup, data);
   }
 
-  /// <summary>
   /// Find and join an open group in the pool of groups in multiple group types provided as input arguments.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - AUTO_JOIN_GROUP_MULTI
-  /// </remarks>
-  /// <param name="groupTypes">
+
+  /// @param groupTypes
   /// Name of the associated group types.
-  /// </param>
-  /// <param name="autoJoinStrategy">
+
+  /// @param autoJoinStrategy
   /// Selection strategy to employ when there are multiple matches
-  /// </param>
-  /// <param name="dataQueryJson">
+
+  /// @param dataQueryJson
   /// Query parameters (optional)
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> autoJoinGroupMulti(
       {required List<String> groupTypes,
       required AutoJoinStrategy autoJoinStrategy,
@@ -171,19 +166,18 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.autoJoinGroupMulti, data);
   }
 
-  /// <summary>
   /// Cancel an outstanding invitation to the group.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - CANCEL_GROUP_INVITATION
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="profileId">
+
+  /// @param profileId
   /// Profile ID of the invitation being deleted.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> cancelGroupInvitation(
       {required String groupId, required String profileId}) {
     Map<String, dynamic> data = {};
@@ -193,16 +187,15 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.cancelGroupInvitation, data);
   }
 
-  /// <summary>
   /// Delete a request to join the group.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Group
   /// Service Operation - DELETE_GROUP_JOIN_REQUEST
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// The id of the group.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> deleteGroupJoinRequest({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -210,34 +203,33 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.deleteGroupJoinRequest, data);
   }
 
-  /// <summary>
   /// Create a group.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - CREATE_GROUP
-  /// </remarks>
-  /// <param name="name">
+
+  /// @param name
   /// Name of the group.
-  /// </param>
-  /// <param name="groupType">
+
+  /// @param groupType
   /// Name of the type of group.
-  /// </param>
-  /// <param name="isOpenGroup">
+
+  /// @param isOpenGroup
   /// true if group is open; false if closed.
-  /// </param>
-  /// <param name="acl">
+
+  /// @param acl
   /// The group's access control list. A null ACL implies default.
-  /// </param>
-  /// <param name="jsonOwnerAttributes">
+
+  /// @param jsonOwnerAttributes
   /// Attributes for the group owner (current user).
-  /// </param>
-  /// <param name="jsonDefaultMemberAttributes">
+
+  /// @param jsonDefaultMemberAttributes
   /// Default attributes for group members.
-  /// </param>
-  /// <param name="jsonData">
+
+  /// @param jsonData
   /// Custom application data.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> createGroup(
       {required String name,
       required String groupType,
@@ -273,38 +265,36 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.createGroup, data);
   }
 
-  /// <summary>
   /// Create a group. With additional summary data
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - CREATE_GROUP
-  /// </remarks>
-  /// <param name="name">
+
+  /// @param name
   /// Name of the group.
-  /// </param>
-  /// <param name="groupType">
+
+  /// @param groupType
   /// Name of the type of group.
-  /// </param>
-  /// <param name="isOpenGroup">
+
+  /// @param isOpenGroup
   /// true if group is open; false if closed.
-  /// </param>
-  /// <param name="acl">
+
+  /// @param acl
   /// The group's access control list. A null ACL implies default.
-  /// </param>
-  /// <param name="jsonOwnerAttributes">
+
+  /// @param jsonOwnerAttributes
   /// Attributes for the group owner (current user).
-  /// </param>
-  /// <param name="jsonDefaultMemberAttributes">
+
+  /// @param jsonDefaultMemberAttributes
   /// Default attributes for group members.
-  /// </param>
-  /// <param name="jsonData">
+
+  /// @param jsonData
   /// Custom application data.
-  /// </param>
-  /// </param>
-  /// <param name="jsonSummaryData">
+
+  /// @param jsonSummaryData
   /// Custom application data.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> createGroupWithSummaryData(
       {required String name,
       required String groupType,
@@ -344,28 +334,27 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.createGroup, data);
   }
 
-  /// <summary>
   /// Create a group entity.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - CREATE_GROUP_ENTITY
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="isOwnedByGroupMember">
+
+  /// @param isOwnedByGroupMember
   /// true if entity is owned by a member; false if owned by the entire group.
-  /// </param>
-  /// <param name="type">
+
+  /// @param type
   /// Type of the group entity.
-  /// </param>
-  /// <param name="acl">
+
+  /// @param acl
   /// Access control list for the group entity.
-  /// </param>
-  /// <param name="jsonData">
+
+  /// @param jsonData
   /// Custom application data.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> createGroupEntity(
       {required String groupId,
       required String entityType,
@@ -391,19 +380,18 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.createGroupEntity, data);
   }
 
-  /// <summary>
   /// Delete a group.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - DELETE_GROUP
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="version">
+
+  /// @param version
   /// Current version of the group
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> deleteGroup(
       {required String groupId, required int version}) {
     Map<String, dynamic> data = {};
@@ -413,22 +401,21 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.deleteGroup, data);
   }
 
-  /// <summary>
   /// Delete a group entity.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - DELETE_GROUP_ENTITY
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="entityId">
+
+  /// @param entityId
   /// ID of the entity.
-  /// </param>
-  /// <param name="version">
+
+  /// @param version
   /// The current version of the group entity (for concurrency checking).
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> deleteGroupEntity(
       {required String groupId,
       required String entityId,
@@ -441,29 +428,27 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.deleteGroupEntity, data);
   }
 
-  /// <summary>
   /// Read information on groups to which the current user belongs.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - GET_MY_GROUPS
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getMyGroups() {
     return _sendRequest(ServiceOperation.getMyGroups, {});
   }
 
-  /// <summary>
   /// Increment elements for the group's data field.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - INCREMENT_GROUP_DATA
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="jsonData">
+
+  /// @param jsonData
   /// Partial data map with incremental values.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> incrementGroupData(
       {required String groupId, String? jsonData}) {
     Map<String, dynamic> data = {};
@@ -475,22 +460,21 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.incrementGroupData, data);
   }
 
-  /// <summary>
   /// Increment elements for the group entity's data field.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - INCREMENT_GROUP_ENTITY_DATA
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="entityId">
+
+  /// @param entityId
   /// ID of the entity.
-  /// </param>
-  /// <param name="jsonData">
+
+  /// @param jsonData
   /// Partial data map with incremental values.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> incrementGroupEntityData(
       {required String groupId, required String entityId, String? jsonData}) {
     Map<String, dynamic> data = {};
@@ -502,25 +486,24 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.incrementGroupEntityData, data);
   }
 
-  /// <summary>
   /// Invite a member to the group.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - INVITE_GROUP_MEMBER
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="profileId">
+
+  /// @param profileId
   /// Profile ID of the member being invited.
-  /// </param>
-  /// <param name="role">
+
+  /// @param role
   /// Role of the member being invited.
-  /// </param>
-  /// <param name="jsonAttributes">
+
+  /// @param jsonAttributes
   /// Attributes of the member being invited.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> inviteGroupMember(
       {required String groupId,
       required String profileId,
@@ -537,16 +520,15 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.inviteGroupMember, data);
   }
 
-  /// <summary>
   /// Join an open group or request to join a closed group.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - JOIN_GROUP
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> joinGroup({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -554,16 +536,15 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.joinGroup, data);
   }
 
-  /// <summary>
   /// Leave a group in which the user is a member.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - LEAVE_GROUP
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> leaveGroup({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -571,15 +552,14 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.leaveGroup, data);
   }
 
-  /// <summary>
   /// Retrieve a page of group summary information based on the specified context.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - LIST_GROUPS_PAGE
-  /// </remarks>
-  /// <param name="jsonContext">
+
+  /// @param jsonContext
   /// Query context.
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> listGroupsPage({required String jsonContext}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupContext.value] = jsonDecode(jsonContext);
@@ -587,20 +567,19 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.listGroupsPage, data);
   }
 
-  /// <summary>
   /// Retrieve a page of group summary information based on the encoded context
   /// and specified page offset.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - LIST_GROUPS_PAGE_BY_OFFSET
-  /// </remarks>
-  /// <param name="context">
+
+  /// @param context
   /// Encoded reference query context.
-  /// </param>
-  /// <param name="pageOffset">
+
+  /// @param pageOffset
   /// Number of pages by which to offset the query.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> listGroupsPageByOffset(
       {required String context, required int pageOffset}) {
     Map<String, dynamic> data = {};
@@ -610,15 +589,14 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.listGroupsPageByOffset, data);
   }
 
-  /// <summary>
   /// Read information on groups to which the specified user belongs.  Access is subject to restrictions.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - LIST_GROUPS_WITH_MEMBER
-  /// </remarks>
-  /// <param name="profileId">
+
+  /// @param profileId
   /// User to read groups for
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> listGroupsWithMember({required String profileId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupProfileId.value] = profileId;
@@ -626,16 +604,15 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.listGroupsWithMember, data);
   }
 
-  /// <summary>
   /// Read the specified group.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - READ_GROUP
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readGroup({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -643,16 +620,15 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.readGroup, data);
   }
 
-  /// <summary>
   /// Read the data of the specified group.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - READ_GROUP_DATA
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readGroupData({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -660,16 +636,15 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.readGroupData, data);
   }
 
-  /// <summary>
   /// Read a page of group entity information.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - READ_GROUP_ENTITIES_PAGE
-  /// </remarks>
-  /// <param name="jsonContext">
+
+  /// @param jsonContext
   /// Query context.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readGroupEntitiesPage({required String jsonContext}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupContext.value] = jsonDecode(jsonContext);
@@ -677,19 +652,18 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.readGroupEntitiesPage, data);
   }
 
-  /// <summary>
   /// Read a page of group entity information.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - READ_GROUP_ENTITIES_PAGE_BY_OFFSET
-  /// </remarks>
-  /// <param name="encodedContext">
+
+  /// @param encodedContext
   /// Encoded reference query context.
-  /// </param>
-  /// <param name="pageOffset">
+
+  /// @param pageOffset
   /// Number of pages by which to offset the query.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readGroupEntitiesPageByOffset(
       {required String encodedContext, required int pageOffset}) {
     Map<String, dynamic> data = {};
@@ -699,19 +673,18 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.readGroupEntitiesPageByOffset, data);
   }
 
-  /// <summary>
   /// Read the specified group entity.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - READ_GROUP_ENTITY
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="entityId">
+
+  /// @param entityId
   /// ID of the entity.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readGroupEntity(
       {required String groupId, required String entityId}) {
     Map<String, dynamic> data = {};
@@ -721,16 +694,15 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.readGroupEntity, data);
   }
 
-  /// <summary>
   /// Read the members of the group.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - READ_MEMBERS_OF_GROUP
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readGroupMembers({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -738,16 +710,15 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.readGroupMembers, data);
   }
 
-  /// <summary>
   /// Reject an outstanding invitation to join the group.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - REJECT_GROUP_INVITATION
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> rejectGroupInvitation({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -755,19 +726,18 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.rejectGroupInvitation, data);
   }
 
-  /// <summary>
   /// Reject an outstanding request to join the group.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - REJECT_GROUP_JOIN_REQUEST
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="profileId">
+
+  /// @param profileId
   /// Profile ID of the invitation being deleted.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> rejectGroupJoinRequest(
       {required String groupId, required String profileId}) {
     Map<String, dynamic> data = {};
@@ -777,19 +747,18 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.rejectGroupJoinRequest, data);
   }
 
-  /// <summary>
   /// Remove a member from the group.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - REMOVE_GROUP_MEMBER
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="profileId">
+
+  /// @param profileId
   /// Profile ID of the member being deleted.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> removeGroupMember(
       {required String groupId, required String profileId}) {
     Map<String, dynamic> data = {};
@@ -799,22 +768,21 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.removeGroupMember, data);
   }
 
-  /// <summary>
   /// Updates a group's data.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - UPDATE_GROUP_DATA
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="version">
+
+  /// @param version
   /// Version to verify.
-  /// </param>
-  /// <param name="jsonData">
+
+  /// @param jsonData
   /// Data to apply.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateGroupData(
       {required String groupId, required int version, String? jsonData}) {
     Map<String, dynamic> data = {};
@@ -825,25 +793,24 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.updateGroupData, data);
   }
 
-  /// <summary>
   /// Update a group entity.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - UPDATE_GROUP_ENTITY_DATA
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="entityId">
+
+  /// @param entityId
   /// ID of the entity.
-  /// </param>
-  /// <param name="version">
+
+  /// @param version
   /// The current version of the group entity (for concurrency checking).
-  /// </param>
-  /// <param name="jsonData">
+
+  /// @param jsonData
   /// Custom application data.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateGroupEntityData(
       {required String groupId,
       required String entityId,
@@ -860,25 +827,24 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.updateGroupEntity, data);
   }
 
-  /// <summary>
   /// Update a member of the group.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - UPDATE_GROUP_MEMBER
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="profileId">
+
+  /// @param profileId
   /// Profile ID of the member being updated.
-  /// </param>
-  /// <param name="role">
+
+  /// @param role
   /// Role of the member being updated (optional).
-  /// </param>
-  /// <param name="jsonAttributes">
+
+  /// @param jsonAttributes
   /// Attributes of the member being updated (optional).
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateGroupMember(
       {required groupId,
       required String profileId,
@@ -896,19 +862,18 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.updateGroupMember, data);
   }
 
-  /// <summary>
   /// Updates a group's name.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - UPDATE_GROUP_NAME
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="name">
+
+  /// @param name
   /// Name to apply.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateGroupName(
       {required String groupId, required String name}) {
     Map<String, dynamic> data = {};
@@ -918,19 +883,18 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.updateGroupName, data);
   }
 
-  /// <summary>
   /// set a group to be open true or false
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - SET_GROUP_OPEN
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="isOpenGroup">
+
+  /// @param isOpenGroup
   /// true or false if a group is open.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> setGroupOpen(
       {required String groupId, required bool isOpenGroup}) {
     Map<String, dynamic> data = {};
@@ -940,22 +904,21 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.setGroupOpen, data);
   }
 
-  /// <summary>
   /// Update a group's summary data
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - UPDATE_SUMMARY_DATA
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// ID of the group.
-  /// </param>
-  /// <param name="version">
+
+  /// @param version
   /// Current version of the group
-  /// </param>
-  /// <param name="jsonSummaryData">
+
+  /// @param jsonSummaryData
   /// Custom application data.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateGroupSummaryData(
       {required String groupId,
       required int version,
@@ -971,20 +934,19 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.updateGroupSummaryData, data);
   }
 
-  /// <summary>
   /// Gets a list of up to maxReturn randomly selected groups from the server based on the where condition.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - group
   /// Service Operation - UPDATE_SUMMARY_DATA
-  /// </remarks>
-  /// <param name="jsonWhere">
+
+  /// @param jsonWhere
   /// where to search
   /// ex . "where": {"groupType": "BLUE"}
-  /// </param>
-  /// <param name="maxReturn">
+
+  /// @param maxReturn
   /// max num groups wanted
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getRandomGroupsMatching(
       {required String jsonWhere, required int maxReturn}) {
     Map<String, dynamic> data = {};
@@ -997,6 +959,7 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.getRandomGroupsMatching, data);
   }
 
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> _sendRequest(
       ServiceOperation operation, Map<String, dynamic> data) {
     Completer<ServerResponse> completer = Completer();

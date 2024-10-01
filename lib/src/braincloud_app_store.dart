@@ -15,15 +15,13 @@ class BrainCloudAppStore {
 
   BrainCloudAppStore(this._clientRef);
 
-  /// <summary>
   /// Method gets the active sales inventory for the passed-in
   /// currency type.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - AppStore
   /// Service Operation - GetInventory
-  /// </remarks>
-  /// <param name="platform">
+
+  /// @param platform
   /// The store platform. Valid stores are:
   /// - itunes
   /// - facebook
@@ -32,26 +30,25 @@ class BrainCloudAppStore {
   /// - windows
   /// - windowsPhone
   /// - googlePlay
-  /// </param>
-  /// <param name="userCurrency">
+
+  /// @param userCurrency
   /// The currency to retrieve the sales
   /// inventory for. This is only used for Steam and Facebook stores.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getSalesInventory(
       {required String platform, required String userCurrency}) {
     return getSalesInventoryByCategory(
         storeId: platform, userCurrency: userCurrency);
   }
 
-  /// <summary>
   /// Method gets the active sales inventory for the passed-in
   /// currency type and category.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - AppStore
   /// Service Operation - GetInventory
-  /// </remarks>
-  /// <param name="storeId">
+
+  /// @param storeId
   /// The store storeId. Valid stores are:
   /// - itunes
   /// - facebook
@@ -60,14 +57,15 @@ class BrainCloudAppStore {
   /// - windows
   /// - windowsPhone
   /// - googlePlay
-  /// </param>
-  /// <param name="userCurrency">
+
+  /// @param userCurrency
   /// The currency to retrieve the sales
   /// inventory for. This is only used for Steam and Facebook stores.
-  /// </param>
-  /// <param name="category">
+
+  /// @param category
   /// The AppStore category
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getSalesInventoryByCategory(
       {required String storeId,
       required String userCurrency,
@@ -103,13 +101,12 @@ class BrainCloudAppStore {
     return completer.future;
   }
 
-  /// <summary>
   /// Returns the eligible promotions for the player.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - AppStore
   /// Service Operation - EligiblePromotions
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getEligiblePromotions() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -126,14 +123,12 @@ class BrainCloudAppStore {
     return completer.future;
   }
 
-  /// <summary>
   /// Verify Purchase with the associated StoreId
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - AppStore
   /// Service Operation - VERIFY_PURCHASE
-  /// </remarks>
-  /// <param name="storeId">
+
+  /// @param storeId
   /// The store storeId. Valid stores are:
   /// - itunes
   /// - facebook
@@ -142,11 +137,11 @@ class BrainCloudAppStore {
   /// - windows
   /// - windowsPhone
   /// - googlePlay
-  /// </param>
-  /// <param name="receiptJson">
-  /// The specific store data required
-  /// </param>
 
+  /// @param receiptJson
+  /// The specific store data required
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> verifyPurchase(
       {required String storeId, required String receiptJson}) {
     Completer<ServerResponse> completer = Completer();
@@ -171,14 +166,12 @@ class BrainCloudAppStore {
     return completer.future;
   }
 
-  /// <summary>
   /// Start A Two Staged Purchase Transaction
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - AppStore
   /// Service Operation - START_PURCHASE
-  /// </remarks>
-  /// <param name="storeId">
+
+  /// @param storeId
   /// The store storeId. Valid stores are:
   /// - itunes
   /// - facebook
@@ -187,10 +180,11 @@ class BrainCloudAppStore {
   /// - windows
   /// - windowsPhone
   /// - googlePlay
-  /// </param>
-  /// <param name="purchaseJson">
+
+  /// @param purchaseJson
   /// The specific store data required
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> startPurchase(
       {required String storeId, required String purchaseJson}) {
     Completer<ServerResponse> completer = Completer();
@@ -215,14 +209,12 @@ class BrainCloudAppStore {
     return completer.future;
   }
 
-  /// <summary>
   /// Finalize A Two Staged Purchase Transaction
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - AppStore
   /// Service Operation - FINALIZE_PURCHASE
-  /// </remarks>
-  /// <param name="storeId">
+
+  /// @param storeId
   /// The store storeId. Valid stores are:
   /// - itunes
   /// - facebook
@@ -231,13 +223,14 @@ class BrainCloudAppStore {
   /// - windows
   /// - windowsPhone
   /// - googlePlay
-  /// </param>
-  /// /// <param name="transactionId">
+
+  /// /// @param transactionId
   /// The Transaction Id returned in Start Transaction
-  /// </param>
-  /// <param name="transactionJson">
+
+  /// @param transactionJson
   /// The specific store data required
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> finalizePurchase(
       {required String storeId,
       required String transactionId,
@@ -265,11 +258,11 @@ class BrainCloudAppStore {
     return completer.future;
   }
 
-  /// <summary>
   /// Returns up-to-date eligible 'promotions' for the user and a 'promotionsRefreshed' flag indicating whether the user's promotion info required refreshing
   /// Service Name - appStore
   /// Service Operation - RefreshPromotions
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> refreshPromotions() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
