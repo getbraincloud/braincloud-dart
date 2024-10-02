@@ -109,12 +109,12 @@ main() {
                 0;
       }
 
-      try {
+    
         // now cancel it.
         bcTest.bcWrapper.fileService.cancelUpload(uploadId);
-        await uploadCompleterFuture;
-        fail("Should have cancel the upload");
-      } on ServerResponse catch (error) {
+        ServerResponse error =  await uploadCompleterFuture;
+       
+
         expect(error.statusCode, 900);
         expect(error.reasonCode, 90100);
         expect(error.statusMessage, isNotNull);
@@ -125,7 +125,7 @@ main() {
           Map<String, dynamic> body = error.body!;
           debugPrint(body.toString());
         }
-      }
+      
     });
 
     test("getUploadProgress", () async {
