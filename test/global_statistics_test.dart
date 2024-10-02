@@ -11,8 +11,6 @@ void main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Global Statistics", () {
-    setUp(bcTest.auth);
-
     test("incrementGlobalStats()", () async {
       ServerResponse response = await bcTest.bcWrapper.globalStatisticsService
           .incrementGlobalStats(

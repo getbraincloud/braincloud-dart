@@ -1,28 +1,12 @@
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'utils/test_base.dart';
-import 'utils/test_users.dart';
 
 main() {
   BCTest bcTest = BCTest();
   setUpAll(bcTest.setupBC);
 
   group("Identities Tests", () {
-    TestUser userA = TestUser("UserA", generateRandomString(8));
-    TestUser userB = TestUser("UserB", generateRandomString(8));
-    TestUser userC = TestUser("UserC", generateRandomString(8));
-
-    setUp(() async {
-      if (!bcTest.bcWrapper.brainCloudClient.isAuthenticated()) {
-        await bcTest.bcWrapper.authenticateEmailPassword(
-            email: userC.email, password: userC.password, forceCreate: true);
-
-        await bcTest.bcWrapper.authenticateUniversal(
-            username: userB.name, password: userB.password, forceCreate: true);
-      }
-    });
-
-    // end test
 
     test("getExpiredIdentities", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
@@ -92,7 +76,7 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.identityService
           .mergeEmailIdentity(email: userC.email, password: userC.password);
 
-      expect(response.statusCode, 200);
+      expect(response.statusCode, 200, reason: response.statusMessage);
       // expect(response.body, isNull);
     });
 

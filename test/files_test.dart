@@ -13,20 +13,12 @@ main() {
   setUpAll(bcTest.setupBC);
 
   Map<String, dynamic> testFile = {};
-  TestUser userA = TestUser("UserA", generateRandomString(8));
+
   const String fileNameLarge = "largeFile.txt";
   const String cloudPath = "sub";
   const String fileNameImage = "TestFromMemory.png";
 
   group("File Tests", () {
-    setUp(() async {
-      bcTest.bcWrapper.brainCloudClient.enableLogging(false);
-      if (!bcTest.bcWrapper.brainCloudClient.isAuthenticated()) {
-        await bcTest.bcWrapper.authenticateUniversal(
-            username: userA.name, password: userA.password, forceCreate: true);
-      }
-    });
-
     test("uploadFileFromMemory", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
@@ -272,16 +264,6 @@ main() {
     });
   });
   group("GlobalFile Tests", () {
-    setUp(() async {
-      bcTest.bcWrapper.brainCloudClient.enableLogging(true);
-      if (!bcTest.bcWrapper.brainCloudClient.isAuthenticated()) {
-        await bcTest.bcWrapper.authenticateUniversal(
-            username: userA.name, password: userA.password, forceCreate: true);
-      }
-    });
-
-    // end test
-
     test("getGlobalFileList", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 

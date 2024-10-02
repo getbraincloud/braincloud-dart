@@ -6,14 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'utils/test_base.dart';
-import 'utils/test_users.dart';
 
 void main() {
   BCTest bcTest = BCTest();
   setUpAll(bcTest.setupBC);
-
-  TestUser userA = TestUser("userA", generateRandomString(8));
-  TestUser userB = TestUser("UserB", generateRandomString(8));
 
   var userToAuth = userA;
   var testData = {"test": 1234};
@@ -21,36 +17,12 @@ void main() {
   String groupId = "";
   var entityId = "";
 
-  Future<ServerResponse> reAuth() {
-    return bcTest.bcWrapper.authenticateUniversal(
-        username: userToAuth.name,
-        password: userToAuth.password,
-        forceCreate: true);
+  reAuth() async {
+    await bcTest.auth(userId: userToAuth.name, password: userToAuth.password);
+    userToAuth = userA;
   }
 
   group("Test Group", () {
-    setUp(() async {
-      if (bcTest.bcWrapper.brainCloudClient.isAuthenticated()) {
-        await bcTest.bcWrapper.logout();
-      }
-
-      ServerResponse userB_response = await bcTest.bcWrapper
-          .authenticateUniversal(
-              username: userB.name,
-              password: userB.password,
-              forceCreate: true);
-
-      userB.profileId = userB_response.body?["profileId"];
-
-      ServerResponse userA_response = await bcTest.bcWrapper
-          .authenticateUniversal(
-              username: userA.name,
-              password: userA.password,
-              forceCreate: true);
-
-      userA.profileId = userA_response.body?["profileId"];
-    });
-
     test("createGroup()", () async {
       ServerResponse response = await bcTest.bcWrapper.groupService.createGroup(
           name: "test",
@@ -99,7 +71,8 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("inviteGroupMember()", () async {
+    test("inviteGroupMember()", retry: 2, () async {
+      await reAuth();
       ServerResponse response =
           await bcTest.bcWrapper.groupService.inviteGroupMember(
         groupId: groupId,
@@ -136,6 +109,7 @@ void main() {
     });
 
     test("inviteGroupMember()", () async {
+      await reAuth();
       ServerResponse response = await bcTest.bcWrapper.groupService
           .inviteGroupMember(
               groupId: groupId, profileId: userB.profileId!, role: Role.member);
@@ -154,6 +128,7 @@ void main() {
     });
 
     test("removeGroupMember()", () async {
+      await reAuth();
       ServerResponse response = await bcTest.bcWrapper.groupService
           .removeGroupMember(groupId: groupId, profileId: userB.profileId!);
 
@@ -189,6 +164,7 @@ void main() {
     });
 
     test("approveGroupJoinRequest()", () async {
+      await reAuth();
       ServerResponse response = await bcTest.bcWrapper.groupService
           .approveGroupJoinRequest(
               groupId: groupId, profileId: userB.profileId!, role: Role.member);

@@ -11,8 +11,6 @@ void main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Tournament", () {
-    setUp(bcTest.auth);
-
     var _divSetId = "testDivSet";
     var _tournamentCode = "testTournament";
     var _leaderboardId = "testTournamentLeaderboard";

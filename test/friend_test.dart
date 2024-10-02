@@ -2,33 +2,13 @@ import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'utils/test_base.dart';
-import 'utils/test_users.dart';
 
 void main() {
   BCTest bcTest = BCTest();
   setUpAll(bcTest.setupBC);
-  TestUser userA = TestUser("userA", generateRandomString(8));
-  TestUser userB = TestUser("userb", generateRandomString(8));
 
   group("Test Friend", () {
-    setUp(() async {
-      ServerResponse userB_response = await bcTest.bcWrapper
-          .authenticateUniversal(
-              username: userB.name,
-              password: userB.password,
-              forceCreate: true);
-
-      userB.profileId = userB_response.body?["profileId"];
-
-      ServerResponse userA_response = await bcTest.bcWrapper
-          .authenticateUniversal(
-              username: userA.name,
-              password: userA.password,
-              forceCreate: true);
-
-      userA.profileId = userA_response.body?["profileId"];
-    });
-
+   
     test("getProfileInfoForCredential()", retry: 2, () async {
       ServerResponse response = await bcTest.bcWrapper.friendService
           .getProfileInfoForCredential(

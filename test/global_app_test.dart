@@ -8,8 +8,6 @@ void main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Global App", () {
-    setUp(bcTest.auth);
-
     test("readProperties()", () async {
       ServerResponse response =
           await bcTest.bcWrapper.globalAppService.readProperties();

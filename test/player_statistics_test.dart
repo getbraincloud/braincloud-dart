@@ -7,8 +7,6 @@ void main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Player Statistics", () {
-    setUp(bcTest.auth);
-
     test("getNextExperienceLevel()", () async {
       ServerResponse response = await bcTest.bcWrapper.playerStatisticsService
           .getNextExperienceLevel();

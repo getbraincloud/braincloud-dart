@@ -9,8 +9,6 @@ void main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Time", () {
-    setUp(bcTest.auth);
-
     test("readServerTime()", () async {
       ServerResponse response =
           await bcTest.bcWrapper.timeService.readServerTime();

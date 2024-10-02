@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/v4.dart';
 
 import 'stored_ids.dart';
+import 'test_users.dart';
 
 class BCTest {
   final bcWrapper = BrainCloudWrapper(wrapperName: "FlutterTest");
@@ -44,36 +45,53 @@ class BCTest {
     debugPrint('email: ${ids.email} in appId: ${ids.appId} at ${ids.url}');
 
     //init wrapper (this will start the update loop)
-    bcWrapper
+    await bcWrapper
         .init(
             secretKey: ids.secretKey,
             appId: ids.appId,
             version: ids.version,
             url: ids.url)
-        .then((_) {
-      //retore session if there was one.
-      bool hadSession = bcWrapper.getStoredSessionId().isNotEmpty;
-
-      if (hadSession) {
-        bcWrapper.restoreSession();
-      }
-
-      //restore packetId if there was one
-      int packetId = bcWrapper.getStoredPacketId();
-      if (packetId > BrainCloudComms.noPacketExpected) {
-        bcWrapper.restorePacketId();
-      }
-    }).onError((error, stackTrace) {
+        .onError((error, stackTrace) {
       debugPrint(error.toString());
     });
+
+    bcWrapper.brainCloudClient.authenticationService.clearSavedProfileID();
+
+    await auth();
   }
 
   /// Authenticate with email and password found in test/ids.txt
-  auth() async {
-    bcWrapper.brainCloudClient.enableLogging(false);
-    if (!bcWrapper.brainCloudClient.isAuthenticated()) {
-      await bcWrapper.authenticateUniversal(
-          username: ids.email, password: ids.password, forceCreate: true);
+  auth({String? userId, String? password}) async {
+    var id = userId ?? userA.name;
+    var token = password ?? userA.password;
+    ServerResponse response;
+
+    if (userB.profileId == null) {
+      response = await bcWrapper.authenticateEmailPassword(
+          email: userC.email, password: userC.password, forceCreate: true);
+
+      response = await bcWrapper.authenticateUniversal(
+          username: userB.name, password: userB.password, forceCreate: true);
+
+      userB.profileId = response.body?["profileId"];
+
+      response = await bcWrapper.authenticateUniversal(
+          username: id, password: token, forceCreate: true);
+
+      if (id == userA.name) {
+        userA.profileId = response.body?["profileId"];
+      }
+    } else {
+      response = await bcWrapper.authenticateUniversal(
+          username: id, password: token, forceCreate: true);
+
+      if (id == userA.name) {
+        userA.profileId = response.body?["profileId"];
+      }
     }
   }
 }
+
+TestUser userA = TestUser("UserA", generateRandomString(8));
+TestUser userB = TestUser("UserB", generateRandomString(8));
+TestUser userC = TestUser("UserC", generateRandomString(8));

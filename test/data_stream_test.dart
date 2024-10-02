@@ -10,8 +10,6 @@ void main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Data Stream", () {
-    setUp(bcTest.auth);
-
     test("customPageEvent()", () async {
       ServerResponse response = await bcTest.bcWrapper.dataStreamService
           .customPageEvent(

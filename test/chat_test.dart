@@ -10,8 +10,6 @@ void main() {
   String channelId = "";
 
   group("Test Chat", () {
-    setUp(bcTest.auth);
-
     test("getChannelId() with valid channel", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
           .getChannelId(channeltype: "gl", channelsubid: "valid");

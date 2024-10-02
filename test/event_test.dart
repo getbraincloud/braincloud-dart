@@ -3,38 +3,12 @@ import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'utils/test_base.dart';
-import 'utils/test_users.dart';
 
 void main() {
   BCTest bcTest = BCTest();
   setUpAll(bcTest.setupBC);
 
   group("Test Event", () {
-    TestUser userA = TestUser("UserA", generateRandomString(8));
-    TestUser userB = TestUser("UserB", generateRandomString(8));
-
-    setUp(() async {
-      if (bcTest.bcWrapper.brainCloudClient.isAuthenticated()) {
-        await bcTest.bcWrapper.logout();
-      }
-
-      ServerResponse userB_response = await bcTest.bcWrapper
-          .authenticateUniversal(
-              username: userB.name,
-              password: userB.password,
-              forceCreate: true);
-
-      userB.profileId = userB_response.body?["profileId"];
-
-      ServerResponse userA_response = await bcTest.bcWrapper
-          .authenticateUniversal(
-              username: userA.name,
-              password: userA.password,
-              forceCreate: true);
-
-      userA.profileId = userA_response.body?["profileId"];
-    });
-
     var eventType = "test";
     var eventDataKey = "testData";
 

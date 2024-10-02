@@ -4,38 +4,12 @@ import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'utils/test_base.dart';
-import 'utils/test_users.dart';
 
 main() {
   BCTest bcTest = BCTest();
   setUpAll(bcTest.setupBC);
 
   group("Test Push Notifications", () {
-    TestUser userA = TestUser("UserA", generateRandomString(8));
-    TestUser userB = TestUser("UserB", generateRandomString(8));
-
-    setUp(() async {
-      ServerResponse userA_response = await bcTest.bcWrapper
-          .authenticateUniversal(
-              username: userA.name,
-              password: userA.password,
-              forceCreate: true);
-
-      expect(userA_response.statusCode, StatusCodes.ok);
-
-      userA.profileId = userA_response.body!["profileId"];
-
-      ServerResponse userB_response = await bcTest.bcWrapper
-          .authenticateUniversal(
-              username: userB.name,
-              password: userB.password,
-              forceCreate: true);
-
-      expect(userB_response.statusCode, StatusCodes.ok);
-
-      userB.profileId = userB_response.body!["profileId"];
-    });
-
     test("deregisterAllPushNotificationDeviceTokens()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .deregisterAllPushNotificationDeviceTokens();

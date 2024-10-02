@@ -8,8 +8,6 @@ void main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Virtual Currency", () {
-    setUp(bcTest.auth);
-
     test("getCurrency()", () async {
       ServerResponse response = await bcTest.bcWrapper.virtualCurrencyService
           .getCurrency(currencyType: "_invalid_id_");

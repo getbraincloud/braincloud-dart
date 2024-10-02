@@ -9,8 +9,6 @@ main() {
   setUpAll(bcTest.setupBC);
 
   group("Test RTT", () {
-    setUp(bcTest.auth);
-
     test("enableRTT", () async {
       bcTest.bcWrapper.rTTService.disableRTT();
 

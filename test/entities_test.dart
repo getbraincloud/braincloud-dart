@@ -31,8 +31,6 @@ main() {
       }
     }
 
-    setUp(bcTest.auth);
-
     test("createEntity", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
@@ -495,8 +493,6 @@ main() {
       }
     }
 
-    setUp(bcTest.auth);
-
     test("createEntity", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
@@ -943,8 +939,6 @@ main() {
         entityVersion = body['version'];
       }
     }
-
-    setUp(bcTest.auth);
 
     test("CreateEntity", () async {
       expect(bcTest.bcWrapper.isInitialized, true);

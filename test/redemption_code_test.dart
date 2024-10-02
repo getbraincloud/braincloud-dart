@@ -14,8 +14,6 @@ void main() {
   var _codeToRedeem = "";
 
   group("Test Redemptionm Code", () {
-    setUp(bcTest.auth);
-
     test("getCodeToRedeem()", () async {
       ServerResponse response = await bcTest.bcWrapper.globalStatisticsService
           .incrementGlobalStats(

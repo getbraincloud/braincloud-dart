@@ -10,8 +10,6 @@ void main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Presence", () {
-    setUp(bcTest.auth);
-
     test("forcePush()", () async {
       ServerResponse response =
           await bcTest.bcWrapper.presenceService.forcePush();

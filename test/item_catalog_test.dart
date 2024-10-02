@@ -10,8 +10,6 @@ void main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Item Catalog", () {
-    setUp(bcTest.auth);
-
     test("GetCatalogItemDefinition()", () async {
       ServerResponse response = await bcTest.bcWrapper.itemCatalogService
           .getCatalogItemDefinition(defId: "sword001");

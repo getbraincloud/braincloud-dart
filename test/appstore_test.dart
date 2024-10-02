@@ -8,8 +8,6 @@ main() {
   setUpAll(bcTest.setupBC);
 
   group("Test AppStore", () {
-    setUp(bcTest.auth);
-
     test("verifyPurchase()", () async {
       ServerResponse response = await bcTest.bcWrapper.appStoreService
           .verifyPurchase(storeId: "_invalid_store_id_", receiptJson: " {}");

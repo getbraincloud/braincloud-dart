@@ -8,8 +8,6 @@ main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Profanity", () {
-    setUp(bcTest.auth);
-
     test("profanityCheck()", () async {
       ServerResponse response = await bcTest.bcWrapper.profanityService
           .profanityCheck(

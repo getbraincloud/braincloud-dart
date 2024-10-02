@@ -13,8 +13,6 @@ main() {
   String questsCategory = "Experience";
 
   group("Test Gamification", () {
-    setUp(bcTest.auth);
-
     test("awardAchievements()", () async {
       ServerResponse response = await bcTest.bcWrapper.gamificationService
           .awardAchievements(achievementIds: [achievementId1, achievementId2]);

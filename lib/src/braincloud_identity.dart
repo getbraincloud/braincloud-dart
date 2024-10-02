@@ -15,13 +15,11 @@ class BrainCloudIdentity {
 
   BrainCloudIdentity(this._clientRef);
 
-  
   /// Attach the user's Facebook credentials to the current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Attach
-  
+
   /// @param facebookId
   /// The facebook id of the user
 
@@ -36,21 +34,19 @@ class BrainCloudIdentity {
         facebookId, authenticationToken, AuthenticationType.facebook);
   }
 
-  
   /// Merge the profile associated with the provided Facebook credentials with the
   /// current profile.
-
-  
+  ///
   /// Service Name - identity
   /// Service Operation - Merge
-  
+  ///
   /// @param facebookId
   /// The facebook id of the user
-
+  ///
   /// @param authenticationToken
   /// The validated token from the Facebook SDK
   /// (that will be further validated when sent to the bC service)
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> mergeFacebookIdentity(
       {required String facebookId, required String authenticationToken}) async {
@@ -58,13 +54,11 @@ class BrainCloudIdentity {
         facebookId, authenticationToken, AuthenticationType.facebook);
   }
 
-  
   /// Detach the Facebook identity from this profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Detach
-  
+
   /// @param facebookId
   /// The facebook id of the user
 
@@ -78,7 +72,6 @@ class BrainCloudIdentity {
         facebookId, AuthenticationType.facebook, continueAnon);
   }
 
-  
   /// Attach the user's credentials to the current profile.
   ///
   /// Service Name - identity
@@ -139,7 +132,6 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  
   /// Merge the profile associated with the provided credentials with the current profile.
 
   /// @param authenticationType
@@ -191,7 +183,6 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  
   /// Detach the identity from this profile.
   ///
   /// Watch for DOWNGRADING_TO_ANONYMOUS_ERROR - occurs if you set in_continueAnon to false, and
@@ -245,7 +236,6 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  
   /// Attach the user's Ultra credentials to the current profile.
   ///
   /// Service Name - identity
@@ -270,7 +260,6 @@ class BrainCloudIdentity {
         ultraUsername, ultraIdToken, AuthenticationType.ultra);
   }
 
-  
   /// Merge the profile associated with the provided Ultra credentials with the current profile
   ///
   /// Service Name - Identity
@@ -290,7 +279,6 @@ class BrainCloudIdentity {
         ultraUsername, ultraIdToken, AuthenticationType.ultra);
   }
 
-  
   /// Detach the Ultra identity from this profile.
   ///
   /// Watch for DOWNGRADING_TO_ANONYMOUS_ERROR - occurs if you set in_continueAnon to false, and
@@ -314,13 +302,11 @@ class BrainCloudIdentity {
         ultraUsername, AuthenticationType.ultra, continueAnon);
   }
 
-  
   /// Attach the user's Oculus credentials to the current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Attach
-  
+
   /// @param oculusId
   /// The oculus id of the user
 
@@ -333,14 +319,12 @@ class BrainCloudIdentity {
     return _attachIdentity(oculusId, oculusNonce, AuthenticationType.oculus);
   }
 
-  
   /// Merge the profile associated with the provided Oculus credentials with the
   /// current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Merge
-  
+
   /// @param oculusId
   /// The oculus id of the user
 
@@ -353,13 +337,11 @@ class BrainCloudIdentity {
     return _mergeIdentity(oculusId, oculusNonce, AuthenticationType.oculus);
   }
 
-  
   /// Detach the Facebook identity from this profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Detach
-  
+
   /// @param oculusId
   /// The facebook id of the user
 
@@ -372,13 +354,11 @@ class BrainCloudIdentity {
     return _detachIdentity(oculusId, AuthenticationType.oculus, continueAnon);
   }
 
-  
   /// Attach the user's FacebookLimited credentials to the current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Attach
-  
+
   /// @param facebookLimitedId
   /// The facebook Limited id of the user
 
@@ -394,14 +374,12 @@ class BrainCloudIdentity {
         AuthenticationType.facebookLimited);
   }
 
-  
   /// Merge the profile associated with the provided Facebook Limited credentials with the
   /// current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Merge
-  
+
   /// @param facebookLimitedId
   /// The facebook Limited id of the user
 
@@ -417,13 +395,11 @@ class BrainCloudIdentity {
         AuthenticationType.facebookLimited);
   }
 
-  
   /// Detach the FacebookLimited identity from this profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Detach
-  
+
   /// @param facebookLimitedId
   /// The facebook Limited id of the user
 
@@ -437,13 +413,11 @@ class BrainCloudIdentity {
         facebookLimitedId, AuthenticationType.facebookLimited, continueAnon);
   }
 
-  
   /// Attach the user's PSN credentials to the current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Attach
-  
+
   /// @param psnAccountId
   /// The PSN account id of the user
 
@@ -459,14 +433,12 @@ class BrainCloudIdentity {
         AuthenticationType.playstationNetwork);
   }
 
-  
   /// Merge the profile associated with the provided PSN credentials with the
   /// current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Merge
-  
+
   /// @param psnAccountId
   /// The psn account id of the user
 
@@ -482,13 +454,11 @@ class BrainCloudIdentity {
         AuthenticationType.playstationNetwork);
   }
 
-  
   /// Detach the PSN identity from this profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Detach
-  
+
   /// @param psnAccountId
   /// The PSN Account id of the user
 
@@ -502,13 +472,11 @@ class BrainCloudIdentity {
         psnAccountId, AuthenticationType.playstationNetwork, continueAnon);
   }
 
-  
   /// Attach the user's PSN credentials to the current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Attach
-  
+
   /// @param psnAccountId
   /// The PSN account id of the user
 
@@ -524,14 +492,12 @@ class BrainCloudIdentity {
         AuthenticationType.playstationNetwork5);
   }
 
-  
   /// Merge the profile associated with the provided PSN credentials with the
   /// current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Merge
-  
+
   /// @param psnAccountId
   /// The psn account id of the user
 
@@ -547,13 +513,11 @@ class BrainCloudIdentity {
         AuthenticationType.playstationNetwork5);
   }
 
-  
   /// Detach the PSN identity from this profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Detach
-  
+
   /// @param psnAccountId
   /// The PSN Account id of the user
 
@@ -567,13 +531,11 @@ class BrainCloudIdentity {
         psnAccountId, AuthenticationType.playstationNetwork5, continueAnon);
   }
 
-  
   /// Attach a Game Center identity to the current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Attach
-  
+
   /// @param gameCenterId
   /// The user's game center id  (use the playerID property from the local GKPlayer dynamic)
 
@@ -608,7 +570,6 @@ class BrainCloudIdentity {
         gameCenterId, AuthenticationType.gameCenter, continueAnon);
   }
 
-  
   /// Attach a Email and Password identity to the current profile.
   /// Service Name - identity
   /// Service Operation - Attach
@@ -622,7 +583,6 @@ class BrainCloudIdentity {
     return _attachIdentity(email, password, AuthenticationType.email);
   }
 
-  
   /// Merge the profile associated with the provided e=mail with the current profile.
   /// Service Name - identity
   /// Service Operation - Merge
@@ -649,7 +609,6 @@ class BrainCloudIdentity {
     return _detachIdentity(email, AuthenticationType.email, continueAnon);
   }
 
-  
   /// Attach a Universal (userId + password) identity to the current profile.
   /// Service Name - identity
   /// Service Operation - Attach
@@ -689,7 +648,6 @@ class BrainCloudIdentity {
     return _detachIdentity(userId, AuthenticationType.universal, continueAnon);
   }
 
-  
   /// Attach a Steam (userId + steamsessionticket) identity to the current profile.
   /// Service Name - identity
   /// Service Operation - Attach
@@ -703,7 +661,6 @@ class BrainCloudIdentity {
     return _attachIdentity(steamId, sessionTicket, AuthenticationType.steam);
   }
 
-  
   /// Merge the profile associated with the provided steam userId with the current profile.
   /// Service Name - identity
   /// Service Operation - Merge
@@ -730,7 +687,6 @@ class BrainCloudIdentity {
     return _detachIdentity(steamId, AuthenticationType.steam, continueAnon);
   }
 
-  
   /// Attach the user's Google credentials to the current profile.
   /// Service Name - identity
   /// Service Operation - Attach
@@ -746,14 +702,12 @@ class BrainCloudIdentity {
         googleUserId, serverAuthCode, AuthenticationType.google);
   }
 
-  
   /// Merge the profile associated with the provided Google credentials with the
   /// current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Merge
-  
+
   /// @param googleUserId
   /// String representation of google+ userId. Gotten with calls like RequestUserId
 
@@ -768,13 +722,11 @@ class BrainCloudIdentity {
         googleUserId, serverAuthCode, AuthenticationType.google);
   }
 
-  
   /// Detach the Google identity from this profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Detach
-  
+
   /// @param googleUserId
   /// String representation of google+ userId. Gotten with calls like RequestUserId
 
@@ -788,13 +740,11 @@ class BrainCloudIdentity {
         googleUserId, AuthenticationType.google, continueAnon);
   }
 
-  
   /// Attach the user's Google credentials to the current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Attach
-  
+
   /// @param googleUserAccountEmail
   /// The email associated with the google user
 
@@ -808,14 +758,12 @@ class BrainCloudIdentity {
         googleUserAccountEmail, idToken, AuthenticationType.googleOpenId);
   }
 
-  
   /// Merge the profile associated with the provided Google credentials with the
   /// current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Merge
-  
+
   /// @param googleUserAccountEmail
   /// The email associated with the google user
 
@@ -829,13 +777,11 @@ class BrainCloudIdentity {
         googleUserAccountEmail, idToken, AuthenticationType.googleOpenId);
   }
 
-  
   /// Detach the Google identity from this profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Detach
-  
+
   /// @param googleUserAccountEmail
   /// The email associated with the google user
 
@@ -850,13 +796,11 @@ class BrainCloudIdentity {
         googleUserAccountEmail, AuthenticationType.googleOpenId, continueAnon);
   }
 
-  
   /// Attach the user's Apple credentials to the current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Attach
-  
+
   /// @param appleUserId
   /// This can be the user id OR the email of the user for the account
 
@@ -870,14 +814,12 @@ class BrainCloudIdentity {
         appleUserId, identityToken, AuthenticationType.apple);
   }
 
-  
   /// Merge the profile associated with the provided Apple credentials with the
   /// current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Merge
-  
+
   /// @param appleUserId
   /// This can be the user id OR the email of the user for the account
 
@@ -890,13 +832,11 @@ class BrainCloudIdentity {
     return _mergeIdentity(appleUserId, identityToken, AuthenticationType.apple);
   }
 
-  
   /// Detach the Apple identity from this profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Detach
-  
+
   /// @param appleUserId
   /// This can be the user id OR the email of the user for the account
 
@@ -909,13 +849,11 @@ class BrainCloudIdentity {
     return _detachIdentity(appleUserId, AuthenticationType.apple, continueAnon);
   }
 
-  
   /// Attach the user's Twitter credentials to the current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Attach
-  
+
   /// @param twitterId
   /// String representation of a Twitter user ID
 
@@ -934,14 +872,12 @@ class BrainCloudIdentity {
         twitterId, "$authenticationToken:$secret", AuthenticationType.twitter);
   }
 
-  
   /// Merge the profile associated with the provided Twitter credentials with the
   /// current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Merge
-  
+
   /// @param twitterId
   /// String representation of a Twitter user ID
 
@@ -960,13 +896,11 @@ class BrainCloudIdentity {
         twitterId, "$authenticationToken:$secret", AuthenticationType.twitter);
   }
 
-  
   /// Detach the Twitter identity from this profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Detach
-  
+
   /// @param twitterId
   /// The Twitter id of the user
 
@@ -979,13 +913,11 @@ class BrainCloudIdentity {
     return _detachIdentity(twitterId, AuthenticationType.twitter, continueAnon);
   }
 
-  
   /// Attach the user's Parse credentials to the current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Attach
-  
+
   /// @param parseId
   /// The Parse id of the user
 
@@ -1000,14 +932,12 @@ class BrainCloudIdentity {
         parseId, authenticationToken, AuthenticationType.parse);
   }
 
-  
   /// Merge the profile associated with the provided Parse credentials with the
   /// current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Merge
-  
+
   /// @param parseId
   /// The Parse id of the user
 
@@ -1022,13 +952,11 @@ class BrainCloudIdentity {
         parseId, authenticationToken, AuthenticationType.parse);
   }
 
-  
   /// Detach the Parse identity from this profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Detach
-  
+
   /// @param parseId
   /// The Parse id of the user
 
@@ -1041,13 +969,11 @@ class BrainCloudIdentity {
     return _detachIdentity(parseId, AuthenticationType.parse, continueAnon);
   }
 
-  
   /// Attach the user's Nintendo credentials to the current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Attach
-  
+
   /// @param nintendoAccountId
   /// The Nintendo account id of the user
 
@@ -1063,14 +989,12 @@ class BrainCloudIdentity {
         nintendoAccountId, authenticationToken, AuthenticationType.nintendo);
   }
 
-  
   /// Merge the profile associated with the provided Nintendo credentials with the
   /// current profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Merge
-  
+
   /// @param nintendoAccountId
   /// The Nintendo account id of the user
 
@@ -1086,13 +1010,11 @@ class BrainCloudIdentity {
         nintendoAccountId, authenticationToken, AuthenticationType.nintendo);
   }
 
-  
   /// Detach the Nintendo identity from this profile.
 
-  
   /// Service Name - identity
   /// Service Operation - Detach
-  
+
   /// @param nintendoAccountId
   /// The Nintendo Account id of the user
 
@@ -1106,13 +1028,11 @@ class BrainCloudIdentity {
         nintendoAccountId, AuthenticationType.nintendo, continueAnon);
   }
 
-  
   /// Switch to a Child Profile
 
-  
   /// Service Name - identity
   /// Service Operation - SWITCH_TO_CHILD_PROFILE
-  
+
   /// @param childProfileId
   /// The profileId of the child profile to switch to
   /// If null and forceCreate is true a new profile will be created
@@ -1132,14 +1052,12 @@ class BrainCloudIdentity {
         childProfileId, childAppId, forceCreate, false);
   }
 
-  
   /// Switches to the child profile of an app when only one profile exists
   /// If multiple profiles exist this returns an error
 
-  
   /// Service Name - identity
   /// Service Operation - SWITCH_TO_CHILD_PROFILE
-  
+
   /// @param childAppId
   /// The App ID of the child game to switch to
 
@@ -1152,7 +1070,6 @@ class BrainCloudIdentity {
     return _switchToChildProfile(null, childAppId, forceCreate, true);
   }
 
-  
   /// Attaches a univeral id to the current profile with no login capability.
 
   /// @param externalId
@@ -1182,7 +1099,6 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  
   /// Updates univeral id of the current profile.
 
   /// @param externalId
@@ -1212,7 +1128,6 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  
   /// Attach a new identity to a parent app
 
   /// @param externalId
@@ -1271,13 +1186,11 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  
   /// Switch to a Parent Profile
 
-  
   /// Service Name - identity
   /// Service Operation - SWITCH_TO_PARENT_PROFILE
-  
+
   /// @param parentLevelName
   /// The level of the parent to switch to
 
@@ -1306,13 +1219,11 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  
   /// Detaches parent from this user's profile
 
-  
   /// Service Name - identity
   /// Service Operation - DETACH_PARENT
-  
+
   /// @returns Future<ServerResponse>
   Future<ServerResponse> detachParent() async {
     final Completer<ServerResponse> completer = Completer();
@@ -1333,13 +1244,11 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  
   /// Returns a list of all child profiles in child Apps
 
-  
   /// Service Name - identity
   /// Service Operation - GET_CHILD_PROFILES
-  
+
   /// @param includeSummaryData
   /// Whether to return the summary friend data along with this call
 
@@ -1368,13 +1277,11 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  
   /// Retrieve list of identities
 
-  
   /// Service Name - identity
   /// Service Operation - GET_IDENTITIES
-  
+
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getIdentities() async {
     final Completer<ServerResponse> completer = Completer();
@@ -1395,13 +1302,11 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  
   /// Retrieve list of expired identities
 
-  
   /// Service Name - identity
   /// Service Operation - GET_EXPIRED_IDENTITIES
-  
+
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getExpiredIdentities() async {
     final Completer<ServerResponse> completer = Completer();
@@ -1422,13 +1327,11 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  
   /// Refreshes an identity for this user
 
-  
   /// Service Name - identity
   /// Service Operation - REFRESH_IDENTITY
-  
+
   /// @param externalId
   /// User ID
 
@@ -1468,13 +1371,11 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  
   /// Allows email identity email address to be changed
 
-  
   /// Service Name - identity
   /// Service Operation - REFRESH_IDENTITY
-  
+
   /// @param oldEmailAddress
   /// Old email address
 
@@ -1519,7 +1420,6 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  
   /// Attaches a peer identity to this user's profile
 
   /// @param peer
@@ -1583,7 +1483,6 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  
   /// Detaches a peer identity from this user's profile
 
   /// @param peer
@@ -1613,7 +1512,6 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  
   /// Retrieves a list of attached peer profiles
 
   /// @returns Future<ServerResponse>
@@ -1636,7 +1534,6 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  
   /// Attach blockchain
 
   /// @param blockchainConfig
@@ -1670,7 +1567,6 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  
   /// detach blockchain
 
   /// @param blockchainConfig

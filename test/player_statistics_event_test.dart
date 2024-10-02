@@ -9,8 +9,6 @@ void main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Player Statistics Event", () {
-    setUp(bcTest.auth);
-
     var eventId1 = "testEvent01";
     var eventId2 = "rewardCredits";
 
