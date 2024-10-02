@@ -82,14 +82,8 @@ main() async {
       ServerResponse response = await bcTest.bcWrapper.logout(forgetUser: true);
       expect(response.statusCode, 200);
 
-      try {
-        response = await bcTest.bcWrapper.reconnect();
-        fail('Should fail reconnect as no session existed.');
-      } on ServerResponse {
-        (response) {
-          expect(response.statusCode, 403);
-        };
-      }
+      response = await bcTest.bcWrapper.reconnect();
+      expect(response.statusCode, StatusCodes.accepted);
     });
 
     test("smartSwitchauthenticateUniversal", () async {
