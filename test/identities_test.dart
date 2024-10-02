@@ -35,7 +35,7 @@ main() {
         expect(response.body, isMap);
         Map<String, dynamic> body = response.body!;
         expect(body['identities'], isMap);
-        expect(body['identities']['Universal'], userB.name.toLowerCase());
+        expect(body['identities']['Universal'], userA.name.toLowerCase());
       }
     });
 
