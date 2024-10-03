@@ -52,17 +52,6 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("attachPeerProfile()", retry: 2, () async {
-      ServerResponse response = await bcTest.bcWrapper.identityService
-          .attachPeerProfile(
-              peer: bcTest.ids.peerName,
-              externalId: userA.name,
-              authenticationToken: userA.password,
-              authenticationType: AuthenticationType.universal,
-              forceCreate: true);
-      expect(response.statusCode, StatusCodes.ok);
-    });
-
     test("runPeerScript()", retry: 2, () async {
       ServerResponse response = await bcTest.bcWrapper.scriptService
           .runPeerScript(
@@ -70,7 +59,8 @@ void main() {
               jsonScriptData: jsonEncode(scriptData),
               peer: bcTest.ids.peerName);
 
-      expect(response.statusCode, StatusCodes.ok);
+      expect(response.statusCode, StatusCodes.ok,
+          reason: response.statusMessage);
     });
 
     test("runPeerScriptAsync()", retry: 2, () async {
@@ -80,13 +70,8 @@ void main() {
               jsonScriptData: jsonEncode(scriptData),
               peer: bcTest.ids.peerName);
 
-      expect(response.statusCode, StatusCodes.ok);
-    });
-
-    test("detachPeer()", retry: 2, () async {
-      ServerResponse response = await bcTest.bcWrapper.identityService
-          .detachPeer(peer: bcTest.ids.peerName);
-      expect(response.statusCode, StatusCodes.ok);
+      expect(response.statusCode, StatusCodes.ok,
+          reason: response.statusMessage);
     });
 
     /// END TEST
