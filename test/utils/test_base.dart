@@ -61,7 +61,8 @@ class BCTest {
   }
 
   /// Authenticate with email and password found in test/ids.txt
-  auth({String? userId, String? password}) async {
+  Future auth({String? userId, String? password}) async {
+    Completer completer = Completer();
     var id = userId ?? userA.name;
     var token = password ?? userA.password;
     ServerResponse response;
@@ -89,6 +90,10 @@ class BCTest {
         userA.profileId = response.body?["profileId"];
       }
     }
+
+    completer.complete();
+
+    return completer.future;
   }
 }
 
