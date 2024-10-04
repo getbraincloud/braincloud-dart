@@ -53,4 +53,9 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
   });
+
+  /// END TEST
+  tearDown(() {
+    bcTest.dispose();
+  });
 }
