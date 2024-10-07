@@ -262,7 +262,13 @@ main() {
         expect(body['fileList'], isList);
       }
     });
+
+      /// END TEST
+    tearDown(() {
+      bcTest.dispose();
+    });
   });
+  
   group("GlobalFile Tests", () {
     test("getGlobalFileList", () async {
       expect(bcTest.bcWrapper.isInitialized, true);

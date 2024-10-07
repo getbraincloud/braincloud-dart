@@ -469,6 +469,11 @@ main() {
         singletonEntityVerison = body['version'];
       }
     });
+
+    /// END TEST
+    tearDown(() {
+      bcTest.dispose();
+    });
   });
 
   group("Global Entity Tests", () {
@@ -916,6 +921,11 @@ main() {
         expect(body['owner'], isNull,
             reason: 'owner should be null for system entity');
       }
+    });
+
+    /// END TEST
+    tearDown(() {
+      bcTest.dispose();
     });
   });
 

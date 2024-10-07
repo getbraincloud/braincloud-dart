@@ -4,7 +4,6 @@ import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/v4.dart';
 
 import 'stored_ids.dart';
 import 'test_users.dart';
@@ -24,6 +23,8 @@ class BCTest {
   dispose() {
     //this will stop the update timer
     bcWrapper.onDestroy();
+
+    userB.profileId = null;
   }
 
   BCTest._internal();
@@ -35,14 +36,7 @@ class BCTest {
     //load StoredIds
     await ids.load();
 
-    // set email and password
-    ids.email = ids.email.isEmpty
-        ? "${const UuidV4().generate()}@DartUnitTester"
-        : ids.email;
-    ids.password =
-        ids.password.isEmpty ? const UuidV4().generate() : ids.password;
-
-    debugPrint('email: ${ids.email} in appId: ${ids.appId} at ${ids.url}');
+    debugPrint('appId: ${ids.appId} at ${ids.url}');
 
     //init wrapper (this will start the update loop)
     await bcWrapper

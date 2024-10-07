@@ -59,9 +59,7 @@ main() async {
       bcTest.bcWrapper.resetStoredProfileId();
       bcTest.bcWrapper.resetStoredAnonymousId();
       ServerResponse response = await bcTest.bcWrapper.authenticateUniversal(
-          username: bcTest.ids.email,
-          password: bcTest.ids.password,
-          forceCreate: true);
+          username: userA.email, password: userA.password, forceCreate: true);
       // debugPrint(jsonEncode(response.body));
       expect(response.statusCode, 200);
       expect(response.body?['profileId'], isA<String>());
@@ -74,9 +72,7 @@ main() async {
     test("logout", () async {
       if (!bcTest.bcWrapper.brainCloudClient.isAuthenticated()) {
         await bcTest.bcWrapper.authenticateEmailPassword(
-            email: bcTest.ids.email,
-            password: bcTest.ids.password,
-            forceCreate: false);
+            email: userA.email, password: userA.password, forceCreate: false);
       }
 
       ServerResponse response = await bcTest.bcWrapper.logout(forgetUser: true);
@@ -94,9 +90,7 @@ main() async {
       expect(response.statusCode, 200);
 
       response = await bcTest.bcWrapper.smartSwitchauthenticateUniversal(
-          username: bcTest.ids.email,
-          password: bcTest.ids.password,
-          forceCreate: true);
+          username: userA.email, password: userA.password, forceCreate: true);
       expect(response.statusCode, 200);
       expect(response.body?['profileId'], isA<String>());
       expect(response.body?['server_time'], isA<int>());
@@ -110,9 +104,7 @@ main() async {
       bcTest.bcWrapper.resetStoredProfileId();
       bcTest.bcWrapper.resetStoredAnonymousId();
       ServerResponse response = await bcTest.bcWrapper.authenticateUniversal(
-          username: bcTest.ids.email,
-          password: bcTest.ids.password,
-          forceCreate: false);
+          username: userA.email, password: userA.password, forceCreate: false);
       expect(response.statusCode, 200);
 
       response = await bcTest.bcWrapper.smartSwitchauthenticateAdvanced(
@@ -133,15 +125,11 @@ main() async {
       bcTest.bcWrapper.resetStoredProfileId();
       bcTest.bcWrapper.resetStoredAnonymousId();
       ServerResponse response = await bcTest.bcWrapper.authenticateUniversal(
-          username: bcTest.ids.email,
-          password: bcTest.ids.password,
-          forceCreate: false);
+          username: userA.email, password: userA.password, forceCreate: false);
       expect(response.statusCode, 200);
 
       response = await bcTest.bcWrapper.smartSwitchauthenticateEmail(
-          email: bcTest.ids.email,
-          password: bcTest.ids.password,
-          forceCreate: true);
+          email: userA.email, password: userA.password, forceCreate: true);
       expect(response.statusCode, 200);
       expect(response.body?['profileId'], isA<String>());
       expect(response.body?['server_time'], isA<int>());
