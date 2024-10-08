@@ -19,7 +19,6 @@ void main() {
 
   reAuth() async {
     await bcTest.auth(userId: userToAuth.name, password: userToAuth.password);
-    userToAuth = userA;
   }
 
   group("Test Group", () {
@@ -72,6 +71,7 @@ void main() {
     });
 
     test("inviteGroupMember()", retry: 2, () async {
+      userToAuth = userA;
       await reAuth();
       ServerResponse response =
           await bcTest.bcWrapper.groupService.inviteGroupMember(
@@ -109,6 +109,7 @@ void main() {
     });
 
     test("inviteGroupMember()", () async {
+      userToAuth = userA;
       await reAuth();
       ServerResponse response = await bcTest.bcWrapper.groupService
           .inviteGroupMember(
@@ -128,6 +129,7 @@ void main() {
     });
 
     test("removeGroupMember()", () async {
+      userToAuth = userA;
       await reAuth();
       ServerResponse response = await bcTest.bcWrapper.groupService
           .removeGroupMember(groupId: groupId, profileId: userB.profileId!);
@@ -164,6 +166,7 @@ void main() {
     });
 
     test("approveGroupJoinRequest()", () async {
+      userToAuth = userA;
       await reAuth();
       ServerResponse response = await bcTest.bcWrapper.groupService
           .approveGroupJoinRequest(
