@@ -23,8 +23,6 @@ class BCTest {
   dispose() {
     //this will stop the update timer
     bcWrapper.onDestroy();
-
-    userB.profileId = null;
   }
 
   BCTest._internal();

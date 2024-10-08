@@ -139,7 +139,7 @@ main() async {
     });
 
     /// END TEST
-    tearDown(() {
+    tearDownAll(() {
       bcTest.dispose();
     });
   });

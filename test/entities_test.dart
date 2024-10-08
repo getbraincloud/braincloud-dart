@@ -471,7 +471,7 @@ main() {
     });
 
     /// END TEST
-    tearDown(() {
+    tearDownAll(() {
       bcTest.dispose();
     });
   });
@@ -924,7 +924,7 @@ main() {
     });
 
     /// END TEST
-    tearDown(() {
+    tearDownAll(() {
       bcTest.dispose();
     });
   });
@@ -1429,7 +1429,7 @@ main() {
     });
 
     /// END TEST
-    tearDown(() {
+    tearDownAll(() {
       bcTest.dispose();
     });
   });

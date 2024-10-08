@@ -109,23 +109,20 @@ main() {
                 0;
       }
 
-    
-        // now cancel it.
-        bcTest.bcWrapper.fileService.cancelUpload(uploadId);
-        ServerResponse error =  await uploadCompleterFuture;
-       
+      // now cancel it.
+      bcTest.bcWrapper.fileService.cancelUpload(uploadId);
+      ServerResponse error = await uploadCompleterFuture;
 
-        expect(error.statusCode, 900);
-        expect(error.reasonCode, 90100);
-        expect(error.statusMessage, isNotNull);
-        expect(error.statusMessage?.trim(),
-            "Upload of largeFile.txt cancelled by user");
-        if (error.body != null) {
-          expect(error.body, isMap);
-          Map<String, dynamic> body = error.body!;
-          debugPrint(body.toString());
-        }
-      
+      expect(error.statusCode, 900);
+      expect(error.reasonCode, 90100);
+      expect(error.statusMessage, isNotNull);
+      expect(error.statusMessage?.trim(),
+          "Upload of largeFile.txt cancelled by user");
+      if (error.body != null) {
+        expect(error.body, isMap);
+        Map<String, dynamic> body = error.body!;
+        debugPrint(body.toString());
+      }
     });
 
     test("getUploadProgress", () async {
@@ -263,12 +260,12 @@ main() {
       }
     });
 
-      /// END TEST
-    tearDown(() {
+    /// END TEST
+    tearDownAll(() {
       bcTest.dispose();
     });
   });
-  
+
   group("GlobalFile Tests", () {
     test("getGlobalFileList", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
@@ -360,7 +357,7 @@ main() {
     });
 
     /// END TEST
-    tearDown(() {
+    tearDownAll(() {
       bcTest.dispose();
     });
   });

@@ -7,7 +7,6 @@ main() {
   setUpAll(bcTest.setupBC);
 
   group("Identities Tests", () {
-
     test("getExpiredIdentities", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
@@ -81,7 +80,7 @@ main() {
     });
 
     /// END TEST
-    tearDown(() {
+    tearDownAll(() {
       bcTest.dispose();
     });
   });

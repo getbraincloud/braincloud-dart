@@ -52,7 +52,7 @@ void main() {
     });
 
     /// END TEST
-    tearDown(() {
+    tearDownAll(() {
       bcTest.dispose();
     });
   });

@@ -8,7 +8,6 @@ void main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Friend", () {
-   
     test("getProfileInfoForCredential()", retry: 2, () async {
       ServerResponse response = await bcTest.bcWrapper.friendService
           .getProfileInfoForCredential(
@@ -130,7 +129,7 @@ void main() {
   });
 
   /// END TEST
-  tearDown(() {
+  tearDownAll(() {
     bcTest.dispose();
   });
 }
