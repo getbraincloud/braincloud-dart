@@ -31,6 +31,28 @@ main() {
       }
     }
 
+    setUp(() async {
+      // This will create some shared entities that will be used in tests below
+      if (bcTest.ids.sharedProfileId.isEmpty) {
+        ServerResponse response =
+            await bcTest.bcWrapper.authenticateAnonymous();
+        // if no shared Profile Id define in ids then use the anonymous user
+        bcTest.ids.sharedProfileId = response.body?['profileId'];
+        // and create a shared entity too as this will be needed.
+        var jsonEntityData = {"team": "RedTeam", "quantity": 0};
+        ServerResponse createResponse = await bcTest.bcWrapper.entityService
+            .createEntity(bcTest.entityType, jsonEntityData, ACLs.readWrite);
+
+        if (createResponse.body != null) {
+          Map<String, dynamic> body = createResponse.body!;
+          expect(body['entityId'], isA<String>());
+          sharedEntityId = body['entityId'];
+          expect(body['version'], isA<int>());
+          sharedEntityVersion = body['version'];
+        }
+      }
+    });
+
     test("createEntity", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
@@ -284,11 +306,6 @@ main() {
             'No Shared Entities ProfileId profided skipping test getSharedEntitiesForProfileId');
         return;
       }
-      if (sharedEntityId.isEmpty) {
-        markTestSkipped(
-            'No Shared Entity Id profided skipping test getSharedEntitiesForProfileId (must run getSharedEntitiesForProfileId test first)');
-        return;
-      }
 
       ServerResponse response = await bcTest.bcWrapper.entityService
           .getSharedEntityForProfileId(
@@ -374,11 +391,6 @@ main() {
             'No Shared Entities ProfileId profided skipping test getSharedEntitiesForProfileId');
         return;
       }
-      if (sharedEntityId.isEmpty) {
-        markTestSkipped(
-            'No Shared Entity Id profided skipping test getSharedEntitiesForProfileId (must run getSharedEntitiesForProfileId test first)');
-        return;
-      }
 
       var jsonEntityData = {"team": "main", "quantity": 1};
 
@@ -401,11 +413,6 @@ main() {
       if (bcTest.ids.sharedProfileId.isEmpty) {
         markTestSkipped(
             'No Shared Entities ProfileId profided skipping test getSharedEntitiesForProfileId');
-        return;
-      }
-      if (sharedEntityId.isEmpty) {
-        markTestSkipped(
-            'No Shared Entity Id profided skipping test getSharedEntitiesForProfileId (must run getSharedEntitiesForProfileId test first)');
         return;
       }
 
