@@ -14,19 +14,18 @@ class BrainCloudFriend {
 
   BrainCloudFriend(this._clientRef);
 
-  /// <summary>
   /// Retrieves profile information of the specified user.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - GET_PROFILE_INFO_FOR_CREDENTIAL
-  /// </remarks>
-  /// <param name="externalId">
+
+  /// @param externalId
   /// External id of the user to find
-  /// </param>
-  /// <param name="authenticationType">
+
+  /// @param authenticationType
   /// The authentication type used for the user's ID
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getProfileInfoForCredential(
       {required String externalId,
       required AuthenticationType authenticationType}) {
@@ -39,7 +38,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -51,19 +50,18 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieves profile information for the specified external auth user.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - GET_PROFILE_INFO_FOR_EXTERNAL_AUTH_ID
-  /// </remarks>
-  /// <param name="externalId">
+
+  /// @param externalId
   /// External id of the friend to find
-  /// </param>
-  /// <param name="externalAuthType">
+
+  /// @param externalAuthType
   /// The external authentication type used for this friend's external id
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getProfileInfoForExternalAuthId(
       {required String externalId, required String externalAuthType}) {
     Completer<ServerResponse> completer = Completer();
@@ -74,7 +72,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -86,19 +84,18 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieves the external ID for the specified user profile ID on the specified social platform.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - GET_EXTERNAL_ID_FOR_PROFILE_ID
-  /// </remarks>
-  /// <param name="profileId">
+
+  /// @param profileId
   /// Profile (user) ID.
-  /// </param>
-  /// <param name="authenticationType">
+
+  /// @param authenticationType
   /// Associated authentication type.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getExternalIdForProfileId(
       {required String profileId, required String authenticationType}) {
     Completer<ServerResponse> completer = Completer();
@@ -110,7 +107,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -122,19 +119,18 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// <summary>
   /// Returns a particular entity of a particular friend.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - ReadFriendEntity
-  /// </remarks>
-  /// <param name="entityId">
+
+  /// @param entityId
   /// Id of entity to retrieve.
-  /// </param>
-  /// <param name="friendId">
+
+  /// @param friendId
   /// Profile Id of friend who owns entity.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readFriendEntity(
       {required String entityId, required String friendId}) {
     Completer<ServerResponse> completer = Completer();
@@ -145,7 +141,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -156,16 +152,15 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// <summary>
   /// Returns entities of all friends based on type and/or subtype.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - ReadFriendsEntities
-  /// </remarks>
-  /// <param name="entityType">
+
+  /// @param entityType
   /// Types of entities to retrieve.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readFriendsEntities({required String entityType}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -174,7 +169,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -186,18 +181,17 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// <summary>
   /// Returns user state of a particular friend.
   /// If you are not friend with this user, you will get an error
   /// with NOT_FRIENDS reason code.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - ReadFriendPlayerState
-  /// </remarks>
-  /// <param name="friendId">
+
+  /// @param friendId
   /// Profile Id of friend to retrieve user state for.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readFriendUserState({required String friendId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -206,7 +200,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -218,16 +212,15 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// <summary>
   /// Returns user state of a particular user.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - GET_SUMMARY_DATA_FOR_PROFILE_ID
-  /// </remarks>
-  /// <param name="profileId">
+
+  /// @param profileId
   /// Profile Id of user to retrieve player state for.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getSummaryDataForProfileId(
       {required String profileId}) {
     Completer<ServerResponse> completer = Completer();
@@ -237,7 +230,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -249,20 +242,19 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// <summary>
   /// Finds a list of users matching the search text by performing an exact
   /// search of all user names.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - FIND_USERS_BY_EXACT_NAME
-  /// </remarks>
-  /// <param name="searchText">
+
+  /// @param searchText
   /// The String to search for.
-  /// </param>
-  /// <param name="maxResults">
+
+  /// @param maxResults
   /// Maximum number of results to return.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> findUsersByExactName(
       {required String searchText, required int maxResults}) {
     Completer<ServerResponse> completer = Completer();
@@ -274,7 +266,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -286,16 +278,15 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// <summary>
   /// Find a specific user by their Universal Id
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - FIND_USER_BY_EXACT_UNIVERSAL_ID
-  /// </remarks>
-  /// <param name="searchText">
+
+  /// @param searchText
   /// The String to search for.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> findUserByExactUniversalId(
       {required String searchText}) {
     Completer<ServerResponse> completer = Completer();
@@ -306,7 +297,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -318,20 +309,19 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// <summary>
   /// Finds a list of users matching the search text by performing a subString
   /// search of all user names.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - FIND_USERS_BY_EXACT_NAME
-  /// </remarks>
-  /// <param name="searchText">
+
+  /// @param searchText
   /// The subString to search for. Minimum length of 3 characters.
-  /// </param>
-  /// <param name="maxResults">
+
+  /// @param maxResults
   /// Maximum number of results to return.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> findUsersBySubstrName(
       {required String searchText, required int maxResults}) {
     Completer<ServerResponse> completer = Completer();
@@ -343,7 +333,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -355,15 +345,14 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieves a list of user and friend platform information for all friends of the current user.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - LIST_FRIENDS
-  /// </remarks>
-  /// <param name="friendPlatform">Friend platform to query.</param>
-  /// <param name="includeSummaryData">True if including summary data; false otherwise.</param>
+
+  /// @param friendPlatformFriend platform to query.
+  /// @param includeSummaryDataTrue if including summary data; false otherwise.
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> listFriends(
       {required FriendPlatform friendPlatform,
       required bool includeSummaryData}) {
@@ -378,7 +367,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -390,15 +379,14 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieves the social information associated with the logged in user. Includes summary data if includeSummaryData is true.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - GET_MY_SOCIAL_INFO
-  /// </remarks>
-  /// <param name="friendPlatform">Friend platform to query.</param>
-  /// <param name="includeSummaryData">True if including summary data; false otherwise.</param>
+
+  /// @param friendPlatformFriend platform to query.
+  /// @param includeSummaryDataTrue if including summary data; false otherwise.
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getMySocialInfo(
       {required FriendPlatform friendPlatform,
       required bool includeSummaryData}) {
@@ -413,7 +401,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -425,14 +413,13 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// <summary>
   /// Links the current user and the specified users as brainCloud friends.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - ADD_FRIENDS
-  /// </remarks>
-  /// <param name="profileIds">Collection of profile IDs.</param>
+
+  /// @param profileIdsCollection of profile IDs.
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> addFriends({required List<String> profileIds}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -442,7 +429,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -454,16 +441,15 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// <summary>
   /// Links the profiles for the specified externalIds for the given friend platform as internal friends.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - ADD_FRIENDS_FROM_PLATFORM
-  /// </remarks>
-  /// <param name="friendPlatform">Platform to add from (i.e: FriendPlatform:Facebook)</param>
-  /// <param name="mode">ADD or SYNC</param>
-  /// <param name="externalIds">Collection of external ID's from the friend platform</param>
+
+  /// @param friendPlatformPlatform to add from (i.e: FriendPlatform:Facebook)
+  /// @param modeADD or SYNC
+  /// @param externalIdsCollection of external ID's from the friend platform
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> addFriendsFromPlatform(
       {required FriendPlatform friendPlatform,
       required String mode,
@@ -479,7 +465,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -491,14 +477,13 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// <summary>
   /// Unlinks the current user and the specified users as brainCloud friends.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - REMOVE_FRIENDS
-  /// </remarks>
-  /// <param name="profileIds">Collection of profile IDs.</param>
+
+  /// @param profileIdsCollection of profile IDs.
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> removeFriends({required List<String> profileIds}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -508,7 +493,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -520,14 +505,13 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// <summary>
   /// Get users online status
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - GET_USERS_ONLINE_STATUS
-  /// </remarks>
-  /// <param name="profileIds">Collection of profile IDs.</param>
+
+  /// @param profileIdsCollection of profile IDs.
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getUsersOnlineStatus(
       {required List<String> profileIds}) {
     Completer<ServerResponse> completer = Completer();
@@ -538,7 +522,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -550,19 +534,18 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieves Name information for the partial matches of the specified text.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - FIND_USERS_BY_NAME_STARTING_WITH
-  /// </remarks>
-  /// <param name="searchText">
+
+  /// @param searchText
   /// text on which to search.
-  /// </param>
-  /// <param name="maxResults">
+
+  /// @param maxResults
   /// Maximum number of results to return.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> findUsersByNameStartingWith(
       {required String searchText, required int maxResults}) {
     Completer<ServerResponse> completer = Completer();
@@ -573,7 +556,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -585,19 +568,18 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieves Universal Id information for the partial matches of the specified text.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Friend
   /// Service Operation - FIND_USERS_BY_UNIVERSAL_ID_STARTING_WITH
-  /// </remarks>
-  /// <param name="searchText">
+
+  /// @param searchText
   /// text on which to search.
-  /// </param>
-  /// <param name="maxResults">
+
+  /// @param maxResults
   /// Maximum number of results to return.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> findUsersByUniversalIdStartingWith(
       {required String searchText, required int maxResults}) {
     Completer<ServerResponse> completer = Completer();
@@ -608,7 +590,7 @@ class BrainCloudFriend {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -621,4 +603,22 @@ class BrainCloudFriend {
   }
 }
 
-enum FriendPlatform { all, brainCloud, facebook }
+enum FriendPlatform {
+  all("All"),
+  brainCloud("brainCloud"),
+  facebook("Facebook");
+
+  const FriendPlatform(this.value);
+
+  final String value;
+
+  static FriendPlatform fromString(String s) {
+    FriendPlatform type = FriendPlatform.values
+        .firstWhere((e) => e.value == s, orElse: () => FriendPlatform.all);
+
+    return type;
+  }
+
+  @override
+  String toString() => value;
+}

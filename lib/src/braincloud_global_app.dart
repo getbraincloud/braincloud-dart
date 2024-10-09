@@ -13,19 +13,18 @@ class BrainCloudGlobalApp {
 
   BrainCloudGlobalApp(this._clientRef);
 
-  /// <summary>
   /// Method reads all the global properties of the game
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - GlobalApp
   /// Service Operation - ReadProperties
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readProperties() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -36,17 +35,16 @@ class BrainCloudGlobalApp {
     return completer.future;
   }
 
-  /// <summary>
   /// Returns a list of properties, identified by the propertyNames provided.
   /// If a property from the list isn't found, it just isn't returned (no error).
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - GlobalApp
   /// Service Operation - ReadSelectedProperties
-  /// </remarks>
-  /// <param name="propertyNames">
+
+  /// @param propertyNames
   /// Specifies which properties to return
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readSelectedProperties(
       {required List<String> propertyNames}) {
     Completer<ServerResponse> completer = Completer();
@@ -56,7 +54,7 @@ class BrainCloudGlobalApp {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -67,17 +65,16 @@ class BrainCloudGlobalApp {
     return completer.future;
   }
 
-  /// <summary>
   /// Returns a list of properties, identified by the categories provided.
   /// If a category from the list isn't found, it just isn't returned (no error).
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - GlobalApp
   /// Service Operation - ReadPropertiesInCategories
-  /// </remarks>
-  /// <param name="categories">
+
+  /// @param categories
   /// Specifies which categories to return
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readPropertiesInCategories(
       {required List<String> categories}) {
     Completer<ServerResponse> completer = Completer();
@@ -87,7 +84,7 @@ class BrainCloudGlobalApp {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,

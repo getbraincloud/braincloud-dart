@@ -12,23 +12,22 @@ class BrainCloudEntity {
 
   BrainCloudEntity(this._clientRef);
 
-  /// <summary>
   /// Method creates a new entity on the server.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Entity
   /// Service Operation - Create
-  /// </remarks>
-  /// <param name="entityType">
+
+  /// @param entityType
   /// The entity type as defined by the user
-  /// </param>
-  /// <param name="jsonEntityData">
+
+  /// @param jsonEntityData
   /// The entity's data as a json String
-  /// </param>
-  /// <param name="jsonEntityAcl">
+
+  /// @param jsonEntityAcl
   /// The entity's access control list as json. A null acl implies default
   /// permissions which make the entity readable/writeable by only the user.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> createEntity(
       String entityType,
       Map<String, dynamic> jsonEntityData,
@@ -43,7 +42,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -55,15 +54,12 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /// <summary> Method returns all user entities that match the given type.
-  /// </summary>
-  /// <remarks>
+  /// Method returns all user entities that match the given type.
   /// Service Name - Entity
   /// Service Operation - ReadByType
-  /// </remarks>
-  /// <param name="entityType">
+  /// @param entityType
   /// The entity type to search for
-  /// </param>
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getEntitiesByType(String entityType) async {
     Map<String, dynamic> data = {};
     data[OperationParam.entityServiceEntityType.value] = entityType;
@@ -72,7 +68,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -84,32 +80,31 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /// <summary>
   /// Method updates a new entity on the server. This operation results in the entity
   /// data being completely replaced by the passed in JSON String.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Entity
   /// Service Operation - Update
-  /// </remarks>
-  /// <param name="entityId">
+
+  /// @param entityId
   /// The id of the entity to update
-  /// </param>
-  /// <param name="entityType">
+
+  /// @param entityType
   /// The entity type as defined by the user
-  /// </param>
-  /// <param name="jsonEntityData">
+
+  /// @param jsonEntityData
   /// The entity's data as a json String.
-  /// </param>
-  /// <param name="jsonEntityAcl">
+
+  /// @param jsonEntityAcl
   /// The entity's access control list as json. A null acl implies default
   /// permissions which make the entity readable/writeable by only the user.
-  /// </param>
-  /// <param name="version">
+
+  /// @param version
   /// Current version of the entity. If the version of the
   /// entity on the server does not match the version passed in, the
   /// server operation will fail. Use -1 to skip version checking.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateEntity(
       String entityId,
       String entityType,
@@ -132,7 +127,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -145,31 +140,30 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /// <summary>
   /// Method updates a shared entity owned by another user. This operation results in the entity
   /// data being completely replaced by the passed in JSON String.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Entity
   /// Service Operation - UpdateShared
-  /// </remarks>
-  /// <param name="entityId">
+
+  /// @param entityId
   /// The id of the entity to update
-  /// </param>
-  /// <param name="targetProfileId">
+
+  /// @param targetProfileId
   /// The id of the entity's owner
-  /// </param>
-  /// <param name="entityType">
+
+  /// @param entityType
   /// The entity type as defined by the user
-  /// </param>
-  /// <param name="jsonEntityData">
+
+  /// @param jsonEntityData
   /// The entity's data as a json String.
-  /// </param>
-  /// <param name="version">
+
+  /// @param version
   /// Current version of the entity. If the version of the
   ///  entity on the server does not match the version passed in, the
   ///  server operation will fail. Use -1 to skip version checking.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateSharedEntity(
       String entityId,
       String targetProfileId,
@@ -188,7 +182,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -209,27 +203,26 @@ class BrainCloudEntity {
         }
          */
 
-  /// <summary>
   /// Method deletes the given entity on the server.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Entity
   /// Service Operation - Delete
-  /// </remarks>
-  /// <param name="entityId">
+
+  /// @param entityId
   /// The id of the entity to update
-  /// </param>
-  /// <param name="version">
+
+  /// @param version
   /// Current version of the entity. If the version of the
   ///  entity on the server does not match the version passed in, the
   ///  server operation will fail. Use -1 to skip version checking.
-  /// </param>
-  /// <param name="success">
+
+  /// @param success
   /// The success callback.
-  /// </param>
-  /// <param name="failure">
+
+  /// @param failure
   /// The failure callback.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> deleteEntity(String entityId, int version) async {
     Map<String, dynamic> data = {};
     data[OperationParam.entityServiceEntityId.value] = entityId;
@@ -240,7 +233,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -253,28 +246,27 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /// <summary>
   /// Method updates a singleton entity on the server. This operation results in the entity
   /// data being completely replaced by the passed in JSON String. If the entity doesn't exist it is created.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Entity
   /// Service Operation - Update_Singleton
-  /// </remarks>
-  /// <param name="entityType">
+
+  /// @param entityType
   /// The entity type as defined by the user
-  /// </param>
-  /// <param name="jsonEntityData">
+
+  /// @param jsonEntityData
   /// The entity's data as a json String.
-  /// </param>
-  /// <param name="jsonEntityAcl">
+
+  /// @param jsonEntityAcl
   /// The entity's access control list as json. A null acl implies default
-  /// </param>
-  /// <param name="version">
+
+  /// @param version
   /// Current version of the entity. If the version of the
   ///  entity on the server does not match the version passed in, the
   ///  server operation will fail. Use -1 to skip version checking.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateSingleton(
       String entityType,
       Map<String, dynamic> jsonEntityData,
@@ -291,7 +283,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -304,21 +296,20 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /// <summary>
   /// Method deletes the given singleton on the server.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Entity
   /// Service Operation - Delete
-  /// </remarks>
-  /// <param name="entityType">
+
+  /// @param entityType
   /// The entity type as defined by the user
-  /// </param>
-  /// <param name="version">
+
+  /// @param version
   /// Current version of the entity. If the version of the
   ///  entity on the server does not match the version passed in, the
   ///  server operation will fail. Use -1 to skip version checking.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> deleteSingleton(String entityType, int version) {
     Map<String, dynamic> data = {};
     data[OperationParam.entityServiceEntityType.value] = entityType;
@@ -329,7 +320,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -340,16 +331,15 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /// <summary>
   /// Method to get a specific entity.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Entity
   /// Service Operation - Read
-  /// </remarks>
-  /// <param name="entityId">
+
+  /// @param entityId
   /// The id of the entity
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getEntity(String entityId) async {
     Map<String, dynamic> data = {};
     data[OperationParam.entityServiceEntityId.value] = entityId;
@@ -359,7 +349,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -372,16 +362,15 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /// <summary>
   /// Method retrieves a singleton entity on the server. If the entity doesn't exist, null is returned.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Entity
   /// Service Operation - ReadSingleton
-  /// </remarks>
-  /// <param name="entityType">
+
+  /// @param entityType
   /// The entity type as defined by the user
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getSingleton(String entityType) async {
     Map<String, dynamic> data = {};
     data[OperationParam.entityServiceEntityType.value] = entityType;
@@ -391,7 +380,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -404,21 +393,20 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /// <summary>
   /// Method returns a shared entity for the given profile and entity ID.
   /// An entity is shared if its ACL allows for the currently logged
   /// in user to read the data.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Entity
   /// Service Operation - READ_SHARED_ENTITY
-  /// </remarks>
-  /// <param name="profileId">
+
+  /// @param profileId
   /// The the profile ID of the user who owns the entity
-  /// </param>
-  /// <param name="entityId">
+
+  /// @param entityId
   /// The ID of the entity that will be retrieved
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getSharedEntityForProfileId(
       String profileId, String entityId) async {
     Map<String, dynamic> data = {};
@@ -430,7 +418,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -442,18 +430,17 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /// <summary>
   /// Method returns all shared entities for the given profile id.
   /// An entity is shared if its ACL allows for the currently logged
   /// in user to read the data.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Entity
   /// Service Operation - ReadShared
-  /// </remarks>
-  /// <param name="profileId">
+
+  /// @param profileId
   /// The profile id to retrieve shared entities for
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getSharedEntitiesForProfileId(String profileId) async {
     Map<String, dynamic> data = {};
     data[OperationParam.entityServiceTargetPlayerId.value] = profileId;
@@ -463,7 +450,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -476,22 +463,21 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /// <summary>
   /// Method gets list of entities from the server base on type and/or where clause
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Entity
   /// Service Operation - GET_LIST
-  /// </remarks>
-  /// <param name="whereJson">
+
+  /// @param whereJson
   /// Mongo style query String
-  /// </param>
-  /// <param name="orderByJson">
+
+  /// @param orderByJson
   /// Sort order
-  /// </param>
-  /// <param name="maxReturn">
+
+  /// @param maxReturn
   /// The maximum number of entities to return
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getList(Map<String, dynamic> whereJson,
       Map<String, int> orderByJson, int maxReturn) async {
     Map<String, dynamic> data = {};
@@ -505,7 +491,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -518,25 +504,24 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /// <summary>
   /// Method gets list of shared entities for the specified user based on type and/or where clause
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Entity
   /// Service Operation - GET_LIST
-  /// </remarks>
-  /// <param name="profileId">
+
+  /// @param profileId
   /// The profile ID to retrieve shared entities for
-  /// </param>
-  /// <param name="whereJson">
+
+  /// @param whereJson
   /// Mongo style query String
-  /// </param>
-  /// <param name="orderByJson">
+
+  /// @param orderByJson
   /// Sort order
-  /// </param>
-  /// <param name="maxReturn">
+
+  /// @param maxReturn
   /// The maximum number of entities to return
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getSharedEntitiesListForProfileId(
       String profileId,
       Map<String, dynamic> whereJson,
@@ -554,7 +539,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -567,16 +552,15 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /// <summary>
   /// Method gets a count of entities based on the where clause
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Entity
   /// Service Operation - GetListCount
-  /// </remarks>
-  /// <param name="whereJson">
+
+  /// @param whereJson
   /// Mongo style query String
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getListCount(Map<String, dynamic> whereJson) async {
     Map<String, dynamic> data = {};
 
@@ -587,7 +571,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -600,18 +584,17 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /// <summary>
   /// Method uses a paging system to iterate through user entities.
   /// After retrieving a page of entities with this method,
   /// use GetPageOffset() to retrieve previous or next pages.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Entity
   /// Service Operation - GetPage
-  /// </remarks>
-  /// <param name="jsonContext">The json context for the page request.
-  /// See the portal appendix documentation for format</param>
+
+  /// @param jsonContextThe json context for the page request.
+  /// See the portal appendix documentation for format
   ///
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getPage(Map<String, dynamic> jsonContext) async {
     Map<String, dynamic> data = {};
 
@@ -622,7 +605,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -635,23 +618,22 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /// <summary>
   /// Method to retrieve previous or next pages after having called
   /// the GetPage method.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Entity
   /// Service Operation - GetPageOffset
-  /// </remarks>
-  /// <param name="context">
+
+  /// @param context
   /// The context String returned from the server from a previous call
   /// to GetPage() or GetPageOffset()
-  /// </param>
-  /// <param name="pageOffset">
+
+  /// @param pageOffset
   /// The positive or negative page offset to fetch. Uses the last page
   /// retrieved using the context String to determine a starting point.
-  /// </param>
+
   ///
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getPageOffset(String context, int pageOffset) async {
     Map<String, dynamic> data = {};
 
@@ -663,7 +645,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -676,15 +658,14 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /// <summary>
   /// Partial increment of entity data field items. Partial set of items incremented as specified.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - entity
   /// Service Operation - INCREMENT_USER_ENTITY_DATA
-  /// </remarks>
-  /// <param name="entityId">The entity to increment</param>
-  /// <param name="jsonData">The subset of data to increment</param>
+
+  /// @param entityIdThe entity to increment
+  /// @param jsonDataThe subset of data to increment
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> incrementUserEntityData(
       String entityId, Map<String, dynamic> jsonData) async {
     Map<String, dynamic> data = {};
@@ -697,7 +678,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -710,16 +691,15 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /// <summary>
   /// Partial increment of shared entity data field items. Partial set of items incremented as specified.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - entity
   /// Service Operation - INCREMENT_SHARED_USER_ENTITY_DATA
-  /// </remarks>
-  /// <param name="entityId">The entity to increment</param>
-  /// <param name="targetProfileId">Profile ID of the entity owner</param>
-  /// <param name="jsonData">The subset of data to increment</param>
+
+  /// @param entityIdThe entity to increment
+  /// @param targetProfileIdProfile ID of the entity owner
+  /// @param jsonDataThe subset of data to increment
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> incrementSharedUserEntityData(String entityId,
       String targetProfileId, Map<String, dynamic> jsonData) async {
     Map<String, dynamic> data = {};
@@ -733,7 +713,7 @@ class BrainCloudEntity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));

@@ -15,19 +15,18 @@ class BrainCloudGlobalStatistics {
 
   BrainCloudGlobalStatistics(this._clientRef);
 
-  /// <summary>
   /// Method returns all of the global statistics.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - globalGameStatistics
   /// Service Operation - Read
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readAllGlobalStats() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -39,16 +38,15 @@ class BrainCloudGlobalStatistics {
     return completer.future;
   }
 
-  /// <summary>
   /// Reads a subset of global statistics as defined by the input JSON.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - globalGameStatistics
   /// Service Operation - ReadSubset
-  /// </remarks>
-  /// <param name="globalStats">
+
+  /// @param globalStats
   /// A list containing the statistics to read
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readGlobalStatsSubset(
       {required List<String> globalStats}) {
     Completer<ServerResponse> completer = Completer();
@@ -58,7 +56,7 @@ class BrainCloudGlobalStatistics {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -70,16 +68,15 @@ class BrainCloudGlobalStatistics {
     return completer.future;
   }
 
-  /// <summary>
   /// Method retrieves the global statistics for the given category.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - globalGameStatistics
   /// Service Operation - READ_FOR_CATEGORY
-  /// </remarks>
-  /// <param name="category">
+
+  /// @param category
   /// The global statistics category
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readGlobalStatsForCategory(
       {required String category}) {
     Completer<ServerResponse> completer = Completer();
@@ -89,7 +86,7 @@ class BrainCloudGlobalStatistics {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -101,15 +98,13 @@ class BrainCloudGlobalStatistics {
     return completer.future;
   }
 
-  /// <summary>
   /// Atomically increment (or decrement) global statistics.
   /// Global statistics are defined through the brainCloud portal.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - globalGameStatistics
   /// Service Operation - UpdateIncrement
-  /// </remarks>
-  /// <param name="jsonData">
+
+  /// @param jsonData
   /// The JSON encoded data to be sent to the server as follows:
   /// {
   ///   stat1: 10,
@@ -122,7 +117,8 @@ class BrainCloudGlobalStatistics {
   ///   stat1:INC_TO_LIMIT#9#30
   /// }
   /// which increments stat1 by 9 up to a limit of 30.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> incrementGlobalStats({required String jsonData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -132,7 +128,7 @@ class BrainCloudGlobalStatistics {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -144,14 +140,12 @@ class BrainCloudGlobalStatistics {
     return completer.future;
   }
 
-  /// <summary>
   /// Apply statistics grammar to a partial set of statistics.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - globalGameStatistics
   /// Service Operation - PROCESS_STATISTICS
-  /// </remarks>
-  /// <param name="statisticsData">
+
+  /// @param statisticsData
   /// Example data to be passed to method:
   /// {
   ///     "DEAD_CATS": "RESET",
@@ -160,7 +154,8 @@ class BrainCloudGlobalStatistics {
   ///     "DOG_SCARE_BONUS_POINTS": "INC#10",
   ///     "TREES_CLIMBED": 1
   /// }
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> processStatistics(
       {required Map<String, dynamic> statisticsData}) {
     Completer<ServerResponse> completer = Completer();
@@ -171,7 +166,7 @@ class BrainCloudGlobalStatistics {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,

@@ -116,17 +116,15 @@ class RelayComms {
   RelayCallback? _registeredRelayCallback;
   RelaySystemCallback? _registeredSystemCallback;
 
-  /// <summary>
   /// Last Synced Ping
-  /// </summary>
+
   late int _ping;
   int get getPing => _ping;
 
   RelayComms(this._clientRef);
 
-  /// <summary>
   /// Callbacks responded to on the main thread
-  /// </summary>
+
   update() {
     // ** Resend connect request **
     // A UDP client needs to resend that until a confirmation is received that they are connected.

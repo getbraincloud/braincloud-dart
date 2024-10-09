@@ -13,26 +13,23 @@ class ServerCall {
 
   int packetID = BrainCloudComms.noPacketExpected;
 
-  /// <summary>
   /// Get the type of operation to perform with this service. This value usually represents
   /// a particular server method, ie: read, update, create...
-  /// </param>
-  /// <returns>The operation</returns>
+
+  /// @returns The operation
   ServiceOperation get getOperation => _operation;
 
-  /// <summary>
   /// Get the service name (or type) for this service. This value is usually mapped to
   /// a particular server key used to identify this service.
-  /// </param>
-  /// <returns> Name to identify what type of service this is.</returns>
+
+  /// @returns  Name to identify what type of service this is.
   ServiceName get getService => _service;
 
   ServerCallback? get getCallback => _callback;
 
-  /// <summary>
   /// Get the Json Data associated for this service. The original json data going out
   /// with the server call
-  /// </param>
-  /// <returns> Name to identify what type of service this is.</returns>
+
+  /// @returns  Name to identify what type of service this is.
   Map<String, dynamic>? get getJsonData => _jsonData;
 }

@@ -14,9 +14,9 @@ class BrainCloudBlockchain {
 
   BrainCloudBlockchain(this._clientRef);
 
-  /// <summary>
   /// Retrieves the blockchain items owned by the caller.
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getBlockchainItems(
       {String? integrationid, String? contextjson}) {
     Completer<ServerResponse> completer = Completer();
@@ -30,7 +30,7 @@ class BrainCloudBlockchain {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -42,9 +42,9 @@ class BrainCloudBlockchain {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieves the uniqs owned by the caller.
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getUniqs(
       {required String inIntegrationid, required String inContextjson}) {
     Completer<ServerResponse> completer = Completer();
@@ -57,7 +57,7 @@ class BrainCloudBlockchain {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,

@@ -1,73 +1,18 @@
-import 'dart:async';
-
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/v4.dart';
-import 'stored_ids.dart';
+
+import 'utils/test_base.dart';
 
 main() {
-  SharedPreferences.setMockInitialValues({});
-  debugPrint('Braindcloud Dart Client unit tests');
-  final bcWrapper = BrainCloudWrapper(wrapperName: "FlutterTest");
-  String email = "";
-  String password = "";
-
-  setUpAll(() async {
-    // });
-    // test("Init", () async {
-    StoredIds ids = StoredIds('test/ids.txt');
-    await ids.load();
-
-    email = ids.email.isEmpty
-        ? "${const UuidV4().generate()}@DartUnitTester"
-        : ids.email;
-    password = ids.password.isEmpty ? const UuidV4().generate() : ids.password;
-
-    debugPrint('email: ${ids.email} in appId: ${ids.appId} at ${ids.url}');
-    //start test
-
-    bcWrapper
-        .init(
-            secretKey: ids.secretKey,
-            appId: ids.appId,
-            version: ids.version,
-            url: ids.url)
-        .then((_) {
-      // expect(bcWrapper.isInitialized, false);
-
-      bool hadSession = bcWrapper.getStoredSessionId().isNotEmpty;
-
-      if (hadSession) {
-        bcWrapper.restoreSession();
-      }
-
-      int packetId = bcWrapper.getStoredPacketId();
-      if (packetId > BrainCloudComms.noPacketExpected) {
-        bcWrapper.restorePacketId();
-      }
-
-      Timer.periodic(const Duration(milliseconds: 100), (timer) {
-        bcWrapper.update();
-      });
-    }).onError((error, stackTrace) {
-      debugPrint(error.toString());
-    });
-  });
+  BCTest bcTest = BCTest();
+  setUpAll(bcTest.setupBC);
 
   group("Test RTT", () {
-    setUp(() async {
-      if (!bcWrapper.brainCloudClient.isAuthenticated()) {
-        await bcWrapper.authenticateUniversal(
-            username: email, password: password, forceCreate: false);
-      }
-    });
-
     test("enableRTT", () async {
-      bcWrapper.rTTService.disableRTT();
+      bcTest.bcWrapper.rTTService.disableRTT();
 
-      ServerResponse? response = await bcWrapper.rTTService
+      ServerResponse? response = await bcTest.bcWrapper.rTTService
           .enableRTT(connectiontype: RTTConnectionType.websocket);
 
       if (response.reasonCode == ReasonCodes.featureNotEnabled) {
@@ -81,7 +26,7 @@ main() {
     String channelId = "";
 
     test("getChannelId", () async {
-      ServerResponse? response = await bcWrapper.chatService
+      ServerResponse? response = await bcTest.bcWrapper.chatService
           .getChannelId(channeltype: "gl", channelsubid: "valid");
 
       if (response.reasonCode == ReasonCodes.featureNotEnabled) {
@@ -94,8 +39,8 @@ main() {
     });
 
     test("getChannelInfo", () async {
-      ServerResponse? response =
-          await bcWrapper.chatService.getChannelInfo(channelId: channelId);
+      ServerResponse? response = await bcTest.bcWrapper.chatService
+          .getChannelInfo(channelId: channelId);
 
       if (response.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");
@@ -105,7 +50,7 @@ main() {
     });
 
     test("channelConnect", () async {
-      ServerResponse? response = await bcWrapper.chatService
+      ServerResponse? response = await bcTest.bcWrapper.chatService
           .channelConnect(channelId: channelId, maxtoreturn: 50);
 
       if (response.reasonCode == ReasonCodes.featureNotEnabled) {
@@ -116,8 +61,8 @@ main() {
     });
 
     test("getSubscribedChannels", () async {
-      ServerResponse response =
-          await bcWrapper.chatService.getSubscribedChannels(channeltype: "gl");
+      ServerResponse response = await bcTest.bcWrapper.chatService
+          .getSubscribedChannels(channeltype: "gl");
 
       if (response.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");
@@ -140,7 +85,7 @@ main() {
     String msgToSend = "Hello World!!";
 
     test("postChatMessageSimple", () async {
-      ServerResponse response = await bcWrapper.chatService
+      ServerResponse response = await bcTest.bcWrapper.chatService
           .postChatMessageSimple(channelId: channelId, plain: msgToSend);
 
       if (response.reasonCode == ReasonCodes.featureNotEnabled) {
@@ -153,7 +98,7 @@ main() {
     });
 
     test("getChatMessage", () async {
-      ServerResponse response = await bcWrapper.chatService
+      ServerResponse response = await bcTest.bcWrapper.chatService
           .getChatMessage(channelId: channelId, messageid: msgId);
 
       if (response.reasonCode == ReasonCodes.featureNotEnabled) {
@@ -163,6 +108,11 @@ main() {
         String txt = response.body?['data']['content']['text'];
         expect(txt, msgToSend);
       }
+    });
+
+    /// END TEST
+    tearDownAll(() {
+      bcTest.dispose();
     });
   });
 }

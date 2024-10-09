@@ -15,26 +15,25 @@ class BrainCloudEvent {
 
   BrainCloudEvent(this._clientRef);
 
-  /// <summary>
   /// Sends an event to the designated profile id with the attached json data.
   /// Any events that have been sent to a user will show up in their
   /// incoming event mailbox. If the recordLocally flag is set to true,
   /// a copy of this event (with the exact same event id) will be stored
   /// in the sending user's "sent" event mailbox.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Event
   /// Service Operation - Send
-  /// </remarks>
-  /// <param name="toProfileId">
+
+  /// @param toProfileId
   /// The id of the user who is being sent the event
-  /// </param>
-  /// <param name="eventType">
+
+  /// @param eventType
   /// The user-defined type of the event.
-  /// </param>
-  /// <param name="jsonEventData">
+
+  /// @param jsonEventData
   /// The user-defined data for this event encoded in JSON.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> sendEvent(
       {required String toProfileId,
       required String eventType,
@@ -53,7 +52,7 @@ class BrainCloudEvent {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -64,19 +63,18 @@ class BrainCloudEvent {
     return completer.future;
   }
 
-  /// <summary>
   /// Updates an event in the user's incoming event mailbox.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Event
   /// Service Operation - UpdateEventData
-  /// </remarks>
-  /// <param name="evId">
+
+  /// @param evId
   /// The event id
-  /// </param>
-  /// <param name="jsonEventData">
+
+  /// @param jsonEventData
   /// The user-defined data for this event encoded in JSON.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateIncomingEventData(
       {required String evId, required String jsonEventData}) {
     Completer<ServerResponse> completer = Completer();
@@ -91,7 +89,7 @@ class BrainCloudEvent {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -102,16 +100,54 @@ class BrainCloudEvent {
     return completer.future;
   }
 
-  /// <summary>
+  /// Updates an event in the user's incoming event mailbox.
+  /// Returns the same data as UpdateIncomingEventData, but does not return an error if the event does not exist.
+
+  /// Service Name - Event
+  /// Service Operation - UpdateEventData
+
+  /// @param evId
+  /// The event id
+
+  /// @param jsonEventData
+  /// The user-defined data for this event encoded in JSON.
+
+  /// @returns Future<ServerResponse>
+  Future<ServerResponse> updateIncomingEventDataIfExists(
+      {required String evId, String? jsonEventData}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    data[OperationParam.evId.value] = evId;
+
+    if (Util.isOptionalParameterValid(jsonEventData)) {
+      var eventData = jsonDecode(jsonEventData!);
+      data[OperationParam.eventServiceUpdateEventDataData.value] = eventData;
+    }
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) =>
+            completer.complete(ServerResponse(statusCode: 200, body: response)),
+        (statusCode, reasonCode, statusMessage) => completer.complete(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                statusMessage: statusMessage)));
+
+    ServerCall sc = ServerCall(ServiceName.event,
+        ServiceOperation.updateEventDataIfExists, data, callback);
+    _clientRef.sendRequest(sc);
+    return completer.future;
+  }
+
   /// Delete an event out of the user's incoming mailbox.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Event
   /// Service Operation - DeleteIncoming
-  /// </remarks>
-  /// <param name="evId">
+
+  /// @param evId
   /// The event id
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> deleteIncomingEvent({required String evId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -120,7 +156,7 @@ class BrainCloudEvent {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -131,16 +167,15 @@ class BrainCloudEvent {
     return completer.future;
   }
 
-  /// <summary>
   /// Delete a list of events out of the user's incoming mailbox.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - event
   /// Service Operation - DELETE_INCOMING_EVENTS
-  /// </remarks>
-  /// <param name="in_eventIds">
+
+  /// @param in_eventIds
   /// Collection of event ids
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> deleteIncomingEvents(
       {required List<String> inEventids}) {
     Completer<ServerResponse> completer = Completer();
@@ -150,7 +185,7 @@ class BrainCloudEvent {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -161,16 +196,16 @@ class BrainCloudEvent {
     return completer.future;
   }
 
-  /// /// <summary>
+  ///
   /// Delete any events older than the given date out of the user's incoming mailbox.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - event
   /// Service Operation - DELETE_INCOMING_EVENTS_OLDER_THAN
-  /// </remarks>
-  /// <param name="in_dateMillis">
+
+  /// @param in_dateMillis
   /// CreatedAt cut-off time whereby older events will be deleted (In UTC since Epoch)
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> deleteIncomingEventsOlderThan(
       {required int inDatemillis}) {
     Completer<ServerResponse> completer = Completer();
@@ -180,7 +215,7 @@ class BrainCloudEvent {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -191,30 +226,29 @@ class BrainCloudEvent {
     return completer.future;
   }
 
-  /// <summary>
   /// Delete any events of the given type older than the given date out of the user's incoming mailbox.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - event
   /// Service Operation - DELETE_INCOMING_EVENTS_BY_TYPE_OLDER_THAN
-  /// </remarks>
-  /// <param name="in_eventId">
+
+  /// @param in_eventId
   /// The event id
-  /// </param>
-  /// <param name="in_dateMillis">
+
+  /// @param in_dateMillis
   /// CreatedAt cut-off time whereby older events will be deleted (In UTC since Epoch)
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> deleteIncomingEventsByTypeOlderThan(
-      {required String inEventid, required int inDatemillis}) {
+      {required String eventType, required int dateMillis}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    data[OperationParam.eventServiceDateMillis.value] = inDatemillis;
-    data[OperationParam.eventServiceEventType.value] = inEventid;
+    data[OperationParam.eventServiceDateMillis.value] = dateMillis;
+    data[OperationParam.eventServiceEventType.value] = eventType;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -225,9 +259,9 @@ class BrainCloudEvent {
     return completer.future;
   }
 
-  /// <summary>
   /// Get the events currently queued for the user.
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getEvents() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -235,7 +269,7 @@ class BrainCloudEvent {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,

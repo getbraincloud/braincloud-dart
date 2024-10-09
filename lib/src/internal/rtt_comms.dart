@@ -14,17 +14,16 @@ class RTTComms {
 
   RTTComms(this._clientRef);
 
-  /// <summary>
   /// Enables Real Time event for this session.
   /// Real Time events are disabled by default. Usually events
   /// need to be polled using GET_EVENTS. By enabling this, events will
   /// be received instantly when they happen through a TCP connection to an Event Server.
   ///
   ///This function will first call requestClientConnection, then connect to the address
-  /// </summary>
-  /// <param name="in_connectionType"></param>
-  /// <param name="in_success"></param>
-  /// <param name="in_failure"></param>
+
+  /// @param in_connectionType
+  /// @param in_success
+  /// @param in_failure
   void enableRTT(RTTConnectionType? inConnectiontype,
       SuccessCallback? inSuccess, FailureCallback? inFailure) {
     _disconnectedWithReason = false;
@@ -45,9 +44,8 @@ class RTTComms {
     }
   }
 
-  /// <summary>
   /// Disables Real Time event for this session.
-  /// </summary>
+
   void disableRTT() {
     if (!isRTTEnabled() ||
         _rttConnectionStatus == RTTConnectionStatus.disconnecting) {
@@ -59,30 +57,26 @@ class RTTComms {
         "DisableRTT Called"));
   }
 
-  /// <summary>
   /// Returns true if RTT is enabled
-  /// </summary>
+
   bool isRTTEnabled() {
     return _rttConnectionStatus == RTTConnectionStatus.connected;
   }
 
-  ///<summary>
   ///Returns the status of the connection
-  ///</summary>
+  ///
   RTTConnectionStatus getConnectionStatus() {
     return _rttConnectionStatus;
   }
 
-  /// <summary>
   ///
-  /// </summary>
+
   void registerRTTCallback(ServiceName inServicename, RTTCallback inCallback) {
     _registeredCallbacks[inServicename.value.toLowerCase()] = inCallback;
   }
 
-  /// <summary>
   ///
-  /// </summary>
+
   void deregisterRTTCallback(ServiceName inServicename) {
     String toCheck = inServicename.value.toLowerCase();
     if (_registeredCallbacks.containsKey(toCheck)) {
@@ -90,16 +84,14 @@ class RTTComms {
     }
   }
 
-  /// <summary>
   ///
-  /// </summary>
+
   void deregisterAllRTTCallbacks() {
     _registeredCallbacks.clear();
   }
 
-  /// <summary>
   ///
-  /// </summary>
+
   void setRTTHeartBeatSeconds(int inValue) {
     _heartBeatTime = Duration(milliseconds: inValue * 1000);
   }
@@ -110,9 +102,8 @@ class RTTComms {
   String get rttConnectionID => _rttConnectionID;
   String get rttEventServer => _rttEventServer;
 
-  /// <summary>
   ///
-  /// </summary>
+
   void update() {
     RTTCommandResponse toProcessResponse;
     _queuedRTTCommandsLock.acquire();
@@ -217,18 +208,16 @@ class RTTComms {
     }
   }
 
-  /// <summary>
   ///
-  /// </summary>
+
   void connectWebSocket() {
     if (_rttConnectionStatus == RTTConnectionStatus.disconnected) {
       _startReceivingWebSocket();
     }
   }
 
-  /// <summary>
   ///
-  /// </summary>
+
   void disconnect() {
     _webSocket?.close();
 
@@ -280,9 +269,8 @@ class RTTComms {
     return _clientRef.serializeJson(json);
   }
 
-  /// <summary>
   ///
-  /// </summary>
+
   bool _send(String inMessage, {bool inBLogMessage = true}) {
     bool bMessageSent = false;
     bool mUsewebsocket = _currentConnectionType == RTTConnectionType.websocket;
@@ -316,9 +304,8 @@ class RTTComms {
     return bMessageSent;
   }
 
-  /// <summary>
   ///
-  /// </summary>
+
   void _startReceivingWebSocket() {
     String sslEnabled = _endpoint?["ssl"] ? "wss://" : "ws://";
     String url =
@@ -384,9 +371,8 @@ class RTTComms {
         buildRTTRequestError(message)));
   }
 
-  /// <summary>
   ///
-  /// </summary>
+
   void _onRecv(String inMessage) {
     if (_clientRef.loggingEnabled) {
       _clientRef.log("RTT RECV: $inMessage");
@@ -430,9 +416,8 @@ class RTTComms {
     }
   }
 
-  /// <summary>
   ///
-  /// </summary>
+
   void rttConnectionServerSuccess(Map<String, dynamic> jsonResponse) {
     Map<String, dynamic> jsonData = jsonResponse["data"];
     List endpoints = jsonData["endpoints"];
@@ -448,9 +433,8 @@ class RTTComms {
     }
   }
 
-  /// <summary>
   ///
-  /// </summary>
+
   Map<String, dynamic>? getEndpointForType(
       List endpoints, String type, inBwantssl) {
     Map<String, dynamic>? toReturn;
@@ -473,9 +457,8 @@ class RTTComms {
     return toReturn;
   }
 
-  /// <summary>
   ///
-  /// </summary>
+
   void rttConnectionServerError(int status, int reasonCode, String jsonError) {
     _rttConnectionStatus = RTTConnectionStatus.disconnected;
     if (_clientRef.loggingEnabled) {

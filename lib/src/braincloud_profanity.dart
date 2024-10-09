@@ -13,18 +13,17 @@ class BrainCloudProfanity {
 
   BrainCloudProfanity(this._clientRef);
 
-  /// <summary>
   /// Checks supplied text for profanity.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Profanity
   /// Service Operation - ProfanityCheck
-  /// </remarks>
-  /// <param name="text">The text to check</param>
-  /// <param name="languages">Optional comma delimited list of two character language codes</param>
-  /// <param name="flagEmail">Optional processing of email addresses</param>
-  /// <param name="flagPhone">Optional processing of phone numbers</param>
-  /// <param name="flagUrls">Optional processing of urls</param>
+
+  /// @param textThe text to check
+  /// @param languagesOptional comma delimited list of two character language codes
+  /// @param flagEmailOptional processing of email addresses
+  /// @param flagPhoneOptional processing of phone numbers
+  /// @param flagUrlsOptional processing of urls
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> profanityCheck(
       {required String text,
       String? languages,
@@ -44,7 +43,7 @@ class BrainCloudProfanity {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -57,19 +56,18 @@ class BrainCloudProfanity {
     return completer.future;
   }
 
-  /// <summary>
   /// Replaces the characters of profanity text with a passed character(s).
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Profanity
   /// Service Operation - ProfanityReplaceText
-  /// </remarks>
-  /// <param name="text">The text to check</param>
-  /// <param name="replaceSymbol">The text to replace individual characters of profanity text with</param>
-  /// <param name="languages">Optional comma delimited list of two character language codes</param>
-  /// <param name="flagEmail">Optional processing of email addresses</param>
-  /// <param name="flagPhone">Optional processing of phone numbers</param>
-  /// <param name="flagUrls">Optional processing of urls</param>
+
+  /// @param textThe text to check
+  /// @param replaceSymbolThe text to replace individual characters of profanity text with
+  /// @param languagesOptional comma delimited list of two character language codes
+  /// @param flagEmailOptional processing of email addresses
+  /// @param flagPhoneOptional processing of phone numbers
+  /// @param flagUrlsOptional processing of urls
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> profanityReplaceText(
       {required String text,
       required String replaceSymbol,
@@ -91,7 +89,7 @@ class BrainCloudProfanity {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -104,18 +102,17 @@ class BrainCloudProfanity {
     return completer.future;
   }
 
-  /// <summary>
   /// Checks supplied text for profanity and returns a list of bad wors.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Profanity
   /// Service Operation - ProfanityIdentifyBadWords
-  /// </remarks>
-  /// <param name="text">The text to check</param>
-  /// <param name="languages">Optional comma delimited list of two character language codes</param>
-  /// <param name="flagEmail">Optional processing of email addresses</param>
-  /// <param name="flagPhone">Optional processing of phone numbers</param>
-  /// <param name="flagUrls">Optional processing of urls</param>
+
+  /// @param textThe text to check
+  /// @param languagesOptional comma delimited list of two character language codes
+  /// @param flagEmailOptional processing of email addresses
+  /// @param flagPhoneOptional processing of phone numbers
+  /// @param flagUrlsOptional processing of urls
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> profanityIdentifyBadWords(
       {required String text,
       String? languages,
@@ -135,7 +132,7 @@ class BrainCloudProfanity {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,

@@ -14,13 +14,12 @@ class BrainCloudPresence {
 
   BrainCloudPresence(this._clientRef);
 
-  /// <summary>
   /// Force an RTT presence update to all listeners of the caller.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Presence
   /// Service Operation - ForcePush
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> forcePush() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -28,7 +27,7 @@ class BrainCloudPresence {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -40,22 +39,21 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// <summary>
   /// Force an RTT presence update to all listeners of the caller.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Presence
   /// Service Operation - GetPresenceOfFriends
-  /// </remarks>
-  /// <param name="platform">
+
+  /// @param platform
   /// The store platform. Valid stores are:
   /// - all
   /// - brainCloud
   /// - facebook
-  /// </param>
-  /// <param name="includeOffline">
+
+  /// @param includeOffline
   /// Will not include offline profiles unless includeOffline is set to true.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getPresenceOfFriends(
       {required String platform, required bool includeOffline}) {
     Completer<ServerResponse> completer = Completer();
@@ -66,7 +64,7 @@ class BrainCloudPresence {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -79,20 +77,19 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// <summary>
   ///    Gets the presence data for the given <groupId>. Will not include
   /// offline profiles unless<includeOffline> is set to true.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Presence
   /// Service Operation - GetPresenceOfGroup
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// The id for the group
-  /// </param>
-  /// <param name="includeOffline">
+
+  /// @param includeOffline
   /// Will not include offline profiles unless includeOffline is set to true.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getPresenceOfGroup(
       {required String groupId, required bool includeOffline}) {
     Completer<ServerResponse> completer = Completer();
@@ -103,7 +100,7 @@ class BrainCloudPresence {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -116,20 +113,19 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// <summary>
   ///Gets the presence data for the given<profileIds>.Will not include
   /// offline profiles unless<includeOffline> is set to true.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Presence
   /// Service Operation - GetPresenceOfUsers
-  /// </remarks>
-  /// <param name="profileIds">
+
+  /// @param profileIds
   /// List of profile Ids
-  /// </param>
-  /// <param name="includeOffline">
+
+  /// @param includeOffline
   /// Will not include offline profiles unless includeOffline is set to true.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getPresenceOfUsers(
       {required List<String> profileIds, required bool includeOffline}) {
     Completer<ServerResponse> completer = Completer();
@@ -140,7 +136,7 @@ class BrainCloudPresence {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -153,25 +149,24 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// <summary>
   /// Registers the caller for RTT presence updates from friends for the
   /// given platform. Can be one of "all", "brainCloud", or "facebook".
   /// If bidirectional is set to true, then also registers the targeted
   /// users for presence updates from the caller.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Presence
   /// Service Operation - RegisterListenersForFriends
-  /// </remarks>
-  /// <param name="platform">
+
+  /// @param platform
   /// The store platform. Valid stores are:
   /// - all
   /// - brainCloud
   /// - facebook
-  /// </param>
-  /// <param name="bidirectional">
+
+  /// @param bidirectional
   /// Allows registration of target user for presence update
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> registerListenersForFriends(
       {required String platform, required bool bidirectional}) {
     Completer<ServerResponse> completer = Completer();
@@ -182,7 +177,7 @@ class BrainCloudPresence {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -195,19 +190,18 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// <summary>
   /// Registers the caller for RTT presence updates from the members of the given groupId.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Presence
   /// Service Operation - RegisterListenersForGroup
-  /// </remarks>
-  /// <param name="groupId">
+
+  /// @param groupId
   /// The Id of the group
-  /// </param>
-  /// <param name="bidirectional">
+
+  /// @param bidirectional
   /// Allows registration of target user for presence update
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> registerListenersForGroup(
       {required String groupId, required bool bidirectional}) {
     Completer<ServerResponse> completer = Completer();
@@ -218,7 +212,7 @@ class BrainCloudPresence {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -230,21 +224,20 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// <summary>
   /// Registers the caller for RTT presence updates for the given
   /// profileIds. If bidirectional is set to true, then also registers
   /// the targeted users for presence updates from the caller.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Presence
   /// Service Operation - RegisterListenersForGroup
-  /// </remarks>
-  /// <param name="profileIds">
+
+  /// @param profileIds
   /// List of profile Ids
-  /// </param>
-  /// <param name="bidirectional">
+
+  /// @param bidirectional
   /// Allows registration of target user for presence update
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> registerListenersForProfiles(
       {required List<String> profileIds, required bool bidirectional}) {
     Completer<ServerResponse> completer = Completer();
@@ -255,7 +248,7 @@ class BrainCloudPresence {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -268,16 +261,15 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// <summary>
   /// Update the presence data visible field for the caller.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Presence
   /// Service Operation - SetVisibility
-  /// </remarks>
-  /// <param name="visible">
+
+  /// @param visible
   /// Determines if the user is visible
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> setVisibility({required bool visible}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -286,7 +278,7 @@ class BrainCloudPresence {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -299,15 +291,14 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// <summary>
   /// Stops the caller from receiving RTT presence updates. Does not
   /// affect the broadcasting of *their* presence updates to other
   /// listeners.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Presence
   /// Service Operation - StopListening
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> stopListening() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -315,7 +306,7 @@ class BrainCloudPresence {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -328,16 +319,15 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// <summary>
   /// Update the presence data activity field for the caller.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - Presence
   /// Service Operation - UpdateActivity
-  /// </remarks>
-  /// <param name="jsonActivity">
+
+  /// @param jsonActivity
   /// the Json data
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateActivity({required String jsonActivity}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -347,7 +337,7 @@ class BrainCloudPresence {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,

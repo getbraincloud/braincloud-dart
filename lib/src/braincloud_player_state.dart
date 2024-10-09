@@ -15,23 +15,22 @@ class BrainCloudPlayerState {
 
   BrainCloudPlayerState(this._clientRef);
 
-  /// <summary>
   /// Read the state of the currently logged in user.
   /// This method returns a JSON object describing most of the
   /// player's data: entities, statistics, level, currency.
   /// Apps will typically call this method after authenticating to get an
   /// up-to-date view of the user's data.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerState
   /// Service Operation - Read
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readUserState() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -44,16 +43,15 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// <summary>
   /// Completely deletes the user record and all data fully owned
   /// by the user. After calling this method, the user will need
   /// to re-authenticate and create a new profile.
   /// This is mostly used for debugging/qa.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerState
   /// Service Operation - FullReset
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> deleteUser() {
     Completer<ServerResponse> completer = Completer();
 
@@ -63,7 +61,7 @@ class BrainCloudPlayerState {
         _clientRef.wrapper.resetStoredProfileId();
         completer.complete(ServerResponse(statusCode: 200, body: response));
       },
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -76,24 +74,23 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// <summary>
   /// This method will delete *most* data for the currently logged in user.
   /// Data which is not deleted includes: currency, credentials, and
   /// purchase transactions. ResetUser is different from DeleteUser in that
   /// the player record will continue to exist after the reset (so the user
   /// does not need to re-authenticate).
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerState
   /// Service Operation - DataReset
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> resetUser() {
     Completer<ServerResponse> completer = Completer();
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -106,19 +103,18 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// <summary>
   /// Logs user out of server.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerState
   /// Service Operation - Logout
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> logout() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -131,16 +127,15 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// <summary>
   /// Sets the user name.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - playerState
   /// Service Operation - UPDATE_NAME
-  /// </remarks>
-  /// <param name="userName">
+
+  /// @param userName
   /// The name of the user
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateName({required String userName}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -149,7 +144,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -162,7 +157,6 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// <summary>
   /// Updates the "friend summary data" associated with the logged in user.
   /// Some operations will return this summary data. For instance the social
   /// leaderboards will return the player's score in the leaderboard along
@@ -170,12 +164,11 @@ class BrainCloudPlayerState {
   /// a quick overview of the player without requiring a separate API call
   /// to read their stats or entity data.
   ///
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerState
   /// Service Operation - UpdateSummary
-  /// </remarks>
-  /// <param name="jsonSummaryData">
+
+  /// @param jsonSummaryData
   /// A JSON String defining the summary data.
   /// For example:
   /// {
@@ -183,7 +176,8 @@ class BrainCloudPlayerState {
   ///   "level":12,
   ///   "highScore":45123
   /// }
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateSummaryFriendData(
       {required String jsonSummaryData}) {
     Completer<ServerResponse> completer = Completer();
@@ -199,7 +193,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -212,19 +206,18 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieve the user's attributes.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerState
   /// Service Operation - GetAttributes
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getAttributes() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -237,19 +230,18 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// <summary>
   /// Update user's attributes.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerState
   /// Service Operation - UpdateAttributes
-  /// </remarks>
-  /// <param name="jsonAttributes">
+
+  /// @param jsonAttributes
   /// Single layer json String that is a set of key-value pairs
-  /// </param>
-  /// <param name="wipeExisting">
+
+  /// @param wipeExisting
   /// Whether to wipe existing attributes prior to update.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateAttributes(
       {required String jsonAttributes, required bool wipeExisting}) {
     Completer<ServerResponse> completer = Completer();
@@ -262,7 +254,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -275,16 +267,15 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// <summary>
   /// Remove user's attributes.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerState
   /// Service Operation - RemoveAttributes
-  /// </remarks>
-  /// <param name="attributeNames">
+
+  /// @param attributeNames
   /// List of attribute names.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> removeAttributes(
       {required List<String> attributeNames}) {
     Completer<ServerResponse> completer = Completer();
@@ -294,7 +285,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -307,16 +298,15 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// <summary>
   /// Updates player's picture URL.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerState
   /// Service Operation - UPDATE_PICTURE_URL
-  /// </remarks>
-  /// <param name="pictureUrl">
+
+  /// @param pictureUrl
   /// URL to apply.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateUserPictureUrl({required String pictureUrl}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -325,7 +315,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -338,17 +328,16 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// <summary>
   /// Update the user's contact email.
   /// Note this is unrelated to email authentication.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerState
   /// Service Operation - UPDATE_CONTACT_EMAIL
-  /// </remarks>
-  /// <param name="contactEmail">
+
+  /// @param contactEmail
   /// Updated email
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateContactEmail({required String contactEmail}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -357,7 +346,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -370,16 +359,15 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// <summary>
   /// Clear the user's status.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerState
   /// Service Operation - ClearUserStatus
-  /// </remarks>
-  /// <param name="statusName">
+
+  /// @param statusName
   /// The name of the status.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> clearUserStatus({required String statusName}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -388,7 +376,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -401,20 +389,19 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// <summary>
   /// Extends the Status.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerState
   /// Service Operation - ExtendUserStatus
-  /// </remarks>
-  /// <param name="statusName">
+
+  /// @param statusName
   /// The name of the status.
-  /// <param name="additionalSecs">
+  /// @param additionalSecs
   /// The number of seconds to add.
-  /// <param name="details">
+  /// @param details
   /// The details of the status.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> extendUserStatus(
       {required String statusName,
       required int additionalSecs,
@@ -430,7 +417,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
             completer.complete(ServerResponse(statusCode: 200, body: response)),
-        (statusCode, reasonCode, statusMessage) => completer.completeError(
+        (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
@@ -442,16 +429,15 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// <summary>
   /// Gets the Status.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerState
   /// Service Operation - GetUserStatus
-  /// </remarks>
-  /// <param name="statusName">
+
+  /// @param statusName
   /// The name of the status.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getUserStatus({required String statusName}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -460,7 +446,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -473,20 +459,19 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// <summary>
   /// Sets the Status.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerState
   /// Service Operation - SetUserStatus
-  /// </remarks>
-  /// <param name="statusName">
+
+  /// @param statusName
   /// The name of the status.
-  /// <param name="durationSecs">
+  /// @param durationSecs
   /// The number of seconds to add.
-  /// <param name="details">
+  /// @param details
   /// The details of the status.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> setUserStatus(
       {required String statusName,
       required int durationSecs,
@@ -501,7 +486,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -514,16 +499,15 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// <summary>
   /// Gets the Status.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerState
   /// Service Operation - UpdateLanguageCode
-  /// </remarks>
-  /// <param name="statusName">
+
+  /// @param statusName
   /// The name of the status.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateLanguageCode({required String languageCode}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -532,7 +516,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -545,16 +529,15 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// <summary>
   /// Gets the Status.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlayerState
   /// Service Operation - UpdateLanguageCode
-  /// </remarks>
-  /// <param name="statusName">
+
+  /// @param statusName
   /// The name of the status.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> updateTimeZoneOffset(
       {required String timeZoneOffset}) {
     Completer<ServerResponse> completer = Completer();
@@ -565,7 +548,7 @@ class BrainCloudPlayerState {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,

@@ -19,10 +19,9 @@ class Util {
     return _defaultLang;
   }
 
-  /// <summary>
   /// Method returns the fractional UTC offset in hours of the current timezone.
-  /// </summary>
-  /// <returns>The fractional UTC offset in hours</returns>
+
+  /// @returns The fractional UTC offset in hours
   static int getUTCOffsetForCurrentTimeZone() {
     int utcOffset = 0;
     try {
@@ -36,18 +35,16 @@ class Util {
 
   static String _usersLocale = "";
 
-  /// <summary>
   /// Manually set the country code overriding the automatic value
-  /// </summary>
-  /// <param name="string">Two letter ISO country code</param>
+
+  /// @param stringTwo letter ISO country code
   static void setCurrentCountryCode(String isoCode) {
     _usersLocale = isoCode;
   }
 
-  /// <summary>
   /// Gets the current country code
-  /// </summary>
-  /// <returns>Two letter ISO country code</returns>
+
+  /// @returns Two letter ISO country code
   static String getCurrentCountryCode() {
     return _usersLocale;
   }

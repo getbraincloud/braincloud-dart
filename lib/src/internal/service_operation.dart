@@ -148,16 +148,24 @@ class ServiceOperation {
       ServiceOperation._("GET_USERS_ONLINE_STATUS");
   static ServiceOperation getSocialLeaderboard =
       ServiceOperation._("GET_SOCIAL_LEADERBOARD");
+  static ServiceOperation GetSocialLeaderboardIfExists =
+      ServiceOperation._("GET_SOCIAL_LEADERBOARD_IF_EXISTS");
   static ServiceOperation getSocialLeaderboardByVersion =
       ServiceOperation._("GET_SOCIAL_LEADERBOARD_BY_VERSION");
+  static ServiceOperation getSocialLeaderboardByVersionIfExists =
+      ServiceOperation._("GET_SOCIAL_LEADERBOARD_BY_VERSION_IF_EXISTS");
   static ServiceOperation getMultiSocialLeaderboard =
       ServiceOperation._("GET_MULTI_SOCIAL_LEADERBOARD");
   static ServiceOperation getGlobalLeaderboard =
       ServiceOperation._("GET_GLOBAL_LEADERBOARD");
   static ServiceOperation getGlobalLeaderboardPage =
       ServiceOperation._("GET_GLOBAL_LEADERBOARD_PAGE");
+  static ServiceOperation getGlobalLeaderboardPageIfExists =
+      ServiceOperation._("GET_GLOBAL_LEADERBOARD_PAGE_IF_EXISTS");
   static ServiceOperation getGlobalLeaderboardView =
       ServiceOperation._("GET_GLOBAL_LEADERBOARD_VIEW");
+  static ServiceOperation getGlobalLeaderboardViewIfExists =
+      ServiceOperation._("GET_GLOBAL_LEADERBOARD_VIEW_IF_EXISTS");
   static ServiceOperation getGlobalLeaderboardVersions =
       ServiceOperation._("GET_GLOBAL_LEADERBOARD_VERSIONS");
   static ServiceOperation postScore = ServiceOperation._("POST_SCORE");
@@ -179,8 +187,12 @@ class ServiceOperation {
       ServiceOperation._("GET_GROUP_SOCIAL_LEADERBOARD_BY_VERSION");
   static ServiceOperation getPlayersSocialLeaderboard =
       ServiceOperation._("GET_PLAYERS_SOCIAL_LEADERBOARD");
+  static ServiceOperation GetPlayersSocialLeaderboardIfExists =
+      ServiceOperation._("GET_PLAYERS_SOCIAL_LEADERBOARD_IF_EXISTS");
   static ServiceOperation getPlayersSocialLeaderboardByVersion =
       ServiceOperation._("GET_PLAYERS_SOCIAL_LEADERBOARD_BY_VERSION");
+  static ServiceOperation getPlayersSocialLeaderboardByVersionIfExists =
+      ServiceOperation._("GET_PLAYERS_SOCIAL_LEADERBOARD_BY_VERSION_IF_EXISTS");
   static ServiceOperation listAllLeaderboards =
       ServiceOperation._("LIST_ALL_LEADERBOARDS");
   static ServiceOperation getGlobalLeaderboardEntryCount =
@@ -243,6 +255,8 @@ class ServiceOperation {
   static ServiceOperation send = ServiceOperation._("SEND");
   static ServiceOperation updateEventData =
       ServiceOperation._("UPDATE_EVENT_DATA");
+  static ServiceOperation updateEventDataIfExists =
+      ServiceOperation._("UPDATE_EVENT_DATA_IF_EXISTS");
   static ServiceOperation deleteSent = ServiceOperation._("DELETE_SENT");
   static ServiceOperation deleteIncoming =
       ServiceOperation._("DELETE_INCOMING");
@@ -303,6 +317,8 @@ class ServiceOperation {
   static ServiceOperation submitTurn = ServiceOperation._("SUBMIT_TURN");
   static ServiceOperation updateMatchSummary =
       ServiceOperation._("UPDATE_SUMMARY");
+  static ServiceOperation updateMatchStateCurrentTurn =
+      ServiceOperation._("UPDATE_MATCH_STATE_CURRENT_TURN");
   static ServiceOperation abandon = ServiceOperation._("ABANDON");
   static ServiceOperation abandonMatchWithSummaryData =
       ServiceOperation._("ABANDON_MATCH_WITH_SUMMARY_DATA");
@@ -525,6 +541,8 @@ class ServiceOperation {
       ServiceOperation._("AUTO_JOIN_GROUP_MULTI");
   static ServiceOperation cancelGroupInvitation =
       ServiceOperation._("CANCEL_GROUP_INVITATION");
+  static ServiceOperation deleteGroupJoinRequest =
+      ServiceOperation._("DELETE_GROUP_JOIN_REQUEST");
   static ServiceOperation createGroup = ServiceOperation._("CREATE_GROUP");
   static ServiceOperation createGroupEntity =
       ServiceOperation._("CREATE_GROUP_ENTITY");

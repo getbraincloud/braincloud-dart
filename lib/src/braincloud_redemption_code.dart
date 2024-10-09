@@ -15,22 +15,21 @@ class BrainCloudRedemptionCode {
 
   BrainCloudRedemptionCode(this._clientRef);
 
-  /// <summary>
   /// Redeem a code.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - redemptionCode
   /// Service Operation - REDEEM_CODE
-  /// </remarks>
-  /// <param name="scanCode">
+
+  /// @param scanCode
   /// The code to redeem
-  /// </param>
-  /// <param name="codeType">
+
+  /// @param codeType
   /// The type of code
-  /// </param>
-  /// <param name="jsonCustomRedemptionInfo">
+
+  /// @param jsonCustomRedemptionInfo
   /// Optional - A JSON String containing custom redemption data
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> redeemCode(
       {required String scanCode,
       required String codeType,
@@ -50,7 +49,7 @@ class BrainCloudRedemptionCode {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -63,16 +62,15 @@ class BrainCloudRedemptionCode {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieve the codes already redeemed by player.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - redemptionCode
   /// Service Operation - GET_REDEEMED_CODES
-  /// </remarks>
-  /// <param name="codeType">
+
+  /// @param codeType
   /// Optional - The type of codes to retrieve. Returns all codes if left unspecified.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getRedeemedCodes({required String codeType}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -85,7 +83,7 @@ class BrainCloudRedemptionCode {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,

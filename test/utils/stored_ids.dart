@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -17,6 +18,7 @@ class StoredIds {
         .openRead()
         .transform(utf8.decoder) // Decode bytes to UTF-8.
         .transform(const LineSplitter()); // Convert stream to individual lines.
+
     try {
       await for (var line in lines) {
         //debugPrint('$line: ${line.length} characters');
@@ -34,11 +36,10 @@ class StoredIds {
   String get appId => ids['appId'] ?? "";
   String get version => ids['version'] ?? "";
   String get url => ids['url'] ?? "";
-  String get email => ids['email'] ?? "";
-  String get password => ids['password'] ?? "";
   String get sharedProfileId => ids['sharedProfileId'] ?? "";
+  set sharedProfileId(val) => ids['sharedProfileId'] = val;
   String get customEntityType => ids['customEntityType'] ?? "";
   String get customShardedEntityType => ids['customShardedEntityType'] ?? "";
   String get customOwnedEntityType => ids['customOwnedEntityType'] ?? "";
-  
+  String get peerName => ids['peerName'] ?? "";
 }

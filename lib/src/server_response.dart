@@ -1,4 +1,5 @@
 import 'package:braincloud_dart/src/reason_codes.dart';
+import 'package:braincloud_dart/src/status_codes.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 
@@ -30,4 +31,6 @@ class ServerResponse {
   String toString() {
     return 'Status: $statusCode Reason: $reasonCode Message: $statusMessage hasData: ${(body?.isNotEmpty ?? false) ? 'Yes' : 'No'}';
   }
+
+  bool isSuccess() => statusCode == StatusCodes.ok;
 }

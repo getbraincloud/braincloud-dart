@@ -15,19 +15,18 @@ class BrainCloudPlaybackStream {
 
   BrainCloudPlaybackStream(this._clientRef);
 
-  /// <summary>
   /// Starts a stream
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlaybackStream
   /// Service Operation - StartStream
-  /// </remarks>
-  /// <param name="targetPlayerId">
+
+  /// @param targetPlayerId
   /// The player to start a stream with
-  /// </param>
-  /// <param name="includeSharedData">
+
+  /// @param includeSharedData
   /// Whether to include shared data in the stream
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> startStream(
       {required String targetPlayerId, required bool includeSharedData}) {
     Completer<ServerResponse> completer = Completer();
@@ -40,7 +39,7 @@ class BrainCloudPlaybackStream {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -53,16 +52,15 @@ class BrainCloudPlaybackStream {
     return completer.future;
   }
 
-  /// <summary>
   /// Reads a stream
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlaybackStream
   /// Service Operation - ReadStream
-  /// </remarks>
-  /// <param name="playbackStreamId">
+
+  /// @param playbackStreamId
   /// Identifies the stream to read
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> readStream({required String playbackStreamId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -72,7 +70,7 @@ class BrainCloudPlaybackStream {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -85,16 +83,15 @@ class BrainCloudPlaybackStream {
     return completer.future;
   }
 
-  /// <summary>
   /// Ends a stream
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlaybackStream
   /// Service Operation - EndStream
-  /// </remarks>
-  /// <param name="playbackStreamId">
+
+  /// @param playbackStreamId
   /// Identifies the stream to read
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> endStream({required String playbackStreamId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -104,7 +101,7 @@ class BrainCloudPlaybackStream {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -117,16 +114,15 @@ class BrainCloudPlaybackStream {
     return completer.future;
   }
 
-  /// <summary>
   /// Deletes a stream
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlaybackStream
   /// Service Operation - DeleteStream
-  /// </remarks>
-  /// <param name="playbackStreamId">
+
+  /// @param playbackStreamId
   /// Identifies the stream to read
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> deleteStream({required String playbackStreamId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -136,7 +132,7 @@ class BrainCloudPlaybackStream {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -149,22 +145,21 @@ class BrainCloudPlaybackStream {
     return completer.future;
   }
 
-  /// <summary>
   /// Adds a stream event
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlaybackStream
   /// Service Operation - AddEvent
-  /// </remarks>
-  /// <param name="playbackStreamId">
+
+  /// @param playbackStreamId
   /// Identifies the stream to read
-  /// </param>
-  /// <param name="eventData">
+
+  /// @param eventData
   /// Describes the event
-  /// </param>
-  /// <param name="summary">
+
+  /// @param summary
   /// Current summary data as of this event
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> addEvent(
       {required String playbackStreamId,
       required String eventData,
@@ -187,7 +182,7 @@ class BrainCloudPlaybackStream {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -200,19 +195,18 @@ class BrainCloudPlaybackStream {
     return completer.future;
   }
 
-  /// <summary>
   /// Gets recent streams for initiating player
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlaybackStream
   /// Service Operation - GetRecentSteamsForInitiatingPlayer
-  /// </remarks>
-  /// <param name="initiatingPlayerId">
+
+  /// @param initiatingPlayerId
   /// The player that started the stream
-  /// </param>
-  /// <param name="maxNumStreams">
+
+  /// @param maxNumStreams
   /// The player that started the stream
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getRecentStreamsForInitiatingPlayer(
       {required String initiatingPlayerId, required int maxNumStreams}) {
     Completer<ServerResponse> completer = Completer();
@@ -225,7 +219,7 @@ class BrainCloudPlaybackStream {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
@@ -238,19 +232,18 @@ class BrainCloudPlaybackStream {
     return completer.future;
   }
 
-  /// <summary>
   /// Gets recent streams for target player
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - PlaybackStream
   /// Service Operation - GetRecentSteamsForTargetPlayer
-  /// </remarks>
-  /// <param name="targetPlayerId">
+
+  /// @param targetPlayerId
   /// The player that started the stream
-  /// </param>
-  /// <param name="maxNumStreams">
+
+  /// @param maxNumStreams
   /// The player that started the stream
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getRecentStreamsForTargetPlayer(
       {required String targetPlayerId, required int maxNumStreams}) {
     Completer<ServerResponse> completer = Completer();
@@ -263,7 +256,7 @@ class BrainCloudPlaybackStream {
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
           completer.complete(ServerResponse(statusCode: 200, body: response)),
-      (statusCode, reasonCode, statusMessage) => completer.completeError(
+      (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,

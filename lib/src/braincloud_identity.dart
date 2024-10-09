@@ -7,7 +7,6 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
-import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/util.dart';
 
@@ -16,69 +15,63 @@ class BrainCloudIdentity {
 
   BrainCloudIdentity(this._clientRef);
 
-  /// <summary>
   /// Attach the user's Facebook credentials to the current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Attach
-  /// </remarks>
-  /// <param name="facebookId">
+
+  /// @param facebookId
   /// The facebook id of the user
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// The validated token from the Facebook SDK
   ///   (that will be further validated when sent to the bC service)
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachFacebookIdentity(
-      String facebookId, String authenticationToken) async {
+      {required String facebookId, required String authenticationToken}) async {
     return _attachIdentity(
         facebookId, authenticationToken, AuthenticationType.facebook);
   }
 
-  /// <summary>
   /// Merge the profile associated with the provided Facebook credentials with the
   /// current profile.
-  /// </summary>
-  /// <remarks>
+  ///
   /// Service Name - identity
   /// Service Operation - Merge
-  /// </remarks>
-  /// <param name="facebookId">
+  ///
+  /// @param facebookId
   /// The facebook id of the user
-  /// </param>
-  /// <param name="authenticationToken">
+  ///
+  /// @param authenticationToken
   /// The validated token from the Facebook SDK
   /// (that will be further validated when sent to the bC service)
-  /// </param>
-
+  ///
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> mergeFacebookIdentity(
-      String facebookId, String authenticationToken) async {
+      {required String facebookId, required String authenticationToken}) async {
     return _mergeIdentity(
         facebookId, authenticationToken, AuthenticationType.facebook);
   }
 
-  /// <summary>
   /// Detach the Facebook identity from this profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Detach
-  /// </remarks>
-  /// <param name="facebookId">
-  /// The facebook id of the user
-  /// </param>
-  /// <param name="continueAnon">
-  /// Proceed even if the profile will revert to anonymous?
-  /// </param>
 
+  /// @param facebookId
+  /// The facebook id of the user
+
+  /// @param continueAnon
+  /// Proceed even if the profile will revert to anonymous?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachFacebookIdentity(
-      String facebookId, bool continueAnon) async {
+      {required String facebookId, required continueAnon}) async {
     return _detachIdentity(
         facebookId, AuthenticationType.facebook, continueAnon);
   }
 
-  /// <summary>
   /// Attach the user's credentials to the current profile.
   ///
   /// Service Name - identity
@@ -89,21 +82,21 @@ class BrainCloudIdentity {
   /// choice to *SWITCH* to that profile, or *MERGE* the profiles.
   ///
   /// To switch profiles, call ClearSavedProfileID() and call AuthenticateAdvanced().
-  /// </summary>
-  /// <param name="authenticationType">
-  /// Universal, Email, Facebook, etc
-  /// </param>
-  /// <param name="ids">
-  /// Authentication IDs structure
-  /// </param>
-  /// <param name="extraJson">
-  /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave an empty Map for no extraJson.
-  /// </param>
 
+  /// @param authenticationType
+  /// Universal, Email, Facebook, etc
+
+  /// @param ids
+  /// Authentication IDs structure
+
+  /// @param extraJson
+  /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave an empty Map for no extraJson.
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachAdvancedIdentity(
-      AuthenticationType authenticationType,
-      AuthenticationIds ids,
-      Map<String, dynamic>? extraJson) async {
+      {required AuthenticationType authenticationType,
+      required AuthenticationIds ids,
+      Map<String, dynamic>? extraJson}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = ids.externalId;
     data[OperationParam.identityServiceAuthenticationType.value] =
@@ -126,7 +119,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -139,23 +132,22 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// <summary>
   /// Merge the profile associated with the provided credentials with the current profile.
-  /// </summary>
-  /// <param name="authenticationType">
-  /// Universal, Email, Facebook, etc
-  /// </param>
-  /// <param name="ids">
-  /// Authentication IDs structure
-  /// </param>
-  /// <param name="extraJson">
-  /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave an empty Map for no extraJson.
-  /// </param>
 
+  /// @param authenticationType
+  /// Universal, Email, Facebook, etc
+
+  /// @param ids
+  /// Authentication IDs structure
+
+  /// @param extraJson
+  /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave an empty Map for no extraJson.
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> mergeAdvancedIdentity(
-      AuthenticationType authenticationType,
-      AuthenticationIds ids,
-      Map<String, dynamic>? extraJson) async {
+      {required AuthenticationType authenticationType,
+      required AuthenticationIds ids,
+      Map<String, dynamic>? extraJson}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = ids.externalId;
     data[OperationParam.identityServiceAuthenticationType.value] =
@@ -178,7 +170,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -191,31 +183,30 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// <summary>
   /// Detach the identity from this profile.
   ///
   /// Watch for DOWNGRADING_TO_ANONYMOUS_ERROR - occurs if you set in_continueAnon to false, and
   /// disconnecting this identity would result in the profile being anonymous (which means that
   /// the profile wouldn't be retrievable if the user loses their device)
-  /// </summary>
-  /// <param name="authenticationType">
-  /// Universal, Email, Facebook, etc
-  /// </param>
-  /// <param name="externalId">
-  /// User ID
-  /// </param>
-  /// <param name="continueAnon">
-  /// Proceed even if the profile will revert to anonymous?
-  /// </param>
-  /// <param name="extraJson">
-  /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave an empty Map for no extraJson.
-  /// </param>
 
+  /// @param authenticationType
+  /// Universal, Email, Facebook, etc
+
+  /// @param externalId
+  /// User ID
+
+  /// @param continueAnon
+  /// Proceed even if the profile will revert to anonymous?
+
+  /// @param extraJson
+  /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave an empty Map for no extraJson.
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachAdvancedIdentity(
-      AuthenticationType authenticationType,
-      String externalId,
-      bool continueAnon,
-      Map<String, dynamic>? extraJson) async {
+      {required AuthenticationType authenticationType,
+      required String externalId,
+      required bool continueAnon,
+      Map<String, dynamic>? extraJson}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
     data[OperationParam.identityServiceAuthenticationType.value] =
@@ -232,7 +223,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -245,7 +236,6 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// <summary>
   /// Attach the user's Ultra credentials to the current profile.
   ///
   /// Service Name - identity
@@ -256,40 +246,39 @@ class BrainCloudIdentity {
   /// choice to *SWITCH* to that profile, or *MERGE* the profiles.
   ///
   /// To switch profiles, call ClearSavedProfileID() and call AuthenticateUltra().
-  /// </summary>
-  /// <param name="ultraUsername">
+
+  /// @param ultraUsername
   /// it's what the user uses to log into the Ultra endpoint initially
-  /// </param>
-  /// <param name="ultraIdToken">
+
+  /// @param ultraIdToken
   /// The "id_token" taken from Ultra's JWT.
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachUltraIdentity(
-      String ultraUsername, String ultraIdToken) async {
+      {required String ultraUsername, required String ultraIdToken}) async {
     return _attachIdentity(
         ultraUsername, ultraIdToken, AuthenticationType.ultra);
   }
 
-  /// <summary>
   /// Merge the profile associated with the provided Ultra credentials with the current profile
   ///
   /// Service Name - Identity
   /// Service Operation - Merge
   ///
-  /// </summary>
-  /// <param name="ultraUsername">
-  /// It's what the user uses to log into the Ultra endpoint initially
-  /// </param>
-  /// <param name="ultraIdToken">
-  /// The "id_token" taken from Ultra's JWT.
-  /// </param>
 
+  /// @param ultraUsername
+  /// It's what the user uses to log into the Ultra endpoint initially
+
+  /// @param ultraIdToken
+  /// The "id_token" taken from Ultra's JWT.
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> mergeUltraIdentity(
-      String ultraUsername, String ultraIdToken) async {
+      {required String ultraUsername, required String ultraIdToken}) async {
     return _mergeIdentity(
         ultraUsername, ultraIdToken, AuthenticationType.ultra);
   }
 
-  /// <summary>
   /// Detach the Ultra identity from this profile.
   ///
   /// Watch for DOWNGRADING_TO_ANONYMOUS_ERROR - occurs if you set in_continueAnon to false, and
@@ -299,903 +288,796 @@ class BrainCloudIdentity {
   /// Service Name - Identity
   /// Service Operation - Detach
   ///
-  /// </summary>
-  /// <param name="ultraUsername">
-  /// It's what the user uses to log into the Ultra endpoint initially
-  /// </param>
-  /// <param name="continueAnon">
-  /// Proceed even if the profile will revert to anonymous?
-  /// </param>
 
+  /// @param ultraUsername
+  /// It's what the user uses to log into the Ultra endpoint initially
+
+  /// @param continueAnon
+  /// Proceed even if the profile will revert to anonymous?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachUltraIdentity(
-      String ultraUsername, bool continueAnon) async {
+      {required String ultraUsername, required bool continueAnon}) async {
     return _detachIdentity(
         ultraUsername, AuthenticationType.ultra, continueAnon);
   }
 
-  /// <summary>
   /// Attach the user's Oculus credentials to the current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Attach
-  /// </remarks>
-  /// <param name="oculusId">
-  /// The oculus id of the user
-  /// </param>
-  /// <param name="oculusNonce">
-  /// token from the Oculus SDK
-  /// </param>
 
+  /// @param oculusId
+  /// The oculus id of the user
+
+  /// @param oculusNonce
+  /// token from the Oculus SDK
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachOculusIdentity(
-      String oculusId, String oculusNonce) async {
+      {required String oculusId, required String oculusNonce}) async {
     return _attachIdentity(oculusId, oculusNonce, AuthenticationType.oculus);
   }
 
-  /// <summary>
   /// Merge the profile associated with the provided Oculus credentials with the
   /// current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Merge
-  /// </remarks>
-  /// <param name="oculusId">
-  /// The oculus id of the user
-  /// </param>
-  /// <param name="oculusNonce">
-  /// token from the Oculus SDK
-  /// </param>
 
+  /// @param oculusId
+  /// The oculus id of the user
+
+  /// @param oculusNonce
+  /// token from the Oculus SDK
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> mergeOculusIdentity(
-      String oculusId, String oculusNonce) async {
+      {required String oculusId, required String oculusNonce}) async {
     return _mergeIdentity(oculusId, oculusNonce, AuthenticationType.oculus);
   }
 
-  /// <summary>
   /// Detach the Facebook identity from this profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Detach
-  /// </remarks>
-  /// <param name="oculusId">
-  /// The facebook id of the user
-  /// </param>
-  /// <param name="continueAnon">
-  /// Proceed even if the profile will revert to anonymous?
-  /// </param>
 
+  /// @param oculusId
+  /// The facebook id of the user
+
+  /// @param continueAnon
+  /// Proceed even if the profile will revert to anonymous?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachOculusIdentity(
-      String oculusId, bool continueAnon) {
+      {required String oculusId, required bool continueAnon}) {
     return _detachIdentity(oculusId, AuthenticationType.oculus, continueAnon);
   }
 
-  /// <summary>
   /// Attach the user's FacebookLimited credentials to the current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Attach
-  /// </remarks>
-  /// <param name="facebookLimitedId">
+
+  /// @param facebookLimitedId
   /// The facebook Limited id of the user
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// The validated token from the Facebook SDK
   ///   (that will be further validated when sent to the bC service)
-  /// </param>
 
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachFacebookLimitedIdentity(
-      String facebookLimitedId, String authenticationToken) async {
+      {required String facebookLimitedId,
+      required String authenticationToken}) async {
     return _attachIdentity(facebookLimitedId, authenticationToken,
         AuthenticationType.facebookLimited);
   }
 
-  /// <summary>
   /// Merge the profile associated with the provided Facebook Limited credentials with the
   /// current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Merge
-  /// </remarks>
-  /// <param name="facebookLimitedId">
+
+  /// @param facebookLimitedId
   /// The facebook Limited id of the user
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// The validated token from the Facebook SDK
   /// (that will be further validated when sent to the bC service)
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> mergeFacebookLimitedIdentity(
-      String facebookLimitedId, String authenticationToken) async {
+      {required String facebookLimitedId,
+      required String authenticationToken}) async {
     return _mergeIdentity(facebookLimitedId, authenticationToken,
         AuthenticationType.facebookLimited);
   }
 
-  /// <summary>
   /// Detach the FacebookLimited identity from this profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Detach
-  /// </remarks>
-  /// <param name="facebookLimitedId">
-  /// The facebook Limited id of the user
-  /// </param>
-  /// <param name="continueAnon">
-  /// Proceed even if the profile will revert to anonymous?
-  /// </param>
 
+  /// @param facebookLimitedId
+  /// The facebook Limited id of the user
+
+  /// @param continueAnon
+  /// Proceed even if the profile will revert to anonymous?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachFacebookLimitedIdentity(
-      String facebookLimitedId, bool continueAnon) async {
+      {required String facebookLimitedId, required bool continueAnon}) async {
     return _detachIdentity(
         facebookLimitedId, AuthenticationType.facebookLimited, continueAnon);
   }
 
-  /// <summary>
   /// Attach the user's PSN credentials to the current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Attach
-  /// </remarks>
-  /// <param name="psnAccountId">
+
+  /// @param psnAccountId
   /// The PSN account id of the user
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// The validated token from the Playstation SDK
   ///   (that will be further validated when sent to the bC service)
-  /// </param>
 
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachPlaystationNetworkIdentity(
-      String psnAccountId, String authenticationToken) async {
+      {required String psnAccountId,
+      required String authenticationToken}) async {
     return _attachIdentity(psnAccountId, authenticationToken,
         AuthenticationType.playstationNetwork);
   }
 
-  /// <summary>
   /// Merge the profile associated with the provided PSN credentials with the
   /// current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Merge
-  /// </remarks>
-  /// <param name="psnAccountId">
+
+  /// @param psnAccountId
   /// The psn account id of the user
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// The validated token from the Playstation SDK
   /// (that will be further validated when sent to the bC service)
-  /// </param>
 
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> mergePlaystationNetworkIdentity(
-      String psnAccountId, String authenticationToken) async {
+      {required String psnAccountId,
+      required String authenticationToken}) async {
     return _mergeIdentity(psnAccountId, authenticationToken,
         AuthenticationType.playstationNetwork);
   }
 
-  /// <summary>
   /// Detach the PSN identity from this profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Detach
-  /// </remarks>
-  /// <param name="psnAccountId">
-  /// The PSN Account id of the user
-  /// </param>
-  /// <param name="continueAnon">
-  /// Proceed even if the profile will revert to anonymous?
-  /// </param>
 
+  /// @param psnAccountId
+  /// The PSN Account id of the user
+
+  /// @param continueAnon
+  /// Proceed even if the profile will revert to anonymous?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachPlaystationNetworkIdentity(
-      String psnAccountId, bool continueAnon) async {
+      {required String psnAccountId, required bool continueAnon}) async {
     return _detachIdentity(
         psnAccountId, AuthenticationType.playstationNetwork, continueAnon);
   }
 
-  /// <summary>
   /// Attach the user's PSN credentials to the current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Attach
-  /// </remarks>
-  /// <param name="psnAccountId">
+
+  /// @param psnAccountId
   /// The PSN account id of the user
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// The validated token from the Playstation SDK
   ///   (that will be further validated when sent to the bC service)
-  /// </param>
 
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachPlaystation5Identity(
-      String psnAccountId, String authenticationToken) async {
+      {required String psnAccountId,
+      required String authenticationToken}) async {
     return _attachIdentity(psnAccountId, authenticationToken,
         AuthenticationType.playstationNetwork5);
   }
 
-  /// <summary>
   /// Merge the profile associated with the provided PSN credentials with the
   /// current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Merge
-  /// </remarks>
-  /// <param name="psnAccountId">
+
+  /// @param psnAccountId
   /// The psn account id of the user
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// The validated token from the Playstation SDK
   /// (that will be further validated when sent to the bC service)
-  /// </param>
 
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> mergePlaystation5Identity(
-      String psnAccountId, String authenticationToken) async {
+      {required String psnAccountId,
+      required String authenticationToken}) async {
     return _mergeIdentity(psnAccountId, authenticationToken,
         AuthenticationType.playstationNetwork5);
   }
 
-  /// <summary>
   /// Detach the PSN identity from this profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Detach
-  /// </remarks>
-  /// <param name="psnAccountId">
-  /// The PSN Account id of the user
-  /// </param>
-  /// <param name="continueAnon">
-  /// Proceed even if the profile will revert to anonymous?
-  /// </param>
 
+  /// @param psnAccountId
+  /// The PSN Account id of the user
+
+  /// @param continueAnon
+  /// Proceed even if the profile will revert to anonymous?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachPlaystation5Identity(
-      String psnAccountId, bool continueAnon) async {
+      {required String psnAccountId, required bool continueAnon}) async {
     return _detachIdentity(
         psnAccountId, AuthenticationType.playstationNetwork5, continueAnon);
   }
 
-  /// <summary>
   /// Attach a Game Center identity to the current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Attach
-  /// </remarks>
-  /// <param name="gameCenterId">
-  /// The user's game center id  (use the playerID property from the local GKPlayer dynamic)
-  /// </param>
 
-  Future<ServerResponse> attachGameCenterIdentity(String gameCenterId,
-      SuccessCallback? success, FailureCallback? failure) async {
+  /// @param gameCenterId
+  /// The user's game center id  (use the playerID property from the local GKPlayer dynamic)
+
+  /// @returns Future<ServerResponse>
+  Future<ServerResponse> attachGameCenterIdentity(
+      {required String gameCenterId}) async {
     return _attachIdentity(gameCenterId, "", AuthenticationType.gameCenter);
   }
 
-  /// <summary>Merge the profile associated with the specified Game Center identity with the current profile.
-  /// </summary>
-  /// <remarks>
+  /// Merge the profile associated with the specified Game Center identity with the current profile.
   /// Service Name - identity
   /// Service Operation - Merge
-  /// </remarks>
-  /// <param name="gameCenterId">
+  /// @param gameCenterId
   /// The user's game center id  (use the playerID property from the local GKPlayer dynamic)
-  /// </param>
-
-  Future<ServerResponse> mergeGameCenterIdentity(String gameCenterId) async {
+  /// @returns Future<ServerResponse>
+  Future<ServerResponse> mergeGameCenterIdentity(
+      {required String gameCenterId}) async {
     return _mergeIdentity(gameCenterId, "", AuthenticationType.gameCenter);
   }
 
-  /// <summary>Detach the Game Center identity from the current profile.</summary>
-  /// <remarks>
+  /// Detach the Game Center identity from the current profile.
   /// Service Name - identity
   /// Service Operation - Detach
-  /// </remarks>
-  /// <param name="gameCenterId">
+  /// @param gameCenterId
   /// The user's game center id  (use the playerID property from the local GKPlayer dynamic)
-  /// </param>
-  /// <param name="continueAnon">
+  /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
-  /// </param>
-
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachGameCenterIdentity(
-      String gameCenterId, bool continueAnon) async {
+      {required String gameCenterId, required bool continueAnon}) async {
     return _detachIdentity(
         gameCenterId, AuthenticationType.gameCenter, continueAnon);
   }
 
-  /// <summary>
   /// Attach a Email and Password identity to the current profile.
-  /// </summary>
-  /// <remarks>
   /// Service Name - identity
   /// Service Operation - Attach
-  /// </remarks>
-  /// <param name="email">
+  /// @param email
   /// The user's e-mail address
-  /// </param>
-  /// <param name="password">
+  /// @param password
   /// The user's password
-  /// </param>
-
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachEmailIdentity(
-      String email, String password) async {
+      {required String email, required String password}) async {
     return _attachIdentity(email, password, AuthenticationType.email);
   }
 
-  /// <summary>
-  // Merge the profile associated with the provided e=mail with the current profile.
-  /// </summary>
-  /// <remarks>
+  /// Merge the profile associated with the provided e=mail with the current profile.
   /// Service Name - identity
   /// Service Operation - Merge
-  /// </remarks>
-  /// <param name="email">
+  /// @param email
   /// The user's e-mail address
-  /// </param>
-  /// <param name="password">
+  /// @param password
   /// The user's password
-  /// </param>
-
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> mergeEmailIdentity(
-      String email, String password) async {
+      {required String email, required String password}) async {
     return _mergeIdentity(email, password, AuthenticationType.email);
   }
 
-  /// <summary>Detach the e-mail identity from the current profile
-  /// </summary>
-  /// <remarks>
+  /// Detach the e-mail identity from the current profile
   /// Service Name - identity
   /// Service Operation - Detach
-  /// </remarks>
-  /// <param name="email">
+  /// @param email
   /// The user's e-mail address
-  /// </param>
-  /// <param name="continueAnon">
+  /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
-  /// </param>
-
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachEmailIdentity(
-      String email, bool continueAnon) async {
+      {required String email, required bool continueAnon}) async {
     return _detachIdentity(email, AuthenticationType.email, continueAnon);
   }
 
-  /// <summary>
   /// Attach a Universal (userId + password) identity to the current profile.
-  /// </summary>
-  /// <remarks>
   /// Service Name - identity
   /// Service Operation - Attach
-  /// </remarks>
-  /// <param name="userId">
+  /// @param userId
   /// The user's userId
-  /// </param>
-  /// <param name="password">
+  /// @param password
   /// The user's password
-  /// </param>
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachUniversalIdentity(
-      String userId, String password) async {
+      {required String userId, required String password}) async {
     return _attachIdentity(userId, password, AuthenticationType.universal);
   }
 
-  /// <summary>
   /// Merge the profile associated with the provided e=mail with the current profile.
-  /// </summary>
-  /// <remarks>
   /// Service Name - identity
   /// Service Operation - Merge
-  /// </remarks>
-  /// <param name="userId">
+  /// @param userId
   /// The user's userId
-  /// </param>
-  /// <param name="password">
+  /// @param password
   /// The user's password
-  /// </param>
-
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> mergeUniversalIdentity(
-      String userId, String password) {
+      {required String userId, required String password}) {
     return _mergeIdentity(userId, password, AuthenticationType.universal);
   }
 
-  /// <summary>Detach the universal identity from the current profile
-  /// </summary>
-  /// <remarks>
+  /// Detach the universal identity from the current profile
   /// Service Name - identity
   /// Service Operation - Detach
-  /// </remarks>
-  /// <param name="userId">
+  /// @param userId
   /// The user's userId
-  /// </param>
-  /// <param name="continueAnon">
+  /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
-  /// </param>
-
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachUniversalIdentity(
-      String userId, bool continueAnon) async {
+      {required String userId, required bool continueAnon}) async {
     return _detachIdentity(userId, AuthenticationType.universal, continueAnon);
   }
 
-  /// <summary>
   /// Attach a Steam (userId + steamsessionticket) identity to the current profile.
-  /// </summary>
-  /// <remarks>
   /// Service Name - identity
   /// Service Operation - Attach
-  /// </remarks>
-  /// <param name="steamId">
+  /// @param steamId
   /// String representation of 64 bit steam id
-  /// </param>
-  /// <param name="sessionTicket">
+  /// @param sessionTicket
   /// The user's session ticket (hex encoded)
-  /// </param>
-
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachSteamIdentity(
-      String steamId, String sessionTicket) {
+      {required String steamId, required String sessionTicket}) {
     return _attachIdentity(steamId, sessionTicket, AuthenticationType.steam);
   }
 
-  /// <summary>
   /// Merge the profile associated with the provided steam userId with the current profile.
-  /// </summary>
-  /// <remarks>
   /// Service Name - identity
   /// Service Operation - Merge
-  /// </remarks>
-  /// <param name="steamId">
+  /// @param steamId
   /// String representation of 64 bit steam id
-  /// </param>
-  /// <param name="sessionTicket">
+  /// @param sessionTicket
   /// The user's session ticket (hex encoded)
-  /// </param>
-
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> mergeSteamIdentity(
-      String steamId, String sessionTicket) async {
+      {required String steamId, required String sessionTicket}) async {
     return _mergeIdentity(steamId, sessionTicket, AuthenticationType.steam);
   }
 
-  /// <summary>Detach the steam identity from the current profile
-  /// </summary>
-  /// <remarks>
+  /// Detach the steam identity from the current profile
   /// Service Name - identity
   /// Service Operation - Detach
-  /// </remarks>
-  /// <param name="steamId">
+  /// @param steamId
   /// String representation of 64 bit steam id
-  /// </param>
-  /// <param name="continueAnon">
+  /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
-  /// </param>
-
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachSteamIdentity(
-      String steamId, bool continueAnon) async {
+      {required String steamId, required bool continueAnon}) async {
     return _detachIdentity(steamId, AuthenticationType.steam, continueAnon);
   }
 
-  /// <summary>
   /// Attach the user's Google credentials to the current profile.
-  /// </summary>
-  /// <remarks>
   /// Service Name - identity
   /// Service Operation - Attach
-  /// </remarks>
-  /// <param name="googleUserId">
+  /// @param googleUserId
   /// String representation of google+ userId. Gotten with calls like RequestUserId
-  /// </param>
-  /// <param name="serverAuthCode">
+  /// @param serverAuthCode
   /// The validated token from the Google SDK
   ///   (that will be further validated when sent to the bC service)
-  /// </param>
-
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachGoogleIdentity(
-      String googleUserId, String serverAuthCode) async {
+      {required String googleUserId, required String serverAuthCode}) async {
     return _attachIdentity(
         googleUserId, serverAuthCode, AuthenticationType.google);
   }
 
-  /// <summary>
   /// Merge the profile associated with the provided Google credentials with the
   /// current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Merge
-  /// </remarks>
-  /// <param name="googleUserId">
+
+  /// @param googleUserId
   /// String representation of google+ userId. Gotten with calls like RequestUserId
-  /// </param>
-  /// <param name="serverAuthCode">
+
+  /// @param serverAuthCode
   /// The validated token from the Google SDK
   /// (that will be further validated when sent to the bC service)
-  /// </param>
 
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> mergeGoogleIdentity(
-      String googleUserId, String serverAuthCode) async {
+      {required String googleUserId, required String serverAuthCode}) async {
     return _mergeIdentity(
         googleUserId, serverAuthCode, AuthenticationType.google);
   }
 
-  /// <summary>
   /// Detach the Google identity from this profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Detach
-  /// </remarks>
-  /// <param name="googleUserId">
-  /// String representation of google+ userId. Gotten with calls like RequestUserId
-  /// </param>
-  /// <param name="continueAnon">
-  /// Proceed even if the profile will revert to anonymous?
-  /// </param>
 
+  /// @param googleUserId
+  /// String representation of google+ userId. Gotten with calls like RequestUserId
+
+  /// @param continueAnon
+  /// Proceed even if the profile will revert to anonymous?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachGoogleIdentity(
-      String googleUserId, bool continueAnon) async {
+      {required String googleUserId, required bool continueAnon}) async {
     return _detachIdentity(
         googleUserId, AuthenticationType.google, continueAnon);
   }
 
-  /// <summary>
   /// Attach the user's Google credentials to the current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Attach
-  /// </remarks>
-  /// <param name="googleUserAccountEmail">
+
+  /// @param googleUserAccountEmail
   /// The email associated with the google user
-  /// </param>
-  /// <param name="IdToken">
+
+  /// @param IdToken
   /// The id token of the google account. Can get with calls like requestIdToken
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachGoogleOpenIdIdentity(
-      String googleUserAccountEmail, String idToken) async {
+      {required String googleUserAccountEmail, required String idToken}) async {
     return _attachIdentity(
         googleUserAccountEmail, idToken, AuthenticationType.googleOpenId);
   }
 
-  /// <summary>
   /// Merge the profile associated with the provided Google credentials with the
   /// current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Merge
-  /// </remarks>
-  /// <param name="googleUserAccountEmail">
-  /// The email associated with the google user
-  /// </param>
-  /// <param name="IdToken">
-  /// The id token of the google account. Can get with calls like requestIdToken
-  /// </param>
 
+  /// @param googleUserAccountEmail
+  /// The email associated with the google user
+
+  /// @param IdToken
+  /// The id token of the google account. Can get with calls like requestIdToken
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> mergeGoogleOpenIdIdentity(
-      String googleUserAccountEmail, String idToken) async {
+      {required String googleUserAccountEmail, required String idToken}) async {
     return _mergeIdentity(
         googleUserAccountEmail, idToken, AuthenticationType.googleOpenId);
   }
 
-  /// <summary>
   /// Detach the Google identity from this profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Detach
-  /// </remarks>
-  /// <param name="googleUserAccountEmail">
-  /// The email associated with the google user
-  /// </param>
-  /// <param name="continueAnon">
-  /// Proceed even if the profile will revert to anonymous?
-  /// </param>
 
+  /// @param googleUserAccountEmail
+  /// The email associated with the google user
+
+  /// @param continueAnon
+  /// Proceed even if the profile will revert to anonymous?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachGoogleOpenIdIdentity(
-      String googleUserAccountEmail, bool continueAnon) async {
+      {required String googleUserAccountEmail,
+      required bool continueAnon}) async {
     return _detachIdentity(
         googleUserAccountEmail, AuthenticationType.googleOpenId, continueAnon);
   }
 
-  /// <summary>
   /// Attach the user's Apple credentials to the current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Attach
-  /// </remarks>
-  /// <param name="appleUserId">
+
+  /// @param appleUserId
   /// This can be the user id OR the email of the user for the account
-  /// </param>
-  /// <param name="identityToken">
+
+  /// @param identityToken
   /// The token confirming the user's identity
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachAppleIdentity(
-      String appleUserId, String identityToken) async {
+      {required String appleUserId, required String identityToken}) async {
     return _attachIdentity(
         appleUserId, identityToken, AuthenticationType.apple);
   }
 
-  /// <summary>
   /// Merge the profile associated with the provided Apple credentials with the
   /// current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Merge
-  /// </remarks>
-  /// <param name="appleUserId">
-  /// This can be the user id OR the email of the user for the account
-  /// </param>
-  /// <param name="identityToken">
-  /// The token confirming the user's identity
-  /// </param>
 
+  /// @param appleUserId
+  /// This can be the user id OR the email of the user for the account
+
+  /// @param identityToken
+  /// The token confirming the user's identity
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> mergeAppleIdentity(
-      String appleUserId, String identityToken) {
+      {required String appleUserId, required String identityToken}) {
     return _mergeIdentity(appleUserId, identityToken, AuthenticationType.apple);
   }
 
-  /// <summary>
   /// Detach the Apple identity from this profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Detach
-  /// </remarks>
-  /// <param name="appleUserId">
-  /// This can be the user id OR the email of the user for the account
-  /// </param>
-  /// <param name="continueAnon">
-  /// Proceed even if the profile will revert to anonymous?
-  /// </param>
 
+  /// @param appleUserId
+  /// This can be the user id OR the email of the user for the account
+
+  /// @param continueAnon
+  /// Proceed even if the profile will revert to anonymous?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachAppleIdentity(
-      String appleUserId, bool continueAnon) async {
+      {required String appleUserId, required bool continueAnon}) async {
     return _detachIdentity(appleUserId, AuthenticationType.apple, continueAnon);
   }
 
-  /// <summary>
   /// Attach the user's Twitter credentials to the current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Attach
-  /// </remarks>
-  /// <param name="twitterId">
+
+  /// @param twitterId
   /// String representation of a Twitter user ID
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// The authentication token derived via the Twitter apis
-  /// </param>
-  /// <param name="secret">
+
+  /// @param secret
   /// The secret given when attempting to link with Twitter
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachTwitterIdentity(
-      String twitterId, String authenticationToken, String secret) async {
+      {required String twitterId,
+      required String authenticationToken,
+      required String secret}) async {
     return _attachIdentity(
         twitterId, "$authenticationToken:$secret", AuthenticationType.twitter);
   }
 
-  /// <summary>
   /// Merge the profile associated with the provided Twitter credentials with the
   /// current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Merge
-  /// </remarks>
-  /// <param name="twitterId">
-  /// String representation of a Twitter user ID
-  /// </param>
-  /// <param name="authenticationToken">
-  /// The authentication token derived via the Twitter apis
-  /// </param>
-  /// <param name="secret">
-  /// The secret given when attempting to link with Twitter
-  /// </param>
 
+  /// @param twitterId
+  /// String representation of a Twitter user ID
+
+  /// @param authenticationToken
+  /// The authentication token derived via the Twitter apis
+
+  /// @param secret
+  /// The secret given when attempting to link with Twitter
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> mergeTwitterIdentity(
-      String twitterId, String authenticationToken, String secret) async {
+      {required String twitterId,
+      required String authenticationToken,
+      required String secret}) async {
     return _mergeIdentity(
         twitterId, "$authenticationToken:$secret", AuthenticationType.twitter);
   }
 
-  /// <summary>
   /// Detach the Twitter identity from this profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Detach
-  /// </remarks>
-  /// <param name="twitterId">
-  /// The Twitter id of the user
-  /// </param>
-  /// <param name="continueAnon">
-  /// Proceed even if the profile will revert to anonymous?
-  /// </param>
 
+  /// @param twitterId
+  /// The Twitter id of the user
+
+  /// @param continueAnon
+  /// Proceed even if the profile will revert to anonymous?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachTwitterIdentity(
-      String twitterId, bool continueAnon) async {
+      {required String twitterId, required bool continueAnon}) async {
     return _detachIdentity(twitterId, AuthenticationType.twitter, continueAnon);
   }
 
-  /// <summary>
   /// Attach the user's Parse credentials to the current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Attach
-  /// </remarks>
-  /// <param name="parseId">
+
+  /// @param parseId
   /// The Parse id of the user
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// The validated token from Parse
   ///   (that will be further validated when sent to the bC service)
-  /// </param>
 
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachParseIdentity(
-      String parseId, String authenticationToken) async {
+      {required String parseId, required String authenticationToken}) async {
     return _attachIdentity(
         parseId, authenticationToken, AuthenticationType.parse);
   }
 
-  /// <summary>
   /// Merge the profile associated with the provided Parse credentials with the
   /// current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Merge
-  /// </remarks>
-  /// <param name="parseId">
+
+  /// @param parseId
   /// The Parse id of the user
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// The validated token from Parse
   /// (that will be further validated when sent to the bC service)
-  /// </param>
 
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> mergeParseIdentity(
-      String parseId, String authenticationToken) async {
+      {required String parseId, required String authenticationToken}) async {
     return _mergeIdentity(
         parseId, authenticationToken, AuthenticationType.parse);
   }
 
-  /// <summary>
   /// Detach the Parse identity from this profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Detach
-  /// </remarks>
-  /// <param name="parseId">
-  /// The Parse id of the user
-  /// </param>
-  /// <param name="continueAnon">
-  /// Proceed even if the profile will revert to anonymous?
-  /// </param>
 
+  /// @param parseId
+  /// The Parse id of the user
+
+  /// @param continueAnon
+  /// Proceed even if the profile will revert to anonymous?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachParseIdentity(
-      String parseId, bool continueAnon) async {
+      {required String parseId, required bool continueAnon}) async {
     return _detachIdentity(parseId, AuthenticationType.parse, continueAnon);
   }
 
-  /// <summary>
   /// Attach the user's Nintendo credentials to the current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Attach
-  /// </remarks>
-  /// <param name="nintendoAccountId">
+
+  /// @param nintendoAccountId
   /// The Nintendo account id of the user
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// The validated token from the Nintendo SDK
   ///   (that will be further validated when sent to the bC service)
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachNintendoIdentity(
-      String nintendoAccountId, String authenticationToken) {
+      {required String nintendoAccountId,
+      required String authenticationToken}) {
     return _attachIdentity(
         nintendoAccountId, authenticationToken, AuthenticationType.nintendo);
   }
 
-  /// <summary>
   /// Merge the profile associated with the provided Nintendo credentials with the
   /// current profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Merge
-  /// </remarks>
-  /// <param name="nintendoAccountId">
+
+  /// @param nintendoAccountId
   /// The Nintendo account id of the user
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// The validated token from the Nintendo SDK
   /// (that will be further validated when sent to the bC service)
-  /// </param>
 
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> mergeNintendoIdentity(
-      String nintendoAccountId, String authenticationToken) {
+      {required String nintendoAccountId,
+      required String authenticationToken}) {
     return _mergeIdentity(
         nintendoAccountId, authenticationToken, AuthenticationType.nintendo);
   }
 
-  /// <summary>
   /// Detach the Nintendo identity from this profile.
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - Detach
-  /// </remarks>
-  /// <param name="nintendoAccountId">
-  /// The Nintendo Account id of the user
-  /// </param>
-  /// <param name="continueAnon">
-  /// Proceed even if the profile will revert to anonymous?
-  /// </param>
 
+  /// @param nintendoAccountId
+  /// The Nintendo Account id of the user
+
+  /// @param continueAnon
+  /// Proceed even if the profile will revert to anonymous?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachNintendoIdentity(
-      String nintendoAccountId, bool continueAnon) async {
+      {required String nintendoAccountId, required bool continueAnon}) async {
     return _detachIdentity(
         nintendoAccountId, AuthenticationType.nintendo, continueAnon);
   }
 
-  /// <summary>
   /// Switch to a Child Profile
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - SWITCH_TO_CHILD_PROFILE
-  /// </remarks>
-  /// <param name="childProfileId">
+
+  /// @param childProfileId
   /// The profileId of the child profile to switch to
   /// If null and forceCreate is true a new profile will be created
-  /// </param>
-  /// <param name="childAppId">
-  /// The appId of the child game to switch to
-  /// </param>
-  /// <param name="forceCreate">
-  /// Should a new profile be created if it does not exist?
-  /// </param>
 
+  /// @param childAppId
+  /// The appId of the child game to switch to
+
+  /// @param forceCreate
+  /// Should a new profile be created if it does not exist?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> switchToChildProfile(
-      String childProfileId, String childAppId, bool forceCreate) async {
+      {required String childProfileId,
+      required String childAppId,
+      required bool forceCreate}) async {
     return _switchToChildProfile(
         childProfileId, childAppId, forceCreate, false);
   }
 
-  /// <summary>
   /// Switches to the child profile of an app when only one profile exists
   /// If multiple profiles exist this returns an error
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - SWITCH_TO_CHILD_PROFILE
-  /// </remarks>
-  /// <param name="childAppId">
-  /// The App ID of the child game to switch to
-  /// </param>
-  /// <param name="forceCreate">
-  /// Should a new profile be created if one does not exist?
-  /// </param>
 
+  /// @param childAppId
+  /// The App ID of the child game to switch to
+
+  /// @param forceCreate
+  /// Should a new profile be created if one does not exist?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> switchToSingletonChildProfile(
-      String childAppId, bool forceCreate) async {
+      {required String childAppId, required bool forceCreate}) async {
     return _switchToChildProfile(null, childAppId, forceCreate, true);
   }
 
-  /// <summary>
   /// Attaches a univeral id to the current profile with no login capability.
-  /// </summary>
-  /// <param name="externalId">
-  /// User ID
-  /// </param>
 
-  Future<ServerResponse> attachNonLoginUniversalId(String externalId) async {
+  /// @param externalId
+  /// User ID
+
+  /// @returns Future<ServerResponse>
+  Future<ServerResponse> attachNonLoginUniversalId(
+      {required String externalId}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
 
@@ -1204,7 +1086,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1217,13 +1099,14 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// <summary>
   /// Updates univeral id of the current profile.
-  /// </summary>
-  /// <param name="externalId">
+
+  /// @param externalId
   /// User ID
-  /// </param>
-  Future<ServerResponse> updateUniversalIdLogin(String externalId) async {
+
+  /// @returns Future<ServerResponse>
+  Future<ServerResponse> updateUniversalIdLogin(
+      {required String externalId}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
 
@@ -1232,7 +1115,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1245,30 +1128,30 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// <summary>
   /// Attach a new identity to a parent app
-  /// </summary>
-  /// <param name="externalId">
+
+  /// @param externalId
   /// User ID
-  /// </param>
-  /// <param name="authenticationToken">
+
+  /// @param authenticationToken
   /// Password or client side token
-  /// </param>
-  /// <param name="authenticationType">
+
+  /// @param authenticationType
   /// Type of authentication
-  /// </param>
-  /// <param name="externalAuthName">
+
+  /// @param externalAuthName
   /// Optional - if using AuthenticationType of external
-  /// </param>
-  /// <param name="forceCreate">
+
+  /// @param forceCreate
   /// If the profile does not exist, should it be created?
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachParentWithIdentity(
-      String externalId,
-      String authenticationToken,
-      AuthenticationType authenticationType,
-      String externalAuthName,
-      bool forceCreate) async {
+      {required String externalId,
+      required String authenticationToken,
+      required AuthenticationType authenticationType,
+      required String externalAuthName,
+      required bool forceCreate}) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.identityServiceExternalId.value] = externalId;
@@ -1290,7 +1173,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1303,17 +1186,17 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// <summary>
   /// Switch to a Parent Profile
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - SWITCH_TO_PARENT_PROFILE
-  /// </remarks>
-  /// <param name="parentLevelName">
+
+  /// @param parentLevelName
   /// The level of the parent to switch to
-  /// </param>
-  Future<ServerResponse> switchToParentProfile(String parentLevelName) async {
+
+  /// @returns Future<ServerResponse>
+  Future<ServerResponse> switchToParentProfile(
+      {required String parentLevelName}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.authenticateServiceAuthenticateLevelName.value] =
         parentLevelName;
@@ -1323,7 +1206,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1336,20 +1219,19 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// <summary>
   /// Detaches parent from this user's profile
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - DETACH_PARENT
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachParent() async {
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1362,18 +1244,17 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// <summary>
   /// Returns a list of all child profiles in child Apps
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - GET_CHILD_PROFILES
-  /// </remarks>
-  /// <param name="includeSummaryData">
-  /// Whether to return the summary friend data along with this call
-  /// </param>
 
-  Future<ServerResponse> getChildProfiles(bool includeSummaryData) async {
+  /// @param includeSummaryData
+  /// Whether to return the summary friend data along with this call
+
+  /// @returns Future<ServerResponse>
+  Future<ServerResponse> getChildProfiles(
+      {required bool includeSummaryData}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStateServiceIncludeSummaryData.value] =
         includeSummaryData;
@@ -1383,7 +1264,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1396,20 +1277,19 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieve list of identities
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - GET_IDENTITIES
-  /// </remarks>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getIdentities() async {
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1422,21 +1302,19 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieve list of expired identities
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - GET_EXPIRED_IDENTITIES
-  /// </remarks>
 
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getExpiredIdentities() async {
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1449,25 +1327,25 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// <summary>
   /// Refreshes an identity for this user
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - REFRESH_IDENTITY
-  /// </remarks>
-  /// <param name="externalId">
-  /// User ID
-  /// </param>
-  /// <param name="authenticationToken">
-  /// Password or client side token
-  /// </param>
-  /// <param name="authenticationType">
-  /// Type of authentication
-  /// </param>
 
-  Future<ServerResponse> refreshIdentity(String externalId,
-      String authenticationToken, AuthenticationType authenticationType) async {
+  /// @param externalId
+  /// User ID
+
+  /// @param authenticationToken
+  /// Password or client side token
+
+  /// @param authenticationType
+  /// Type of authentication
+
+  /// @returns Future<ServerResponse>
+  Future<ServerResponse> refreshIdentity(
+      {required String externalId,
+      required String authenticationToken,
+      required AuthenticationType authenticationType}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
     data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
@@ -1480,7 +1358,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1493,28 +1371,29 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// <summary>
   /// Allows email identity email address to be changed
-  /// </summary>
-  /// <remarks>
+
   /// Service Name - identity
   /// Service Operation - REFRESH_IDENTITY
-  /// </remarks>
-  /// <param name="oldEmailAddress">
-  /// Old email address
-  /// </param>
-  /// <param name="password">
-  /// Password for identity
-  /// </param>
-  /// <param name="newEmailAddress">
-  /// New email address
-  /// </param>
-  /// <param name="updateContactEmail">
-  /// Whether to update contact email in profile
-  /// </param>
 
-  Future<ServerResponse> changeEmailIdentity(String oldEmailAddress,
-      String password, String newEmailAddress, bool updateContactEmail) async {
+  /// @param oldEmailAddress
+  /// Old email address
+
+  /// @param password
+  /// Password for identity
+
+  /// @param newEmailAddress
+  /// New email address
+
+  /// @param updateContactEmail
+  /// Whether to update contact email in profile
+
+  /// @returns Future<ServerResponse>
+  Future<ServerResponse> changeEmailIdentity(
+      {required String oldEmailAddress,
+      required String password,
+      required String newEmailAddress,
+      required bool updateContactEmail}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceOldEmailAddress.value] = oldEmailAddress;
     data[OperationParam
@@ -1528,7 +1407,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1541,35 +1420,34 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// <summary>
   /// Attaches a peer identity to this user's profile
-  /// </summary>
-  /// <param name="peer">
-  /// Name of the peer to connect to
-  /// </param>
-  /// <param name="externalId">
-  /// User ID
-  /// </param>
-  /// <param name="authenticationToken">
-  /// Password or client side token
-  /// </param>
-  /// <param name="authenticationType">
-  /// Type of authentication
-  /// </param>
-  /// <param name="externalAuthName">
-  /// Optional - if using AuthenticationType of external
-  /// </param>
-  /// <param name="forceCreate">
-  /// If the profile does not exist, should it be created?
-  /// </param>
 
+  /// @param peer
+  /// Name of the peer to connect to
+
+  /// @param externalId
+  /// User ID
+
+  /// @param authenticationToken
+  /// Password or client side token
+
+  /// @param authenticationType
+  /// Type of authentication
+
+  /// @param externalAuthName
+  /// Optional - if using AuthenticationType of external
+
+  /// @param forceCreate
+  /// If the profile does not exist, should it be created?
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachPeerProfile(
-      String peer,
-      String externalId,
-      String authenticationToken,
-      AuthenticationType authenticationType,
-      String externalAuthName,
-      bool forceCreate) async {
+      {required String peer,
+      required String externalId,
+      required String authenticationToken,
+      required AuthenticationType authenticationType,
+      String? externalAuthName,
+      bool forceCreate = false}) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.identityServiceExternalId.value] = externalId;
@@ -1592,7 +1470,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1605,13 +1483,13 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// <summary>
   /// Detaches a peer identity from this user's profile
-  /// </summary>
-  /// <param name="peer">
+
+  /// @param peer
   /// Name of the peer to connect to
-  /// </param>
-  Future<ServerResponse> detachPeer(String peer) async {
+
+  /// @returns Future<ServerResponse>
+  Future<ServerResponse> detachPeer({required String peer}) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.peer.value] = peer;
@@ -1621,7 +1499,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1634,16 +1512,16 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// <summary>
   /// Retrieves a list of attached peer profiles
-  /// </summary>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> getPeerProfiles() async {
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1656,17 +1534,17 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// <summary>
   /// Attach blockchain
-  /// </summary>
-  /// <param name="blockchainConfig">
+
+  /// @param blockchainConfig
   ///
-  /// </param>
-  /// <param name="publicKey">
+
+  /// @param publicKey
   ///
-  /// </param>
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> attachBlockChainIdentity(
-      String blockchainConfig, String publicKey) async {
+      {required String blockchainConfig, required String publicKey}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.blockChainConfig.value] = blockchainConfig;
     data[OperationParam.publicKey.value] = publicKey;
@@ -1676,7 +1554,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1689,13 +1567,13 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// <summary>
   /// detach blockchain
-  /// </summary>
-  /// <param name="blockchainConfig">
-  /// </param>
+
+  /// @param blockchainConfig
+
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> detachBlockChainIdentity(
-      String blockchainConfig) async {
+      {required String blockchainConfig}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.blockChainConfig.value] = blockchainConfig;
 
@@ -1704,7 +1582,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1717,6 +1595,7 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> _attachIdentity(String externalId,
       String authenticationToken, AuthenticationType authenticationType) async {
     Map<String, dynamic> data = {};
@@ -1731,7 +1610,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1744,6 +1623,7 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> _mergeIdentity(String externalId,
       String authenticationToken, AuthenticationType authenticationType) {
     Map<String, dynamic> data = {};
@@ -1758,7 +1638,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1771,6 +1651,7 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> _detachIdentity(String externalId,
       AuthenticationType authenticationType, bool continueAnon) async {
     Map<String, dynamic> data = {};
@@ -1784,7 +1665,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
@@ -1797,6 +1678,7 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
+  /// @returns Future<ServerResponse>
   Future<ServerResponse> _switchToChildProfile(String? childProfileId,
       String childAppd, bool forceCreate, bool forceSingleton) async {
     Map<String, dynamic> data = {};
@@ -1825,7 +1707,7 @@ class BrainCloudIdentity {
       ServerResponse responseObject = ServerResponse.fromJson(response);
       completer.complete(responseObject);
     }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
+      completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
           statusMessage: statusMessage));
