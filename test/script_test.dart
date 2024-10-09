@@ -10,7 +10,7 @@ void main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Script", () {
-    var scriptName = "testScript";
+    var scriptName = "emptyScript";
     var peerScriptName = "TestPeerScriptPublic";
     Map<String, dynamic> scriptData = {"testParam1": 1};
 
