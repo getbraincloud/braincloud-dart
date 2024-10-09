@@ -260,6 +260,7 @@ main() {
       }
     });
 
+    // end test
     /// END TEST
     tearDownAll(() {
       bcTest.dispose();
