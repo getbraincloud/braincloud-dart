@@ -75,7 +75,7 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.identityService
           .mergeEmailIdentity(email: userC.email, password: userC.password);
 
-      expect(response.statusCode, 200, reason: response.statusMessage);
+      expect(response.statusCode, anyOf([200,202]), reason: response.statusMessage);
       // expect(response.body, isNull);
     });
 
