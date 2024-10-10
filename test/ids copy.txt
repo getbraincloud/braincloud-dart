@@ -1,11 +1,1 @@
-secretKey=915202a3-6162-4267-bafc-c7121fd8bbe5
-appId=34550
-version=1.0.0
-url=https://api.internal.braincloudservers.com/dispatcherv2
-_email=MarioC@bitheads.com
-_password=MarioC@bitheads.com
-sharedProfileId=fd8d8e7d-2f8b-4b70-a329-e6e380eeaa2d
-customEntityType=TestCustomEntity
-customOwnedEntityType=TestOwnedCustomEntity
-email=dart@unitTests.com
-password=_not_used_for_Portal_auth_
+
