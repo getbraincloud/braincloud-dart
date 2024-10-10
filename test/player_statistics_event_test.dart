@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'utils/test_base.dart';
 
@@ -33,22 +33,26 @@ void main() {
     });
 
     var rewardCallbackCount = 0;
-
-    registerCallback() {
+  
+    registerCallback() async {
+      final Completer completer = Completer();
       bcTest.bcWrapper.brainCloudClient.registerRewardCallback((rewardsJson) {
         ++rewardCallbackCount;
-        debugPrint("rewardCallbackCount: $rewardCallbackCount");
-
-        bcTest.bcWrapper.brainCloudClient.deregisterRewardCallback();
+        completer.complete();
+        bcTest.bcWrapper.brainCloudClient.deregisterRewardCallback();        
       });
+      return  completer.future;
     }
 
-    test("rewardHandlerTriggerStatisticsEvents()", retry: 3, () async {
+    test("rewardHandlerTriggerStatisticsEvents()", timeout: Timeout.parse("3s"), () async {
+
+      Future? callBackCompleter; // 
       if (rewardCallbackCount == 0) {
-        registerCallback();
+        callBackCompleter =  registerCallback();
       }
 
       await bcTest.bcWrapper.playerStateService.resetUser();
+      await bcTest.auth();  // resetUser will log you out so this so need to re-authenticate
 
       await bcTest.bcWrapper.playerStatisticsEventService
           .triggerUserStatsEvents(
@@ -56,9 +60,8 @@ void main() {
         {"eventName": "incQuest1Stat", "eventMultiplier": 1},
         {"eventName": "incQuest2Stat", "eventMultiplier": 1}
       ]));
-
-      await pumpEventQueue();
-      debugPrint("pumpEventQueue complete");
+      
+      if (callBackCompleter != null)  await callBackCompleter;
       expect(rewardCallbackCount, 1);
     });
 
