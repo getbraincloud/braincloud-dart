@@ -59,7 +59,7 @@ class BrainCloudPlayerState {
       (response) {
         _clientRef.wrapper.resetStoredAnonymousId();
         _clientRef.wrapper.resetStoredProfileId();
-        completer.complete(ServerResponse(statusCode: 200, data: response));
+        completer.complete(ServerResponse.fromJson(response));
       },
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(

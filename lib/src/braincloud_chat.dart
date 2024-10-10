@@ -103,7 +103,7 @@ class BrainCloudChat {
 
     ServerCallback? callback =
         BrainCloudClient.createServerCallback((response) {
-      completer.complete(ServerResponse(statusCode: 200, data: response));
+      completer.complete(ServerResponse.fromJson(response));
     }, (statusCode, reasonCode, statusMessage) {
       completer.complete(ServerResponse(
           statusCode: statusCode,
