@@ -13,7 +13,7 @@ void main() {
       ServerResponse response =
           await bcTest.bcWrapper.timeService.readServerTime();
 
-      debugPrint("Server Time: ${response.data?['data']['server_time']}");
+      debugPrint("Server Time: ${response.data?['server_time']}");
       expect(response.statusCode, StatusCodes.ok);
     });
 
