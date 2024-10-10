@@ -9,7 +9,7 @@ class TestUser {
   TestUser(String name, String randomId) {
     this.name = "${name}_$randomId";
     password = "${name}_$randomId";
-    email = "${name}_$randomId@test.getbraincloud.com";
+    email = "${name.toLowerCase()}_$randomId@test.getbraincloud.com";
   }
 }
 

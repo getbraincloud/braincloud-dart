@@ -60,12 +60,16 @@ class BCTest {
     var token = password ?? userA.password;
     ServerResponse response;
 
-    if (userB.profileId == null) {
-      // Ensure userB and userC are ready.
+    // Ensure userC is ready.
+    if (userC.profileId == null) {
       response = await bcWrapper.authenticateEmailPassword(
           email: userC.email, password: userC.password, forceCreate: true);
+      userC.profileId = response.data?["profileId"];
       await bcWrapper.logout(forgetUser: true);
+    }
 
+    // Ensure userB is ready.
+    if (userB.profileId == null) {
       response = await bcWrapper.authenticateUniversal(
           username: userB.name, password: userB.password, forceCreate: true);
       userB.profileId = response.data?["profileId"];
@@ -88,6 +92,8 @@ class BCTest {
   }
 }
 
-TestUser userA = TestUser("UserA", generateRandomString(8));
-TestUser userB = TestUser("UserB", generateRandomString(8));
-TestUser userC = TestUser("UserC", generateRandomString(8));
+
+
+TestUser userA = TestUser("UserA", generateRandomString(9));
+TestUser userB = TestUser("UserB", generateRandomString(9));
+TestUser userC = TestUser("UserC", generateRandomString(9));

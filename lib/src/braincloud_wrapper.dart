@@ -49,6 +49,7 @@ import 'package:braincloud_dart/src/braincloud_time.dart';
 import 'package:braincloud_dart/src/braincloud_tournament.dart';
 import 'package:braincloud_dart/src/braincloud_user_items.dart';
 import 'package:braincloud_dart/src/braincloud_virtual_currency.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// The BrainCloudWrapper class provides some glue between the Unity environment and the
@@ -1695,6 +1696,7 @@ class BrainCloudWrapper {
   /// Resets the stored profile id to empty string.
 
   void resetStoredProfileId() {
+    debugPrint("BrainCloudWrapper:--------Clearing profileId--------");
     _wrapperData.profileId = "";
     _saveData();
   }
