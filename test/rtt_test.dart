@@ -1,10 +1,13 @@
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'dart:io'  as io;
 
 import 'utils/test_base.dart';
 
 main() {
+  String? skipRTT = io.Platform.environment['SKIP_RTT'] ?? "";
+  debugPrint("SKIP_RTT is $skipRTT");  
   BCTest bcTest = BCTest();
   setUpAll(bcTest.setupBC);
 
@@ -114,5 +117,5 @@ main() {
     tearDownAll(() {
       bcTest.dispose();
     });
-  });
+  },skip: skipRTT.isNotEmpty);
 }
