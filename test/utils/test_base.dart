@@ -83,6 +83,8 @@ class BCTest {
         userA.profileId = response.data?["profileId"];
       }
     }
+    
+    debugPrint("Current profileId/session ${bcWrapper.getStoredProfileId()} / ${bcWrapper.getStoredSessionId()}");
 
     completer.complete();
 

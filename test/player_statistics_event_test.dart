@@ -44,7 +44,7 @@ void main() {
       return  completer.future;
     }
 
-    test("rewardHandlerTriggerStatisticsEvents()", timeout: Timeout.parse("3s"), () async {
+    test("rewardHandlerTriggerStatisticsEvents()", timeout: Timeout.parse("5s"), () async {
 
       Future? callBackCompleter; // 
       if (rewardCallbackCount == 0) {

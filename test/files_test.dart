@@ -21,7 +21,7 @@ main() {
   group("File Tests", () {
     test("uploadFileFromMemory", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
-
+      
       final imageData = File('test/TestImg.png').readAsBytesSync();
 
       var uploadCompleterFuture =
@@ -37,17 +37,17 @@ main() {
       expect(response.data, isMap);
       if (response.data != null) {
         expect(response.data, isMap);
-        Map<String, dynamic> body = response.data!;
-        expect(body['fileDetails'], isMap, reason: "Should return fileDetails");
-        expect(body['fileDetails']['cloudFilename'], fileNameImage,
+        Map<String, dynamic> data = response.data!;
+        expect(data['fileDetails'], isMap, reason: "Should return fileDetails");
+        expect(data['fileDetails']['cloudFilename'], fileNameImage,
             reason: "Should return cloudFilename");
-        expect(body['fileDetails']['shareable'], true,
+        expect(data['fileDetails']['shareable'], true,
             reason: "Should be sharable");
-        expect(body['fileDetails']['replaceIfExists'], true,
+        expect(data['fileDetails']['replaceIfExists'], true,
             reason: "Should be replaceIfExists");
-        expect(body['fileDetails']['fileType'], 'User',
+        expect(data['fileDetails']['fileType'], 'User',
             reason: "Should be User type file");
-        expect(body['fileDetails']['fileSize'], imageData.length,
+        expect(data['fileDetails']['fileSize'], imageData.length,
             reason: "File size should match");
       }
 
