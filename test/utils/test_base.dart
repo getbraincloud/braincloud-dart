@@ -67,20 +67,20 @@ class BCTest {
       response = await bcWrapper.authenticateUniversal(
           username: userB.name, password: userB.password, forceCreate: true);
 
-      userB.profileId = response.body?["profileId"];
+      userB.profileId = response.data?["profileId"];
 
       response = await bcWrapper.authenticateUniversal(
           username: id, password: token, forceCreate: true);
 
       if (id == userA.name) {
-        userA.profileId = response.body?["profileId"];
+        userA.profileId = response.data?["profileId"];
       }
     } else {
       response = await bcWrapper.authenticateUniversal(
           username: id, password: token, forceCreate: true);
 
       if (id == userA.name) {
-        userA.profileId = response.body?["profileId"];
+        userA.profileId = response.data?["profileId"];
       }
     }
 

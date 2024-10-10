@@ -14,10 +14,10 @@ main() {
           await bcTest.bcWrapper.identityService.getExpiredIdentities();
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['identities'], isMap);
       }
     });
@@ -29,10 +29,10 @@ main() {
           await bcTest.bcWrapper.identityService.getIdentities();
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['identities'], isMap);
         expect(body['identities']['Universal'], userA.name.toLowerCase());
       }
@@ -64,8 +64,8 @@ main() {
       // if there is already a email identity detach it
       ServerResponse checks =
           await bcTest.bcWrapper.identityService.getIdentities();
-      if (checks.statusCode == 200 && checks.body != null) {
-        Map<String, dynamic> body = checks.body!;
+      if (checks.statusCode == 200 && checks.data != null) {
+        Map<String, dynamic> body = checks.data!;
         if (body['identities']['Email'] != null) {
           checks = await bcTest.bcWrapper.identityService.detachEmailIdentity(
               email: body['identities']['Email'], continueAnon: true);

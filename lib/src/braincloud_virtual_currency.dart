@@ -31,7 +31,7 @@ class BrainCloudVirtualCurrency {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -69,7 +69,7 @@ class BrainCloudVirtualCurrency {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -107,7 +107,7 @@ class BrainCloudVirtualCurrency {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -133,7 +133,7 @@ class BrainCloudVirtualCurrency {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,

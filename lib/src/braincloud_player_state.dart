@@ -29,7 +29,7 @@ class BrainCloudPlayerState {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -59,7 +59,7 @@ class BrainCloudPlayerState {
       (response) {
         _clientRef.wrapper.resetStoredAnonymousId();
         _clientRef.wrapper.resetStoredProfileId();
-        completer.complete(ServerResponse(statusCode: 200, body: response));
+        completer.complete(ServerResponse(statusCode: 200, data: response));
       },
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
@@ -89,7 +89,7 @@ class BrainCloudPlayerState {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -113,7 +113,7 @@ class BrainCloudPlayerState {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -143,7 +143,7 @@ class BrainCloudPlayerState {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -192,7 +192,7 @@ class BrainCloudPlayerState {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -216,7 +216,7 @@ class BrainCloudPlayerState {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -253,7 +253,7 @@ class BrainCloudPlayerState {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -284,7 +284,7 @@ class BrainCloudPlayerState {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -314,7 +314,7 @@ class BrainCloudPlayerState {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -345,7 +345,7 @@ class BrainCloudPlayerState {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -375,7 +375,7 @@ class BrainCloudPlayerState {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -416,7 +416,7 @@ class BrainCloudPlayerState {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
-            completer.complete(ServerResponse(statusCode: 200, body: response)),
+            completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -445,7 +445,7 @@ class BrainCloudPlayerState {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -485,7 +485,7 @@ class BrainCloudPlayerState {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -515,7 +515,7 @@ class BrainCloudPlayerState {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -547,7 +547,7 @@ class BrainCloudPlayerState {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,

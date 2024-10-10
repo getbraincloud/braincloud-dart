@@ -66,7 +66,7 @@ main() {
           jsonData: jsonEncode({"test": "asdf"}));
 
       expect(response.statusCode, StatusCodes.ok);
-      groupId = response.body?["data"]["groupId"];
+      groupId = response.data?["groupId"];
     });
 
     test("sendTemplatedPushNotificationToGroup()", () async {

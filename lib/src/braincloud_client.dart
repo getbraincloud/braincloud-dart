@@ -523,7 +523,7 @@ class BrainCloudClient {
 
     _comms.registerFileUploadCallbacks((a, b) {
       var data = jsonDecode(b)['data'];
-      completer.complete(ServerResponse(statusCode: 200, body: data));
+      completer.complete(ServerResponse(statusCode: 200, data: data));
     },
         (a, statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(

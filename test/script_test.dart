@@ -42,7 +42,7 @@ void main() {
               jsonScriptData: jsonEncode(scriptData),
               minutesFromNow: 60);
 
-      jobId = response.body?["data"]["jobId"];
+      jobId = response.data?["jobId"];
       expect(response.statusCode, StatusCodes.ok);
     });
 

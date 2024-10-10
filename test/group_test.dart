@@ -29,7 +29,7 @@ void main() {
           isOpenGroup: false,
           jsonData: jsonEncode({"test": "asdf"}));
 
-      groupId = response.body?["data"]["groupId"];
+      groupId = response.data?["groupId"];
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -42,7 +42,7 @@ void main() {
               jsonOwnerAttributes: jsonEncode({"test": "asdf"}),
               jsonSummaryData: jsonEncode({"summary": "asdf"}));
 
-      groupId = response.body?["data"]["groupId"];
+      groupId = response.data?["groupId"];
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -183,7 +183,7 @@ void main() {
               isOwnedByGroupMember: false,
               jsonData: jsonEncode(testData));
 
-      entityId = response.body?["data"]["entityId"];
+      entityId = response.data?["entityId"];
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -238,7 +238,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.groupService
           .readGroupEntitiesPage(jsonContext: jsonEncode(entityContext));
 
-      entityReturnedContext = response.body?["data"]["context"];
+      entityReturnedContext = response.data?["context"];
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -297,7 +297,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.groupService
           .listGroupsPage(jsonContext: jsonEncode(groupContext));
 
-      groupReturnedContext = response.body?["data"]["context"];
+      groupReturnedContext = response.data?["context"];
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -350,7 +350,7 @@ void main() {
           isOpenGroup: true,
           jsonData: jsonEncode({"test": "asdf"}));
 
-      groupId = response.body?["data"]["groupId"];
+      groupId = response.data?["groupId"];
       userToAuth = userB;
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -439,7 +439,7 @@ void main() {
       ServerResponse groupsResponse =
           await bcTest.bcWrapper.groupService.getMyGroups();
 
-      List requestedGroups = groupsResponse.body?["data"]["requested"];
+      List requestedGroups = groupsResponse.data?["data"]["requested"];
       requestedGroups.forEach((requestedGroup) {
         if (requestedGroup["groupId"] == testGroupId) {
           groupJoinRequestExists = true;
@@ -458,7 +458,7 @@ void main() {
         ServerResponse response =
             await bcTest.bcWrapper.groupService.getMyGroups();
 
-        requestedGroups = response.body?["data"]["requested"];
+        requestedGroups = response.data?["requested"];
         requestedGroups.forEach((requestedGroup) {
           if (requestedGroup["groupId"] == testGroupId) {
             groupJoinRequestExists = true;
@@ -504,7 +504,7 @@ void main() {
       if (response.statusCode == StatusCodes.ok) {
         debugPrint("Group created");
 
-        testGroupId = response.body?["data"]["groupId"];
+        testGroupId = response.data?["groupId"];
 
         await bcTest.bcWrapper.logout();
         await testDeleteGroupJoinRequest();

@@ -21,13 +21,13 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.userItemsService
           .awardUserItem(defId: "sword001", quantity: 5, includeDef: true);
 
-      itemId = response.body?["data"]["items"][0];
-      itemIdToGet = response.body?["data"]["items"][1];
-      item3 = response.body?["data"]["items"][2];
-      item4 = response.body?["data"]["items"][3];
-      item5 = response.body?["data"]["items"][4];
+      itemId = response.data?["items"][0];
+      itemIdToGet = response.data?["items"][1];
+      item3 = response.data?["items"][2];
+      item4 = response.data?["items"][3];
+      item5 = response.data?["items"][4];
 
-      var items = response.body?["data"]["items"].values;
+      var items = response.data?["items"].values;
 
       itemId = items.elementAt(0).values.elementAt(0);
       itemIdToGet = items.elementAt(1).values.elementAt(0);

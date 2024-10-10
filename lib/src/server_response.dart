@@ -14,13 +14,13 @@ class ServerResponse {
   @JsonKey(name: 'status_message')
   final String? statusMessage;
   @JsonKey(name: 'data')
-  final Map<String, dynamic>? body;
+  final Map<String, dynamic>? data;
 
   ServerResponse(
       {required this.statusCode,
       this.reasonCode = ReasonCodes.noReasonCode,
       this.statusMessage,
-      this.body});
+      this.data});
 
   factory ServerResponse.fromJson(Map<String, dynamic> json) =>
       _$ServerResponseFromJson(json);
@@ -29,7 +29,7 @@ class ServerResponse {
 
   @override
   String toString() {
-    return 'Status: $statusCode Reason: $reasonCode Message: $statusMessage hasData: ${(body?.isNotEmpty ?? false) ? 'Yes' : 'No'}';
+    return 'Status: $statusCode Reason: $reasonCode Message: $statusMessage hasData: ${(data?.isNotEmpty ?? false) ? 'Yes' : 'No'}';
   }
 
   bool isSuccess() => statusCode == StatusCodes.ok;

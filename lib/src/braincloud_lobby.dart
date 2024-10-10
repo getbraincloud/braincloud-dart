@@ -53,7 +53,7 @@ class BrainCloudLobby {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) =>
-          completer.complete(ServerResponse(statusCode: 200, body: response)),
+          completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -102,7 +102,7 @@ class BrainCloudLobby {
         data,
         ServiceOperation.findLobbyWithPingData,
         (response) =>
-            completer.complete(ServerResponse(statusCode: 200, body: response)),
+            completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -138,7 +138,7 @@ class BrainCloudLobby {
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
-            completer.complete(ServerResponse(statusCode: 200, body: response)),
+            completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -179,7 +179,7 @@ class BrainCloudLobby {
         data,
         ServiceOperation.createLobbyWithPingData,
         (response) =>
-            completer.complete(ServerResponse(statusCode: 200, body: response)),
+            completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
