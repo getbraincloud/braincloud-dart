@@ -439,7 +439,7 @@ void main() {
       ServerResponse groupsResponse =
           await bcTest.bcWrapper.groupService.getMyGroups();
 
-      List requestedGroups = groupsResponse.data?["data"]["requested"];
+      List requestedGroups = groupsResponse.data?["requested"];
       requestedGroups.forEach((requestedGroup) {
         if (requestedGroup["groupId"] == testGroupId) {
           groupJoinRequestExists = true;
