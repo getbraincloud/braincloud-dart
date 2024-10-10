@@ -61,30 +61,26 @@ class BCTest {
     ServerResponse response;
 
     if (userB.profileId == null) {
+      // Ensure userB and userC are ready.
       response = await bcWrapper.authenticateEmailPassword(
           email: userC.email, password: userC.password, forceCreate: true);
+      await bcWrapper.logout(forgetUser: true);
 
       response = await bcWrapper.authenticateUniversal(
           username: userB.name, password: userB.password, forceCreate: true);
-
       userB.profileId = response.data?["profileId"];
-
-      response = await bcWrapper.authenticateUniversal(
-          username: id, password: token, forceCreate: true);
-
-      if (id == userA.name) {
-        userA.profileId = response.data?["profileId"];
-      }
-    } else {
-      response = await bcWrapper.authenticateUniversal(
-          username: id, password: token, forceCreate: true);
-
-      if (id == userA.name) {
-        userA.profileId = response.data?["profileId"];
-      }
-    }
+      await bcWrapper.logout(forgetUser: true);
     
-    debugPrint("Current profileId/session ${bcWrapper.getStoredProfileId()} / ${bcWrapper.getStoredSessionId()}");
+    }
+    // Now authenticate the requested user or userA if null
+    response = await bcWrapper.authenticateUniversal(
+        username: id, password: token, forceCreate: true);
+
+    if (id == userA.name) {
+      userA.profileId = response.data?["profileId"];
+    }
+
+    debugPrint("Current profileId/session ${bcWrapper.getStoredProfileId()} / ${bcWrapper.getStoredSessionId()} as $id");
 
     completer.complete();
 
