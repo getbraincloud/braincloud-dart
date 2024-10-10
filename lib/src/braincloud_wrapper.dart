@@ -1468,8 +1468,8 @@ class BrainCloudWrapper {
   Future<ServerResponse> _smartSwitchAuthentication() async {
     ServerResponse? response = await _client.identityService.getIdentities();
     if (_client.authenticated) {
-      if (response.body?['identities'] is Map &&
-          response.body?['identities'].isEmpty) {
+      if (response.data?['identities'] is Map &&
+          response.data?['identities'].isEmpty) {
         // was anonymous delete user
         return brainCloudClient.playerStateService.deleteUser();
       } else {

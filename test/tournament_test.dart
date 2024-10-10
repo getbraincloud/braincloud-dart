@@ -35,7 +35,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.tournamentService
           .getTournamentStatus(leaderboardId: _leaderboardId, versionId: -1);
 
-      _version = response.body?["data"]["versionId"];
+      _version = response.data?["versionId"];
       debugPrint("Verison: $_version");
       expect(response.statusCode, StatusCodes.ok);
     });

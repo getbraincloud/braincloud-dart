@@ -23,9 +23,9 @@ main() {
       var jsonEntityAcl = {"other": 0};
       ServerResponse response = await bcTest.bcWrapper.entityService
           .createEntity(entityType, jsonEntityData, jsonEntityAcl);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         entityId = body['entityId'];
         entityVersion = body['version'];
       }
@@ -37,14 +37,14 @@ main() {
         ServerResponse response =
             await bcTest.bcWrapper.authenticateAnonymous();
         // if no shared Profile Id define in ids then use the anonymous user
-        bcTest.ids.sharedProfileId = response.body?['profileId'];
+        bcTest.ids.sharedProfileId = response.data?['profileId'];
         // and create a shared entity too as this will be needed.
         var jsonEntityData = {"team": "RedTeam", "quantity": 0};
         ServerResponse createResponse = await bcTest.bcWrapper.entityService
             .createEntity(bcTest.entityType, jsonEntityData, ACLs.readWrite);
 
-        if (createResponse.body != null) {
-          Map<String, dynamic> body = createResponse.body!;
+        if (createResponse.data != null) {
+          Map<String, dynamic> body = createResponse.data!;
           expect(body['entityId'], isA<String>());
           sharedEntityId = body['entityId'];
           expect(body['version'], isA<int>());
@@ -63,10 +63,10 @@ main() {
           .createEntity(bcTest.entityType, jsonEntityData, jsonEntityAcl);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], isA<String>());
         entityId = body['entityId'];
         expect(body['version'], isA<int>());
@@ -82,7 +82,7 @@ main() {
           .deleteEntity(entityId, entityVersion);
 
       expect(response.statusCode, 200);
-      expect(response.body, isNull);
+      expect(response.data, isNull);
 
       entityId = "";
       entityVersion = 0;
@@ -97,10 +97,10 @@ main() {
           .createEntity(bcTest.entityType, jsonEntityData, null);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], isA<String>());
         entityId = body['entityId'];
         expect(body['version'], isA<int>());
@@ -119,10 +119,10 @@ main() {
           .getEntitiesByType(bcTest.entityType);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entities'], isList, reason: "entities not an List");
       }
     });
@@ -136,10 +136,10 @@ main() {
           await bcTest.bcWrapper.entityService.getEntity(entityId);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], entityId);
         expect(body['version'], entityVersion);
       }
@@ -158,10 +158,10 @@ main() {
           .getList(whereJson, orderByJson, maxReturn);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityList'], isList);
         expect(body['entityListCount'], isA<int>());
       }
@@ -178,10 +178,10 @@ main() {
           await bcTest.bcWrapper.entityService.getListCount(whereJson);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityList'], isNull);
         expect(body['entityListCount'], isA<int>());
       }
@@ -202,10 +202,10 @@ main() {
           await bcTest.bcWrapper.entityService.getPage(context);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['results'], isMap);
         expect(body['results']['items'], isList);
         expect(body['results']['count'], isA<int>());
@@ -232,10 +232,10 @@ main() {
           await bcTest.bcWrapper.entityService.getPageOffset(contextString, 1);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['results'], isMap);
         expect(body['results']['items'], isList);
         expect(body['results']['count'], isA<int>());
@@ -258,10 +258,10 @@ main() {
           .getSharedEntitiesForProfileId(bcTest.ids.sharedProfileId);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entities'], isList);
         expect(body['entityListCount'], isA<int>());
         if (body['entityListCount'] > 0) {
@@ -289,10 +289,10 @@ main() {
               bcTest.ids.sharedProfileId, whereJson, orderByJson, maxReturn);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityList'], isNull);
         expect(body['entityListCount'], isA<int>());
       }
@@ -312,10 +312,10 @@ main() {
               bcTest.ids.sharedProfileId, sharedEntityId);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], sharedEntityId);
         expect(body['version'], isA<int>());
         sharedEntityVersion = body['version'];
@@ -333,10 +333,10 @@ main() {
           .getSingleton('${bcTest.entityType}Singleton');
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['version'], isA<int>());
         expect(body['entityId'], isA<String>());
         singletonEntityId = body['entityId'];
@@ -356,10 +356,10 @@ main() {
               jsonEntityAcl, singletonEntityVerison);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['version'], isA<int>());
         singletonEntityVerison = body['version'];
       }
@@ -377,7 +377,7 @@ main() {
               '${bcTest.entityType}Singleton', singletonEntityVerison);
 
       expect(response.statusCode, 200);
-      expect(response.body, isNull);
+      expect(response.data, isNull);
 
       entityId = "";
       entityVersion = 0;
@@ -399,10 +399,10 @@ main() {
               bcTest.entityType, jsonEntityData, sharedEntityVersion);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['version'], isA<int>());
         singletonEntityVerison = body['version'];
       }
@@ -423,10 +423,10 @@ main() {
               sharedEntityId, bcTest.ids.sharedProfileId, jsonEntityData);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['version'], isA<int>());
         expect(body['data']['quantity'], isA<double>());
         expect(body['data']['quantity'], 3.5);
@@ -447,10 +447,10 @@ main() {
               jsonEntityAcl, entityVersion);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['version'], isA<int>());
         entityVersion = body['version'];
       }
@@ -466,10 +466,10 @@ main() {
           .incrementUserEntityData(entityId, jsonEntityData);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['version'], isA<int>());
         expect(body['data']['quantity'], isA<double>());
         expect(body['data']['quantity'], 4.5);
@@ -497,9 +497,9 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .createEntity(entityType, const Duration(hours: 12), jsonEntityAcl,
               jsonEntityData);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         entityId = body['entityId'];
         entityVersion = body['version'];
       }
@@ -520,10 +520,10 @@ main() {
               jsonEntityData);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], isA<String>());
         entityId = body['entityId'];
         expect(body['version'], isA<int>());
@@ -544,10 +544,10 @@ main() {
           .createEntity(entityType, null, null, jsonEntityData);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], isA<String>());
         entityId = body['entityId'];
         expect(body['version'], isA<int>());
@@ -564,10 +564,10 @@ main() {
       ServerResponse response =
           await bcTest.bcWrapper.globalEntityService.getList(where, orderBy, 1);
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityList'], isList);
         expect(body['entityListCount'], isA<int>());
       }
@@ -581,10 +581,10 @@ main() {
       ServerResponse response =
           await bcTest.bcWrapper.globalEntityService.getListCount(where);
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityList'], isNull);
         expect(body['entityListCount'], isA<int>());
       }
@@ -599,10 +599,10 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .getListCountWithHint(where, hint);
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityList'], isNull);
         expect(body['entityListCount'], isA<int>());
       }
@@ -617,10 +617,10 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .getListWithHint(where, orderBy, 2, hint);
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityList'], isList);
         expect(body['entityListCount'], isA<int>());
       }
@@ -637,10 +637,10 @@ main() {
       ServerResponse response =
           await bcTest.bcWrapper.globalEntityService.getPage(context);
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['results'], isMap);
         expect(body['results']['items'], isList);
         expect(body['results']['page'], isA<int>());
@@ -662,10 +662,10 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .getPageOffset(contextString, 1);
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['results'], isMap);
         expect(body['results']['items'], isList);
         expect(body['results']['page'], isA<int>());
@@ -682,10 +682,10 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .getRandomEntitiesMatching(where, 2);
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityList'], isList);
         expect(body['entityListCount'], isA<int>());
       }
@@ -699,10 +699,10 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .getRandomEntitiesMatchingWithHint(where, hint, 2);
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityList'], isList);
         expect(body['entityListCount'], isA<int>());
       }
@@ -716,10 +716,10 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .incrementGlobalEntityData(entityId, jsonInc);
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], entityId);
         expect(body['data'], isMap);
         expect(body['data']['games'], isA<int>());
@@ -733,10 +733,10 @@ main() {
       ServerResponse response =
           await bcTest.bcWrapper.globalEntityService.readEntity(entityId);
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], entityId);
         expect(body['data'], isMap);
         expect(body['data']['games'], isA<int>());
@@ -752,10 +752,10 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .updateEntity(entityId, entityVersion, jsonData);
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], entityId);
         expect(body['version'], isA<int>());
         entityVersion = body['version'];
@@ -770,10 +770,10 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .updateEntityAcl(entityId, entityVersion, jsonEntityAcl);
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], entityId);
         expect(body['acl'], isMap);
         expect(body['acl']['other'], 2);
@@ -798,10 +798,10 @@ main() {
           .updateEntityOwnerAndAcl(entityId, entityVersion,
               bcTest.ids.sharedProfileId, jsonEntityAcl);
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], entityId);
         expect(body['acl'], ACLs.readWrite);
         entityVersion = body['version'];
@@ -817,10 +817,10 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .updateEntityTimeToLive(entityId, entityVersion, timeToLive);
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], entityId);
         expect(body['timeToLive'], timeToLive.inMilliseconds);
         entityVersion = body['version'];
@@ -833,7 +833,7 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .deleteEntity(entityId, entityVersion);
       expect(response.statusCode, 200);
-      expect(response.body, isNull);
+      expect(response.data, isNull);
       entityId = "";
       entityVersion = 0;
     });
@@ -851,10 +851,10 @@ main() {
               const Duration(hours: 1), jsonEntityAcl, jsonEntityData);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], isA<String>());
         expect(body['entityIndexedId'], isA<String>());
         expect(body['entityIndexedId'], entityIndexedId);
@@ -869,10 +869,10 @@ main() {
           .getListByIndexedId(entityIndexedId, 4);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityList'], isList);
         expect(body['entityListCount'], isA<int>());
         if (body['entityListCount'] > 0) {
@@ -893,10 +893,10 @@ main() {
               entityId, entityVersion, '${entityIndexedId}New');
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], isA<String>());
         entityId = body['entityId'];
         expect(body['version'], isA<int>());
@@ -917,10 +917,10 @@ main() {
           .makeSystemEntity(entityId, entityVersion, jsonEntityAcl);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], isA<String>());
         entityId = body['entityId'];
         expect(body['version'], isA<int>());
@@ -949,9 +949,9 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.customEntityService
           .createEntity(entityType, jsonEntityData, jsonEntityAcl,
               const Duration(hours: 12), owned);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         entityId = body['entityId'];
         entityVersion = body['version'];
       }
@@ -977,10 +977,10 @@ main() {
               jsonEntityAcl, const Duration(hours: 1), false);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], isA<String>());
         entityId = body['entityId'];
         expect(body['version'], isA<int>());
@@ -1001,10 +1001,10 @@ main() {
           .getCount(bcTest.ids.customEntityType, where);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityListCount'], isA<int>());
         expect(body['entityList'], isNull,
             reason: 'There should not be entity list on a Count opereation');
@@ -1028,10 +1028,10 @@ main() {
           .getEntityPage(bcTest.ids.customEntityType, jsonContext);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['results'], isMap);
         expect(body['results']['items'], isList);
         expect(body['results']['page'], isA<int>());
@@ -1059,10 +1059,10 @@ main() {
           .getEntityPageOffset(bcTest.ids.customEntityType, contextString, 1);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['results'], isMap);
         expect(body['results']['items'], isList);
         expect(body['results']['page'], 2);
@@ -1085,10 +1085,10 @@ main() {
           .getRandomEntitiesMatching(bcTest.ids.customEntityType, where, 2);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityListCount'], isA<int>());
         expect(body['entityList'], isList,
             reason: 'There should not be entity list on a Count opereation');
@@ -1109,10 +1109,10 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.customEntityService
           .incrementData(bcTest.ids.customEntityType, entityId, jsonInc);
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], entityId);
         expect(body['data'], isMap);
         expect(body['data']['games'], isA<int>());
@@ -1132,10 +1132,10 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.customEntityService
           .readEntity(bcTest.ids.customEntityType, entityId);
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], entityId);
         expect(body['data'], isMap);
         expect(body['data']['games'], isA<int>());
@@ -1166,10 +1166,10 @@ main() {
               jsonEntityData, jsonEntityAcl, const Duration(hours: 1));
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], isA<String>());
         entityId = body['entityId'];
         expect(body['version'], isA<int>());
@@ -1192,10 +1192,10 @@ main() {
               entityVersion, jsonEntityData);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], isA<String>());
         entityId = body['entityId'];
         expect(body['version'], isA<int>());
@@ -1222,10 +1222,10 @@ main() {
           .incrementDataSharded(
               bcTest.ids.customEntityType, entityId, jsonInc, shardKeyJson);
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], entityId);
         expect(body['data'], isMap);
         expect(body['data']['games'], isA<int>());
@@ -1249,10 +1249,10 @@ main() {
               entityId, entityVersion, jsonEntityData, shardKeyJson);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['entityId'], isA<String>());
         entityId = body['entityId'];
         expect(body['version'], isA<int>());
@@ -1275,7 +1275,7 @@ main() {
               bcTest.ids.customOwnedEntityType, entityId, entityVersion);
 
       expect(response.statusCode, 200);
-      expect(response.body, isNull);
+      expect(response.data, isNull);
     });
 
     test("DeleteEntities", () async {
@@ -1295,10 +1295,10 @@ main() {
           .deleteEntities(bcTest.ids.customOwnedEntityType, deleteCriteria);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['deletedCount'], isA<int>());
         entityId = "";
         entityVersion = 0;
@@ -1324,10 +1324,10 @@ main() {
               jsonEntityData, jsonEntityAcl, const Duration(hours: 4));
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['version'], isA<int>());
         entityVersion = body['version'];
       }
@@ -1352,10 +1352,10 @@ main() {
               bcTest.ids.customOwnedEntityType, jsonFieldsData);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['version'], isA<int>());
         entityVersion = body['version'];
         expect(body['data']['games'], isA<int>());
@@ -1378,10 +1378,10 @@ main() {
           .readSingleton(bcTest.ids.customOwnedEntityType);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['version'], isA<int>());
         entityVersion = body['version'];
         expect(body['data']['games'], isA<int>());
@@ -1407,10 +1407,10 @@ main() {
               bcTest.ids.customOwnedEntityType, -1, jsonFieldsData);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['updatedAt'], isA<int>());
         // entityVersion = body['version'];
       }
@@ -1432,7 +1432,7 @@ main() {
           .deleteSingleton(bcTest.ids.customOwnedEntityType, -1);
 
       expect(response.statusCode, 200);
-      expect(response.body, isNull);
+      expect(response.data, isNull);
     });
 
     /// END TEST

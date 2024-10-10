@@ -12,7 +12,7 @@ ServerResponse _$ServerResponseFromJson(Map<String, dynamic> json) =>
       reasonCode:
           (json['reason_code'] as num?)?.toInt() ?? ReasonCodes.noReasonCode,
       statusMessage: json['status_message'] as String?,
-      body: json['data'] as Map<String, dynamic>?,
+      data: json['data'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$ServerResponseToJson(ServerResponse instance) =>
@@ -20,5 +20,5 @@ Map<String, dynamic> _$ServerResponseToJson(ServerResponse instance) =>
       'status': instance.statusCode,
       'reason_code': instance.reasonCode,
       'status_message': instance.statusMessage,
-      'data': instance.body,
+      'data': instance.data,
     };

@@ -86,7 +86,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGlobalLeaderboardVersions(leaderboardId: leaderboardName);
 
-      List versions = response.body?["data"]["versions"];
+      List versions = response.data?["versions"];
       if (versions.length > 0) {
         versionId = versions[0]["versionId"];
       }
@@ -333,7 +333,7 @@ void main() {
           isOpenGroup: false,
           jsonData: jsonEncode({"test": "asdf"}));
 
-      groupId = response.body?["data"]["groupId"];
+      groupId = response.data?["groupId"];
       expect(response.statusCode, StatusCodes.ok);
     });
 

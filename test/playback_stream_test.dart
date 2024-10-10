@@ -18,7 +18,7 @@ void main() {
           .startStream(
               targetPlayerId: userB.profileId!, includeSharedData: true);
 
-      streamId = response.body?["data"]["playbackStreamId"];
+      streamId = response.data?["playbackStreamId"];
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -50,7 +50,7 @@ void main() {
           .startStream(
               targetPlayerId: userB.profileId!, includeSharedData: true);
 
-      streamId = response.body?["data"]["playbackStreamId"];
+      streamId = response.data?["playbackStreamId"];
 
       expect(response.statusCode, StatusCodes.ok);
     });

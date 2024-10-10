@@ -22,7 +22,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
 
       _codeToRedeem =
-          response.body!["data"]["statistics"]["lastCodeUsed"].toString();
+          response.data!["data"]["statistics"]["lastCodeUsed"].toString();
     });
 
     test("redeemCode()", () async {
@@ -33,7 +33,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
 
       _codeToRedeem =
-          response.body!["data"]["statistics"]["lastCodeUsed"].toString();
+          response.data!["data"]["statistics"]["lastCodeUsed"].toString();
       ;
 
       ServerResponse response2 = await bcTest.bcWrapper.redemptionCodeService

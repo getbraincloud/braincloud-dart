@@ -22,7 +22,7 @@ void main() {
         {"platform": platform, "id": userB.profileId}
       ]));
 
-      matchId = response.body?["data"]["matchId"];
+      matchId = response.data?["matchId"];
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -60,7 +60,7 @@ void main() {
               jsonMatchState: jsonEncode({"summary": "sum"}),
               pushNotificationMessage: jsonEncode({"summary": "sum"}));
 
-      matchId = response.body?["data"]["matchId"];
+      matchId = response.data?["matchId"];
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -92,7 +92,7 @@ void main() {
               jsonMatchState: jsonEncode({"matchStateData": "test"}),
               jsonSummary: jsonEncode({"summary": "sum"}));
 
-      matchId = response.body?["data"]["matchId"];
+      matchId = response.data?["matchId"];
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -137,7 +137,7 @@ void main() {
         {"platform": platform, "id": userB.profileId}
       ])));
 
-      matchId = response.body?["data"]["matchId"];
+      matchId = response.data?["matchId"];
       expect(response.statusCode, StatusCodes.ok);
 
       ServerResponse response2 = await bcTest.bcWrapper.asyncMatchService
@@ -170,7 +170,7 @@ void main() {
         {"platform": platform, "id": userB.profileId}
       ]));
 
-      matchId = response.body?["data"]["matchId"];
+      matchId = response.data?["matchId"];
       expect(response.statusCode, StatusCodes.ok);
 
       ServerResponse response2 =

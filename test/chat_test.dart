@@ -14,7 +14,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.chatService
           .getChannelId(channeltype: "gl", channelsubid: "valid");
 
-      channelId = response.body?["data"]["channelId"];
+      channelId = response.data?["channelId"];
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -42,7 +42,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.chatService
           .getSubscribedChannels(channeltype: "gl");
 
-      List<dynamic> channels = response.body?["data"]["channels"];
+      List<dynamic> channels = response.data?["channels"];
       channels.forEach((channel) {
         if (channel["id"] == channelId) {
           debugPrint("Found $channelId");
@@ -60,7 +60,7 @@ void main() {
               channelId: channelId,
               contentJson: '{"text": "Hello World!", "rich": {"custom": 1}}');
 
-      msgId = response.body?["data"]["msgId"];
+      msgId = response.data?["msgId"];
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -79,11 +79,11 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.chatService
           .getChatMessage(channelId: channelId, messageid: msgId);
 
-      expect(response.body?["data"]["content"]["text"], "Hello World!");
-      if (response.body?["data"]["content"]["rich"].length > 1) {
-        expect(response.body?["data"]["content"]["rich"]["custom"], "2");
+      expect(response.data?["content"]["text"], "Hello World!");
+      if (response.data?["content"]["rich"].length > 1) {
+        expect(response.data?["content"]["rich"]["custom"], "2");
       }
-      msgVersion = response.body?["data"]["ver"];
+      msgVersion = response.data?["ver"];
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -104,12 +104,12 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.chatService
           .getChatMessage(channelId: channelId, messageid: msgId);
 
-      expect(response.body?["data"]["ver"], 2);
-      expect(response.body?["data"]["content"]["text"], "Hello World! edited");
-      if (response.body?["data"]["content"]["rich"].length > 0) {
-        expect(response.body?["data"]["content"]["rich"]["custom"], 2);
+      expect(response.data?["ver"], 2);
+      expect(response.data?["content"]["text"], "Hello World! edited");
+      if (response.data?["content"]["rich"].length > 0) {
+        expect(response.data?["content"]["rich"]["custom"], 2);
       }
-      msgVersion = response.body?["data"]["ver"];
+      msgVersion = response.data?["ver"];
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -118,7 +118,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.chatService
           .getRecentChatMessages(channelId: channelId, maxToReturn: 50);
 
-      List<dynamic> messages = response.body?["data"]["messages"];
+      List<dynamic> messages = response.data?["messages"];
       messages.forEach((message) {
         if (message["msgId"] == msgId) {
           expect(message["ver"], msgVersion);

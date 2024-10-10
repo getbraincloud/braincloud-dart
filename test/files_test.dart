@@ -34,10 +34,10 @@ main() {
       ServerResponse uploadResponse = await uploadCompleterFuture;
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['fileDetails'], isMap, reason: "Should return fileDetails");
         expect(body['fileDetails']['cloudFilename'], fileNameImage,
             reason: "Should return cloudFilename");
@@ -52,9 +52,9 @@ main() {
       }
 
       expect(uploadResponse.statusCode, 200);
-      if (uploadResponse.body != null) {
-        expect(uploadResponse.body, isMap);
-        Map<String, dynamic> body = uploadResponse.body!;
+      if (uploadResponse.data != null) {
+        expect(uploadResponse.data, isMap);
+        Map<String, dynamic> body = uploadResponse.data!;
         expect(body['fileDetails']['cloudLocation'], isA<String>());
         expect(body['fileDetails']['downloadUrl'], isA<String>(),
             reason: "Should get a downloadUrl");
@@ -78,9 +78,9 @@ main() {
 
       expect(response.statusCode, 200);
       expect(bcTest.bcWrapper.isInitialized, true);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['fileDetails'], isMap, reason: "Should return fileDetails");
         expect(body['fileDetails']['cloudFilename'], filename,
             reason: "Should return cloudFilename");
@@ -118,9 +118,9 @@ main() {
       expect(error.statusMessage, isNotNull);
       expect(error.statusMessage?.trim(),
           "Upload of largeFile.txt cancelled by user");
-      if (error.body != null) {
-        expect(error.body, isMap);
-        Map<String, dynamic> body = error.body!;
+      if (error.data != null) {
+        expect(error.data, isMap);
+        Map<String, dynamic> body = error.data!;
         debugPrint(body.toString());
       }
     });
@@ -138,9 +138,9 @@ main() {
 
       expect(response.statusCode, 200);
       expect(bcTest.bcWrapper.isInitialized, true);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['fileDetails'], isMap, reason: "Should return fileDetails");
         expect(body['fileDetails']['cloudFilename'], fileNameLarge,
             reason: "Should return cloudFilename");
@@ -195,9 +195,9 @@ main() {
           reason: "getUploadTotalBytesToTransfer should now be -1");
 
       expect(uploadResponse.statusCode, 200);
-      if (uploadResponse.body != null) {
-        expect(uploadResponse.body, isMap);
-        Map<String, dynamic> body = uploadResponse.body!;
+      if (uploadResponse.data != null) {
+        expect(uploadResponse.data, isMap);
+        Map<String, dynamic> body = uploadResponse.data!;
         expect(body['fileDetails']['cloudLocation'], isA<String>());
         expect(body['fileDetails']['downloadUrl'], isA<String>(),
             reason: "Should get a downloadUrl");
@@ -214,9 +214,9 @@ main() {
       ServerResponse response =
           await bcTest.bcWrapper.fileService.listUserFiles(cloudPath, true);
       expect(response.statusCode, 200);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['fileList'], isList);
       }
     });
@@ -226,9 +226,9 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.fileService
           .getCDNUrl(cloudPath, fileNameLarge);
       expect(response.statusCode, 200);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['appServerUrl'], isA<String>());
         expect(body['cdnUrl'], isA<String>());
       }
@@ -240,9 +240,9 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.fileService
           .deleteUserFile(cloudPath, fileNameLarge);
       expect(response.statusCode, 200);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         debugPrint(body.toString());
         expect(body['fileDetails'], isMap);
         expect(body['fileDetails']['cloudFilename'], fileNameLarge);
@@ -253,9 +253,9 @@ main() {
       ServerResponse response =
           await bcTest.bcWrapper.fileService.deleteUserFiles(cloudPath, true);
       expect(response.statusCode, 200);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['fileList'], isList);
       }
     });
@@ -275,10 +275,10 @@ main() {
           .getGlobalFileList('/fname', true);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['treeVersion'], isA<int>());
         expect(body['fileList'], isMap);
         if (body['fileList'] is Map) {
@@ -304,10 +304,10 @@ main() {
           .getFileInfo(testFile['fileId']);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['fileDetails'], isMap);
         expect(body['fileDetails']['fileName'], testFile['fileName']);
         expect(body['fileDetails']['fileId'], testFile['fileId']);
@@ -326,10 +326,10 @@ main() {
           .getFileInfoSimple(testFile['folderPath'], testFile['fileName']);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['fileDetails'], isMap);
         expect(body['fileDetails']['fileName'], testFile['fileName']);
         expect(body['fileDetails']['fileId'], testFile['fileId']);
@@ -348,10 +348,10 @@ main() {
           .getGlobalCDNUrl(testFile['fileId']);
 
       expect(response.statusCode, 200);
-      expect(response.body, isMap);
-      if (response.body != null) {
-        expect(response.body, isMap);
-        Map<String, dynamic> body = response.body!;
+      expect(response.data, isMap);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
         expect(body['appServerUrl'], isA<String>());
         expect(body['cdnUrl'], isA<String>());
       }

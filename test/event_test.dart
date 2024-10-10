@@ -46,7 +46,7 @@ void main() {
           jsonEventData: jsonEncode({eventDataKey: 24}));
 
       expect(response.statusCode, StatusCodes.ok);
-      eventId = response.body?["data"]["evId"];
+      eventId = response.data?["evId"];
     });
 
     test("updateIncomingEventData()", () async {
@@ -84,7 +84,7 @@ void main() {
           jsonEventData: jsonEncode({eventDataKey: 24}));
 
       expect(response.statusCode, StatusCodes.ok);
-      eventId = response.body?["data"]["evId"];
+      eventId = response.data?["evId"];
     });
 
     test("deleteIncomingEvents()", () async {
@@ -117,7 +117,7 @@ void main() {
 
       expect(response.statusCode, StatusCodes.ok);
 
-      List incoming_events = response.body?["incoming_events"];
+      List incoming_events = response.data?["incoming_events"];
 
       Map<String, dynamic> found = incoming_events.reduce((ret, event) {
         return ret ||
