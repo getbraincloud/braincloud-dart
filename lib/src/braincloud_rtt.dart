@@ -22,19 +22,14 @@ class BrainCloudRTT {
   ///This function will first call requestClientConnection, then connect to the address
 
   /// @param in_connectionType
-  /// @param in_success
-  /// @param in_failure
-  /// @returns Future<ServerResponse>
-  Future<ServerResponse> enableRTT({RTTConnectionType? connectiontype}) {
-    Completer<ServerResponse> completer = Completer();
+  /// @returns Future<RTTCommandResponse>
+  Future<RTTCommandResponse> enableRTT({RTTConnectionType? connectiontype}) {
+    Completer<RTTCommandResponse> completer = Completer();
     _commsLayer?.enableRTT(connectiontype ?? RTTConnectionType.websocket,
         (response) {
-      completer.complete(ServerResponse.fromJson(response));
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.complete(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
+      completer.complete(response);
+    }, (response) {
+      completer.complete(response);
     });
 
     return completer.future;

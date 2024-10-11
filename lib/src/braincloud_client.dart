@@ -343,7 +343,6 @@ class BrainCloudClient {
     return sessionID;
   }
 
-  
   /// Returns true if the user is currently authenticated.
   /// If a session time out or session invalidation is returned from executing a
   /// sever API call, this flag will reset back to false.
@@ -356,14 +355,12 @@ class BrainCloudClient {
     return _comms.getReceivedPacketId();
   }
 
-  
   /// Restore packetId found in localstorage
 
   void restorePacketId(int id) {
     _comms.receivedPacketIdChecker = id;
   }
 
-  
   /// Returns true if brainCloud has been initialized.
 
   bool isInitialized() {
@@ -469,7 +466,6 @@ class BrainCloudClient {
     }
   }
 
-  
   /// Sets a callback handler for any out of band event messages that come from
   /// brainCloud.
 
@@ -491,14 +487,12 @@ class BrainCloudClient {
     _comms.registerEventCallback(cb);
   }
 
-  
   /// De-registers the event callback.
 
   void deregisterEventCallback() {
     _comms.deregisterEventCallback();
   }
 
-  
   /// Sets a reward handler for any API call results that return rewards.
 
   /// @param cbThe reward callback handler.
@@ -507,14 +501,12 @@ class BrainCloudClient {
     _comms.registerRewardCallback(cb);
   }
 
-  
   /// De-registers the reward callback.
 
   void deregisterRewardCallback() {
     _comms.deregisterRewardCallback();
   }
 
-  
   /// Registers the file upload callbacks.
 
   /// @returns Future<ServerResponse>
@@ -522,8 +514,9 @@ class BrainCloudClient {
     final Completer<ServerResponse> completer = Completer();
 
     _comms.registerFileUploadCallbacks((a, b) {
-      var data = jsonDecode(b)['data'];
-      completer.complete(ServerResponse(statusCode: 200, data: data));
+      var response = jsonDecode(b);
+      completer.complete(ServerResponse(
+          statusCode: response['status'], data: response['data']));
     },
         (a, statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
@@ -534,28 +527,24 @@ class BrainCloudClient {
     return completer.future;
   }
 
-  
   /// De-registers the file upload callbacks.
 
   void deregisterFileUploadCallback() {
     _comms.deregisterFileUploadCallbacks();
   }
 
-  
   /// Failure callback invoked for all errors generated
 
   void registerGlobalErrorCallback(FailureCallback callback) {
     _comms.registerGlobalErrorCallback(callback);
   }
 
-  
   /// De-registers the global error callback.
 
   void deregisterGlobalErrorCallback() {
     _comms.deregisterGlobalErrorCallback();
   }
 
-  
   /// Registers a callback that is invoked for network errors.
   /// Note this is only called if EnableNetworkErrorMessageCaching
   /// has been set to true.
@@ -563,7 +552,6 @@ class BrainCloudClient {
     _comms.registerNetworkErrorCallback(callback);
   }
 
-  
   /// De-registers the network error callback.
 
   void deregisterNetworkErrorCallback() {
@@ -596,7 +584,6 @@ class BrainCloudClient {
     _comms.enableComms(value);
   }
 
-  
   /// Sets the packet timeouts using a list of integers that
   /// represent timeout values for each packet retry. The
   /// first item in the list represents the timeout for the first packet
@@ -616,21 +603,18 @@ class BrainCloudClient {
     _comms.packetTimeouts = timeouts;
   }
 
-  
   /// Sets the packet timeouts back to default.
 
   void setPacketTimeoutsToDefault() {
     _comms.setPacketTimeoutsToDefault();
   }
 
-  
   /// Returns the list of packet timeouts.
 
   List<int> getPacketTimeouts() {
     return _comms.packetTimeouts;
   }
 
-  
   /// Sets the authentication packet timeout which is tracked separately
   /// from all other packets. Note that authentication packets are never
   /// retried and so this value represents the total time a client would
@@ -642,7 +626,6 @@ class BrainCloudClient {
     _comms.authenticationPacketTimeoutSecs = timeoutSecs;
   }
 
-  
   /// gets the authentication packet timeout which is tracked separately
   /// from all other packets. Note that authentication packets are never
   /// retried and so this value represents the total time a client would
@@ -653,7 +636,6 @@ class BrainCloudClient {
     return _comms.authenticationPacketTimeoutSecs;
   }
 
-  
   /// Sets the error callback to return the status message instead of the
   /// error JSON string. This flag is used to conform to pre-2.17 client
   /// behavior.
@@ -663,14 +645,12 @@ class BrainCloudClient {
     _comms.oldStyleStatusResponseInErrorCallback = enabled;
   }
 
-  
   /// Returns the low transfer rate timeout in secs
 
   int getUploadLowTransferRateTimeout() {
     return _comms.uploadLowTransferRateTimeout;
   }
 
-  
   /// Sets the timeout in seconds of a low speed upload
   /// (i.e. transfer rate which is underneath the low transfer rate threshold).
   /// By default this is set to 120 secs.Setting this value to 0 will
@@ -682,14 +662,12 @@ class BrainCloudClient {
     _comms.uploadLowTransferRateTimeout = timeoutSecs;
   }
 
-  
   /// Returns the low transfer rate threshold in bytes/sec
 
   int getUploadLowTransferRateThreshold() {
     return _comms.uploadLowTransferRateThreshold;
   }
 
-  
   /// Sets the low transfer rate threshold of an upload in bytes/sec.
   /// If the transfer rate dips below the given threshold longer
   /// than the specified timeout, the transfer will fail.
@@ -701,7 +679,6 @@ class BrainCloudClient {
     _comms.uploadLowTransferRateThreshold = bytesPerSec;
   }
 
-  
   /// Enables the timeout message caching which is disabled by default.
   /// Once enabled, if a client side timeout is encountered
   /// (i.e. brainCloud server is unreachable presumably due to the client
@@ -731,7 +708,6 @@ class BrainCloudClient {
     _comms.enableNetworkErrorMessageCaching(enabled);
   }
 
-  
   /// Attempts to resend any cached messages. If no messages are in the cache,
   /// this method does nothing.
 
@@ -739,7 +715,6 @@ class BrainCloudClient {
     _comms.retryCachedMessages();
   }
 
-  
   /// Flushes the cached messages to resume API call processing. This will dump
   /// all of the cached messages in the queue.
 
@@ -750,7 +725,6 @@ class BrainCloudClient {
     _comms.flushCachedMessages(sendApiErrorCallbacks);
   }
 
-  
   /// Inserts a marker which will tell the brainCloud comms layer
   /// to close the message bundle off at this point. Any messages queued
   /// before this method was called will likely be bundled together in
@@ -768,7 +742,6 @@ class BrainCloudClient {
     _comms.insertEndOfMessageBundleMarker();
   }
 
-  
   /// Sets the country code sent to brainCloud when a user authenticates.
   /// Will override any auto detected country.
 
@@ -777,7 +750,6 @@ class BrainCloudClient {
     _countryCode = countryCode;
   }
 
-  
   /// Sets the language code sent to brainCloud when a user authenticates.
   /// If the language is set to a non-ISO 639-1 standard value the game default will be used instead.
   /// Will override any auto detected language.
@@ -787,7 +759,6 @@ class BrainCloudClient {
     _languageCode = languageCode;
   }
 
-  
   /// Normally not needed as the brainCloud SDK sends heartbeats automatically.
   /// Regardless, this is a manual way to send a heartbeat.
 
@@ -796,7 +767,6 @@ class BrainCloudClient {
         null, ServerCallback(success, failure));
     _comms.addToQueue(sc);
   }
-
 
   ///  Method writes log if logging is enabled
   void log(String log, {bool bypassLogEnabled = false}) {
@@ -817,7 +787,7 @@ class BrainCloudClient {
     }
   }
 
-  /// Sends a service request message to the server. 
+  /// Sends a service request message to the server.
   /// @param serviceMessageThe message to send
   void sendRequest(ServerCall serviceMessage) {
     // pass this directly to the brainCloud Class

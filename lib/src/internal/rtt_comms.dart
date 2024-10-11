@@ -25,7 +25,7 @@ class RTTComms {
   /// @param in_success
   /// @param in_failure
   void enableRTT(RTTConnectionType? inConnectiontype,
-      SuccessCallback? inSuccess, FailureCallback? inFailure) {
+      RTTSuccessCallback? inSuccess, RTTFailureCallback? inFailure) {
     _disconnectedWithReason = false;
 
     if (isRTTEnabled() ||
@@ -52,9 +52,9 @@ class RTTComms {
       return;
     }
     addRTTCommandResponse(RTTCommandResponse(
-        ServiceName.rttRegistration.value.toLowerCase(),
-        "disconnect",
-        "DisableRTT Called"));
+        service: ServiceName.rttRegistration.value,
+        operation: "Disconnect",
+        data: {"message": "DisableRTT Called"}));
   }
 
   /// Returns true if RTT is enabled
@@ -113,8 +113,13 @@ class RTTComms {
 
         //the rtt websocket has closed and RTT needs to be re-enabled. disconnect is called to fully reset connection
         if (_webSocketStatus == WebsocketStatus.closed) {
-          _connectionFailureCallback!(400, -1,
-              "RTT Connection has been closed. Re-Enable RTT to re-establish connection : ${toProcessResponse.jsonMessage}");
+          _connectionFailureCallback!(RTTCommandResponse(
+              service: ServiceName.rtt.value,
+              operation: "error",
+              data: {
+                "error":
+                    "RTT Connection has been closed. Re-Enable RTT to re-establish connection : ${toProcessResponse.data}"
+              }));
 
           _rttConnectionStatus = RTTConnectionStatus.disconnecting;
           disconnect();
@@ -123,8 +128,13 @@ class RTTComms {
 
         //the rtt websocket has closed and RTT needs to be re-enabled. disconnect is called to fully reset connection
         if (_webSocketStatus == WebsocketStatus.closed) {
-          _connectionFailureCallback!(400, -1,
-              "RTT Connection has been closed. Re-Enable RTT to re-establish connection : ${toProcessResponse.jsonMessage}");
+          _connectionFailureCallback!(RTTCommandResponse(
+              service: ServiceName.rtt.value,
+              operation: "error",
+              data: {
+                "error":
+                    "RTT Connection has been closed. Re-Enable RTT to re-establish connection : ${toProcessResponse.data}"
+              }));
           _rttConnectionStatus = RTTConnectionStatus.disconnecting;
           disconnect();
           break;
@@ -133,7 +143,7 @@ class RTTComms {
         // does this go to one of our registered service listeners?
         if (_registeredCallbacks.containsKey(toProcessResponse.service)) {
           _registeredCallbacks[toProcessResponse.service]!(
-              toProcessResponse.jsonMessage ?? "");
+              jsonEncode(toProcessResponse.data ?? "{}"));
         }
 
         // are we actually connected? only pump this back, when the server says we've connected
@@ -143,8 +153,7 @@ class RTTComms {
           _sinceLastHeartbeat = Duration(
               seconds: DateTime.now().subtract(_sinceLastHeartbeat).second);
           _rttConnectionStatus = RTTConnectionStatus.connected;
-          _connectedSuccessCallback!(
-              jsonDecode(toProcessResponse.jsonMessage ?? ""));
+          _connectedSuccessCallback!(toProcessResponse);
         }
 
         //if we're connected and we get a disconnect - we disconnect the comms...
@@ -158,24 +167,27 @@ class RTTComms {
         //If there's an error, we send back the error
         else if (_connectionFailureCallback != null &&
             toProcessResponse.operation == "error") {
-          if (toProcessResponse.jsonMessage != null) {
-            Map<String, dynamic> messageData =
-                jsonDecode(toProcessResponse.jsonMessage ?? "");
+          if (toProcessResponse.data != null) {
+            Map<String, dynamic> messageData = toProcessResponse.data ?? {};
             if (messageData.containsKey("status") &&
                 messageData.containsKey("reason_code")) {
-              _connectionFailureCallback!(
-                messageData["status"],
-                messageData["reason_code"],
-                toProcessResponse.jsonMessage ?? "",
-              );
+              _connectionFailureCallback!(RTTCommandResponse(
+                service: ServiceName.rtt.value,
+                operation: "error",
+                data: messageData,
+              ));
             } else {
               //in the rare case the message is differently structured.
-              _connectionFailureCallback!(
-                  400, -1, toProcessResponse.jsonMessage ?? "");
+              _connectionFailureCallback!(RTTCommandResponse(
+                  service: ServiceName.rtt.value,
+                  operation: "error",
+                  data: messageData));
             }
           } else {
-            _connectionFailureCallback!(
-                400, -1, "Error - No Response from Server");
+            _connectionFailureCallback!(RTTCommandResponse(
+                service: ServiceName.rtt.value,
+                operation: "error",
+                data: {"error": "Error - No Response from Server"}));
           }
         }
 
@@ -232,8 +244,11 @@ class RTTComms {
             "RTT: Disconnect: ${_clientRef.serializeJson(_disconnectJson)}");
       }
       if (_connectionFailureCallback != null) {
-        _connectionFailureCallback!(
-            400, _disconnectJson["reason_code"], _disconnectJson["reason"]);
+        _connectionFailureCallback!(RTTCommandResponse(
+            service: ServiceName.rttRegistration.value,
+            operation: "error",
+            reasonCode: _disconnectJson["reason_code"],
+            data: _disconnectJson["reason"]));
       }
     }
     _rttConnectionStatus = RTTConnectionStatus.disconnected;
@@ -296,9 +311,9 @@ class RTTComms {
         _clientRef.log("send exception: $socketException");
       }
       addRTTCommandResponse(RTTCommandResponse(
-          ServiceName.rttRegistration.value.toLowerCase(),
-          "error",
-          buildRTTRequestError(socketException.toString())));
+          service: ServiceName.rttRegistration.value,
+          operation: "error",
+          data: buildRTTRequestError(socketException.toString())));
     }
 
     return bMessageSent;
@@ -339,7 +354,9 @@ class RTTComms {
     }
     _webSocketStatus = WebsocketStatus.closed;
     addRTTCommandResponse(RTTCommandResponse(
-        ServiceName.rttRegistration.value.toLowerCase(), "disconnect", reason));
+        service: ServiceName.rttRegistration.value,
+        operation: "disconnect",
+        data: jsonDecode(reason)));
   }
 
   void webSocketOnOpen() {
@@ -348,7 +365,7 @@ class RTTComms {
     }
     _webSocketStatus = WebsocketStatus.open;
     addRTTCommandResponse(RTTCommandResponse(
-        ServiceName.rttRegistration.value.toLowerCase(), "connect", ""));
+        service: ServiceName.rttRegistration.value, operation: "connect"));
   }
 
   void webSocketOnMessage({required Uint8List data}) {
@@ -366,9 +383,9 @@ class RTTComms {
     }
     _webSocketStatus = WebsocketStatus.error;
     addRTTCommandResponse(RTTCommandResponse(
-        ServiceName.rttRegistration.value.toLowerCase(),
-        "error",
-        buildRTTRequestError(message)));
+        service: ServiceName.rttRegistration.value,
+        operation: "error",
+        data: buildRTTRequestError(message)));
   }
 
   ///
@@ -412,7 +429,9 @@ class RTTComms {
 
     if (operation != "HEARTBEAT") {
       addRTTCommandResponse(RTTCommandResponse(
-          service.toLowerCase(), operation.toLowerCase(), inMessage));
+          service: service,
+          operation: operation.toLowerCase(),
+          data: response));
     }
   }
 
@@ -465,7 +484,9 @@ class RTTComms {
       _clientRef.log("RTT Connection Server Error: \n$jsonError");
     }
     addRTTCommandResponse(RTTCommandResponse(
-        ServiceName.rttRegistration.value.toLowerCase(), "error", jsonError));
+        service: ServiceName.rttRegistration.value,
+        operation: "error",
+        data: jsonDecode(jsonError)));
   }
 
   void addRTTCommandResponse(RTTCommandResponse inCommand) {
@@ -477,14 +498,14 @@ class RTTComms {
     }
   }
 
-  String buildRTTRequestError(String inStatusmessage) {
+  Map<String, dynamic> buildRTTRequestError(String inStatusmessage) {
     Map<String, dynamic> json = <String, dynamic>{};
     json["status"] = 403;
     json["reason_code"] = ReasonCodes.rttClientError;
     json["status_message"] = inStatusmessage;
     json["severity"] = "ERROR";
 
-    return _clientRef.serializeJson(json);
+    return json;
   }
 
   bool _disconnectedWithReason = false;
@@ -499,8 +520,8 @@ class RTTComms {
   Duration _heartBeatTime = const Duration(milliseconds: 10 * 1000);
 
   // success callbacks
-  SuccessCallback? _connectedSuccessCallback;
-  FailureCallback? _connectionFailureCallback;
+  RTTSuccessCallback? _connectedSuccessCallback;
+  RTTFailureCallback? _connectionFailureCallback;
   //dynamic _connectedObj;
 
   Map<String, dynamic> _rttHeaders = {};
@@ -515,15 +536,20 @@ class RTTComms {
 }
 
 class RTTCommandResponse {
-  late String service;
-  late String operation;
-  String? jsonMessage;
-  RTTCommandResponse(String inService, String inOp, String inMsg) {
-    service = inService;
-    operation = inOp;
-    jsonMessage = inMsg;
-  }
+  final String service;
+  final String operation;
+  Map<String, dynamic>? data;
+  final int? reasonCode;
+
+  RTTCommandResponse(
+      {required this.service,
+      required this.operation,
+      this.data,
+      this.reasonCode});
 }
+
+typedef RTTSuccessCallback = Function(RTTCommandResponse reponse);
+typedef RTTFailureCallback = Function(RTTCommandResponse reponse);
 
 enum WebsocketStatus { open, closed, message, error, none }
 

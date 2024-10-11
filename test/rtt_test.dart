@@ -15,13 +15,12 @@ main() {
     test("enableRTT", () async {
       bcTest.bcWrapper.rTTService.disableRTT();
 
-      ServerResponse? response = await bcTest.bcWrapper.rTTService
+      RTTCommandResponse? response = await bcTest.bcWrapper.rTTService
           .enableRTT(connectiontype: RTTConnectionType.websocket);
 
       if (response.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");
       } else {
-        expect(response.statusCode, 200);
         expect(response.data?['operation'], 'CONNECT');
       }
     });
@@ -71,7 +70,7 @@ main() {
         markTestSkipped("Rtt not enable for this app.");
       } else {
         expect(response.statusCode, 200);
-        List channels = response.data?['data']['channels'];
+        List channels = response.data?['channels'];
 
         for (var chan in channels) {
           debugPrint(">> Channel Found << ");
@@ -95,7 +94,7 @@ main() {
         markTestSkipped("Rtt not enable for this app.");
       } else {
         expect(response.statusCode, 200);
-        msgId = response.data?['data']['msgId'];
+        msgId = response.data?['msgId'];
         debugPrint("Message sent: $msgId");
       }
     });
@@ -108,7 +107,7 @@ main() {
         markTestSkipped("Rtt not enable for this app.");
       } else {
         expect(response.statusCode, 200);
-        String txt = response.data?['data']['content']['text'];
+        String txt = response.data?['content']['text'];
         expect(txt, msgToSend);
       }
     });

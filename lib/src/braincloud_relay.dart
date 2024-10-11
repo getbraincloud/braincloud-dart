@@ -74,7 +74,6 @@ class BrainCloudRelay {
   /// @param in_options
   /// @param in_success
   /// @param in_failure
-  /// @param cb_object
   void connect(
       RelayConnectionType inConnectiontype,
       RelayConnectOptions inOptions,
