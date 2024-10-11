@@ -24,6 +24,9 @@ main() {
 
       final imageData = File('test/TestImg.png').readAsBytesSync();
 
+      // ensure no other callback registered.
+      bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
+
       var uploadCompleterFuture =
           bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback();
 
@@ -32,6 +35,9 @@ main() {
               cloudPath, fileNameImage, true, true, imageData);
 
       ServerResponse uploadResponse = await uploadCompleterFuture;
+
+      // cleanup 
+      bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -65,6 +71,11 @@ main() {
       }
     });
     test("cancelUpload", () async {
+      expect(bcTest.bcWrapper.isInitialized, true);
+
+      // ensure no other callback registered.
+      bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
+
       var uploadCompleterFuture =
           bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback();
 
@@ -117,6 +128,9 @@ main() {
       // now cancel it.
       bcTest.bcWrapper.fileService.cancelUpload(uploadId);
       ServerResponse error = await uploadCompleterFuture;
+      // cleanup 
+      bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
+
       debugPrint("After cancel results ${error.toString()}");
 
       expect(error.statusCode, 900);
@@ -132,6 +146,10 @@ main() {
     });
 
     test("getUploadProgress", () async {
+      expect(bcTest.bcWrapper.isInitialized, true);
+      // ensure no other callback registered.
+      bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
+
       var uploadCompleterFuture =
           bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback();
 
@@ -188,6 +206,9 @@ main() {
       }
 
       ServerResponse uploadResponse = await uploadCompleterFuture;
+      // cleaup
+      bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
+
       var progress = bcTest.bcWrapper.fileService.getUploadProgress(uploadId);
       var transferred =
           bcTest.bcWrapper.fileService.getUploadBytesTransferred(uploadId);
