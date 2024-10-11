@@ -69,51 +69,57 @@ main() {
           bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback();
 
       String filename = "largeFile.txt";
-      String fileData = generateRandomString(1024 * 1024 * 20);
+      String fileData = generateRandomString(1024 * 1024 * 20); // 20mb is the default max allowed in bC 
       String uploadId = "";
 
-      await bcTest.bcWrapper.fileService
+      var response = await bcTest.bcWrapper.fileService
           .uploadFileFromMemory(
               cloudPath, filename, true, true, utf8.encode(fileData));
 
-      // expect(response.statusCode, 200);
-      // expect(bcTest.bcWrapper.isInitialized, true);
-      // if (response.data != null) {
-      //   expect(response.data, isMap);
-      //   Map<String, dynamic> body = response.data!;
-      //   expect(body['fileDetails'], isMap, reason: "Should return fileDetails");
-      //   expect(body['fileDetails']['cloudFilename'], filename,
-      //       reason: "Should return cloudFilename");
-      //   expect(body['fileDetails']['shareable'], true,
-      //       reason: "Should be sharable");
-      //   expect(body['fileDetails']['replaceIfExists'], true,
-      //       reason: "Should be replaceIfExists");
-      //   expect(body['fileDetails']['fileType'], 'User',
-      //       reason: "Should be User type file");
-      //   expect(body['fileDetails']['fileSize'], fileData.length,
-      //       reason: "File size should match");
-      //   expect(body['fileDetails']['uploadId'], isA<String>(),
-      //       reason: "Should have an uploadId");
-      //   uploadId = body['fileDetails']['uploadId'];
-      // }
+      debugPrint("uploadFileFromMemory results ${response.toString()}");
+      expect(response.statusCode, 200);
+      expect(bcTest.bcWrapper.isInitialized, true);
+      if (response.data != null) {
+        expect(response.data, isMap);
+        Map<String, dynamic> body = response.data!;
+        expect(body['fileDetails'], isMap, reason: "Should return fileDetails");
+        expect(body['fileDetails']['cloudFilename'], filename,
+            reason: "Should return cloudFilename");
+        expect(body['fileDetails']['shareable'], true,
+            reason: "Should be sharable");
+        expect(body['fileDetails']['replaceIfExists'], true,
+            reason: "Should be replaceIfExists");
+        expect(body['fileDetails']['fileType'], 'User',
+            reason: "Should be User type file");
+        expect(body['fileDetails']['fileSize'], fileData.length,
+            reason: "File size should match");
+        expect(body['fileDetails']['uploadId'], isA<String>(),
+            reason: "Should have an uploadId");
+        uploadId = body['fileDetails']['uploadId'];
+      }
 
       // Wait until the transfer actually starts
       int bytesTransferred =
           bcTest.bcWrapper.fileService.getUploadBytesTransferred(uploadId) ?? 0;
       int maxTries = 10;
-      while (bytesTransferred == 0 && maxTries > 0) {
-        await Future.delayed(const Duration(milliseconds: 50));
+        debugPrint("bytesTransferred: $bytesTransferred ");    
+      while (bytesTransferred <= 0 && maxTries > 0) {
+        await Future.delayed(const Duration(milliseconds: 75));
+        //  await pumpEventQueue(times: 50);
         maxTries--;
         bytesTransferred =
             bcTest.bcWrapper.fileService.getUploadBytesTransferred(uploadId) ??
                 0;
+        debugPrint("bytesTransferred: $bytesTransferred");    
       }
+      debugPrint("Cancelling Upload now...");
 
       // now cancel it.
       bcTest.bcWrapper.fileService.cancelUpload(uploadId);
       ServerResponse error = await uploadCompleterFuture;
+      debugPrint("After cancel results ${error.toString()}");
 
-      // expect(error.statusCode, 900);
+      expect(error.statusCode, 900);
       expect(error.reasonCode, 90100);
       expect(error.statusMessage, isNotNull);
       expect(error.statusMessage?.trim(),
