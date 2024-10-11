@@ -1,13 +1,10 @@
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'dart:io'  as io;
 
 import 'utils/test_base.dart';
 
 main() {
-  String? skipRTT = io.Platform.environment['SKIP_RTT'] ?? "";
-  debugPrint("SKIP_RTT is $skipRTT");  
   BCTest bcTest = BCTest();
   setUpAll(bcTest.setupBC);
 
@@ -23,7 +20,7 @@ main() {
       } else {
         expect(response.data?['operation'], 'CONNECT');
       }
-    });
+    },tags: "rTTService");
 
     String channelId = "";
 
@@ -38,7 +35,7 @@ main() {
         channelId = response.data?["channelId"];
         expect(channelId, isNotEmpty);
       }
-    });
+    },tags: "rTTService");
 
     test("getChannelInfo", () async {
       ServerResponse? response = await bcTest.bcWrapper.chatService
@@ -49,7 +46,7 @@ main() {
       } else {
         expect(response.statusCode, 200);
       }
-    });
+    },tags: "rTTService");
 
     test("channelConnect", () async {
       ServerResponse? response = await bcTest.bcWrapper.chatService
@@ -60,7 +57,7 @@ main() {
       } else {
         expect(response.statusCode, 200);
       }
-    });
+    },tags: "rTTService");
 
     test("getSubscribedChannels", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
@@ -80,7 +77,7 @@ main() {
           debugPrint(chan['desc']);
         }
       }
-    });
+    },tags: "rTTService");
 
     String msgId = "";
 
@@ -97,7 +94,7 @@ main() {
         msgId = response.data?['msgId'];
         debugPrint("Message sent: $msgId");
       }
-    });
+    },tags: "rTTService");
 
     test("getChatMessage", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
@@ -110,11 +107,11 @@ main() {
         String txt = response.data?['content']['text'];
         expect(txt, msgToSend);
       }
-    });
+    },tags: "rTTService");
 
     /// END TEST
     tearDownAll(() {
       bcTest.dispose();
     });
-  },skip: skipRTT.isNotEmpty);
+  });
 }
