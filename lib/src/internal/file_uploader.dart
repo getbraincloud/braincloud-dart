@@ -128,13 +128,15 @@ class FileUploader {
         _request!.write(postFormDataClosing);
 
         // Send the request
-        _request!.close().then(handleResponse);
+        _request!.close().then(handleResponse).onError<HttpException>((e,s) {
+          // Ignore aborted error as it was on purpose
+          if (reasonCode !=  ReasonCodes.clientUploadFileCancelled || e.message != "Request has been aborted") throw(e);          
+        });
       }
     }
   }
 
   void cancelUpload() {
-    _request?.abort();
 
     status = FileUploaderStatus.CompleteFailed;
     statusCode = StatusCodes.clientNetworkError;
@@ -143,6 +145,8 @@ class FileUploader {
     if (clientRef.loggingEnabled) {
       clientRef.log("Upload of $fileName cancelled by user");
     }
+    _request?.abort();
+
   }
 
   void update() {

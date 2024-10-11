@@ -69,7 +69,7 @@ main() {
         expect(body['fileDetails']['cloudFilename'], fileNameImage,
             reason: "Should return cloudFilename");
       }
-    });
+    },tags: 'fileService');
     test("cancelUpload", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
@@ -82,14 +82,13 @@ main() {
       String filename = "largeFile.txt";
       String fileData = generateRandomString(1024 * 1024 * 20); // 20mb is the default max allowed in bC 
       String uploadId = "";
-
-      var response = await bcTest.bcWrapper.fileService
+      
+      var  response = await bcTest.bcWrapper.fileService
           .uploadFileFromMemory(
               cloudPath, filename, true, true, utf8.encode(fileData));
 
       debugPrint("uploadFileFromMemory results ${response.toString()}");
       expect(response.statusCode, 200);
-      expect(bcTest.bcWrapper.isInitialized, true);
       if (response.data != null) {
         expect(response.data, isMap);
         Map<String, dynamic> body = response.data!;
@@ -123,10 +122,10 @@ main() {
                 0;
         debugPrint("bytesTransferred: $bytesTransferred");    
       }
-      debugPrint("Cancelling Upload now...");
+      debugPrint("Cancelling Upload $uploadId now...");
 
       // now cancel it.
-      bcTest.bcWrapper.fileService.cancelUpload(uploadId);
+      bcTest.bcWrapper.fileService.cancelUpload(uploadId);        
       ServerResponse error = await uploadCompleterFuture;
       // cleanup 
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
@@ -143,7 +142,7 @@ main() {
         Map<String, dynamic> body = error.data!;
         debugPrint(body.toString());
       }
-    });
+    },tags: 'fileService');
 
     test("getUploadProgress", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
@@ -233,7 +232,7 @@ main() {
         expect(body['fileDetails']['cloudFilename'], fileNameLarge,
             reason: "Should return cloudFilename");
       }
-    });
+    },tags: 'fileService');
 
     test("listUserFiles", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
@@ -246,7 +245,7 @@ main() {
         Map<String, dynamic> body = response.data!;
         expect(body['fileList'], isList);
       }
-    });
+    },tags: 'fileService');
     test("getCDNUrl", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
@@ -259,7 +258,7 @@ main() {
         expect(body['appServerUrl'], isA<String>());
         expect(body['cdnUrl'], isA<String>());
       }
-    });
+    },tags: 'fileService');
 
     test("deleteUserFile", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
@@ -274,7 +273,7 @@ main() {
         expect(body['fileDetails'], isMap);
         expect(body['fileDetails']['cloudFilename'], fileNameLarge);
       }
-    });
+    },tags: 'fileService');
     test("deleteUserFiles", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
       ServerResponse response =
@@ -285,7 +284,7 @@ main() {
         Map<String, dynamic> body = response.data!;
         expect(body['fileList'], isList);
       }
-    });
+    },tags: 'fileService');
 
     // end test
     /// END TEST
