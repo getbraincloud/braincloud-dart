@@ -152,12 +152,6 @@ class BrainCloudCustomEntity {
 
   /// @param entityId
 
-  /// @param success
-  /// The success callback.
-
-  /// @param failure
-  /// The failure callback.
-
   /// @returns Future<ServerResponse>
   Future<ServerResponse> readEntity(String entityType, String entityId) async {
     Map<String, dynamic> data = {};
@@ -436,12 +430,6 @@ class BrainCloudCustomEntity {
 
   /// @param deleteCriteria
 
-  /// @param success
-  /// The success callback.
-
-  /// @param failure
-  /// The failure callback.
-
   /// @returns Future<ServerResponse>
   Future<ServerResponse> deleteEntities(
       String entityType, Map<String, dynamic> deleteCriteria) async {
@@ -506,17 +494,11 @@ class BrainCloudCustomEntity {
 
   /// Service Name - CustomEntity
   /// Service Operation - deleteCustomEntity
-
+  ///
   /// @param entityType
-
+  ///
   /// @param entityId
-
-  /// @param success
-  /// The success callback.
-
-  /// @param failure
-  /// The failure callback.
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> deleteEntity(
       String entityType, String entityId, int version) async {

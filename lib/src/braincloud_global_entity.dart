@@ -267,19 +267,13 @@ class BrainCloudGlobalEntity {
   }
 
   /// Method reads an existing entity from the server.
-
+  ///
   /// Service Name - GlobalEntity
   /// Service Operation - Read
-
+  ///
   /// @param entityId
   /// The entity ID
-
-  /// @param success
-  /// The success callback.
-
-  /// @param failure
-  /// The failure callback.
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> readEntity(String entityId) async {
     Map<String, dynamic> data = {};
@@ -760,25 +754,19 @@ class BrainCloudGlobalEntity {
   }
 
   /// Method clears the owner id of an existing entity and sets the Acl on the server.
-
+  ///
   /// Service Name - globalEntity
   /// Service Operation - UPDATE_ENTITY_OWNER_AND_ACL
-
+  ///
   /// @param entityId
   /// The entity ID
-
+  ///
   /// @param version
   /// The version of the entity
-
+  ///
   /// @param acl
   /// The entity's access control list
-
-  /// @param success
-  /// The success callback.
-
-  /// @param failure
-  /// The failure callback.
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> makeSystemEntity(
       String entityId, int version, ACL acl) async {
