@@ -4,6 +4,7 @@
 //----------------------------------------------------
 import 'dart:async';
 
+import 'package:braincloud_dart/src/braincloud_blockchain.dart';
 import 'package:braincloud_dart/src/server_response.dart';
 import 'package:dart_extensions/dart_extensions.dart';
 
@@ -213,6 +214,8 @@ class BrainCloudWrapper {
   BrainCloudRelay get relayService => _client.relayService;
 
   BrainCloudGroupFile get groupFileService => _client.groupFileService;
+
+  BrainCloudBlockchain get blockchainService => _client.blockchain;
 
   Timer? _updateTimer;
 

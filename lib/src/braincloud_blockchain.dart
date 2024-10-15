@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
@@ -18,18 +17,17 @@ class BrainCloudBlockchain {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getBlockchainItems(
-      {String? integrationid, String? contextjson}) {
+      {String? integrationid, Map<String, dynamic>? contextJson}) {
     Completer<ServerResponse> completer = Completer();
-    var context = jsonDecode(contextjson ?? "{}");
+
     Map<String, dynamic> data = {};
 
     data[OperationParam.blockChainIntegrationId.value] =
         integrationid ?? "default";
-    data[OperationParam.blockChainContext.value] = context;
+    data[OperationParam.blockChainContext.value] = contextJson;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -46,17 +44,16 @@ class BrainCloudBlockchain {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getUniqs(
-      {required String inIntegrationid, required String inContextjson}) {
+      {required String inIntegrationid, Map<String, dynamic>? contextJson}) {
     Completer<ServerResponse> completer = Completer();
-    var context = jsonDecode(inContextjson);
+
     Map<String, dynamic> data = {};
 
     data[OperationParam.blockChainIntegrationId.value] = inIntegrationid;
-    data[OperationParam.blockChainContext.value] = context;
+    data[OperationParam.blockChainContext.value] = contextJson;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
