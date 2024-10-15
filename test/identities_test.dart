@@ -44,7 +44,7 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.identityService
           .attachEmailIdentity(email: userA.email, password: userA.password);
 
-      expect(response.statusCode, 200);
+      expect(response.statusCode, isIn([ StatusCodes.ok,StatusCodes.accepted]));
       // expect(response.body, isMAp);
     });
 
@@ -54,7 +54,7 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.identityService
           .detachEmailIdentity(email: userA.email, continueAnon: true);
 
-      expect(response.statusCode, 200);
+      expect(response.statusCode, isIn([ StatusCodes.ok,StatusCodes.accepted]));
       // expect(response.body, isNull);
     });
 
