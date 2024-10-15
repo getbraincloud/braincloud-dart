@@ -43,7 +43,7 @@ class BrainCloudMessaging {
   /// Retrieve user's message boxes, including 'inbox', 'sent', etc.
 
   /// @returns Future<ServerResponse>
-  Future<ServerResponse> getMessageboxes() {
+  Future<ServerResponse> getMessageBoxes() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
@@ -111,7 +111,7 @@ class BrainCloudMessaging {
   /// Retrieves a page of messages.
 
   /// @returns Future<ServerResponse>
-  Future<ServerResponse> getMessagesPage({required String context}) {
+  Future<ServerResponse> getMessagesPage({required Map<String,dynamic> context}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
@@ -184,13 +184,12 @@ class BrainCloudMessaging {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> sendMessage(
-      {required List<String> toprofileids, required String contentjson}) {
+      {required List<String> toprofileids, required Map<String,dynamic> contentJson}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.messagingToProfileIds.value] = toprofileids;
 
-    var content = jsonDecode(contentjson);
-    data[OperationParam.messagingContent.value] = content;
+    data[OperationParam.messagingContent.value] = contentJson;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) =>
