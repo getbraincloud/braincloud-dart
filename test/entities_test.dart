@@ -22,7 +22,10 @@ main() {
       var jsonEntityData = {"team": "RedTeam", "quantity": 0};
       var jsonEntityAcl = {"other": 0};
       ServerResponse response = await bcTest.bcWrapper.entityService
-          .createEntity(entityType, jsonEntityData, jsonEntityAcl);
+          .createEntity(
+              entityType: entityType,
+              jsonEntityData: jsonEntityData,
+              jsonEntityAcl: jsonEntityAcl);
       if (response.data != null) {
         expect(response.data, isMap);
         Map<String, dynamic> body = response.data!;
@@ -41,7 +44,10 @@ main() {
         // and create a shared entity too as this will be needed.
         var jsonEntityData = {"team": "RedTeam", "quantity": 0};
         ServerResponse createResponse = await bcTest.bcWrapper.entityService
-            .createEntity(bcTest.entityType, jsonEntityData, ACLs.readWrite);
+            .createEntity(
+                entityType: bcTest.entityType,
+                jsonEntityData: jsonEntityData,
+                jsonEntityAcl: ACLs.readWrite);
 
         if (createResponse.data != null) {
           Map<String, dynamic> body = createResponse.data!;
@@ -60,7 +66,10 @@ main() {
       var jsonEntityAcl = {"other": 0};
 
       ServerResponse response = await bcTest.bcWrapper.entityService
-          .createEntity(bcTest.entityType, jsonEntityData, jsonEntityAcl);
+          .createEntity(
+              entityType: bcTest.entityType,
+              jsonEntityData: jsonEntityData,
+              jsonEntityAcl: jsonEntityAcl);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -79,7 +88,7 @@ main() {
       if (entityId.isEmpty) await testEntityFactory(bcTest.entityType);
 
       ServerResponse response = await bcTest.bcWrapper.entityService
-          .deleteEntity(entityId, entityVersion);
+          .deleteEntity(entityId: entityId, version: entityVersion);
 
       expect(response.statusCode, 200);
       expect(response.data, isNull);
@@ -94,7 +103,8 @@ main() {
       var jsonEntityData = {"team": "RedTeam"};
 
       ServerResponse response = await bcTest.bcWrapper.entityService
-          .createEntity(bcTest.entityType, jsonEntityData, null);
+          .createEntity(
+              entityType: bcTest.entityType, jsonEntityData: jsonEntityData);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -116,7 +126,7 @@ main() {
       if (entityId.isEmpty) await testEntityFactory(bcTest.entityType);
 
       ServerResponse response = await bcTest.bcWrapper.entityService
-          .getEntitiesByType(bcTest.entityType);
+          .getEntitiesByType(entityType: bcTest.entityType);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -133,7 +143,7 @@ main() {
       if (entityId.isEmpty) await testEntityFactory(bcTest.entityType);
 
       ServerResponse response =
-          await bcTest.bcWrapper.entityService.getEntity(entityId);
+          await bcTest.bcWrapper.entityService.getEntity(entityId: entityId);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -148,14 +158,16 @@ main() {
     test("getList", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
-      if (entityId.isEmpty) await testEntityFactory(bcTest.entityType);
+      if (entityId.isEmpty) {
+        await testEntityFactory(bcTest.entityType);
+      }
 
       var whereJson = {"entityType": bcTest.entityType, "data.team": "RedTeam"};
       var orderByJson = {"data.team": 1};
       var maxReturn = 50;
 
-      ServerResponse response = await bcTest.bcWrapper.entityService
-          .getList(whereJson, orderByJson, maxReturn);
+      ServerResponse response = await bcTest.bcWrapper.entityService.getList(
+          whereJson: whereJson, orderByJson: orderByJson, maxReturn: maxReturn);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -174,8 +186,8 @@ main() {
 
       var whereJson = {"entityType": bcTest.entityType, "data.team": "RedTeam"};
 
-      ServerResponse response =
-          await bcTest.bcWrapper.entityService.getListCount(whereJson);
+      ServerResponse response = await bcTest.bcWrapper.entityService
+          .getListCount(whereJson: whereJson);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -199,7 +211,7 @@ main() {
       };
 
       ServerResponse response =
-          await bcTest.bcWrapper.entityService.getPage(context);
+          await bcTest.bcWrapper.entityService.getPage(jsonContext: context);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -228,8 +240,8 @@ main() {
 
       String contextString = base64Encode(jsonEncode(context).codeUnits);
 
-      ServerResponse response =
-          await bcTest.bcWrapper.entityService.getPageOffset(contextString, 1);
+      ServerResponse response = await bcTest.bcWrapper.entityService
+          .getPageOffset(context: contextString, pageOffset: 1);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -255,7 +267,7 @@ main() {
       }
 
       ServerResponse response = await bcTest.bcWrapper.entityService
-          .getSharedEntitiesForProfileId(bcTest.ids.sharedProfileId);
+          .getSharedEntitiesForProfileId(profileId: bcTest.ids.sharedProfileId);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -286,7 +298,10 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.entityService
           .getSharedEntitiesListForProfileId(
-              bcTest.ids.sharedProfileId, whereJson, orderByJson, maxReturn);
+              profileId: bcTest.ids.sharedProfileId,
+              whereJson: whereJson,
+              orderByJson: orderByJson,
+              maxReturn: maxReturn);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -309,7 +324,7 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.entityService
           .getSharedEntityForProfileId(
-              bcTest.ids.sharedProfileId, sharedEntityId);
+              profileId: bcTest.ids.sharedProfileId, entityId: sharedEntityId);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -330,7 +345,7 @@ main() {
       }
 
       ServerResponse response = await bcTest.bcWrapper.entityService
-          .getSingleton('${bcTest.entityType}Singleton');
+          .getSingleton(entityType: '${bcTest.entityType}Singleton');
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -352,8 +367,11 @@ main() {
       var jsonEntityAcl = {"other": 0};
 
       ServerResponse response = await bcTest.bcWrapper.entityService
-          .updateSingleton('${bcTest.entityType}Singleton', jsonEntityData,
-              jsonEntityAcl, singletonEntityVerison);
+          .updateSingleton(
+              entityType: '${bcTest.entityType}Singleton',
+              jsonEntityData: jsonEntityData,
+              jsonEntityAcl: jsonEntityAcl,
+              version: singletonEntityVerison);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -374,7 +392,8 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.entityService
           .deleteSingleton(
-              '${bcTest.entityType}Singleton', singletonEntityVerison);
+              entityType: '${bcTest.entityType}Singleton',
+              version: singletonEntityVerison);
 
       expect(response.statusCode, 200);
       expect(response.data, isNull);
@@ -395,8 +414,12 @@ main() {
       var jsonEntityData = {"team": "main", "quantity": 1};
 
       ServerResponse response = await bcTest.bcWrapper.entityService
-          .updateSharedEntity(sharedEntityId, bcTest.ids.sharedProfileId,
-              bcTest.entityType, jsonEntityData, sharedEntityVersion);
+          .updateSharedEntity(
+              entityId: sharedEntityId,
+              targetProfileId: bcTest.ids.sharedProfileId,
+              entityType: bcTest.entityType,
+              jsonEntityData: jsonEntityData,
+              version: sharedEntityVersion);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -420,7 +443,9 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.entityService
           .incrementSharedUserEntityData(
-              sharedEntityId, bcTest.ids.sharedProfileId, jsonEntityData);
+              entityId: sharedEntityId,
+              targetProfileId: bcTest.ids.sharedProfileId,
+              jsonData: jsonEntityData);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -443,8 +468,12 @@ main() {
       var jsonEntityAcl = {"other": 0};
 
       ServerResponse response = await bcTest.bcWrapper.entityService
-          .updateEntity(entityId, bcTest.entityType, jsonEntityData,
-              jsonEntityAcl, entityVersion);
+          .updateEntity(
+              entityId: entityId,
+              entityType: bcTest.entityType,
+              jsonEntityData: jsonEntityData,
+              jsonEntityAcl: jsonEntityAcl,
+              version: entityVersion);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -463,7 +492,8 @@ main() {
       if (entityId.isEmpty) await testEntityFactory(bcTest.entityType);
 
       ServerResponse response = await bcTest.bcWrapper.entityService
-          .incrementUserEntityData(entityId, jsonEntityData);
+          .incrementUserEntityData(
+              entityId: entityId, jsonData: jsonEntityData);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);

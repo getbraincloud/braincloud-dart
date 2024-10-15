@@ -36,8 +36,10 @@ main() async {
         bcTest.ids.sharedProfileId = response.data?['profileId'];
         // and create a shared entity too as this will be needed.
         var jsonEntityData = {"team": "RedTeam", "quantity": 0};
-        await bcTest.bcWrapper.entityService
-            .createEntity(bcTest.entityType, jsonEntityData, ACLs.readWrite);
+        await bcTest.bcWrapper.entityService.createEntity(
+            entityType: bcTest.entityType,
+            jsonEntityData: jsonEntityData,
+            jsonEntityAcl: ACLs.readWrite);
       }
     });
 
