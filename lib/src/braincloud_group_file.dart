@@ -20,8 +20,8 @@ class BrainCloudGroupFile {
   /// @param fileNameFile cloud name
 
   /// @returns Future<ServerResponse>
-  Future<ServerResponse> checkFilenameExists(String groupId, String folderPath,
-      String fileName, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> checkFilenameExists({required String groupId, required String folderPath,
+      required String fileName}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.folderPath.value] = folderPath;
@@ -37,10 +37,8 @@ class BrainCloudGroupFile {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> checkFullpathFilenameExists(
-      String groupId,
-      String fullPathFilename,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      {required String groupId,
+      required String fullPathFilename}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.fullPathFilename.value] = fullPathFilename;
@@ -60,15 +58,13 @@ class BrainCloudGroupFile {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> copyFile(
-      String groupId,
-      String fileId,
-      int version,
-      String newTreeId,
-      int treeVersion,
-      String newFilename,
-      bool overwriteIfPresent,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      {required String groupId,
+      required String fileId,
+      required int version,
+      required String newTreeId,
+      required int treeVersion,
+      required String newFilename,
+      required bool overwriteIfPresent}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.fileId.value] = fileId;
@@ -89,8 +85,11 @@ class BrainCloudGroupFile {
   /// @param filenameThe file name for verification purposes.
 
   /// @returns Future<ServerResponse>
-  Future<ServerResponse> deleteFile(String groupId, String fileId, int version,
-      String filename, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> deleteFile(
+    {required String groupId, 
+    required String fileId, 
+    required int version,
+    required String filename}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.fileId.value] = fileId;
@@ -106,8 +105,9 @@ class BrainCloudGroupFile {
   /// @param fileIdThe id of the file.
 
   /// @returns Future<ServerResponse>
-  Future<ServerResponse> getCDNUrl(String groupId, String fileId,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getCDNUrl(
+    {required String groupId, 
+    required String fileId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.fileId.value] = fileId;
@@ -120,8 +120,9 @@ class BrainCloudGroupFile {
   /// @param groupIdID of the group.
   /// @param fileIdThe id of the file.
   /// @returns Future<ServerResponse>
-  Future<ServerResponse> getFileInfo(String groupId, String fileId,
-      SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getFileInfo(
+    {required String groupId, 
+    required String fileId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.fileId.value] = fileId;
@@ -135,8 +136,10 @@ class BrainCloudGroupFile {
   /// @param folderPathThe folder path.
   /// @param filenameThe file name.
   /// @returns Future<ServerResponse>
-  Future<ServerResponse> getFileInfoSimple(String groupId, String folderPath,
-      String filename, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getFileInfoSimple(
+    {required String groupId, 
+    required String folderPath,
+    required String filename}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.folderPath.value] = folderPath;
@@ -151,8 +154,10 @@ class BrainCloudGroupFile {
   /// @param folderPathThe folder path.
   /// @param recurseWhether to recurse beyond the starting folder.
   /// @returns Future<ServerResponse>
-  Future<ServerResponse> getFileList(String groupId, String folderPath,
-      bool recurse, SuccessCallback? success, FailureCallback? failure) {
+  Future<ServerResponse> getFileList(
+    {required String groupId, 
+    required String folderPath,
+    required bool recurse}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.folderPath.value] = folderPath;
@@ -172,15 +177,13 @@ class BrainCloudGroupFile {
   /// @param overwriteIfPresentWhether to allow overwrite of an existing file if present.
   /// @returns Future<ServerResponse>
   Future<ServerResponse> moveFile(
-      String groupId,
-      String fileId,
-      int version,
-      String newTreeId,
-      int treeVersion,
-      String newFilename,
-      bool overwriteIfPresent,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      {required String groupId,
+      required String fileId,
+      required int version,
+      required String newTreeId,
+      required int treeVersion,
+      required String newFilename,
+      required bool overwriteIfPresent}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.fileId.value] = fileId;
@@ -204,15 +207,14 @@ class BrainCloudGroupFile {
   /// @param overwriteIfPresentWhether to allow overwrite of an existing file if present.
   /// @returns Future<ServerResponse>
   Future<ServerResponse> moveUserToGroupFile(
-      String userCloudPath,
-      String userCloudFilename,
-      String groupId,
-      String groupTreeId,
-      String groupFilename,
-      Map<String, dynamic> groupFileAcl,
-      bool overwriteIfPresent,
-      SuccessCallback? success,
-      FailureCallback? failure) {
+      {required String userCloudPath,
+      required String userCloudFilename,
+      required String groupId,
+      required String groupTreeId,
+      required String groupFilename,
+      required Map<String, dynamic> groupFileAcl,
+      required bool overwriteIfPresent}) async {
+
     Map<String, dynamic> data = {};
     data[OperationParam.userCloudPath.value] = userCloudPath;
     data[OperationParam.userCloudFilename.value] = userCloudFilename;
