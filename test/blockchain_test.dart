@@ -1,3 +1,4 @@
+import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'utils/test_base.dart';
@@ -11,16 +12,22 @@ void main() {
     var _defaultIntegrationId = "default";
     Map<String, dynamic> _defaultContextJson = {};
 
-    test("getBlockchainItems()", () {
-      bcTest.bcWrapper.blockchainService.getBlockchainItems(
-          integrationid: _defaultIntegrationId,
-          contextJson: _defaultContextJson);
+    test("getBlockchainItems()", () async {
+      ServerResponse response = await bcTest.bcWrapper.blockchainService
+          .getBlockchainItems(
+              integrationid: _defaultIntegrationId,
+              contextJson: _defaultContextJson);
+
+      expect(response.statusCode, StatusCodes.badRequest);
     });
 
-    test("getUniqs()", () {
-      bcTest.bcWrapper.blockchainService.getUniqs(
-          inIntegrationid: _defaultIntegrationId,
-          contextJson: _defaultContextJson);
+    test("getUniqs()", () async {
+      ServerResponse response = await bcTest.bcWrapper.blockchainService
+          .getUniqs(
+              inIntegrationid: _defaultIntegrationId,
+              contextJson: _defaultContextJson);
+
+      expect(response.statusCode, StatusCodes.badRequest);
     });
 
     /// END TEST
