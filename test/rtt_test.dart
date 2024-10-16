@@ -10,9 +10,9 @@ main() {
 
   group("Test RTT", () {
     test("enableRTT", () async {
-      bcTest.bcWrapper.rTTService.disableRTT();
+      bcTest.bcWrapper.rttService.disableRTT();
 
-      RTTCommandResponse? response = await bcTest.bcWrapper.rTTService
+      RTTCommandResponse? response = await bcTest.bcWrapper.rttService
           .enableRTT(connectiontype: RTTConnectionType.websocket);
 
       if (response.reasonCode == ReasonCodes.featureNotEnabled) {
@@ -20,7 +20,7 @@ main() {
       } else {
         expect(response.data?['operation'], 'CONNECT');
       }
-    },tags: "rTTService");
+    }, tags: "rTTService");
 
     String channelId = "";
 
@@ -35,7 +35,7 @@ main() {
         channelId = response.data?["channelId"];
         expect(channelId, isNotEmpty);
       }
-    },tags: "rTTService");
+    }, tags: "rTTService");
 
     test("getChannelInfo", () async {
       ServerResponse? response = await bcTest.bcWrapper.chatService
@@ -46,7 +46,7 @@ main() {
       } else {
         expect(response.statusCode, 200);
       }
-    },tags: "rTTService");
+    }, tags: "rTTService");
 
     test("channelConnect", () async {
       ServerResponse? response = await bcTest.bcWrapper.chatService
@@ -57,7 +57,7 @@ main() {
       } else {
         expect(response.statusCode, 200);
       }
-    },tags: "rTTService");
+    }, tags: "rTTService");
 
     test("getSubscribedChannels", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
@@ -77,7 +77,7 @@ main() {
           debugPrint(chan['desc']);
         }
       }
-    },tags: "rTTService");
+    }, tags: "rTTService");
 
     String msgId = "";
 
@@ -94,7 +94,7 @@ main() {
         msgId = response.data?['msgId'];
         debugPrint("Message sent: $msgId");
       }
-    },tags: "rTTService");
+    }, tags: "rTTService");
 
     test("getChatMessage", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
@@ -107,7 +107,7 @@ main() {
         String txt = response.data?['content']['text'];
         expect(txt, msgToSend);
       }
-    },tags: "rTTService");
+    }, tags: "rTTService");
 
     /// END TEST
     tearDownAll(() {

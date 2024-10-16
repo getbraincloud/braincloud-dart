@@ -402,7 +402,7 @@ class RTTComms {
 
     Map<String, dynamic> data = {};
     if (response.containsKey("data")) {
-      data = response["data"];
+      data = response["data"] ?? {};
     }
     if (operation == "CONNECT") {
       int heartBeat = (_heartBeatTime.inMilliseconds / 1000).truncate();
