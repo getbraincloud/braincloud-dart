@@ -603,13 +603,14 @@ class BrainCloudLobby {
 
   void _pingNextItemToProcess() {
     _regionTargetsToProcessLock.acquire();
+    var returnEarly = false;
     try {
       if (_regionTargetsToProcess.isNotEmpty) {
         RegionTarget regionTarget = _regionTargetsToProcess[0];
         _regionTargetsToProcess.removeAt(0);
         _pingHost(regionTarget);
 
-        return;
+        returnEarly = true;
       } else if (_regionPingData.length == pingData.length &&
           _pingRegionSuccessCallback != null) {
         String pingStr = _clientRef.serializeJson(pingData);
@@ -623,10 +624,14 @@ class BrainCloudLobby {
 
         _pingRegionSuccessCallback = null;
 
-        return;
+        returnEarly = true;
       }
     } finally {
       _regionTargetsToProcessLock.release();
+
+      if (returnEarly == true) {
+        return;
+      }
     }
 
     _pingRegionSuccessCallback = null;
@@ -699,7 +704,7 @@ class BrainCloudLobby {
 
     Map<String, dynamic> data = inJson["data"];
     _regionPingData = data["regionPingData"];
-    //lobbyTypeRegions = data["lobbyTypeRegions"];
+    //_lobbyTypeRegions = data["lobbyTypeRegions"];
   }
 
   void _pingHost(RegionTarget inRegionTarget) {
@@ -713,36 +718,16 @@ class BrainCloudLobby {
   void _handlePingReponse(String region, String target) async {
     debugPrint("Redion: $region - Target: $target");
 
-    final response = await Ping(target, count: 1, timeout: 10000).stream.first;
-
-    if (response.error == null) {
-      handlePingTimeResponse(
-          response.response?.time?.inMilliseconds ?? 0, region);
-    } else {
+    var ping = Ping(target, count: 1, timeout: 10000);
+    ping.stream.listen((event) {
+      if (event.response != null) {
+        handlePingTimeResponse(
+            event.response?.time?.inMilliseconds ?? 0, region);
+      }
+      ping.stop();
+    }).onError((error) {
       _pingNextItemToProcess();
-    }
-
-    // try
-    // {
-    //     pinger.PingCompleted += (o, response) =>
-    //     {
-    //         if (response.Error == null && response.Reply.Status == IPStatus.Success)
-    //         {
-    //             handlePingTimeResponse(response.Reply.RoundtripTime, in_region);
-    //         }
-    //         else
-    //         {
-    //             _pingNextItemToProcess();
-    //         }
-    //     };
-
-    //     pinger.SendPingAsync(in_target, 10000);
-    // }
-    // catch (Exception) { }
-    // finally
-    // {
-    //     pinger?.Dispose();
-    // }
+    });
   }
 
   void _handleHTTPResponse(String region, String target) async {
@@ -763,48 +748,6 @@ class BrainCloudLobby {
       _pingNextItemToProcess();
     }
   }
-
-//         private IEnumerator HandlePingReponse(String in_region, String in_target)
-//         {
-//             if (!m_regionTargetIPs.containsKey(in_target))
-//             {
-//                 IPHostEntry host = Dns.GetHostEntry(in_target);
-//                 foreach (IPAddress addresses in host.AddressList)
-//                 {
-//                     if (addresses.AddressFamily == AddressFamily.InterNetwork)
-//                     {
-//                         m_regionTargetIPs.Add(in_target, addresses.toString());
-//                         break;
-//                     }
-//                 }
-//             }
-
-//             if (m_regionTargetIPs.containsKey(in_target))
-//             {
-//                 DateTime ttl = DateTime.UtcNow;
-//                 UnityEngine.Ping ping = new UnityEngine.Ping(m_regionTargetIPs[in_target]);
-//                 while (!ping.isDone && (DateTime.UtcNow - ttl).TotalMilliseconds < 10000)
-//                 {
-//                     yield return null;
-//                 }
-
-//                 if (ping.isDone && ping.time > 0)
-//                 {
-//                     handlePingTimeResponse(ping.time, in_region);
-//                 }
-//                 else
-//                 {
-//                     _pingNextItemToProcess();
-//                 }
-
-//                 ping.DestroyPing();
-//             }
-//             else
-//             {
-//                 _pingNextItemToProcess();
-//             }
-//         }
-// #endif
 
   void handlePingTimeResponse(int responsetime, String region) {
     var regions = _cachedPingResponses[region];
