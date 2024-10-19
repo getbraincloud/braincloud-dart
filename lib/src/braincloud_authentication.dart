@@ -38,7 +38,7 @@ class BrainCloudAuthentication {
   void initialize(String pId, String aId) {
     profileId = pId;
     _anonymousId = aId;
-    compressResponse = false;
+    compressResponse = true;
   }
 
   /// Used to clear the saved profile id - to use in cases when the user is
