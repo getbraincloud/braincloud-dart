@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
@@ -44,10 +43,11 @@ class BrainCloudAsyncMatch {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> createMatch(
-      {required String jsonOpponentIds, String? pushNotificationMessage}) {
+      {required List<Map<String, dynamic>> jsonOpponentIds,
+      Map<String, dynamic>? pushNotificationMessage}) {
     return _createMatchInternal(
       jsonOpponentIds: jsonOpponentIds,
-      pushNotificationMessage: pushNotificationMessage ?? '',
+      pushNotificationMessage: pushNotificationMessage,
     );
   }
 
@@ -76,7 +76,7 @@ class BrainCloudAsyncMatch {
   /// ]
 
   /// @param jsonMatchState
-  /// JSON String blob provided by the caller
+  /// JSON provided by the caller
 
   /// @param pushNotificationMessage
   /// Optional push notification message to send to the other party.
@@ -90,16 +90,16 @@ class BrainCloudAsyncMatch {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> createMatchWithInitialTurn({
-    required String jsonOpponentIds,
-    String? jsonMatchState,
-    String? pushNotificationMessage,
+    required List<Map<String, dynamic>> jsonOpponentIds,
+    Map<String, dynamic>? jsonMatchState,
+    Map<String, dynamic>? pushNotificationMessage,
     String? nextPlayer,
-    String? jsonSummary,
+    Map<String, dynamic>? jsonSummary,
   }) {
     return _createMatchInternal(
         jsonOpponentIds: jsonOpponentIds,
-        jsonMatchState: jsonMatchState ?? "{}",
-        pushNotificationMessage: pushNotificationMessage ?? "",
+        jsonMatchState: jsonMatchState,
+        pushNotificationMessage: pushNotificationMessage,
         nextPlayer: nextPlayer,
         jsonSummary: jsonSummary);
   }
@@ -139,18 +139,18 @@ class BrainCloudAsyncMatch {
       {required String ownerId,
       required String matchId,
       required int version,
-      required String jsonMatchState,
-      String? pushNotificationMessage,
+      required Map<String, dynamic> jsonMatchState,
+      Map<String, dynamic>? pushNotificationMessage,
       String? nextPlayer,
-      String? jsonSummary,
-      String? jsonStatistics}) {
+      Map<String, dynamic>? jsonSummary,
+      Map<String, dynamic>? jsonStatistics}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
     data["ownerId"] = ownerId;
     data["matchId"] = matchId;
     data["version"] = version.toUnsigned(64);
-    data["matchState"] = jsonDecode(jsonMatchState);
+    data["matchState"] = jsonMatchState;
 
     if (Util.isOptionalParameterValid(nextPlayer)) {
       Map<String, dynamic> status = {};
@@ -158,21 +158,20 @@ class BrainCloudAsyncMatch {
       data["status"] = status;
     }
 
-    if (Util.isOptionalParameterValid(jsonSummary)) {
-      data["summary"] = jsonDecode(jsonSummary!);
+    if (jsonSummary != null) {
+      data["summary"] = jsonSummary;
     }
 
-    if (Util.isOptionalParameterValid(jsonStatistics)) {
-      data["statistics"] = jsonDecode(jsonStatistics!);
+    if (jsonStatistics != null) {
+      data["statistics"] = jsonStatistics;
     }
 
-    if (Util.isOptionalParameterValid(pushNotificationMessage)) {
+    if (pushNotificationMessage != null) {
       data["pushContent"] = pushNotificationMessage;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -207,7 +206,7 @@ class BrainCloudAsyncMatch {
       {required String ownerId,
       required String matchId,
       required int version,
-      String? jsonSummary}) {
+      Map<String, dynamic>? jsonSummary}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
@@ -215,13 +214,12 @@ class BrainCloudAsyncMatch {
     data["matchId"] = matchId;
     data["version"] = version.toUnsigned(64);
 
-    if (Util.isOptionalParameterValid(jsonSummary)) {
-      data["summary"] = jsonDecode(jsonSummary!);
+    if (jsonSummary != null) {
+      data["summary"] = jsonSummary;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -272,8 +270,7 @@ class BrainCloudAsyncMatch {
 //}
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -308,8 +305,7 @@ class BrainCloudAsyncMatch {
     data["matchId"] = matchId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -343,8 +339,7 @@ class BrainCloudAsyncMatch {
     data["matchId"] = matchId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -378,8 +373,7 @@ class BrainCloudAsyncMatch {
     data["matchId"] = matchId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -401,8 +395,7 @@ class BrainCloudAsyncMatch {
   Future<ServerResponse> findMatches() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -423,8 +416,7 @@ class BrainCloudAsyncMatch {
   Future<ServerResponse> findCompleteMatches() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -458,8 +450,7 @@ class BrainCloudAsyncMatch {
     data["matchId"] = matchId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -493,8 +484,7 @@ class BrainCloudAsyncMatch {
     data["matchId"] = matchId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -530,7 +520,7 @@ class BrainCloudAsyncMatch {
     required String ownerId,
     required String matchId,
     String? pushContent,
-    required summary,
+    required Map<String, dynamic> summary,
   }) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -540,11 +530,10 @@ class BrainCloudAsyncMatch {
     if (pushContent != null) {
       data["pushContent"] = pushContent;
     }
-    data["summary"] = jsonDecode(summary);
+    data["summary"] = summary;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -580,7 +569,7 @@ class BrainCloudAsyncMatch {
       {required String ownerId,
       required String matchId,
       String? pushContent,
-      required summary}) {
+      required Map<String, dynamic> summary}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     //abandoneddby not needed?
@@ -589,11 +578,10 @@ class BrainCloudAsyncMatch {
     if (pushContent != null) {
       data["pushContent"] = pushContent;
     }
-    data["summary"] = jsonDecode(summary);
+    data["summary"] = summary;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -608,18 +596,18 @@ class BrainCloudAsyncMatch {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> _createMatchInternal(
-      {required String jsonOpponentIds,
-      String? jsonMatchState,
-      required String pushNotificationMessage,
+      {required List<Map<String, dynamic>> jsonOpponentIds,
+      Map<String, dynamic>? jsonMatchState,
+      Map<String, dynamic>? pushNotificationMessage,
       String? matchId,
       String? nextPlayer,
-      String? jsonSummary}) {
+      Map<String, dynamic>? jsonSummary}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    data["players"] = jsonDecode(jsonOpponentIds);
+    data["players"] = jsonOpponentIds;
 
-    if (Util.isOptionalParameterValid(jsonMatchState)) {
-      data["matchState"] = jsonDecode(jsonMatchState!);
+    if (jsonMatchState != null) {
+      data["matchState"] = jsonMatchState;
     }
 
     if (Util.isOptionalParameterValid(matchId)) {
@@ -632,17 +620,16 @@ class BrainCloudAsyncMatch {
       data["status"] = status;
     }
 
-    if (Util.isOptionalParameterValid(jsonSummary)) {
-      data["summary"] = jsonDecode(jsonSummary!);
+    if (jsonSummary != null) {
+      data["summary"] = jsonSummary;
     }
 
-    if (Util.isOptionalParameterValid(pushNotificationMessage)) {
+    if (pushNotificationMessage != null) {
       data["pushContent"] = pushNotificationMessage;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,

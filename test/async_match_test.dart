@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -16,11 +14,10 @@ void main() {
     var matchId;
 
     test("createMatch()", () async {
-      ServerResponse response =
-          await bcTest.bcWrapper.asyncMatchService.createMatch(
-              jsonOpponentIds: jsonEncode([
+      ServerResponse response = await bcTest.bcWrapper.asyncMatchService
+          .createMatch(jsonOpponentIds: [
         {"platform": platform, "id": userB.profileId}
-      ]));
+      ]);
 
       matchId = response.data?["matchId"];
       expect(response.statusCode, StatusCodes.ok);
@@ -32,7 +29,7 @@ void main() {
               ownerId: userA.profileId!,
               matchId: matchId,
               version: 0,
-              jsonSummary: jsonEncode({"summary": "sum"}));
+              jsonSummary: {"summary": "sum"});
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -55,10 +52,10 @@ void main() {
               ownerId: userA.profileId!,
               matchId: matchId,
               version: 2,
-              jsonSummary: jsonEncode({"summary": "sum"}),
+              jsonSummary: {"summary": "sum"},
               nextPlayer: userB.profileId,
-              jsonMatchState: jsonEncode({"summary": "sum"}),
-              pushNotificationMessage: jsonEncode({"summary": "sum"}));
+              jsonMatchState: {"summary": "sum"},
+              pushNotificationMessage: {"summary": "sum"});
 
       matchId = response.data?["matchId"];
       expect(response.statusCode, StatusCodes.ok);
@@ -84,13 +81,14 @@ void main() {
     });
 
     test("createMatchWithInitialTurn()", () async {
-      ServerResponse response =
-          await bcTest.bcWrapper.asyncMatchService.createMatchWithInitialTurn(
-              jsonOpponentIds: jsonEncode([
-                {"platform": platform, "id": userB.profileId}
-              ]),
-              jsonMatchState: jsonEncode({"matchStateData": "test"}),
-              jsonSummary: jsonEncode({"summary": "sum"}));
+      ServerResponse response = await bcTest.bcWrapper.asyncMatchService
+          .createMatchWithInitialTurn(jsonOpponentIds: [
+        {"platform": platform, "id": userB.profileId}
+      ], jsonMatchState: {
+        "matchStateData": "test"
+      }, jsonSummary: {
+        "summary": "sum"
+      });
 
       matchId = response.data?["matchId"];
       expect(response.statusCode, StatusCodes.ok);
@@ -130,12 +128,11 @@ void main() {
     });
 
     test("CompleteMatchWithSummaryData()", retry: 3, () async {
-      ServerResponse response =
-          await bcTest.bcWrapper.asyncMatchService.createMatch(
-              jsonOpponentIds: jsonEncode(([
+      ServerResponse response = await bcTest.bcWrapper.asyncMatchService
+          .createMatch(jsonOpponentIds: [
         {"platform": platform, "id": userA.profileId},
         {"platform": platform, "id": userB.profileId}
-      ])));
+      ]);
 
       matchId = response.data?["matchId"];
       expect(response.statusCode, StatusCodes.ok);
@@ -145,10 +142,10 @@ void main() {
               ownerId: userA.profileId!,
               matchId: matchId,
               version: 0,
-              jsonMatchState: jsonEncode({"summary": "sum"}),
+              jsonMatchState: {"summary": "sum"},
               nextPlayer: userB.profileId,
-              jsonSummary: jsonEncode({"summary": "sum"}),
-              jsonStatistics: jsonEncode({"summary": "sum"}));
+              jsonSummary: {"summary": "sum"},
+              jsonStatistics: {"summary": "sum"});
 
       expect(response2.statusCode, StatusCodes.ok);
 
@@ -157,32 +154,30 @@ void main() {
               ownerId: userA.profileId!,
               matchId: matchId,
               pushContent: "EHHH",
-              summary: jsonEncode({"summary": "sum"}));
+              summary: {"summary": "sum"});
 
       expect(response3.statusCode, StatusCodes.ok);
     });
 
     test("AbandonMatchWithSummaryData()", retry: 3, () async {
-      ServerResponse response =
-          await bcTest.bcWrapper.asyncMatchService.createMatch(
-              jsonOpponentIds: jsonEncode([
+      ServerResponse response = await bcTest.bcWrapper.asyncMatchService
+          .createMatch(jsonOpponentIds: [
         {"platform": platform, "id": userA.profileId},
         {"platform": platform, "id": userB.profileId}
-      ]));
+      ]);
 
       matchId = response.data?["matchId"];
       expect(response.statusCode, StatusCodes.ok);
 
-      ServerResponse response2 =
-          await bcTest.bcWrapper.asyncMatchService.submitTurn(
-        ownerId: userA.profileId!,
-        matchId: matchId,
-        version: 0,
-        jsonMatchState: jsonEncode({"summary": "sum"}),
-        nextPlayer: userB.profileId,
-        jsonSummary: jsonEncode({"summary": "sum"}),
-        jsonStatistics: jsonEncode({"summary": "sum"}),
-      );
+      ServerResponse response2 = await bcTest.bcWrapper.asyncMatchService
+          .submitTurn(
+              ownerId: userA.profileId!,
+              matchId: matchId,
+              version: 0,
+              jsonMatchState: {"summary": "sum"},
+              nextPlayer: userB.profileId,
+              jsonSummary: {"summary": "sum"},
+              jsonStatistics: {"summary": "sum"});
 
       expect(response2.statusCode, StatusCodes.ok);
 
@@ -191,7 +186,7 @@ void main() {
         ownerId: userA.profileId!,
         matchId: matchId,
         pushContent: "EHHH",
-        summary: jsonEncode({"summary": "sum"}),
+        summary: {"summary": "sum"},
       );
 
       expect(response3.statusCode, StatusCodes.ok);

@@ -5,7 +5,25 @@
 
 import 'dart:convert';
 
-enum Access { none, readOnly, readWrite }
+enum Access {
+  none("NONE"),
+  readOnly("READONLY"),
+  readWrite("READWRITE");
+
+  const Access(this.value);
+
+  final String value;
+
+  static Access fromString(String s) {
+    Access access = Access.values
+        .firstWhere((e) => e.value == s, orElse: () => Access.none);
+
+    return access;
+  }
+
+  @override
+  String toString() => value;
+}
 
 class GroupACL {
   Access other = Access.none;
