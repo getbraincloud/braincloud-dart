@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -16,24 +14,20 @@ void main() {
   group("Test Redemptionm Code", () {
     test("getCodeToRedeem()", () async {
       ServerResponse response = await bcTest.bcWrapper.globalStatisticsService
-          .incrementGlobalStats(
-              jsonData: jsonEncode({_lastCodeUsedStatName: "+1"}));
+          .incrementGlobalStats(jsonData: {_lastCodeUsedStatName: "+1"});
 
       expect(response.statusCode, StatusCodes.ok);
 
-      _codeToRedeem =
-          response.data!["statistics"]["lastCodeUsed"].toString();
+      _codeToRedeem = response.data!["statistics"]["lastCodeUsed"].toString();
     });
 
     test("redeemCode()", () async {
       ServerResponse response = await bcTest.bcWrapper.globalStatisticsService
-          .incrementGlobalStats(
-              jsonData: jsonEncode({_lastCodeUsedStatName: "+1"}));
+          .incrementGlobalStats(jsonData: {_lastCodeUsedStatName: "+1"});
 
       expect(response.statusCode, StatusCodes.ok);
 
-      _codeToRedeem =
-          response.data!["statistics"]["lastCodeUsed"].toString();
+      _codeToRedeem = response.data!["statistics"]["lastCodeUsed"].toString();
       ;
 
       ServerResponse response2 = await bcTest.bcWrapper.redemptionCodeService

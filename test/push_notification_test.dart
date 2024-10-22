@@ -38,9 +38,7 @@ main() {
     test("sendRichPushNotification()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .sendRichPushNotification(
-              toProfileId: userA.profileId!,
-              notificationTemplateId: 1,
-              substitutionJson: "");
+              toProfileId: userA.profileId!, notificationTemplateId: 1);
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -61,7 +59,7 @@ main() {
           name: "test",
           groupType: "test",
           isOpenGroup: false,
-          jsonData: jsonEncode({"test": "asdf"}));
+          jsonData: {"test": "asdf"});
 
       expect(response.statusCode, StatusCodes.ok);
       groupId = response.data?["groupId"];
@@ -72,7 +70,7 @@ main() {
           .sendTemplatedPushNotificationToGroup(
               groupId: groupId,
               notificationTemplateId: 1,
-              substitutionsJson: jsonEncode({"1": userA.name}));
+              substitutionsJson: {"1": userA.name});
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -80,10 +78,11 @@ main() {
     test("sendNormalizedPushNotificationToGroup()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .sendNormalizedPushNotificationToGroup(
-        groupId: groupId,
-        alertContentJson: jsonEncode(
-            {"body": "content of message", "title": "message title"}),
-      );
+              groupId: groupId,
+              alertContentJson: {
+            "body": "content of message",
+            "title": "message title"
+          });
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -92,8 +91,10 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .scheduleNormalizedPushNotificationUTC(
               profileId: userA.profileId!,
-              alertContentJson: jsonEncode(
-                  {"body": "content of message", "title": "message title"}),
+              alertContentJson: {
+                "body": "content of message",
+                "title": "message title"
+              },
               startTimeUTC: 0);
 
       expect(response.statusCode, StatusCodes.ok);
@@ -103,8 +104,10 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .scheduleNormalizedPushNotificationMinutes(
               profileId: userA.profileId!,
-              alertContentJson: jsonEncode(
-                  {"body": "content of message", "title": "message title"}),
+              alertContentJson: {
+                "body": "content of message",
+                "title": "message title"
+              },
               minutesFromNow: 42);
 
       expect(response.statusCode, StatusCodes.ok);
@@ -115,7 +118,7 @@ main() {
           .scheduleRichPushNotificationUTC(
               profileId: userA.profileId!,
               notificationTemplateId: 1,
-              substitutionsJson: jsonEncode({"1": userA.name}),
+              substitutionsJson: {"1": userA.name},
               startTimeUTC: 0);
 
       expect(response.statusCode, StatusCodes.ok);
@@ -126,7 +129,7 @@ main() {
           .scheduleRichPushNotificationMinutes(
               profileId: userA.profileId!,
               notificationTemplateId: 1,
-              substitutionsJson: jsonEncode({"1": userA.name}),
+              substitutionsJson: {"1": userA.name},
               minutesFromNow: 42);
 
       expect(response.statusCode, StatusCodes.ok);
@@ -145,18 +148,23 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .sendNormalizedPushNotification(
               toProfileId: userB.profileId!,
-              alertContentJson: jsonEncode(
-                  {"body": "content of message", "title": "message title"}));
+              alertContentJson: {
+            "body": "content of message",
+            "title": "message title"
+          });
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
     test("sendNormalizedPushNotificationBatch()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
-          .sendNormalizedPushNotificationBatch(
-              profileIds: [userA.profileId!, userB.profileId!],
-              alertContentJson: jsonEncode(
-                  {"body": "content of message", "title": "message title"}));
+          .sendNormalizedPushNotificationBatch(profileIds: [
+        userA.profileId!,
+        userB.profileId!
+      ], alertContentJson: {
+        "body": "content of message",
+        "title": "message title"
+      });
 
       expect(response.statusCode, StatusCodes.ok);
     });
