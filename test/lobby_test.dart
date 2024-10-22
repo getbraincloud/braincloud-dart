@@ -14,7 +14,7 @@ void main() {
     //TODO: Remove this once timeout issue solve
     //attempt at debugging why timeout when running in Jenkins
     setUpAll(() {
-      bcTest.bcWrapper.brainCloudClient.enableLogging(true);
+      // bcTest.bcWrapper.brainCloudClient.enableLogging(true);
       listDnsServers();
       });
 
@@ -293,7 +293,7 @@ void main() {
     /// END TEST
     tearDownAll(() {
       bcTest.dispose();
-      bcTest.bcWrapper.brainCloudClient.enableLogging(false);
+      // bcTest.bcWrapper.brainCloudClient.enableLogging(false);
     });
   });
 }
