@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
@@ -8,7 +7,6 @@ import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:braincloud_dart/src/server_response.dart';
-import 'package:braincloud_dart/src/util.dart';
 
 class BrainCloudEvent {
   final BrainCloudClient _clientRef;
@@ -37,21 +35,19 @@ class BrainCloudEvent {
   Future<ServerResponse> sendEvent(
       {required String toProfileId,
       required String eventType,
-      required String jsonEventData}) {
+      Map<String, dynamic>? jsonEventData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
     data[OperationParam.eventServiceSendToId.value] = toProfileId;
     data[OperationParam.eventServiceSendEventType.value] = eventType;
 
-    if (Util.isOptionalParameterValid(jsonEventData)) {
-      Map<String, dynamic> eventData = jsonDecode(jsonEventData);
-      data[OperationParam.eventServiceSendEventData.value] = eventData;
+    if (jsonEventData != null) {
+      data[OperationParam.eventServiceSendEventData.value] = jsonEventData;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -76,19 +72,18 @@ class BrainCloudEvent {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> updateIncomingEventData(
-      {required String evId, required String jsonEventData}) {
+      {required String evId, Map<String, dynamic>? jsonEventData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.evId.value] = evId;
 
-    if (Util.isOptionalParameterValid(jsonEventData)) {
-      Map<String, dynamic> eventData = jsonDecode(jsonEventData);
-      data[OperationParam.eventServiceUpdateEventDataData.value] = eventData;
+    if (jsonEventData != null) {
+      data[OperationParam.eventServiceUpdateEventDataData.value] =
+          jsonEventData;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -114,19 +109,18 @@ class BrainCloudEvent {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> updateIncomingEventDataIfExists(
-      {required String evId, String? jsonEventData}) {
+      {required String evId, Map<String, dynamic>? jsonEventData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.evId.value] = evId;
 
-    if (Util.isOptionalParameterValid(jsonEventData)) {
-      var eventData = jsonDecode(jsonEventData!);
-      data[OperationParam.eventServiceUpdateEventDataData.value] = eventData;
+    if (jsonEventData != null) {
+      data[OperationParam.eventServiceUpdateEventDataData.value] =
+          jsonEventData;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -154,8 +148,7 @@ class BrainCloudEvent {
     data[OperationParam.evId.value] = evId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -183,8 +176,7 @@ class BrainCloudEvent {
     data[OperationParam.eventServiceEvIds.value] = inEventids;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -213,8 +205,7 @@ class BrainCloudEvent {
     data[OperationParam.eventServiceDateMillis.value] = inDatemillis;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -246,8 +237,7 @@ class BrainCloudEvent {
     data[OperationParam.eventServiceEventType.value] = eventType;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -267,8 +257,7 @@ class BrainCloudEvent {
     Map<String, dynamic> data = {};
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,

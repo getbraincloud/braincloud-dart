@@ -19,8 +19,7 @@ void main() {
 
       ServerResponse response = await bcTest.bcWrapper.eventService
           .updateIncomingEventDataIfExists(
-              evId: nonExistentEventId,
-              jsonEventData: jsonEncode({eventDataKey: 118}));
+              evId: nonExistentEventId, jsonEventData: {eventDataKey: 118});
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -38,12 +37,12 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.eventService.sendEvent(
           toProfileId: userA.profileId!,
           eventType: eventType,
-          jsonEventData: jsonEncode({eventDataKey: 24}));
+          jsonEventData: {eventDataKey: 24});
 
       response = await bcTest.bcWrapper.eventService.sendEvent(
           toProfileId: userA.profileId!,
           eventType: eventType,
-          jsonEventData: jsonEncode({eventDataKey: 24}));
+          jsonEventData: {eventDataKey: 24});
 
       expect(response.statusCode, StatusCodes.ok);
       eventId = response.data?["evId"];
@@ -52,14 +51,14 @@ void main() {
     test("updateIncomingEventData()", () async {
       ServerResponse response = await bcTest.bcWrapper.eventService
           .updateIncomingEventData(
-              evId: eventId, jsonEventData: jsonEncode({eventDataKey: 117}));
+              evId: eventId, jsonEventData: {eventDataKey: 117});
       expect(response.statusCode, StatusCodes.ok);
     });
 
     test("updateIncomingEventDataIfExistsTrue()", () async {
       ServerResponse response = await bcTest.bcWrapper.eventService
           .updateIncomingEventDataIfExists(
-              evId: eventId, jsonEventData: jsonEncode({eventDataKey: 118}));
+              evId: eventId, jsonEventData: {eventDataKey: 118});
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -81,7 +80,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.eventService.sendEvent(
           toProfileId: userB.profileId!,
           eventType: eventType,
-          jsonEventData: jsonEncode({eventDataKey: 24}));
+          jsonEventData: {eventDataKey: 24});
 
       expect(response.statusCode, StatusCodes.ok);
       eventId = response.data?["evId"];

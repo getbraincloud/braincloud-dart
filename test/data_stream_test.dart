@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -14,7 +12,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.dataStreamService
           .customPageEvent(
               eventName: "testPage",
-              jsonEventProperties: jsonEncode({"testProperty": "1"}));
+              jsonEventProperties: {"testProperty": "1"});
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -23,7 +21,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.dataStreamService
           .customScreenEvent(
               eventName: "testScreen",
-              jsonEventProperties: jsonEncode({"testProperty": "1"}));
+              jsonEventProperties: {"testProperty": "1"});
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -32,7 +30,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.dataStreamService
           .customTrackEvent(
               eventName: "testTrack",
-              jsonEventProperties: jsonEncode({"testProperty": "1"}));
+              jsonEventProperties: {"testProperty": "1"});
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -42,7 +40,7 @@ void main() {
           .submitCrashReport(
               crashType: "unknown",
               errorMsg: "ERRORS test",
-              crashJson: jsonEncode({"dialog": "5"}),
+              crashJson: {"dialog": "5"},
               crashLog: "func",
               userName: "testname",
               userEmail: "testemail",
