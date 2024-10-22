@@ -397,6 +397,10 @@ class RTTComms {
 
     Map<String, dynamic> response = jsonDecode(inMessage);
 
+    if (!response.containsKey("service") || !response.containsKey("operation")) {
+      _clientRef.log("RTT RECV: missing service/operation, invalid message $inMessage");
+      return;
+    }
     String service = response["service"];
     String operation = response["operation"];
 
