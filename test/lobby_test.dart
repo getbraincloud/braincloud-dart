@@ -2,6 +2,7 @@ import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'utils/dns_check.dart';
 import 'utils/test_base.dart';
 
 void main() {
@@ -9,6 +10,11 @@ void main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Lobby", () {
+    
+    //TODO: Remove this once timeout issue solve
+    //attempt at debugging why timeout when running in Jenkins
+    setUpAll(listDnsServers);
+
     test("findLobby()", () async {
       ServerResponse response = await bcTest.bcWrapper.lobbyService.findLobby(
           roomtype: "MATCH_UNRANKED",
@@ -184,7 +190,7 @@ void main() {
               lobbyType: "MATCH_UNRANKED",
               criteriaJson: {
             "rating": {"min": 1, "max": 1000},
-            "ping": {"max": 100}
+            "ping": {"max": 200}
           });
       expect(lobbyResponse.statusCode, StatusCodes.ok);
     });
