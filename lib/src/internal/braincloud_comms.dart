@@ -425,7 +425,7 @@ class BrainCloudComms {
   void runFileUploadCallbacks() {
     for (int i = _fileUploads.length - 1; i >= 0; i--) {
       _fileUploads[i].update();
-      if (_fileUploads[i].status == FileUploaderStatus.CompleteSuccess) {
+      if (_fileUploads[i].status == FileUploaderStatus.completeSuccess) {
         _fileUploadSuccessCallback!(
             _fileUploads[i].uploadId, _fileUploads[i].response);
 
@@ -434,7 +434,7 @@ class BrainCloudComms {
               "Upload success: ${_fileUploads[i].uploadId}  | ${_fileUploads[i].statusCode} \n ${_fileUploads[i].response}");
         }
         _fileUploads.removeAt(i);
-      } else if (_fileUploads[i].status == FileUploaderStatus.CompleteFailed) {
+      } else if (_fileUploads[i].status == FileUploaderStatus.completeFailed) {
         _fileUploadFailedCallback!(
             _fileUploads[i].uploadId,
             _fileUploads[i].statusCode,

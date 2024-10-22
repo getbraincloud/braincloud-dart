@@ -16,7 +16,7 @@ class FileUploader {
 
   int totalBytesToTransfer = 0;
 
-  FileUploaderStatus status = FileUploaderStatus.None;
+  FileUploaderStatus status = FileUploaderStatus.none;
 
   String response = "";
 
@@ -137,7 +137,7 @@ class FileUploader {
   }
 
   void cancelUpload() {
-    status = FileUploaderStatus.CompleteFailed;
+    status = FileUploaderStatus.completeFailed;
     statusCode = StatusCodes.clientNetworkError;
     reasonCode = ReasonCodes.clientUploadFileCancelled;
     response = "Upload of $fileName cancelled by user ";
@@ -160,7 +160,7 @@ class FileUploader {
     statusCode = clientResponse.statusCode;
 
     if (statusCode != StatusCodes.ok) {
-      status = FileUploaderStatus.CompleteFailed;
+      status = FileUploaderStatus.completeFailed;
       clientRef.fileService.fileStorage.remove(guidLocalPath);
       if (clientResponse.reasonPhrase.isNotEmpty) {
         reasonCode = ReasonCodes.clientUploadFileUnknown;
@@ -186,7 +186,7 @@ class FileUploader {
         response = response;
       }
     } else {
-      status = FileUploaderStatus.CompleteSuccess;
+      status = FileUploaderStatus.completeSuccess;
       clientRef.fileService.fileStorage.remove(guidLocalPath);
 
       response = await clientResponse.transform(utf8.decoder).join();
@@ -234,7 +234,7 @@ class FileUploader {
   }
 
   void throwError(int reasonCode, String message) {
-    status = FileUploaderStatus.CompleteFailed;
+    status = FileUploaderStatus.completeFailed;
     statusCode = StatusCodes.clientNetworkError;
     reasonCode = reasonCode;
     response = message;
@@ -256,9 +256,23 @@ class FileUploader {
 }
 
 enum FileUploaderStatus {
-  None,
-  Pending,
-  Uploading,
-  CompleteFailed,
-  CompleteSuccess
+  none("None"),
+  pending("Pending"),
+  uploading("Uploading"),
+  completeFailed("CompleteFailed"),
+  completeSuccess("CompleteSuccess");
+
+  const FileUploaderStatus(this.value);
+
+  final String value;
+
+  static FileUploaderStatus fromString(String s) {
+    FileUploaderStatus type = FileUploaderStatus.values
+        .firstWhere((e) => e.value == s, orElse: () => FileUploaderStatus.none);
+
+    return type;
+  }
+
+  @override
+  String toString() => value;
 }

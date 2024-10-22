@@ -422,33 +422,33 @@ class BrainCloudClient {
   /// Update method needs to be called regularly in order
   /// to process incoming and outgoing messages.
   void runCallbacks(
-      {BrainCloudUpdateType inUpdateType = BrainCloudUpdateType.ALL}) {
+      {BrainCloudUpdateType inUpdateType = BrainCloudUpdateType.all}) {
     update(inUpdateType: inUpdateType);
   }
 
   /// Update method needs to be called regularly in order
   /// to process incoming and outgoing messages.
-  void update({BrainCloudUpdateType inUpdateType = BrainCloudUpdateType.ALL}) {
+  void update({BrainCloudUpdateType inUpdateType = BrainCloudUpdateType.all}) {
     switch (inUpdateType) {
-      case BrainCloudUpdateType.REST:
+      case BrainCloudUpdateType.rest:
         {
           _comms.update();
         }
         break;
 
-      case BrainCloudUpdateType.RTT:
+      case BrainCloudUpdateType.rtt:
         {
           _rttComms.update();
         }
         break;
 
-      case BrainCloudUpdateType.RS:
+      case BrainCloudUpdateType.rs:
         {
           _rsComms.update();
         }
         break;
 
-      case BrainCloudUpdateType.PING:
+      case BrainCloudUpdateType.ping:
         {
           _lobbyService.update();
         }
@@ -848,4 +848,26 @@ class BrainCloudClient {
   }
 }
 
-enum BrainCloudUpdateType { ALL, REST, RTT, RS, PING, MAX }
+enum BrainCloudUpdateType {
+  all("ALL"),
+  rest("REST"),
+  rtt("RTT"),
+  rs("RS"),
+  ping("PING"),
+  max("MAX");
+
+  const BrainCloudUpdateType(this.value);
+
+  final String value;
+
+  static BrainCloudUpdateType fromString(String s) {
+    BrainCloudUpdateType type = BrainCloudUpdateType.values.firstWhere(
+        (e) => e.value == s,
+        orElse: () => BrainCloudUpdateType.all);
+
+    return type;
+  }
+
+  @override
+  String toString() => value;
+}
