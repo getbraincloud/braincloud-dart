@@ -772,7 +772,7 @@ class BrainCloudClient {
   void log(String log, {bool bypassLogEnabled = false}) {
     if (_loggingEnabled || bypassLogEnabled) {
       String formattedLog =
-          "${DateFormat("HH:mm:ss.fff").format(DateTime.now())} #BCC ${(log.length < 14000 ? log : log.substring(0, 14000))} << (LOG TRUNCATED)";
+          "${DateFormat("HH:mm:ss.SSS").format(DateTime.now())} #BCC ${(log.length < 14000 ? log : log.substring(0, 14000) + " << (LOG TRUNCATED)")}";
 
       _loggingMutex.acquire();
       try {
