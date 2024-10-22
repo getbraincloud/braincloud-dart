@@ -52,7 +52,6 @@ import 'package:braincloud_dart/src/braincloud_tournament.dart';
 import 'package:braincloud_dart/src/braincloud_user_items.dart';
 import 'package:braincloud_dart/src/braincloud_virtual_currency.dart';
 import 'package:braincloud_dart/src/braincloud_wrapper.dart';
-import 'package:braincloud_dart/src/enums/braincloud_update_type.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:braincloud_dart/src/util.dart';
 import 'package:braincloud_dart/src/version.dart';
@@ -848,3 +847,5 @@ class BrainCloudClient {
     }
   }
 }
+
+enum BrainCloudUpdateType { ALL, REST, RTT, RS, PING, MAX }

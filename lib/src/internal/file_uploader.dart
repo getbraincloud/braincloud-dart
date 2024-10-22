@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:braincloud_dart/src/internal/enums/file_uploader_status.dart';
 
 import 'package:braincloud_dart/src/internal/braincloud_comms.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -128,16 +127,16 @@ class FileUploader {
         _request!.write(postFormDataClosing);
 
         // Send the request
-        _request!.close().then(handleResponse).onError<HttpException>((e,s) {
+        _request!.close().then(handleResponse).onError<HttpException>((e, s) {
           // Ignore aborted error as it was on purpose
-          if (reasonCode !=  ReasonCodes.clientUploadFileCancelled || e.message != "Request has been aborted") throw(e);          
+          if (reasonCode != ReasonCodes.clientUploadFileCancelled ||
+              e.message != "Request has been aborted") throw (e);
         });
       }
     }
   }
 
   void cancelUpload() {
-
     status = FileUploaderStatus.CompleteFailed;
     statusCode = StatusCodes.clientNetworkError;
     reasonCode = ReasonCodes.clientUploadFileCancelled;
@@ -146,7 +145,6 @@ class FileUploader {
       clientRef.log("Upload of $fileName cancelled by user");
     }
     _request?.abort();
-
   }
 
   void update() {
@@ -154,21 +152,6 @@ class FileUploader {
     _elapsedTime += _deltaTime;
 
     updateTransferRate();
-// #if !(DOT_NET || GODOT) && (UNITY_IOS || UNITY_ANDROID)
-//             CheckTimeout();
-// #endif
-//             if (Status == FileUploaderStatus.CompleteFailed || Status == FileUploaderStatus.CompleteSuccess)
-//             {
-// #if !(DOT_NET || GODOT) && USE_WEB_REQUEST
-//                 CleanupRequest();
-// #endif
-//                 return;
-//             }
-
-// #if !(DOT_NET || GODOT)
-//             Progress = _request.uploadProgress;
-//             if (_request.isDone) HandleResponse();
-// #endif
   }
 
   FutureOr handleResponse(HttpClientResponse clientResponse) async {
@@ -270,4 +253,12 @@ class FileUploader {
     // _request.Dispose();
     // _request = null;
   }
+}
+
+enum FileUploaderStatus {
+  None,
+  Pending,
+  Uploading,
+  CompleteFailed,
+  CompleteSuccess
 }

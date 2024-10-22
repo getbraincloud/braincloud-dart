@@ -1,9 +1,9 @@
 export 'src/braincloud_wrapper.dart' show BrainCloudWrapper;
 export 'src/internal/braincloud_comms.dart' show BrainCloudComms;
-export 'src/enums/braincloud_update_type.dart' show BrainCloudUpdateType;
-export 'src/internal/enums/file_uploader_status.dart' show FileUploaderStatus;
 export 'src/internal/rtt_comms.dart'
     show RTTConnectionType, RTTCommandResponse, RTTConnectionStatus;
+export 'src/internal/file_uploader.dart' show FileUploaderStatus;
+export 'src/braincloud_client.dart' show BrainCloudUpdateType;
 export 'src/common/authentication_type.dart' show AuthenticationType;
 export 'src/braincloud_group.dart' show Role, AutoJoinStrategy;
 export 'src/internal/service_name.dart' show ServiceName;

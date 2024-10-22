@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:flutter/foundation.dart';
-import 'package:braincloud_dart/src/internal/enums/file_uploader_status.dart';
 
 import 'package:crypto/crypto.dart';
 import 'package:braincloud_dart/src/braincloud_wrapper.dart';
@@ -1386,15 +1385,9 @@ class BrainCloudComms {
   /// Method creates the web request and sends it immediately.
   /// Relies upon the requestState PacketId and MessageList being
   /// set appropriately.
-
+  ///
   /// @param requestStateRequest state.
   Future<dynamic> internalSendMessage(RequestState requestState) async {
-    // #if DOT_NET || GODOT
-    //             // During retry, the RequestState is reused so we have to make sure its state goes back to PENDING.
-    //             // Unity uses the info stored in the WWW dynamic and it's recreated here so it's not an issue.
-    //             requestState.DotNetRequestStatus = RequestState.eWebRequestStatus.STATUS_PENDING;
-    // #endif
-
     // bundle up the data into a String
     Map<String, dynamic> packet = {};
     packet[OperationParam.serviceMessagePacketId.value] = requestState.packetId;
