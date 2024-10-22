@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -10,7 +8,7 @@ void main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Mail", () {
-    setUpAll((){
+    setUpAll(() {
       bcTest.bcWrapper.brainCloudClient.enableLogging(true);
     });
 
@@ -32,31 +30,29 @@ void main() {
     });
 
     test("sendAdvancedEmail()", () async {
-      ServerResponse response =
-          await bcTest.bcWrapper.mailService.sendAdvancedEmail(
-              profileId: userA.profileId!,
-              jsonServiceParams: jsonEncode({
-                "subject": "Test Subject - TestSendAdvancedEmailSendGrid",
-                "body": "Test body content message.",
-                "categories": ["unit-test"]
-              }));
+      ServerResponse response = await bcTest.bcWrapper.mailService
+          .sendAdvancedEmail(profileId: userA.profileId!, jsonServiceParams: {
+        "subject": "Test Subject - TestSendAdvancedEmailSendGrid",
+        "body": "Test body content message.",
+        "categories": ["unit-test"]
+      });
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
     test("sendAdvancedEmailByAddress()", () async {
-      ServerResponse response =
-          await bcTest.bcWrapper.mailService.sendAdvancedEmailByAddress(
+      ServerResponse response = await bcTest.bcWrapper.mailService
+          .sendAdvancedEmailByAddress(
               emailAddress: userA.email,
-              jsonServiceParams: jsonEncode({
-                "subject": "Test Subject - TestSendAdvancedEmailSendGrid",
-                "body": "Test body content message.",
-                "categories": ["unit-test"]
-              }));
+              jsonServiceParams: {
+            "subject": "Test Subject - TestSendAdvancedEmailSendGrid",
+            "body": "Test body content message.",
+            "categories": ["unit-test"]
+          });
 
       expect(response.statusCode, StatusCodes.ok);
     });
-    tearDownAll((){
+    tearDownAll(() {
       bcTest.bcWrapper.brainCloudClient.enableLogging(false);
     });
   });

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -18,7 +16,7 @@ void main() {
     });
 
     test("GetCatalogItemsPage()", () async {
-      var context = {};
+      Map<String, dynamic> context = {};
 
       context["pagination"] = {};
       context["pagination"]["rowsPerPage"] = 50;
@@ -28,7 +26,7 @@ void main() {
       context["sortCriteria"] = {"updatedAt": -1};
 
       ServerResponse response = await bcTest.bcWrapper.itemCatalogService
-          .getCatalogItemsPage(context: jsonEncode(context));
+          .getCatalogItemsPage(context: context);
 
       expect(response.statusCode, StatusCodes.ok);
     });

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:braincloud_dart/braincloud_dart.dart';
 
 import 'package:flutter/material.dart';
@@ -27,7 +25,7 @@ void main() {
           name: "test",
           groupType: "test",
           isOpenGroup: false,
-          jsonData: jsonEncode({"test": "asdf"}));
+          jsonData: {"test": "asdf"});
 
       groupId = response.data?["groupId"];
       expect(response.statusCode, StatusCodes.ok);
@@ -39,8 +37,8 @@ void main() {
               name: "test",
               groupType: "test",
               isOpenGroup: false,
-              jsonOwnerAttributes: jsonEncode({"test": "asdf"}),
-              jsonSummaryData: jsonEncode({"summary": "asdf"}));
+              jsonOwnerAttributes: {"test": "asdf"},
+              jsonSummaryData: {"summary": "asdf"});
 
       groupId = response.data?["groupId"];
       expect(response.statusCode, StatusCodes.ok);
@@ -181,7 +179,7 @@ void main() {
               groupId: groupId,
               entityType: "test",
               isOwnedByGroupMember: false,
-              jsonData: jsonEncode(testData));
+              jsonData: testData);
 
       entityId = response.data?["entityId"];
       expect(response.statusCode, StatusCodes.ok);
@@ -200,7 +198,7 @@ void main() {
               groupId: groupId,
               entityId: entityId,
               version: 1,
-              jsonData: jsonEncode(testData));
+              jsonData: testData);
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -208,9 +206,7 @@ void main() {
     test("incrementGroupEntityData()", () async {
       ServerResponse response = await bcTest.bcWrapper.groupService
           .incrementGroupEntityData(
-              groupId: groupId,
-              entityId: entityId,
-              jsonData: jsonEncode(testData));
+              groupId: groupId, entityId: entityId, jsonData: testData);
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -225,7 +221,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    var entityContext = {
+    Map<String, dynamic> entityContext = {
       "pagination": {"rowsPerPage": 50, "pageNumber": 1},
       "searchCriteria": {"groupId": groupId, "entityType": "test"}
     };
@@ -236,7 +232,7 @@ void main() {
       entityContext["searchCriteria"]?["groupId"] = groupId;
 
       ServerResponse response = await bcTest.bcWrapper.groupService
-          .readGroupEntitiesPage(jsonContext: jsonEncode(entityContext));
+          .readGroupEntitiesPage(jsonContext: entityContext);
 
       entityReturnedContext = response.data?["context"];
 
@@ -253,15 +249,14 @@ void main() {
 
     test("updateGroupData()", () async {
       ServerResponse response = await bcTest.bcWrapper.groupService
-          .updateGroupData(
-              groupId: groupId, version: -1, jsonData: jsonEncode(testData));
+          .updateGroupData(groupId: groupId, version: -1, jsonData: testData);
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
     test("incrementGroupData()", () async {
       ServerResponse response = await bcTest.bcWrapper.groupService
-          .incrementGroupData(groupId: groupId, jsonData: jsonEncode(testData));
+          .incrementGroupData(groupId: groupId, jsonData: testData);
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -287,7 +282,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    var groupContext = {
+    Map<String, dynamic> groupContext = {
       "pagination": {"rowsPerPage": 50, "pageNumber": 1},
       "searchCriteria": {"groupType": "test"}
     };
@@ -295,7 +290,7 @@ void main() {
 
     test("listGroupsPage()", () async {
       ServerResponse response = await bcTest.bcWrapper.groupService
-          .listGroupsPage(jsonContext: jsonEncode(groupContext));
+          .listGroupsPage(jsonContext: groupContext);
 
       groupReturnedContext = response.data?["context"];
       expect(response.statusCode, StatusCodes.ok);
@@ -348,7 +343,7 @@ void main() {
           name: "test",
           groupType: "test",
           isOpenGroup: true,
-          jsonData: jsonEncode({"test": "asdf"}));
+          jsonData: {"test": "asdf"});
 
       groupId = response.data?["groupId"];
       userToAuth = userB;
@@ -378,7 +373,7 @@ void main() {
     test("GetRandomGroupsMatching()", () async {
       ServerResponse response = await bcTest.bcWrapper.groupService
           .getRandomGroupsMatching(
-              jsonWhere: jsonEncode({"groupType": "BLUE"}), maxReturn: 20);
+              jsonWhere: {"groupType": "BLUE"}, maxReturn: 20);
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -388,7 +383,7 @@ void main() {
           .updateGroupSummaryData(
               groupId: groupId,
               version: 1,
-              jsonSummaryData: jsonEncode({"summary": "asdf"}));
+              jsonSummaryData: {"summary": "asdf"});
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -488,18 +483,18 @@ void main() {
       var isOpenGroup = false;
       GroupACL acl = GroupACL(Access.readWrite, Access.none);
 
-      var jsonData = {};
-      var ownerAttributes = {};
-      var defaultMemberAttributes = {};
+      Map<String, dynamic> jsonData = {};
+      Map<String, dynamic> ownerAttributes = {};
+      Map<String, dynamic> defaultMemberAttributes = {};
 
       ServerResponse response = await bcTest.bcWrapper.groupService.createGroup(
           name: name,
           groupType: groupType,
           isOpenGroup: isOpenGroup,
           acl: acl,
-          jsonData: jsonEncode(jsonData),
-          jsonOwnerAttributes: jsonEncode(ownerAttributes),
-          jsonDefaultMemberAttributes: jsonEncode(defaultMemberAttributes));
+          jsonData: jsonData,
+          jsonOwnerAttributes: ownerAttributes,
+          jsonDefaultMemberAttributes: defaultMemberAttributes);
 
       if (response.statusCode == StatusCodes.ok) {
         debugPrint("Group created");

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/internal/operation_param.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
@@ -8,7 +7,6 @@ import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:braincloud_dart/src/server_response.dart';
-import 'package:braincloud_dart/src/util.dart';
 
 class BrainCloudPlayerState {
   final BrainCloudClient _clientRef;
@@ -175,13 +173,12 @@ class BrainCloudPlayerState {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> updateSummaryFriendData(
-      {required String jsonSummaryData}) {
+      {Map<String, dynamic>? jsonSummaryData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic>? data = {};
-    if (Util.isOptionalParameterValid(jsonSummaryData)) {
-      Map<String, dynamic> summaryData = jsonDecode(jsonSummaryData);
+    if (jsonSummaryData != null) {
       data[OperationParam.playerStateServiceUpdateSummaryFriendData.value] =
-          summaryData;
+          jsonSummaryData;
     } else {
       data = null;
     }
@@ -237,12 +234,12 @@ class BrainCloudPlayerState {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> updateAttributes(
-      {required String jsonAttributes, required bool wipeExisting}) {
+      {required Map<String, dynamic> jsonAttributes,
+      required bool wipeExisting}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
-    Map<String, dynamic> attributes = jsonDecode(jsonAttributes);
-    data[OperationParam.playerStateServiceAttributes.value] = attributes;
+    data[OperationParam.playerStateServiceAttributes.value] = jsonAttributes;
     data[OperationParam.playerStateServiceWipeExisting.value] = wipeExisting;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -394,9 +391,9 @@ class BrainCloudPlayerState {
   Future<ServerResponse> extendUserStatus(
       {required String statusName,
       required int additionalSecs,
-      required String details}) {
+      required Map<String, dynamic> details}) {
     Completer<ServerResponse> completer = Completer();
-    Map<String, dynamic> detailsInfo = jsonDecode(details);
+    Map<String, dynamic> detailsInfo = details;
     Map<String, dynamic> data = {};
     data[OperationParam.playerStateServiceStatusName.value] = statusName;
     data[OperationParam.playerStateServiceAdditionalSecs.value] =
@@ -464,11 +461,11 @@ class BrainCloudPlayerState {
       required int durationSecs,
       required String details}) {
     Completer<ServerResponse> completer = Completer();
-    Map<String, dynamic> detailsInfo = jsonDecode(details);
+
     Map<String, dynamic> data = {};
     data[OperationParam.playerStateServiceStatusName.value] = statusName;
     data[OperationParam.playerStateServiceDurationSecs.value] = durationSecs;
-    data[OperationParam.playerStateServiceDetails.value] = detailsInfo;
+    data[OperationParam.playerStateServiceDetails.value] = details;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) => completer.complete(ServerResponse.fromJson(response)),

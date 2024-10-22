@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -52,7 +50,7 @@ main() {
           .sendRichPushNotificationWithParams(
               toProfileId: userA.profileId!,
               notificationTemplateId: 1,
-              substitutionJson: jsonEncode({"1": userA.name}));
+              substitutionJson: {"1": userA.name});
       expect(response.statusCode, StatusCodes.ok);
     });
 

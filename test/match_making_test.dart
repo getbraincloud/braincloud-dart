@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -88,9 +86,7 @@ void main() {
     test("findPlayersWithAttributes()", () async {
       ServerResponse response = await bcTest.bcWrapper.matchMakingService
           .findPlayersWithAttributes(
-              rangeDelta: 100,
-              numMatches: 5,
-              jsonAttributes: jsonEncode({"test": "test"}));
+              rangeDelta: 100, numMatches: 5, jsonAttributes: {"test": "test"});
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -103,9 +99,7 @@ void main() {
     test("findPlayersUsingFilter()", () async {
       ServerResponse response = await bcTest.bcWrapper.matchMakingService
           .findPlayersUsingFilter(
-              rangeDelta: 100,
-              numMatches: 5,
-              jsonExtraParms: jsonEncode({"test": "test"}));
+              rangeDelta: 100, numMatches: 5, jsonExtraParms: {"test": "test"});
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -114,8 +108,8 @@ void main() {
           .findPlayersWithAttributesUsingFilter(
               rangeDelta: 100,
               numMatches: 5,
-              jsonExtraParms: jsonEncode({"test": "test"}),
-              jsonAttributes: jsonEncode({"test": "test"}));
+              jsonExtraParms: {"test": "test"},
+              jsonAttributes: {"test": "test"});
 
       expect(response.statusCode, StatusCodes.ok);
     });

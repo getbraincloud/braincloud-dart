@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
@@ -24,8 +23,7 @@ class BrainCloudMatchMaking {
   Future<ServerResponse> read() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -54,8 +52,7 @@ class BrainCloudMatchMaking {
     data[OperationParam.matchMakingServicePlayerRating.value] = playerRating;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -77,8 +74,7 @@ class BrainCloudMatchMaking {
   Future<ServerResponse> resetPlayerRating() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -106,8 +102,7 @@ class BrainCloudMatchMaking {
     data[OperationParam.matchMakingServicePlayerRating.value] = increment;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -135,8 +130,7 @@ class BrainCloudMatchMaking {
     data[OperationParam.matchMakingServicePlayerRating.value] = decrement;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -158,8 +152,7 @@ class BrainCloudMatchMaking {
   Future<ServerResponse> turnShieldOn() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -187,8 +180,7 @@ class BrainCloudMatchMaking {
     data[OperationParam.matchMakingServiceMinutes.value] = minutes;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -210,8 +202,7 @@ class BrainCloudMatchMaking {
   Future<ServerResponse> turnShieldOff() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -239,8 +230,7 @@ class BrainCloudMatchMaking {
     data[OperationParam.matchMakingServiceMinutes.value] = minutes;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -274,8 +264,7 @@ class BrainCloudMatchMaking {
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -304,7 +293,7 @@ class BrainCloudMatchMaking {
   Future<ServerResponse> findPlayers(
       {required int rangeDelta, required int numMatches}) {
     return findPlayersWithAttributes(
-        rangeDelta: rangeDelta, numMatches: numMatches, jsonAttributes: "");
+        rangeDelta: rangeDelta, numMatches: numMatches);
   }
 
   /// Finds matchmaking enabled players with additional attributes
@@ -325,20 +314,19 @@ class BrainCloudMatchMaking {
   Future<ServerResponse> findPlayersWithAttributes(
       {required int rangeDelta,
       required int numMatches,
-      required String jsonAttributes}) {
+      Map<String, dynamic>? jsonAttributes}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.matchMakingServiceRangeDelta.value] = rangeDelta;
     data[OperationParam.matchMakingServiceNumMatches.value] = numMatches;
 
-    if (Util.isOptionalParameterValid(jsonAttributes)) {
-      Map<String, dynamic> attribs = jsonDecode(jsonAttributes);
+    if (jsonAttributes != null) {
+      Map<String, dynamic> attribs = jsonAttributes;
       data[OperationParam.matchMakingServiceAttributes.value] = attribs;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -370,11 +358,10 @@ class BrainCloudMatchMaking {
   Future<ServerResponse> findPlayersUsingFilter(
       {required int rangeDelta,
       required int numMatches,
-      required String jsonExtraParms}) {
+      Map<String, dynamic>? jsonExtraParms}) {
     return findPlayersWithAttributesUsingFilter(
         rangeDelta: rangeDelta,
         numMatches: numMatches,
-        jsonAttributes: "",
         jsonExtraParms: jsonExtraParms);
   }
 
@@ -400,26 +387,23 @@ class BrainCloudMatchMaking {
   Future<ServerResponse> findPlayersWithAttributesUsingFilter(
       {required int rangeDelta,
       required int numMatches,
-      required String jsonAttributes,
-      required String jsonExtraParms}) {
+      Map<String, dynamic>? jsonAttributes,
+      Map<String, dynamic>? jsonExtraParms}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.matchMakingServiceRangeDelta.value] = rangeDelta;
     data[OperationParam.matchMakingServiceNumMatches.value] = numMatches;
 
-    if (Util.isOptionalParameterValid(jsonAttributes)) {
-      Map<String, dynamic> attribs = jsonDecode(jsonAttributes);
-      data[OperationParam.matchMakingServiceAttributes.value] = attribs;
+    if (jsonAttributes != null) {
+      data[OperationParam.matchMakingServiceAttributes.value] = jsonAttributes;
     }
 
-    if (Util.isOptionalParameterValid(jsonExtraParms)) {
-      Map<String, dynamic> extraParms = jsonDecode(jsonExtraParms);
-      data[OperationParam.matchMakingServiceExtraParams.value] = extraParms;
+    if (jsonExtraParms != null) {
+      data[OperationParam.matchMakingServiceExtraParams.value] = jsonExtraParms;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -442,8 +426,7 @@ class BrainCloudMatchMaking {
   Future<ServerResponse> enableMatchMaking() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -466,8 +449,7 @@ class BrainCloudMatchMaking {
   Future<ServerResponse> disableMatchMaking() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,

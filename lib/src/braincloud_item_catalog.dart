@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
@@ -30,8 +29,7 @@ class BrainCloudItemCatalog {
     data[OperationParam.itemCatalogServiceDefId.value] = defId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -55,16 +53,15 @@ class BrainCloudItemCatalog {
   /// @param context
 
   /// @returns Future<ServerResponse>
-  Future<ServerResponse> getCatalogItemsPage({required String context}) {
+  Future<ServerResponse> getCatalogItemsPage(
+      {required Map<String, dynamic> context}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
-    var contextData = jsonDecode(context);
-    data[OperationParam.itemCatalogServiceContext.value] = contextData;
+    data[OperationParam.itemCatalogServiceContext.value] = context;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -99,8 +96,7 @@ class BrainCloudItemCatalog {
     data[OperationParam.itemCatalogServicePageOffset.value] = pageOffset;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,

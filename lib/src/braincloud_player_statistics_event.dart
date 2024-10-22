@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
@@ -38,8 +37,7 @@ class BrainCloudPlayerStatisticsEvent {
         eventMultiplier;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -72,15 +70,15 @@ class BrainCloudPlayerStatisticsEvent {
   ///   ]
 
   /// @returns Future<ServerResponse>
-  Future<ServerResponse> triggerUserStatsEvents({required String jsonData}) async {
+  Future<ServerResponse> triggerUserStatsEvents(
+      {required List<Map<String, dynamic>> jsonData}) async {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    List events = jsonDecode(jsonData);
-    data[OperationParam.playerStatisticEventServiceEvents.value] = events;
+
+    data[OperationParam.playerStatisticEventServiceEvents.value] = jsonData;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,

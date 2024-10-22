@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -23,12 +21,11 @@ void main() {
     });
 
     test("addEvent()", () async {
-      ServerResponse response =
-          await bcTest.bcWrapper.playbackStreamService.addEvent(
-        playbackStreamId: streamId,
-        eventData: jsonEncode({"data": 10}),
-        summary: jsonEncode({"summary": 10}),
-      );
+      ServerResponse response = await bcTest.bcWrapper.playbackStreamService
+          .addEvent(
+              playbackStreamId: streamId,
+              eventData: {"data": 10},
+              summary: {"summary": 10});
       expect(response.statusCode, StatusCodes.ok);
     });
 

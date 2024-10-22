@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
@@ -56,11 +55,12 @@ class BrainCloudMail {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> sendAdvancedEmail(
-      {required String profileId, required String jsonServiceParams}) {
+      {required String profileId,
+      required Map<String, dynamic> jsonServiceParams}) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.profileId.value] = profileId;
-    data[OperationParam.serviceParams.value] = jsonDecode(jsonServiceParams);
+    data[OperationParam.serviceParams.value] = jsonServiceParams;
 
     return _sendMessage(
       ServiceOperation.sendAdvancedEmail,
@@ -82,11 +82,12 @@ class BrainCloudMail {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> sendAdvancedEmailByAddress(
-      {required String emailAddress, required String jsonServiceParams}) {
+      {required String emailAddress,
+      required Map<String, dynamic> jsonServiceParams}) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.emailAddress.value] = emailAddress;
-    data[OperationParam.serviceParams.value] = jsonDecode(jsonServiceParams);
+    data[OperationParam.serviceParams.value] = jsonServiceParams;
 
     return _sendMessage(ServiceOperation.sendAdvancedEmailByAddress, data);
   }
@@ -97,8 +98,7 @@ class BrainCloudMail {
       ServiceOperation operation, Map<String, dynamic> data) {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,

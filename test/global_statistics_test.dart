@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -14,8 +12,8 @@ void main() {
     test("incrementGlobalStats()", () async {
       ServerResponse response = await bcTest.bcWrapper.globalStatisticsService
           .incrementGlobalStats(
-              jsonData: jsonEncode(
-                  {"gamesPlayed": 1, "gamesWon": 1, "gamesLost": 2}));
+              jsonData: 
+                  {"gamesPlayed": 1, "gamesWon": 1, "gamesLost": 2});
 
       expect(response.statusCode, StatusCodes.ok);
     });

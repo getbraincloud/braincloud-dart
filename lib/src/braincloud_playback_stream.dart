@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
@@ -8,7 +7,6 @@ import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:braincloud_dart/src/server_response.dart';
-import 'package:braincloud_dart/src/util.dart';
 
 class BrainCloudPlaybackStream {
   final BrainCloudClient _clientRef;
@@ -37,8 +35,7 @@ class BrainCloudPlaybackStream {
         includeSharedData;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -68,8 +65,7 @@ class BrainCloudPlaybackStream {
         playbackStreamId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -99,8 +95,7 @@ class BrainCloudPlaybackStream {
         playbackStreamId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -130,8 +125,7 @@ class BrainCloudPlaybackStream {
         playbackStreamId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -162,26 +156,23 @@ class BrainCloudPlaybackStream {
   /// @returns Future<ServerResponse>
   Future<ServerResponse> addEvent(
       {required String playbackStreamId,
-      required String eventData,
-      required String summary}) {
+      Map<String, dynamic>? eventData,
+      Map<String, dynamic>? summary}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.playbackStreamServicePlaybackStreamId.value] =
         playbackStreamId;
 
-    if (Util.isOptionalParameterValid(eventData)) {
-      Map<String, dynamic> jsonEventData = jsonDecode(eventData);
-      data[OperationParam.playbackStreamServiceEventData.value] = jsonEventData;
+    if (eventData != null) {
+      data[OperationParam.playbackStreamServiceEventData.value] = eventData;
     }
 
-    if (Util.isOptionalParameterValid(summary)) {
-      Map<String, dynamic> jsonSummary = jsonDecode(summary);
-      data[OperationParam.playbackStreamServiceSummary.value] = jsonSummary;
+    if (summary != null) {
+      data[OperationParam.playbackStreamServiceSummary.value] = summary;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -217,8 +208,7 @@ class BrainCloudPlaybackStream {
         maxNumStreams;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -254,8 +244,7 @@ class BrainCloudPlaybackStream {
         maxNumStreams;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,

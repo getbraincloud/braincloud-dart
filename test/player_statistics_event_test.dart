@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
+
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'utils/test_base.dart';
@@ -23,45 +23,44 @@ void main() {
     test("triggerUserStatsEvents()", () async {
       ServerResponse response = await bcTest
           .bcWrapper.playerStatisticsEventService
-          .triggerUserStatsEvents(
-              jsonData: jsonEncode([
+          .triggerUserStatsEvents(jsonData: [
         {"eventName": eventId1, "eventMultiplier": 10},
         {"eventName": eventId2, "eventMultiplier": 10}
-      ]));
+      ]);
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
     var rewardCallbackCount = 0;
-  
+
     registerCallback() async {
       final Completer completer = Completer();
       bcTest.bcWrapper.brainCloudClient.registerRewardCallback((rewardsJson) {
         ++rewardCallbackCount;
         completer.complete();
-        bcTest.bcWrapper.brainCloudClient.deregisterRewardCallback();        
+        bcTest.bcWrapper.brainCloudClient.deregisterRewardCallback();
       });
-      return  completer.future;
+      return completer.future;
     }
 
-    test("rewardHandlerTriggerStatisticsEvents()", timeout: Timeout.parse("5s"), () async {
-
-      Future? callBackCompleter; // 
+    test("rewardHandlerTriggerStatisticsEvents()", timeout: Timeout.parse("5s"),
+        () async {
+      Future? callBackCompleter; //
       if (rewardCallbackCount == 0) {
-        callBackCompleter =  registerCallback();
+        callBackCompleter = registerCallback();
       }
 
       await bcTest.bcWrapper.playerStateService.resetUser();
-      await bcTest.auth();  // resetUser will log you out so this so need to re-authenticate
+      await bcTest
+          .auth(); // resetUser will log you out so this so need to re-authenticate
 
       await bcTest.bcWrapper.playerStatisticsEventService
-          .triggerUserStatsEvents(
-              jsonData: jsonEncode([
+          .triggerUserStatsEvents(jsonData: [
         {"eventName": "incQuest1Stat", "eventMultiplier": 1},
         {"eventName": "incQuest2Stat", "eventMultiplier": 1}
-      ]));
-      
-      if (callBackCompleter != null)  await callBackCompleter;
+      ]);
+
+      if (callBackCompleter != null) await callBackCompleter;
       expect(rewardCallbackCount, 1);
     });
 

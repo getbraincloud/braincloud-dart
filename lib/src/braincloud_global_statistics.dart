@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 
@@ -24,8 +23,7 @@ class BrainCloudGlobalStatistics {
   Future<ServerResponse> readAllGlobalStats() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -54,8 +52,7 @@ class BrainCloudGlobalStatistics {
     data[OperationParam.playerStatisticsServiceStats.value] = globalStats;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -84,8 +81,7 @@ class BrainCloudGlobalStatistics {
     data[OperationParam.gamificationServiceCategory.value] = category;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -119,15 +115,15 @@ class BrainCloudGlobalStatistics {
   /// which increments stat1 by 9 up to a limit of 30.
 
   /// @returns Future<ServerResponse>
-  Future<ServerResponse> incrementGlobalStats({required String jsonData}) {
+  Future<ServerResponse> incrementGlobalStats(
+      {required Map<String, dynamic> jsonData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    Map<String, dynamic> stats = jsonDecode(jsonData);
+    Map<String, dynamic> stats = jsonData;
     data[OperationParam.playerStatisticsServiceStats.value] = stats;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -164,8 +160,7 @@ class BrainCloudGlobalStatistics {
     data[OperationParam.playerStatisticsServiceStats.value] = statisticsData;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,

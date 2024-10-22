@@ -235,9 +235,9 @@ class BrainCloudGroup {
       required String groupType,
       bool? isOpenGroup,
       GroupACL? acl,
-      String? jsonData,
-      String? jsonOwnerAttributes,
-      String? jsonDefaultMemberAttributes}) {
+      Map<String, dynamic>? jsonData,
+      Map<String, dynamic>? jsonOwnerAttributes,
+      Map<String, dynamic>? jsonDefaultMemberAttributes}) {
     Map<String, dynamic> data = {};
 
     if (!name.isEmptyOrNull) {
@@ -250,60 +250,59 @@ class BrainCloudGroup {
     if (acl != null) {
       data[OperationParam.groupAcl.value] = jsonDecode(acl.toJsonString());
     }
-    if (!jsonData.isEmptyOrNull) {
-      data[OperationParam.groupData.value] = jsonDecode(jsonData!);
+    if (jsonData != null) {
+      data[OperationParam.groupData.value] = jsonData;
     }
-    if (!jsonOwnerAttributes.isEmptyOrNull) {
-      data[OperationParam.groupOwnerAttributes.value] =
-          jsonDecode(jsonOwnerAttributes!);
+    if (jsonOwnerAttributes != null) {
+      data[OperationParam.groupOwnerAttributes.value] = jsonOwnerAttributes;
     }
-    if (!jsonDefaultMemberAttributes.isEmptyOrNull) {
+    if (jsonDefaultMemberAttributes != null) {
       data[OperationParam.groupDefaultMemberAttributes.value] =
-          jsonDecode(jsonDefaultMemberAttributes!);
+          jsonDefaultMemberAttributes;
     }
 
     return _sendRequest(ServiceOperation.createGroup, data);
   }
 
   /// Create a group. With additional summary data
-
+  ///
   /// Service Name - group
   /// Service Operation - CREATE_GROUP
-
+  ///
   /// @param name
   /// Name of the group.
-
+  ///
   /// @param groupType
   /// Name of the type of group.
-
+  ///
   /// @param isOpenGroup
   /// true if group is open; false if closed.
-
+  ///
   /// @param acl
   /// The group's access control list. A null ACL implies default.
-
+  ///
   /// @param jsonOwnerAttributes
   /// Attributes for the group owner (current user).
-
+  ///
   /// @param jsonDefaultMemberAttributes
   /// Default attributes for group members.
-
+  ///
   /// @param jsonData
   /// Custom application data.
-
+  ///
   /// @param jsonSummaryData
   /// Custom application data.
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> createGroupWithSummaryData(
       {required String name,
       required String groupType,
       bool? isOpenGroup,
       GroupACL? acl,
-      String? jsonData,
-      required String jsonOwnerAttributes,
-      String? jsonDefaultMemberAttributes,
-      required String jsonSummaryData}) {
+      Map<String, dynamic>? jsonData,
+      Map<String, dynamic>? jsonOwnerAttributes,
+      Map<String, dynamic>? jsonDefaultMemberAttributes,
+      Map<String, dynamic>? jsonSummaryData}) {
     Map<String, dynamic> data = {};
 
     if (!name.isEmptyOrNull) {
@@ -316,19 +315,18 @@ class BrainCloudGroup {
     if (acl != null) {
       data[OperationParam.groupAcl.value] = jsonDecode(acl.toJsonString());
     }
-    if (!jsonData.isEmptyOrNull) {
-      data[OperationParam.groupData.value] = jsonDecode(jsonData!);
+    if (jsonData != null) {
+      data[OperationParam.groupData.value] = jsonData;
     }
-    if (!jsonOwnerAttributes.isEmptyOrNull) {
-      data[OperationParam.groupOwnerAttributes.value] =
-          jsonDecode(jsonOwnerAttributes);
+    if (jsonOwnerAttributes != null) {
+      data[OperationParam.groupOwnerAttributes.value] = jsonOwnerAttributes;
     }
-    if (!jsonDefaultMemberAttributes.isEmptyOrNull) {
+    if (jsonDefaultMemberAttributes != null) {
       data[OperationParam.groupDefaultMemberAttributes.value] =
-          jsonDecode(jsonDefaultMemberAttributes!);
+          jsonDefaultMemberAttributes;
     }
-    if (!jsonSummaryData.isEmptyOrNull) {
-      data[OperationParam.groupSummaryData.value] = jsonDecode(jsonSummaryData);
+    if (jsonSummaryData != null) {
+      data[OperationParam.groupSummaryData.value] = jsonSummaryData;
     }
 
     return _sendRequest(ServiceOperation.createGroup, data);
@@ -360,7 +358,7 @@ class BrainCloudGroup {
       required String entityType,
       bool? isOwnedByGroupMember,
       GroupACL? acl,
-      String? jsonData}) {
+      Map<String, dynamic>? jsonData}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     if (!entityType.isEmptyOrNull) {
@@ -373,8 +371,8 @@ class BrainCloudGroup {
     if (acl != null) {
       data[OperationParam.groupAcl.value] = jsonDecode(acl.toJsonString());
     }
-    if (!jsonData.isEmptyOrNull) {
-      data[OperationParam.groupData.value] = jsonDecode(jsonData!);
+    if (jsonData != null) {
+      data[OperationParam.groupData.value] = jsonData;
     }
 
     return _sendRequest(ServiceOperation.createGroupEntity, data);
@@ -450,11 +448,11 @@ class BrainCloudGroup {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> incrementGroupData(
-      {required String groupId, String? jsonData}) {
+      {required String groupId, Map<String, dynamic>? jsonData}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
-    if (!jsonData.isEmptyOrNull) {
-      data[OperationParam.groupData.value] = jsonDecode(jsonData!);
+    if (jsonData != null) {
+      data[OperationParam.groupData.value] = jsonData;
     }
 
     return _sendRequest(ServiceOperation.incrementGroupData, data);
@@ -476,12 +474,14 @@ class BrainCloudGroup {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> incrementGroupEntityData(
-      {required String groupId, required String entityId, String? jsonData}) {
+      {required String groupId,
+      required String entityId,
+      Map<String, dynamic>? jsonData}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupEntityId.value] = entityId;
-    if (!jsonData.isEmptyOrNull) {
-      data[OperationParam.groupData.value] = jsonDecode(jsonData!);
+    if (jsonData != null) {
+      data[OperationParam.groupData.value] = jsonData;
     }
     return _sendRequest(ServiceOperation.incrementGroupEntityData, data);
   }
@@ -560,9 +560,10 @@ class BrainCloudGroup {
   /// @param jsonContext
   /// Query context.
   /// @returns Future<ServerResponse>
-  Future<ServerResponse> listGroupsPage({required String jsonContext}) {
+  Future<ServerResponse> listGroupsPage(
+      {required Map<String, dynamic> jsonContext}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.groupContext.value] = jsonDecode(jsonContext);
+    data[OperationParam.groupContext.value] = jsonContext;
 
     return _sendRequest(ServiceOperation.listGroupsPage, data);
   }
@@ -645,9 +646,10 @@ class BrainCloudGroup {
   /// Query context.
 
   /// @returns Future<ServerResponse>
-  Future<ServerResponse> readGroupEntitiesPage({required String jsonContext}) {
+  Future<ServerResponse> readGroupEntitiesPage(
+      {required Map<String, dynamic> jsonContext}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.groupContext.value] = jsonDecode(jsonContext);
+    data[OperationParam.groupContext.value] = jsonContext;
 
     return _sendRequest(ServiceOperation.readGroupEntitiesPage, data);
   }
@@ -784,11 +786,13 @@ class BrainCloudGroup {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> updateGroupData(
-      {required String groupId, required int version, String? jsonData}) {
+      {required String groupId,
+      required int version,
+      Map<String, dynamic>? jsonData}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupVersion.value] = version;
-    data[OperationParam.groupData.value] = jsonDecode(jsonData ?? "");
+    data[OperationParam.groupData.value] = jsonData ?? '';
 
     return _sendRequest(ServiceOperation.updateGroupData, data);
   }
@@ -815,13 +819,13 @@ class BrainCloudGroup {
       {required String groupId,
       required String entityId,
       required int version,
-      String? jsonData}) {
+      Map<String, dynamic>? jsonData}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupEntityId.value] = entityId;
     data[OperationParam.groupVersion.value] = version;
     if (jsonData != null && jsonData.isNotEmpty) {
-      data[OperationParam.groupData.value] = jsonDecode(jsonData);
+      data[OperationParam.groupData.value] = jsonData;
     }
 
     return _sendRequest(ServiceOperation.updateGroupEntity, data);
@@ -922,13 +926,12 @@ class BrainCloudGroup {
   Future<ServerResponse> updateGroupSummaryData(
       {required String groupId,
       required int version,
-      String? jsonSummaryData}) {
+      Map<String, dynamic>? jsonSummaryData}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupVersion.value] = version;
-    if (!jsonSummaryData.isEmptyOrNull) {
-      data[OperationParam.groupSummaryData.value] =
-          jsonDecode(jsonSummaryData!);
+    if (jsonSummaryData != null) {
+      data[OperationParam.groupSummaryData.value] = jsonSummaryData;
     }
 
     return _sendRequest(ServiceOperation.updateGroupSummaryData, data);
@@ -948,11 +951,10 @@ class BrainCloudGroup {
 
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getRandomGroupsMatching(
-      {required String jsonWhere, required int maxReturn}) {
+      {Map<String, dynamic>? jsonWhere, required int maxReturn}) {
     Map<String, dynamic> data = {};
-    if (Util.isOptionalParameterValid(jsonWhere)) {
-      Map<String, dynamic> customData = jsonDecode(jsonWhere);
-      data[OperationParam.groupWhere.value] = customData;
+    if (jsonWhere != null) {
+      data[OperationParam.groupWhere.value] = jsonWhere;
     }
     data[OperationParam.groupMaxReturn.value] = maxReturn;
 
@@ -964,8 +966,7 @@ class BrainCloudGroup {
       ServiceOperation operation, Map<String, dynamic> data) {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,

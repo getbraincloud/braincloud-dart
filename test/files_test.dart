@@ -448,7 +448,7 @@ main() {
           name: "test",
           groupType: "test",
           isOpenGroup: false,
-          jsonData: jsonEncode({"reason": "Group to test groupd files"}));
+          jsonData: {"reason": "Group to test groupd files"});
       debugPrint("Group File setUpAll createGroup returned ${response.data}");
       groupId = response.data?["groupId"];
     });
@@ -613,13 +613,16 @@ main() {
       ServerResponse findFolderResponse = await bcTest
           .bcWrapper.groupFileService
           .getFileList(groupId: groupId, folderPath: "", recurse: true);
-      if (findFolderResponse.data?['fileList'].isNotEmpty && findFolderResponse.data?['fileList']['folders'].isNotEmpty) {
-        debugPrint("===--===--===--== findFolderResponse ${findFolderResponse.data?['fileList']['folders']}");
-        destFolderName = findFolderResponse.data?['fileList']['folders'].keys.first;
-        destFolderId =
-            findFolderResponse.data?['fileList']['folders'][destFolderName]['treeId'];
-        destFolderVersion =
-            findFolderResponse.data?['fileList']['folders'][destFolderName]['version'];
+      if (findFolderResponse.data?['fileList'].isNotEmpty &&
+          findFolderResponse.data?['fileList']['folders'].isNotEmpty) {
+        debugPrint(
+            "===--===--===--== findFolderResponse ${findFolderResponse.data?['fileList']['folders']}");
+        destFolderName =
+            findFolderResponse.data?['fileList']['folders'].keys.first;
+        destFolderId = findFolderResponse.data?['fileList']['folders']
+            [destFolderName]['treeId'];
+        destFolderVersion = findFolderResponse.data?['fileList']['folders']
+            [destFolderName]['version'];
       }
 
       if (destFolderId.isNotEmpty) {
@@ -647,19 +650,19 @@ main() {
       if (groupAvailableFiles.isEmpty) await createGroupFile();
       FileDetail filedetail = groupAvailableFiles.first;
 
-      ServerResponse response = await bcTest.bcWrapper.groupFileService.updateFileInfo(
-        groupId: groupId, 
-        fileId: filedetail.fileId, 
-        version: filedetail.version, 
-        newFilename: "new_${filedetail.name}", 
-        newACL: {"member": 2,"other": 0});
+      ServerResponse response = await bcTest.bcWrapper.groupFileService
+          .updateFileInfo(
+              groupId: groupId,
+              fileId: filedetail.fileId,
+              version: filedetail.version,
+              newFilename: "new_${filedetail.name}",
+              newACL: {"member": 2, "other": 0});
 
-        expect(response.statusCode, StatusCodes.ok);
-        expect(response.data, isNotNull,
-            reason: "moveUserToGroupFile should return data");
-        expect(response.data?['fileDetails'], isNotNull,
-            reason: "moveUserToGroupFile should return data.fileDetails");
-
+      expect(response.statusCode, StatusCodes.ok);
+      expect(response.data, isNotNull,
+          reason: "moveUserToGroupFile should return data");
+      expect(response.data?['fileDetails'], isNotNull,
+          reason: "moveUserToGroupFile should return data.fileDetails");
     });
 
     tearDownAll(() {
