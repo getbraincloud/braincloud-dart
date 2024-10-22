@@ -51,8 +51,7 @@ class BrainCloudSocialLeaderboard {
         replaceName;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -104,8 +103,7 @@ class BrainCloudSocialLeaderboard {
         replaceName;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -160,8 +158,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -219,8 +216,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -264,8 +260,7 @@ class BrainCloudSocialLeaderboard {
         replaceName;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -316,8 +311,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceEndIndex.value] = endIndex;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -371,8 +365,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceEndIndex.value] = endIndex;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -425,8 +418,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -481,8 +473,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -608,8 +599,7 @@ class BrainCloudSocialLeaderboard {
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -667,8 +657,7 @@ class BrainCloudSocialLeaderboard {
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -695,8 +684,7 @@ class BrainCloudSocialLeaderboard {
         leaderboardId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -727,8 +715,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -763,8 +750,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -815,8 +801,7 @@ class BrainCloudSocialLeaderboard {
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -851,8 +836,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -928,8 +912,7 @@ class BrainCloudSocialLeaderboard {
         retainedCount;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -999,8 +982,7 @@ class BrainCloudSocialLeaderboard {
         leaderboardConfigJson;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -1081,8 +1063,7 @@ class BrainCloudSocialLeaderboard {
         retainedCount;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -1158,8 +1139,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.numDaysToRotate.value] = numDaysToRotate;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -1235,8 +1215,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.numDaysToRotate.value] = numDaysToRotate;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -1271,8 +1250,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceProfileIds.value] = profileIds;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -1308,8 +1286,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceProfileIds.value] = profileIds;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -1349,8 +1326,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -1393,8 +1369,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -1419,8 +1394,7 @@ class BrainCloudSocialLeaderboard {
   Future<ServerResponse> listAllLeaderboards() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -1473,8 +1447,7 @@ class BrainCloudSocialLeaderboard {
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -1509,8 +1482,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -1551,8 +1523,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -1586,8 +1557,7 @@ class BrainCloudSocialLeaderboard {
         leaderboardIds;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -1636,8 +1606,7 @@ class BrainCloudSocialLeaderboard {
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -1678,8 +1647,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -1731,8 +1699,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -1789,8 +1756,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -1805,10 +1771,72 @@ class BrainCloudSocialLeaderboard {
   }
 }
 
-enum SocialLeaderboardType { HIGH_VALUE, CUMULATIVE, LAST_VALUE, LOW_VALUE }
+enum SocialLeaderboardType {
+  HIGH_VALUE("HIGH_VALUE"),
+  CUMULATIVE("CUMULATIVE"),
+  LAST_VALUE("LAST_VALUE"),
+  LOW_VALUE("LOW_VALUE");
 
-enum RotationType { NEVER, DAILY, WEEKLY, MONTHLY, YEARLY }
+  const SocialLeaderboardType(this.value);
+  final String value;
 
-enum FetchType { HIGHEST_RANKED }
+  static SocialLeaderboardType fromString(String s) {
+    SocialLeaderboardType newValue = SocialLeaderboardType.values.firstWhere(
+        (e) => e.value == s,
+        orElse: () => SocialLeaderboardType.HIGH_VALUE);
 
-enum SortOrder { HIGH_TO_LOW, LOW_TO_HIGH }
+    return newValue;
+  }
+  @override
+  String toString() => value;
+}
+
+enum RotationType {
+  NEVER("NEVER"),
+  DAILY("DAILY"),
+  WEEKLY("WEEKLY"),
+  MONTHLY("MONTHLY"),
+  YEARLY("YEARLY");
+
+  const RotationType(this.value);
+  final String value;
+
+  static RotationType fromString(String s) {
+    RotationType newValue = RotationType.values
+        .firstWhere((e) => e.value == s, orElse: () => RotationType.NEVER);
+    return newValue;
+  }
+  @override
+  String toString() => value;
+}
+
+enum FetchType {
+  HIGHEST_RANKED("HIGHEST_RANKED");
+
+  const FetchType(this.value);
+  final String value;
+
+  static FetchType fromString(String s) {
+    FetchType newValue = FetchType.values.firstWhere((e) => e.value == s,
+        orElse: () => FetchType.HIGHEST_RANKED);
+    return newValue;
+  }
+  @override
+  String toString() => value;
+}
+
+enum SortOrder {
+  HIGH_TO_LOW("HIGH_TO_LOW"),
+  LOW_TO_HIGH("LOW_TO_HIGH");
+
+  const SortOrder(this.value);
+  final String value;
+
+  static SortOrder fromString(String s) {
+    SortOrder newValue = SortOrder.values
+        .firstWhere((e) => e.value == s, orElse: () => SortOrder.HIGH_TO_LOW);
+    return newValue;
+  }
+  @override
+  String toString() => value;
+}

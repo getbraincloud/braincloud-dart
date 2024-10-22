@@ -716,7 +716,7 @@ class BrainCloudLobby {
   }
 
   void _handlePingReponse(String region, String target) async {
-    debugPrint("Redion: $region - Target: $target");
+    debugPrint("Region: $region - Target: $target");
 
     var ping = Ping(target, count: 1, timeout: 10000);
     ping.stream.listen((event) {
