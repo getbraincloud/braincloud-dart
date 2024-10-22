@@ -10,6 +10,10 @@ void main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Mail", () {
+    setUpAll((){
+      bcTest.bcWrapper.brainCloudClient.enableLogging(true);
+    });
+
     test("updateContactEmail()", () async {
       await bcTest.bcWrapper.playerStateService.updateContactEmail(
         contactEmail: "braincloudunittest@test.getbraincloud.com",
@@ -51,6 +55,9 @@ void main() {
               }));
 
       expect(response.statusCode, StatusCodes.ok);
+    });
+    tearDownAll((){
+      bcTest.bcWrapper.brainCloudClient.enableLogging(false);
     });
   });
 
