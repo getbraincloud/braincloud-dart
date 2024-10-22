@@ -10,10 +10,13 @@ void main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Lobby", () {
-    
+
     //TODO: Remove this once timeout issue solve
     //attempt at debugging why timeout when running in Jenkins
-    setUpAll(listDnsServers);
+    setUpAll(() {
+      bcTest.bcWrapper.brainCloudClient.enableLogging(true);
+      listDnsServers();
+      });
 
     test("findLobby()", () async {
       ServerResponse response = await bcTest.bcWrapper.lobbyService.findLobby(
@@ -290,6 +293,7 @@ void main() {
     /// END TEST
     tearDownAll(() {
       bcTest.dispose();
+      bcTest.bcWrapper.brainCloudClient.enableLogging(false);
     });
   });
 }
