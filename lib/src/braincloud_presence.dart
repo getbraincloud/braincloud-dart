@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
@@ -25,8 +24,7 @@ class BrainCloudPresence {
     Map<String, dynamic> data = {};
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -62,8 +60,7 @@ class BrainCloudPresence {
     data[OperationParam.presenceServiceIncludeOffline.value] = includeOffline;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -98,8 +95,7 @@ class BrainCloudPresence {
     data[OperationParam.presenceServiceIncludeOffline.value] = includeOffline;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -134,8 +130,7 @@ class BrainCloudPresence {
     data[OperationParam.presenceServiceIncludeOffline.value] = includeOffline;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -175,8 +170,7 @@ class BrainCloudPresence {
     data[OperationParam.presenceServiceBidirectional.value] = bidirectional;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -210,8 +204,7 @@ class BrainCloudPresence {
     data[OperationParam.presenceServiceBidirectional.value] = bidirectional;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -246,8 +239,7 @@ class BrainCloudPresence {
     data[OperationParam.presenceServiceBidirectional.value] = bidirectional;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -276,8 +268,7 @@ class BrainCloudPresence {
     data[OperationParam.presenceServiceVisibile.value] = visible;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -304,8 +295,7 @@ class BrainCloudPresence {
     Map<String, dynamic> data = {};
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -328,15 +318,15 @@ class BrainCloudPresence {
   /// the Json data
 
   /// @returns Future<ServerResponse>
-  Future<ServerResponse> updateActivity({required String jsonActivity}) {
+  Future<ServerResponse> updateActivity(
+      {required Map<String, dynamic> jsonActivity}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    var jsonActivityString = jsonDecode(jsonActivity);
+    var jsonActivityString = jsonActivity;
     data[OperationParam.presenceServiceActivity.value] = jsonActivityString;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,

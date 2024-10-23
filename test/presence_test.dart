@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -82,7 +80,7 @@ void main() {
 
     test("updateActivity()", () async {
       ServerResponse response = await bcTest.bcWrapper.presenceService
-          .updateActivity(jsonActivity: jsonEncode({"status": "waiting"}));
+          .updateActivity(jsonActivity: {"status": "waiting"});
 
       expect(response.statusCode, StatusCodes.badRequest);
     });

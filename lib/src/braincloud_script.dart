@@ -16,31 +16,29 @@ class BrainCloudScript {
   BrainCloudScript(this._clientRef);
 
   /// Executes a script on the server.
-
+  ///
   /// Service Name - Script
   /// Service Operation - Run
-
+  ///
   /// @param scriptName
   /// The name of the script to be run
-
+  ///
   /// @param jsonScriptData
   /// Data to be sent to the script in json format
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> runScript(
-      {required String scriptName, required String jsonScriptData}) {
+      {required String scriptName, Map<String, dynamic>? jsonScriptData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
-    if (Util.isOptionalParameterValid(jsonScriptData)) {
-      Map<String, dynamic> scriptData = jsonDecode(jsonScriptData);
-      data[OperationParam.scriptServiceRunScriptData.value] = scriptData;
+    if (jsonScriptData != null) {
+      data[OperationParam.scriptServiceRunScriptData.value] = jsonScriptData;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -55,10 +53,10 @@ class BrainCloudScript {
   }
 
   /// Allows cloud script executions to be scheduled
-
+  ///
   /// Service Name - Script
   /// Service Operation - ScheduleCloudScriptMillisUTC
-
+  ///
   /// @param scriptName Name of script
   /// @param jsonScriptData JSON bundle to pass to script
   /// @param roundStartTimeUTC  use UTC time in milliseconds since epoch
@@ -80,8 +78,7 @@ class BrainCloudScript {
         roundStartTimeUTC.toUnsigned(64);
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -121,8 +118,7 @@ class BrainCloudScript {
         minutesFromNow;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -161,8 +157,7 @@ class BrainCloudScript {
     data[OperationParam.scriptServiceParentLevel.value] = parentLevel;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -189,8 +184,7 @@ class BrainCloudScript {
     data[OperationParam.scriptServiceJobId.value] = jobId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -218,8 +212,7 @@ class BrainCloudScript {
     data[OperationParam.scriptServiceStartDateUTC.value] = startDateUTC;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -243,8 +236,7 @@ class BrainCloudScript {
   Future<ServerResponse> getRunningOrQueuedCloudScripts() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -283,8 +275,7 @@ class BrainCloudScript {
     data[OperationParam.peer.value] = peer;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -324,8 +315,7 @@ class BrainCloudScript {
     data[OperationParam.peer.value] = peer;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,

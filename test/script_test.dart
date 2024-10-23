@@ -16,7 +16,7 @@ void main() {
 
     test("runScript()", retry: 2, () async {
       ServerResponse response = await bcTest.bcWrapper.scriptService.runScript(
-          scriptName: scriptName, jsonScriptData: jsonEncode(scriptData));
+          scriptName: scriptName, jsonScriptData: scriptData);
       expect(response.statusCode, StatusCodes.ok);
     });
 
