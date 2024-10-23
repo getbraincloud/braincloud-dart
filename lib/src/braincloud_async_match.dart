@@ -140,7 +140,7 @@ class BrainCloudAsyncMatch {
       required String matchId,
       required int version,
       required Map<String, dynamic> jsonMatchState,
-      Map<String, dynamic>? pushNotificationMessage,
+      String? pushNotificationMessage,
       String? nextPlayer,
       Map<String, dynamic>? jsonSummary,
       Map<String, dynamic>? jsonStatistics}) {

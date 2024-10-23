@@ -55,7 +55,8 @@ void main() {
               jsonSummary: {"summary": "sum"},
               nextPlayer: userB.profileId,
               jsonMatchState: {"summary": "sum"},
-              pushNotificationMessage: {"summary": "sum"});
+              jsonStatistics: {"summary": "sum"},
+              pushNotificationMessage: "Sample Push Message");
 
       matchId = response.data?["matchId"];
       expect(response.statusCode, StatusCodes.ok);
