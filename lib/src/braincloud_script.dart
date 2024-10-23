@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
@@ -8,7 +7,6 @@ import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:braincloud_dart/src/server_response.dart';
-import 'package:braincloud_dart/src/util.dart';
 
 class BrainCloudScript {
   final BrainCloudClient _clientRef;
@@ -63,15 +61,14 @@ class BrainCloudScript {
   /// @returns Future<ServerResponse>
   Future<ServerResponse> scheduleRunScriptMillisUTC(
       {required String scriptName,
-      required String jsonScriptData,
+      Map<String, dynamic>? jsonScriptData,
       required int roundStartTimeUTC}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
-    if (Util.isOptionalParameterValid(jsonScriptData)) {
-      Map<String, dynamic> scriptData = jsonDecode(jsonScriptData);
-      data[OperationParam.scriptServiceRunScriptData.value] = scriptData;
+    if (jsonScriptData != null) {
+      data[OperationParam.scriptServiceRunScriptData.value] = jsonScriptData;
     }
 
     data[OperationParam.scriptServiceStartDateUTC.value] =
@@ -103,15 +100,14 @@ class BrainCloudScript {
   /// @returns Future<ServerResponse>
   Future<ServerResponse> scheduleRunScriptMinutes(
       {required String scriptName,
-      required String jsonScriptData,
+      Map<String, dynamic>? jsonScriptData,
       required int minutesFromNow}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
-    if (Util.isOptionalParameterValid(jsonScriptData)) {
-      Map<String, dynamic> scriptData = jsonDecode(jsonScriptData);
-      data[OperationParam.scriptServiceRunScriptData.value] = scriptData;
+    if (jsonScriptData != null) {
+      data[OperationParam.scriptServiceRunScriptData.value] = jsonScriptData;
     }
 
     data[OperationParam.scriptServiceStartMinutesFromNow.value] =
@@ -143,15 +139,14 @@ class BrainCloudScript {
   /// @returns Future<ServerResponse>
   Future<ServerResponse> runParentScript(
       {required String scriptName,
-      required String jsonScriptData,
+      Map<String, dynamic>? jsonScriptData,
       required String parentLevel}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
-    if (Util.isOptionalParameterValid(jsonScriptData)) {
-      Map<String, dynamic> scriptData = jsonDecode(jsonScriptData);
-      data[OperationParam.scriptServiceRunScriptData.value] = scriptData;
+    if (jsonScriptData != null) {
+      data[OperationParam.scriptServiceRunScriptData.value] = jsonScriptData;
     }
 
     data[OperationParam.scriptServiceParentLevel.value] = parentLevel;
@@ -261,15 +256,14 @@ class BrainCloudScript {
   /// @returns Future<ServerResponse>
   Future<ServerResponse> runPeerScript(
       {required String scriptName,
-      required String jsonScriptData,
+      Map<String, dynamic>? jsonScriptData,
       required String peer}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
-    if (Util.isOptionalParameterValid(jsonScriptData)) {
-      Map<String, dynamic> scriptData = jsonDecode(jsonScriptData);
-      data[OperationParam.scriptServiceRunScriptData.value] = scriptData;
+    if (jsonScriptData != null) {
+      data[OperationParam.scriptServiceRunScriptData.value] = jsonScriptData;
     }
 
     data[OperationParam.peer.value] = peer;
@@ -301,15 +295,14 @@ class BrainCloudScript {
   /// @returns Future<ServerResponse>
   Future<ServerResponse> runPeerScriptAsync(
       {required String scriptName,
-      required String jsonScriptData,
+      Map<String, dynamic>? jsonScriptData,
       required String peer}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.scriptServiceRunScriptName.value] = scriptName;
 
-    if (Util.isOptionalParameterValid(jsonScriptData)) {
-      Map<String, dynamic> scriptData = jsonDecode(jsonScriptData);
-      data[OperationParam.scriptServiceRunScriptData.value] = scriptData;
+    if (jsonScriptData != null) {
+      data[OperationParam.scriptServiceRunScriptData.value] = jsonScriptData;
     }
 
     data[OperationParam.peer.value] = peer;
