@@ -99,7 +99,7 @@ void main() {
     test("setUserStatus()", () async {
       ServerResponse response = await bcTest.bcWrapper.playerStateService
           .setUserStatus(
-              statusName: "a_Status_Name", durationSecs: 60, details: "{}");
+              statusName: "a_Status_Name", durationSecs: 60, details: {});
 
       expect(response.statusCode, StatusCodes.ok, reason: "${response.data}");
     });

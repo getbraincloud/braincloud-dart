@@ -459,7 +459,7 @@ class BrainCloudPlayerState {
   Future<ServerResponse> setUserStatus(
       {required String statusName,
       required int durationSecs,
-      required String details}) {
+      required Map<String, dynamic> details}) {
     Completer<ServerResponse> completer = Completer();
 
     Map<String, dynamic> data = {};
