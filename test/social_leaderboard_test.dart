@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -181,7 +179,7 @@ void main() {
           .postScoreToDynamicLeaderboardUTC(
               leaderboardId: "testDynamicJs",
               score: 1000,
-              jsonData: jsonEncode({"extra": 123}),
+              jsonData: {"extra": 123},
               leaderboardType: SocialLeaderboardType.HIGH_VALUE,
               rotationType: RotationType.DAILY,
               rotationResetUTC: tomorrow.millisecondsSinceEpoch,
@@ -198,7 +196,7 @@ void main() {
           .postScoreToDynamicLeaderboardUTC(
               leaderboardId: "testDynamicJs",
               score: 1000,
-              jsonData: jsonEncode({"extra": 123}),
+              jsonData: {"extra": 123},
               leaderboardType: SocialLeaderboardType.HIGH_VALUE,
               rotationType: RotationType.DAILY,
               rotationResetUTC: tomorrow.millisecondsSinceEpoch,
@@ -226,8 +224,8 @@ void main() {
           .postScoreToDynamicLeaderboardUsingConfig(
               leaderboardId: leaderboardId,
               score: score,
-              scoreData: jsonEncode(scoreData),
-              configJson: jsonEncode(configJson));
+              scoreData: scoreData,
+              configJson: configJson);
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -239,7 +237,7 @@ void main() {
           .postScoreToDynamicLeaderboardDaysUTC(
               leaderboardId: "testDynamicJsDays",
               score: 1000,
-              jsonData: jsonEncode({"extra": 123}),
+              jsonData: {"extra": 123},
               leaderboardType: SocialLeaderboardType.HIGH_VALUE,
               rotationResetUTC: tomorrow.millisecondsSinceEpoch,
               numDaysToRotate: 3,
@@ -253,7 +251,7 @@ void main() {
           .postScoreToLeaderboard(
               leaderboardId: leaderboardName,
               score: 1000,
-              jsonData: jsonEncode({"extra": 123}));
+              jsonData: {"extra": 123});
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -359,7 +357,7 @@ void main() {
               leaderboardId: groupLeaderboard,
               groupId: groupId,
               score: 0,
-              jsonData: jsonEncode({"test": "asdf"}));
+              jsonData: {"test": "asdf"});
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -370,7 +368,7 @@ void main() {
               leaderboardId: groupLeaderboard,
               groupId: groupId,
               score: 0,
-              jsonData: jsonEncode({"test": "asdf"}),
+              jsonData: {"test": "asdf"},
               leaderboardType: SocialLeaderboardType.HIGH_VALUE,
               rotationType: RotationType.WEEKLY,
               rotationResetUTC: 1570818219096,
@@ -423,7 +421,7 @@ void main() {
               leaderboardId: groupLeaderboard,
               groupId: groupId,
               score: 0,
-              jsonData: jsonEncode({"extra": 123}),
+              jsonData: {"extra": 123},
               leaderboardType: SocialLeaderboardType.HIGH_VALUE,
               rotationResetUTC: today.millisecondsSinceEpoch,
               retainedCount: 2,

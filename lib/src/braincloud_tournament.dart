@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/braincloud_social_leaderboard.dart';
@@ -9,7 +8,6 @@ import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:braincloud_dart/src/server_response.dart';
-import 'package:braincloud_dart/src/util.dart';
 
 class BrainCloudTournament {
   final BrainCloudClient _clientRef;
@@ -37,8 +35,7 @@ class BrainCloudTournament {
     data[OperationParam.versionId.value] = versionId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -67,8 +64,7 @@ class BrainCloudTournament {
     data[OperationParam.divSetId.value] = divSetId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -91,8 +87,7 @@ class BrainCloudTournament {
   Future<ServerResponse> getMyDivisions() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -126,8 +121,7 @@ class BrainCloudTournament {
     data[OperationParam.versionId.value] = versionId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -168,8 +162,7 @@ class BrainCloudTournament {
     data[OperationParam.initialScore.value] = initialScore;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -211,8 +204,7 @@ class BrainCloudTournament {
     data[OperationParam.initialScore.value] = initialScore;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -242,8 +234,7 @@ class BrainCloudTournament {
     data[OperationParam.leaderboardId.value] = leaderboardId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -272,8 +263,7 @@ class BrainCloudTournament {
     data[OperationParam.leaderboardId.value] = leaderboardId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -308,7 +298,7 @@ class BrainCloudTournament {
   Future<ServerResponse> postTournamentScore(
       {required String leaderboardId,
       required int score,
-      required String jsonData,
+      Map<String, dynamic>? jsonData,
       required int roundStartTimeUTC}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -316,13 +306,11 @@ class BrainCloudTournament {
     data[OperationParam.score.value] = score;
     data[OperationParam.roundStartedEpoch.value] = roundStartTimeUTC;
 
-    if (Util.isOptionalParameterValid(jsonData)) {
-      Map<String, dynamic> scoreData = jsonDecode(jsonData);
-      data[OperationParam.data.value] = scoreData;
+    if (jsonData != null) {
+      data[OperationParam.data.value] = jsonData;
     }
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -370,7 +358,7 @@ class BrainCloudTournament {
   Future<ServerResponse> postTournamentScoreWithResults(
       {required String leaderboardId,
       required int score,
-      required String jsonData,
+      Map<String, dynamic>? jsonData,
       required int roundStartTimeUTC,
       required SortOrder sort,
       required int beforeCount,
@@ -384,9 +372,8 @@ class BrainCloudTournament {
     data[OperationParam.roundStartedEpoch.value] = roundStartTimeUTC;
     data[OperationParam.initialScore.value] = initialScore;
 
-    if (Util.isOptionalParameterValid(jsonData)) {
-      Map<String, dynamic> scoreData = jsonDecode(jsonData);
-      data[OperationParam.data.value] = scoreData;
+    if (jsonData != null) {
+      data[OperationParam.data.value] = jsonData;
     }
 
     data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
@@ -395,8 +382,7 @@ class BrainCloudTournament {
     data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
 
     var callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -424,8 +410,7 @@ class BrainCloudTournament {
     data[OperationParam.leaderboardId.value] = leaderboardId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -459,8 +444,7 @@ class BrainCloudTournament {
     data[OperationParam.versionId.value] = versionId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,

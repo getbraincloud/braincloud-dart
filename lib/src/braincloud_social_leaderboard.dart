@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
@@ -8,7 +7,6 @@ import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:braincloud_dart/src/server_response.dart';
-import 'package:braincloud_dart/src/util.dart';
 
 class BrainCloudSocialLeaderboard {
   final BrainCloudClient _clientRef;
@@ -789,15 +787,14 @@ class BrainCloudSocialLeaderboard {
   Future<ServerResponse> postScoreToLeaderboard(
       {required String leaderboardId,
       required int score,
-      required String jsonData}) {
+      Map<String, dynamic>? jsonData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceScore.value] = score;
-    if (Util.isOptionalParameterValid(jsonData)) {
-      var customData = jsonDecode(jsonData);
-      data[OperationParam.socialLeaderboardServiceData.value] = customData;
+    if (jsonData != null) {
+      data[OperationParam.socialLeaderboardServiceData.value] = jsonData;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -884,7 +881,7 @@ class BrainCloudSocialLeaderboard {
   Future<ServerResponse> postScoreToDynamicLeaderboardUTC(
       {required String leaderboardId,
       required int score,
-      required String jsonData,
+      Map<String, dynamic>? jsonData,
       required SocialLeaderboardType leaderboardType,
       required RotationType rotationType,
       int? rotationResetUTC,
@@ -894,9 +891,8 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceScore.value] = score;
-    if (Util.isOptionalParameterValid(jsonData)) {
-      var customData = jsonDecode(jsonData);
-      data[OperationParam.socialLeaderboardServiceData.value] = customData;
+    if (jsonData != null) {
+      data[OperationParam.socialLeaderboardServiceData.value] = jsonData;
     }
     data[OperationParam.socialLeaderboardServiceLeaderboardType.value] =
         leaderboardType.toString();
@@ -964,20 +960,20 @@ class BrainCloudSocialLeaderboard {
   Future<ServerResponse> postScoreToDynamicLeaderboardUsingConfig(
       {required String leaderboardId,
       required int score,
-      required String scoreData,
-      required String configJson}) {
+      Map<String, dynamic>? scoreData,
+      required Map<String, dynamic> configJson}) {
     Completer<ServerResponse> completer = Completer();
 
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceScore.value] = score;
-    if (Util.isOptionalParameterValid(scoreData)) {
-      var optionalScoreData = jsonDecode(scoreData);
+    if (scoreData != null) {
+      var optionalScoreData = scoreData;
       data[OperationParam.socialLeaderboardServiceScoreData.value] =
           optionalScoreData;
     }
-    var leaderboardConfigJson = jsonDecode(configJson);
+    var leaderboardConfigJson = configJson;
     data[OperationParam.socialLeaderboardServiceConfigJson.value] =
         leaderboardConfigJson;
 
@@ -1034,7 +1030,7 @@ class BrainCloudSocialLeaderboard {
       {required String leaderboardId,
       required String groupId,
       required int score,
-      required String jsonData,
+      Map<String, dynamic>? jsonData,
       required SocialLeaderboardType leaderboardType,
       required RotationType rotationType,
       int? rotationResetUTC,
@@ -1045,9 +1041,8 @@ class BrainCloudSocialLeaderboard {
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
     data[OperationParam.socialLeaderboardServiceScore.value] = score;
-    if (Util.isOptionalParameterValid(jsonData)) {
-      var customData = jsonDecode(jsonData);
-      data[OperationParam.socialLeaderboardServiceData.value] = customData;
+    if (jsonData != null) {
+      data[OperationParam.socialLeaderboardServiceData.value] = jsonData;
     }
     data[OperationParam.socialLeaderboardServiceLeaderboardType.value] =
         leaderboardType.toString();
@@ -1111,7 +1106,7 @@ class BrainCloudSocialLeaderboard {
   Future<ServerResponse> postScoreToDynamicLeaderboardDaysUTC(
       {required String leaderboardId,
       required int score,
-      required String jsonData,
+      Map<String, dynamic>? jsonData,
       required SocialLeaderboardType leaderboardType,
       int? rotationResetUTC,
       required int retainedCount,
@@ -1121,9 +1116,8 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceScore.value] = score;
-    if (Util.isOptionalParameterValid(jsonData)) {
-      var customData = jsonDecode(jsonData);
-      data[OperationParam.socialLeaderboardServiceData.value] = customData;
+    if (jsonData != null) {
+      data[OperationParam.socialLeaderboardServiceData.value] = jsonData;
     }
     data[OperationParam.socialLeaderboardServiceLeaderboardType.value] =
         leaderboardType.toString();
@@ -1186,7 +1180,7 @@ class BrainCloudSocialLeaderboard {
       {required String leaderboardId,
       required String groupId,
       required int score,
-      required String jsonData,
+      Map<String, dynamic>? jsonData,
       required SocialLeaderboardType leaderboardType,
       int? rotationResetUTC,
       required int retainedCount,
@@ -1197,9 +1191,8 @@ class BrainCloudSocialLeaderboard {
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceScore.value] = score;
     data[OperationParam.presenceServiceGroupId.value] = groupId;
-    if (Util.isOptionalParameterValid(jsonData)) {
-      var customData = jsonDecode(jsonData);
-      data[OperationParam.socialLeaderboardServiceData.value] = customData;
+    if (jsonData != null) {
+      data[OperationParam.socialLeaderboardServiceData.value] = jsonData;
     }
     data[OperationParam.socialLeaderboardServiceLeaderboardType.value] =
         leaderboardType.toString();
@@ -1593,16 +1586,15 @@ class BrainCloudSocialLeaderboard {
       {required String leaderboardId,
       required String groupId,
       required int score,
-      required String jsonData}) {
+      Map<String, dynamic>? jsonData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
     data[OperationParam.socialLeaderboardServiceScore.value] = score;
-    if (Util.isOptionalParameterValid(jsonData)) {
-      var customData = jsonDecode(jsonData);
-      data[OperationParam.socialLeaderboardServiceData.value] = customData;
+    if (jsonData != null) {
+      data[OperationParam.socialLeaderboardServiceData.value] = jsonData;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -1787,6 +1779,7 @@ enum SocialLeaderboardType {
 
     return newValue;
   }
+
   @override
   String toString() => value;
 }
@@ -1806,6 +1799,7 @@ enum RotationType {
         .firstWhere((e) => e.value == s, orElse: () => RotationType.NEVER);
     return newValue;
   }
+
   @override
   String toString() => value;
 }
@@ -1821,6 +1815,7 @@ enum FetchType {
         orElse: () => FetchType.HIGHEST_RANKED);
     return newValue;
   }
+
   @override
   String toString() => value;
 }
@@ -1837,6 +1832,7 @@ enum SortOrder {
         .firstWhere((e) => e.value == s, orElse: () => SortOrder.HIGH_TO_LOW);
     return newValue;
   }
+
   @override
   String toString() => value;
 }

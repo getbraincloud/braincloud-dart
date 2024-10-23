@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
@@ -40,8 +39,7 @@ class BrainCloudUserItems {
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -82,8 +80,7 @@ class BrainCloudUserItems {
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -104,23 +101,22 @@ class BrainCloudUserItems {
 
   /// Service Name - UserInventoryManagement
   /// Service Operation - GetUserInventoryPage
-
+  ///
   /// @param context
-
+  ///
   /// @param includeDef
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> getUserItemsPage(
-      {required String context, required bool includeDef}) {
+      {required Map<String, dynamic> context, required bool includeDef}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    var contextData = jsonDecode(context);
-    data[OperationParam.userItemsServiceContext.value] = contextData;
+
+    data[OperationParam.userItemsServiceContext.value] = context;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -161,8 +157,7 @@ class BrainCloudUserItems {
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -197,8 +192,7 @@ class BrainCloudUserItems {
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -243,8 +237,7 @@ class BrainCloudUserItems {
     data[OperationParam.userItemsServiceImmediate.value] = immediate;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -288,8 +281,7 @@ class BrainCloudUserItems {
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -326,8 +318,7 @@ class BrainCloudUserItems {
     data[OperationParam.userItemsServiceItemId.value] = itemId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -377,8 +368,7 @@ class BrainCloudUserItems {
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -407,17 +397,16 @@ class BrainCloudUserItems {
   Future<ServerResponse> updateUserItemData(
       {required String itemId,
       required int version,
-      required String newItemData}) {
+      required Map<String, dynamic> newItemData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceItemId.value] = itemId;
     data[OperationParam.userItemsServiceVersion.value] = version;
-    var newItemDataDict = jsonDecode(newItemData);
-    data[OperationParam.userItemsServiceNewItemData.value] = newItemDataDict;
+
+    data[OperationParam.userItemsServiceNewItemData.value] = newItemData;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -432,23 +421,23 @@ class BrainCloudUserItems {
   }
 
   /// Uses the specified item, potentially consuming it.
-
+  ///
   /// Service Name - UserInventoryManagement
   /// Service Operation - UseUserItem
-
+  ///
   /// @param itemId
-
+  ///
   /// @param version
-
+  ///
   /// @param newItemData
-
+  ///
   /// @param includeDef
-
+  ///
   /// @returns Future<ServerResponse>
   Future<ServerResponse> useUserItem(
       {required String itemId,
       required int version,
-      required String newItemData,
+      required Map<String, dynamic> newItemData,
       required bool includeDef}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -456,12 +445,10 @@ class BrainCloudUserItems {
     data[OperationParam.userItemsServiceVersion.value] = version;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
 
-    var newItemDataDict = jsonDecode(newItemData);
-    data[OperationParam.userItemsServiceNewItemData.value] = newItemDataDict;
+    data[OperationParam.userItemsServiceNewItemData.value] = newItemData;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -493,8 +480,7 @@ class BrainCloudUserItems {
     data[OperationParam.userItemsServiceVersion.value] = version;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -518,8 +504,7 @@ class BrainCloudUserItems {
     Map<String, dynamic> data = {};
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -554,8 +539,7 @@ class BrainCloudUserItems {
     data[OperationParam.userItemsServiceVersion.value] = version;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,

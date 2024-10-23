@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -45,7 +43,7 @@ void main() {
     });
 
     test("GetUserItemsPage()", () async {
-      var context = {};
+      Map<String, dynamic> context = {};
 
       context["pagination"] = {};
       context["pagination"]["rowsPerPage"] = 50;
@@ -57,7 +55,7 @@ void main() {
       context["sortCriteria"]["updatedAt"] = -1;
 
       ServerResponse response = await bcTest.bcWrapper.userItemsService
-          .getUserItemsPage(context: jsonEncode(context), includeDef: true);
+          .getUserItemsPage(context: context, includeDef: true);
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -116,22 +114,22 @@ void main() {
     });
 
     test("UpdateUserItemData())", () async {
-      var newItemData = {};
+      Map<String, dynamic> newItemData = {};
       ServerResponse response = await bcTest.bcWrapper.userItemsService
           .updateUserItemData(
-              itemId: item4, version: 1, newItemData: jsonEncode(newItemData));
+              itemId: item4, version: 1, newItemData: newItemData);
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
     test("UseUserItem())", () async {
-      var newItemData = {};
+      Map<String, dynamic> newItemData = {};
       newItemData["test"] = "testing";
       ServerResponse response = await bcTest.bcWrapper.userItemsService
           .useUserItem(
               itemId: item4,
               version: 2,
-              newItemData: jsonEncode(newItemData),
+              newItemData: newItemData,
               includeDef: true);
 
       expect(response.statusCode, StatusCodes.ok);

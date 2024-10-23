@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -86,7 +84,7 @@ void main() {
           await bcTest.bcWrapper.tournamentService.postTournamentScore(
         leaderboardId: _leaderboardId,
         score: 200,
-        jsonData: jsonEncode({"test": "test"}),
+        jsonData: {"test": "test"},
         roundStartTimeUTC: DateTime.now().millisecondsSinceEpoch,
       );
 
@@ -98,7 +96,7 @@ void main() {
           .postTournamentScoreWithResults(
               leaderboardId: _leaderboardId,
               score: 200,
-              jsonData: jsonEncode({"test": "test"}),
+              jsonData: {"test": "test"},
               roundStartTimeUTC: DateTime.now().millisecondsSinceEpoch,
               sort: SortOrder.HIGH_TO_LOW,
               beforeCount: 10,
