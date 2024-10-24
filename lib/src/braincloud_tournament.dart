@@ -15,18 +15,19 @@ class BrainCloudTournament {
   BrainCloudTournament(this._clientRef);
 
   /// Processes any outstanding rewards for the given player
-
+  ///
   /// Service Name - tournament
   /// Service Operation - CLAIM_TOURNAMENT_REWARD
-
+  ///
   /// @param leaderboardId
   /// The leaderboard for the tournament
-
+  ///
   /// @param versionId
   /// Version of the tournament to claim rewards for.
+  ///
   /// Use -1 for the latest version.
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> claimTournamentReward(
       {required String leaderboardId, required int versionId}) {
     Completer<ServerResponse> completer = Completer();
@@ -50,14 +51,14 @@ class BrainCloudTournament {
   }
 
   /// Gets the info of specified division set
-
+  ///
   /// Service Name - tournament
   /// Service Operation - GET_DIVISION_INFO
-
+  ///
   /// @param divSetId
   /// The division
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getDivisionInfo({required String divSetId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -79,11 +80,11 @@ class BrainCloudTournament {
   }
 
   /// Gets the player's recently active divisions
-
+  ///
   /// Service Name - tournament
   /// Service Operation - GET_MY_DIVISIONS
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getMyDivisions() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -102,17 +103,17 @@ class BrainCloudTournament {
   }
 
   /// Get tournament status associated with a leaderboard
-
+  ///
   /// Service Name - tournament
   /// Service Operation - GET_TOURNAMENT_STATUS
-
+  ///
   /// @param leaderboardId
   /// The leaderboard for the tournament
-
+  ///
   /// @param versionId
   /// Version of the tournament. Use -1 for the latest version.
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getTournamentStatus(
       {required String leaderboardId, required int versionId}) {
     Completer<ServerResponse> completer = Completer();
@@ -136,21 +137,21 @@ class BrainCloudTournament {
   }
 
   /// Gets the info of specified division set
-
+  ///
   /// Service Name - tournament
   /// Service Operation - GET_DIVISION_INFO
-
+  ///
   /// @param divSetId
   /// The division
-
+  ///
   /// @param tournamentCode
   /// The tournament to join
-
+  ///
   /// @param initialScore
   /// The initial score for players first joining a tournament
   /// Usually 0, unless leaderboard is LOW_VALUE
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> joinDivision(
       {required String divSetId,
       required String tournamentCode,
@@ -178,21 +179,21 @@ class BrainCloudTournament {
 
   /// Join the specified tournament.
   /// Any entry fees will be automatically collected.
-
+  ///
   /// Service Name - tournament
   /// Service Operation - JOIN_TOURNAMENT
-
+  ///
   /// @param leaderboardId
   /// The leaderboard for the tournament
-
+  ///
   /// @param tournamentCode
   /// Tournament to join
-
+  ///
   /// @param initialScore
   /// The initial score for players first joining a tournament
   /// Usually 0, unless leaderboard is LOW_VALUE
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> joinTournament(
       {required String leaderboardId,
       required String tournamentCode,
@@ -219,14 +220,14 @@ class BrainCloudTournament {
   }
 
   /// Gets the info of specified division set
-
+  ///
   /// Service Name - tournament
   /// Service Operation - GET_DIVISION_INFO
-
+  ///
   /// @param learboardId
   /// The division
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> leaveDivisionInstance(
       {required String leaderboardId}) {
     Completer<ServerResponse> completer = Completer();
@@ -249,14 +250,14 @@ class BrainCloudTournament {
   }
 
   /// Removes player's score from tournament leaderboard
-
+  ///
   /// Service Name - tournament
   /// Service Operation - LEAVE_TOURNAMENT
-
+  ///
   /// @param leaderboardId
   /// The leaderboard for the tournament
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> leaveTournament({required String leaderboardId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -278,23 +279,23 @@ class BrainCloudTournament {
   }
 
   /// Post the users score to the leaderboard
-
+  ///
   /// Service Name - tournament
   /// Service Operation - POST_TOURNAMENT_SCORE
-
+  ///
   /// @param leaderboardId
   /// The leaderboard for the tournament
-
+  ///
   /// @param score
   /// The score to post
-
+  ///
   /// @param jsonData
   /// Optional data attached to the leaderboard entry
-
+  ///
   /// @param roundStartTimeUTC
   /// Uses UTC time in milliseconds since epoch
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> postTournamentScore(
       {required String leaderboardId,
       required int score,
@@ -325,36 +326,36 @@ class BrainCloudTournament {
   }
 
   /// Post the users score to the leaderboard and returns the results
-
+  ///
   /// Service Name - tournament
   /// Service Operation - POST_TOURNAMENT_SCORE_WITH_RESULTS
-
+  ///
   /// @param leaderboardId
   /// The leaderboard for the tournament
-
+  ///
   /// @param score
   /// The score to post
-
+  ///
   /// @param jsonData
   /// Optional data attached to the leaderboard entry
-
+  ///
   /// @param roundStartTimeUTC
   /// Uses UTC time in milliseconds since epoch
-
+  ///
   /// @param sort
   /// Sort key Sort order of page.
-
+  ///
   /// @param beforeCount
   /// The count of number of players before the current player to include.
-
+  ///
   /// @param afterCount
   /// The count of number of players after the current player to include.
-
+  ///
   /// @param initialScore
   /// The initial score for players first joining a tournament
   /// Usually 0, unless leaderboard is LOW_VALUE
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> postTournamentScoreWithResults(
       {required String leaderboardId,
       required int score,
@@ -396,14 +397,14 @@ class BrainCloudTournament {
   }
 
   /// Returns the user's expected reward based on the current scores
-
+  ///
   /// Service Name - tournament
   /// Service Operation - VIEW_CURRENT_REWARD
-
+  ///
   /// @param leaderboardId
   /// The leaderboard for the tournament
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> viewCurrentReward({required String leaderboardId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -425,17 +426,17 @@ class BrainCloudTournament {
   }
 
   /// Returns the user's reward from a finished tournament
-
+  ///
   /// Service Name - tournament
   /// Service Operation - VIEW_REWARD
-
+  ///
   /// @param leaderboardId
   /// The leaderboard for the tournament
-  /// </param
+  ///
   /// @param versionId
   /// Version of the tournament. Use -1 for the latest version.
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> viewReward(
       {required String leaderboardId, required int versionId}) {
     Completer<ServerResponse> completer = Completer();

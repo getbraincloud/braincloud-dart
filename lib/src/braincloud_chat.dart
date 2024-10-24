@@ -15,8 +15,8 @@ class BrainCloudChat {
   BrainCloudChat(this._clientRef);
 
   /// Registers a listener for incoming events from <channelId>. Also returns a list of <maxReturn> recent messages from history.
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> channelConnect(
       {required String channelId, required int maxtoreturn}) {
     Completer<ServerResponse> completer = Completer();
@@ -25,8 +25,7 @@ class BrainCloudChat {
     data[OperationParam.chatMaxReturn.value] = maxtoreturn;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -40,16 +39,15 @@ class BrainCloudChat {
   }
 
   /// Unregisters a listener for incoming events from <channelId>.
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> channelDisconnect({required String channelId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.chatChannelId.value] = channelId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -63,8 +61,8 @@ class BrainCloudChat {
   }
 
   /// Delete a chat message. <version> must match the latest or pass -1 to bypass version check.
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> deleteChatMessage(
       {required String channelId,
       required String messageid,
@@ -76,8 +74,7 @@ class BrainCloudChat {
     data[OperationParam.chatVersion.value] = version;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -91,8 +88,8 @@ class BrainCloudChat {
   }
 
   /// Gets the channelId for the given <channelType> and <channelSubId>. Channel type must be one of "gl"(GlobalChannelType) or "gr"(GroupChannelType).
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getChannelId(
       {required String channeltype, required String channelsubid}) {
     Completer<ServerResponse> completer = Completer();
@@ -118,16 +115,15 @@ class BrainCloudChat {
   }
 
   /// Gets description info and activity stats for channel <channelId>. Note that numMsgs and listeners only returned for non-global groups. Only callable for channels the user is a member of.
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getChannelInfo({required String channelId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.chatChannelId.value] = channelId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -141,8 +137,8 @@ class BrainCloudChat {
   }
 
   /// Gets a populated chat object (normally for editing).
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getChatMessage(
       {required String channelId, required String messageid}) {
     Completer<ServerResponse> completer = Completer();
@@ -151,8 +147,7 @@ class BrainCloudChat {
     data[OperationParam.chatMessageId.value] = messageid;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -166,8 +161,8 @@ class BrainCloudChat {
   }
 
   /// Get a list of <maxReturn> messages from history of channel <channelId>
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getRecentChatMessages(
       {required String channelId, required int maxToReturn}) {
     Completer<ServerResponse> completer = Completer();
@@ -176,8 +171,7 @@ class BrainCloudChat {
     data[OperationParam.chatMaxReturn.value] = maxToReturn;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -191,16 +185,15 @@ class BrainCloudChat {
   }
 
   /// Gets a list of the channels of type <channelType> that the user has access to. Channel type must be one of "gl"(GlobalChannelType), "gr"(GroupChannelType) or "all"(AllChannelType).
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getSubscribedChannels({required String channeltype}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.chatChannelType.value] = channeltype;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -213,10 +206,11 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// Sends a potentially richer member chat message. By convention, content should contain a field named text for plain-text content. Returns the id of the message created.
-
+  /// Sends a potentially richer member chat message.
   ///
-  /// @returns Future<ServerResponse>
+  /// By convention, content should contain a field named text for plain-text content. Returns the id of the message created.
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> postChatMessage(
       {required String channelId,
       required String contentJson,
@@ -229,8 +223,7 @@ class BrainCloudChat {
     data[OperationParam.chatRecordInHistory.value] = inRecordInHistory;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -243,43 +236,9 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// Send a potentially rich chat message. <content> must contain at least a "plain" field for plain-text messaging.
-
-  ///
-  // void postChatMessage(
-  //     {required String channelId,
-  //     required String plain,
-  //     required String jsonRich,
-  //     bool recordInHistory = true
-  //     }) {
-  //   Map<String, dynamic> data = <String, dynamic>{};
-
-  //   // Build message content
-  //   Map<String, dynamic> content = {};
-  //   content[OperationParam.chatText.Value] = plain;
-  //   if (Util.isOptionalParameterValid(jsonRich)) {
-  //     Map<String, dynamic> jsonRich = jsonDecode(jsonRich);
-  //     content[OperationParam.chatRich.Value] = jsonRich;
-  //   } else {
-  //     Map<String, dynamic> jsonRich = jsonDecode("{}");
-  //     content[OperationParam.chatRich.Value] = jsonRich;
-  //   }
-
-  //   data[OperationParam.chatChannelId.Value] = channelId;
-  //   data[OperationParam.chatContent.Value] = content;
-  //   data[OperationParam.chatRecordInHistory.Value] = recordInHistory;
-
-  //   ServerCallback? callback = BrainCloudClient.createServerCallback(
-  //       success, failure);
-  //   ServerCall sc = ServerCall(
-  //       ServiceName.Chat, ServiceOperation.postChatMessage, data, callback);
-  //   _clientRef.sendRequest(sc);
-  // }
-
   /// Sends a plain-text chat message.
-
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> postChatMessageSimple(
       {required String channelId,
       required String plain,
@@ -292,8 +251,7 @@ class BrainCloudChat {
     data[OperationParam.chatRecordInHistory.value] = recordInHistory;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -307,8 +265,8 @@ class BrainCloudChat {
   }
 
   /// Update the specified chat message. Message must have been from this user. Version provided must match (or pass -1 to bypass version enforcement).
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> updateChatMessage(
       {required String channelId,
       required String messageid,
@@ -323,8 +281,7 @@ class BrainCloudChat {
     data[OperationParam.chatContent.value] = jsonDecode(contentjson);
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -336,38 +293,4 @@ class BrainCloudChat {
 
     return completer.future;
   }
-
-  //
-  // /// Update a chat message. <content> must contain at least a "plain" field for plain-text messaging. <version> must match the latest or pass -1 to bypass version check.
-  //
-  // void UpdateChatMessage(
-  //     String channelId,
-  //     String in_messageId,
-  //     int in_version,
-  //     String plain,
-  //     String jsonRich,
-  //     SuccessCallback? success,
-  //     FailureCallback? failure) {
-  //   Map<String, dynamic> content = <String, dynamic>{};
-  //   content[OperationParam.chatText.Value] = plain;
-  //   if (Util.isOptionalParameterValid(jsonRich)) {
-  //     Map<String, dynamic> jsonRich = jsonDecode(jsonRich);
-  //     content[OperationParam.chatRich.Value] = jsonRich;
-  //   } else {
-  //     Map<String, dynamic> jsonRich = {};
-  //     content[OperationParam.chatRich.Value] = jsonRich;
-  //   }
-
-  //   Map<String, dynamic> data = {};
-  //   data[OperationParam.chatChannelId.Value] = channelId;
-  //   data[OperationParam.chatMessageId.Value] = in_messageId;
-  //   data[OperationParam.chatVersion.Value] = in_version;
-  //   data[OperationParam.chatContent.Value] = content;
-
-  //   ServerCallback? callback = BrainCloudClient.createServerCallback(
-  //       success, failure);
-  //   ServerCall sc = ServerCall(
-  //       ServiceName.Chat, ServiceOperation.updateChatMessage, data, callback);
-  //   _clientRef.sendRequest(sc);
-  // }
 }

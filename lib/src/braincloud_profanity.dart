@@ -14,16 +14,21 @@ class BrainCloudProfanity {
   BrainCloudProfanity(this._clientRef);
 
   /// Checks supplied text for profanity.
-
+  ///
   /// Service Name - Profanity
   /// Service Operation - ProfanityCheck
-
+  ///
   /// @param textThe text to check
+  ///
   /// @param languagesOptional comma delimited list of two character language codes
+  ///
   /// @param flagEmailOptional processing of email addresses
+  ///
   /// @param flagPhoneOptional processing of phone numbers
+  ///
   /// @param flagUrlsOptional processing of urls
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> profanityCheck(
       {required String text,
       String? languages,
@@ -41,8 +46,7 @@ class BrainCloudProfanity {
     data[OperationParam.profanityFlagUrls.value] = flagUrls;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -57,17 +61,23 @@ class BrainCloudProfanity {
   }
 
   /// Replaces the characters of profanity text with a passed character(s).
-
+  ///
   /// Service Name - Profanity
   /// Service Operation - ProfanityReplaceText
-
+  ///
   /// @param textThe text to check
+  ///
   /// @param replaceSymbolThe text to replace individual characters of profanity text with
+  ///
   /// @param languagesOptional comma delimited list of two character language codes
+  ///
   /// @param flagEmailOptional processing of email addresses
+  ///
   /// @param flagPhoneOptional processing of phone numbers
+  ///
   /// @param flagUrlsOptional processing of urls
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> profanityReplaceText(
       {required String text,
       required String replaceSymbol,
@@ -87,8 +97,7 @@ class BrainCloudProfanity {
     data[OperationParam.profanityFlagUrls.value] = flagUrls;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -103,16 +112,21 @@ class BrainCloudProfanity {
   }
 
   /// Checks supplied text for profanity and returns a list of bad wors.
-
+  ///
   /// Service Name - Profanity
   /// Service Operation - ProfanityIdentifyBadWords
-
+  ///
   /// @param textThe text to check
+  ///
   /// @param languagesOptional comma delimited list of two character language codes
+  ///
   /// @param flagEmailOptional processing of email addresses
+  ///
   /// @param flagPhoneOptional processing of phone numbers
+  ///
   /// @param flagUrlsOptional processing of urls
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> profanityIdentifyBadWords(
       {required String text,
       String? languages,
@@ -130,8 +144,7 @@ class BrainCloudProfanity {
     data[OperationParam.profanityFlagUrls.value] = flagUrls;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,

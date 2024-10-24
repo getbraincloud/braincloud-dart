@@ -22,13 +22,13 @@ class BrainCloudEntity {
   /// The entity type as defined by the user
   ///
   /// @param jsonEntityData
-  /// The entity's data as a json String
+  /// The entity's data
   ///
   /// @param jsonEntityAcl
   /// The entity's access control list as json. A null acl implies default
   /// permissions which make the entity readable/writeable by only the user.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> createEntity(
       {required String entityType,
       required Map<String, dynamic> jsonEntityData,
@@ -65,7 +65,7 @@ class BrainCloudEntity {
   ///
   /// The entity type to search for
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getEntitiesByType({required String entityType}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.entityServiceEntityType.value] = entityType;
@@ -103,7 +103,7 @@ class BrainCloudEntity {
   /// The entity type as defined by the user
   ///
   /// @param jsonEntityData
-  /// The entity's data as a json String.
+  /// The entity's data.
   ///
   /// @param jsonEntityAcl
   ///
@@ -116,7 +116,7 @@ class BrainCloudEntity {
   /// entity on the server does not match the version passed in, the
   /// server operation will fail. Use -1 to skip version checking.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> updateEntity(
       {required String entityId,
       required String entityType,
@@ -173,7 +173,7 @@ class BrainCloudEntity {
   ///
   /// @param jsonEntityData
   ///
-  /// The entity's data as a json String.
+  /// The entity's data.
   ///
   /// @param version
   ///
@@ -181,7 +181,7 @@ class BrainCloudEntity {
   ///  entity on the server does not match the version passed in, the
   ///  server operation will fail. Use -1 to skip version checking.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> updateSharedEntity(
       {required String entityId,
       required String targetProfileId,
@@ -227,7 +227,6 @@ class BrainCloudEntity {
   ///
   /// Service Operation - Delete
   ///
-  ///
   /// @param entityId
   ///
   /// The id of the entity to update
@@ -238,7 +237,7 @@ class BrainCloudEntity {
   ///  entity on the server does not match the version passed in, the
   ///  server operation will fail. Use -1 to skip version checking.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> deleteEntity(
       {required String entityId, required int version}) async {
     Map<String, dynamic> data = {};
@@ -276,7 +275,7 @@ class BrainCloudEntity {
   ///
   /// @param jsonEntityData
   ///
-  /// The entity's data as a json String.
+  /// The entity's data.
   ///
   /// @param jsonEntityAcl
   ///
@@ -288,7 +287,7 @@ class BrainCloudEntity {
   /// entity on the server does not match the version passed in, the
   /// server operation will fail. Use -1 to skip version checking.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> updateSingleton(
       {required String entityType,
       required Map<String, dynamic> jsonEntityData,
@@ -334,7 +333,7 @@ class BrainCloudEntity {
   ///  entity on the server does not match the version passed in, the
   ///  server operation will fail. Use -1 to skip version checking.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> deleteSingleton(
       {required String entityType, required int version}) {
     Map<String, dynamic> data = {};
@@ -367,7 +366,7 @@ class BrainCloudEntity {
   ///
   /// The id of the entity
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getEntity({required String entityId}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.entityServiceEntityId.value] = entityId;
@@ -400,7 +399,7 @@ class BrainCloudEntity {
   ///
   /// The entity type as defined by the user
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getSingleton({required String entityType}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.entityServiceEntityType.value] = entityType;
@@ -439,7 +438,7 @@ class BrainCloudEntity {
   ///
   /// The ID of the entity that will be retrieved
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getSharedEntityForProfileId(
       {required String profileId, required String entityId}) async {
     Map<String, dynamic> data = {};
@@ -475,7 +474,7 @@ class BrainCloudEntity {
   ///
   /// The profile id to retrieve shared entities for
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getSharedEntitiesForProfileId(
       {required String profileId}) async {
     Map<String, dynamic> data = {};
@@ -506,18 +505,15 @@ class BrainCloudEntity {
   /// Service Operation - GET_LIST
   ///
   /// @param whereJson
-  ///
   /// Mongo style query String
   ///
   /// @param orderByJson
-  ///
   /// Sort order
   ///
   /// @param maxReturn
-  ///
   /// The maximum number of entities to return
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getList(
       {required Map<String, dynamic> whereJson,
       required Map<String, int> orderByJson,
@@ -568,7 +564,7 @@ class BrainCloudEntity {
   ///
   /// The maximum number of entities to return
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getSharedEntitiesListForProfileId(
       {required String profileId,
       required Map<String, dynamic> whereJson,
@@ -608,7 +604,7 @@ class BrainCloudEntity {
   ///
   /// Mongo style query String
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getListCount(
       {required Map<String, dynamic> whereJson}) async {
     Map<String, dynamic> data = {};
@@ -647,7 +643,7 @@ class BrainCloudEntity {
   ///
   /// See the portal appendix documentation for format
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getPage(
       {required Map<String, dynamic> jsonContext}) async {
     Map<String, dynamic> data = {};
@@ -689,7 +685,7 @@ class BrainCloudEntity {
   /// The positive or negative page offset to fetch. Uses the last page
   /// retrieved using the context String to determine a starting point.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getPageOffset(
       {required String context, required int pageOffset}) async {
     Map<String, dynamic> data = {};
@@ -725,7 +721,7 @@ class BrainCloudEntity {
   ///
   /// @param jsonDataThe subset of data to increment
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> incrementUserEntityData(
       {required String entityId,
       required Map<String, dynamic> jsonData}) async {
@@ -759,18 +755,15 @@ class BrainCloudEntity {
   /// Service Operation - INCREMENT_SHARED_USER_ENTITY_DATA
   ///
   /// @param entityIdThe
-  ///
   /// entity to increment
   ///
   /// @param targetProfileIdProfile
-  ///
   ///  ID of the entity owner
   ///
   /// @param jsonDataThe
-  ///
   ///  subset of data to increment
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> incrementSharedUserEntityData(
       {required String entityId,
       required String targetProfileId,

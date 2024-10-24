@@ -14,20 +14,20 @@ class BrainCloudUserItems {
   BrainCloudUserItems(this._clientRef);
 
   /// Allows item(s) to be awarded to a user without collecting
-  ///the purchase amount. If includeDef is true, response
-  ///includes associated itemDef with language fields limited
-  ///to the current or default language.
-
+  /// the purchase amount. If includeDef is true, response
+  /// includes associated itemDef with language fields limited
+  /// to the current or default language.
+  ///
   /// Service Name - UserInventoryManagement
   /// Service Operation - AwardUserItem
-
+  ///
   /// @param defId
-
+  ///
   /// @param quantity
-
+  ///
   /// @param includeDef
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> awardUserItem(
       {required String defId,
       required int quantity,
@@ -58,17 +58,17 @@ class BrainCloudUserItems {
   ///quantity of the user item remains, it will be returned, potentially
   ///with the associated itemDef (with language fields limited to the
   ///current or default language).
-
+  ///
   /// Service Name - UserInventoryManagement
   /// Service Operation - DropUserItem
-
+  ///
   /// @param itemId
-
+  ///
   /// @param quantity
-
+  ///
   /// @param includeDef
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> dropUserItem(
       {required String itemId,
       required int quantity,
@@ -98,7 +98,7 @@ class BrainCloudUserItems {
   ///based on the context. If includeDef is true, response includes
   /// associated itemDef with each user item, with language fields
   ///limited to the current or default language.
-
+  ///
   /// Service Name - UserInventoryManagement
   /// Service Operation - GetUserInventoryPage
   ///
@@ -106,7 +106,7 @@ class BrainCloudUserItems {
   ///
   /// @param includeDef
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getUserItemsPage(
       {required Map<String, dynamic> context, required bool includeDef}) {
     Completer<ServerResponse> completer = Completer();
@@ -135,17 +135,17 @@ class BrainCloudUserItems {
   ///If includeDef is true, response includes associated
   ///itemDef with each user item, with language fields limited
   ///to the current or default language.
-
+  ///
   /// Service Name - UserInventoryManagement
   /// Service Operation - GetUserInventoryPageOffset
-
+  ///
   /// @param context
-
+  ///
   /// @param pageOffset
-
+  ///
   /// @param includeDef
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getUserItemsPageOffset(
       {required String context,
       required int pageOffset,
@@ -175,15 +175,15 @@ class BrainCloudUserItems {
   /// If includeDef is true, response includes associated
   /// itemDef with language fields limited to the current
   ///or default language.
-
+  ///
   /// Service Name - UserInventoryManagement
   /// Service Operation - GetUserItem
-
+  ///
   /// @param itemId
-
+  ///
   /// @param includeDef
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getUserItem(
       {required String itemId, required bool includeDef}) {
     Completer<ServerResponse> completer = Completer();
@@ -207,21 +207,21 @@ class BrainCloudUserItems {
   }
 
   /// Gifts item to the specified player.
-
+  ///
   /// Service Name - UserInventoryManagement
   /// Service Operation - GetUserItem
-
+  ///
   /// @param profileId
-
+  ///
   /// @param itemId
-
+  ///
   /// @param version
-
+  ///
   /// @param quantity
-
+  ///
   /// @param immediate
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> giveUserItemTo(
       {required String profileId,
       required String itemId,
@@ -255,19 +255,19 @@ class BrainCloudUserItems {
   ///if the user has enough funds. If includeDef is true,
   ///response includes associated itemDef with language fields
   /// limited to the current or default language.
-
+  ///
   /// Service Name - UserInventoryManagement
   /// Service Operation - GetUserItem
-
+  ///
   /// @param defId
-
+  ///
   /// @param quatity
-
+  ///
   /// @param shopId
-
+  ///
   /// @param includeDef
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> purchaseUserItem(
       {required String defId,
       required int quantity,
@@ -297,19 +297,19 @@ class BrainCloudUserItems {
 
   /// Retrieves and transfers the gift item from the specified player,
   //who must have previously called giveUserItemTo.
-
+  ///
   /// Service Name - UserInventoryManagement
   /// Service Operation - GetUserItem
-
+  ///
   /// @param defId
-
+  ///
   /// @param quatity
-
+  ///
   /// @param shopId
-
+  ///
   /// @param includeDef
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> receiveUserItemFrom(
       {required String profileId, required String itemId}) {
     Completer<ServerResponse> completer = Completer();
@@ -338,21 +338,21 @@ class BrainCloudUserItems {
   ///itemDef (with language fields limited to the current
   ///or default language), along with the currency refunded
   ///and currency balances.
-
+  ///
   /// Service Name - UserInventoryManagement
   /// Service Operation - SellUserItem
-
+  ///
   /// @param itemId
-
+  ///
   /// @param version
-
+  ///
   /// @param quantity
-
+  ///
   /// @param shopId
-
+  ///
   /// @param includeDef
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> sellUserItem(
       {required String itemId,
       required int version,
@@ -383,17 +383,17 @@ class BrainCloudUserItems {
   }
 
   /// Updates the item data on the specified user item.
-
+  ///
   /// Service Name - UserInventoryManagement
   /// Service Operation - UpdateUserItemData
-
+  ///
   /// @param itemId
-
+  ///
   /// @param version
-
+  ///
   /// @param newItemData
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> updateUserItemData(
       {required String itemId,
       required int version,
@@ -433,7 +433,7 @@ class BrainCloudUserItems {
   ///
   /// @param includeDef
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> useUserItem(
       {required String itemId,
       required int version,
@@ -463,15 +463,15 @@ class BrainCloudUserItems {
   }
 
   /// Publishes the specified item to the item management attached blockchain. Results are reported asynchronously via an RTT event.
-
+  ///
   /// Service Name - UserInventoryManagement
   /// Service Operation - PublishUserItemToBlockchain
-
+  ///
   /// @param itemId
-
+  ///
   /// @param version
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> publishUserItemToBlockchain(
       {required String itemId, required int version}) {
     Completer<ServerResponse> completer = Completer();
@@ -495,10 +495,11 @@ class BrainCloudUserItems {
   }
 
   /// Syncs the caller's user items with the item management attached blockchain. Results are reported asynchronously via an RTT event.
-
+  ///
   /// Service Name - UserInventoryManagement
   /// Service Operation - RefreshBlockchainUserItems
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> refreshBlockchainUserItems() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -519,18 +520,16 @@ class BrainCloudUserItems {
   }
 
   /// removes item from a blockchain.
-
+  ///
   /// Service Name - UserInventoryManagement
   /// Service Operation - RemoveUserItemFromBlockchain
   ///
-
   /// @param itemId
   ///
-
+  ///
   /// @param version
   ///
-
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> removeUserItemFromBlockchain(
       {required String itemId, required int version}) {
     Completer<ServerResponse> completer = Completer();

@@ -14,11 +14,11 @@ class BrainCloudPresence {
   BrainCloudPresence(this._clientRef);
 
   /// Force an RTT presence update to all listeners of the caller.
-
+  ///
   /// Service Name - Presence
   /// Service Operation - ForcePush
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> forcePush() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -38,20 +38,20 @@ class BrainCloudPresence {
   }
 
   /// Force an RTT presence update to all listeners of the caller.
-
+  ///
   /// Service Name - Presence
   /// Service Operation - GetPresenceOfFriends
-
+  ///
   /// @param platform
   /// The store platform. Valid stores are:
   /// - all
   /// - brainCloud
   /// - facebook
-
+  ///
   /// @param includeOffline
   /// Will not include offline profiles unless includeOffline is set to true.
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getPresenceOfFriends(
       {required String platform, required bool includeOffline}) {
     Completer<ServerResponse> completer = Completer();
@@ -74,19 +74,19 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  ///    Gets the presence data for the given <groupId>. Will not include
+  /// Gets the presence data for the given <groupId>. Will not include
   /// offline profiles unless<includeOffline> is set to true.
-
+  ///
   /// Service Name - Presence
   /// Service Operation - GetPresenceOfGroup
-
+  ///
   /// @param groupId
   /// The id for the group
-
+  ///
   /// @param includeOffline
   /// Will not include offline profiles unless includeOffline is set to true.
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getPresenceOfGroup(
       {required String groupId, required bool includeOffline}) {
     Completer<ServerResponse> completer = Completer();
@@ -111,17 +111,17 @@ class BrainCloudPresence {
 
   ///Gets the presence data for the given<profileIds>.Will not include
   /// offline profiles unless<includeOffline> is set to true.
-
+  ///
   /// Service Name - Presence
   /// Service Operation - GetPresenceOfUsers
-
+  ///
   /// @param profileIds
   /// List of profile Ids
-
+  ///
   /// @param includeOffline
   /// Will not include offline profiles unless includeOffline is set to true.
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getPresenceOfUsers(
       {required List<String> profileIds, required bool includeOffline}) {
     Completer<ServerResponse> completer = Completer();
@@ -148,20 +148,20 @@ class BrainCloudPresence {
   /// given platform. Can be one of "all", "brainCloud", or "facebook".
   /// If bidirectional is set to true, then also registers the targeted
   /// users for presence updates from the caller.
-
+  ///
   /// Service Name - Presence
   /// Service Operation - RegisterListenersForFriends
-
+  ///
   /// @param platform
   /// The store platform. Valid stores are:
   /// - all
   /// - brainCloud
   /// - facebook
-
+  ///
   /// @param bidirectional
   /// Allows registration of target user for presence update
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> registerListenersForFriends(
       {required String platform, required bool bidirectional}) {
     Completer<ServerResponse> completer = Completer();
@@ -185,17 +185,17 @@ class BrainCloudPresence {
   }
 
   /// Registers the caller for RTT presence updates from the members of the given groupId.
-
+  ///
   /// Service Name - Presence
   /// Service Operation - RegisterListenersForGroup
-
+  ///
   /// @param groupId
   /// The Id of the group
-
+  ///
   /// @param bidirectional
   /// Allows registration of target user for presence update
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> registerListenersForGroup(
       {required String groupId, required bool bidirectional}) {
     Completer<ServerResponse> completer = Completer();
@@ -220,17 +220,17 @@ class BrainCloudPresence {
   /// Registers the caller for RTT presence updates for the given
   /// profileIds. If bidirectional is set to true, then also registers
   /// the targeted users for presence updates from the caller.
-
+  ///
   /// Service Name - Presence
   /// Service Operation - RegisterListenersForGroup
-
+  ///
   /// @param profileIds
   /// List of profile Ids
-
+  ///
   /// @param bidirectional
   /// Allows registration of target user for presence update
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> registerListenersForProfiles(
       {required List<String> profileIds, required bool bidirectional}) {
     Completer<ServerResponse> completer = Completer();
@@ -254,14 +254,14 @@ class BrainCloudPresence {
   }
 
   /// Update the presence data visible field for the caller.
-
+  ///
   /// Service Name - Presence
   /// Service Operation - SetVisibility
-
+  ///
   /// @param visible
   /// Determines if the user is visible
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> setVisibility({required bool visible}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -285,11 +285,11 @@ class BrainCloudPresence {
   /// Stops the caller from receiving RTT presence updates. Does not
   /// affect the broadcasting of *their* presence updates to other
   /// listeners.
-
+  ///
   /// Service Name - Presence
   /// Service Operation - StopListening
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> stopListening() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -310,14 +310,14 @@ class BrainCloudPresence {
   }
 
   /// Update the presence data activity field for the caller.
-
+  ///
   /// Service Name - Presence
   /// Service Operation - UpdateActivity
-
+  ///
   /// @param jsonActivity
   /// the Json data
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> updateActivity(
       {required Map<String, dynamic> jsonActivity}) {
     Completer<ServerResponse> completer = Completer();

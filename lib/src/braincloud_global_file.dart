@@ -13,13 +13,14 @@ class BrainCloudGlobalFile {
   BrainCloudGlobalFile(this._clientRef);
 
   /// Returns information on a file using fileId.
-
+  ///
   /// Service Name - GlobalFile
   /// Service Operation - GetFileInfo
+  ///
   /// @param fileId
   /// The Id of the file
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getFileInfo(String fileId) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFileId.value] = fileId;
@@ -43,16 +44,17 @@ class BrainCloudGlobalFile {
   }
 
   /// Returns information on a file using path and name
-
+  ///
   /// Service Name - GlobalFile
   /// Service Operation - GetFileInfoSimple
+  ///
   /// @param folderPath
   /// The folderpath
-
+  ///
   /// @param filename
   /// The filename
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getFileInfoSimple(
       String folderPath, String filename) async {
     Map<String, dynamic> data = {};
@@ -78,13 +80,14 @@ class BrainCloudGlobalFile {
   }
 
   /// Return CDN url for file for clients that cannot handle redirect.
-
+  ///
   /// Service Name - GlobalFile
   /// Service Operation - GetGlobalCDNUrl
+  ///
   /// @param fileId
   /// The Id of the file
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalCDNUrl(String fileId) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFileId.value] = fileId;
@@ -108,16 +111,17 @@ class BrainCloudGlobalFile {
   }
 
   /// Returns a list of files.
-
+  ///
   /// Service Name - GlobalFile
   /// Service Operation - GetGlobalFileList
+  ///
   /// @param folderPath
   /// The folderpath
-
+  ///
   /// @param recurse
   /// do we recurse?
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalFileList(
       String folderPath, bool recurse) async {
     Map<String, dynamic> data = {};

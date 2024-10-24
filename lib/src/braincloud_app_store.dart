@@ -17,10 +17,10 @@ class BrainCloudAppStore {
 
   /// Method gets the active sales inventory for the passed-in
   /// currency type.
-
+  ///
   /// Service Name - AppStore
   /// Service Operation - GetInventory
-
+  ///
   /// @param platform
   /// The store platform. Valid stores are:
   /// - itunes
@@ -30,12 +30,12 @@ class BrainCloudAppStore {
   /// - windows
   /// - windowsPhone
   /// - googlePlay
-
+  ///
   /// @param userCurrency
   /// The currency to retrieve the sales
   /// inventory for. This is only used for Steam and Facebook stores.
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getSalesInventory(
       {required String platform, required String userCurrency}) {
     return getSalesInventoryByCategory(
@@ -44,10 +44,10 @@ class BrainCloudAppStore {
 
   /// Method gets the active sales inventory for the passed-in
   /// currency type and category.
-
+  ///
   /// Service Name - AppStore
   /// Service Operation - GetInventory
-
+  ///
   /// @param storeId
   /// The store storeId. Valid stores are:
   /// - itunes
@@ -57,15 +57,15 @@ class BrainCloudAppStore {
   /// - windows
   /// - windowsPhone
   /// - googlePlay
-
+  ///
   /// @param userCurrency
   /// The currency to retrieve the sales
   /// inventory for. This is only used for Steam and Facebook stores.
-
+  ///
   /// @param category
   /// The AppStore category
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getSalesInventoryByCategory(
       {required String storeId,
       required String userCurrency,
@@ -87,8 +87,7 @@ class BrainCloudAppStore {
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -102,16 +101,15 @@ class BrainCloudAppStore {
   }
 
   /// Returns the eligible promotions for the player.
-
+  ///
   /// Service Name - AppStore
   /// Service Operation - EligiblePromotions
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getEligiblePromotions() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -124,10 +122,10 @@ class BrainCloudAppStore {
   }
 
   /// Verify Purchase with the associated StoreId
-
+  ///
   /// Service Name - AppStore
   /// Service Operation - VERIFY_PURCHASE
-
+  ///
   /// @param storeId
   /// The store storeId. Valid stores are:
   /// - itunes
@@ -137,11 +135,11 @@ class BrainCloudAppStore {
   /// - windows
   /// - windowsPhone
   /// - googlePlay
-
+  ///
   /// @param receiptJson
   /// The specific store data required
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> verifyPurchase(
       {required String storeId, required String receiptJson}) {
     Completer<ServerResponse> completer = Completer();
@@ -152,8 +150,7 @@ class BrainCloudAppStore {
     data[OperationParam.appStoreServiceReceiptData.value] = receiptData;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -167,10 +164,9 @@ class BrainCloudAppStore {
   }
 
   /// Start A Two Staged Purchase Transaction
-
+  ///
   /// Service Name - AppStore
   /// Service Operation - START_PURCHASE
-
   /// @param storeId
   /// The store storeId. Valid stores are:
   /// - itunes
@@ -180,11 +176,11 @@ class BrainCloudAppStore {
   /// - windows
   /// - windowsPhone
   /// - googlePlay
-
+  ///
   /// @param purchaseJson
   /// The specific store data required
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> startPurchase(
       {required String storeId, required String purchaseJson}) {
     Completer<ServerResponse> completer = Completer();
@@ -195,8 +191,7 @@ class BrainCloudAppStore {
     data[OperationParam.appStoreServicePurchaseData.value] = purchaseData;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -210,10 +205,10 @@ class BrainCloudAppStore {
   }
 
   /// Finalize A Two Staged Purchase Transaction
-
+  ///
   /// Service Name - AppStore
   /// Service Operation - FINALIZE_PURCHASE
-
+  ///
   /// @param storeId
   /// The store storeId. Valid stores are:
   /// - itunes
@@ -223,14 +218,14 @@ class BrainCloudAppStore {
   /// - windows
   /// - windowsPhone
   /// - googlePlay
-
+  ///
   /// /// @param transactionId
   /// The Transaction Id returned in Start Transaction
-
+  ///
   /// @param transactionJson
   /// The specific store data required
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> finalizePurchase(
       {required String storeId,
       required String transactionId,
@@ -244,8 +239,7 @@ class BrainCloudAppStore {
     data[OperationParam.appStoreServiceTransactionData.value] = transactionData;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,
@@ -259,17 +253,17 @@ class BrainCloudAppStore {
   }
 
   /// Returns up-to-date eligible 'promotions' for the user and a 'promotionsRefreshed' flag indicating whether the user's promotion info required refreshing
+  ///
   /// Service Name - appStore
   /// Service Operation - RefreshPromotions
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> refreshPromotions() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
     ServerCallback? callback = ServerCallback(
-        (response) =>
-            completer.complete(ServerResponse.fromJson(response)),
+        (response) => completer.complete(ServerResponse.fromJson(response)),
         (statusCode, reasonCode, statusMessage) => completer.complete(
             ServerResponse(
                 statusCode: statusCode,

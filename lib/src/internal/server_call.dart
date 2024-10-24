@@ -16,13 +16,13 @@ class ServerCall {
   /// Get the type of operation to perform with this service. This value usually represents
   /// a particular server method, ie: read, update, create...
 
-  /// @returns The operation
+  /// returns The operation
   ServiceOperation get getOperation => _operation;
 
   /// Get the service name (or type) for this service. This value is usually mapped to
   /// a particular server key used to identify this service.
 
-  /// @returns  Name to identify what type of service this is.
+  /// returns  Name to identify what type of service this is.
   ServiceName get getService => _service;
 
   ServerCallback? get getCallback => _callback;
@@ -30,6 +30,6 @@ class ServerCall {
   /// Get the Json Data associated for this service. The original json data going out
   /// with the server call
 
-  /// @returns  Name to identify what type of service this is.
+  /// returns  Name to identify what type of service this is.
   Map<String, dynamic>? get getJsonData => _jsonData;
 }

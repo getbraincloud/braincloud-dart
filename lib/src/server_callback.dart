@@ -1,6 +1,8 @@
 class ServerCallback {
   /// ServerCallback
+  ///
   /// @param fnSuccessCallback : SuccessCallback
+  ///
   /// @param fnFailureCallback : FailureCallback
   ServerCallback(this.fnSuccessCallback, this.fnFailureCallback);
 
@@ -20,9 +22,14 @@ class ServerCallback {
   }
 }
 
+/// @param Map<String, dynamic> response
 typedef SuccessCallback = void Function(Map<String, dynamic> response);
 
 /// @param int statusCode
+///
+///  @param int reasonCode
+///
+/// @param String statusMessage
 typedef FailureCallback = void Function(
     int statusCode, int reasonCode, String statusMessage);
 

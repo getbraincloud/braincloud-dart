@@ -38,7 +38,7 @@ class BrainCloudSocialLeaderboard {
   /// If true, the currently logged in player's name will be replaced
   /// by the String "You".
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getSocialLeaderboard(
       {required String leaderboardId, required bool replaceName}) {
     Completer<ServerResponse> completer = Completer();
@@ -90,7 +90,7 @@ class BrainCloudSocialLeaderboard {
   /// If true, the currently logged in player's name will be replaced
   /// by the string "You".
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getSocialLeaderboardIfExists(
       {required String leaderboardId, required bool replaceName}) {
     Completer<ServerResponse> completer = Completer();
@@ -142,7 +142,7 @@ class BrainCloudSocialLeaderboard {
   /// @param versionId
   /// The version
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getSocialLeaderboardByVersion(
       {required String leaderboardId,
       required bool replaceName,
@@ -200,7 +200,7 @@ class BrainCloudSocialLeaderboard {
   /// @param versionId
   /// The version
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getSocialLeaderboardByVersionIfExists(
       {required String leaderboardId,
       required bool replaceName,
@@ -243,7 +243,7 @@ class BrainCloudSocialLeaderboard {
   /// If true, the currently logged in player's name will be replaced
   /// by the String "You".
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getMultiSocialLeaderboard(
       {required List<String> leaderboardIds,
       required int leaderboardResultCount,
@@ -294,7 +294,7 @@ class BrainCloudSocialLeaderboard {
   /// @param endIndex
   /// The index at which to end the page.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardPage(
       {required String leaderboardId,
       required SortOrder sort,
@@ -347,7 +347,7 @@ class BrainCloudSocialLeaderboard {
   /// @param endIndex
   /// The index at which to end the page.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardPageIfExists(
       {required String leaderboardId,
       required SortOrder sort,
@@ -399,7 +399,7 @@ class BrainCloudSocialLeaderboard {
   /// @param versionId
   /// The historical version to retrieve.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardPageByVersion(
       {required String leaderboardId,
       required SortOrder sort,
@@ -454,7 +454,7 @@ class BrainCloudSocialLeaderboard {
   /// @param versionId
   /// The historical version to retrieve.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardPageByVersionIfExists(
       {required String leaderboardId,
       required SortOrder sort,
@@ -505,7 +505,7 @@ class BrainCloudSocialLeaderboard {
   /// @param afterCount
   /// The count of number of players after the current player to include.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardView(
       {required String leaderboardId,
       required SortOrder sort,
@@ -541,7 +541,7 @@ class BrainCloudSocialLeaderboard {
   /// @param afterCount
   /// The count of number of players after the current player to include.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardViewIfExists(
       {required String leaderboardId,
       required SortOrder sort,
@@ -577,7 +577,7 @@ class BrainCloudSocialLeaderboard {
   /// @param versionId
   /// The historial version to retrieve. Use -1 for current leaderboard.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardViewByVersion(
       {required String leaderboardId,
       required SortOrder sort,
@@ -635,7 +635,7 @@ class BrainCloudSocialLeaderboard {
   /// @param versionId
   /// The historial version to retrieve. Use -1 for current leaderboard.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardViewByVersionIfExists(
       {required String leaderboardId,
       required SortOrder sort,
@@ -673,7 +673,8 @@ class BrainCloudSocialLeaderboard {
   /// Service Operation - GetGlobalLeaderboardVersions
   ///
   /// @param leaderboardIdIn_leaderboard identifier.
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardVersions(
       {required String leaderboardId}) {
     Completer<ServerResponse> completer = Completer();
@@ -702,8 +703,10 @@ class BrainCloudSocialLeaderboard {
   /// Service Operation - GET_GROUP_SOCIAL_LEADERBOARD
   ///
   /// @param leaderboardIdThe leaderboard to read
+  ///
   /// @param groupIdThe group ID
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getGroupSocialLeaderboard(
       {required String leaderboardId, required String groupId}) {
     Completer<ServerResponse> completer = Completer();
@@ -733,9 +736,12 @@ class BrainCloudSocialLeaderboard {
   /// Service Operation - GET_GROUP_SOCIAL_LEADERBOARD_BY_VERSION
   ///
   /// @param leaderboardIdThe leaderboard to read
+  ///
   /// @param groupIdThe group ID
+  ///
   /// @param versionIdThe version ID
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getGroupSocialLeaderboardByVersion(
       {required String leaderboardId,
       required String groupId,
@@ -783,7 +789,7 @@ class BrainCloudSocialLeaderboard {
   /// @param data
   /// Optional user-defined data to post with the score
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> postScoreToLeaderboard(
       {required String leaderboardId,
       required int score,
@@ -823,7 +829,7 @@ class BrainCloudSocialLeaderboard {
   /// @param versionId
   /// The version of the leaderboard
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> removePlayerScore(
       {required String leaderboardId, required int versionId}) {
     Completer<ServerResponse> completer = Completer();
@@ -877,7 +883,7 @@ class BrainCloudSocialLeaderboard {
   /// @param retainedCount
   /// How many rotations to keep
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> postScoreToDynamicLeaderboardUTC(
       {required String leaderboardId,
       required int score,
@@ -932,31 +938,42 @@ class BrainCloudSocialLeaderboard {
   /// Service Operation - POST_SCORE_DYNAMIC_USING_CONFIG
   ///
   /// @param leaderboardIdThe leaderboard to post to.
+  ///
   /// @param scoreA score to post.
+  ///
   /// @param scoreDataOptional user-defined data to post with the score.
+  ///
   /// @param configJson
   /// Configuration for the leaderboard if it does not exist yet, specified as JSON object.
   /// Configuration fields supported are:
-  ///     leaderboardType': Required. Type of leaderboard. Valid values are:
-  ///         'LAST_VALUE',
-  ///         'HIGH_VALUE',
-  ///         'LOW_VALUE',
-  ///         'CUMULATIVE',
-  ///         'ARCADE_HIGH',
-  ///         'ARCADE_LOW';
-  ///     'rotationType': Required. Type of rotation. Valid values are:
-  ///         'NEVER',
-  ///         'DAILY',
-  ///         'DAYS',
-  ///         'WEEKLY',
-  ///         'MONTHLY',
-  ///         'YEARLY';
-  ///     'numDaysToRotate': Required if 'DAYS' rotation type, with valid values between 2 and 14; otherwise, null;
-  ///     'resetAt': UTC timestamp, in milliseconds, at which to rotate the period. Always null if 'NEVER' rotation type;
-  ///     'retainedCount': Required. Number of rotations (versions) of the leaderboard to retain;
-  ///     'expireInMins': Optional. Duration, in minutes, before the leaderboard is to automatically expire.
+  /// ```
+  ///     {
+  ///         'leaderboardType': Required. Type of leaderboard. Valid values are:
+  ///             'LAST_VALUE',
+  ///             'HIGH_VALUE',
+  ///             'LOW_VALUE',
+  ///             'CUMULATIVE',
+  ///             'ARCADE_HIGH',
+  ///             'ARCADE_LOW';
   ///
-  /// @returns Future<ServerResponse>
+  ///         'rotationType': Required. Type of rotation. Valid values are:
+  ///             'NEVER',
+  ///             'DAILY',
+  ///             'DAYS',
+  ///             'WEEKLY',
+  ///             'MONTHLY',
+  ///             'YEARLY';
+  ///
+  ///         'numDaysToRotate': Required if 'DAYS' rotation type, with valid values between 2 and 14; otherwise, null;
+  ///
+  ///         'resetAt': UTC timestamp, in milliseconds, at which to rotate the period. Always null if 'NEVER' rotation type;
+  ///
+  ///         'retainedCount': Required. Number of rotations (versions) of the leaderboard to retain;
+  ///
+  ///         'expireInMins': Optional. Duration, in minutes, before the leaderboard is to automatically expire.
+  ///     }
+  /// ```
+  /// returns Future<ServerResponse>
   Future<ServerResponse> postScoreToDynamicLeaderboardUsingConfig(
       {required String leaderboardId,
       required int score,
@@ -1025,7 +1042,7 @@ class BrainCloudSocialLeaderboard {
   /// @param retainedCount
   /// How many rotations to keep
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> postScoreToDynamicGroupLeaderboardUTC(
       {required String leaderboardId,
       required String groupId,
@@ -1102,7 +1119,7 @@ class BrainCloudSocialLeaderboard {
   /// @param numDaysToRotate
   /// How many days between each rotation
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> postScoreToDynamicLeaderboardDaysUTC(
       {required String leaderboardId,
       required int score,
@@ -1175,7 +1192,7 @@ class BrainCloudSocialLeaderboard {
   /// @param numDaysToRotate
   /// How many days between each rotation
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> postScoreToDynamicGroupLeaderboardDaysUTC(
       {required String leaderboardId,
       required String groupId,
@@ -1233,7 +1250,7 @@ class BrainCloudSocialLeaderboard {
   /// @param profileIds
   /// The IDs of the players
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getPlayersSocialLeaderboard(
       {required String leaderboardId, required List<String> profileIds}) {
     Completer<ServerResponse> completer = Completer();
@@ -1269,7 +1286,7 @@ class BrainCloudSocialLeaderboard {
   /// @param profileIds
   /// The IDs of the players
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getPlayersSocialLeaderboardIfExists(
       {required String leaderboardId, required List<String> profileIds}) {
     Completer<ServerResponse> completer = Completer();
@@ -1306,7 +1323,7 @@ class BrainCloudSocialLeaderboard {
   /// @param versionId
   /// The version
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getPlayersSocialLeaderboardByVersion(
       {required String leaderboardId,
       required List<String> profileIds,
@@ -1348,7 +1365,7 @@ class BrainCloudSocialLeaderboard {
   /// @param versionId
   /// The version
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getPlayersSocialLeaderboardByVersionIfExists(
       {required String leaderboardId,
       required List<String> profileIds,
@@ -1383,7 +1400,7 @@ class BrainCloudSocialLeaderboard {
   /// Service Name - leaderboard
   /// Service Operation - LIST_LEADERBOARDS
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> listAllLeaderboards() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -1409,7 +1426,7 @@ class BrainCloudSocialLeaderboard {
   /// @param leaderboardId
   /// The ID of the leaderboard
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardEntryCount(
       {required String leaderboardId}) {
     return getGlobalLeaderboardEntryCountByVersion(
@@ -1427,7 +1444,7 @@ class BrainCloudSocialLeaderboard {
   /// @param versionId
   /// The version of the leaderboard
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardEntryCountByVersion(
       {required String leaderboardId, required int versionId}) {
     Completer<ServerResponse> completer = Completer();
@@ -1465,7 +1482,7 @@ class BrainCloudSocialLeaderboard {
   /// @param versionId
   /// The version of the leaderboard. Use -1 for current.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getPlayerScore(
       {required String leaderboardId, required int versionId}) {
     Completer<ServerResponse> completer = Completer();
@@ -1503,7 +1520,7 @@ class BrainCloudSocialLeaderboard {
   /// @param maxResults
   /// The number of max results to return.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getPlayerScores(
       {required String leaderboardId,
       required int versionId,
@@ -1541,7 +1558,7 @@ class BrainCloudSocialLeaderboard {
   /// @param versionId
   /// The version of the leaderboard. Use -1 for current.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getPlayerScoresFromLeaderboards(
       {required List<String> leaderboardIds}) {
     Completer<ServerResponse> completer = Completer();
@@ -1581,7 +1598,7 @@ class BrainCloudSocialLeaderboard {
   /// @param data
   /// Extra data json
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> postScoreToGroupLeaderboard(
       {required String leaderboardId,
       required String groupId,
@@ -1626,7 +1643,7 @@ class BrainCloudSocialLeaderboard {
   /// @param versionId
   /// The version defaults to -1
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> removeGroupScore(
       {required String leaderboardId,
       required String groupId,
@@ -1673,7 +1690,7 @@ class BrainCloudSocialLeaderboard {
   /// @param afterCount
   /// The count of number of players after the current player to include.
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getGroupLeaderboardView(
       {required String leaderboardId,
       required String groupId,
@@ -1728,7 +1745,7 @@ class BrainCloudSocialLeaderboard {
   /// @param versionId
   /// The version
   ///
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getGroupLeaderboardViewByVersion(
       {required String leaderboardId,
       required String groupId,

@@ -14,20 +14,20 @@ class BrainCloudMail {
   BrainCloudMail(this._clientRef);
 
   /// Sends a simple text email to the specified user
-
+  ///
   /// Service Name - mail
   /// Service Operation - SEND_BASIC_EMAIL
-
+  ///
   /// @param toProfileId
   /// The user to send the email to
-
+  ///
   /// @param subject
   /// The email subject
-
+  ///
   /// @param body
   /// The email body
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> sendBasicEmail(
       {required String profileId,
       required String subject,
@@ -42,18 +42,18 @@ class BrainCloudMail {
   }
 
   /// Sends an advanced email to the specified user
-
+  ///
   /// Service Name - mail
   /// Service Operation - SEND_ADVANCED_EMAIL
-
+  ///
   /// @param toProfileId
   /// The user to send the email to
-
+  ///
   /// @param jsonServiceParams
   /// Parameters to send to the email service. See the documentation for
   /// a full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> sendAdvancedEmail(
       {required String profileId,
       required Map<String, dynamic> jsonServiceParams}) {
@@ -69,18 +69,18 @@ class BrainCloudMail {
   }
 
   /// Sends an advanced email to the specified email address
-
+  ///
   /// Service Name - mail
   /// Service Operation - SEND_ADVANCED_EMAIL_BY_EMAIL
-
+  ///
   /// @param emailAddress
   /// The address to send the email to
-
+  ///
   /// @param jsonServiceParams
   /// Parameters to send to the email service. See the documentation for
   /// a full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> sendAdvancedEmailByAddress(
       {required String emailAddress,
       required Map<String, dynamic> jsonServiceParams}) {
@@ -92,8 +92,7 @@ class BrainCloudMail {
     return _sendMessage(ServiceOperation.sendAdvancedEmailByAddress, data);
   }
 
-  // Private
-  /// @returns Future<ServerResponse>
+  /// returns Future<ServerResponse>
   Future<ServerResponse> _sendMessage(
       ServiceOperation operation, Map<String, dynamic> data) {
     Completer<ServerResponse> completer = Completer();

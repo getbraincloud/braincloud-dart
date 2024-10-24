@@ -16,13 +16,13 @@ class BrainCloudItemCatalog {
   /// Reads an existing item definition from the
   ///server, with language fields limited to the
   /// current or default language.
-
+  ///
   /// Service Name - ItemCatalog
   /// Service Operation - GetCatalogItemDefinition
-
+  ///
   /// @param defId
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getCatalogItemDefinition({required String defId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -46,13 +46,13 @@ class BrainCloudItemCatalog {
   /// Retrieves page of catalog items from the server,
   ///with language fields limited to the text for the
   ///current or default language.
-
+  ///
   /// Service Name - ItemCatalog
   /// Service Operation - GetCatalogItemDefinition
-
+  ///
   /// @param context
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getCatalogItemsPage(
       {required Map<String, dynamic> context}) {
     Completer<ServerResponse> completer = Completer();
@@ -79,15 +79,15 @@ class BrainCloudItemCatalog {
   ///specified page offset, with language fields
   ///limited to the text for the current or default
   ///language.
-
+  ///
   /// Service Name - ItemCatalog
   /// Service Operation - GetCatalogItemDefinition
-
+  ///
   /// @param context
-
+  ///
   /// @param pageOffset
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getCatalogItemsPageOffset(
       {required String context, required int pageOffset}) {
     Completer<ServerResponse> completer = Completer();

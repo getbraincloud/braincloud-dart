@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
+import 'package:braincloud_dart/src/braincloud_player_statistics.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
@@ -21,13 +22,13 @@ class BrainCloudPlayerStatisticsEvent {
   /// This mechanism supercedes the PlayerStatisticsService API methods, since
   /// PlayerStatisticsService API method only update the raw statistics without
   /// triggering the rewards.
-
+  ///
   /// Service Name - PlayerStatisticsEvent
   /// Service Operation - Trigger
   ///
-  /// @see BrainCloudPlayerStatistics
-
-  /// @returns Future<ServerResponse>
+  /// see [BrainCloudPlayerStatistics]
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> triggerUserStatsEvent(
       {required String eventName, required int eventMultiplier}) {
     Completer<ServerResponse> completer = Completer();
@@ -52,11 +53,12 @@ class BrainCloudPlayerStatisticsEvent {
 
   /// See documentation for TriggerStatsEvent for more
   /// documentation.
-
+  ///
   /// Service Name - PlayerStatisticsEvent
   /// Service Operation - TriggerMultiple
-
+  ///
   /// @param jsonData
+  /// ```JSON
   /// jsonData
   ///   [
   ///     {
@@ -68,8 +70,9 @@ class BrainCloudPlayerStatisticsEvent {
   ///       "eventMultiplier": 1
   ///     }
   ///   ]
-
-  /// @returns Future<ServerResponse>
+  /// ```
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> triggerUserStatsEvents(
       {required List<Map<String, dynamic>> jsonData}) async {
     Completer<ServerResponse> completer = Completer();

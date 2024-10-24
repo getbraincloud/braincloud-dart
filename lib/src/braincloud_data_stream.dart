@@ -14,17 +14,17 @@ class BrainCloudDataStream {
   BrainCloudDataStream(this._clientRef);
 
   /// Creates custom data stream page event
-
+  ///
   /// Service Name - DataStream
   /// Service Operation - CustomPageEvent
-
+  ///
   /// @param eventName
   /// The name of the event
-
+  ///
   /// @param jsonEventProperties
   /// The properties of the event
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> customPageEvent(
       {required String eventName, Map<String, dynamic>? jsonEventProperties}) {
     Completer<ServerResponse> completer = Completer();
@@ -50,17 +50,17 @@ class BrainCloudDataStream {
   }
 
   /// Creates custom data stream screen event
-
+  ///
   /// Service Name - DataStream
   /// Service Operation - CustomScreenEvent
-
+  ///
   /// @param eventName
   /// The name of the event
-
+  ///
   /// @param jsonEventProperties
   /// The properties of the event
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> customScreenEvent(
       {required String eventName, Map<String, dynamic>? jsonEventProperties}) {
     Completer<ServerResponse> completer = Completer();
@@ -86,17 +86,17 @@ class BrainCloudDataStream {
   }
 
   /// Creates custom data stream track event
-
+  ///
   /// Service Name - DataStream
   /// Service Operation - CustomTrackEvent
-
+  ///
   /// @param eventName
   /// The name of the event
-
+  ///
   /// @param jsonEventProperties
   /// The properties of the event
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> customTrackEvent(
       {required String eventName, Map<String, dynamic>? jsonEventProperties}) {
     Completer<ServerResponse> completer = Completer();
@@ -122,35 +122,35 @@ class BrainCloudDataStream {
   }
 
   /// Sends a crash report data
-
+  ///
   /// Service Name - DataStream
   /// Service Operation - SubmitCrashReport
-
+  ///
   /// @param crashType
   /// The type of the crash
-
+  ///
   /// @param errorMsg
   /// The error message
-
+  ///
   /// @param crashJson
   /// The data from the error
-
+  ///
   /// @param crashLog
   /// The crash logs
-
+  ///
   /// @param userName
   /// The user email
-
+  ///
   /// @param userEmail
   /// The user email
-
+  ///
   /// @param userNotes
   /// The notes related to the user
-
+  ///
   /// @param userSubmitted
   /// The bool passed by the user
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> submitCrashReport(
       {required String crashType,
       required String errorMsg,

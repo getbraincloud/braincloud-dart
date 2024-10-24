@@ -15,23 +15,23 @@ class BrainCloudVirtualCurrency {
 
   /// Gets the player's currency for the given currency type
   /// or all currency types if null passed in.
-
+  ///
   /// Service Name - VirtalCurrency
   /// Service Operation - GetPlayerVC
-
+  ///
   /// @param currencyType
   /// The currency type to retrieve or null
+  ///
   /// if all currency types are being requested.
-
-  /// @returns Future<ServerResponse>
-  Future<ServerResponse> getCurrency({required String currencyType}) {
+  ///
+  /// returns Future<ServerResponse>
+  Future<ServerResponse> getCurrency({String? currencyType}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.virtualCurrencyServiceCurrencyId.value] = currencyType;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -47,18 +47,18 @@ class BrainCloudVirtualCurrency {
 
   /// Gets the parents's currency for the given currency type
   /// or all currency types if null passed in.
-
+  ///
   /// Service Name - VirtalCurrency
   /// Service Operation - GetParentVC
-
+  ///
   /// @param currencyType
   /// The currency type to retrieve or null
   /// if all currency types are being requested.
-
+  ///
   /// @param levelName
   /// The parent level name
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getParentCurrency(
       {required String currencyType, required String levelName}) {
     Completer<ServerResponse> completer = Completer();
@@ -68,8 +68,7 @@ class BrainCloudVirtualCurrency {
         levelName;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -85,18 +84,18 @@ class BrainCloudVirtualCurrency {
 
   /// Gets the peers's currency for the given currency type
   /// or all currency types if null passed in.
-
+  ///
   /// Service Name - VirtalCurrency
   /// Service Operation - GetPeerVC
-
+  ///
   /// @param currencyType
   /// The currency type to retrieve or null
   /// if all currency types are being requested.
-
+  ///
   /// @param peerCode
   /// The peer code
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> getPeerCurrency(
       {required String currencyType, required String peerCode}) {
     Completer<ServerResponse> completer = Completer();
@@ -106,8 +105,7 @@ class BrainCloudVirtualCurrency {
         peerCode;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
@@ -122,18 +120,17 @@ class BrainCloudVirtualCurrency {
   }
 
   /// Resets player currency to zero
-
+  ///
   /// Service Name - VirtalCurrency
   /// Service Operation - ResetCurrency
-
-  /// @returns Future<ServerResponse>
+  ///
+  /// returns Future<ServerResponse>
   Future<ServerResponse> resetCurrency() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
-      (response) =>
-          completer.complete(ServerResponse.fromJson(response)),
+      (response) => completer.complete(ServerResponse.fromJson(response)),
       (statusCode, reasonCode, statusMessage) => completer.complete(
           ServerResponse(
               statusCode: statusCode,
