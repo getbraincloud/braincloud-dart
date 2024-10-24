@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
@@ -213,13 +212,13 @@ class BrainCloudChat {
   /// returns Future<ServerResponse>
   Future<ServerResponse> postChatMessage(
       {required String channelId,
-      required String contentJson,
+      required Map<String, dynamic> contentJson,
       bool inRecordInHistory = true}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
 
     data[OperationParam.chatChannelId.value] = channelId;
-    data[OperationParam.chatContent.value] = jsonDecode(contentJson);
+    data[OperationParam.chatContent.value] = contentJson;
     data[OperationParam.chatRecordInHistory.value] = inRecordInHistory;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -271,14 +270,14 @@ class BrainCloudChat {
       {required String channelId,
       required String messageid,
       required int version,
-      required String contentjson}) {
+      required Map<String, dynamic> contentjson}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
 
     data[OperationParam.chatChannelId.value] = channelId;
     data[OperationParam.chatMessageId.value] = messageid;
     data[OperationParam.chatVersion.value] = version;
-    data[OperationParam.chatContent.value] = jsonDecode(contentjson);
+    data[OperationParam.chatContent.value] = contentjson;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) => completer.complete(ServerResponse.fromJson(response)),

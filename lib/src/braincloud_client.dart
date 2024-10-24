@@ -372,9 +372,9 @@ class BrainCloudClient {
   ///
   /// @param serverURLThe URL to the brainCloud server
   ///
-  /// @param appId The app id
+  /// @param defaultAppId The app id
   ///
-  /// @param appIdSecrectMapThe map of appid to secret
+  /// @param appIdSecrectMap The map of appid to secret
   ///
   /// @param appVersion The app version
   void initializeWithApps(
@@ -397,7 +397,7 @@ class BrainCloudClient {
   ///
   /// @param secretKeyThe secret key for your app
   ///
-  /// @param appIdThe app id
+  /// @param appId The app id
   ///
   /// @param appVersionThe app version
   ///
@@ -422,7 +422,7 @@ class BrainCloudClient {
   ///
   /// @param anonymousIdThe anonymous id
   void initializeIdentity(String profileId, String anonymousId) {
-    authenticationService.initialize(profileId, anonymousId);
+    authenticationService.initialize(pId: profileId, aId: anonymousId);
   }
 
   /// Shuts down all systems needed for BrainCloudClient

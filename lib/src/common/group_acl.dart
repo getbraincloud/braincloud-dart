@@ -3,8 +3,6 @@
 // Copyright 2024 bitHeads, inc.
 //----------------------------------------------------
 
-import 'dart:convert';
-
 enum Access {
   none("NONE"),
   readOnly("READONLY"),
@@ -38,7 +36,7 @@ class GroupACL {
       : other = json["other"],
         member = json["member"];
 
-  String toJsonString() {
-    return jsonEncode({"other": this.other.index, "member": this.member.index});
+  Map<String, dynamic> toJsonMap() {
+    return {"other": this.other.index, "member": this.member.index};
   }
 }

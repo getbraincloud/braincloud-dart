@@ -56,9 +56,10 @@ void main() {
 
     test("postChatMessage()", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
-          .postChatMessage(
-              channelId: channelId,
-              contentJson: '{"text": "Hello World!", "rich": {"custom": 1}}');
+          .postChatMessage(channelId: channelId, contentJson: {
+        "text": "Hello World!",
+        "rich": {"custom": 1}
+      });
 
       msgId = response.data?["msgId"];
       expect(response.statusCode, StatusCodes.ok);
@@ -94,8 +95,10 @@ void main() {
               channelId: channelId,
               messageid: msgId,
               version: msgVersion,
-              contentjson:
-                  '{"text": "Hello World! edited", "rich":{"custom": 2}}');
+              contentjson: {
+            "text": "Hello World! edited",
+            "rich": {"custom": 2}
+          });
 
       expect(response.statusCode, StatusCodes.ok);
     });

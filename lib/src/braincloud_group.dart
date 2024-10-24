@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/common/group_acl.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -55,15 +54,14 @@ class BrainCloudGroup {
       {required String groupId,
       required String profileId,
       required Role role,
-      String? jsonAttributes}) {
+      Map<String, dynamic>? jsonAttributes}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupProfileId.value] = profileId;
     data[OperationParam.groupRole.value] = role.toString();
 
-    if (Util.isOptionalParameterValid(jsonAttributes)) {
-      Map<String, dynamic> customData = jsonDecode(jsonAttributes!);
-      data[OperationParam.groupAttributes.value] = customData;
+    if (jsonAttributes != null) {
+      data[OperationParam.groupAttributes.value] = jsonAttributes;
     }
 
     return _sendRequest(ServiceOperation.addGroupMember, data);
@@ -91,15 +89,14 @@ class BrainCloudGroup {
       {required String groupId,
       required String profileId,
       required Role role,
-      String? jsonAttributes}) {
+      Map<String, dynamic>? jsonAttributes}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupProfileId.value] = profileId;
     data[OperationParam.groupRole.value] = role.toString();
 
-    if (Util.isOptionalParameterValid(jsonAttributes)) {
-      Map<String, dynamic> customData = jsonDecode(jsonAttributes!);
-      data[OperationParam.groupAttributes.value] = customData;
+    if (jsonAttributes != null) {
+      data[OperationParam.groupAttributes.value] = jsonAttributes;
     }
 
     return _sendRequest(ServiceOperation.approveGroupJoinRequest, data);
@@ -249,7 +246,7 @@ class BrainCloudGroup {
       data[OperationParam.groupIsOpenGroup.value] = isOpenGroup;
     }
     if (acl != null) {
-      data[OperationParam.groupAcl.value] = jsonDecode(acl.toJsonString());
+      data[OperationParam.groupAcl.value] = acl.toJsonMap();
     }
     if (jsonData != null) {
       data[OperationParam.groupData.value] = jsonData;
@@ -314,7 +311,7 @@ class BrainCloudGroup {
       data[OperationParam.groupIsOpenGroup.value] = isOpenGroup;
     }
     if (acl != null) {
-      data[OperationParam.groupAcl.value] = jsonDecode(acl.toJsonString());
+      data[OperationParam.groupAcl.value] = acl.toJsonMap();
     }
     if (jsonData != null) {
       data[OperationParam.groupData.value] = jsonData;
@@ -370,7 +367,7 @@ class BrainCloudGroup {
           isOwnedByGroupMember;
     }
     if (acl != null) {
-      data[OperationParam.groupAcl.value] = jsonDecode(acl.toJsonString());
+      data[OperationParam.groupAcl.value] = acl.toJsonMap();
     }
     if (jsonData != null) {
       data[OperationParam.groupData.value] = jsonData;
@@ -510,13 +507,13 @@ class BrainCloudGroup {
       {required String groupId,
       required String profileId,
       required Role role,
-      String? jsonAttributes}) {
+      Map<String, dynamic>? jsonAttributes}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupProfileId.value] = profileId;
     data[OperationParam.groupRole.value] = role.toString();
-    if (!jsonAttributes.isEmptyOrNull) {
-      data[OperationParam.groupAttributes.value] = jsonDecode(jsonAttributes!);
+    if (jsonAttributes != null) {
+      data[OperationParam.groupAttributes.value] = jsonAttributes;
     }
 
     return _sendRequest(ServiceOperation.inviteGroupMember, data);
@@ -857,15 +854,15 @@ class BrainCloudGroup {
       {required groupId,
       required String profileId,
       Role? role,
-      String? jsonAttributes}) {
+      Map<String, dynamic>? jsonAttributes}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupProfileId.value] = profileId;
     if (role != null) {
       data[OperationParam.groupRole.value] = role.toString();
     }
-    if (!jsonAttributes.isEmptyOrNull) {
-      data[OperationParam.groupAttributes.value] = jsonDecode(jsonAttributes!);
+    if (jsonAttributes != null) {
+      data[OperationParam.groupAttributes.value] = jsonAttributes;
     }
     return _sendRequest(ServiceOperation.updateGroupMember, data);
   }

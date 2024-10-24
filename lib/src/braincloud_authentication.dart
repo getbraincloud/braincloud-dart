@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/common/authentication_ids.dart';
 import 'package:braincloud_dart/src/common/authentication_type.dart';
@@ -38,7 +37,7 @@ class BrainCloudAuthentication {
   ///
   /// @param aId
   /// The anonymous installation id that was generated for this device
-  void initialize(String pId, String aId) {
+  void initialize({required String pId, required String aId}) {
     profileId = pId;
     _anonymousId = aId;
     compressResponse = true;
@@ -56,7 +55,7 @@ class BrainCloudAuthentication {
   /// Service Name - Authenticate
   /// Service Operation - Authenticate
   ///
-  /// /// @param anonymousId
+  /// @param anonymousId
   /// provide an externalId, can be anything to keep anonymous
   ///
   /// @param forceCreate
@@ -64,10 +63,12 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateAnonymous(
-    bool forceCreate,
-  ) async {
-    return authenticate(_anonymousId, "", AuthenticationType.anonymous, null,
-        forceCreate, null);
+      {required bool forceCreate}) async {
+    return authenticate(
+        externalId: _anonymousId,
+        authenticationToken: "",
+        authenticationType: AuthenticationType.anonymous,
+        forceCreate: forceCreate);
   }
 
   /// Authenticate the user with a custom Email and Password.  Note that the client app
@@ -92,9 +93,14 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateEmailPassword(
-      String email, String password, bool forceCreate) async {
+      {required String email,
+      required String password,
+      required bool forceCreate}) async {
     return authenticate(
-        email, password, AuthenticationType.email, null, forceCreate, null);
+        externalId: email,
+        authenticationToken: password,
+        authenticationType: AuthenticationType.email,
+        forceCreate: forceCreate);
   }
 
   /// Authenticate the user using a userId and password (without any validation on the userId).
@@ -115,12 +121,14 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateUniversal(
-    String userId,
-    String password,
-    bool forceCreate,
-  ) {
-    return authenticate(userId, password, AuthenticationType.universal, null,
-        forceCreate, null);
+      {required String userId,
+      required String password,
+      required bool forceCreate}) {
+    return authenticate(
+        externalId: userId,
+        authenticationToken: password,
+        authenticationType: AuthenticationType.universal,
+        forceCreate: forceCreate);
   }
 
   /// Authenticate the user with brainCloud using their Facebook Credentials
@@ -140,12 +148,14 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateFacebook(
-    String externalId,
-    String authenticationToken,
-    bool forceCreate,
-  ) {
-    return authenticate(externalId, authenticationToken,
-        AuthenticationType.facebook, null, forceCreate, null);
+      {required String externalId,
+      required String authenticationToken,
+      required bool forceCreate}) {
+    return authenticate(
+        externalId: externalId,
+        authenticationToken: authenticationToken,
+        authenticationType: AuthenticationType.facebook,
+        forceCreate: forceCreate);
   }
 
   /// Authenticate the user with brainCloud using their Facebook Limited Credentials
@@ -165,9 +175,15 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateFacebookLimited(
-      String externalId, String authenticationToken, bool forceCreate) async {
-    return authenticate(externalId, authenticationToken,
-        AuthenticationType.facebookLimited, null, forceCreate, null);
+      {required String externalId,
+      required String authenticationToken,
+      required bool forceCreate}) async {
+    return authenticate(
+      externalId: externalId,
+      authenticationToken: authenticationToken,
+      authenticationType: AuthenticationType.facebookLimited,
+      forceCreate: forceCreate,
+    );
   }
 
   /// Authenticate the user with brainCloud using their Facebook Credentials
@@ -186,12 +202,14 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateOculus(
-    String oculusId,
-    String oculusNonce,
-    bool forceCreate,
-  ) {
-    return authenticate(oculusId, oculusNonce, AuthenticationType.oculus, null,
-        forceCreate, null);
+      {required String oculusId,
+      required String oculusNonce,
+      required bool forceCreate}) {
+    return authenticate(
+        externalId: oculusId,
+        authenticationToken: oculusNonce,
+        authenticationType: AuthenticationType.oculus,
+        forceCreate: forceCreate);
   }
 
   /// Authenticate the user using their psn account id and an auth token
@@ -210,9 +228,14 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticatePlaystationNetwork(
-      String accountId, String authToken, bool forceCreate) async {
-    return authenticate(accountId, authToken,
-        AuthenticationType.playstationNetwork, null, forceCreate, null);
+      {required String accountId,
+      required String authToken,
+      required bool forceCreate}) async {
+    return authenticate(
+        externalId: accountId,
+        authenticationToken: authToken,
+        authenticationType: AuthenticationType.playstationNetwork,
+        forceCreate: forceCreate);
   }
 
   /// Authenticate the user using their psn account id and an auth token
@@ -231,12 +254,14 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticatePlaystation5(
-    String accountId,
-    String authToken,
-    bool forceCreate,
-  ) async {
-    return authenticate(accountId, authToken,
-        AuthenticationType.playstationNetwork5, null, forceCreate, null);
+      {required String accountId,
+      required String authToken,
+      required bool forceCreate}) async {
+    return authenticate(
+        externalId: accountId,
+        authenticationToken: authToken,
+        authenticationType: AuthenticationType.playstationNetwork5,
+        forceCreate: forceCreate);
   }
 
   /// Authenticate the user using their Game Center id
@@ -252,11 +277,12 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateGameCenter(
-    String gameCenterId,
-    bool forceCreate,
-  ) async {
-    return authenticate(gameCenterId, "", AuthenticationType.gameCenter, null,
-        forceCreate, null);
+      {required String gameCenterId, required bool forceCreate}) async {
+    return authenticate(
+        externalId: gameCenterId,
+        authenticationToken: "",
+        authenticationType: AuthenticationType.gameCenter,
+        forceCreate: forceCreate);
   }
 
   /// Authenticate the user using a steam userId and session ticket (without any validation on the userId).
@@ -275,12 +301,14 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateSteam(
-    String userId,
-    String sessionticket,
-    bool forceCreate,
-  ) {
-    return authenticate(userId, sessionticket, AuthenticationType.steam, null,
-        forceCreate, null);
+      {required String userId,
+      required String sessionticket,
+      required bool forceCreate}) {
+    return authenticate(
+        externalId: userId,
+        authenticationToken: sessionticket,
+        authenticationType: AuthenticationType.steam,
+        forceCreate: forceCreate);
   }
 
   /// Authenticate the user using an apple id
@@ -299,9 +327,14 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateApple(
-      String appleUserId, String identityToken, bool forceCreate) {
-    return authenticate(appleUserId, identityToken, AuthenticationType.apple,
-        null, forceCreate, null);
+      {required String appleUserId,
+      required String identityToken,
+      required bool forceCreate}) {
+    return authenticate(
+        externalId: appleUserId,
+        authenticationToken: identityToken,
+        authenticationType: AuthenticationType.apple,
+        forceCreate: forceCreate);
   }
 
   /// Authenticate the user using a google userId and google server authentication code.
@@ -320,9 +353,14 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateGoogle(
-      String googleUserId, String serverAuthCode, bool forceCreate) async {
-    return authenticate(googleUserId, serverAuthCode, AuthenticationType.google,
-        null, forceCreate, null);
+      {required String googleUserId,
+      required String serverAuthCode,
+      required bool forceCreate}) async {
+    return authenticate(
+        externalId: googleUserId,
+        authenticationToken: serverAuthCode,
+        authenticationType: AuthenticationType.google,
+        forceCreate: forceCreate);
   }
 
   /// Authenticate the user using a google openId.
@@ -341,9 +379,14 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateGoogleOpenId(
-      String googleUserAccountEmail, String idToken, bool forceCreate) async {
-    return authenticate(googleUserAccountEmail, idToken,
-        AuthenticationType.googleOpenId, null, forceCreate, null);
+      {required String googleUserAccountEmail,
+      required String idToken,
+      required bool forceCreate}) async {
+    return authenticate(
+        externalId: googleUserAccountEmail,
+        authenticationToken: idToken,
+        authenticationType: AuthenticationType.googleOpenId,
+        forceCreate: forceCreate);
   }
 
   /// Authenticate the user using a Twitter userId, authentication token, and secret from twitter.
@@ -365,9 +408,15 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateTwitter(
-      String userId, String token, String secret, bool forceCreate) async {
-    return authenticate(userId, "$token:$secret", AuthenticationType.twitter,
-        null, forceCreate, null);
+      {required String userId,
+      required String token,
+      required String secret,
+      required bool forceCreate}) async {
+    return authenticate(
+        externalId: userId,
+        authenticationToken: "$token:$secret",
+        authenticationType: AuthenticationType.twitter,
+        forceCreate: forceCreate);
   }
 
   /// Authenticate the user using a Pase userId and authentication token
@@ -386,12 +435,14 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateParse(
-    String userId,
-    String token,
-    bool forceCreate,
-  ) async {
+      {required String userId,
+      required String token,
+      required bool forceCreate}) async {
     return authenticate(
-        userId, token, AuthenticationType.parse, null, forceCreate, null);
+        externalId: userId,
+        authenticationToken: token,
+        authenticationType: AuthenticationType.parse,
+        forceCreate: forceCreate);
   }
 
   /// Authenticate the user using a SettopHandoffId and authentication token
@@ -404,10 +455,12 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateSettopHandoff(
-    String handoffCode,
-  ) async {
+      {required String handoffCode}) async {
     return authenticate(
-        handoffCode, "", AuthenticationType.settopHandoff, null, false, null);
+        externalId: handoffCode,
+        authenticationToken: "",
+        authenticationType: AuthenticationType.settopHandoff,
+        forceCreate: false);
   }
 
   /// Authenticate the user using a handoffId and authentication token
@@ -422,11 +475,12 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateHandoff(
-    String handoffId,
-    String securityToken,
-  ) async {
-    return authenticate(handoffId, securityToken, AuthenticationType.handoff,
-        null, false, null);
+      {required String handoffId, required String securityToken}) async {
+    return authenticate(
+        externalId: handoffId,
+        authenticationToken: securityToken,
+        authenticationType: AuthenticationType.handoff,
+        forceCreate: false);
   }
 
   /// Authenticate the user via cloud code (which in turn validates the supplied credentials against an external system).
@@ -441,17 +495,24 @@ class BrainCloudAuthentication {
   /// @param token
   /// The user token (password etc)
   ///
-  /// /// @param externalAuthName
+  /// @param externalAuthName
   /// The name of the cloud script to call for external authentication
   ///
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> authenticateExternal(String userId, String token,
-      String externalAuthName, bool forceCreate) async {
-    return authenticate(userId, token, AuthenticationType.external,
-        externalAuthName, forceCreate, null);
+  Future<ServerResponse> authenticateExternal(
+      {required String userId,
+      required String token,
+      required String externalAuthName,
+      required bool forceCreate}) async {
+    return authenticate(
+        externalId: userId,
+        authenticationToken: token,
+        authenticationType: AuthenticationType.external,
+        externalAuthName: externalAuthName,
+        forceCreate: forceCreate);
   }
 
   /// A generic Authenticate method that translates to the same as calling a specific one, except it takes an extraJson
@@ -466,20 +527,25 @@ class BrainCloudAuthentication {
   /// @param ids
   /// Auth IDs structure
   ///
-  /// /// @param forceCreate
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// /// @param extraJson
+  /// @param extraJson
   /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave an empty Map for no extraJson.
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateAdvanced(
-      AuthenticationType authenticationType,
-      AuthenticationIds ids,
-      bool forceCreate,
-      Map<String, dynamic> extraJson) async {
-    return authenticate(ids.externalId, ids.authenticationToken,
-        authenticationType, ids.authenticationSubType, forceCreate, extraJson);
+      {required AuthenticationType authenticationType,
+      required AuthenticationIds ids,
+      required bool forceCreate,
+      required Map<String, dynamic> extraJson}) async {
+    return authenticate(
+        externalId: ids.externalId,
+        authenticationToken: ids.authenticationToken,
+        authenticationType: authenticationType,
+        externalAuthName: ids.authenticationSubType,
+        forceCreate: forceCreate,
+        extraJson: extraJson);
   }
 
   /// Authenticate the user for Ultra.
@@ -493,14 +559,19 @@ class BrainCloudAuthentication {
   /// @param ultraidToken
   /// The "id_token" taken from Ultra's JWT.
   ///
-  /// /// @param forceCreate
+  /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateUltra(
-      String ultraUsername, String ultraidToken, bool forceCreate) async {
-    return authenticate(ultraUsername, ultraidToken, AuthenticationType.ultra,
-        null, forceCreate, null);
+      {required String ultraUsername,
+      required String ultraidToken,
+      required bool forceCreate}) async {
+    return authenticate(
+        externalId: ultraUsername,
+        authenticationToken: ultraidToken,
+        authenticationType: AuthenticationType.ultra,
+        forceCreate: forceCreate);
   }
 
   /// Authenticate the user using their Nintendo account id and an auth token
@@ -519,9 +590,14 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateNintendo(
-      String accountId, String authToken, bool forceCreate) async {
-    return authenticate(accountId, authToken, AuthenticationType.nintendo, null,
-        forceCreate, null);
+      {required String accountId,
+      required String authToken,
+      required bool forceCreate}) async {
+    return authenticate(
+        externalId: accountId,
+        authenticationToken: authToken,
+        authenticationType: AuthenticationType.nintendo,
+        forceCreate: forceCreate);
   }
 
   /// Reset Email password - Sends a password reset email to the specified address
@@ -533,7 +609,8 @@ class BrainCloudAuthentication {
   /// The email address to send the reset email to.
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> resetEmailPassword(String externalId) async {
+  Future<ServerResponse> resetEmailPassword(
+      {required String externalId}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.authenticateServiceAuthenticateExternalId.value] =
         externalId;
@@ -571,9 +648,7 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetEmailPasswordWithExpiry(
-    String externalId,
-    int tokenTtlInMinutes,
-  ) async {
+      {required String externalId, required int tokenTtlInMinutes}) async {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.authenticateServiceAuthenticateExternalId.value] =
         externalId;
@@ -607,9 +682,6 @@ class BrainCloudAuthentication {
   /// Service Name - Authenticate
   /// Operation - ResetEmailPasswordAdvanced
   ///
-  /// @param appId
-  /// The app id
-  ///
   /// @param emailAddress
   /// The email address to send the reset email to
   ///
@@ -619,19 +691,16 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetEmailPasswordAdvanced(
-    String emailAddress,
-    //Map<String, object> serviceParams,
-    String serviceParams,
-  ) async {
+      {required String emailAddress,
+      required Map<String, dynamic> serviceParams}) async {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
     data[OperationParam.authenticateServiceAuthenticateEmailAddress.value] =
         emailAddress;
 
-    var jsonParams = jsonDecode(serviceParams);
     data[OperationParam.authenticateServiceAuthenticateServiceParams.value] =
-        jsonParams;
+        serviceParams;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -657,9 +726,6 @@ class BrainCloudAuthentication {
   /// Service Name - Authenticate
   /// Operation - ResetEmailPasswordAdvanced
   ///
-  /// @param appId
-  /// The app id
-  ///
   /// @param emailAddress
   /// The email address to send the reset email to
   ///
@@ -672,19 +738,17 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetEmailPasswordAdvancedWithExpiry(
-      String emailAddress,
-      //Map<String, dynamic> serviceParams,
-      String serviceParams,
-      int tokenTtlInMinutes) async {
+      {required String emailAddress,
+      required Map<String, dynamic> serviceParams,
+      required int tokenTtlInMinutes}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
     data[OperationParam.authenticateServiceAuthenticateEmailAddress.value] =
         emailAddress;
 
-    var jsonParams = jsonDecode(serviceParams);
     data[OperationParam.authenticateServiceAuthenticateServiceParams.value] =
-        jsonParams;
+        serviceParams;
 
     data[OperationParam.authenticateServiceAuthenticateTokenTtlInMinutes
         .value] = tokenTtlInMinutes;
@@ -717,8 +781,7 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetUniversalIdPassword(
-    String universalId,
-  ) async {
+      {required String universalId}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
@@ -756,9 +819,7 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetUniversalIdPasswordWithExpiry(
-    String universalId,
-    int tokenTtlInMinutes,
-  ) async {
+      {required String universalId, required int tokenTtlInMinutes}) async {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
@@ -790,30 +851,25 @@ class BrainCloudAuthentication {
   /// Service Name - Authenticate
   /// Operation - ResetUniversalIdPasswordAdvanced
   ///
-  /// @param appId
-  /// The app id
-  ///
   /// @param universalId
   /// The email address to send the reset email to
   ///
   /// @param serviceParams
   /// The parameters to send the email service. See documentation for full list
   /// http://getbraincloud.com/apidocs/apiref/#capi-mail
-  ///  ///
+  ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetUniversalIdPasswordAdvanced(
-    String universalId,
-    String serviceParams,
-  ) async {
+      {required String universalId,
+      required Map<String, dynamic> serviceParams}) async {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
     data[OperationParam.authenticateServiceAuthenticateUniversalId.value] =
         universalId;
 
-    var jsonParams = jsonDecode(serviceParams);
     data[OperationParam.authenticateServiceAuthenticateServiceParams.value] =
-        jsonParams;
+        serviceParams;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -838,9 +894,6 @@ class BrainCloudAuthentication {
   /// Service Name - Authenticate
   /// Operation - ResetUniversalIdPasswordAdvanced
   ///
-  /// @param appId
-  /// The app id
-  ///
   /// @param universalId
   /// The email address to send the reset email to
   ///
@@ -853,16 +906,17 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetUniversalIdPasswordAdvancedWithExpiry(
-      String universalId, String serviceParams, int tokenTtlInMinutes) async {
+      {required String universalId,
+      required Map<String, dynamic> serviceParams,
+      required int tokenTtlInMinutes}) async {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
     data[OperationParam.authenticateServiceAuthenticateUniversalId.value] =
         universalId;
 
-    var jsonParams = jsonDecode(serviceParams);
     data[OperationParam.authenticateServiceAuthenticateServiceParams.value] =
-        jsonParams;
+        serviceParams;
 
     data[OperationParam.authenticateServiceAuthenticateTokenTtlInMinutes
         .value] = tokenTtlInMinutes;
@@ -890,12 +944,12 @@ class BrainCloudAuthentication {
 
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticate(
-      String externalId,
-      String authenticationToken,
-      AuthenticationType authenticationType,
+      {required String externalId,
+      required String authenticationToken,
+      required AuthenticationType authenticationType,
       String? externalAuthName,
-      bool forceCreate,
-      Map<String, dynamic>? extraJson) {
+      required bool forceCreate,
+      Map<String, dynamic>? extraJson}) {
     String languageCode = _clientRef.languageCode;
     int utcOffset = Util.getUTCOffsetForCurrentTimeZone();
     String countryCode = _clientRef.countryCode;

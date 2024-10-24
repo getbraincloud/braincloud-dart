@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
@@ -33,17 +32,15 @@ class BrainCloudRedemptionCode {
   Future<ServerResponse> redeemCode(
       {required String scanCode,
       required String codeType,
-      required String jsonCustomRedemptionInfo}) {
+      Map<String, dynamic>? jsonCustomRedemptionInfo}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.redemptionCodeServiceScanCode.value] = scanCode;
     data[OperationParam.redemptionCodeServiceCodeType.value] = codeType;
 
-    if (Util.isOptionalParameterValid(jsonCustomRedemptionInfo)) {
-      Map<String, dynamic> customRedemptionInfo =
-          jsonDecode(jsonCustomRedemptionInfo);
+    if (jsonCustomRedemptionInfo != null) {
       data[OperationParam.redemptionCodeServiceCustomRedemptionInfo.value] =
-          customRedemptionInfo;
+          jsonCustomRedemptionInfo;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(

@@ -250,15 +250,15 @@ class BrainCloudWrapper {
 
   /// Initialize the brainCloud client with the passed in parameters.
   ///
-  /// @param urlThe brainCloud server url
+  /// @param url The brainCloud server url
   ///
-  /// @param secretKeyThe app's secret
+  /// @param secretKey The app's secret
   ///
-  /// @param appIdThe app's id
+  /// @param appId The app's id
   ///
-  /// @param versionThe app's version
+  /// @param version The app's version
   ///
-  /// @return Future
+  /// return Future
   Future<void> init(
       {required String secretKey,
       required String appId,
@@ -287,7 +287,7 @@ class BrainCloudWrapper {
   ///
   /// @param secretKeyThe app's secret
   ///
-  /// @param appIdThe app's id
+  /// @param defaultAppId The app's id
   ///
   /// @param versionThe app's version
   ///
@@ -359,7 +359,7 @@ class BrainCloudWrapper {
     initializeIdentity(true);
 
     return _client.authenticationService
-        .authenticateAnonymous(true)
+        .authenticateAnonymous(forceCreate: true)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -385,7 +385,7 @@ class BrainCloudWrapper {
     initializeIdentity(false);
 
     return _client.authenticationService
-        .authenticateHandoff(handoffId, securityToken)
+        .authenticateHandoff(handoffId: handoffId, securityToken: securityToken)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -408,7 +408,7 @@ class BrainCloudWrapper {
     initializeIdentity(false);
 
     return _client.authenticationService
-        .authenticateSettopHandoff(handoffCode)
+        .authenticateSettopHandoff(handoffCode: handoffCode)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -446,7 +446,8 @@ class BrainCloudWrapper {
     initializeIdentity(false);
 
     return _client.authenticationService
-        .authenticateEmailPassword(email, password, forceCreate)
+        .authenticateEmailPassword(
+            email: email, password: password, forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -483,7 +484,11 @@ class BrainCloudWrapper {
     initializeIdentity(false);
 
     return _client.authenticationService
-        .authenticateExternal(userid, token, externalAuthName, forceCreate)
+        .authenticateExternal(
+            userId: userid,
+            token: token,
+            externalAuthName: externalAuthName,
+            forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -514,7 +519,10 @@ class BrainCloudWrapper {
       required bool forceCreate}) {
     initializeIdentity(false);
     return _client.authenticationService
-        .authenticateFacebook(fbUserId, fbAuthToken, forceCreate)
+        .authenticateFacebook(
+            externalId: fbUserId,
+            authenticationToken: fbAuthToken,
+            forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -546,7 +554,10 @@ class BrainCloudWrapper {
     initializeIdentity(false);
 
     return _client.authenticationService
-        .authenticateFacebookLimited(fbLimitedUserId, fbAuthToken, forceCreate)
+        .authenticateFacebookLimited(
+            externalId: fbLimitedUserId,
+            authenticationToken: fbAuthToken,
+            forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -577,7 +588,10 @@ class BrainCloudWrapper {
     initializeIdentity(false);
 
     return _client.authenticationService
-        .authenticateOculus(oculusUserId, oculusNonce, forceCreate)
+        .authenticateOculus(
+            oculusId: oculusUserId,
+            oculusNonce: oculusNonce,
+            forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -607,7 +621,10 @@ class BrainCloudWrapper {
       required bool forceCreate}) {
     initializeIdentity(false);
     return _client.authenticationService
-        .authenticatePlaystationNetwork(accountId, authToken, forceCreate)
+        .authenticatePlaystationNetwork(
+            accountId: accountId,
+            authToken: authToken,
+            forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -638,7 +655,10 @@ class BrainCloudWrapper {
     initializeIdentity(false);
 
     return _client.authenticationService
-        .authenticatePlaystation5(accountId, authToken, forceCreate)
+        .authenticatePlaystation5(
+            accountId: accountId,
+            authToken: authToken,
+            forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -664,7 +684,8 @@ class BrainCloudWrapper {
     initializeIdentity(false);
 
     return _client.authenticationService
-        .authenticateGameCenter(gameCenterId, forceCreate)
+        .authenticateGameCenter(
+            gameCenterId: gameCenterId, forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -695,7 +716,10 @@ class BrainCloudWrapper {
     initializeIdentity(false);
 
     return _client.authenticationService
-        .authenticateApple(appleUserId, identityToken, forceCreate)
+        .authenticateApple(
+            appleUserId: appleUserId,
+            identityToken: identityToken,
+            forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -726,7 +750,10 @@ class BrainCloudWrapper {
     initializeIdentity(false);
 
     return _client.authenticationService
-        .authenticateGoogle(googleUserId, serverAuthCode, forceCreate)
+        .authenticateGoogle(
+            googleUserId: googleUserId,
+            serverAuthCode: serverAuthCode,
+            forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -757,7 +784,10 @@ class BrainCloudWrapper {
     initializeIdentity(false);
 
     return _client.authenticationService
-        .authenticateGoogleOpenId(googleUserAccountEmail, idToken, forceCreate)
+        .authenticateGoogleOpenId(
+            googleUserAccountEmail: googleUserAccountEmail,
+            idToken: idToken,
+            forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -788,7 +818,10 @@ class BrainCloudWrapper {
     initializeIdentity(false);
 
     return _client.authenticationService
-        .authenticateSteam(userid, sessionticket, forceCreate)
+        .authenticateSteam(
+            userId: userid,
+            sessionticket: sessionticket,
+            forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -822,7 +855,11 @@ class BrainCloudWrapper {
       required bool forceCreate}) {
     initializeIdentity(false);
     return _client.authenticationService
-        .authenticateTwitter(userid, token, secret, forceCreate)
+        .authenticateTwitter(
+            userId: userid,
+            token: token,
+            secret: secret,
+            forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -855,7 +892,8 @@ class BrainCloudWrapper {
     initializeIdentity(false);
 
     return _client.authenticationService
-        .authenticateUniversal(username, password, forceCreate)
+        .authenticateUniversal(
+            userId: username, password: password, forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -898,7 +936,11 @@ class BrainCloudWrapper {
     ids.authenticationToken = isAnonymous ? "" : ids.authenticationToken;
 
     return _client.authenticationService
-        .authenticateAdvanced(authenticationType, ids, forceCreate, extraJson)
+        .authenticateAdvanced(
+            authenticationType: authenticationType,
+            ids: ids,
+            forceCreate: forceCreate,
+            extraJson: extraJson)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -929,7 +971,10 @@ class BrainCloudWrapper {
     initializeIdentity(false);
 
     return _client.authenticationService
-        .authenticateUltra(ultraUsername, ultraIdToken, forceCreate)
+        .authenticateUltra(
+            ultraUsername: ultraUsername,
+            ultraidToken: ultraIdToken,
+            forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -961,7 +1006,10 @@ class BrainCloudWrapper {
     initializeIdentity(false);
 
     return _client.authenticationService
-        .authenticateNintendo(accountId, authToken, forceCreate)
+        .authenticateNintendo(
+            accountId: accountId,
+            authToken: authToken,
+            forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         authSuccessCallback(json: response.toJson());
@@ -1484,7 +1532,8 @@ class BrainCloudWrapper {
   /// returns Future<ServerResponse>
   Future<ServerResponse> reconnect() async {
     initializeIdentity(true);
-    return _client.authenticationService.authenticateAnonymous(false);
+    return _client.authenticationService
+        .authenticateAnonymous(forceCreate: false);
   }
 
   /// Method initializes the identity information from the player prefs cache.
@@ -1526,7 +1575,8 @@ class BrainCloudWrapper {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetEmailPassword({required String externalId}) {
-    return _client.authenticationService.resetEmailPassword(externalId);
+    return _client.authenticationService
+        .resetEmailPassword(externalId: externalId);
   }
 
   /// Reset Email password with service parameters - sends a password reset email to
@@ -1534,9 +1584,6 @@ class BrainCloudWrapper {
   ///
   /// Service Name - authenticate
   /// Operation - ResetEmailPasswordAdvanced
-  ///
-  /// @param appId
-  /// The app id
   ///
   /// @param emailAddress
   /// The email address to send the reset email to
@@ -1547,9 +1594,10 @@ class BrainCloudWrapper {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetEmailPasswordAdvanced(
-      {required String emailAddress, required String serviceParams}) async {
-    return _client.authenticationService
-        .resetEmailPasswordAdvanced(emailAddress, serviceParams);
+      {required String emailAddress,
+      required Map<String, dynamic> serviceParams}) async {
+    return _client.authenticationService.resetEmailPasswordAdvanced(
+        emailAddress: emailAddress, serviceParams: serviceParams);
   }
 
   /// Reset Email password - Sends a password reset email to the specified address
@@ -1563,8 +1611,8 @@ class BrainCloudWrapper {
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetEmailPasswordWithExpiry(
       {required String externalId, required int tokenTtlInMinutes}) {
-    return _client.authenticationService
-        .resetEmailPasswordWithExpiry(externalId, tokenTtlInMinutes);
+    return _client.authenticationService.resetEmailPasswordWithExpiry(
+        externalId: externalId, tokenTtlInMinutes: tokenTtlInMinutes);
   }
 
   /// Reset Email password with service parameters - sends a password reset email to
@@ -1572,9 +1620,6 @@ class BrainCloudWrapper {
   ///
   /// Service Name - authenticate
   /// Operation - ResetEmailPasswordAdvanced
-  ///
-  /// @param appId
-  /// The app id
   ///
   /// @param emailAddress
   /// The email address to send the reset email to
@@ -1586,10 +1631,12 @@ class BrainCloudWrapper {
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetEmailPasswordAdvancedWithExpiry(
       {required String emailAddress,
-      required String serviceParams,
+      required Map<String, dynamic> serviceParams,
       required int tokenTtlInMinutes}) {
     return _client.authenticationService.resetEmailPasswordAdvancedWithExpiry(
-        emailAddress, serviceParams, tokenTtlInMinutes);
+        emailAddress: emailAddress,
+        serviceParams: serviceParams,
+        tokenTtlInMinutes: tokenTtlInMinutes);
   }
 
   /// Reset Email password - Sends a password reset email to the specified address
@@ -1604,7 +1651,8 @@ class BrainCloudWrapper {
   Future<ServerResponse> resetUniversalIdPassword({
     required String externalId,
   }) {
-    return _client.authenticationService.resetUniversalIdPassword(externalId);
+    return _client.authenticationService
+        .resetUniversalIdPassword(universalId: externalId);
   }
 
   /// Reset Email password with service parameters - sends a password reset email to
@@ -1612,9 +1660,6 @@ class BrainCloudWrapper {
   ///
   /// Service Name - authenticate
   /// Operation - ResetEmailPasswordAdvanced
-  ///
-  /// @param appId
-  /// The app id
   ///
   /// @param emailAddress
   /// The email address to send the reset email to
@@ -1626,10 +1671,10 @@ class BrainCloudWrapper {
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetUniversalIdPasswordAdvanced({
     required String emailAddress,
-    required String serviceParams,
+    required Map<String, dynamic> serviceParams,
   }) {
-    return _client.authenticationService
-        .resetUniversalIdPasswordAdvanced(emailAddress, serviceParams);
+    return _client.authenticationService.resetUniversalIdPasswordAdvanced(
+        universalId: emailAddress, serviceParams: serviceParams);
   }
 
   /// Reset Email password - Sends a password reset email to the specified address
@@ -1643,8 +1688,8 @@ class BrainCloudWrapper {
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetUniversalIdPasswordWithExpiry(
       {required String externalId, required int tokenTtlInMinutes}) {
-    return _client.authenticationService
-        .resetUniversalIdPasswordWithExpiry(externalId, tokenTtlInMinutes);
+    return _client.authenticationService.resetUniversalIdPasswordWithExpiry(
+        universalId: externalId, tokenTtlInMinutes: tokenTtlInMinutes);
   }
 
   /// Reset Email password with service parameters - sends a password reset email to
@@ -1652,9 +1697,6 @@ class BrainCloudWrapper {
   ///
   /// Service Name - authenticate
   /// Operation - ResetEmailPasswordAdvanced
-  ///
-  /// @param appId
-  /// The app id
   ///
   /// @param emailAddress
   /// The email address to send the reset email to
@@ -1666,11 +1708,13 @@ class BrainCloudWrapper {
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetUniversalIdPasswordAdvancedWithExpiry(
       {required String emailAddress,
-      required String serviceParams,
+      required Map<String, dynamic> serviceParams,
       required int tokenTtlInMinutes}) {
     return _client.authenticationService
         .resetUniversalIdPasswordAdvancedWithExpiry(
-            emailAddress, serviceParams, tokenTtlInMinutes);
+            universalId: emailAddress,
+            serviceParams: serviceParams,
+            tokenTtlInMinutes: tokenTtlInMinutes);
   }
 
   /// Gets the stored profile id from user prefs.
