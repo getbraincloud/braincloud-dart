@@ -115,7 +115,11 @@ void main() {
 
       expect(response.statusCode, StatusCodes.ok);
 
-      List incoming_events = response.data?["incoming_events"];
+      List incoming_events = [];
+
+      if (response.data?["incoming_events"] is List) {
+        incoming_events = response.data?["incoming_events"];
+      }
 
       Map<String, dynamic> found = incoming_events.reduce((ret, event) {
         return ret ||
