@@ -14,8 +14,6 @@ import 'package:braincloud_dart/src/server_callback.dart';
 class RelayComms {
   final BrainCloudClient _clientRef;
 
-  static const MAX_PACKETSIZE = 1024;
-
   static const MAX_PLAYERS = 40;
   static const INVALID_NET_ID = 40;
 
@@ -47,7 +45,7 @@ class RelayComms {
   // ^^ So we last 10 seconds at 60 fps
   static const int _MAX_RELIABLE_RESEND_INTERVAL = 500;
   static const int _MAX_PACKET_ID = 0xFFF;
-  static const int MAX_CHANNELS = 4;
+  // static const int MAX_CHANNELS = 4;
   static const double _PACKET_LOWER_THRESHOLD = _MAX_PACKET_ID * 25 / 100;
   static const double _PACKET_HIGHER_THRESHOLD = _MAX_PACKET_ID * 75 / 100;
   static const int SIZE_OF_LENGTH_PREFIX_BYTE_ARRAY = 2;
@@ -68,9 +66,12 @@ class RelayComms {
 
   // TCP
   Socket? _tcpClient = null;
-  // Uint8List _tcpReadBuffer = Uint8List(MAX_PACKETSIZE);
-  List<int> _tcpReadBuffer = [];
-  Uint8List get tcpReadBuffer => Uint8List.fromList(_tcpReadBuffer);
+  Uint8List _tcpReadBuffer = Uint8List(MAX_PACKET_SIZE);
+  int _tcpBufferWriteIndex = 0;
+
+  // List<int> _tcpReadBuffer = [];
+  // Uint8List get tcpReadBuffer => Uint8List.fromList(_tcpReadBuffer);
+  Uint8List get tcpReadBuffer => _tcpReadBuffer;
 
   // ASync TCP Reads
   int _tcpBytesRead = 0; // the ones already processed
@@ -192,7 +193,6 @@ class RelayComms {
   }
 
   void disconnect() {
-    debugPrint("- RelayComms: disconnect: $_isConnected ");
     if (_isConnected) {
       _send(_buildDisconnectRequest());
       _disconnect();
@@ -231,10 +231,10 @@ class RelayComms {
   void send(Uint8List inData, int inPlayerMask, bool inReliable, bool inOrdered,
       int inChannel) {
     if (!_isConnected) return;
-    if (inData.length > MAX_PACKETSIZE) {
+    if (inData.length > MAX_PACKET_SIZE) {
       disconnect();
       _queueErrorEvent(
-          "Relay Error: Packet is too big  ${inData.length} > max $MAX_PACKETSIZE");
+          "Relay Error: Packet is too big  ${inData.length} > max $MAX_PACKET_SIZE");
       return;
     }
 
@@ -304,7 +304,6 @@ class RelayComms {
       _UDPPacket packet = _UDPPacket(packetData, inChannel, packetId, 0);
 
       int ackId = ackIdData.buffer.asByteData().getUint64(0);
-      debugPrint("- RelayComms: send adding a ackId of $ackId to _reliable. ");
       _reliables[ackId] = packet;
     }
   }
@@ -353,8 +352,6 @@ class RelayComms {
   /// Callbacks responded to on the main thread
   update() {
     if (_events.length > 0)
-      debugPrint(
-          "- RelayComms: update()  _isConnected:$_isConnected events count:${_events.length}");
     // ** Resend connect request **
     // A UDP client needs to resend that until a confirmation is received that they are connected.
     // A subsequent connection request will just be ignored if already connected.
@@ -397,7 +394,6 @@ class RelayComms {
     if (_connectionType == RelayConnectionType.udp &&
         _udpClient != null &&
         nowMS.difference(_lastRecvTime).inSeconds > TIMEOUT_SECONDS) {
-      debugPrint("- RelayComms: UDP Connection timed out.");
       _disconnect();
       _queueErrorEvent("Relay Socket Timeout");
     }
@@ -416,8 +412,6 @@ class RelayComms {
         switch (evt.type) {
           case _EventType.socketData:
             _lastRecvTime = DateTime.now();
-            debugPrint(
-                "- RelayComms: (${evt.type}) setting _lastRecvTime: $_lastRecvTime");
             if (evt.data != null) _onRecv(evt.data!);
             break;
           case _EventType.socketError:
@@ -427,8 +421,6 @@ class RelayComms {
           case _EventType.socketConnected:
             {
               _lastRecvTime = DateTime.now();
-              debugPrint(
-                  "- RelayComms: (${evt.type}) setting _lastRecvTime: $_lastRecvTime");
               _send(_buildConnectionRequest());
 
               if (_connectionType == RelayConnectionType.udp) {
@@ -489,7 +481,6 @@ class RelayComms {
   }
 
   void _disconnect() {
-    debugPrint("- RelayComms: _disconnect");
     _isConnected = false;
     _connectedSuccessCallback = null;
     // _connectedObj = null;
@@ -524,8 +515,6 @@ class RelayComms {
 
   void _onRecv(Uint8List in_packet) {
     // in_data does still have the size prefix here.
-    debugPrint(
-        "- RelayComms: _onRecv  OP:${in_packet[2]} data.lenght:${in_packet.length}");
     if (in_packet.length < 3) // Any packet is at least 3 bytes
     {
       _queueErrorEvent(
@@ -564,12 +553,10 @@ class RelayComms {
             "Relay packets cannot be smaller than $SIZE_OF_ACKID_MESSAGE bytes");
         return;
       }
-// #if BC_DEBUG_RELAY_LOGS_ENABLED
       if (_clientRef.loggingEnabled) {
         _clientRef.log(
             "RELAY RECV:  ${in_packet.length}  bytes, msg: ${in_packet.buffer.asUint8List(SIZE_OF_ACKID_MESSAGE)}");
       }
-// #endif
       _onRelay(in_packet.sublist(3));
     } else {
       // Invalid packet, throw error
@@ -589,20 +576,12 @@ class RelayComms {
   }
 
   void _onRelay(Uint8List in_data) {
-    debugPrint("- RelayComms: _onRelay");
     final dataView = ByteData.sublistView(in_data);
     int rh = dataView.getUint16(0);
-    int playerMask0 = dataView.getUint16(2);
-    int playerMask1 = dataView.getUint16(4);
+    // int playerMask0 = dataView.getUint16(2);
+    // int playerMask1 = dataView.getUint16(4);
     int playerMask2 = dataView.getUint16(6);
     int ackId = dataView.getUint64(0);
-
-    // Equivalent to:
-    // int ackId = ((rh << 48) & 0xFFFF000000000000) |
-    //     ((playerMask0 << 32) & 0x0000FFFF00000000) |
-    //     ((playerMask1 << 16) & 0x00000000FFFF0000) |
-    //     ((playerMask2) & 0x000000000000FFFF)
-    //   ..toUnsigned(64);
 
     int ackIdWithoutPacketId = (ackId & 0xF000FFFFFFFFFFFF).toUnsigned(64);
     bool reliable = ((rh & RELIABLE_BIT) != 0) ? true : false;
@@ -610,9 +589,6 @@ class RelayComms {
     int channel = (rh >> 12) & 0x3;
     int packetId = rh & 0xFFF;
     int netId = (playerMask2 & 0x00FF).toUnsigned(8);
-
-    debugPrint(
-        "- RelayComms:  _onRelay details: netId:$netId, packetId: $packetId, channel:$channel, ordered:$ordered, reliable:$reliable, ackIdWithoutPacketId:${ackIdWithoutPacketId.toUnsigned(64)}, ackIt:${ackId.toUnsigned(64)}, playerMask0:$playerMask0, playerMask1:$playerMask1 playerMask2:$playerMask2, rh:$rh ");
 
     // Reconstruct ack id without packet id
     if (_connectionType == RelayConnectionType.udp) {
@@ -632,11 +608,9 @@ class RelayComms {
           if (_packetLE(packetId, prevPacketId)) {
             // We already received that packet if it's lower than the last confirmed
             // packetId. This must be a duplicate
-// #if BC_DEBUG_RELAY_LOGS_ENABLED
             if (_clientRef.loggingEnabled) {
               _clientRef.log("Duplicated packet from $netId. got $packetId");
             }
-// #endif
             return;
           }
 
@@ -658,12 +632,10 @@ class RelayComms {
             for (; insertIdx < orderedReliablePackets.length; ++insertIdx) {
               var packet = orderedReliablePackets[insertIdx];
               if (packet._id == packetId) {
-// #if BC_DEBUG_RELAY_LOGS_ENABLED
                 if (_clientRef.loggingEnabled) {
                   _clientRef
                       .log("Duplicated packet from $netId. got $packetId");
                 }
-// #endif
                 return;
               }
               if (_packetLE(packetId, packet._id)) break;
@@ -671,12 +643,10 @@ class RelayComms {
             var newPacket =
                 _UDPPacket(in_data.sublist(8), channel, packetId, netId);
             orderedReliablePackets.insert(insertIdx, newPacket);
-// #if BC_DEBUG_RELAY_LOGS_ENABLED
             if (_clientRef.loggingEnabled) {
               _clientRef.log(
                   "Queuing out of order reliable from $netId. got $packetId");
             }
-// #endif
             return;
           }
 
@@ -702,12 +672,10 @@ class RelayComms {
         } else {
           if (_packetLE(packetId, prevPacketId)) {
             // Just drop out of order packets for unreliables
-// #if BC_DEBUG_RELAY_LOGS_ENABLED
             if (_clientRef.loggingEnabled) {
               _clientRef.log(
                   "Out of order packet from $netId. Expecting ${((prevPacketId + 1) & _MAX_PACKET_ID)} , got $packetId");
             }
-// #endif
             return;
           }
           _recvPacketId[ackIdWithoutPacketId] = packetId;
@@ -720,9 +688,7 @@ class RelayComms {
 
   void _onRSMG(Uint8List in_data) {
     // Here in_data start at the data.
-    int rsmgPacketId = _toShortBE(in_data);
-    debugPrint(
-        "- RelayComms: _onRSMG: rsmgPacketId: $rsmgPacketId  in_data:$in_data");
+    int rsmgPacketId = in_data.buffer.asByteData().getUint16(0);
 
     if (_connectionType == RelayConnectionType.udp) {
       // Send ack, always. Even if we already received it
@@ -731,11 +697,9 @@ class RelayComms {
       // If already received, we ignore
       for (int i = 0; i < _rsmgHistory.length; ++i) {
         if (_rsmgHistory[i] == rsmgPacketId) {
-//#if BC_DEBUG_RELAY_LOGS_ENABLED
           if (_clientRef.loggingEnabled) {
             _clientRef.log("Duplicated System Msg: $rsmgPacketId");
           }
-//#endif
           return;
         }
       }
@@ -757,11 +721,9 @@ class RelayComms {
     }
 
     String jsonMessage = String.fromCharCodes(in_data.sublist(stringOffset));
-// #if BC_DEBUG_RELAY_LOGS_ENABLED
     if (_clientRef.loggingEnabled) {
       _clientRef.log("Relay System Msg: $jsonMessage");
     }
-// #endif
 
     Map<String, dynamic> parsedDict = jsonDecode(jsonMessage);
 
@@ -818,16 +780,12 @@ class RelayComms {
 
   void _onPong() {
     _ping = DateTime.now().millisecondsSinceEpoch - _lastPingTime;
-    debugPrint("- RelayComms: LastPing: $_ping ms");
-// #if BC_DEBUG_RELAY_LOGS_ENABLED
     if (_clientRef.loggingEnabled) {
       _clientRef.log("Relay LastPing: $_ping ms");
     }
-// #endif
   }
 
   void _queueSocketErrorEvent(String message) {
-    debugPrint("- RelayComms: _queueSocketErrorEvent: $message");
     var evt = new _Event(type: _EventType.socketError, message: message);
     _events.add(evt);
   }
@@ -838,25 +796,21 @@ class RelayComms {
   }
 
   void _queueSystemEvent(String jsonString) {
-    debugPrint("- RelayComms: _queueSystemEvent: $jsonString");
     var evt = _Event(type: _EventType.system, message: jsonString);
     _events.add(evt);
   }
 
   void _queueRelayEvent(int netId, Uint8List data) {
-    debugPrint("- RelayComms: _queueRelayEvent: $netId,  $data");
     var evt = _Event(type: _EventType.relay, netId: netId, data: data);
     _events.add(evt);
   }
 
   void _queueSocketDataEvent(Uint8List data) {
-    debugPrint("- RelayComms: _queueSocketDataEvent: $data");
     var evt = _Event(type: _EventType.socketData, data: data);
     _events.add(evt);
   }
 
   void _queueSocketConnectedEvent() {
-    debugPrint("- RelayComms: _queueSocketConnectedEvent: ");
     _Event evt = new _Event(type: _EventType.socketConnected);
     _events.add(evt);
   }
@@ -867,7 +821,6 @@ class RelayComms {
   }
 
   bool _send(Uint8List data) {
-    debugPrint("- RelayComms: _send $data");
     bool bMessageSent = false;
     // early return, based on type
     switch (_connectionType) {
@@ -917,7 +870,6 @@ class RelayComms {
             if (_relayHostAddress != null) {
               bMessageSent = _udpSend(newData);
             } else {
-              debugPrint("Missing Server address");
               _queueSocketErrorEvent("Missing Server address");
             }
           }
@@ -973,12 +925,6 @@ class RelayComms {
 
   // Low level Packet helpers
 
-  // Uint8List _appendShort(Uint8List data, int value) {
-  //   ByteData valueData = ByteData(2);
-  //   valueData.setInt16(0, value, Endian.big);
-  //   return _concatenateByteArrays(data, valueData.buffer.asUint8List());
-  // }
-
   Uint8List _addSizePrefixTo(Uint8List data) {
     int sizeOfData = data.length + SIZE_OF_LENGTH_PREFIX_BYTE_ARRAY;
     ByteData sizeValue = ByteData(2);
@@ -992,12 +938,6 @@ class RelayComms {
     rv.setRange(0, a.length, a);
     rv.setRange(a.length, b.length + a.length, b);
     return rv;
-  }
-
-  int _toShortBE(Uint8List data) {
-    return data.buffer.asByteData().getUint16(0);
-    // ByteData byteData = ByteData.sublistView(data);
-    // return byteData.getInt16(0, Endian.host);
   }
 
   /// ==============================================
@@ -1039,7 +979,6 @@ class RelayComms {
   }
 
   void _websocketOnError({required String message}) {
-    debugPrint("- RelayComms: _websocketOnError: $message");
     if (_clientRef.loggingEnabled) {
       _clientRef.log("Relay Error: $message");
     }
@@ -1050,10 +989,7 @@ class RelayComms {
   /// TcpSocket
 
   void _connectTCPAsync(String host, int port) async {
-    debugPrint("- RelayComms _connectTCPAsync: $host:$port");
     _tcpClient = await Socket.connect(host, port);
-    debugPrint(
-        "- RelayComms _connectTCPAsync: Compelted ${_tcpClient != null}");
     _tcpClient?.setOption(SocketOption.tcpNoDelay, true);
 
     if (_clientRef.loggingEnabled) {
@@ -1066,43 +1002,46 @@ class RelayComms {
       _queueSocketConnectedEvent();
       _tcpBytesToRead = 0;
     } else {
-      debugPrint(
-          "- RelayComms _connectTCPAsync: Could not connect to Relay server $host");
       _queueSocketErrorEvent("Could not connect to Relay server $host");
     }
   }
 
-  void _onTcpRead(Uint8List data) {
-    debugPrint("- RelayComms: _onTcpRead: (${data.length})  $data");
-    _tcpReadBuffer.addAll(data);
+ void _onTcpRead(Uint8List data) {
+    // Expand buffer if needed
+    if (_tcpBufferWriteIndex + data.length > _tcpReadBuffer.length) {
+      final newSize = (_tcpBufferWriteIndex + data.length) * 2;
+      final newBuffer = Uint8List(newSize)..setRange(0, _tcpBufferWriteIndex, _tcpReadBuffer);
+      _tcpReadBuffer = newBuffer;
+    }
 
-    // Process the buffer as long as we have enough data to form a message
-    while (_tcpReadBuffer.length >= 3) {
-      // Extract the message length from the first two bytes (big-endian)
-      int messageLength = (_tcpReadBuffer[0] << 8) | _tcpReadBuffer[1];
+    // Add new data to the buffer
+    _tcpReadBuffer.setRange(_tcpBufferWriteIndex, _tcpBufferWriteIndex + data.length, data);
+    _tcpBufferWriteIndex += data.length;
 
-      // Ensure we have the full message available
-      if (_tcpReadBuffer.length >= messageLength) {
-        // Queue the message
-        _queueSocketDataEvent(
-            Uint8List.fromList(_tcpReadBuffer.sublist(0, messageLength)));
-        // Remove the processed message from the buffer
-        _tcpReadBuffer = _tcpReadBuffer
-            .sublist(messageLength); // more efficient than using .removeRange()
+    // Process messages
+    int readIndex = 0;
+    while (_tcpBufferWriteIndex - readIndex >= 3) {
+      int messageLength = (_tcpReadBuffer[readIndex] << 8) | _tcpReadBuffer[readIndex + 1];
+      
+      if (_tcpBufferWriteIndex - readIndex >= messageLength) {
+        _queueSocketDataEvent(Uint8List.sublistView(_tcpReadBuffer, readIndex, readIndex + messageLength));
+        readIndex += messageLength;
       } else {
-        // Wait for more data if the full message isn't available
         break;
       }
     }
-  }
 
+    // Shift unprocessed data to the start of the buffer
+    if (readIndex > 0) {
+      _tcpReadBuffer.setRange(0, _tcpBufferWriteIndex - readIndex, _tcpReadBuffer, readIndex);
+      _tcpBufferWriteIndex -= readIndex;
+    }
+  }
   void _onTcpError(Object error) {
-    debugPrint("- RelayComms: _onTcpError: $error");
     _queueErrorEvent("Tcp error ${error.toString()}");
   }
 
   void _onTcpDone() {
-    debugPrint("- RelayComms: _onTcpDone");
     if (_tcpClient != null) _tcpClient?.close();
     _tcpClient = null;
   }
@@ -1111,7 +1050,6 @@ class RelayComms {
   /// UdpSocket
 
   void _connectUdpAsync(String host, int port) async {
-    debugPrint("- RelayComms: _connectUdpAsync $host $port");
     final adrType = _relayHostAddress?.type == InternetAddressType.IPv6
         ? InternetAddress.anyIPv6
         : InternetAddress.anyIPv4;
@@ -1126,16 +1064,11 @@ class RelayComms {
 
   void _onUdpAcknowledge(Uint8List in_data) {
     int ackId = in_data.buffer.asByteData().getInt64(0);
-    // int ackId = _toShortBE(in_data.sublist(3));
-    debugPrint(
-        "- RelayComms: _onUdpAcknowledge: $ackId will be remvoved from stack of ${_reliables.length}");
     _reliables.remove(ackId);
 
-// #if BC_DEBUG_RELAY_LOGS_ENABLED
     if (_clientRef.loggingEnabled) {
       _clientRef.log("RELAY RECV ACK: $ackId");
     }
-// #endif
   }
 
   bool _udpSend(Uint8List data) {
@@ -1148,14 +1081,11 @@ class RelayComms {
   }
 
   void _onUdpEvent(RawSocketEvent event) {
-    debugPrint("- RelayComms: _onUdpRecv $event");
     // Check what kind of event this is and proceed
     try {
       switch (event) {
         case RawSocketEvent.read:
           final Datagram? datagram = _udpClient?.receive();
-          debugPrint(
-              "- RelayComms: _onUdpRecv from ${datagram?.address}  ${datagram?.data}");
           if (datagram != null) _queueSocketDataEvent(datagram.data);
           // _udpClient?.writeEventsEnabled = true;
           break;
@@ -1169,18 +1099,15 @@ class RelayComms {
           _queueErrorEvent("Unexpected event $event");
       }
     } catch (e) {
-      debugPrint("- RelayComms: _onUdpRecv caught err  $e");
       _queueErrorEvent(e.toString());
     }
   }
 
   void _onUdpError(Object error) {
-    debugPrint("- RelayComms: _onUdpError: $error");
     _queueErrorEvent("Udp error ${error.toString()}");
   }
 
   void _onUdpDone() {
-    debugPrint("- RelayComms: _onUdpDone");
     _udpClientStream?.cancel();
     _udpClient?.close();
     _udpClientStream = null;
@@ -1188,17 +1115,12 @@ class RelayComms {
   }
 
   void _sendAck(Uint8List in_data) {
-    debugPrint("- RelayComms: _sendAck for $in_data");
     Uint8List header = Uint8List.fromList([CL2RS_ACK]);
     _send(_concatenateByteArrays(
         header, in_data.sublist(0, SIZE_OF_ACKID_MESSAGE)));
   }
 
   void _sendRSMGAck(int rsmgPacketId) {
-    debugPrint(" -> RelayComms: _sendRSMGAck: $rsmgPacketId");
-    // Uint8List header = Uint8List.fromList([CL2RS_RSMG_ACK]);
-    // _send(_appendShort(header, rsmgPacketId));
-
     Uint8List data = Uint8List.fromList(
         [CL2RS_RSMG_ACK, (rsmgPacketId >> 8) & 0xFF, rsmgPacketId & 0xFF]);
     _send(data);
