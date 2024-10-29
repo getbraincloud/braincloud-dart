@@ -229,7 +229,7 @@ class BrainCloudWrapper {
 
   void _startTimer({required int updateTick}) {
     _updateTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      Timer.periodic(const Duration(milliseconds: updateTick), (timer) {
+      Timer.periodic(Duration(milliseconds: updateTick), (timer) {
         update();
       });
     });
