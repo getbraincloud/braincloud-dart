@@ -11,13 +11,14 @@ import 'utils/test_base.dart';
 
 void main() {
   BCTest bcTest = BCTest();
-  
+
   group("Test Relay", () {
     int successCount = 0;
     RelayConnectionType connectionType = RelayConnectionType.invalid;
     RelayConnectOptions? connectOptions;
     Completer readyCompleter = Completer();
     final String testString = "Hello World!";
+    final String testString2 = "Welcome aboard";
 
     /// ========================================================================================================
     /// Helper functions for Tests
@@ -35,8 +36,7 @@ void main() {
 
     // void onRelayConnected(String jsonResponse)
     void onRelayConnected(Map<String, dynamic> jsonResponse) {
-      debugPrint("TST-> On Relay Connected");
-      // bcTest.bcWrapper.relayService.setPingInterval(100);
+      bcTest.bcWrapper.relayService.setPingInterval(100);
       String profileId = bcTest.bcWrapper.getStoredProfileId() ?? "";
       int myNetId =
           bcTest.bcWrapper.relayService.getNetIdForProfileId(profileId);
@@ -48,47 +48,48 @@ void main() {
     }
 
     void onFailed(int status, int reasonCode, String jsonError) {
-      debugPrint("TST-> onFailed Error: " + jsonError);
       if (jsonError ==
           "{\"status\":403,\"reason_code\":90300,\"status_message\":\"Invalid NetId: 40\",\"severity\":\"ERROR\"}") {
         // This one was on purpose
         successCount++;
-        debugPrint("TST-> onFailed: ${"<".padLeft(successCount + 1, "✅")}");
-        if (successCount == 3) readyCompleter.complete();
+        if (successCount == 4) readyCompleter.complete();
         return;
+      } else {
+        debugPrint("TST-> onFailed for other reason: $jsonError");
       }
+      debugPrint("TST-> onFailed: ${"<".padLeft(successCount + 1, "✅")}");
       successCount = 0;
     }
 
     void systemCallback(String json) {
-      debugPrint("TST-> systemCallback: $json");
       Map<String, dynamic> parsedDict = jsonDecode(json);
       if (parsedDict["op"] == "CONNECT") {
         successCount++;
-        debugPrint(
-            "TST-> systemCallback: ${"<".padLeft(successCount + 1, "✅")}");
         if (successCount >= 2) sendToWrongNetId();
         if (successCount == 3) readyCompleter.complete();
       }
+      debugPrint("TST-> systemCallback: ${"<".padLeft(successCount + 1, "✅")}");
     }
 
     void relayCallback(int netId, Uint8List data) {
       String message = utf8.decode(data);
       debugPrint("TST-> relayCallback:($netId)   $message");
-      debugPrint(
-          "TST-> relayCallback:   ping: ${bcTest.bcWrapper.relayService.getPing()}");
 
       if (message == testString) {
         successCount++;
-        debugPrint(
-            "TST-> relayCallback: ${"<".padLeft(successCount + 1, "✅")}");
-        if (successCount >= 2) sendToWrongNetId();
-        if (successCount == 3) readyCompleter.complete();
+          bcTest.bcWrapper.relayService.sendToPlayers(
+              inPlayerMask: BrainCloudRelay.toAllPlayers,
+              inData: utf8.encode(testString2),
+              inChannel: BrainCloudRelay.channelLowPriority);              
+      } else if (message == testString2) {
+        successCount++;
+          sendToWrongNetId();
+        if (successCount == 4) readyCompleter.complete();
       }
+      debugPrint("TST-> relayCallback: ${"<".padLeft(successCount + 1, "✅")}");
     }
 
     void connectToRelay() {
-      debugPrint("TST-> connectToRelay");
       if (connectOptions != null) {
         bcTest.bcWrapper.relayService.registerSystemCallback(systemCallback);
         bcTest.bcWrapper.relayService.registerRelayCallback(relayCallback);
@@ -98,7 +99,6 @@ void main() {
     }
 
     void onRTTEnabled(RTTCommandResponse data) {
-      debugPrint("TST-> onRTTEnabled: $data");
       Map<String, dynamic> algo = {};
       algo["strategy"] = "ranged-absolute";
       algo["alignment"] = "center";
@@ -117,7 +117,6 @@ void main() {
     }
 
     void onLobbyEvent(String json) {
-      debugPrint("TST-> onLobbyEvent: $json");
       var response = jsonDecode(json);
       var data = response["data"];
 
@@ -134,7 +133,6 @@ void main() {
         // ROOM_READY contains information on how to connect to the relay server.
         case "ROOM_READY":
           var connectData = data["connectData"];
-          debugPrint("TST->    Received connectData of $connectData");
           var ports = connectData["ports"];
 
           int port = 0;
@@ -149,7 +147,6 @@ void main() {
           connectOptions = RelayConnectOptions(false, connectData["address"],
               port, data["passcode"], data["lobbyId"]);
 
-          debugPrint("TST->    Collected connectOptions of $connectOptions");
           break;
       }
     }
@@ -165,7 +162,7 @@ void main() {
       successCount = 0;
       connectionType = RelayConnectionType.tcp;
       readyCompleter = Completer();
-
+      // bcTest.bcWrapper.brainCloudClient.enableLogging(true);
       bcTest.bcWrapper.rttService.registerRTTLobbyCallback(onLobbyEvent);
 
       RTTCommandResponse response = await bcTest.bcWrapper.rttService
@@ -177,12 +174,11 @@ void main() {
         fail("Relay TCP test timed out");
       });
 
-      expect(successCount, 3);
+      expect(successCount, 4);
 
-      if (bcTest.bcWrapper.relayService.getPing() >= 999)
+      if (bcTest.bcWrapper.relayService.getPing() >= 0) //999)
         await Future.delayed(Duration(seconds: 2));
       expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
-
     }, timeout: Timeout.parse("80s"));
 
     test("FullFlow UDP", () async {
@@ -192,32 +188,27 @@ void main() {
       connectionType = RelayConnectionType.udp;
       // Use a future to wait for callbacks to complete.
       readyCompleter = Completer();
-      debugPrint("👉 Getting Ready");
       bcTest.bcWrapper.rttService.registerRTTLobbyCallback(onLobbyEvent);
-      debugPrint("👉 Getting Ready 1");
       RTTCommandResponse response = await bcTest.bcWrapper.rttService
           .enableRTT(connectiontype: RTTConnectionType.websocket);
       expect(response.data?['operation'], 'CONNECT');
       onRTTEnabled(response);
-      debugPrint("👉 Ready");
       await readyCompleter.future.timeout(Duration(seconds: 70), onTimeout: () {
         fail("Relay TCP test timed out");
       });
-      debugPrint(
-          "👉👉  will now check that successCount ($successCount) is equal to 3");
-      expect(successCount, 3);
+      expect(successCount, 4);
 
       if (bcTest.bcWrapper.relayService.getPing() >= 999)
         await Future.delayed(Duration(seconds: 2));
       expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
-
     }, timeout: Timeout.parse("80s"));
 
     test("FullFlow WebSocket", () async {
       // Reset some values
-      bcTest.bcWrapper.rttService.disableRTT();
+      // bcTest.bcWrapper.rttService.disableRTT();
       successCount = 0;
       connectionType = RelayConnectionType.websocket;
+      bcTest.bcWrapper.relayService.setPingInterval(500);
       if (readyCompleter.isCompleted) readyCompleter = Completer();
 
       bcTest.bcWrapper.rttService.registerRTTLobbyCallback(onLobbyEvent);
@@ -231,18 +222,18 @@ void main() {
         fail("Relay TCP test timed out");
       });
 
-      expect(successCount, 3);
+      expect(successCount, 4);
 
       if (bcTest.bcWrapper.relayService.getPing() >= 999)
         await Future.delayed(Duration(seconds: 2));
       expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
-
-
     }, timeout: Timeout.parse("80s"));
 
     tearDown(() {
       // in case one test fails ensure it does not impact others
       bcTest.bcWrapper.relayService.disconnect();
+      bcTest.bcWrapper.relayService.deregisterRelayCallback();
+      bcTest.bcWrapper.relayService.deregisterSystemCallback();
     });
 
     tearDownAll(() {

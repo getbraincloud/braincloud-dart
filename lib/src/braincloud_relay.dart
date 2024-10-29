@@ -207,8 +207,8 @@ class BrainCloudRelay {
   /// CHANNEL_LOW_PRIORITY = 3;
 
   void sendToPlayers(
-      {required inData,
-      required inPlayerMask,
+      {required Uint8List inData,
+      required int inPlayerMask,
       bool inReliable = true,
       bool inOrdered = true,
       int inChannel = 0}) {
@@ -227,7 +227,7 @@ class BrainCloudRelay {
   /// CHANNEL_LOW_PRIORITY = 3;
 
   void sendToAll(
-      {required inData,
+      {required Uint8List inData,
       bool inReliable = true,
       bool inOrdered = true,
       int inChannel = 0}) {
@@ -240,7 +240,7 @@ class BrainCloudRelay {
     _commsLayer.send(inData, playerMask, inReliable, inOrdered, inChannel);
   }
 
-  /// Set the ping interval.
+  /// Set the ping interval in milliseconds
 
   void setPingInterval(int inInterval) {
     _commsLayer.setPingInterval(inInterval);

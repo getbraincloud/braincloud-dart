@@ -71,7 +71,7 @@ class RelayComms {
 
   // List<int> _tcpReadBuffer = [];
   // Uint8List get tcpReadBuffer => Uint8List.fromList(_tcpReadBuffer);
-  Uint8List get tcpReadBuffer => _tcpReadBuffer;
+  Uint8List get tcpReadBuffer => Uint8List.sublistView(_tcpReadBuffer,0,_tcpBufferWriteIndex);
 
   // ASync TCP Reads
   int _tcpBytesRead = 0; // the ones already processed
@@ -555,7 +555,7 @@ class RelayComms {
       }
       if (_clientRef.loggingEnabled) {
         _clientRef.log(
-            "RELAY RECV:  ${in_packet.length}  bytes, msg: ${in_packet.buffer.asUint8List(SIZE_OF_ACKID_MESSAGE)}");
+            "RELAY RECV:  ${in_packet.length}  bytes, msg: $in_packet}");
       }
       _onRelay(in_packet.sublist(3));
     } else {
