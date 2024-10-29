@@ -227,9 +227,9 @@ class BrainCloudWrapper {
     }
   }
 
-  void _startTimer() {
+  void _startTimer({required int updateTick}) {
     _updateTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      Timer.periodic(const Duration(milliseconds: 50), (timer) {
+      Timer.periodic(const Duration(milliseconds: updateTick), (timer) {
         update();
       });
     });
@@ -258,12 +258,15 @@ class BrainCloudWrapper {
   ///
   /// @param version The app's version
   ///
+  /// @param updateTick in millisecond. Default: 50
+  ///
   /// return Future
   Future<void> init(
       {required String secretKey,
       required String appId,
       required String version,
-      String? url}) async {
+      String? url,
+      int updateTick = 50}) async {
     resetWrapper();
     _lastUrl = url ?? "";
     _lastSecretKey = secretKey;
@@ -276,7 +279,7 @@ class BrainCloudWrapper {
         appVersion: version);
 
     await _loadData();
-    _startTimer();
+    _startTimer(updateTick: updateTick);
   }
 
   bool get isInitialized => _client.isInitialized();
@@ -291,12 +294,15 @@ class BrainCloudWrapper {
   ///
   /// @param versionThe app's version
   ///
+  /// @param updateTick in millisecond. Default: 50
+  ///
   /// @return Future
   Future<void> initWithApps(
       {required String url,
       required String defaultAppId,
       required Map<String, String> appIdSecretMap,
-      required String version}) async {
+      required String version,
+      int updateTick = 50}) async {
     resetWrapper();
     _lastUrl = url;
     _lastSecretKey = appIdSecretMap[defaultAppId] ?? "";
@@ -309,7 +315,7 @@ class BrainCloudWrapper {
         appVersion: version);
 
     await _loadData();
-    _startTimer();
+    _startTimer(updateTick: updateTick);
   }
 
   /// Resets the wrapper.
