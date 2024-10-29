@@ -1,4 +1,5 @@
 import 'package:braincloud_dart/braincloud_dart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'utils/test_base.dart';
@@ -121,14 +122,11 @@ void main() {
         incoming_events = response.data?["incoming_events"];
       }
 
-      Map<String, dynamic> found = incoming_events.reduce((ret, event) {
-        return ret ||
-            (event.evId == eventId &&
-                event.fromPlayerId == userA.profileId &&
-                event.toPlayerId == userB.profileId);
-      });
-
-      expect(found.length, greaterThan(0));
+      debugPrint("Found Events: ${incoming_events}");
+      expect(incoming_events.length, greaterThan(0));
+      expect(incoming_events[0]["evId"], eventId);
+      expect(incoming_events[0]["fromPlayerId"], userA.profileId);
+      expect(incoming_events[0]["toPlayerId"], userB.profileId);
     });
 
     /// END TEST
