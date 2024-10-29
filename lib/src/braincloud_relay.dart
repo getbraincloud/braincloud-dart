@@ -79,6 +79,7 @@ class BrainCloudRelay {
       RelayConnectOptions inOptions,
       SuccessCallback? inSuccess,
       FailureCallback? inFailure) {
+        //TODO: Convert to Future.
     _commsLayer.connect(inConnectiontype, inOptions, inSuccess, inFailure);
   }
 

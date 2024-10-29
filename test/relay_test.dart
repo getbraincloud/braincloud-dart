@@ -176,7 +176,7 @@ void main() {
 
       expect(successCount, 4);
 
-      if (bcTest.bcWrapper.relayService.getPing() >= 0) //999)
+      if (bcTest.bcWrapper.relayService.getPing() >= 999)
         await Future.delayed(Duration(seconds: 2));
       expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
     }, timeout: Timeout.parse("80s"));
