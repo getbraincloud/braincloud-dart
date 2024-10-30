@@ -93,7 +93,7 @@ class RTTComms {
   ///
 
   void setRTTHeartBeatSeconds(int inValue) {
-    _heartBeatTime = Duration(milliseconds: inValue * 1000);
+    _heartBeatTime = Duration(seconds: inValue);
   }
 
   late String _rttConnectionID;
@@ -150,8 +150,7 @@ class RTTComms {
         else if (_rttConnectionStatus == RTTConnectionStatus.connecting &&
             _connectedSuccessCallback != null &&
             toProcessResponse.operation == "connect") {
-          _sinceLastHeartbeat = Duration(
-              seconds: DateTime.now().subtract(_sinceLastHeartbeat).second);
+          _sinceLastHeartbeat = DateTime.now();
           _rttConnectionStatus = RTTConnectionStatus.connected;
           _connectedSuccessCallback!(toProcessResponse);
         }
@@ -210,11 +209,8 @@ class RTTComms {
     }
 
     if (_rttConnectionStatus == RTTConnectionStatus.connected) {
-      if ((Duration(
-              seconds: DateTime.now().subtract(_sinceLastHeartbeat).second)) >=
-          _heartBeatTime) {
-        _sinceLastHeartbeat = Duration(
-            seconds: DateTime.now().subtract(_sinceLastHeartbeat).second);
+      if (DateTime.now().difference(_sinceLastHeartbeat) >= _heartBeatTime) {
+        _sinceLastHeartbeat = DateTime.now();
         _send(_buildHeartbeatRequest(), inBLogMessage: true);
       }
     }
@@ -411,7 +407,7 @@ class RTTComms {
       data = response["data"] ?? {};
     }
     if (operation == "CONNECT") {
-      int heartBeat = (_heartBeatTime.inMilliseconds / 1000).truncate();
+      int heartBeat = _heartBeatTime.inSeconds;
       try {
         heartBeat = data["heartbeatSeconds"];
       } catch (e) {
@@ -521,7 +517,7 @@ class RTTComms {
   RTTConnectionType _currentConnectionType = RTTConnectionType.invalid;
   BrainCloudWebSocket? _webSocket;
 
-  Duration _sinceLastHeartbeat = const Duration(milliseconds: 1);
+  DateTime _sinceLastHeartbeat = DateTime.now();
   static const int maxPacketsize = 1024;
   Duration _heartBeatTime = const Duration(milliseconds: 10 * 1000);
 
