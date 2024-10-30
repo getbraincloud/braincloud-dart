@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'dart:io' as io;
+
 import 'package:braincloud_dart/src/reason_codes.dart';
 import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/status_codes.dart';
@@ -827,6 +829,23 @@ class BrainCloudClient {
 
   void initializeHelper(
       String serverURL, String secretKey, String appId, String appVersion) {
+    //set platform... defaults to web
+    if (io.Platform.isIOS) {
+      platform = Platform.iOS;
+    }
+    if (io.Platform.isWindows) {
+      platform = Platform.windows;
+    }
+    if (io.Platform.isMacOS) {
+      platform = Platform.mac;
+    }
+    if (io.Platform.isAndroid) {
+      platform = Platform.googlePlayAndroid;
+    }
+    if (io.Platform.isLinux) {
+      platform = Platform.linux;
+    }
+
     String? error;
     if (serverURL.isEmpty) {
       error = "serverURL was null or empty";
