@@ -228,6 +228,15 @@ void main() {
       if (bcTest.bcWrapper.relayService.getPing() >= 999)
         await Future.delayed(Duration(seconds: 3));
       expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
+
+      expect(bcTest.bcWrapper.relayService.getProfileIdForNetId(0), userA.profileId);
+      expect(bcTest.bcWrapper.relayService.getOwnerProfileId(), userA.profileId);
+      expect(bcTest.bcWrapper.relayService.ownerProfileId, userA.profileId);
+      expect(bcTest.bcWrapper.relayService.getOwnerCxId(), bcTest.bcWrapper.relayService.ownerCxId);
+      expect(bcTest.bcWrapper.relayService.getCxIdForNetId(0), bcTest.bcWrapper.relayService.ownerCxId);
+      expect(bcTest.bcWrapper.relayService.isConnected(), true);
+      bcTest.bcWrapper.relayService.endMatch({});
+      
     }, timeout: Timeout.parse("90s"));
 
     tearDown(() {
