@@ -1,9 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:braincloud_dart/src/internal/relay_comms.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:flutter/foundation.dart';
 
 class BrainCloudRelay {
   final BrainCloudClient _clientRef;
@@ -72,15 +75,21 @@ class BrainCloudRelay {
 
   /// @param in_connectionType
   /// @param in_options
-  /// @param in_success
-  /// @param in_failure
-  void connect(
+  Future<Map<String, dynamic>> connect(
       RelayConnectionType inConnectiontype,
-      RelayConnectOptions inOptions,
-      SuccessCallback? inSuccess,
-      FailureCallback? inFailure) {
-        //TODO: Convert to Future.
-    _commsLayer.connect(inConnectiontype, inOptions, inSuccess, inFailure);
+      RelayConnectOptions inOptions) {
+
+    final Completer<Map<String, dynamic>> completer = Completer();
+    _commsLayer.connect(inConnectiontype, inOptions, (response) {
+      completer.complete(response);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          statusMessage: statusMessage));
+    });
+
+    return completer.future;
   }
 
   /// Disables relay event for this session.
@@ -265,6 +274,6 @@ class RelayConnectOptions {
 
   @override
   String toString() {
-    return "RelayConnectOptions(ssl:$ssl, host:$host, port:$port, passcode:${passcode.isNotEmpty ? "**..**": "<empty>"}, lobbyId:$lobbyId)";
+    return "RelayConnectOptions(ssl:$ssl, host:$host, port:$port, passcode:${passcode.isNotEmpty ? "**..**" : "<empty>"}, lobbyId:$lobbyId)";
   }
 }

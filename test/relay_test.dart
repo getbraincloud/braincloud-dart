@@ -78,24 +78,34 @@ void main() {
 
       if (message == testString) {
         successCount++;
-          bcTest.bcWrapper.relayService.sendToPlayers(
-              inPlayerMask: BrainCloudRelay.toAllPlayers,
-              inData: utf8.encode(testString2),
-              inChannel: BrainCloudRelay.channelLowPriority);              
+        bcTest.bcWrapper.relayService.sendToPlayers(
+            inPlayerMask: BrainCloudRelay.toAllPlayers,
+            inData: utf8.encode(testString2),
+            inChannel: BrainCloudRelay.channelLowPriority);
       } else if (message == testString2) {
         successCount++;
-          sendToWrongNetId();
+        sendToWrongNetId();
         if (successCount == 4) readyCompleter.complete();
       }
       debugPrint("TST-> relayCallback: ${"<".padLeft(successCount + 1, "✅")}");
     }
 
-    void connectToRelay() {
+    void connectToRelay() async {
       if (connectOptions != null) {
         bcTest.bcWrapper.relayService.registerSystemCallback(systemCallback);
         bcTest.bcWrapper.relayService.registerRelayCallback(relayCallback);
-        bcTest.bcWrapper.relayService.connect(
-            connectionType, connectOptions!, onRelayConnected, onFailed);
+        Map<String, dynamic> jsonResponse = await bcTest.bcWrapper.relayService
+            .connect(connectionType, connectOptions!);
+        debugPrint("TST-> Realy Connect returned: $jsonResponse");
+        bcTest.bcWrapper.relayService.setPingInterval(100);
+        String profileId = bcTest.bcWrapper.getStoredProfileId() ?? "";
+        int myNetId =
+            bcTest.bcWrapper.relayService.getNetIdForProfileId(profileId);
+        Uint8List bytes = utf8.encode(testString);
+        bcTest.bcWrapper.relayService.send(bytes, myNetId,
+            inReliable: true,
+            inOrdered: true,
+            inChannel: BrainCloudRelay.channelHighPriority_1);
       }
     }
 
