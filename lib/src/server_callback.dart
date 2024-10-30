@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 class ServerCallback {
   /// ServerCallback
   ///
@@ -43,7 +45,7 @@ typedef RewardCallback = void Function(String jsonResponse);
 
 typedef RTTCallback = void Function(String jsonResponse);
 
-typedef RelayCallback = void Function(int netId, List<int> data);
+typedef RelayCallback = void Function(int netId, Uint8List data);
 
 typedef RelaySystemCallback = void Function(String jsonResponse);
 

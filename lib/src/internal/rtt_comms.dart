@@ -548,6 +548,11 @@ class RTTCommandResponse {
       required this.operation,
       this.data,
       this.reasonCode});
+
+  @override
+  String toString() {    
+    return "RTTCommandResponse(service:$service, operation:$operation, reasonCode: $reasonCode, data: $data)";
+  }
 }
 
 typedef RTTSuccessCallback = Function(RTTCommandResponse reponse);
