@@ -1,6 +1,7 @@
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'utils/test_base.dart';
+import 'dart:io' as io;
 
 @override
 main() async {
@@ -8,12 +9,17 @@ main() async {
   setUpAll(bcTest.setupBC);
 
   group("Test Authentication", () {
-    test("authenticateSpam", () async {
+    test("releasePlatform", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
-      // ServerResponse response = await bcTest.bcWrapper.brainCloudClient.authenticationService.authenticateAnonymous(true);
-      // expect(response.statusCode, 200);
-      // expect(response.reasonCode, ReasonCodes.switchingProfiles);
+      String platform = "Linux";
+      if (io.Platform.isIOS) platform = "IOS";
+      if (io.Platform.isWindows) platform = "WINDOWS";
+      if (io.Platform.isMacOS) platform = "MAC";
+      if (io.Platform.isAndroid) platform = "ANG";
+
+      expect(bcTest.bcWrapper.brainCloudClient.releasePlatform, Platform.fromString(platform));
+
     });
 
     test("authenticateAnonymous", () async {
