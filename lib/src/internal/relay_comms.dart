@@ -38,7 +38,7 @@ class RelayComms {
 
   List<_Event> _events = [];
   bool _isConnected = false;
-  int _pingInterval = 1000; // one second
+  int _pingIntervalMs = 1000; // one second
   DateTime _lastRecvTime = DateTime.fromMillisecondsSinceEpoch(0);
 
   static const int _MAX_PACKET_ID_HISTORY = 60 * 10;
@@ -308,8 +308,8 @@ class RelayComms {
     }
   }
 
-  void setPingInterval(int inInterval) {
-    this._pingInterval = inInterval;
+  void setPingInterval(int inIntervalSec) {
+    this._pingIntervalMs = inIntervalSec * 1000;
   }
 
   String? getOwnerProfileId() {
@@ -367,7 +367,7 @@ class RelayComms {
     DateTime nowMS = DateTime.now();
     if (_isConnected) {
       // Ping
-      if (nowMS.millisecondsSinceEpoch - _lastPingTime >= _pingInterval) {
+      if (nowMS.millisecondsSinceEpoch - _lastPingTime >= _pingIntervalMs) {
         _sendPing();
       }
 

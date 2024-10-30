@@ -242,10 +242,10 @@ class BrainCloudRelay {
     _commsLayer.send(inData, playerMask, inReliable, inOrdered, inChannel);
   }
 
-  /// Set the ping interval in milliseconds
+  /// Set the ping interval in Seconds
 
-  void setPingInterval(int inInterval) {
-    _commsLayer.setPingInterval(inInterval);
+  void setPingInterval(int inIntervalSec) {
+    _commsLayer.setPingInterval(inIntervalSec);
   }
 }
 

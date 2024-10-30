@@ -36,7 +36,7 @@ void main() {
 
     // void onRelayConnected(String jsonResponse)
     void onRelayConnected(Map<String, dynamic> jsonResponse) {
-      bcTest.bcWrapper.relayService.setPingInterval(100);
+      bcTest.bcWrapper.relayService.setPingInterval(2);
       String profileId = bcTest.bcWrapper.getStoredProfileId() ?? "";
       int myNetId =
           bcTest.bcWrapper.relayService.getNetIdForProfileId(profileId);
@@ -52,24 +52,24 @@ void main() {
           "{\"status\":403,\"reason_code\":90300,\"status_message\":\"Invalid NetId: 40\",\"severity\":\"ERROR\"}") {
         // This one was on purpose
         successCount++;
+        debugPrint("TST-> onFailed: ${"<".padLeft(successCount + 1, "✅")}");
         if (successCount == 4) readyCompleter.complete();
         return;
       } else {
         debugPrint("TST-> onFailed for other reason: $jsonError");
       }
-      debugPrint("TST-> onFailed: ${"<".padLeft(successCount + 1, "✅")}");
       successCount = 0;
-      readyCompleter.complete();
+      if (!readyCompleter.isCompleted) readyCompleter.complete();
     }
 
     void systemCallback(String json) {
       Map<String, dynamic> parsedDict = jsonDecode(json);
       if (parsedDict["op"] == "CONNECT") {
         successCount++;
+        debugPrint("TST-> systemCallback: ${"<".padLeft(successCount + 1, "✅")}");
         if (successCount >= 2) sendToWrongNetId();
         if (successCount == 3) readyCompleter.complete();
       }
-      debugPrint("TST-> systemCallback: ${"<".padLeft(successCount + 1, "✅")}");
     }
 
     void relayCallback(int netId, Uint8List data) {
@@ -85,9 +85,9 @@ void main() {
       } else if (message == testString2) {
         successCount++;
         sendToWrongNetId();
+        debugPrint("TST-> relayCallback: ${"<".padLeft(successCount + 1, "✅")}");
         if (successCount == 4) readyCompleter.complete();
       }
-      debugPrint("TST-> relayCallback: ${"<".padLeft(successCount + 1, "✅")}");
     }
 
     void connectToRelay() async {
@@ -163,7 +163,7 @@ void main() {
       successCount = 0;
       connectionType = RelayConnectionType.tcp;
       readyCompleter = Completer();
-      // bcTest.bcWrapper.brainCloudClient.enableLogging(true);
+      bcTest.bcWrapper.brainCloudClient.enableLogging(true);
       bcTest.bcWrapper.rttService.registerRTTLobbyCallback(onLobbyEvent);
 
       RTTCommandResponse response = await bcTest.bcWrapper.rttService
@@ -178,7 +178,7 @@ void main() {
       expect(successCount, 4);
 
       if (bcTest.bcWrapper.relayService.getPing() >= 999)
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(Duration(seconds: 3));
       expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
     }, timeout: Timeout.parse("80s"));
 
@@ -200,7 +200,7 @@ void main() {
       expect(successCount, 4);
 
       if (bcTest.bcWrapper.relayService.getPing() >= 999)
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(Duration(seconds: 3));
       expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
     }, timeout: Timeout.parse("80s"));
 
@@ -209,7 +209,6 @@ void main() {
       // bcTest.bcWrapper.rttService.disableRTT();
       successCount = 0;
       connectionType = RelayConnectionType.websocket;
-      bcTest.bcWrapper.relayService.setPingInterval(500);
       if (readyCompleter.isCompleted) readyCompleter = Completer();
 
       bcTest.bcWrapper.rttService.registerRTTLobbyCallback(onLobbyEvent);
@@ -226,7 +225,7 @@ void main() {
       expect(successCount, 4);
 
       if (bcTest.bcWrapper.relayService.getPing() >= 999)
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(Duration(seconds: 3));
       expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
     }, timeout: Timeout.parse("80s"));
 
