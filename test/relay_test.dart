@@ -59,6 +59,7 @@ void main() {
       }
       debugPrint("TST-> onFailed: ${"<".padLeft(successCount + 1, "✅")}");
       successCount = 0;
+      readyCompleter.complete();
     }
 
     void systemCallback(String json) {
