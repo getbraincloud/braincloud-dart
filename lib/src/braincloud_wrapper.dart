@@ -237,16 +237,13 @@ class BrainCloudWrapper {
 
   void runCallbacks() {
     _client.update();
-
-    if (_client.getReceivedPacketId() != getStoredPacketId()) {
-      setStoredPacketId(_client.getReceivedPacketId());
-    }
   }
 
   // MonoBehavior runs every update Tick
   void update() {
     runCallbacks();
   }
+  
 
   /// Initialize the brainCloud client with the passed in parameters.
   ///
