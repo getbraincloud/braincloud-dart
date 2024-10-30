@@ -231,9 +231,9 @@ class BrainCloudClient {
 
   String? get profileId => authenticationService.profileId ?? "";
 
-  String get rttConnectionID => _rttComms.rttConnectionID;
+  String? get rttConnectionID => _rttComms.rttConnectionID;
 
-  String get rttEventServer => _rttComms.rttEventServer;
+  String? get rttEventServer => _rttComms.rttEventServer;
 
   String get appVersion => _appVersion;
 

@@ -96,11 +96,11 @@ class RTTComms {
     _heartBeatTime = Duration(seconds: inValue);
   }
 
-  late String _rttConnectionID;
-  late String _rttEventServer;
+  String? _rttConnectionID;
+  String? _rttEventServer;
 
-  String get rttConnectionID => _rttConnectionID;
-  String get rttEventServer => _rttEventServer;
+  String? get rttConnectionID => _rttConnectionID;
+  String? get rttEventServer => _rttEventServer;
 
   ///
 
