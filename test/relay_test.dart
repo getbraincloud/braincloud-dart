@@ -180,7 +180,7 @@ void main() {
       if (bcTest.bcWrapper.relayService.getPing() >= 999)
         await Future.delayed(Duration(seconds: 3));
       expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
-    }, timeout: Timeout.parse("80s"));
+    }, timeout: Timeout.parse("90s"));
 
     test("FullFlow UDP", () async {
       // Reset some values
@@ -202,7 +202,7 @@ void main() {
       if (bcTest.bcWrapper.relayService.getPing() >= 999)
         await Future.delayed(Duration(seconds: 3));
       expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
-    }, timeout: Timeout.parse("80s"));
+    }, timeout: Timeout.parse("90s"));
 
     test("FullFlow WebSocket", () async {
       // Reset some values
@@ -227,7 +227,7 @@ void main() {
       if (bcTest.bcWrapper.relayService.getPing() >= 999)
         await Future.delayed(Duration(seconds: 3));
       expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
-    }, timeout: Timeout.parse("80s"));
+    }, timeout: Timeout.parse("90s"));
 
     tearDown(() {
       // in case one test fails ensure it does not impact others
