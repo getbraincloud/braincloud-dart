@@ -14,7 +14,7 @@ enum Platform {
   oculus('Oculus'),
   googlePlayAndroid('ANG'),
   iOS('IOS'),
-  linux('Linux'),
+  linux('LINUX'),
   mac('MAC'),
   pS3('PS3'),
   pS4('PS4'),

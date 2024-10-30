@@ -48,6 +48,8 @@ class BCTest {
       debugPrint(error.toString());
     });
 
+    debugPrint("Platform: ${bcWrapper.brainCloudClient.releasePlatform}");
+
     bcWrapper.brainCloudClient.authenticationService.clearSavedProfileID();
 
     await auth();
@@ -74,7 +76,6 @@ class BCTest {
           username: userB.name, password: userB.password, forceCreate: true);
       userB.profileId = response.data?["profileId"];
       await bcWrapper.logout(forgetUser: true);
-    
     }
     // Now authenticate the requested user or userA if null
     response = await bcWrapper.authenticateUniversal(
@@ -84,15 +85,14 @@ class BCTest {
       userA.profileId = response.data?["profileId"];
     }
 
-    debugPrint("Current profileId/session ${bcWrapper.getStoredProfileId()} / ${bcWrapper.getStoredSessionId()} as $id");
+    debugPrint(
+        "Current profileId/session ${bcWrapper.getStoredProfileId()} / ${bcWrapper.getStoredSessionId()} as $id");
 
     completer.complete();
 
     return completer.future;
   }
 }
-
-
 
 TestUser userA = TestUser("UserA", generateRandomString(9));
 TestUser userB = TestUser("UserB", generateRandomString(9));
