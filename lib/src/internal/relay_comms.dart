@@ -431,7 +431,9 @@ class RelayComms {
             }
           case _EventType.connectSuccess:
             if (_connectedSuccessCallback != null) {
-              _connectedSuccessCallback!({"message": evt.message});
+               var callback =  _connectedSuccessCallback; // prevent multiple call back
+              _connectedSuccessCallback = null; // prevent multiple call back
+              callback!({"message": evt.message});
             }
             break;
           case _EventType.connectFailure:

@@ -75,21 +75,13 @@ class BrainCloudRelay {
 
   /// @param in_connectionType
   /// @param in_options
-  Future<Map<String, dynamic>> connect(
-      RelayConnectionType inConnectiontype,
-      RelayConnectOptions inOptions) {
-
-    final Completer<Map<String, dynamic>> completer = Completer();
-    _commsLayer.connect(inConnectiontype, inOptions, (response) {
-      completer.complete(response);
-    }, (statusCode, reasonCode, statusMessage) {
-      completer.completeError(ServerResponse(
-          statusCode: statusCode,
-          reasonCode: reasonCode,
-          statusMessage: statusMessage));
-    });
-
-    return completer.future;
+  void connect(
+      RelayConnectionType inConnectiontype,      
+      RelayConnectOptions inOptions,
+      SuccessCallback? inSuccess,
+      FailureCallback? inFailure) {
+      // This cannot be converted to use Future as these callack can be called multiple times.
+    _commsLayer.connect(inConnectiontype, inOptions, inSuccess, inFailure);
   }
 
   /// Disables relay event for this session.

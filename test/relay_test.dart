@@ -94,18 +94,8 @@ void main() {
       if (connectOptions != null) {
         bcTest.bcWrapper.relayService.registerSystemCallback(systemCallback);
         bcTest.bcWrapper.relayService.registerRelayCallback(relayCallback);
-        Map<String, dynamic> jsonResponse = await bcTest.bcWrapper.relayService
-            .connect(connectionType, connectOptions!);
-        debugPrint("TST-> Realy Connect returned: $jsonResponse");
-        bcTest.bcWrapper.relayService.setPingInterval(100);
-        String profileId = bcTest.bcWrapper.getStoredProfileId() ?? "";
-        int myNetId =
-            bcTest.bcWrapper.relayService.getNetIdForProfileId(profileId);
-        Uint8List bytes = utf8.encode(testString);
-        bcTest.bcWrapper.relayService.send(bytes, myNetId,
-            inReliable: true,
-            inOrdered: true,
-            inChannel: BrainCloudRelay.channelHighPriority_1);
+        bcTest.bcWrapper.relayService
+            .connect(connectionType, connectOptions!, onRelayConnected, onFailed);
       }
     }
 
