@@ -122,11 +122,24 @@ void main() {
         incoming_events = response.data?["incoming_events"];
       }
 
-      debugPrint("Found Events: ${incoming_events}");
-      expect(incoming_events.length, greaterThan(0));
-      expect(incoming_events[0]["evId"], eventId);
-      expect(incoming_events[0]["fromPlayerId"], userA.profileId);
-      expect(incoming_events[0]["toPlayerId"], userB.profileId);
+      debugPrint(
+          "Found (${incoming_events.length}) Events: ${incoming_events}");
+
+      var foundEvent;
+      for (var event in incoming_events) {
+        if (event["evId"] == eventId) {
+          foundEvent = event;
+        }
+      }
+
+      expect(incoming_events.length, greaterThan(0),
+          reason: "incoming_events should have more than 1");
+      expect(foundEvent["evId"], eventId,
+          reason: "eventId should equal foundEvent['evId']");
+      expect(foundEvent["fromPlayerId"], userA.profileId,
+          reason: "userA.profileId should equal ['fromPlayerId'] ");
+      expect(foundEvent["toPlayerId"], userB.profileId,
+          reason: "userB.profileId should equal ['toPlayerId'] ");
     });
 
     /// END TEST
