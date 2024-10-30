@@ -68,7 +68,7 @@ void main() {
         successCount++;
         debugPrint("TST-> systemCallback: ${"<".padLeft(successCount + 1, "✅")}");
         if (successCount >= 2) sendToWrongNetId();
-        if (successCount == 3) readyCompleter.complete();
+        if (successCount == 4) readyCompleter.complete();
       }
     }
 
@@ -190,10 +190,12 @@ void main() {
       // Use a future to wait for callbacks to complete.
       readyCompleter = Completer();
       bcTest.bcWrapper.rttService.registerRTTLobbyCallback(onLobbyEvent);
+      
       RTTCommandResponse response = await bcTest.bcWrapper.rttService
           .enableRTT(connectiontype: RTTConnectionType.websocket);
       expect(response.data?['operation'], 'CONNECT');
       onRTTEnabled(response);
+
       await readyCompleter.future.timeout(Duration(seconds: 90), onTimeout: () {
         fail("Relay TCP test timed out");
       });
@@ -215,7 +217,6 @@ void main() {
       RTTCommandResponse response = await bcTest.bcWrapper.rttService
           .enableRTT(connectiontype: RTTConnectionType.websocket);
       expect(response.data?['operation'], 'CONNECT');
-
       onRTTEnabled(response);
 
       await readyCompleter.future.timeout(Duration(seconds: 90), onTimeout: () {
