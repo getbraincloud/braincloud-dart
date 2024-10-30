@@ -208,14 +208,14 @@ class BrainCloudScript {
   /// Service Name - Script
   /// Service Operation - GET_SCHEDULED_CLOUD_SCRIPTS
   ///
-  /// @param startDateUTC ID of script job to cancel
+  /// @param startDateUTC Return scripts that are scheduled to run before this specified time.
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getScheduledCloudScripts(
       {required DateTime startDateUTC}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    data[OperationParam.scriptServiceStartDateUTC.value] = startDateUTC;
+    data[OperationParam.scriptServiceStartDateUTC.value] = startDateUTC.millisecondsSinceEpoch;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) => completer.complete(ServerResponse.fromJson(response)),
@@ -237,7 +237,6 @@ class BrainCloudScript {
   /// Service Name - Script
   /// Service Operation - GET_RUNNING_OR_QUEUED_CLOUD_SCRIPTS
   ///
-  /// @param startDateUTC ID of script job to cancel
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getRunningOrQueuedCloudScripts() {
@@ -251,7 +250,7 @@ class BrainCloudScript {
               statusMessage: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.script,
-        ServiceOperation.getRunningOrQueuedCloudScripts, null, callback);
+        ServiceOperation.getRunningOrQueuedCloudScripts, {}, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;

@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:braincloud_dart/src/internal/relay_comms.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
