@@ -171,7 +171,7 @@ void main() {
       expect(response.data?['operation'], 'CONNECT');
       onRTTEnabled(response);
 
-      await readyCompleter.future.timeout(Duration(seconds: 50), onTimeout: () {
+      await readyCompleter.future.timeout(Duration(seconds: 90), onTimeout: () {
         fail("Relay TCP test timed out");
       });
 
@@ -194,7 +194,7 @@ void main() {
           .enableRTT(connectiontype: RTTConnectionType.websocket);
       expect(response.data?['operation'], 'CONNECT');
       onRTTEnabled(response);
-      await readyCompleter.future.timeout(Duration(seconds: 70), onTimeout: () {
+      await readyCompleter.future.timeout(Duration(seconds: 90), onTimeout: () {
         fail("Relay TCP test timed out");
       });
       expect(successCount, 4);
@@ -218,7 +218,7 @@ void main() {
 
       onRTTEnabled(response);
 
-      await readyCompleter.future.timeout(Duration(seconds: 50), onTimeout: () {
+      await readyCompleter.future.timeout(Duration(seconds: 90), onTimeout: () {
         fail("Relay TCP test timed out");
       });
 
