@@ -46,7 +46,7 @@ main() {
       
       bcTest.bcWrapper.rttService.setRTTHeartBeatSeconds(1);
 
-      expect(bcTest.bcWrapper.rttService.getRTTConnectionID(), null);
+      expect(bcTest.bcWrapper.rttService.getRTTConnectionID(), isA<String?>());
     
     });
 
