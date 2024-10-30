@@ -11,7 +11,6 @@ enum Platform {
   amazon('AMAZON'),
   blackBerry('BB'),
   facebook('FB'),
-  flutter('FLUTTER'),
   oculus('Oculus'),
   googlePlayAndroid('ANG'),
   iOS('IOS'),
