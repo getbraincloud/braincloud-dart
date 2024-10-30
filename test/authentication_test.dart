@@ -12,7 +12,7 @@ main() async {
     test("releasePlatform", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
-      String platform = "Linux";
+      String platform = "LINUX";
       if (io.Platform.isIOS) platform = "IOS";
       if (io.Platform.isWindows) platform = "WINDOWS";
       if (io.Platform.isMacOS) platform = "MAC";
