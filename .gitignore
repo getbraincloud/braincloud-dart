@@ -42,3 +42,6 @@ lib/movie.dart
 lib/movie.g.dart
 lib/widgets
 test/ids.txt
+coverage
+ids.txt
+test-report.xml
