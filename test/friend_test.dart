@@ -20,7 +20,8 @@ void main() {
     test("getProfileInfoForExternalAuthId()", retry: 2, () async {
       ServerResponse response = await bcTest.bcWrapper.friendService
           .getProfileInfoForExternalAuthId(
-              externalId: "externalId", externalAuthType: "Facebook");
+              externalId: "externalId",
+              externalAuthType: AuthenticationType.facebook);
 
       expect(response.statusCode, StatusCodes.badRequest);
     });
@@ -28,7 +29,8 @@ void main() {
     test("getExternalIdForProfileId()", retry: 2, () async {
       ServerResponse response = await bcTest.bcWrapper.friendService
           .getExternalIdForProfileId(
-              profileId: userA.profileId!, authenticationType: "Facebook");
+              profileId: userA.profileId!,
+              authenticationType: AuthenticationType.facebook);
 
       expect(response.statusCode, StatusCodes.ok);
     });

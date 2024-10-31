@@ -9,9 +9,9 @@ enum AuthenticationType {
   email('Email'),
   facebook('Facebook'),
   facebookLimited('FacebookLimited'),
-  oculus(''),
-  playstationNetwork(''),
-  playstationNetwork5(''),
+  oculus('Oculus'),
+  playstationNetwork('PlaystationNetwork'),
+  playstationNetwork5('PlaystationNetwork5'),
   gameCenter('GameCenter'),
   steam('Steam'),
   apple('Apple'),
@@ -23,8 +23,8 @@ enum AuthenticationType {
   external('External'),
   settopHandoff('SettopHandoff'),
   ultra('Ultra'),
-  nintendo(''),
-  unknown('');
+  nintendo('Nintendo'),
+  unknown('UNKNOWN');
 
   const AuthenticationType(this.value);
   final String value;

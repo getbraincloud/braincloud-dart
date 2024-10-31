@@ -62,11 +62,12 @@ class BrainCloudFriend {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getProfileInfoForExternalAuthId(
-      {required String externalId, required String externalAuthType}) {
+      {required String externalId,
+      required AuthenticationType externalAuthType}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceExternalId.value] = externalId;
-    data[OperationParam.externalAuthType.value] = externalAuthType;
+    data[OperationParam.externalAuthType.value] = externalAuthType.toString();
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) => completer.complete(ServerResponse.fromJson(response)),
@@ -95,12 +96,13 @@ class BrainCloudFriend {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getExternalIdForProfileId(
-      {required String profileId, required String authenticationType}) {
+      {required String profileId,
+      required AuthenticationType authenticationType}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceProfileId.value] = profileId;
     data[OperationParam.friendServiceAuthenticationType.value] =
-        authenticationType;
+        authenticationType.toString();
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) => completer.complete(ServerResponse.fromJson(response)),
