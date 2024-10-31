@@ -1515,68 +1515,6 @@ class BrainCloudComms {
     _enabled = value;
   }
 
-  /// Checks if json is valid then returns json dynamic
-  ///
-  /// @param jsonData
-  ///
-  /// returns JsonResponseBundleV2
-  JsonResponseBundleV2? deserializeJsonBundle(String jsonData) {
-    if (jsonData.isNullOrWhiteSpace) {
-      return null;
-    }
-
-    if (jsonData.isEmptyOrNull) {
-      if (_clientRef.loggingEnabled) {
-        _clientRef.log(
-            "ERROR - Incoming packet data was null or empty! This is probably a network issue.");
-      }
-      return null;
-    }
-
-    jsonData = jsonData.trim();
-    if ((jsonData.startsWith("{") && jsonData.endsWith("}")) || //For dynamic
-        (jsonData.startsWith("[") && jsonData.endsWith("]"))) //For array
-    {
-      try {
-        var obj = jsonDecode(jsonData);
-
-        return JsonResponseBundleV2.fromJson(obj);
-      } catch (e) //some other exception
-      {
-        var ex = e;
-        var message = ex.toString();
-
-        //Contains will fail if one input is off, so I had to break it up like this for more consistency
-        //IE: The maxiumum depth of 24 was exceeded. Check for cycles in dynamic graph.
-        if (message.contains("The maxiumum depth") &&
-            message.contains("exceeded")) {
-          _serviceCallsInProgressLock.acquire();
-          try {
-            if (_serviceCallsInProgress.isNotEmpty) {
-              for (int i = _serviceCallsInProgress.length - 1; i < 0; --i) {
-                var serviceCall = _serviceCallsInProgress[i];
-                if (serviceCall.getCallback != null) {
-                  serviceCall.getCallback?.onErrorCallback(
-                      900,
-                      ReasonCodes.jsonResponseMaxdepthExceedsLimit,
-                      jsonErrorMessage);
-                  _serviceCallsInProgress.removeAt(i);
-                }
-              }
-            }
-          } finally {
-            _serviceCallsInProgressLock.release();
-          }
-        } else {
-          resendMessage(_activeRequest!);
-        }
-        _clientRef.log(message);
-        return null;
-      }
-    }
-    return null;
-  }
-
   /// Resets the communication layer. Clients will need to
   /// reauthenticate after this method is called.
   void resetCommunication() {

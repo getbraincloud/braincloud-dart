@@ -1,18 +1,6 @@
-import 'dart:typed_data';
-
 import 'package:flutter/foundation.dart';
 
 class Util {
-  static final DateTime _unixEpoch = DateTime(1970, 1, 1, 0, 0, 0).toUtc();
-
-  static DateTime bcTimeToDateTime(int millis) {
-    return _unixEpoch.add(Duration(milliseconds: millis));
-  }
-
-  static double dateTimeToBcTimestamp(DateTime dateTime) {
-    return dateTime.toUtc().millisecondsSinceEpoch.toDouble();
-  }
-
   static const String _defaultLang = "en";
 
   static getIsoCodeForCurrentLanguage() {
@@ -51,16 +39,5 @@ class Util {
 
   static bool isOptionalParameterValid(String? s) {
     return (s != null && s.isNotEmpty);
-  }
-
-  static int dateTimeToUnixTimestamp(DateTime dateTime) {
-    return dateTime.toUtc().millisecondsSinceEpoch;
-  }
-
-  int toInt64(Uint8List byteArray, int index) {
-    ByteBuffer buffer = byteArray.buffer;
-    ByteData data = ByteData.view(buffer);
-    int short = data.getInt64(index);
-    return short;
   }
 }

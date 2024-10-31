@@ -43,7 +43,8 @@ class BCTest {
             secretKey: ids.secretKey,
             appId: ids.appId,
             version: ids.version,
-            url: ids.url)
+            url: ids.url,
+            updateTick: 50)
         .onError((error, stackTrace) {
       debugPrint(error.toString());
     });

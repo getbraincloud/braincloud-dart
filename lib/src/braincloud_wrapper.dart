@@ -94,6 +94,8 @@ class BrainCloudWrapper {
   String _lastAppId = "";
   String _lastAppVersion = "";
 
+  int _updateTick = 0;
+
   bool _alwaysAllowProfileSwitch = true;
 
   WrapperData _wrapperData = WrapperData();
@@ -227,12 +229,14 @@ class BrainCloudWrapper {
     }
   }
 
-  void _startTimer({required int updateTick}) {
-    _updateTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      Timer.periodic(Duration(milliseconds: updateTick), (timer) {
-        update();
+  void _startTimer() {
+    if (_updateTick > 0) {
+      _updateTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        Timer.periodic(Duration(milliseconds: _updateTick), (timer) {
+          update();
+        });
       });
-    });
+    }
   }
 
   void runCallbacks() {
@@ -243,7 +247,6 @@ class BrainCloudWrapper {
   void update() {
     runCallbacks();
   }
-  
 
   /// Initialize the brainCloud client with the passed in parameters.
   ///
@@ -255,7 +258,7 @@ class BrainCloudWrapper {
   ///
   /// @param version The app's version
   ///
-  /// @param updateTick in millisecond. Default: 50
+  /// @param updateTick in millisecond. Set to 0 to manage the update manually.
   ///
   /// return Future
   Future<void> init(
@@ -263,12 +266,15 @@ class BrainCloudWrapper {
       required String appId,
       required String version,
       String? url,
-      int updateTick = 50}) async {
+      required int updateTick}) async {
     resetWrapper();
     _lastUrl = url ?? "";
     _lastSecretKey = secretKey;
     _lastAppId = appId;
     _lastAppVersion = version;
+
+    _updateTick = updateTick;
+
     _client.initialize(
         serverURL: url,
         secretKey: secretKey,
@@ -276,7 +282,7 @@ class BrainCloudWrapper {
         appVersion: version);
 
     await _loadData();
-    _startTimer(updateTick: updateTick);
+    _startTimer();
   }
 
   bool get isInitialized => _client.isInitialized();
@@ -299,7 +305,7 @@ class BrainCloudWrapper {
       required String defaultAppId,
       required Map<String, String> appIdSecretMap,
       required String version,
-      int updateTick = 50}) async {
+      required int updateTick}) async {
     resetWrapper();
     _lastUrl = url;
     _lastSecretKey = appIdSecretMap[defaultAppId] ?? "";
@@ -312,7 +318,7 @@ class BrainCloudWrapper {
         appVersion: version);
 
     await _loadData();
-    _startTimer(updateTick: updateTick);
+    _startTimer();
   }
 
   /// Resets the wrapper.
@@ -1829,7 +1835,8 @@ class BrainCloudWrapper {
         secretKey: _lastSecretKey,
         appId: _lastAppId,
         version: _lastAppVersion,
-        url: _lastUrl);
+        url: _lastUrl,
+        updateTick: _updateTick);
     String authType = getStoredAuthenticationType() ?? "";
     if (authType == authenticationAnonymous) {
       authenticateAnonymous();
