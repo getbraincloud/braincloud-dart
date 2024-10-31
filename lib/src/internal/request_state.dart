@@ -48,11 +48,7 @@ class RequestState {
   RequestState();
 
   void cancelRequest() {
-    try {
-      _isCancelled = true;
-    } catch (e) {
-      debugPrint(e.toString());
-    }
+    _isCancelled = true;
   }
 }
 

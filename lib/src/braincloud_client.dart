@@ -652,14 +652,15 @@ class BrainCloudClient {
     return _comms.authenticationPacketTimeoutSecs;
   }
 
+  //TODO:  Since this client did not exist back then, there is no need for this, should be completely removed.  
   /// Sets the error callback to return the status message instead of the
   /// error JSON string. This flag is used to conform to pre-2.17 client
   /// behavior.
   ///
   /// @param enabledIf set to __true__, enable.
-  void setOldStyleStatusMessageErrorCallback(bool enabled) {
-    _comms.oldStyleStatusResponseInErrorCallback = enabled;
-  }
+  // void setOldStyleStatusMessageErrorCallback(bool enabled) {
+  //   _comms.oldStyleStatusResponseInErrorCallback = enabled;
+  // }
 
   /// Returns the low transfer rate timeout in secs
   int getUploadLowTransferRateTimeout() {
@@ -770,10 +771,26 @@ class BrainCloudClient {
 
   /// Normally not needed as the brainCloud SDK sends heartbeats automatically.
   /// Regardless, this is a manual way to send a heartbeat.
-  void sendHeartbeat(SuccessCallback? success, FailureCallback? failure) {
-    ServerCall sc = ServerCall(ServiceName.heartBeat, ServiceOperation.read,
-        null, ServerCallback(success, failure));
+   Future<ServerResponse>  sendHeartbeat() {
+    final Completer<ServerResponse> completer = Completer();
+
+    ServerCall sc = ServerCall(
+        ServiceName.heartBeat,
+        ServiceOperation.read,
+        null,
+        ServerCallback((response) {
+          ServerResponse responseObject = ServerResponse.fromJson(response);
+          completer.complete(responseObject);
+        }, (statusCode, reasonCode, statusMessage) {
+          completer.completeError(ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              statusMessage: statusMessage));
+        }));
+
     _comms.addToQueue(sc);
+    
+    return completer.future;
   }
 
   ///  Method writes log if logging is enabled
