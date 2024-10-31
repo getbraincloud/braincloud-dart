@@ -100,6 +100,7 @@ class RelayComms {
   Map<int, List<_UDPPacket>> _orderedReliablePackets = {};
   Map<int, List<_UDPPacket>> get orderedReliablePackets =>
       _orderedReliablePackets;
+  Map<int,Map<int, int>> _trackedPacketIds = {};
   // end
 
   bool _resendConnectRequest = false;
@@ -160,6 +161,7 @@ class RelayComms {
     _recvPacketId.clear();
     _reliables.clear();
     _rsmgHistory.clear();
+    _trackedPacketIds.clear();
     _orderedReliablePackets.clear();
     _udpClientStream = null;
     _udpClient = null;
@@ -238,7 +240,7 @@ class RelayComms {
       return;
     }
 
-    // NetId
+    // Control Byte
     Uint8List controlByteHeader = Uint8List.fromList([CL2RS_RELAY]);
 
     // Reliable header
@@ -603,15 +605,29 @@ class RelayComms {
       if (ordered) {
         int prevPacketId = _MAX_PACKET_ID;
         if (_recvPacketId.containsKey(ackIdWithoutPacketId)) {
-          prevPacketId = _recvPacketId[ackIdWithoutPacketId] ?? 0;
+          prevPacketId = _recvPacketId[ackIdWithoutPacketId] ?? _MAX_PACKET_ID;
         }
+
+          //look for a tracked packetId in channel for netId
+          if (_trackedPacketIds.isNotEmpty &&
+              _trackedPacketIds.containsKey(channel) &&
+              _trackedPacketIds[channel]!.containsKey(netId))
+          {
+              prevPacketId = _trackedPacketIds[channel]![netId]!;
+              _trackedPacketIds[channel]!.remove(netId);
+              if (_clientRef.loggingEnabled)
+              {
+                  _clientRef.log("Found tracked packetId for channel: ${channel} netId: ${netId} which was ${prevPacketId}");
+              }
+          }
+
 
         if (reliable) {
           if (_packetLE(packetId, prevPacketId)) {
             // We already received that packet if it's lower than the last confirmed
             // packetId. This must be a duplicate
             if (_clientRef.loggingEnabled) {
-              _clientRef.log("Duplicated packet from $netId. got $packetId");
+              _clientRef.log("Duplicated packet from $netId. got $packetId, ignoring it.");
             }
             return;
           }
@@ -748,6 +764,23 @@ class RelayComms {
         {
           int netId = parsedDict["netId"];
           String cxId = parsedDict["cxId"];
+
+          List<int>? packetIdArray =  parsedDict["orderedPacketIds"];
+          if (packetIdArray != null)
+          {
+              for (int channelID = 0; channelID < packetIdArray.length; channelID++)
+              {
+                  int packetID = packetIdArray[channelID];
+                  if (packetID != 0)
+                  {
+                      _trackedPacketIds[channelID]?[netId] = packetID;
+                      if (_clientRef.loggingEnabled)
+                      {
+                          _clientRef.log("Added tracked packetId ${packetID} for netID ${netId} at channel ${channelID}");
+                      }
+                  }
+              }    
+          }            
 
           _cxIdToNetId[cxId] = netId;
           _netIdToCxId[netId] = cxId;
