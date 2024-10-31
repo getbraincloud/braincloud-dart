@@ -13,8 +13,8 @@ void main() {
     Map<String, dynamic> scriptData = {"testParam1": 1};
 
     test("runScript()", retry: 2, () async {
-      ServerResponse response = await bcTest.bcWrapper.scriptService.runScript(
-          scriptName: scriptName, jsonScriptData: scriptData);
+      ServerResponse response = await bcTest.bcWrapper.scriptService
+          .runScript(scriptName: scriptName, jsonScriptData: scriptData);
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -70,6 +70,27 @@ void main() {
 
       expect(response.statusCode, StatusCodes.ok,
           reason: response.statusMessage);
+    });
+
+    test("getScheduledCloudScripts()", retry: 2, () async {
+      ServerResponse response = await bcTest.bcWrapper.scriptService
+          .getScheduledCloudScripts(
+              startDateUTC: DateTime.now().add(Duration(minutes: 30)));
+      expect(response.statusCode, StatusCodes.ok);
+    });
+
+    test("getRunningOrQueuedCloudScripts()", retry: 2, () async {
+      ServerResponse response =
+          await bcTest.bcWrapper.scriptService.getRunningOrQueuedCloudScripts();
+      expect(response.statusCode, StatusCodes.ok);
+    });
+
+    test("runParentScript()", retry: 2, () async {
+      ServerResponse response =
+          await bcTest.bcWrapper.scriptService.runParentScript(parentLevel: "Invalid",scriptName:"None");
+      expect(response.statusCode, StatusCodes.badRequest);
+      expect(response.reasonCode, ReasonCodes.missingGameParent); 
+
     });
 
     /// END TEST

@@ -96,11 +96,11 @@ class RTTComms {
     _heartBeatTime = Duration(seconds: inValue);
   }
 
-  late String _rttConnectionID;
-  late String _rttEventServer;
+  String? _rttConnectionID;
+  String? _rttEventServer;
 
-  String get rttConnectionID => _rttConnectionID;
-  String get rttEventServer => _rttEventServer;
+  String? get rttConnectionID => _rttConnectionID;
+  String? get rttEventServer => _rttEventServer;
 
   ///
 
@@ -548,6 +548,11 @@ class RTTCommandResponse {
       required this.operation,
       this.data,
       this.reasonCode});
+
+  @override
+  String toString() {    
+    return "RTTCommandResponse(service:$service, operation:$operation, reasonCode: $reasonCode, data: $data)";
+  }
 }
 
 typedef RTTSuccessCallback = Function(RTTCommandResponse reponse);

@@ -19,10 +19,36 @@ main() {
         markTestSkipped("Rtt not enable for this app.");
       } else {
         expect(response.data?['operation'], 'CONNECT');
+        expect(bcTest.bcWrapper.rttService.isRTTEnabled(),true);
       }
+
     }, tags: "rTTService");
 
     String channelId = "";
+
+    test("registerRTT_etc", () async {
+
+      bcTest.bcWrapper.rttService.registerRTTAsyncMatchCallback((jsonResponse) {});
+      bcTest.bcWrapper.rttService.registerRTTBlockchainItemEvent((jsonResponse) {});
+      bcTest.bcWrapper.rttService.registerRTTBlockchainRefresh((jsonResponse) {});
+      bcTest.bcWrapper.rttService.registerRTTChatCallback((jsonResponse) {});
+      bcTest.bcWrapper.rttService.registerRTTEventCallback((jsonResponse) {});
+      bcTest.bcWrapper.rttService.registerRTTMessagingCallback((jsonResponse) {});
+      bcTest.bcWrapper.rttService.registerRTTPresenceCallback((jsonResponse) {});
+
+      bcTest.bcWrapper.rttService.deregisterRTTAsyncMatchCallback();
+      bcTest.bcWrapper.rttService.deregisterRTTBlockchainItemEvent();
+      bcTest.bcWrapper.rttService.deregisterRTTBlockchainRefresh();
+      bcTest.bcWrapper.rttService.deregisterRTTChatCallback();
+      bcTest.bcWrapper.rttService.deregisterRTTEventCallback();
+      bcTest.bcWrapper.rttService.deregisterRTTMessagingCallback();
+      bcTest.bcWrapper.rttService.deregisterRTTPresenceCallback();
+      
+      bcTest.bcWrapper.rttService.setRTTHeartBeatSeconds(1);
+
+      expect(bcTest.bcWrapper.rttService.getRTTConnectionID(), isA<String?>());
+    
+    });
 
     test("getChannelId", () async {
       ServerResponse? response = await bcTest.bcWrapper.chatService

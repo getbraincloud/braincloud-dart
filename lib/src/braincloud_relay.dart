@@ -4,29 +4,30 @@ import 'dart:typed_data';
 import 'package:braincloud_dart/src/internal/relay_comms.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:flutter/foundation.dart';
 
 class BrainCloudRelay {
   final BrainCloudClient _clientRef;
-  late RelayComms? _commsLayer;
+  late RelayComms _commsLayer;
 
-  final int toAllPlayers = 0x000000FFFFFFFFFF;
-  final int maxPlayers = 40;
-  final int channelHighPriority_1 = 0;
-  final int channelHighPriority_2 = 1;
-  final int channelNormalPriority = 2;
-  final int channelLowPriority = 3;
+  static final int toAllPlayers = 0x000000FFFFFFFFFF;
+  static final int maxPlayers = 40;
+  static final int channelHighPriority_1 = 0;
+  static final int channelHighPriority_2 = 1;
+  static final int channelNormalPriority = 2;
+  static final int channelLowPriority = 3;
 
-  BrainCloudRelay(RelayComms? inComms, this._clientRef) {
+  BrainCloudRelay(RelayComms inComms, this._clientRef) {
     _commsLayer = inComms;
   }
 
   /// Use Ping() in order to properly calculate the Last ping received
 
-  int get lastPing => _commsLayer?.getPing ?? 0;
+  int getPing() => _commsLayer.getPing;
 
   /// et the lobby's owner profile Id.
 
-  String get ownerProfileId => _commsLayer?.getOwnerProfileId() ?? "";
+  String get ownerProfileId => _commsLayer.getOwnerProfileId() ?? "";
 
   /// et the lobby's owner profile Id.
 
@@ -37,18 +38,18 @@ class BrainCloudRelay {
   /// Returns the profileId associated with a netId.
 
   String? getProfileIdForNetId(int netId) {
-    return _commsLayer?.getProfileIdForNetId(netId);
+    return _commsLayer.getProfileIdForNetId(netId);
   }
 
   /// Returns the netId associated with a profileId.
 
   int getNetIdForProfileId(String profileId) {
-    return _commsLayer?.getNetIdForProfileId(profileId) ?? 0;
+    return _commsLayer.getNetIdForProfileId(profileId);
   }
 
   /// et the lobby's owner RTT connection Id.
 
-  String get ownerCxId => _commsLayer?.getOwnerCxId() ?? "";
+  String get ownerCxId => _commsLayer.getOwnerCxId();
 
   /// et the lobby's owner profile Id.
 
@@ -59,58 +60,57 @@ class BrainCloudRelay {
   /// Returns the RTT connection Id associated with a netId.
 
   String getCxIdForNetId(int netId) {
-    return _commsLayer?.getCxIdForNetId(netId) ?? "";
+    return _commsLayer.getCxIdForNetId(netId) ?? "";
   }
 
   /// Returns the netId associated with an RTT connection Id.
 
   int getNetIdForCxId(String cxId) {
-    return _commsLayer?.getNetIdForCxId(cxId) ?? 0;
+    return _commsLayer.getNetIdForCxId(cxId);
   }
 
   /// Start off a connection, based off connection type to brainClouds Relay Servers.  Connect options come in from "ROOM_ASSIGNED" lobby callback
 
   /// @param in_connectionType
   /// @param in_options
-  /// @param in_success
-  /// @param in_failure
   void connect(
-      RelayConnectionType inConnectiontype,
+      RelayConnectionType inConnectiontype,      
       RelayConnectOptions inOptions,
       SuccessCallback? inSuccess,
       FailureCallback? inFailure) {
-    _commsLayer?.connect(inConnectiontype, inOptions, inSuccess, inFailure);
+      // This cannot be converted to use Future as these callack can be called multiple times.
+    _commsLayer.connect(inConnectiontype, inOptions, inSuccess, inFailure);
   }
 
   /// Disables relay event for this session.
 
   void disconnect() {
-    _commsLayer?.disconnect();
+    _commsLayer.disconnect();
   }
 
   /// Terminate the match instance by the owner.
 
   /// @param jsonpayload data sent in JSON format. It will be relayed to other connnected players.
   void endMatch(Map<String, dynamic> json) {
-    _commsLayer?.endMatch(json);
+    _commsLayer.endMatch(json);
   }
 
   /// Is Connected
 
   bool isConnected() {
-    return _commsLayer?.isConnected ?? false;
+    return _commsLayer.isConnected;
   }
 
   /// Register callback for relay messages coming from peers on the main thread
 
   void registerRelayCallback(RelayCallback inCallback) {
-    _commsLayer?.registerRelayCallback(inCallback);
+    _commsLayer.registerRelayCallback(inCallback);
   }
 
   /// Deregister the relay callback
 
   void deregisterRelayCallback() {
-    _commsLayer?.deregisterRelayCallback();
+    _commsLayer.deregisterRelayCallback();
   }
 
   /// Register callback for RelayServer system messages.
@@ -155,13 +155,13 @@ class BrainCloudRelay {
   /// }
 
   void registerSystemCallback(RelaySystemCallback inCallback) {
-    _commsLayer?.registerSystemCallback(inCallback);
+    _commsLayer.registerSystemCallback(inCallback);
   }
 
   /// Deregister the relay callback
 
   void deregisterSystemCallback() {
-    _commsLayer?.deregisterSystemCallback();
+    _commsLayer.deregisterSystemCallback();
   }
 
   /// Send a packet to peer(s)
@@ -187,10 +187,10 @@ class BrainCloudRelay {
     } else if (toNetid >= maxPlayers) {
       // Error. Invalid net id
       String error = "Invalid NetId: $toNetid";
-      _commsLayer?.queueError(error);
+      _commsLayer.queueError(error);
     } else {
       int playerMask = 1 << toNetid;
-      _commsLayer?.send(inData, playerMask, inReliable, inOrdered, inChannel);
+      _commsLayer.send(inData, playerMask, inReliable, inOrdered, inChannel);
     }
   }
 
@@ -207,12 +207,12 @@ class BrainCloudRelay {
   /// CHANNEL_LOW_PRIORITY = 3;
 
   void sendToPlayers(
-      {required inData,
-      required inPlayerMask,
+      {required Uint8List inData,
+      required int inPlayerMask,
       bool inReliable = true,
       bool inOrdered = true,
       int inChannel = 0}) {
-    _commsLayer?.send(inData, inPlayerMask, inReliable, inOrdered, inChannel);
+    _commsLayer.send(inData, inPlayerMask, inReliable, inOrdered, inChannel);
   }
 
   /// Send a packet to all except yourself
@@ -227,7 +227,7 @@ class BrainCloudRelay {
   /// CHANNEL_LOW_PRIORITY = 3;
 
   void sendToAll(
-      {required inData,
+      {required Uint8List inData,
       bool inReliable = true,
       bool inOrdered = true,
       int inChannel = 0}) {
@@ -237,13 +237,13 @@ class BrainCloudRelay {
     int myBit = 1 << myNetId;
     int myInvertedBits = ~myBit;
     int playerMask = toAllPlayers & myInvertedBits;
-    _commsLayer?.send(inData, playerMask, inReliable, inOrdered, inChannel);
+    _commsLayer.send(inData, playerMask, inReliable, inOrdered, inChannel);
   }
 
-  /// Set the ping interval.
+  /// Set the ping interval in Seconds
 
-  void setPingInterval(int inInterval) {
-    _commsLayer?.setPingInterval(inInterval);
+  void setPingInterval(int inIntervalSec) {
+    _commsLayer.setPingInterval(inIntervalSec);
   }
 }
 
@@ -261,4 +261,9 @@ class RelayConnectOptions {
     this.passcode,
     this.lobbyId,
   );
+
+  @override
+  String toString() {
+    return "RelayConnectOptions(ssl:$ssl, host:$host, port:$port, passcode:${passcode.isNotEmpty ? "**..**" : "<empty>"}, lobbyId:$lobbyId)";
+  }
 }
