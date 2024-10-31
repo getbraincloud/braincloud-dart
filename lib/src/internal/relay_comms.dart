@@ -1059,7 +1059,9 @@ class RelayComms {
       int messageLength = (_tcpReadBuffer[readIndex] << 8) | _tcpReadBuffer[readIndex + 1];
       
       if (_tcpBufferWriteIndex - readIndex >= messageLength) {
-        _queueSocketDataEvent(Uint8List.sublistView(_tcpReadBuffer, readIndex, readIndex + messageLength));
+        // We must create a new Uint8List here as sublistView refer to the _tcpReadBuffer and can cause issue if more than 1 msg is received.
+        Uint8List completeMsg = Uint8List.fromList(Uint8List.sublistView(_tcpReadBuffer, readIndex, readIndex + messageLength));
+        _queueSocketDataEvent(completeMsg);
         readIndex += messageLength;
       } else {
         break;
