@@ -329,7 +329,7 @@ class BrainCloudWrapper {
     _wrapperData = WrapperData();
     _client
         .resetCommunication(); // just to confirm this is being done on the client when the wrapper is reset.
-    _client.wrapper = BrainCloudWrapper();
+    // _client.wrapper = BrainCloudWrapper(); //  no need to do this here as _client gets replace below
     _client = BrainCloudClient(this);
     _client.wrapper = this;
 
@@ -1830,17 +1830,20 @@ class BrainCloudWrapper {
   /// Provides a way to reauthenticate with the stored anonymous and profile id.
   ///
   /// Only works for Anonymous authentications.
-  void reauthenticate() {
+  Future reauthenticate() async {
+    var wd =  _wrapperData;  // init will wipe this so save it first.
     init(
-        secretKey: _lastSecretKey,
         appId: _lastAppId,
         version: _lastAppVersion,
+        secretKey: _lastSecretKey,
         url: _lastUrl,
         updateTick: _updateTick);
+    _wrapperData = wd; // restore warpper Data.
     String authType = getStoredAuthenticationType() ?? "";
     if (authType == authenticationAnonymous) {
-      authenticateAnonymous();
+      return authenticateAnonymous();
     }
+    return Future.value();
   }
 
   /// Logs user out of server.

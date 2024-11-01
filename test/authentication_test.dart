@@ -1,3 +1,4 @@
+
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'utils/test_base.dart';
@@ -47,6 +48,12 @@ main() async {
             jsonEntityData: jsonEntityData,
             jsonEntityAcl: ACLs.readWrite);
       }
+
+      // exercise reauthenticate \
+      expect(bcTest.bcWrapper.brainCloudClient.isAuthenticated(), true, reason:"Should be authenticated");
+      await bcTest.bcWrapper.reauthenticate();
+      expect(bcTest.bcWrapper.brainCloudClient.isAuthenticated(), true, reason:"Should be reauthenticated");
+
     });
 
     test("reconnect", () async {
