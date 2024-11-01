@@ -10,7 +10,6 @@ class BrainCloudWebSocket {
     if (onOpen != null) {
       onOpen!();
     }
-
     _clientWebSocket.stream.listen((data) {
       if (onMessage != null) {
         onMessage!(data: data);
@@ -19,7 +18,11 @@ class BrainCloudWebSocket {
       if (onError != null) {
         onError!(message: error.toString());
       }
-    });
+    }, onDone: () {
+      if (onClose != null) {
+        onClose!(code: 0,reason: "Websocket closed.");
+      }
+    },);
   }
 
   //  void StartReceivingClientWebSocketAsync() async
