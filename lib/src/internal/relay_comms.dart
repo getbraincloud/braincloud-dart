@@ -252,7 +252,7 @@ class RelayComms {
     // Store inverted player mask
     int playerMask = 0;
     for (int i = 0, len = MAX_PLAYERS; i < len; ++i) {
-      playerMask |= ((playerMask >> (MAX_PLAYERS - i - 1)) & 1) << i;
+      playerMask |= ((inPlayerMask >> (MAX_PLAYERS - i - 1)) & 1) << i;
     }
     playerMask = (playerMask << 8) & 0x0000FFFFFFFFFF00;
 
@@ -269,20 +269,20 @@ class RelayComms {
     // Add packet id to the header, then encode
     rh |= packetId;
 
-    // int playerMask0 = ((playerMask >> 32) & 0xFFFF);
-    // int playerMask1 = ((playerMask >> 16) & 0xFFFF);
-    // int playerMask2 = ((playerMask) & 0xFFFF);
+    int playerMask0 = ((playerMask >> 32) & 0xFFFF);
+    int playerMask1 = ((playerMask >> 16) & 0xFFFF);
+    int playerMask2 = ((playerMask) & 0xFFFF);
 
     int header0, header1, header2, header3, header4, header5, header6, header7;
 
     header0 = (rh >> 8);
     header1 = (rh >> 0);
-    header2 = (rh >> 8);
-    header3 = (rh >> 0);
-    header4 = (rh >> 8);
-    header5 = (rh >> 0);
-    header6 = (rh >> 8);
-    header7 = (rh >> 0);
+    header2 = (playerMask0 >> 8) & 0xFF;
+    header3 = playerMask0 & 0xFF;
+    header4 = (playerMask1 >> 8) & 0xFF;
+    header5 = playerMask1 & 0xFF;
+    header6 = (playerMask2 >> 8) & 0xFF;
+    header7 = playerMask2 & 0xFF;
 
     Uint8List ackIdData = Uint8List.fromList([
       header0,
@@ -580,7 +580,7 @@ class RelayComms {
   }
 
   void _onRelay(Uint8List in_data) {
-    final dataView = ByteData.sublistView(in_data);
+    final ByteData dataView = ByteData.sublistView(in_data);
     int rh = dataView.getUint16(0);
     // int playerMask0 = dataView.getUint16(2);
     // int playerMask1 = dataView.getUint16(4);

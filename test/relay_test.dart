@@ -48,18 +48,19 @@ void main() {
           inOrdered: true,
           inChannel: BrainCloudRelay.channelHighPriority_1);
     }
+
     void onFailed(int status, int reasonCode, String jsonError) {
-      if (jsonError ==
-          "{\"status\":403,\"reason_code\":90300,\"status_message\":\"Invalid NetId: 40\",\"severity\":\"ERROR\"}") {
+      dynamic errorMap = json.decode(jsonError);
+      if (errorMap['status'] == 403 &&
+          errorMap['reason_code'] == 90300 &&
+          errorMap['status_message'] == "Invalid NetId: 40") {
         // This one was on purpose
         successCount++;
-        debugPrint("${DateTime.now()}:TST-> onFailed: ${"<".padLeft(successCount + 1, "✅")}");
-        if (successCount == 4) readyCompleter.complete();
-        return;
       } else {
-        debugPrint("${DateTime.now()}:TST-> onFailed for other reason: $jsonError");
+        debugPrint(
+            "${DateTime.now()}:TST-> onFailed for other reason: $jsonError");
       }
-      successCount = 0;
+      // We should only get an error on the last action of Invalid Net Id, so mark test as complete either way
       if (!readyCompleter.isCompleted) readyCompleter.complete();
     }
 
@@ -67,9 +68,8 @@ void main() {
       Map<String, dynamic> parsedDict = jsonDecode(json);
       if (parsedDict["op"] == "CONNECT") {
         successCount++;
-        debugPrint("${DateTime.now()}:TST-> systemCallback: ${"<".padLeft(successCount + 1, "✅")}");
-        // if (successCount >= 2) sendToWrongNetId();
-        if (successCount == 4) readyCompleter.complete();
+        debugPrint(
+            "${DateTime.now()}:TST-> systemCallback: ${"<".padLeft(successCount + 1, "✅")}");
       }
     }
 
@@ -86,17 +86,18 @@ void main() {
       } else if (message == testString2) {
         successCount++;
         if (successCount >= 2) sendToWrongNetId();
-        debugPrint("${DateTime.now()}:TST-> relayCallback: ${"<".padLeft(successCount + 1, "✅")}");
-        if (successCount == 4) readyCompleter.complete();
+        debugPrint(
+            "${DateTime.now()}:TST-> relayCallback: ${"<".padLeft(successCount + 1, "✅")}");
       }
+      if (successCount == 4) readyCompleter.complete();
     }
 
     void connectToRelay() async {
       if (connectOptions != null) {
         bcTest.bcWrapper.relayService.registerSystemCallback(systemCallback);
         bcTest.bcWrapper.relayService.registerRelayCallback(relayCallback);
-        bcTest.bcWrapper.relayService
-            .connect(connectionType, connectOptions!, onRelayConnected, onFailed);
+        bcTest.bcWrapper.relayService.connect(
+            connectionType, connectOptions!, onRelayConnected, onFailed);
       }
     }
 
@@ -168,13 +169,15 @@ void main() {
       bcTest.bcWrapper.brainCloudClient.enableLogging(true);
       bcTest.bcWrapper.rttService.registerRTTLobbyCallback(onLobbyEvent);
 
-      RTTCommandResponse response = await bcTest.bcWrapper.rttService.enableRTT();
+      RTTCommandResponse response =
+          await bcTest.bcWrapper.rttService.enableRTT();
       expect(response.data?['operation'], 'CONNECT');
       onRTTEnabled(response);
 
       // Put a time limit on this Future completer so we do not wait forever.
       await readyCompleter.future.timeout(Duration(seconds: 90), onTimeout: () {
-        debugPrint("${DateTime.now()}:TST-> Failing TCP Test due to 90 timeout");
+        debugPrint(
+            "${DateTime.now()}:TST-> Failing TCP Test due to 90 timeout");
         fail("Relay TCP test timed out");
       });
       debugPrint("${DateTime.now()}:TST-> TCP Test Completed");
@@ -195,14 +198,16 @@ void main() {
       readyCompleter = Completer();
       bcTest.bcWrapper.brainCloudClient.enableLogging(true);
       bcTest.bcWrapper.rttService.registerRTTLobbyCallback(onLobbyEvent);
-      
-      RTTCommandResponse response = await bcTest.bcWrapper.rttService.enableRTT();
+
+      RTTCommandResponse response =
+          await bcTest.bcWrapper.rttService.enableRTT();
       expect(response.data?['operation'], 'CONNECT');
       onRTTEnabled(response);
 
       // Put a time limit on this Future completer so we do not wait forever.
       await readyCompleter.future.timeout(Duration(seconds: 90), onTimeout: () {
-        debugPrint("${DateTime.now()}:TST-> Failing UDP Test due to 90 timeout");
+        debugPrint(
+            "${DateTime.now()}:TST-> Failing UDP Test due to 90 timeout");
         fail("Relay UDP test timed out");
       });
       debugPrint("${DateTime.now()}:TST-> UDP Test Completed");
@@ -222,13 +227,15 @@ void main() {
       if (readyCompleter.isCompleted) readyCompleter = Completer();
 
       bcTest.bcWrapper.rttService.registerRTTLobbyCallback(onLobbyEvent);
-      RTTCommandResponse response = await bcTest.bcWrapper.rttService.enableRTT();
+      RTTCommandResponse response =
+          await bcTest.bcWrapper.rttService.enableRTT();
       expect(response.data?['operation'], 'CONNECT');
       onRTTEnabled(response);
 
       // Put a time limit on this Future completer so we do not wait forever.
       await readyCompleter.future.timeout(Duration(seconds: 90), onTimeout: () {
-        debugPrint("${DateTime.now()}:TST-> Failing WebSocket Test due to 90 timeout");
+        debugPrint(
+            "${DateTime.now()}:TST-> Failing WebSocket Test due to 90 timeout");
         fail("Relay WebSocket test timed out");
       });
       debugPrint("${DateTime.now()}:TST-> Websocket Test Completed");
@@ -240,14 +247,17 @@ void main() {
       expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
 
       // Exercise some of the other api while we have it ready.
-      expect(bcTest.bcWrapper.relayService.getProfileIdForNetId(0), userA.profileId);
-      expect(bcTest.bcWrapper.relayService.getOwnerProfileId(), userA.profileId);
+      expect(bcTest.bcWrapper.relayService.getProfileIdForNetId(0),
+          userA.profileId);
+      expect(
+          bcTest.bcWrapper.relayService.getOwnerProfileId(), userA.profileId);
       expect(bcTest.bcWrapper.relayService.ownerProfileId, userA.profileId);
-      expect(bcTest.bcWrapper.relayService.getOwnerCxId(), bcTest.bcWrapper.relayService.ownerCxId);
-      expect(bcTest.bcWrapper.relayService.getCxIdForNetId(0), bcTest.bcWrapper.relayService.ownerCxId);
+      expect(bcTest.bcWrapper.relayService.getOwnerCxId(),
+          bcTest.bcWrapper.relayService.ownerCxId);
+      expect(bcTest.bcWrapper.relayService.getCxIdForNetId(0),
+          bcTest.bcWrapper.relayService.ownerCxId);
       expect(bcTest.bcWrapper.relayService.isConnected(), true);
       bcTest.bcWrapper.relayService.endMatch({});
-      
     }, timeout: Timeout.parse("90s"));
 
     tearDown(() {
