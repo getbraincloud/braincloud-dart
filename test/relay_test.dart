@@ -257,6 +257,14 @@ void main() {
       expect(bcTest.bcWrapper.relayService.getCxIdForNetId(0),
           bcTest.bcWrapper.relayService.ownerCxId);
       expect(bcTest.bcWrapper.relayService.isConnected(), true);
+      expect(bcTest.bcWrapper.relayService.getNetIdForCxId(bcTest.bcWrapper.relayService.ownerCxId),
+      0);
+
+      // only exercise code, no check as this is not echoed back.
+      bcTest.bcWrapper.relayService.sendToAll(inData: utf8.encode(testString2)); 
+
+      expect(connectOptions.toString(), startsWith("RelayConnectOptions"));
+
       bcTest.bcWrapper.relayService.endMatch({});
     }, timeout: Timeout.parse("90s"));
 

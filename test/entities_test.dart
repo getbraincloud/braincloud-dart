@@ -20,7 +20,7 @@ main() {
 
     Future testEntityFactory(String entityType) async {
       var jsonEntityData = {"team": "RedTeam", "quantity": 0};
-      var jsonEntityAcl = {"other": 0};
+      var jsonEntityAcl = ACLs.none;
       ServerResponse response = await bcTest.bcWrapper.entityService
           .createEntity(
               entityType: entityType,
@@ -63,7 +63,7 @@ main() {
       expect(bcTest.bcWrapper.isInitialized, true);
 
       var jsonEntityData = {"team": "RedTeam"};
-      var jsonEntityAcl = {"other": 0};
+      var jsonEntityAcl = ACLs.none;
 
       ServerResponse response = await bcTest.bcWrapper.entityService
           .createEntity(
@@ -116,7 +116,7 @@ main() {
         expect(body['version'], isA<int>());
         entityVersion = body['version'];
         expect(body['acl'], isMap);
-        expect(body['acl']['other'], 0);
+        expect(body['acl'], ACLs.none);
       }
     });
 
@@ -364,7 +364,7 @@ main() {
 
       // if (singletonEntityId.isEmpty) await testEntityFactory('${bcTest.entityType}Singleton');
       var jsonEntityData = {"team": "Moved"};
-      var jsonEntityAcl = {"other": 0};
+      var jsonEntityAcl = ACLs.none;
 
       ServerResponse response = await bcTest.bcWrapper.entityService
           .updateSingleton(
@@ -465,7 +465,7 @@ main() {
       if (entityId.isEmpty) await testEntityFactory(bcTest.entityType);
 
       var jsonEntityData = {"team": "main", "quantity": 2};
-      var jsonEntityAcl = {"other": 0};
+      var jsonEntityAcl = ACLs.none;
 
       ServerResponse response = await bcTest.bcWrapper.entityService
           .updateEntity(
@@ -523,7 +523,7 @@ main() {
 
     Future createGlobalTestEntity(String entityType) async {
       var jsonEntityData = {"team": "RedTeam", "games": 0};
-      var jsonEntityAcl = {"other": 0};
+      var jsonEntityAcl = ACLs.none;
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .createEntity(entityType, const Duration(hours: 12), jsonEntityAcl,
               jsonEntityData);
@@ -543,7 +543,7 @@ main() {
         "position": "left",
         "role": "guard"
       };
-      var jsonEntityAcl = {"other": 0};
+      var jsonEntityAcl = ACLs.none;
 
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .createEntity(entityType, const Duration(hours: 1), jsonEntityAcl,
@@ -795,7 +795,7 @@ main() {
       expect(bcTest.bcWrapper.isInitialized, true);
       if (entityId.isEmpty) await createGlobalTestEntity(entityType);
 
-      var jsonEntityAcl = {"other": 2};
+      var jsonEntityAcl = ACLs.readWrite;
 
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .updateEntityAcl(entityId, entityVersion, jsonEntityAcl);
@@ -874,7 +874,7 @@ main() {
       expect(bcTest.bcWrapper.isInitialized, true);
 
       var jsonEntityData = {"team": "RedTeam"};
-      var jsonEntityAcl = {"other": 0};
+      var jsonEntityAcl = ACLs.read;
 
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .createEntityWithIndexedId(entityType, entityIndexedId,
@@ -975,7 +975,7 @@ main() {
     Future createCustomTestEntity(String entityType,
         {bool owned = false}) async {
       var jsonEntityData = {"testId": "RedTeam", "team": "RedTeam", "games": 0};
-      var jsonEntityAcl = {"other": 2};
+      var jsonEntityAcl = ACLs.readWrite;
       ServerResponse response = await bcTest.bcWrapper.customEntityService
           .createEntity(entityType, jsonEntityData, jsonEntityAcl,
               const Duration(hours: 12), owned);
@@ -1347,7 +1347,7 @@ main() {
       await createCustomTestEntity(bcTest.ids.customOwnedEntityType,
           owned: true);
       var jsonEntityData = {"testId": "RedTeam", "team": "RedTeam", "games": 0};
-      var jsonEntityAcl = {"other": 0};
+      var jsonEntityAcl = ACLs.none;
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
           .updateSingleton(bcTest.ids.customOwnedEntityType, entityVersion,
