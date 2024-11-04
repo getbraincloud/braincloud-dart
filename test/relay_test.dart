@@ -203,13 +203,13 @@ void main() {
     ///
     setUpAll(bcTest.setupBC);
 
-    test("FullFlow UDP", () async {
-      await fullFlow(RelayConnectionType.udp);
-    }, timeout: Timeout.parse("90s"));
-
     test("FullFlow TCP", () async {
       await fullFlow(RelayConnectionType.tcp);
     }, timeout: Timeout.parse("120s"));
+
+    test("FullFlow UDP", () async {
+      await fullFlow(RelayConnectionType.udp);
+    }, timeout: Timeout.parse("90s"));
 
     test("FullFlow WebSocket", () async {
       // do not disconnect in the fullFlow as we want to test other cmds while the connection is still alive

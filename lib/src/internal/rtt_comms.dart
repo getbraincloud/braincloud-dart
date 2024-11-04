@@ -111,7 +111,6 @@ class RTTComms {
     try {
       for (int i = 0; i < _queuedRTTCommands.length; ++i) {
         toProcessResponse = _queuedRTTCommands[i];
-        debugPrint("RTTCommandResponse: $toProcessResponse");
         //the rtt websocket has closed and RTT needs to be re-enabled. disconnect is called to fully reset connection
         if (_webSocketStatus == WebsocketStatus.closed && toProcessResponse.operation != RTTCommandOperation.disconnect ) {
           _connectionFailureCallback!(RTTCommandResponse(
