@@ -397,7 +397,7 @@ class RelayComms {
         _udpClient != null &&
         nowMS.difference(_lastRecvTime).inSeconds > TIMEOUT_SECONDS) {
       _disconnect();
-      _queueErrorEvent("Relay Socket Timeout");
+      _queueErrorEvent("Relay Socket Timeout ${nowMS.difference(_lastRecvTime).inSeconds} sec since last packet.");
     }
 
     // Perform event callbacks

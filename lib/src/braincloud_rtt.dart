@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:braincloud_dart/src/internal/rtt_comms.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
@@ -6,7 +5,6 @@ import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
-import 'package:flutter/foundation.dart';
 
 class BrainCloudRTT {
   final BrainCloudClient? _clientRef;
@@ -24,21 +22,10 @@ class BrainCloudRTT {
   /// @param in_connectionType
   ///
   /// returns Future<RTTCommandResponse>
-  Future<RTTCommandResponse> enableRTT({RTTConnectionType? connectiontype}) {
-    Completer<RTTCommandResponse> completer = Completer();
-    _commsLayer?.enableRTT(connectiontype ?? RTTConnectionType.websocket,
-        (response) {
-      completer.complete(response);
-    }, (response) {
-      /// TODO: This need to be refactor as the error callback can be called 
-      /// at a later time after the success callback as already been called.
-      /// For this reason this cannot use a Future style return.
-      // if (completer.isCompleted) debugPrint("BrainCloudRTT: enableRTT already completed and need to return error $response");
-      // else 
-      completer.complete(response);
-    });
+  void enableRTT({RTTConnectionType? connectiontype,RTTSuccessCallback? successCallback, RTTFailureCallback? failureCallback}) {
+    
+    _commsLayer?.enableRTT(connectiontype ?? RTTConnectionType.websocket,successCallback,failureCallback);
 
-    return completer.future;
   }
 
   /// Disables Real Time event for this session.

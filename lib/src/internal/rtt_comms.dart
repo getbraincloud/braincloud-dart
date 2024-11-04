@@ -542,8 +542,8 @@ class RTTCommandResponse {
   }
 }
 
-typedef RTTSuccessCallback = Function(RTTCommandResponse reponse);
-typedef RTTFailureCallback = Function(RTTCommandResponse reponse);
+typedef RTTSuccessCallback = Function(RTTCommandResponse response);
+typedef RTTFailureCallback = Function(RTTCommandResponse response);
 
 enum WebsocketStatus { open, closed, message, error, none }
 

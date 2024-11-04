@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -122,11 +124,18 @@ void main() {
     });
 
     test("cancelFindRequest()", () async {
-      RTTCommandResponse response =
-          await bcTest.bcWrapper.rttService.enableRTT();
 
+      final Completer completer = Completer();
+      bcTest.bcWrapper.rttService.enableRTT( successCallback: (RTTCommandResponse response){
+        
       expect(response.data?['operation'], "CONNECT",
-          reason: "Expecting \"CONNECT\"");
+          reason: "Expecting \"CONNECT\"");        
+          completer.complete();
+      }, failureCallback: (response) {
+        fail("Enable RTT failed with error $response");
+      },);
+
+      await completer.future;
 
       ServerResponse lobbyResponse = await bcTest.bcWrapper.lobbyService
           .cancelFindRequest(roomType: "MATCH_UNRANKED");

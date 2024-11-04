@@ -166,14 +166,21 @@ void main() {
       bcTest.bcWrapper.brainCloudClient.enableLogging(true);
       bcTest.bcWrapper.rttService.registerRTTLobbyCallback(onLobbyEvent);
 
-      RTTCommandResponse response =
-          await bcTest.bcWrapper.rttService.enableRTT();
+      final Completer completer = Completer();      
+      bcTest.bcWrapper.rttService.enableRTT(successCallback: (response ) {
+        debugPrint(
+            "${DateTime.now()}:TST-> rttService.enableRTT returned $response");
+          expect(response.data?['operation'], 'CONNECT');
+          onRTTEnabled(response);
+          completer.complete();
+      }
+      ,failureCallback: (error) {
+        debugPrint(
+            "${DateTime.now()}:TST-> rttService.enableRTT returned ERROR $error");
+            fail("Got an error trying to Enable RTT");
+      });
 
-      debugPrint(
-          "${DateTime.now()}:TST-> rttService.enableRTT returned $response");
-
-      expect(response.data?['operation'], 'CONNECT');
-      onRTTEnabled(response);
+      await completer.future;
 
       // Put a time limit on this Future completer so we do not wait forever.
       await readyCompleter.future.timeout(Duration(seconds: 90), onTimeout: () {

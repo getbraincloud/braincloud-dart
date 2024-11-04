@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,15 +14,22 @@ main() {
     test("enableRTT", () async {
       bcTest.bcWrapper.rttService.disableRTT();
 
-      RTTCommandResponse? response = await bcTest.bcWrapper.rttService
-          .enableRTT(connectiontype: RTTConnectionType.websocket);
+      final Completer completer = Completer();
+      
+      bcTest.bcWrapper.rttService.enableRTT(connectiontype: RTTConnectionType.websocket, successCallback: (response) {
+        if (response.reasonCode == ReasonCodes.featureNotEnabled) {
+          markTestSkipped("Rtt not enable for this app.");
+        } else {
+          expect(response.data?['operation'], 'CONNECT');
+          expect(bcTest.bcWrapper.rttService.isRTTEnabled(),true);
+        }        
+        completer.complete();
+      },failureCallback: (response) {
+        fail("enableRTT failed with $response");
+      },);
 
-      if (response.reasonCode == ReasonCodes.featureNotEnabled) {
-        markTestSkipped("Rtt not enable for this app.");
-      } else {
-        expect(response.data?['operation'], 'CONNECT');
-        expect(bcTest.bcWrapper.rttService.isRTTEnabled(),true);
-      }
+      await completer.future;
+
 
     }, tags: "rTTService");
 
