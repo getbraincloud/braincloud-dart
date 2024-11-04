@@ -35,7 +35,6 @@ void main() {
           inChannel: BrainCloudRelay.channelHighPriority_1);
     }
 
-    // void onRelayConnected(String jsonResponse)
     void onRelayConnected(Map<String, dynamic> jsonResponse) {
       bcTest.bcWrapper.relayService.setPingInterval(2);
       String profileId = bcTest.bcWrapper.getStoredProfileId() ?? "";
@@ -154,128 +153,107 @@ void main() {
       }
     }
 
+    Future fullFlow(RelayConnectionType type,
+        {bool shouldDisconnect = true}) async {
+      // Use a future to wait for callbacks to complete.
+      readyCompleter = Completer();
+      successCount = 0;
+      connectionType = type; //
+
+      expect(bcTest.bcWrapper.rttService.isRTTEnabled(), false,
+          reason: "RTT should be disabled");
+
+      bcTest.bcWrapper.brainCloudClient.enableLogging(true);
+      bcTest.bcWrapper.rttService.registerRTTLobbyCallback(onLobbyEvent);
+
+      RTTCommandResponse response =
+          await bcTest.bcWrapper.rttService.enableRTT();
+
+      debugPrint(
+          "${DateTime.now()}:TST-> rttService.enableRTT returned $response");
+
+      expect(response.data?['operation'], 'CONNECT');
+      onRTTEnabled(response);
+
+      // Put a time limit on this Future completer so we do not wait forever.
+      await readyCompleter.future.timeout(Duration(seconds: 90), onTimeout: () {
+        debugPrint(
+            "${DateTime.now()}:TST-> Failing $type Test due to 90 timeout");
+        fail("Relay $type test timed out");
+      });
+
+      debugPrint("${DateTime.now()}:TST-> $type Test almost completed");
+
+      expect(successCount, 4);
+
+      if (bcTest.bcWrapper.relayService.getPing() >= 999)
+        await Future.delayed(Duration(seconds: 3));
+      expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
+
+      if (shouldDisconnect) {
+        bcTest.bcWrapper.relayService.endMatch({});
+        bcTest.bcWrapper.relayService.disconnect();
+        bcTest.bcWrapper.rttService.disableRTT();
+      }
+      debugPrint("${DateTime.now()}:TST-> $type Test completely done.");
+    }
+
     /// ========================================================================================================
     /// Tests
     ///
-    setUp(bcTest.setupBC);
-
-    test("FullFlow TCP", () async {
-      // Reset some values
-      // bcTest.bcWrapper.rttService.disableRTT();
-      successCount = 0;
-      connectionType = RelayConnectionType.tcp;
-      // Use a future to wait for callbacks to complete.
-      readyCompleter = Completer();
-      bcTest.bcWrapper.brainCloudClient.enableLogging(true);
-      bcTest.bcWrapper.rttService.registerRTTLobbyCallback(onLobbyEvent);
-
-      RTTCommandResponse response =
-          await bcTest.bcWrapper.rttService.enableRTT();
-      expect(response.data?['operation'], 'CONNECT');
-      onRTTEnabled(response);
-
-      // Put a time limit on this Future completer so we do not wait forever.
-      await readyCompleter.future.timeout(Duration(seconds: 90), onTimeout: () {
-        debugPrint(
-            "${DateTime.now()}:TST-> Failing TCP Test due to 90 timeout");
-        fail("Relay TCP test timed out");
-      });
-      debugPrint("${DateTime.now()}:TST-> TCP Test Completed");
-
-      expect(successCount, 4);
-
-      if (bcTest.bcWrapper.relayService.getPing() >= 999)
-        await Future.delayed(Duration(seconds: 3));
-      expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
-    }, timeout: Timeout.parse("120s"));
+    setUpAll(bcTest.setupBC);
 
     test("FullFlow UDP", () async {
-      // Reset some values
-      // bcTest.bcWrapper.rttService.disableRTT();
-      successCount = 0;
-      connectionType = RelayConnectionType.udp;
-      // Use a future to wait for callbacks to complete.
-      readyCompleter = Completer();
-      bcTest.bcWrapper.brainCloudClient.enableLogging(true);
-      bcTest.bcWrapper.rttService.registerRTTLobbyCallback(onLobbyEvent);
-
-      RTTCommandResponse response =
-          await bcTest.bcWrapper.rttService.enableRTT();
-      expect(response.data?['operation'], 'CONNECT');
-      onRTTEnabled(response);
-
-      // Put a time limit on this Future completer so we do not wait forever.
-      await readyCompleter.future.timeout(Duration(seconds: 90), onTimeout: () {
-        debugPrint(
-            "${DateTime.now()}:TST-> Failing UDP Test due to 90 timeout");
-        fail("Relay UDP test timed out");
-      });
-      debugPrint("${DateTime.now()}:TST-> UDP Test Completed");
-
-      expect(successCount, 4);
-
-      if (bcTest.bcWrapper.relayService.getPing() >= 999)
-        await Future.delayed(Duration(seconds: 3));
-      expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
+      await fullFlow(RelayConnectionType.udp);
     }, timeout: Timeout.parse("90s"));
 
+    test("FullFlow TCP", () async {
+      await fullFlow(RelayConnectionType.tcp);
+    }, timeout: Timeout.parse("120s"));
+
     test("FullFlow WebSocket", () async {
-      // Reset some values
-      // bcTest.bcWrapper.rttService.disableRTT();
-      successCount = 0;
-      connectionType = RelayConnectionType.websocket;
-      if (readyCompleter.isCompleted) readyCompleter = Completer();
-
-      bcTest.bcWrapper.rttService.registerRTTLobbyCallback(onLobbyEvent);
-      RTTCommandResponse response =
-          await bcTest.bcWrapper.rttService.enableRTT();
-      expect(response.data?['operation'], 'CONNECT');
-      onRTTEnabled(response);
-
-      // Put a time limit on this Future completer so we do not wait forever.
-      await readyCompleter.future.timeout(Duration(seconds: 90), onTimeout: () {
-        debugPrint(
-            "${DateTime.now()}:TST-> Failing WebSocket Test due to 90 timeout");
-        fail("Relay WebSocket test timed out");
-      });
-      debugPrint("${DateTime.now()}:TST-> Websocket Test Completed");
-
-      expect(successCount, 4);
-
-      if (bcTest.bcWrapper.relayService.getPing() >= 999)
-        await Future.delayed(Duration(seconds: 3));
-      expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
+      // do not disconnect in the fullFlow as we want to test other cmds while the connection is still alive
+      await fullFlow(RelayConnectionType.websocket, shouldDisconnect: false);
 
       // Exercise some of the other api while we have it ready.
       expect(bcTest.bcWrapper.relayService.getProfileIdForNetId(0),
-          userA.profileId);
-      expect(
-          bcTest.bcWrapper.relayService.getOwnerProfileId(), userA.profileId);
-      expect(bcTest.bcWrapper.relayService.ownerProfileId, userA.profileId);
+          userA.profileId,
+          reason: "Wrong owner profileId for netId 0");
+      expect(bcTest.bcWrapper.relayService.getOwnerProfileId(), userA.profileId,
+          reason: "Wrong owner profileId");
+      expect(bcTest.bcWrapper.relayService.ownerProfileId, userA.profileId,
+          reason: "Wrong owner profileId");
       expect(bcTest.bcWrapper.relayService.getOwnerCxId(),
-          bcTest.bcWrapper.relayService.ownerCxId);
+          bcTest.bcWrapper.relayService.ownerCxId,
+          reason: "Wrong ownerCXid");
       expect(bcTest.bcWrapper.relayService.getCxIdForNetId(0),
-          bcTest.bcWrapper.relayService.ownerCxId);
-      expect(bcTest.bcWrapper.relayService.isConnected(), true);
-      expect(bcTest.bcWrapper.relayService.getNetIdForCxId(bcTest.bcWrapper.relayService.ownerCxId),
-      0);
+          bcTest.bcWrapper.relayService.ownerCxId,
+          reason: "Wrong ownerCXid");
+      expect(bcTest.bcWrapper.relayService.isConnected(), true,
+          reason: "Relay should still be connected");
+      expect(
+          bcTest.bcWrapper.relayService
+              .getNetIdForCxId(bcTest.bcWrapper.relayService.ownerCxId),
+          0,
+          reason: "NetId should be 0");
 
       // only exercise code, no check as this is not echoed back.
-      bcTest.bcWrapper.relayService.sendToAll(inData: utf8.encode(testString2)); 
+      bcTest.bcWrapper.relayService.sendToAll(inData: utf8.encode(testString2));
 
       expect(connectOptions.toString(), startsWith("RelayConnectOptions"));
 
+      // since we did not let the FullFlow disconnect do it now.
       bcTest.bcWrapper.relayService.endMatch({});
+      bcTest.bcWrapper.relayService.disconnect();
+      bcTest.bcWrapper.rttService.disableRTT();
+
+      debugPrint("${DateTime.now()}:TST-> TCP Websocket completely done.");
     }, timeout: Timeout.parse("90s"));
 
-    tearDown(() {
-      // in case one test fails ensure it does not impact others
+    tearDownAll(() {
       bcTest.bcWrapper.relayService.disconnect();
       bcTest.bcWrapper.relayService.deregisterRelayCallback();
       bcTest.bcWrapper.relayService.deregisterSystemCallback();
-    });
-
-    tearDownAll(() {
       bcTest.bcWrapper.brainCloudClient.enableLogging(false);
     });
   });

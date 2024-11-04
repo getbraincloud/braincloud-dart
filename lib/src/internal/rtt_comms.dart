@@ -7,6 +7,7 @@ import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/reason_codes.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mutex/mutex.dart';
 
 class RTTComms {
@@ -53,7 +54,7 @@ class RTTComms {
     }
     addRTTCommandResponse(RTTCommandResponse(
         service: ServiceName.rttRegistration.value,
-        operation: "Disconnect",
+        operation: RTTCommandOperation.disconnect,
         data: {"message": "DisableRTT Called"}));
   }
 
@@ -104,37 +105,23 @@ class RTTComms {
 
   ///
 
-  void update() {
+  void update() async {
     RTTCommandResponse toProcessResponse;
-    _queuedRTTCommandsLock.acquire();
+    await _queuedRTTCommandsLock.acquire();
     try {
       for (int i = 0; i < _queuedRTTCommands.length; ++i) {
         toProcessResponse = _queuedRTTCommands[i];
-
+        debugPrint("RTTCommandResponse: $toProcessResponse");
         //the rtt websocket has closed and RTT needs to be re-enabled. disconnect is called to fully reset connection
-        if (_webSocketStatus == WebsocketStatus.closed) {
+        if (_webSocketStatus == WebsocketStatus.closed && toProcessResponse.operation != RTTCommandOperation.disconnect ) {
           _connectionFailureCallback!(RTTCommandResponse(
               service: ServiceName.rtt.value,
-              operation: "error",
+              operation: RTTCommandOperation.error,
               data: {
                 "error":
                     "RTT Connection has been closed. Re-Enable RTT to re-establish connection : ${toProcessResponse.data}"
               }));
 
-          _rttConnectionStatus = RTTConnectionStatus.disconnecting;
-          disconnect();
-          break;
-        }
-
-        //the rtt websocket has closed and RTT needs to be re-enabled. disconnect is called to fully reset connection
-        if (_webSocketStatus == WebsocketStatus.closed) {
-          _connectionFailureCallback!(RTTCommandResponse(
-              service: ServiceName.rtt.value,
-              operation: "error",
-              data: {
-                "error":
-                    "RTT Connection has been closed. Re-Enable RTT to re-establish connection : ${toProcessResponse.data}"
-              }));
           _rttConnectionStatus = RTTConnectionStatus.disconnecting;
           disconnect();
           break;
@@ -149,7 +136,7 @@ class RTTComms {
         // are we actually connected? only pump this back, when the server says we've connected
         else if (_rttConnectionStatus == RTTConnectionStatus.connecting &&
             _connectedSuccessCallback != null &&
-            toProcessResponse.operation == "connect") {
+            toProcessResponse.operation == RTTCommandOperation.connect) {
           _sinceLastHeartbeat = DateTime.now();
           _rttConnectionStatus = RTTConnectionStatus.connected;
           _connectedSuccessCallback!(toProcessResponse);
@@ -158,41 +145,41 @@ class RTTComms {
         //if we're connected and we get a disconnect - we disconnect the comms...
         else if (_rttConnectionStatus == RTTConnectionStatus.connected &&
             _connectionFailureCallback != null &&
-            toProcessResponse.operation == "disconnect") {
+            toProcessResponse.operation == RTTCommandOperation.disconnect) {
           _rttConnectionStatus = RTTConnectionStatus.disconnecting;
           disconnect();
         }
 
         //If there's an error, we send back the error
         else if (_connectionFailureCallback != null &&
-            toProcessResponse.operation == "error") {
+            toProcessResponse.operation == RTTCommandOperation.error) {
           if (toProcessResponse.data != null) {
             Map<String, dynamic> messageData = toProcessResponse.data ?? {};
             if (messageData.containsKey("status") &&
                 messageData.containsKey("reason_code")) {
               _connectionFailureCallback!(RTTCommandResponse(
                 service: ServiceName.rtt.value,
-                operation: "error",
+                operation: RTTCommandOperation.error,
                 data: messageData,
               ));
             } else {
               //in the rare case the message is differently structured.
               _connectionFailureCallback!(RTTCommandResponse(
                   service: ServiceName.rtt.value,
-                  operation: "error",
+                  operation: RTTCommandOperation.error,
                   data: messageData));
             }
           } else {
             _connectionFailureCallback!(RTTCommandResponse(
                 service: ServiceName.rtt.value,
-                operation: "error",
+                operation: RTTCommandOperation.error,
                 data: {"error": "Error - No Response from Server"}));
           }
         }
 
         //if we're not connected and we're trying to connect, then start the connection
         else if (_rttConnectionStatus == RTTConnectionStatus.disconnected &&
-            toProcessResponse.operation == "connect") {
+            toProcessResponse.operation == RTTCommandOperation.connect) {
           // first time connecting? send the server connection call
           _rttConnectionStatus = RTTConnectionStatus.connecting;
           _send(buildConnectionRequest());
@@ -242,7 +229,7 @@ class RTTComms {
       if (_connectionFailureCallback != null) {
         _connectionFailureCallback!(RTTCommandResponse(
             service: ServiceName.rttRegistration.value,
-            operation: "error",
+            operation: RTTCommandOperation.error,
             reasonCode: _disconnectJson["reason_code"],
             data: _disconnectJson["reason"]));
       }
@@ -308,7 +295,7 @@ class RTTComms {
       }
       addRTTCommandResponse(RTTCommandResponse(
           service: ServiceName.rttRegistration.value,
-          operation: "error",
+          operation: RTTCommandOperation.error,
           data: buildRTTRequestError(socketException.toString())));
     }
 
@@ -351,8 +338,8 @@ class RTTComms {
     _webSocketStatus = WebsocketStatus.closed;
     addRTTCommandResponse(RTTCommandResponse(
         service: ServiceName.rttRegistration.value,
-        operation: "disconnect",
-        data: jsonDecode(reason)));
+        operation: RTTCommandOperation.disconnect,
+        data: json.decode(reason)));
   }
 
   void webSocketOnOpen() {
@@ -361,7 +348,7 @@ class RTTComms {
     }
     _webSocketStatus = WebsocketStatus.open;
     addRTTCommandResponse(RTTCommandResponse(
-        service: ServiceName.rttRegistration.value, operation: "connect"));
+        service: ServiceName.rttRegistration.value, operation: RTTCommandOperation.connect));
   }
 
   void webSocketOnMessage({required Uint8List data}) {
@@ -380,7 +367,7 @@ class RTTComms {
     _webSocketStatus = WebsocketStatus.error;
     addRTTCommandResponse(RTTCommandResponse(
         service: ServiceName.rttRegistration.value,
-        operation: "error",
+        operation: RTTCommandOperation.error,
         data: buildRTTRequestError(message)));
   }
 
@@ -487,12 +474,12 @@ class RTTComms {
     }
     addRTTCommandResponse(RTTCommandResponse(
         service: ServiceName.rttRegistration.value,
-        operation: "error",
+        operation: RTTCommandOperation.error,
         data: jsonDecode(jsonError)));
   }
 
-  void addRTTCommandResponse(RTTCommandResponse inCommand) {
-    _queuedRTTCommandsLock.acquire();
+  void addRTTCommandResponse(RTTCommandResponse inCommand) async {
+    await _queuedRTTCommandsLock.acquire();
     try {
       _queuedRTTCommands.add(inCommand);
     } finally {
@@ -537,6 +524,7 @@ class RTTComms {
   RTTConnectionStatus _rttConnectionStatus = RTTConnectionStatus.disconnected;
 }
 
+
 class RTTCommandResponse {
   final String service;
   final String operation;
@@ -563,3 +551,9 @@ enum WebsocketStatus { open, closed, message, error, none }
 enum RTTConnectionStatus { connected, disconnected, connecting, disconnecting }
 
 enum RTTConnectionType { invalid, websocket, max }
+
+class RTTCommandOperation {
+  static final String connect = "connect";
+  static final String disconnect = "disconnect";
+  static final String error = "error";
+}

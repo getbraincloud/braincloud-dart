@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -20,7 +21,7 @@ class BrainCloudWebSocket {
       }
     }, onDone: () {
       if (onClose != null) {
-        onClose!(code: 0,reason: "Websocket closed.");
+        onClose!(code: 0,reason: json.encode({"message":"Websocket closed."}));
       }
     },);
   }
