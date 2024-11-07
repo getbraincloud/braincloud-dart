@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:core';
-import 'dart:typed_data';
 
 import 'package:braincloud_dart/src/internal/braincloud_websocket.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
@@ -112,16 +111,16 @@ class RTTComms {
       for (int i = 0; i < _queuedRTTCommands.length; ++i) {
         toProcessResponse = _queuedRTTCommands[i];
         //the rtt websocket has closed and RTT needs to be re-enabled. disconnect is called to fully reset connection
-        if (_webSocketStatus == WebsocketStatus.closed && toProcessResponse.operation != RTTCommandOperation.disconnect ) {
-          _connectionFailureCallback!(RTTCommandResponse(
+        // if (_webSocketStatus == WebsocketStatus.closed  && toProcessResponse.operation != RTTCommandOperation.disconnect ) {
+        if (_webSocketStatus == WebsocketStatus.closed) {
+          _rttConnectionStatus = RTTConnectionStatus.disconnecting;
+          if (_connectionFailureCallback != null) _connectionFailureCallback!(RTTCommandResponse(
               service: ServiceName.rtt.value,
               operation: RTTCommandOperation.error,
               data: {
                 "error":
                     "RTT Connection has been closed. Re-Enable RTT to re-establish connection : ${toProcessResponse.data}"
               }));
-
-          _rttConnectionStatus = RTTConnectionStatus.disconnecting;
           disconnect();
           break;
         }
@@ -133,12 +132,11 @@ class RTTComms {
         }
 
         // are we actually connected? only pump this back, when the server says we've connected
-        else if (_rttConnectionStatus == RTTConnectionStatus.connecting &&
-            _connectedSuccessCallback != null &&
+        else if (_rttConnectionStatus == RTTConnectionStatus.connecting &&            
             toProcessResponse.operation == RTTCommandOperation.connect) {
           _sinceLastHeartbeat = DateTime.now();
           _rttConnectionStatus = RTTConnectionStatus.connected;
-          _connectedSuccessCallback!(toProcessResponse);
+          if (_connectedSuccessCallback != null) _connectedSuccessCallback!(toProcessResponse);
         }
 
         //if we're connected and we get a disconnect - we disconnect the comms...
@@ -188,8 +186,10 @@ class RTTComms {
           }
         }
       }
-
+      // debugPrint(" ---------  _queuedRTTCommands.clear(); ---------------------");
       _queuedRTTCommands.clear();
+    } catch (e) {
+      debugPrint("****** Did get an error in RTTComm processing update $e");
     } finally {
       _queuedRTTCommandsLock.release();
     }
@@ -335,6 +335,9 @@ class RTTComms {
       _clientRef.log("RTT: Connection closed: $reason");
     }
     _webSocketStatus = WebsocketStatus.closed;
+    if (_rttConnectionStatus == RTTConnectionStatus.disconnected ||
+    _rttConnectionStatus == RTTConnectionStatus.disconnecting
+    ) return;
     addRTTCommandResponse(RTTCommandResponse(
         service: ServiceName.rttRegistration.value,
         operation: RTTCommandOperation.disconnect,
