@@ -76,28 +76,28 @@ class BrainCloudFile {
   ///
   /// @param uploadIdUpload ID of the file to cancel
   void cancelUpload(String uploadId) {
-    _clientRef.comms?.cancelUpload(uploadId);
+    _clientRef.comms.cancelUpload(uploadId);
   }
 
   /// Returns the progress of the given upload from 0.0 to 1.0 or -1 if upload not found.
   ///
   /// @param uploadIdThe id of the upload
   double? getUploadProgress(String uploadId) {
-    return _clientRef.comms?.getUploadProgress(uploadId);
+    return _clientRef.comms.getUploadProgress(uploadId);
   }
 
   /// Returns the number of bytes uploaded or -1 if upload not found.
   ///
   /// @param uploadIdThe id of the upload
   int? getUploadBytesTransferred(String uploadId) {
-    return _clientRef.comms?.getUploadBytesTransferred(uploadId);
+    return _clientRef.comms.getUploadBytesTransferred(uploadId);
   }
 
   /// Returns the total number of bytes that will be uploaded or -1 if upload not found.
 
   /// @param uploadIdThe id of the upload
   int? getUploadTotalBytesToTransfer(String uploadId) {
-    return _clientRef.comms?.getUploadTotalBytesToTransfer(uploadId);
+    return _clientRef.comms.getUploadTotalBytesToTransfer(uploadId);
   }
 
   /// List user files from the given cloud path

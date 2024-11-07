@@ -1011,9 +1011,8 @@ class BrainCloudAuthentication {
 
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.authenticate, data, callback);
-    if (_clientRef.comms != null &&
-        _clientRef.comms!.isAuthenticateRequestInProgress()) {
-      _clientRef.comms?.addCallbackToAuthenticateRequest(callback);
+    if (_clientRef.comms.isAuthenticateRequestInProgress()) {
+      _clientRef.comms.addCallbackToAuthenticateRequest(callback);
       return completer.future;
     }
     _clientRef.sendRequest(sc);

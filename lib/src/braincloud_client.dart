@@ -250,7 +250,9 @@ class BrainCloudClient {
   String get countryCode => _countryCode ?? Util.getCurrentCountryCode();
   set countryCode(value) => _countryCode = value;
 
-  BrainCloudComms? get comms => _comms;
+  BrainCloudComms get comms => _comms;
+  @visibleForTesting
+  RTTComms get rttComms => _rttComms;
 
   BrainCloudEntity get entityService => _entityService;
 

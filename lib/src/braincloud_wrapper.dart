@@ -1910,7 +1910,7 @@ class BrainCloudWrapper {
   }
 
   void restoreSession() {
-    _client.comms?.restoreProfileAndSessionIds(_wrapperData);
+    _client.comms.restoreProfileAndSessionIds(_wrapperData);
   }
 }
 
