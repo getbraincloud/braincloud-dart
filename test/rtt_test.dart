@@ -5,45 +5,77 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'utils/test_base.dart';
+import 'utils/ws_proxy.dart';
 
 main() {
   BCTest bcTest = BCTest();
   setUpAll(bcTest.setupBC);
 
+  // helper fucntions for Disconnection test below
+  String _getUrlQueryParameters(Map<String, dynamic> _rttHeaders) {
+    String sToReturn = "?";
+    int count = 0;
+    _rttHeaders.forEach((key, value) {
+      if (count > 0) sToReturn += "&";
+      sToReturn += "$key=$value";
+      ++count;
+    });
+
+    return sToReturn;
+  }
+
+  String _getConnectUrl(Map<String, dynamic> jsonResponse) {
+    Map<String, dynamic> jsonData = jsonResponse["data"];
+    List endpoints = jsonData["endpoints"];
+    Map<String, dynamic> _endpoint = endpoints.first;
+    String url =
+        "wss://${_endpoint["host"]}:${_endpoint["port"]}${_getUrlQueryParameters(jsonData["auth"])}";
+    return url;
+  }
+
   group("Test RTT", () {
+    String msgId = "";
+    String msgToSend = "Hello World!!";
+
     test("enableRTT", () async {
       bcTest.bcWrapper.rttService.disableRTT();
 
       final Completer completer = Completer();
-      
-      bcTest.bcWrapper.rttService.enableRTT(connectiontype: RTTConnectionType.websocket, successCallback: (response) {
-        if (response.reasonCode == ReasonCodes.featureNotEnabled) {
-          markTestSkipped("Rtt not enable for this app.");
-        } else {
-          expect(response.data?['operation'], 'CONNECT');
-          expect(bcTest.bcWrapper.rttService.isRTTEnabled(),true);
-        }        
-        completer.complete();
-      },failureCallback: (response) {
-        fail("enableRTT failed with $response");
-      },);
+
+      bcTest.bcWrapper.rttService.enableRTT(
+        connectiontype: RTTConnectionType.websocket,
+        successCallback: (response) {
+          if (response.reasonCode == ReasonCodes.featureNotEnabled) {
+            markTestSkipped("Rtt not enable for this app.");
+          } else {
+            expect(response.data?['operation'], 'CONNECT');
+            expect(bcTest.bcWrapper.rttService.isRTTEnabled(), true);
+          }
+          completer.complete();
+        },
+        failureCallback: (response) {
+          fail("enableRTT failed with $response");
+        },
+      );
 
       await completer.future;
-
-
     }, tags: "rTTService");
 
     String channelId = "";
 
     test("registerRTT_etc", () async {
-
-      bcTest.bcWrapper.rttService.registerRTTAsyncMatchCallback((jsonResponse) {});
-      bcTest.bcWrapper.rttService.registerRTTBlockchainItemEvent((jsonResponse) {});
-      bcTest.bcWrapper.rttService.registerRTTBlockchainRefresh((jsonResponse) {});
+      bcTest.bcWrapper.rttService
+          .registerRTTAsyncMatchCallback((jsonResponse) {});
+      bcTest.bcWrapper.rttService
+          .registerRTTBlockchainItemEvent((jsonResponse) {});
+      bcTest.bcWrapper.rttService
+          .registerRTTBlockchainRefresh((jsonResponse) {});
       bcTest.bcWrapper.rttService.registerRTTChatCallback((jsonResponse) {});
       bcTest.bcWrapper.rttService.registerRTTEventCallback((jsonResponse) {});
-      bcTest.bcWrapper.rttService.registerRTTMessagingCallback((jsonResponse) {});
-      bcTest.bcWrapper.rttService.registerRTTPresenceCallback((jsonResponse) {});
+      bcTest.bcWrapper.rttService
+          .registerRTTMessagingCallback((jsonResponse) {});
+      bcTest.bcWrapper.rttService
+          .registerRTTPresenceCallback((jsonResponse) {});
 
       bcTest.bcWrapper.rttService.deregisterRTTAsyncMatchCallback();
       bcTest.bcWrapper.rttService.deregisterRTTBlockchainItemEvent();
@@ -52,11 +84,10 @@ main() {
       bcTest.bcWrapper.rttService.deregisterRTTEventCallback();
       bcTest.bcWrapper.rttService.deregisterRTTMessagingCallback();
       bcTest.bcWrapper.rttService.deregisterRTTPresenceCallback();
-      
+
       bcTest.bcWrapper.rttService.setRTTHeartBeatSeconds(1);
 
       expect(bcTest.bcWrapper.rttService.getRTTConnectionID(), isA<String?>());
-    
     });
 
     test("getChannelId", () async {
@@ -84,8 +115,15 @@ main() {
     }, tags: "rTTService");
 
     test("channelConnect", () async {
+      if (channelId.isEmpty) {
+        ServerResponse? response = await bcTest.bcWrapper.chatService
+            .getChannelId(channeltype: "gl", channelsubid: "valid");
+        channelId = response.data?["channelId"];
+      }
       ServerResponse? response = await bcTest.bcWrapper.chatService
           .channelConnect(channelId: channelId, maxtoreturn: 50);
+
+      debugPrint("Channel Connect response $response");
 
       if (response.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");
@@ -114,11 +152,12 @@ main() {
       }
     }, tags: "rTTService");
 
-    String msgId = "";
-
-    String msgToSend = "Hello World!!";
-
     test("postChatMessageSimple", () async {
+      if (channelId.isEmpty) {
+        ServerResponse? response = await bcTest.bcWrapper.chatService
+            .getChannelId(channeltype: "gl", channelsubid: "valid");
+        channelId = response.data?["channelId"];
+      }
       ServerResponse response = await bcTest.bcWrapper.chatService
           .postChatMessageSimple(channelId: channelId, plain: msgToSend);
 
@@ -143,6 +182,94 @@ main() {
         expect(txt, msgToSend);
       }
     }, tags: "rTTService");
+
+    test("RTT websocket disconnect", () async {
+      Map<String, dynamic> localConnectionInfo = {
+        'status': 200,
+        'data': {
+          'auth': {'X-APPID': 20001, 'X-RTT-SECRET': 'mysecret1'},
+          'endpoints': [
+            {
+              "protocol": "ws",
+              "port": 8080,
+              "host": "localhost",
+              "ssl": false,
+              "ca": "GoDaddy"
+            }
+          ]
+        }
+      };
+
+      Completer<Map<String, dynamic>> conncetionCompleted = Completer();
+      Completer<bool> rttConnected = Completer();
+      Completer<bool> testCompleted = Completer();
+
+      debugPrint("[1] Starting test for websocket disconnect");
+
+      if (bcTest.bcWrapper.rttService.isRTTEnabled()) {
+        bcTest.bcWrapper.rttService.disableRTT();
+      }
+      void onRttSuccess(RTTCommandResponse data) {
+        debugPrint("RTT Did get callback on success for RTT $data");
+        rttConnected.complete(data.operation == "connect");
+      }
+
+      ;
+      void onRttFailure(RTTCommandResponse data) {
+        debugPrint("Did get callback on failure for RTT ${data.data}");
+        String msg = (data.data?['error'] ?? "") as String;
+        testCompleted.complete(msg.contains("Websocket closed."));
+      }
+
+      ;
+
+      // Get the client connection data from RTT
+      bcTest.bcWrapper.rttService.requestClientConnection(
+          conncetionCompleted.complete,
+          (statusCode, reasonCode, statusMessage) {});
+      final connectionDetails = await conncetionCompleted.future;
+
+      debugPrint("[2] Got a client connection response $connectionDetails");
+
+      // Create the Proxy server
+      String remoteUrl = _getConnectUrl(connectionDetails);
+      final proxyWSServer = WebSocketProxy(remoteUrl);
+
+      // Start proxy server
+      proxyWSServer.startProxy();
+      debugPrint(
+          "[3] Got the proxyingWebSocket ready to interfere with it now.");
+
+      // Register success and error callback manually as "enableRTT" is bypass here.
+      bcTest.bcWrapper.brainCloudClient.rttComms.connectedSuccessCallback =
+          onRttSuccess;
+      bcTest.bcWrapper.brainCloudClient.rttComms.connectionFailureCallback =
+          onRttFailure;
+      bcTest.bcWrapper.brainCloudClient.rttComms.currentConnectionType =
+          RTTConnectionType.websocket;
+
+      bcTest.bcWrapper.brainCloudClient.rttComms
+          .rttConnectionServerSuccess(localConnectionInfo);
+      debugPrint(
+          "[4] rttConnectionServerSuccess called with ${localConnectionInfo}");
+
+      // Now wait for RTT to confirm connection.
+      bool connectResult = await rttConnected.future;
+
+      expect(connectResult, true, reason: "Did not get connected to RTT");
+
+      debugPrint(
+          "[5] TST did receive the proxyWS that can be close for testing purposes.");
+
+      await Future.delayed(Duration(seconds: 2));
+
+      // Tell the proxy to drop the connection. this will be viewed as the connection drop from the remote end.
+      proxyWSServer.simulateConnectionDrop();
+
+      bool result = await testCompleted.future;
+
+      expect(result, true, reason: "Did not detect the webslocket closing.");
+    });
 
     /// END TEST
     tearDownAll(() {

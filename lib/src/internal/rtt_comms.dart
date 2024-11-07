@@ -515,6 +515,14 @@ class RTTComms {
   RTTFailureCallback? _connectionFailureCallback;
   //dynamic _connectedObj;
 
+  // For testing only
+  @visibleForTesting
+  set connectedSuccessCallback(value) => _connectedSuccessCallback = value;
+  @visibleForTesting
+  set connectionFailureCallback(value) => _connectionFailureCallback = value;
+  @visibleForTesting
+  set  currentConnectionType(value) =>  _currentConnectionType = value; 
+
   Map<String, dynamic> _rttHeaders = {};
   final Map<String, RTTCallback> _registeredCallbacks = {};
   final List<RTTCommandResponse> _queuedRTTCommands = [];

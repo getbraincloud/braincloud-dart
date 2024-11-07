@@ -75,8 +75,10 @@ void main() {
     void relayCallback(int netId, Uint8List data) {
       String message = utf8.decode(data);
       debugPrint("${DateTime.now()}:TST-> relayCallback:($netId)   $message");
+      String profileId = bcTest.bcWrapper.getStoredProfileId() ?? "";
+      currentNetId = bcTest.bcWrapper.relayService.getNetIdForProfileId(profileId);
 
-      if (message == testString) {
+      if (message == testString && netId == currentNetId) {
         successCount++;
         bcTest.bcWrapper.relayService.sendToPlayers(
             inPlayerMask: BrainCloudRelay.toAllPlayers,
@@ -152,7 +154,7 @@ void main() {
           break;
       }
     }
-
+    
     Future fullFlow(RelayConnectionType type,
         {bool shouldDisconnect = true}) async {
       // Use a future to wait for callbacks to complete.
@@ -176,8 +178,8 @@ void main() {
       }
       ,failureCallback: (error) {
         debugPrint(
-            "${DateTime.now()}:TST-> rttService.enableRTT returned ERROR $error");
-            fail("Got an error trying to Enable RTT");
+            "${DateTime.now()}:TST-> rttService.enableRTT for $type returned ERROR $error");
+            fail("Got an error trying to Enable  $type RTT");
       });
 
       await completer.future;
