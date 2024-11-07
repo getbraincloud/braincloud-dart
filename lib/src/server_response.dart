@@ -29,7 +29,7 @@ class ServerResponse {
 
   @override
   String toString() {
-    return 'Status: $statusCode Reason: $reasonCode Message: $statusMessage hasData: ${(data?.isNotEmpty ?? false) ? 'Yes' : 'No'}';
+    return 'ServerResponse(statusCode: $statusCode, reasonCode: $reasonCode, statusMessage: $statusMessage, data: ${(data?.isNotEmpty ?? false) ? '<Has Data>' : '<Data is empty>'})';
   }
 
   bool isSuccess() => statusCode == StatusCodes.ok;
