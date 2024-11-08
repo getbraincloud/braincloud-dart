@@ -920,6 +920,9 @@ class RelayComms {
         default:
           break;
       }
+      if (_clientRef.loggingEnabled) {
+        _clientRef.log("RELAY SEND:  ${newData.length}  bytes, msg: $newData}");
+      }
     } catch (socketException) {
       if (_clientRef.loggingEnabled) {
         _clientRef.log("send exception: $socketException");
