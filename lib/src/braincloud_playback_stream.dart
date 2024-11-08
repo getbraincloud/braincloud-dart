@@ -199,7 +199,7 @@ class BrainCloudPlaybackStream {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getRecentStreamsForInitiatingPlayer(
-      {required String initiatingPlayerId, required int maxNumStreams}) {
+      {String? initiatingPlayerId, required int maxNumStreams}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.playbackStreamServiceInitiatingPlayerId.value] =
@@ -235,7 +235,7 @@ class BrainCloudPlaybackStream {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getRecentStreamsForTargetPlayer(
-      {required String targetPlayerId, required int maxNumStreams}) {
+      {String? targetPlayerId, required int maxNumStreams}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.playbackStreamServiceTargetPlayerId.value] =
@@ -252,7 +252,7 @@ class BrainCloudPlaybackStream {
               statusMessage: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.playbackStream,
-        ServiceOperation.getAttributes, data, callback);
+        ServiceOperation.getRecentStreamsForTargetPlayer, data, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;
