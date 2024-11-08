@@ -24,6 +24,11 @@ void main() {
     /// ========================================================================================================
     /// Helper functions for Tests
     ///
+    void disconnectRelay() async {
+        bcTest.bcWrapper.relayService.endMatch({});
+        bcTest.bcWrapper.relayService.disconnect();
+        bcTest.bcWrapper.rttService.disableRTT();
+    }
 
     void sendToWrongNetId() {
       int myNetId = BrainCloudRelay
@@ -48,7 +53,7 @@ void main() {
           inChannel: BrainCloudRelay.channelHighPriority_1);
     }
 
-    void onFailed(int status, int reasonCode, String jsonError) {
+    void onFailed(int status, int reasonCode, String jsonError) async {
       dynamic errorMap = json.decode(jsonError);
       if (errorMap['status'] == 403 &&
           errorMap['reason_code'] == 90300 &&
@@ -58,17 +63,23 @@ void main() {
       } else {
         debugPrint(
             "${DateTime.now()}:TST-> onFailed for other reason: $jsonError");
+          disconnectRelay();
+          await Future.delayed(Duration(seconds: 2)); // let the connection be fully closed
       }
       // We should only get an error on the last action of Invalid Net Id, so mark test as complete either way
       if (!readyCompleter.isCompleted) readyCompleter.complete();
     }
 
-    void systemCallback(String json) {
+    void systemCallback(String json) async {
       Map<String, dynamic> parsedDict = jsonDecode(json);
       if (parsedDict["op"] == "CONNECT") {
         successCount++;
         debugPrint(
             "${DateTime.now()}:TST-> systemCallback: ${"<".padLeft(successCount + 1, "✅")}");
+      } else {
+        debugPrint(">>>> Received an un-expected message $json");
+        disconnectRelay();
+        await Future.delayed(Duration(seconds: 2)); // let the connection be fully closed
       }
     }
 
@@ -154,7 +165,7 @@ void main() {
           break;
       }
     }
-    
+
     Future fullFlow(RelayConnectionType type,
         {bool shouldDisconnect = true}) async {
       // Use a future to wait for callbacks to complete.
@@ -190,19 +201,20 @@ void main() {
             "${DateTime.now()}:TST-> Failing $type Test due to 90 timeout");
         fail("Relay $type test timed out");
       });
-
+      
       debugPrint("${DateTime.now()}:TST-> $type Test almost completed");
-
+      
       expect(successCount, 4);
 
       if (bcTest.bcWrapper.relayService.getPing() >= 999)
         await Future.delayed(Duration(seconds: 3));
       expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
 
-      if (shouldDisconnect) {
-        bcTest.bcWrapper.relayService.endMatch({});
-        bcTest.bcWrapper.relayService.disconnect();
-        bcTest.bcWrapper.rttService.disableRTT();
+      if (shouldDisconnect) { 
+        disconnectRelay();
+        // bcTest.bcWrapper.relayService.endMatch({});
+        // bcTest.bcWrapper.relayService.disconnect();
+        // bcTest.bcWrapper.rttService.disableRTT();
       }
       debugPrint("${DateTime.now()}:TST-> $type Test completely done.");
     }
