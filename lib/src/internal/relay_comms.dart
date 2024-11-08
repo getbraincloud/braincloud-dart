@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:braincloud_dart/src/internal/relay_helpers.dart'
+  if (dart.library.html) 'package:braincloud_dart/src/internal/relay_helpers_web.dart';
 import 'package:flutter/foundation.dart';
 import 'package:braincloud_dart/src/internal/braincloud_websocket.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -136,6 +138,8 @@ class RelayComms {
       RelayConnectOptions inOptions,
       SuccessCallback? inSuccess,
       FailureCallback? inFailure) async {
+
+    if (kIsWeb) throw ("Relay service not currently supported on Web deployment.");
     if (_isConnected) {
       switch (_connectionType) {
         case RelayConnectionType.tcp:
@@ -580,6 +584,7 @@ class RelayComms {
   }
 
   void _onRelay(Uint8List in_data) {
+
     final ByteData dataView = ByteData.sublistView(in_data);
     int rh = dataView.getUint16(0);
     // int playerMask0 = dataView.getUint16(2);
@@ -587,7 +592,10 @@ class RelayComms {
     int playerMask2 = dataView.getUint16(6);
     int ackId = dataView.getUint64(0);
 
-    int ackIdWithoutPacketId = (ackId & 0xF000FFFFFFFFFFFF).toUnsigned(64);
+    // To allow Web builds this has been extracted to a function that is different when build for Web
+    // At this time the Relay is not supported on Web and will not allow connecting. 
+    // int ackIdWithoutPacketId = (ackId &  0xF000FFFFFFFFFFFF).toUnsigned(64);
+    int ackIdWithoutPacketId = getAckIdWithoutPacketId(ackId);
     bool reliable = ((rh & RELIABLE_BIT) != 0) ? true : false;
     bool ordered = ((rh & ORDERED_BIT) != 0) ? true : false;
     int channel = (rh >> 12) & 0x3;
