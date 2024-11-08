@@ -384,14 +384,14 @@ class BrainCloudPushNotification {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> sendRawPushNotification(
-      {required String toProfileId,
+      {required String profileId,
       Map<String, dynamic>? fcmContent,
       Map<String, dynamic>? iosContent,
       Map<String, dynamic>? facebookContent}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.pushNotificationSendParamToPlayerId.value] =
-        toProfileId;
+        profileId;
 
     if (fcmContent != null) {
       data[OperationParam.pushNotificationSendParamFcmContent.value] =
