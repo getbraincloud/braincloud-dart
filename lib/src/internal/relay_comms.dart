@@ -5,7 +5,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:braincloud_dart/src/internal/relay_helpers.dart'
-  if (dart.library.html) 'package:braincloud_dart/src/internal/relay_helpers_web.dart';
+    if (dart.library.html) 'package:braincloud_dart/src/internal/relay_helpers_web.dart';
 import 'package:flutter/foundation.dart';
 import 'package:braincloud_dart/src/internal/braincloud_websocket.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
@@ -102,7 +102,7 @@ class RelayComms {
   Map<int, List<_UDPPacket>> _orderedReliablePackets = {};
   Map<int, List<_UDPPacket>> get orderedReliablePackets =>
       _orderedReliablePackets;
-  Map<int,Map<int, int>> _trackedPacketIds = {};
+  Map<int, Map<int, int>> _trackedPacketIds = {};
   // end
 
   bool _resendConnectRequest = false;
@@ -437,7 +437,7 @@ class RelayComms {
             }
           case _EventType.connectSuccess:
             if (_connectedSuccessCallback != null) {
-               var callback =  _connectedSuccessCallback; // prevent multiple call back
+              var callback = _connectedSuccessCallback; // prevent multiple call back
               _connectedSuccessCallback = null; // prevent multiple call back
               callback!({"message": evt.message});
             }
@@ -593,7 +593,7 @@ class RelayComms {
     int ackId = dataView.getUint64(0);
 
     // To allow Web builds this has been extracted to a function that is different when build for Web
-    // At this time the Relay is not supported on Web and will not allow connecting. 
+    // At this time the Relay is not supported on Web and will not allow connecting.
     // int ackIdWithoutPacketId = (ackId &  0xF000FFFFFFFFFFFF).toUnsigned(64);
     int ackIdWithoutPacketId = getAckIdWithoutPacketId(ackId);
     bool reliable = ((rh & RELIABLE_BIT) != 0) ? true : false;
@@ -616,18 +616,18 @@ class RelayComms {
           prevPacketId = _recvPacketId[ackIdWithoutPacketId] ?? _MAX_PACKET_ID;
         }
 
-          //look for a tracked packetId in channel for netId
-          if (_trackedPacketIds.isNotEmpty &&
-              _trackedPacketIds.containsKey(channel) &&
+        //look for a tracked packetId in channel for netId
+        if (_trackedPacketIds.isNotEmpty &&
+            _trackedPacketIds.containsKey(channel) &&
               _trackedPacketIds[channel]!.containsKey(netId))
           {
-              prevPacketId = _trackedPacketIds[channel]![netId]!;
-              _trackedPacketIds[channel]!.remove(netId);
+          prevPacketId = _trackedPacketIds[channel]![netId]!;
+          _trackedPacketIds[channel]!.remove(netId);
               if (_clientRef.loggingEnabled)
               {
                   _clientRef.log("Found tracked packetId for channel: ${channel} netId: ${netId} which was ${prevPacketId}");
-              }
           }
+        }
 
 
         if (reliable) {
@@ -773,22 +773,22 @@ class RelayComms {
           int netId = parsedDict["netId"];
           String cxId = parsedDict["cxId"];
 
-          List<int>? packetIdArray =  parsedDict["orderedPacketIds"];
+          List<int>? packetIdArray = parsedDict["orderedPacketIds"];
           if (packetIdArray != null)
           {
               for (int channelID = 0; channelID < packetIdArray.length; channelID++)
               {
-                  int packetID = packetIdArray[channelID];
+              int packetID = packetIdArray[channelID];
                   if (packetID != 0)
                   {
-                      _trackedPacketIds[channelID]?[netId] = packetID;
+                _trackedPacketIds[channelID]?[netId] = packetID;
                       if (_clientRef.loggingEnabled)
                       {
                           _clientRef.log("Added tracked packetId ${packetID} for netID ${netId} at channel ${channelID}");
-                      }
-                  }
-              }    
-          }            
+                }
+              }
+            }
+          }
 
           _cxIdToNetId[cxId] = netId;
           _netIdToCxId[netId] = cxId;
@@ -1052,7 +1052,7 @@ class RelayComms {
     }
   }
 
- void _onTcpRead(Uint8List data) {
+  void _onTcpRead(Uint8List data) {
     // Expand buffer if needed
     if (_tcpBufferWriteIndex + data.length > _tcpReadBuffer.length) {
       final newSize = (_tcpBufferWriteIndex + data.length) * 2;
@@ -1068,7 +1068,7 @@ class RelayComms {
     int readIndex = 0;
     while (_tcpBufferWriteIndex - readIndex >= 3) {
       int messageLength = (_tcpReadBuffer[readIndex] << 8) | _tcpReadBuffer[readIndex + 1];
-      
+
       if (_tcpBufferWriteIndex - readIndex >= messageLength) {
         // We must create a new Uint8List here as sublistView refer to the _tcpReadBuffer and can cause issue if more than 1 msg is received.
         Uint8List completeMsg = Uint8List.fromList(Uint8List.sublistView(_tcpReadBuffer, readIndex, readIndex + messageLength));
@@ -1164,8 +1164,9 @@ class RelayComms {
 
   void _sendAck(Uint8List in_data) {
     Uint8List header = Uint8List.fromList([CL2RS_ACK]);
-    _send(_concatenateByteArrays(
-        header, in_data.sublist(0, SIZE_OF_ACKID_MESSAGE)));
+    final SIZE_HEADER = 3; // 2 bytes fos size + 1 byte cmd.
+    _send(_concatenateByteArrays(      
+        header, in_data.sublist(0, SIZE_OF_ACKID_MESSAGE - SIZE_HEADER)));
   }
 
   void _sendRSMGAck(int rsmgPacketId) {
