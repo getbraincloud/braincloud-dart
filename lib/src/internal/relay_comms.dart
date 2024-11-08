@@ -73,7 +73,8 @@ class RelayComms {
 
   // List<int> _tcpReadBuffer = [];
   // Uint8List get tcpReadBuffer => Uint8List.fromList(_tcpReadBuffer);
-  Uint8List get tcpReadBuffer => Uint8List.sublistView(_tcpReadBuffer,0,_tcpBufferWriteIndex);
+  Uint8List get tcpReadBuffer =>
+      Uint8List.sublistView(_tcpReadBuffer, 0, _tcpBufferWriteIndex);
 
   // ASync TCP Reads
   int _tcpBytesRead = 0; // the ones already processed
@@ -138,8 +139,8 @@ class RelayComms {
       RelayConnectOptions inOptions,
       SuccessCallback? inSuccess,
       FailureCallback? inFailure) async {
-
-    if (kIsWeb) throw ("Relay service not currently supported on Web deployment.");
+    if (kIsWeb)
+      throw ("Relay service not currently supported on Web deployment.");
     if (_isConnected) {
       switch (_connectionType) {
         case RelayConnectionType.tcp:
@@ -401,7 +402,8 @@ class RelayComms {
         _udpClient != null &&
         nowMS.difference(_lastRecvTime).inSeconds > TIMEOUT_SECONDS) {
       _disconnect();
-      _queueErrorEvent("Relay Socket Timeout ${nowMS.difference(_lastRecvTime).inSeconds} sec since last packet.");
+      _queueErrorEvent(
+          "Relay Socket Timeout ${nowMS.difference(_lastRecvTime).inSeconds} sec since last packet.");
     }
 
     // Perform event callbacks
@@ -562,8 +564,8 @@ class RelayComms {
         return;
       }
       if (_clientRef.loggingEnabled) {
-        _clientRef.log(
-            "RELAY RECV:  ${in_packet.length}  bytes, msg: $in_packet}");
+        _clientRef
+            .log("RELAY RECV:  ${in_packet.length}  bytes, msg: $in_packet}");
       }
       _onRelay(in_packet.sublist(3));
     } else {
@@ -584,7 +586,6 @@ class RelayComms {
   }
 
   void _onRelay(Uint8List in_data) {
-
     final ByteData dataView = ByteData.sublistView(in_data);
     int rh = dataView.getUint16(0);
     // int playerMask0 = dataView.getUint16(2);
@@ -619,23 +620,22 @@ class RelayComms {
         //look for a tracked packetId in channel for netId
         if (_trackedPacketIds.isNotEmpty &&
             _trackedPacketIds.containsKey(channel) &&
-              _trackedPacketIds[channel]!.containsKey(netId))
-          {
+            _trackedPacketIds[channel]!.containsKey(netId)) {
           prevPacketId = _trackedPacketIds[channel]![netId]!;
           _trackedPacketIds[channel]!.remove(netId);
-              if (_clientRef.loggingEnabled)
-              {
-                  _clientRef.log("Found tracked packetId for channel: ${channel} netId: ${netId} which was ${prevPacketId}");
+          if (_clientRef.loggingEnabled) {
+            _clientRef.log(
+                "Found tracked packetId for channel: ${channel} netId: ${netId} which was ${prevPacketId}");
           }
         }
-
 
         if (reliable) {
           if (_packetLE(packetId, prevPacketId)) {
             // We already received that packet if it's lower than the last confirmed
             // packetId. This must be a duplicate
             if (_clientRef.loggingEnabled) {
-              _clientRef.log("Duplicated packet from $netId. got $packetId, ignoring it.");
+              _clientRef.log(
+                  "Duplicated packet from $netId. got $packetId, ignoring it.");
             }
             return;
           }
@@ -774,17 +774,16 @@ class RelayComms {
           String cxId = parsedDict["cxId"];
 
           List<int>? packetIdArray = parsedDict["orderedPacketIds"];
-          if (packetIdArray != null)
-          {
-              for (int channelID = 0; channelID < packetIdArray.length; channelID++)
-              {
+          if (packetIdArray != null) {
+            for (int channelID = 0;
+                channelID < packetIdArray.length;
+                channelID++) {
               int packetID = packetIdArray[channelID];
-                  if (packetID != 0)
-                  {
+              if (packetID != 0) {
                 _trackedPacketIds[channelID]?[netId] = packetID;
-                      if (_clientRef.loggingEnabled)
-                      {
-                          _clientRef.log("Added tracked packetId ${packetID} for netID ${netId} at channel ${channelID}");
+                if (_clientRef.loggingEnabled) {
+                  _clientRef.log(
+                      "Added tracked packetId ${packetID} for netID ${netId} at channel ${channelID}");
                 }
               }
             }
@@ -1056,22 +1055,26 @@ class RelayComms {
     // Expand buffer if needed
     if (_tcpBufferWriteIndex + data.length > _tcpReadBuffer.length) {
       final newSize = (_tcpBufferWriteIndex + data.length) * 2;
-      final newBuffer = Uint8List(newSize)..setRange(0, _tcpBufferWriteIndex, _tcpReadBuffer);
+      final newBuffer = Uint8List(newSize)
+        ..setRange(0, _tcpBufferWriteIndex, _tcpReadBuffer);
       _tcpReadBuffer = newBuffer;
     }
 
     // Add new data to the buffer
-    _tcpReadBuffer.setRange(_tcpBufferWriteIndex, _tcpBufferWriteIndex + data.length, data);
+    _tcpReadBuffer.setRange(
+        _tcpBufferWriteIndex, _tcpBufferWriteIndex + data.length, data);
     _tcpBufferWriteIndex += data.length;
 
     // Process messages
     int readIndex = 0;
     while (_tcpBufferWriteIndex - readIndex >= 3) {
-      int messageLength = (_tcpReadBuffer[readIndex] << 8) | _tcpReadBuffer[readIndex + 1];
+      int messageLength =
+          (_tcpReadBuffer[readIndex] << 8) | _tcpReadBuffer[readIndex + 1];
 
       if (_tcpBufferWriteIndex - readIndex >= messageLength) {
         // We must create a new Uint8List here as sublistView refer to the _tcpReadBuffer and can cause issue if more than 1 msg is received.
-        Uint8List completeMsg = Uint8List.fromList(Uint8List.sublistView(_tcpReadBuffer, readIndex, readIndex + messageLength));
+        Uint8List completeMsg = Uint8List.fromList(Uint8List.sublistView(
+            _tcpReadBuffer, readIndex, readIndex + messageLength));
         _queueSocketDataEvent(completeMsg);
         readIndex += messageLength;
       } else {
@@ -1081,10 +1084,12 @@ class RelayComms {
 
     // Shift unprocessed data to the start of the buffer
     if (readIndex > 0) {
-      _tcpReadBuffer.setRange(0, _tcpBufferWriteIndex - readIndex, _tcpReadBuffer, readIndex);
+      _tcpReadBuffer.setRange(
+          0, _tcpBufferWriteIndex - readIndex, _tcpReadBuffer, readIndex);
       _tcpBufferWriteIndex -= readIndex;
     }
   }
+
   void _onTcpError(Object error) {
     _queueErrorEvent("Tcp error ${error.toString()}");
   }
