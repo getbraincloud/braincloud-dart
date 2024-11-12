@@ -61,7 +61,6 @@ import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:braincloud_dart/src/util.dart';
 import 'package:braincloud_dart/src/version.dart';
 import 'package:intl/intl.dart';
-import 'package:mutex/mutex.dart';
 
 class BrainCloudClient {
   static const String defaultServerURL =
@@ -77,7 +76,6 @@ class BrainCloudClient {
   bool _loggingEnabled = false;
   bool get loggingEnabled => _loggingEnabled;
 
-  final Mutex _loggingMutex = Mutex();
   LogCallback? _logDelegate;
 
   late BrainCloudComms _comms;
@@ -803,15 +801,10 @@ class BrainCloudClient {
       String formattedLog =
           "${DateFormat("HH:mm:ss.SSS").format(DateTime.now())} #BCC ${(log.length < 14000 ? log : log.substring(0, 14000) + " << (LOG TRUNCATED)")}";
 
-      _loggingMutex.acquire();
-      try {
-        if (_logDelegate != null) {
-          _logDelegate!(formattedLog);
-        } else {
-          debugPrint(formattedLog);
-        }
-      } finally {
-        _loggingMutex.release();
+      if (_logDelegate != null) {
+        _logDelegate!(formattedLog);
+      } else {
+        debugPrint(formattedLog);
       }
     }
   }

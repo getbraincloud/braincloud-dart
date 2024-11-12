@@ -21,7 +21,6 @@ import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/reason_codes.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:braincloud_dart/src/status_codes.dart';
-import 'package:mutex/mutex.dart';
 
 part 'braincloud_comms.g.dart';
 
@@ -65,15 +64,12 @@ class BrainCloudComms {
 
   /// The service calls that are waiting to be sent.
   final List<ServerCall> _serviceCallsWaiting = [];
-  final _serviceCallsWaitingLock = Mutex();
 
   /// The service calls that have been sent for which we are waiting for a reply
   List<ServerCall> _serviceCallsInProgress = [];
-  final _serviceCallsInProgressLock = Mutex();
 
   /// The service calls in the timeout queue.
   final List<ServerCall> _serviceCallsInTimeoutQueue = [];
-  final _serviceCallsInTimeoutQueueLock = Mutex();
 
   /// The current request state. Null if no request is in progress.
   RequestState? _activeRequest;
@@ -490,12 +486,7 @@ class BrainCloudComms {
 
     int numMessagesToReturn = 0;
 
-    _serviceCallsInProgressLock.acquire();
-    try {
-      numMessagesToReturn = _serviceCallsInProgress.length;
-    } finally {
-      _serviceCallsInProgressLock.release();
-    }
+    numMessagesToReturn = _serviceCallsInProgress.length;
 
     if (numMessagesToReturn <= 0) {
       numMessagesToReturn =
@@ -516,12 +507,7 @@ class BrainCloudComms {
   /// Shuts down the communications layer.
   /// Make sure to only call this from the main thread!
   void shutDown() {
-    _serviceCallsWaitingLock.acquire();
-    try {
-      _serviceCallsWaiting.clear();
-    } finally {
-      _serviceCallsWaitingLock.release();
-    }
+    _serviceCallsWaiting.clear();
 
     disposeUploadHandler();
     _activeRequest = null;
@@ -572,34 +558,19 @@ class BrainCloudComms {
 
       // then flush the message queues
       List<ServerCall> callsToProcess = [];
-      _serviceCallsInTimeoutQueueLock.acquire();
-      try {
-        for (int i = 0, isize = _serviceCallsInTimeoutQueue.length;
-            i < isize;
-            ++i) {
-          callsToProcess.add(_serviceCallsInTimeoutQueue[i]);
-        }
-        _serviceCallsInTimeoutQueue.clear();
-      } finally {
-        _serviceCallsInTimeoutQueueLock.release();
+      for (int i = 0, isize = _serviceCallsInTimeoutQueue.length;
+          i < isize;
+          ++i) {
+        callsToProcess.add(_serviceCallsInTimeoutQueue[i]);
       }
+      _serviceCallsInTimeoutQueue.clear();
 
-      _serviceCallsWaitingLock.acquire();
-      try {
-        for (int i = 0, isize = _serviceCallsWaiting.length; i < isize; ++i) {
-          callsToProcess.add(_serviceCallsWaiting[i]);
-        }
-        _serviceCallsWaiting.clear();
-      } finally {
-        _serviceCallsWaitingLock.release();
+      for (int i = 0, isize = _serviceCallsWaiting.length; i < isize; ++i) {
+        callsToProcess.add(_serviceCallsWaiting[i]);
       }
+      _serviceCallsWaiting.clear();
 
-      _serviceCallsInProgressLock.acquire();
-      try {
-        _serviceCallsInProgress.clear(); // shouldn't be anything in here...
-      } finally {
-        _serviceCallsInProgressLock.release();
-      }
+      _serviceCallsInProgress.clear(); // shouldn't be anything in here...
 
       // and send api error callbacks if required
       if (sendApiErrorCallbacks) {
@@ -690,18 +661,13 @@ class BrainCloudComms {
           "Received an invalid json format response, check your network settings.";
       _cacheMessagesOnNetworkError = true;
 
-      _serviceCallsWaitingLock.acquire();
-      try {
-        if (_serviceCallsInProgress.isNotEmpty) {
-          var serverCall = _serviceCallsInProgress[0];
-          if (serverCall.getCallback != null) {
-            serverCall.getCallback?.onErrorCallback(
-                _cachedStatusCode, _cachedReasonCode, _cachedStatusMessage);
-            _serviceCallsInProgress.removeAt(0);
-          }
+      if (_serviceCallsInProgress.isNotEmpty) {
+        var serverCall = _serviceCallsInProgress[0];
+        if (serverCall.getCallback != null) {
+          serverCall.getCallback?.onErrorCallback(
+              _cachedStatusCode, _cachedReasonCode, _cachedStatusMessage);
+          _serviceCallsInProgress.removeAt(0);
         }
-      } finally {
-        _serviceCallsWaitingLock.release();
       }
       _clientRef.log(_cachedStatusMessage);
       return;
@@ -723,13 +689,8 @@ class BrainCloudComms {
       }
 
       for (int j = 0; j < responseBundle.length; ++j) {
-        _serviceCallsInProgressLock.acquire();
-        try {
-          if (_serviceCallsInProgress.isNotEmpty) {
-            _serviceCallsInProgress.removeAt(0);
-          }
-        } finally {
-          _serviceCallsInProgressLock.release();
+        if (_serviceCallsInProgress.isNotEmpty) {
+          _serviceCallsInProgress.removeAt(0);
         }
       }
       return;
@@ -766,14 +727,9 @@ class BrainCloudComms {
       // This is safe to do from the main thread but just in case someone
       // calls this method from another thread, we lock on _serviceCallsWaiting
       //
-      _serviceCallsWaitingLock.acquire();
-      try {
-        if (_serviceCallsInProgress.isNotEmpty) {
-          sc = _serviceCallsInProgress[0];
-          _serviceCallsInProgress.removeAt(0);
-        }
-      } finally {
-        _serviceCallsWaitingLock.release();
+      if (_serviceCallsInProgress.isNotEmpty) {
+        sc = _serviceCallsInProgress[0];
+        _serviceCallsInProgress.removeAt(0);
       }
 
       // its a success response
@@ -1114,159 +1070,154 @@ class BrainCloudComms {
   /// returns The and send next request bundle.
   RequestState? createAndSendNextRequestBundle() {
     RequestState? requestState;
-    _serviceCallsWaitingLock.acquire();
-    try {
-      if (_blockingQueue) {
-        _serviceCallsInProgress.insertAll(0, _serviceCallsInTimeoutQueue);
-        _serviceCallsInTimeoutQueue.clear();
-      } else {
-        if (_serviceCallsWaiting.isNotEmpty) {
-          //put auth first
-          ServerCall? call;
-          int numMessagesWaiting = _serviceCallsWaiting.length;
-          for (int i = 0; i < _serviceCallsWaiting.length; ++i) {
-            call = _serviceCallsWaiting[i];
-            if (call.runtimeType == EndOfBundleMarker) {
-              // if the first message is marker, just throw it away
-              if (i == 0) {
-                _serviceCallsWaiting.removeAt(0);
-                --i;
-                --numMessagesWaiting;
-                continue;
-              } else // otherwise cut off the bundle at the marker and toss marker away
-              {
-                numMessagesWaiting = i;
-                _serviceCallsWaiting.removeAt(i);
-                break;
-              }
-            }
-
-            if (call.getOperation == ServiceOperation.authenticate) {
-              if (i != 0) {
-                _serviceCallsWaiting.removeAt(i);
-                _serviceCallsWaiting.insert(0, call);
-              }
-
-              numMessagesWaiting = 1;
+    if (_blockingQueue) {
+      _serviceCallsInProgress.insertAll(0, _serviceCallsInTimeoutQueue);
+      _serviceCallsInTimeoutQueue.clear();
+    } else {
+      if (_serviceCallsWaiting.isNotEmpty) {
+        //put auth first
+        ServerCall? call;
+        int numMessagesWaiting = _serviceCallsWaiting.length;
+        for (int i = 0; i < _serviceCallsWaiting.length; ++i) {
+          call = _serviceCallsWaiting[i];
+          if (call.runtimeType == EndOfBundleMarker) {
+            // if the first message is marker, just throw it away
+            if (i == 0) {
+              _serviceCallsWaiting.removeAt(0);
+              --i;
+              --numMessagesWaiting;
+              continue;
+            } else // otherwise cut off the bundle at the marker and toss marker away
+            {
+              numMessagesWaiting = i;
+              _serviceCallsWaiting.removeAt(i);
               break;
             }
           }
 
-          if (numMessagesWaiting > _maxBundleMessages) {
-            numMessagesWaiting = _maxBundleMessages;
-          }
-
-          if (numMessagesWaiting <= 0) {
-            return null;
-          }
-
-          if (_serviceCallsInProgress.isNotEmpty) {
-            // this should never happen
-            if (_clientRef.loggingEnabled) {
-              _clientRef.log(
-                  "ERROR - in progress queue is not empty but we're ready for the next message!");
+          if (call.getOperation == ServiceOperation.authenticate) {
+            if (i != 0) {
+              _serviceCallsWaiting.removeAt(i);
+              _serviceCallsWaiting.insert(0, call);
             }
-            _serviceCallsInProgress.clear();
-          }
 
-          _serviceCallsInProgress =
-              _serviceCallsWaiting.getRange(0, numMessagesWaiting).toList();
-          _serviceCallsWaiting.removeRange(0, numMessagesWaiting);
+            numMessagesWaiting = 1;
+            break;
+          }
+        }
+
+        if (numMessagesWaiting > _maxBundleMessages) {
+          numMessagesWaiting = _maxBundleMessages;
+        }
+
+        if (numMessagesWaiting <= 0) {
+          return null;
+        }
+
+        if (_serviceCallsInProgress.isNotEmpty) {
+          // this should never happen
+          if (_clientRef.loggingEnabled) {
+            _clientRef.log(
+                "ERROR - in progress queue is not empty but we're ready for the next message!");
+          }
+          _serviceCallsInProgress.clear();
+        }
+
+        _serviceCallsInProgress =
+            _serviceCallsWaiting.getRange(0, numMessagesWaiting).toList();
+        _serviceCallsWaiting.removeRange(0, numMessagesWaiting);
+      }
+    }
+
+    if (_serviceCallsInProgress.isNotEmpty) {
+      requestState = RequestState();
+
+      // prepare json data for server
+      List<dynamic> messageList = [];
+      bool isAuth = false;
+
+      ServerCall scIndex;
+      ServiceOperation? operation;
+      ServiceName? service;
+      for (int i = 0; i < _serviceCallsInProgress.length; ++i) {
+        scIndex = _serviceCallsInProgress[i];
+        operation = scIndex.getOperation;
+        service = scIndex.getService;
+        // don't send heartbeat if it was generated by comms (null callbacks)
+        // and there are other messages in the bundle - it's unnecessary
+        if (service == ServiceName.heartBeat &&
+            operation == ServiceOperation.read &&
+            (scIndex.getCallback == null ||
+                scIndex.getCallback!.areCallbacksNull())) {
+          if (_serviceCallsInProgress.length > 1) {
+            _serviceCallsInProgress.removeAt(i);
+            --i;
+            continue;
+          }
+        }
+
+        Map<String, dynamic> message = {};
+        message[OperationParam.serviceMessageService.value] =
+            scIndex.getService.value;
+        message[OperationParam.serviceMessageOperation.value] =
+            scIndex.getOperation.value;
+        message[OperationParam.serviceMessageData.value] =
+            scIndex.getJsonData;
+
+        messageList.add(message);
+
+        if (operation == ServiceOperation.authenticate) {
+          requestState.packetNoRetry = true;
+        }
+
+        if (operation == ServiceOperation.authenticate ||
+            operation == ServiceOperation.resetEmailPassword ||
+            operation == ServiceOperation.resetEmailPasswordAdvanced ||
+            operation == ServiceOperation.resetUniversalIdPassword ||
+            operation == ServiceOperation.resetUniversalIdPasswordAdvanced) {
+          isAuth = true;
+        }
+
+        if (operation == ServiceOperation.fullReset ||
+            operation == ServiceOperation.logout) {
+          requestState.packetRequiresLongTimeout = true;
         }
       }
 
-      if (_serviceCallsInProgress.isNotEmpty) {
-        requestState = RequestState();
+      requestState.packetId = _packetId;
+      _expectedIncomingPacketId = _packetId;
+      requestState.messageList = messageList;
+      ++_packetId;
 
-        // prepare json data for server
-        List<dynamic> messageList = [];
-        bool isAuth = false;
-
-        ServerCall scIndex;
-        ServiceOperation? operation;
-        ServiceName? service;
-        for (int i = 0; i < _serviceCallsInProgress.length; ++i) {
-          scIndex = _serviceCallsInProgress[i];
-          operation = scIndex.getOperation;
-          service = scIndex.getService;
-          // don't send heartbeat if it was generated by comms (null callbacks)
-          // and there are other messages in the bundle - it's unnecessary
-          if (service == ServiceName.heartBeat &&
-              operation == ServiceOperation.read &&
-              (scIndex.getCallback == null ||
-                  scIndex.getCallback!.areCallbacksNull())) {
-            if (_serviceCallsInProgress.length > 1) {
-              _serviceCallsInProgress.removeAt(i);
-              --i;
-              continue;
-            }
+      if (!_killSwitchEngaged && !tooManyAuthenticationAttempts()) {
+        if (_isAuthenticated || isAuth) {
+          if (_clientRef.loggingEnabled) {
+            _clientRef.log("SENDING REQUEST");
           }
-
-          Map<String, dynamic> message = {};
-          message[OperationParam.serviceMessageService.value] =
-              scIndex.getService.value;
-          message[OperationParam.serviceMessageOperation.value] =
-              scIndex.getOperation.value;
-          message[OperationParam.serviceMessageData.value] =
-              scIndex.getJsonData;
-
-          messageList.add(message);
-
-          if (operation == ServiceOperation.authenticate) {
-            requestState.packetNoRetry = true;
-          }
-
-          if (operation == ServiceOperation.authenticate ||
-              operation == ServiceOperation.resetEmailPassword ||
-              operation == ServiceOperation.resetEmailPasswordAdvanced ||
-              operation == ServiceOperation.resetUniversalIdPassword ||
-              operation == ServiceOperation.resetUniversalIdPasswordAdvanced) {
-            isAuth = true;
-          }
-
-          if (operation == ServiceOperation.fullReset ||
-              operation == ServiceOperation.logout) {
-            requestState.packetRequiresLongTimeout = true;
-          }
-        }
-
-        requestState.packetId = _packetId;
-        _expectedIncomingPacketId = _packetId;
-        requestState.messageList = messageList;
-        ++_packetId;
-
-        if (!_killSwitchEngaged && !tooManyAuthenticationAttempts()) {
-          if (_isAuthenticated || isAuth) {
-            if (_clientRef.loggingEnabled) {
-              _clientRef.log("SENDING REQUEST");
-            }
-            internalSendMessage(requestState);
-          } else {
-            fakeErrorResponse(requestState, _cachedStatusCode,
-                _cachedReasonCode, _cachedStatusMessage);
-            requestState = null;
-          }
+          internalSendMessage(requestState);
         } else {
-          if (tooManyAuthenticationAttempts()) {
-            fakeErrorResponse(
-                requestState,
-                StatusCodes.clientNetworkError,
-                ReasonCodes.clientDisabledFailedAuth,
-                "Client has been disabled due to identical repeat Authentication calls that are throwing errors. Authenticating with the same credentials is disabled for 30 seconds");
-            requestState = null;
-          } else {
-            fakeErrorResponse(
-                requestState,
-                StatusCodes.clientNetworkError,
-                ReasonCodes.clientDisabled,
-                "Client has been disabled due to repeated errors from a single API call");
-            requestState = null;
-          }
+          fakeErrorResponse(requestState, _cachedStatusCode,
+              _cachedReasonCode, _cachedStatusMessage);
+          requestState = null;
+        }
+      } else {
+        if (tooManyAuthenticationAttempts()) {
+          fakeErrorResponse(
+              requestState,
+              StatusCodes.clientNetworkError,
+              ReasonCodes.clientDisabledFailedAuth,
+              "Client has been disabled due to identical repeat Authentication calls that are throwing errors. Authenticating with the same credentials is disabled for 30 seconds");
+          requestState = null;
+        } else {
+          fakeErrorResponse(
+              requestState,
+              StatusCodes.clientNetworkError,
+              ReasonCodes.clientDisabled,
+              "Client has been disabled due to repeated errors from a single API call");
+          requestState = null;
         }
       }
-    } finally {
-      _serviceCallsWaitingLock.release();
-    } // unlock _serviceCallsWaiting
+    }
 
     return requestState;
   }
@@ -1500,12 +1451,7 @@ class BrainCloudComms {
   ///
   /// @param call The server call to execute
   void addToQueue(ServerCall call) {
-    _serviceCallsWaitingLock.acquire();
-    try {
-      _serviceCallsWaiting.add(call);
-    } finally {
-      _serviceCallsWaitingLock.release();
-    }
+    _serviceCallsWaiting.add(call);
   }
 
   /// Enables the communications layer.
@@ -1518,21 +1464,16 @@ class BrainCloudComms {
   /// Resets the communication layer. Clients will need to
   /// reauthenticate after this method is called.
   void resetCommunication() {
-    _serviceCallsWaitingLock.acquire();
-    try {
-      _isAuthenticated = false;
-      _blockingQueue = false;
-      _serviceCallsWaiting.clear();
-      _serviceCallsInProgress.clear();
-      _serviceCallsInTimeoutQueue.clear();
-      disposeUploadHandler();
-      _activeRequest = null;
-      _clientRef.authenticationService.profileId = "";
-      _sessionId = "";
-      _packetId = 0;
-    } finally {
-      _serviceCallsWaitingLock.release();
-    }
+    _isAuthenticated = false;
+    _blockingQueue = false;
+    _serviceCallsWaiting.clear();
+    _serviceCallsInProgress.clear();
+    _serviceCallsInTimeoutQueue.clear();
+    disposeUploadHandler();
+    _activeRequest = null;
+    _clientRef.authenticationService.profileId = "";
+    _sessionId = "";
+    _packetId = 0;
   }
 
   String calculateMD5Hash(String input) {
@@ -1630,13 +1571,8 @@ class BrainCloudComms {
             _blockingQueue = true;
 
             // and insert the inProgress messages into head of wait queue
-            _serviceCallsInTimeoutQueueLock.acquire();
-            try {
-              _serviceCallsInTimeoutQueue.insertAll(0, _serviceCallsInProgress);
-              _serviceCallsInProgress.clear();
-            } finally {
-              _serviceCallsInTimeoutQueueLock.release();
-            }
+            _serviceCallsInTimeoutQueue.insertAll(0, _serviceCallsInProgress);
+            _serviceCallsInProgress.clear();
 
             if (_networkErrorCallback != null) {
               _networkErrorCallback!();

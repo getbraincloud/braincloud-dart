@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:dart_ping/dart_ping.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mutex/mutex.dart';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
@@ -608,13 +607,8 @@ class BrainCloudLobby {
                 ? regionInner["type"].toString().toUpperCase()
                 : RegionTarget.pingType);
 
-        _regionTargetsToProcessLock.acquire();
-        try {
-          for (int i = 0; i < maxPingCalls; ++i) {
-            _regionTargetsToProcess.add(regionTarget);
-          }
-        } finally {
-          _regionTargetsToProcessLock.release();
+        for (int i = 0; i < maxPingCalls; ++i) {
+          _regionTargetsToProcess.add(regionTarget);
         }
       });
 
@@ -634,7 +628,6 @@ class BrainCloudLobby {
   }
 
   void _pingNextItemToProcess() {
-    _regionTargetsToProcessLock.acquire();
     var returnEarly = false;
     try {
       if (_regionTargetsToProcess.isNotEmpty) {
@@ -657,8 +650,6 @@ class BrainCloudLobby {
         returnEarly = true;
       }
     } finally {
-      _regionTargetsToProcessLock.release();
-
       if (returnEarly == true) {
         return;
       }
@@ -808,7 +799,6 @@ class BrainCloudLobby {
   final Map<String, List<int>> _cachedPingResponses = {};
 
   final List<RegionTarget> _regionTargetsToProcess = [];
-  final Mutex _regionTargetsToProcessLock = Mutex();
   void Function(ServerResponse)? _pingRegionSuccessCallback;
 
   static const int maxPingCalls = 4;

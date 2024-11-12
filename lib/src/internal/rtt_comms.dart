@@ -7,7 +7,6 @@ import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/reason_codes.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mutex/mutex.dart';
 
 class RTTComms {
   final BrainCloudClient _clientRef;
@@ -106,93 +105,86 @@ class RTTComms {
 
   void update() async {
     RTTCommandResponse toProcessResponse;
-    await _queuedRTTCommandsLock.acquire();
-    try {
-      for (int i = 0; i < _queuedRTTCommands.length; ++i) {
-        toProcessResponse = _queuedRTTCommands[i];
-        //the rtt websocket has closed and RTT needs to be re-enabled. disconnect is called to fully reset connection
-        // if (_webSocketStatus == WebsocketStatus.closed  && toProcessResponse.operation != RTTCommandOperation.disconnect ) {
-        if (_webSocketStatus == WebsocketStatus.closed) {
-          _rttConnectionStatus = RTTConnectionStatus.disconnecting;
-          if (_connectionFailureCallback != null) _connectionFailureCallback!(RTTCommandResponse(
+    for (int i = 0; i < _queuedRTTCommands.length; ++i) {
+      toProcessResponse = _queuedRTTCommands[i];
+      //the rtt websocket has closed and RTT needs to be re-enabled. disconnect is called to fully reset connection
+      // if (_webSocketStatus == WebsocketStatus.closed  && toProcessResponse.operation != RTTCommandOperation.disconnect ) {
+      if (_webSocketStatus == WebsocketStatus.closed) {
+        _rttConnectionStatus = RTTConnectionStatus.disconnecting;
+        if (_connectionFailureCallback != null) _connectionFailureCallback!(RTTCommandResponse(
+            service: ServiceName.rtt.value,
+            operation: RTTCommandOperation.error,
+            data: {
+              "error":
+                  "RTT Connection has been closed. Re-Enable RTT to re-establish connection : ${toProcessResponse.data}"
+            }));
+        disconnect();
+        break;
+      }
+
+      // does this go to one of our registered service listeners?
+      if (_registeredCallbacks.containsKey(toProcessResponse.service)) {
+        _registeredCallbacks[toProcessResponse.service]!(
+            jsonEncode(toProcessResponse.data ?? "{}"));
+      }
+
+      // are we actually connected? only pump this back, when the server says we've connected
+      else if (_rttConnectionStatus == RTTConnectionStatus.connecting &&            
+          toProcessResponse.operation == RTTCommandOperation.connect) {
+        _sinceLastHeartbeat = DateTime.now();
+        _rttConnectionStatus = RTTConnectionStatus.connected;
+        if (_connectedSuccessCallback != null) _connectedSuccessCallback!(toProcessResponse);
+      }
+
+      //if we're connected and we get a disconnect - we disconnect the comms...
+      else if (_rttConnectionStatus == RTTConnectionStatus.connected &&
+          _connectionFailureCallback != null &&
+          toProcessResponse.operation == RTTCommandOperation.disconnect) {
+        _rttConnectionStatus = RTTConnectionStatus.disconnecting;
+        disconnect();
+      }
+
+      //If there's an error, we send back the error
+      else if (_connectionFailureCallback != null &&
+          toProcessResponse.operation == RTTCommandOperation.error) {
+        if (toProcessResponse.data != null) {
+          Map<String, dynamic> messageData = toProcessResponse.data ?? {};
+          if (messageData.containsKey("status") &&
+              messageData.containsKey("reason_code")) {
+            _connectionFailureCallback!(RTTCommandResponse(
               service: ServiceName.rtt.value,
               operation: RTTCommandOperation.error,
-              data: {
-                "error":
-                    "RTT Connection has been closed. Re-Enable RTT to re-establish connection : ${toProcessResponse.data}"
-              }));
-          disconnect();
-          break;
-        }
-
-        // does this go to one of our registered service listeners?
-        if (_registeredCallbacks.containsKey(toProcessResponse.service)) {
-          _registeredCallbacks[toProcessResponse.service]!(
-              jsonEncode(toProcessResponse.data ?? "{}"));
-        }
-
-        // are we actually connected? only pump this back, when the server says we've connected
-        else if (_rttConnectionStatus == RTTConnectionStatus.connecting &&            
-            toProcessResponse.operation == RTTCommandOperation.connect) {
-          _sinceLastHeartbeat = DateTime.now();
-          _rttConnectionStatus = RTTConnectionStatus.connected;
-          if (_connectedSuccessCallback != null) _connectedSuccessCallback!(toProcessResponse);
-        }
-
-        //if we're connected and we get a disconnect - we disconnect the comms...
-        else if (_rttConnectionStatus == RTTConnectionStatus.connected &&
-            _connectionFailureCallback != null &&
-            toProcessResponse.operation == RTTCommandOperation.disconnect) {
-          _rttConnectionStatus = RTTConnectionStatus.disconnecting;
-          disconnect();
-        }
-
-        //If there's an error, we send back the error
-        else if (_connectionFailureCallback != null &&
-            toProcessResponse.operation == RTTCommandOperation.error) {
-          if (toProcessResponse.data != null) {
-            Map<String, dynamic> messageData = toProcessResponse.data ?? {};
-            if (messageData.containsKey("status") &&
-                messageData.containsKey("reason_code")) {
-              _connectionFailureCallback!(RTTCommandResponse(
-                service: ServiceName.rtt.value,
-                operation: RTTCommandOperation.error,
-                data: messageData,
-              ));
-            } else {
-              //in the rare case the message is differently structured.
-              _connectionFailureCallback!(RTTCommandResponse(
-                  service: ServiceName.rtt.value,
-                  operation: RTTCommandOperation.error,
-                  data: messageData));
-            }
+              data: messageData,
+            ));
           } else {
+            //in the rare case the message is differently structured.
             _connectionFailureCallback!(RTTCommandResponse(
                 service: ServiceName.rtt.value,
                 operation: RTTCommandOperation.error,
-                data: {"error": "Error - No Response from Server"}));
+                data: messageData));
           }
-        }
-
-        //if we're not connected and we're trying to connect, then start the connection
-        else if (_rttConnectionStatus == RTTConnectionStatus.disconnected &&
-            toProcessResponse.operation == RTTCommandOperation.connect) {
-          // first time connecting? send the server connection call
-          _rttConnectionStatus = RTTConnectionStatus.connecting;
-          _send(buildConnectionRequest());
         } else {
-          if (_clientRef.loggingEnabled) {
-            _clientRef.log("WARNING no handler registered for RTT callbacks ");
-          }
+          _connectionFailureCallback!(RTTCommandResponse(
+              service: ServiceName.rtt.value,
+              operation: RTTCommandOperation.error,
+              data: {"error": "Error - No Response from Server"}));
         }
       }
-      // debugPrint(" ---------  _queuedRTTCommands.clear(); ---------------------");
-      _queuedRTTCommands.clear();
-    } catch (e) {
-      debugPrint("****** Did get an error in RTTComm processing update $e");
-    } finally {
-      _queuedRTTCommandsLock.release();
+
+      //if we're not connected and we're trying to connect, then start the connection
+      else if (_rttConnectionStatus == RTTConnectionStatus.disconnected &&
+          toProcessResponse.operation == RTTCommandOperation.connect) {
+        // first time connecting? send the server connection call
+        _rttConnectionStatus = RTTConnectionStatus.connecting;
+        _send(buildConnectionRequest());
+      } else {
+        if (_clientRef.loggingEnabled) {
+          _clientRef.log("WARNING no handler registered for RTT callbacks ");
+        }
+      }
     }
+    // debugPrint(" ---------  _queuedRTTCommands.clear(); ---------------------");
+    _queuedRTTCommands.clear();
 
     if (_rttConnectionStatus == RTTConnectionStatus.connected) {
       if (DateTime.now().difference(_sinceLastHeartbeat) >= _heartBeatTime) {
@@ -481,12 +473,7 @@ class RTTComms {
   }
 
   void addRTTCommandResponse(RTTCommandResponse inCommand) async {
-    await _queuedRTTCommandsLock.acquire();
-    try {
-      _queuedRTTCommands.add(inCommand);
-    } finally {
-      _queuedRTTCommandsLock.release();
-    }
+    _queuedRTTCommands.add(inCommand);
   }
 
   Map<String, dynamic> buildRTTRequestError(String inStatusmessage) {
@@ -526,8 +513,6 @@ class RTTComms {
   Map<String, dynamic> _rttHeaders = {};
   final Map<String, RTTCallback> _registeredCallbacks = {};
   final List<RTTCommandResponse> _queuedRTTCommands = [];
-
-  final Mutex _queuedRTTCommandsLock = Mutex();
 
   WebsocketStatus _webSocketStatus = WebsocketStatus.none;
 
