@@ -253,6 +253,8 @@ class BrainCloudClient {
   BrainCloudComms get comms => _comms;
   @visibleForTesting
   RTTComms get rttComms => _rttComms;
+  @visibleForTesting
+  RelayComms get rsComms => _rsComms;
 
   BrainCloudEntity get entityService => _entityService;
 

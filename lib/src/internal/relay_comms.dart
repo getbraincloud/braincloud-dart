@@ -596,6 +596,7 @@ class RelayComms {
     // To allow Web builds this has been extracted to a function that is different when build for Web
     // At this time the Relay is not supported on Web and will not allow connecting.
     // int ackIdWithoutPacketId = (ackId &  0xF000FFFFFFFFFFFF).toUnsigned(64);
+    // Note: there are other mask above in send() that may also need to be exernalized 
     int ackIdWithoutPacketId = getAckIdWithoutPacketId(ackId);
     bool reliable = ((rh & RELIABLE_BIT) != 0) ? true : false;
     bool ordered = ((rh & ORDERED_BIT) != 0) ? true : false;
@@ -1179,6 +1180,9 @@ class RelayComms {
         [CL2RS_RSMG_ACK, (rsmgPacketId >> 8) & 0xFF, rsmgPacketId & 0xFF]);
     _send(data);
   }
+  
+  @visibleForTesting
+  void rawSend(Uint8List data) => _send(data);
 }
 
 enum RelayConnectionType { invalid, websocket, tcp, udp, max }

@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:braincloud_dart/src/braincloud_relay.dart';
-import 'package:braincloud_dart/src/internal/relay_comms.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -14,6 +13,8 @@ void main() {
 
   group("Test Relay", () {
     int successCount = 0;
+    int failureCount = 0;
+    
     RelayConnectionType connectionType = RelayConnectionType.invalid;
     RelayConnectOptions? connectOptions;
     Completer readyCompleter = Completer();
@@ -25,9 +26,11 @@ void main() {
     /// Helper functions for Tests
     ///
     void disconnectRelay() async {
-        bcTest.bcWrapper.relayService.endMatch({});
-        bcTest.bcWrapper.relayService.disconnect();
-        bcTest.bcWrapper.rttService.disableRTT();
+      bcTest.bcWrapper.relayService.endMatch({});
+      bcTest.bcWrapper.relayService.disconnect();
+      bcTest.bcWrapper.rttService.disableRTT();
+      // Allow time for the connection to close.
+      await Future.delayed(Duration(seconds: 1));
     }
 
     void sendToWrongNetId() {
@@ -60,11 +63,14 @@ void main() {
           errorMap['status_message'] == "Invalid NetId: 40") {
         // This one was on purpose
         successCount++;
-      } else {
+      } else {        
         debugPrint(
             "${DateTime.now()}:TST-> onFailed for other reason: $jsonError");
-          disconnectRelay();
-          await Future.delayed(Duration(seconds: 2)); // let the connection be fully closed
+        var errorMap = jsonDecode(jsonError);
+        if (errorMap['reason_code'] == 90300 && errorMap['status_message'] == 'Relay: Disconnected by server') failureCount++;
+        disconnectRelay();
+        await Future.delayed(
+            Duration(seconds: 2)); // let the connection be fully closed
       }
       // We should only get an error on the last action of Invalid Net Id, so mark test as complete either way
       if (!readyCompleter.isCompleted) readyCompleter.complete();
@@ -79,7 +85,8 @@ void main() {
       } else {
         debugPrint(">>>> Received an un-expected message $json");
         disconnectRelay();
-        await Future.delayed(Duration(seconds: 2)); // let the connection be fully closed
+        await Future.delayed(
+            Duration(seconds: 2)); // let the connection be fully closed
       }
     }
 
@@ -87,7 +94,8 @@ void main() {
       String message = utf8.decode(data);
       debugPrint("${DateTime.now()}:TST-> relayCallback:($netId)   $message");
       String profileId = bcTest.bcWrapper.getStoredProfileId() ?? "";
-      currentNetId = bcTest.bcWrapper.relayService.getNetIdForProfileId(profileId);
+      currentNetId =
+          bcTest.bcWrapper.relayService.getNetIdForProfileId(profileId);
 
       if (message == testString && netId == currentNetId) {
         successCount++;
@@ -104,10 +112,28 @@ void main() {
       if (successCount == 4) readyCompleter.complete();
     }
 
-    void connectToRelay() async {
+    // Will send a bad Ack once the first msg as been received
+    void badRelayCallback(int netId, Uint8List data) {
+      String message = utf8.decode(data);
+      debugPrint("${DateTime.now()}:TST-> badRelayCallback:($netId)   $message");
+      String profileId = bcTest.bcWrapper.getStoredProfileId() ?? "";
+      currentNetId =
+          bcTest.bcWrapper.relayService.getNetIdForProfileId(profileId);
+
+      if (message == testString && netId == currentNetId) {
+        successCount++;
+        // This is a bad Ack
+        bcTest.bcWrapper.brainCloudClient.rsComms.rawSend(Uint8List.fromList(
+            [3, 192, 0, 128, 0, 0, 0, 0, 0, 72, 101, 108]));
+        if (successCount == 4) readyCompleter.complete();
+      }
+    }
+
+    void connectToRelay({Function(int netId, Uint8List data)? rcb}) async {
       if (connectOptions != null) {
         bcTest.bcWrapper.relayService.registerSystemCallback(systemCallback);
-        bcTest.bcWrapper.relayService.registerRelayCallback(relayCallback);
+        bcTest.bcWrapper.relayService
+            .registerRelayCallback(rcb ?? relayCallback);
         bcTest.bcWrapper.relayService.connect(
             connectionType, connectOptions!, onRelayConnected, onFailed);
       }
@@ -131,7 +157,7 @@ void main() {
           settings: {});
     }
 
-    void onLobbyEvent(String json) {
+    onLobbyEvent({Function(int netId, Uint8List data)? rcb}) => (String json)  {
       var response = jsonDecode(json);
       var data = response["data"];
 
@@ -140,7 +166,7 @@ void main() {
           var reason = data["reason"];
           var reasonCode = reason["code"];
           if (reasonCode == ReasonCodes.rttRoomReady)
-            connectToRelay();
+            connectToRelay(rcb:rcb);
           else
             onFailed(0, 0, "DISBANDED != RTT_ROOM_READY");
           break;
@@ -164,10 +190,11 @@ void main() {
 
           break;
       }
-    }
+    };
 
     Future fullFlow(RelayConnectionType type,
-        {bool shouldDisconnect = true}) async {
+        {bool shouldDisconnect = true, 
+        Function(int netId, Uint8List data)? rcb}) async {
       // Use a future to wait for callbacks to complete.
       readyCompleter = Completer();
       successCount = 0;
@@ -177,23 +204,26 @@ void main() {
           reason: "RTT should be disabled");
 
       bcTest.bcWrapper.brainCloudClient.enableLogging(true);
-      bcTest.bcWrapper.rttService.registerRTTLobbyCallback(onLobbyEvent);
+      bcTest.bcWrapper.rttService.registerRTTLobbyCallback(onLobbyEvent(rcb: rcb));
 
-      final Completer completer = Completer();      
-      bcTest.bcWrapper.rttService.enableRTT(successCallback: (response ) {
+      final Completer completer = Completer();
+      bcTest.bcWrapper.rttService.enableRTT(successCallback: (response) {
         debugPrint(
             "${DateTime.now()}:TST-> rttService.enableRTT returned $response");
-          expect(response.data?['operation'], 'CONNECT');
-          onRTTEnabled(response);
-          completer.complete();
-      }
-      ,failureCallback: (error) {
+        expect(response.data?['operation'], 'CONNECT');
+        onRTTEnabled(response);
+        completer.complete();
+      }, failureCallback: (error) {
         debugPrint(
             "${DateTime.now()}:TST-> rttService.enableRTT for $type returned ERROR $error");
-            fail("Got an error trying to Enable  $type RTT");
+        fail("Got an error trying to Enable  $type RTT");
       });
 
       await completer.future;
+
+      //FIXME: This is temporarily to test server initiated disconnect. Remove when done
+      if (type == RelayConnectionType.udp)
+        await Future.delayed(Duration(seconds: 14));
 
       // Put a time limit on this Future completer so we do not wait forever.
       await readyCompleter.future.timeout(Duration(seconds: 90), onTimeout: () {
@@ -201,16 +231,14 @@ void main() {
             "${DateTime.now()}:TST-> Failing $type Test due to 90 timeout");
         fail("Relay $type test timed out");
       });
-      
+
       debugPrint("${DateTime.now()}:TST-> $type Test almost completed");
-      
-      expect(successCount, 4);
 
       if (bcTest.bcWrapper.relayService.getPing() >= 999)
         await Future.delayed(Duration(seconds: 3));
       expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
 
-      if (shouldDisconnect) { 
+      if (shouldDisconnect) {
         disconnectRelay();
         // bcTest.bcWrapper.relayService.endMatch({});
         // bcTest.bcWrapper.relayService.disconnect();
@@ -226,15 +254,27 @@ void main() {
 
     test("FullFlow TCP", () async {
       await fullFlow(RelayConnectionType.tcp);
+
+      expect(successCount, 4);
+      expect(failureCount, 0);
+
     }, timeout: Timeout.parse("120s"));
 
     test("FullFlow UDP", () async {
       await fullFlow(RelayConnectionType.udp);
+
+      expect(successCount, 4);
+      expect(failureCount, 0);
+
     }, timeout: Timeout.parse("90s"));
 
     test("FullFlow WebSocket", () async {
       // do not disconnect in the fullFlow as we want to test other cmds while the connection is still alive
       await fullFlow(RelayConnectionType.websocket, shouldDisconnect: false);
+
+
+      expect(successCount, 4);
+      expect(failureCount, 0);
 
       // Exercise some of the other api while we have it ready.
       expect(bcTest.bcWrapper.relayService.getProfileIdForNetId(0),
@@ -269,6 +309,14 @@ void main() {
       bcTest.bcWrapper.rttService.disableRTT();
 
       debugPrint("${DateTime.now()}:TST-> TCP Websocket completely done.");
+    }, timeout: Timeout.parse("90s"));
+
+    test("Invalid ACK", () async {
+      await fullFlow(RelayConnectionType.udp, rcb:badRelayCallback);
+
+      expect(successCount, 2);
+      expect(failureCount, 1);
+
     }, timeout: Timeout.parse("90s"));
 
     tearDownAll(() {
