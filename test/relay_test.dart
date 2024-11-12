@@ -198,6 +198,7 @@ void main() {
       // Use a future to wait for callbacks to complete.
       readyCompleter = Completer();
       successCount = 0;
+      failureCount = 0;
       connectionType = type; //
 
       expect(bcTest.bcWrapper.rttService.isRTTEnabled(), false,
@@ -221,10 +222,6 @@ void main() {
 
       await completer.future;
 
-      //FIXME: This is temporarily to test server initiated disconnect. Remove when done
-      if (type == RelayConnectionType.udp)
-        await Future.delayed(Duration(seconds: 14));
-
       // Put a time limit on this Future completer so we do not wait forever.
       await readyCompleter.future.timeout(Duration(seconds: 90), onTimeout: () {
         debugPrint(
@@ -240,9 +237,6 @@ void main() {
 
       if (shouldDisconnect) {
         disconnectRelay();
-        // bcTest.bcWrapper.relayService.endMatch({});
-        // bcTest.bcWrapper.relayService.disconnect();
-        // bcTest.bcWrapper.rttService.disableRTT();
       }
       debugPrint("${DateTime.now()}:TST-> $type Test completely done.");
     }
@@ -259,6 +253,15 @@ void main() {
       expect(failureCount, 0);
 
     }, timeout: Timeout.parse("120s"));
+
+    // Purposefully set this in the middle of other test to ensure proper cleanup
+    test("Invalid ACK", () async {
+      await fullFlow(RelayConnectionType.udp, rcb:badRelayCallback);
+
+      expect(successCount, 2);
+      expect(failureCount, 1);
+
+    }, timeout: Timeout.parse("90s"));
 
     test("FullFlow UDP", () async {
       await fullFlow(RelayConnectionType.udp);
@@ -309,14 +312,6 @@ void main() {
       bcTest.bcWrapper.rttService.disableRTT();
 
       debugPrint("${DateTime.now()}:TST-> TCP Websocket completely done.");
-    }, timeout: Timeout.parse("90s"));
-
-    test("Invalid ACK", () async {
-      await fullFlow(RelayConnectionType.udp, rcb:badRelayCallback);
-
-      expect(successCount, 2);
-      expect(failureCount, 1);
-
     }, timeout: Timeout.parse("90s"));
 
     tearDownAll(() {
