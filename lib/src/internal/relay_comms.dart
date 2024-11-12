@@ -484,7 +484,6 @@ class RelayComms {
 
   void _sendPing() {
     _lastPingTime = DateTime.now().millisecondsSinceEpoch;
-
     Uint8List data = Uint8List.fromList(
         [CL2RS_PING, (_lastPingTime >> 8) & 0xFF, _lastPingTime & 0xFF]);
     _send(data);

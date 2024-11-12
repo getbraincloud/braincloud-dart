@@ -183,7 +183,6 @@ class RTTComms {
         }
       }
     }
-    // debugPrint(" ---------  _queuedRTTCommands.clear(); ---------------------");
     _queuedRTTCommands.clear();
 
     if (_rttConnectionStatus == RTTConnectionStatus.connected) {

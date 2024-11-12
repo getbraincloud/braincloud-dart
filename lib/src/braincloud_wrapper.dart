@@ -1743,7 +1743,6 @@ class BrainCloudWrapper {
 
   /// Resets the stored profile id to empty string.
   void resetStoredProfileId() {
-    debugPrint("BrainCloudWrapper:--------Clearing profileId--------");
     _wrapperData.profileId = "";
     _saveData();
   }
