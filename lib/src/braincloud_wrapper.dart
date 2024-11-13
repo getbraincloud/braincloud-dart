@@ -50,7 +50,6 @@ import 'package:braincloud_dart/src/braincloud_time.dart';
 import 'package:braincloud_dart/src/braincloud_tournament.dart';
 import 'package:braincloud_dart/src/braincloud_user_items.dart';
 import 'package:braincloud_dart/src/braincloud_virtual_currency.dart';
-import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// The BrainCloudWrapper class provides some glue between the Dart environment and the
@@ -231,10 +230,11 @@ class BrainCloudWrapper {
 
   void _startTimer() {
     if (_updateTick > 0) {
-      _updateTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        Timer.periodic(Duration(milliseconds: _updateTick), (timer) {
-          update();
-        });
+      if (_updateTimer != null) _updateTimer?.cancel();
+      _updateTimer =
+          Timer.periodic(Duration(milliseconds: _updateTick), (timer) {
+            if (timer.tick % 30 == 0) print('⏳');
+        update();
       });
     }
   }
@@ -272,7 +272,6 @@ class BrainCloudWrapper {
     _lastSecretKey = secretKey;
     _lastAppId = appId;
     _lastAppVersion = version;
-
     _updateTick = updateTick;
 
     _client.initialize(
@@ -311,6 +310,7 @@ class BrainCloudWrapper {
     _lastSecretKey = appIdSecretMap[defaultAppId] ?? "";
     _lastAppId = defaultAppId;
     _lastAppVersion = version;
+    _updateTick = updateTick;
     _client.initializeWithApps(
         serverURL: url,
         defaultAppId: defaultAppId,
