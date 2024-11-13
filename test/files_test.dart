@@ -286,11 +286,6 @@ main() {
       }
     }, tags: 'fileService');
 
-    // end test
-    /// END TEST
-    tearDownAll(() {
-      bcTest.dispose();
-    });
   });
 
   group("GlobalFile Tests", () {
@@ -383,10 +378,6 @@ main() {
       }
     });
 
-    /// END TEST
-    tearDownAll(() {
-      bcTest.dispose();
-    });
   });
 
   group("GroupFile Tests", () {
@@ -665,10 +656,11 @@ main() {
           reason: "moveUserToGroupFile should return data.fileDetails");
     });
 
-    tearDownAll(() {
-      // Delete the group
-    });
   });
+      /// END TEST
+    tearDownAll(() {
+      bcTest.dispose();
+    });
 }
 
 class FileDetail {

@@ -506,11 +506,6 @@ main() {
         singletonEntityVerison = body['version'];
       }
     });
-
-    /// END TEST
-    tearDownAll(() {
-      bcTest.dispose();
-    });
   });
 
   group("Global Entity Tests", () {
@@ -960,10 +955,6 @@ main() {
       }
     });
 
-    /// END TEST
-    tearDownAll(() {
-      bcTest.dispose();
-    });
   });
 
   group("Custom Entity Tests", () {
@@ -1465,9 +1456,9 @@ main() {
       expect(response.data, isNull);
     });
 
+  });
     /// END TEST
     tearDownAll(() {
       bcTest.dispose();
     });
-  });
 }

@@ -25,7 +25,7 @@ void main() {
     /// ========================================================================================================
     /// Helper functions for Tests
     ///
-    void disconnectRelay() async {
+    Future disconnectRelay() async {
       bcTest.bcWrapper.relayService.endMatch({});
       bcTest.bcWrapper.relayService.disconnect();
       bcTest.bcWrapper.rttService.disableRTT();
@@ -236,7 +236,7 @@ void main() {
       expect(bcTest.bcWrapper.relayService.getPing(), lessThan(999));
 
       if (shouldDisconnect) {
-        disconnectRelay();
+        await disconnectRelay();
       }
       debugPrint("${DateTime.now()}:TST-> $type Test completely done.");
     }

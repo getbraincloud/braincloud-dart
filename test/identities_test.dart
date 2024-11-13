@@ -137,6 +137,7 @@ main() {
       expect(response.statusCode, 200);
       expect(response.data?['profileId'], isA<String>());
     });
+   
     test("switchToSingletonChildProfile", () async {
       ServerResponse response = await bcTest.bcWrapper.identityService
           .switchToSingletonChildProfile(
@@ -179,7 +180,7 @@ main() {
     });
 
     test("attachParentWithIdentity", () async {
-      // bcTest.dispose();
+      bcTest.dispose();
       await bcTest.setupBCwithChild();
       print('👉 Did re-initialized the BC libs');
 
