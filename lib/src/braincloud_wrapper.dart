@@ -233,7 +233,6 @@ class BrainCloudWrapper {
       if (_updateTimer != null) _updateTimer?.cancel();
       _updateTimer =
           Timer.periodic(Duration(milliseconds: _updateTick), (timer) {
-            if (timer.tick % 30 == 0) print('⏳');
         update();
       });
     }
