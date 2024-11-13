@@ -1089,7 +1089,7 @@ class BrainCloudIdentity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> switchToChildProfile(
-      {required String childProfileId,
+      {String? childProfileId,
       required String childAppId,
       required bool forceCreate}) async {
     return _switchToChildProfile(
@@ -1194,7 +1194,7 @@ class BrainCloudIdentity {
       {required String externalId,
       required String authenticationToken,
       required AuthenticationType authenticationType,
-      required String externalAuthName,
+      String? externalAuthName,
       required bool forceCreate}) async {
     Map<String, dynamic> data = {};
 
