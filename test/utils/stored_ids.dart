@@ -42,4 +42,7 @@ class StoredIds {
   String get customShardedEntityType => ids['customShardedEntityType'] ?? "";
   String get customOwnedEntityType => ids['customOwnedEntityType'] ?? "";
   String get peerName => ids['peerName'] ?? "";
+  String get parentLevelName => ids['parentLevelName'] ?? "";
+  String get childAppId => ids['childAppId'] ?? "";
+  String get childSecret => ids['childSecret'] ?? "";
 }

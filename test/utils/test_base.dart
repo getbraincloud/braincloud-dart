@@ -56,6 +56,39 @@ class BCTest {
     await auth();
   }
 
+  /// Initialize the wrapper and load StoredIds
+  setupBCwithChild() async {
+    SharedPreferences.setMockInitialValues({});
+
+    //load StoredIds
+    await ids.load();
+
+    debugPrint('appId: ${ids.appId} at ${ids.url}');
+
+    Map<String, String> appIdSecretMap = {
+      ids.appId: ids.secretKey,
+      ids.childAppId: ids.childSecret
+    };
+
+    //init wrapper (this will start the update loop)
+    await bcWrapper
+        .initWithApps(
+            appIdSecretMap: appIdSecretMap,
+            defaultAppId: ids.appId,
+            version: ids.version,
+            url: ids.url,
+            updateTick: 50)
+        .onError((error, stackTrace) {
+      debugPrint(error.toString());
+    });
+
+    debugPrint("Platform: ${bcWrapper.brainCloudClient.releasePlatform}");
+
+    bcWrapper.brainCloudClient.authenticationService.clearSavedProfileID();
+
+    await auth();
+  }
+
   /// Authenticate with email and password found in test/ids.txt
   Future auth({String? userId, String? password}) async {
     Completer completer = Completer();
