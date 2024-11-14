@@ -15,7 +15,7 @@ import 'package:uuid/uuid.dart';
 class BrainCloudAuthentication {
   final BrainCloudClient _clientRef;
 
-  late String _anonymousId;
+  String? _anonymousId;
   String? profileId;
 
   bool compressResponse = true;
@@ -65,7 +65,7 @@ class BrainCloudAuthentication {
   Future<ServerResponse> authenticateAnonymous(
       {required bool forceCreate}) async {
     return authenticate(
-        externalId: _anonymousId,
+        externalId: _anonymousId ?? "",
         authenticationToken: "",
         authenticationType: AuthenticationType.anonymous,
         forceCreate: forceCreate);
@@ -605,15 +605,15 @@ class BrainCloudAuthentication {
   /// Service Name - Authenticate
   /// Operation - ResetEmailPassword
   ///
-  /// @param externalId
+  /// @param emailAddress
   /// The email address to send the reset email to.
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetEmailPassword(
-      {required String externalId}) async {
+      {required String emailAddress}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.authenticateServiceAuthenticateExternalId.value] =
-        externalId;
+        emailAddress;
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
 
@@ -640,7 +640,7 @@ class BrainCloudAuthentication {
   /// Service Name - Authenticate
   /// Operation - ResetEmailPassword
   ///
-  /// @param externalId
+  /// @param emailAddress
   /// The email address to send the reset email to.
   ///
   /// @param expiryTimeInMin
@@ -648,10 +648,10 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetEmailPasswordWithExpiry(
-      {required String externalId, required int tokenTtlInMinutes}) async {
+      {required String emailAddress, required int tokenTtlInMinutes}) async {
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.authenticateServiceAuthenticateExternalId.value] =
-        externalId;
+        emailAddress;
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =
         _clientRef.appId;
 

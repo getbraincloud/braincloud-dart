@@ -1,3 +1,4 @@
+import 'dart:math';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -19,8 +20,8 @@ main() async {
       if (io.Platform.isMacOS) platform = "MAC";
       if (io.Platform.isAndroid) platform = "ANG";
 
-      expect(bcTest.bcWrapper.brainCloudClient.releasePlatform, Platform.fromString(platform));
-
+      expect(bcTest.bcWrapper.brainCloudClient.releasePlatform,
+          Platform.fromString(platform));
     });
 
     test("authenticateAnonymous", () async {
@@ -50,10 +51,11 @@ main() async {
       }
 
       // exercise reauthenticate \
-      expect(bcTest.bcWrapper.brainCloudClient.isAuthenticated(), true, reason:"Should be authenticated");
+      expect(bcTest.bcWrapper.brainCloudClient.isAuthenticated(), true,
+          reason: "Should be authenticated");
       await bcTest.bcWrapper.reauthenticate();
-      expect(bcTest.bcWrapper.brainCloudClient.isAuthenticated(), true, reason:"Should be reauthenticated");
-
+      expect(bcTest.bcWrapper.brainCloudClient.isAuthenticated(), true,
+          reason: "Should be reauthenticated");
     });
 
     test("reconnect", () async {
@@ -151,6 +153,263 @@ main() async {
       expect(response.data?['createdAt'], isA<int>());
       expect(response.data?['isTester'], isA<bool>());
       expect(response.data?['currency'], isA<Object>());
+    });
+
+    test("testAuthenticateSpam", () {
+      // our problem is that users who find they can't log in, will retry over and over until they have success. They do not change their credentials while doing this.
+      // This threatens our servers, because huge numbers of errors related to the profileId not matching the anonymousId show up, as the user continues to have this retry.
+      // Our goal is to stop this by checking to see if the call being made was an authentication call, then seeing if the attempted parameters for the authenticate were the
+      // same. If they were, we know they're simply retrying, and retrying, and we can send a client error saying that the credentials have already been retried.
+
+      //start test by initializing an anonymous Id and profileID
+      // string anonId = _bc.Client.AuthenticationService.GenerateAnonymousId();
+      // _bc.Client.AuthenticationService.Initialize("randomProfileId", anonId);
+
+      // in this test we purposefully fail 4 times so that 3 identical call will have been made after the first
+      // We then allow a fifth call to show that whenever a call is made it will simply hit the client with a fake response.
+      // Then we freeze the test in a while loop for 30 seconds to wait out the comms timer.
+      // then we call authenticate again and you will notice that a call will be made to the server and everything reset.
+
+      //TODO: Complete the spam test  use C# as the template
+    });
+
+    test("authenticateHandoff", () async {
+      expect(bcTest.bcWrapper.isInitialized, true);
+
+      ServerResponse response = await bcTest.bcWrapper.scriptService
+          .runScript(scriptName: "createHandoffId");
+
+      expect(response.statusCode, 200);
+
+      String handoffId = response.data?['response']['handoffId'] ?? "";
+      String securityToken = response.data?['response']['securityToken'] ?? "";
+
+      expect(handoffId, isNotEmpty);
+      expect(securityToken, isNotEmpty);
+
+      response = await bcTest.bcWrapper.brainCloudClient.authenticationService
+          .authenticateHandoff(
+              handoffId: handoffId, securityToken: securityToken);
+
+      expect(response.statusCode, 200);
+      expect(response.data, isMap);
+    });
+
+    test("authenticateSettopHandoff", () async {
+      expect(bcTest.bcWrapper.isInitialized, true);
+
+      ServerResponse response = await bcTest.bcWrapper.scriptService
+          .runScript(scriptName: "CreateSettopHandoffCode");
+
+      expect(response.statusCode, 200);
+      String handoffCode = response.data?['response']['handoffCode'] ?? "";
+      expect(handoffCode, isNotEmpty);
+
+      response = await bcTest.bcWrapper.brainCloudClient.authenticationService
+          .authenticateSettopHandoff(handoffCode: handoffCode);
+
+      expect(response.statusCode, 200);
+      expect(response.data, isMap);
+    });
+
+    test("resetEmailPassword", () async {
+      expect(bcTest.bcWrapper.isInitialized, true);
+
+      String email = "braincloudunittest@gmail.com";
+
+      ServerResponse response = await bcTest.bcWrapper
+          .authenticateEmailPassword(
+              email: email, password: email, forceCreate: true);
+
+      response = await bcTest.bcWrapper.brainCloudClient.authenticationService
+          .resetEmailPassword(emailAddress: email);
+
+      expect(response.statusCode, 200);
+    });
+
+    test("authenticateEmailPassword", () async {
+      expect(bcTest.bcWrapper.isInitialized, true);
+
+      String email = "braincloudunittest@gmail.com";
+
+      ServerResponse response = await bcTest.bcWrapper
+          .authenticateEmailPassword(
+              email: email, password: email, forceCreate: true);
+
+      response = await bcTest.bcWrapper.brainCloudClient.authenticationService
+          .resetEmailPasswordWithExpiry(
+              emailAddress: email, tokenTtlInMinutes: 1);
+
+      expect(response.statusCode, 200);
+    });
+    test("resetEmailPasswordAdvanced", () async {
+      expect(bcTest.bcWrapper.isInitialized, true);
+
+      String email = "braincloudunittest@gmail.com";
+
+      Map<String, dynamic> serviceParams = {
+        "fromAddress": "fromAddress",
+        "fromName": "fromName",
+        "replyToAddress": "replyToAddress",
+        "replyToName": "replyToName",
+        "templateId": "8f14c77d-61f4-4966-ab6d-0bee8b13d090",
+        "subject": "subject",
+        "body": "Body goes here",
+        "substitutions": {
+          ":name": "John Doe",
+          ":resetLink": "www.dummuyLink.io"
+        },
+        "categories": ["category1", "category2"]
+      };
+      ServerResponse response = await bcTest.bcWrapper
+          .authenticateEmailPassword(
+              email: email, password: email, forceCreate: true);
+
+      response = await bcTest.bcWrapper.brainCloudClient.authenticationService
+          .resetEmailPasswordAdvanced(
+              emailAddress: email, serviceParams: serviceParams);
+
+      expect(response.statusCode, 400);
+      expect(response.reasonCode, ReasonCodes.invalidFromAddress);
+    });
+
+    test("resetEmailPasswordAdvancedWithExpiry", () async {
+      expect(bcTest.bcWrapper.isInitialized, true);
+
+      String email = "braincloudunittest@gmail.com";
+
+      Map<String, dynamic> serviceParams = {
+        "fromAddress": "fromAddress",
+        "fromName": "fromName",
+        "replyToAddress": "replyToAddress",
+        "replyToName": "replyToName",
+        "templateId": "8f14c77d-61f4-4966-ab6d-0bee8b13d090",
+        "subject": "subject",
+        "body": "Body goes here",
+        "substitutions": {
+          ":name": "John Doe",
+          ":resetLink": "www.dummuyLink.io"
+        },
+        "categories": ["category1", "category2"]
+      };
+
+      ServerResponse response = await bcTest.bcWrapper
+          .authenticateEmailPassword(
+              email: email, password: email, forceCreate: true);
+
+      response = await bcTest.bcWrapper.brainCloudClient.authenticationService
+          .resetEmailPasswordAdvancedWithExpiry(
+              emailAddress: email,
+              serviceParams: serviceParams,
+              tokenTtlInMinutes: 1);
+
+      expect(response.statusCode, 400);
+      expect(response.reasonCode, ReasonCodes.invalidFromAddress);
+    });
+
+    test("resetUniversalIdPassword", () async {
+      expect(bcTest.bcWrapper.isInitialized, true);
+
+      // Tests normally login with userA as universal.
+      ServerResponse response = await bcTest
+          .bcWrapper.brainCloudClient.authenticationService
+          .resetUniversalIdPassword(universalId: userA.name);
+
+      expect(response.statusCode, isIn([409, 200]));
+      if (response.statusCode != 200) {
+        if (response.statusCode != 409)
+          print('Unexpected: $response \n${response.data}');
+        expect(response.reasonCode, ReasonCodes.emailIdNotFound);
+      }
+    });
+
+    test("resetUniversalIdPasswordWithExpiry", () async {
+      expect(bcTest.bcWrapper.isInitialized, true);
+
+      // Tests normally login with userA as universal.
+      ServerResponse response = await bcTest
+          .bcWrapper.brainCloudClient.authenticationService
+          .resetUniversalIdPasswordWithExpiry(
+              universalId: userA.name, tokenTtlInMinutes: 1);
+
+      expect(response.statusCode, isIn([409, 200]));
+      if (response.statusCode != 200) {
+        if (response.statusCode != 409)
+          print('Unexpected: $response \n${response.data}');
+        expect(response.reasonCode, ReasonCodes.emailIdNotFound);
+      }
+    });
+
+    test("resetUniversalIdPasswordAdvanced", () async {
+      expect(bcTest.bcWrapper.isInitialized, true);
+
+      Map<String, dynamic> serviceParams = {
+        "templateId": "8f14c77d-61f4-4966-ab6d-0bee8b13d090",
+        "substitutions": {
+          ":name": "John Doe",
+          ":resetLink": "www.dummuyLink.io"
+        },
+        "categories": ["category1", "category2"]
+      };
+
+      // Tests normally login with userA as universal.
+      ServerResponse response = await bcTest
+          .bcWrapper.brainCloudClient.authenticationService
+          .resetUniversalIdPasswordAdvanced(
+              universalId: userA.name, serviceParams: serviceParams);
+
+      if (![409,200].contains(response.statusCode))
+        print('Unexpected: $response \n${response.data}');
+      expect(response.statusCode, isIn([409, 200]));
+    });
+
+    test("resetUniversalIdPasswordAdvancedWithExpiry", () async {
+      expect(bcTest.bcWrapper.isInitialized, true);
+
+      Map<String, dynamic> serviceParams = {
+        "templateId": "8f14c77d-61f4-4966-ab6d-0bee8b13d090",
+        "substitutions": {
+          ":name": "John Doe",
+          ":resetLink": "www.dummuyLink.io"
+        },
+        "categories": ["category1", "category2"]
+      };
+
+      // Tests normally login with userA as universal.
+      ServerResponse response = await bcTest
+          .bcWrapper.brainCloudClient.authenticationService
+          .resetUniversalIdPasswordAdvancedWithExpiry(
+              universalId: userA.name,
+              serviceParams: serviceParams,
+              tokenTtlInMinutes: 1);
+
+      if (![200,409].contains(response.statusCode))
+        print('Unexpected: $response \n${response.data}');
+
+      expect(response.statusCode, isIn([409, 200]));
+    });
+
+    test("authenticateWithHeartbeat", () async {
+      // In  order to send a heartbeat before loging in we create a new Wrapper as the bcTest is already logged-in;
+      BrainCloudWrapper _bc =
+          BrainCloudWrapper(wrapperName: "authenticateWithHeartbeat");
+      await _bc.init(
+          secretKey: bcTest.ids.secretKey,
+          appId: bcTest.ids.appId,
+          version: bcTest.ids.version,
+          url: bcTest.ids.url,
+          updateTick: 50);
+      _bc.brainCloudClient.enableLogging(true);
+
+      _bc.brainCloudClient.sendHeartbeat();
+      _bc.brainCloudClient.sendHeartbeat();
+      _bc.brainCloudClient.sendHeartbeat();
+
+      ServerResponse response = await _bc.brainCloudClient.authenticationService
+          .authenticateEmailPassword(
+              email: userA.email, password: userA.password, forceCreate: true);
+
+      expect(response.statusCode, 200);
     });
 
     /// END TEST
