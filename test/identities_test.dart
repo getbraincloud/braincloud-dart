@@ -45,6 +45,9 @@ main() {
   }
 
   group("Identities Tests", () {
+
+    String attachableIdentity = "dart_${generateRandomString(8)}_${userA.email}";
+
     setUp(() async {
       // ensure we are loggedin the
       if (bcTest.bcWrapper.brainCloudClient.appId != bcTest.ids.appId) {
@@ -54,6 +57,7 @@ main() {
       await bcTest.bcWrapper.authenticateUniversal(
           username: userA.name, password: userA.password, forceCreate: false);
     });
+
     test("getExpiredIdentities", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
@@ -182,14 +186,12 @@ main() {
     test("attachParentWithIdentity", () async {
       bcTest.dispose();
       await bcTest.setupBCwithChild();
-      print('👉 Did re-initialized the BC libs');
 
       if (!await _gotoChildProfile())
         fail("Could not preemptively swith to child profile.");
       if (!await _detachParent())
         fail("Could not preemptively detach from parent.");
 
-      print('👉 Finish preparing');
 
       // ServerResponse response =
       //     await bcTest.bcWrapper.identityService.detachParent();
@@ -337,7 +339,7 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.identityService
           .updateUniversalIdLogin(externalId: "non_login_dart@bitheads.com");
 
-      if (response.statusCode != 200)
+      if (response.statusCode != 400)
         debugPrint('updateUniversalIdLogin: $response \n ${response.data}');
 
       expect(response.statusCode, 400);
@@ -357,6 +359,57 @@ main() {
       expect(response.statusCode, 200);
     });
 
+
+    test("attachAdvancedIdentity", () async {
+
+      AuthenticationIds authIds = AuthenticationIds(attachableIdentity,userA.password,"");
+      
+      ServerResponse response = await bcTest.bcWrapper.identityService
+          .attachAdvancedIdentity(
+            authenticationType: AuthenticationType.email, 
+            ids: authIds);
+
+      if (response.statusCode == 200) {
+        expect(response.statusCode, 200);
+      } else {
+        expect(response.statusCode, 202);
+        expect(response.reasonCode, ReasonCodes.duplicateIdentityType);
+      }
+    });
+
+    test("detachAdvancedIdentity", () async {
+
+      
+      ServerResponse response = await bcTest.bcWrapper.identityService
+          .detachAdvancedIdentity(
+            authenticationType: AuthenticationType.email, 
+            externalId: attachableIdentity, 
+            continueAnon: false);
+
+      if (response.statusCode == 200) {
+        expect(response.statusCode, 200);
+      } else {
+        expect(response.statusCode, 202);
+        expect(response.reasonCode, ReasonCodes.missingIdentityError);
+      }
+    });
+
+    test("mergeAdvancedIdentity", () async {
+
+      AuthenticationIds authIds = AuthenticationIds(userC.email,userC.password,"");
+
+      ServerResponse response = await bcTest.bcWrapper.identityService
+          .mergeAdvancedIdentity(
+            authenticationType: AuthenticationType.email, 
+            ids: authIds);
+
+      if (response.statusCode == 200) {
+        expect(response.statusCode, 200);
+      } else {
+        expect(response.statusCode, 202);
+        expect(response.reasonCode, ReasonCodes.duplicateIdentityType);
+      }
+    });
     /// END TEST
     tearDownAll(() {
       bcTest.dispose();
