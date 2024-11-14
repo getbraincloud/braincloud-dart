@@ -1584,7 +1584,7 @@ class BrainCloudWrapper {
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetEmailPassword({required String externalId}) {
     return _client.authenticationService
-        .resetEmailPassword(externalId: externalId);
+        .resetEmailPassword(emailAddress: externalId);
   }
 
   /// Reset Email password with service parameters - sends a password reset email to
@@ -1620,7 +1620,7 @@ class BrainCloudWrapper {
   Future<ServerResponse> resetEmailPasswordWithExpiry(
       {required String externalId, required int tokenTtlInMinutes}) {
     return _client.authenticationService.resetEmailPasswordWithExpiry(
-        externalId: externalId, tokenTtlInMinutes: tokenTtlInMinutes);
+        emailAddress: externalId, tokenTtlInMinutes: tokenTtlInMinutes);
   }
 
   /// Reset Email password with service parameters - sends a password reset email to
