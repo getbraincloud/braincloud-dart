@@ -6,8 +6,11 @@ import 'utils/test_base.dart';
 void main() {
   BCTest bcTest = BCTest();
   setUpAll(bcTest.setupBC);
+  String? _friendId;
 
   group("Test Friend", () {
+    
+
     test("getProfileInfoForCredential()", retry: 2, () async {
       ServerResponse response = await bcTest.bcWrapper.friendService
           .getProfileInfoForCredential(
@@ -57,15 +60,16 @@ void main() {
     expect(response.statusCode, StatusCodes.ok);
   });
 
-  test("addFriends()", retry: 2, () async {
+  test("addFriends()", () async {
     var ids = [userB.profileId!];
     ServerResponse response =
         await bcTest.bcWrapper.friendService.addFriends(profileIds: ids);
 
     expect(response.statusCode, StatusCodes.ok);
+    _friendId = userB.profileId;
   });
 
-  test("addFriendsFromPlatform()", retry: 2, () async {
+  test("addFriendsFromPlatform()",  () async {
     ServerResponse response = await bcTest.bcWrapper.friendService
         .addFriendsFromPlatform(
             friendPlatform: FriendPlatform.facebook,
@@ -75,14 +79,14 @@ void main() {
     expect(response.statusCode, StatusCodes.ok);
   });
 
-  test("listFriends()", retry: 2, () async {
+  test("listFriends()",  () async {
     ServerResponse response = await bcTest.bcWrapper.friendService.listFriends(
         friendPlatform: FriendPlatform.all, includeSummaryData: false);
 
     expect(response.statusCode, StatusCodes.ok);
   });
 
-  test("getMySocialInfo()", retry: 2, () async {
+  test("getMySocialInfo()", () async {
     ServerResponse response = await bcTest.bcWrapper.friendService
         .getMySocialInfo(
             friendPlatform: FriendPlatform.all, includeSummaryData: false);
@@ -90,10 +94,64 @@ void main() {
     expect(response.statusCode, StatusCodes.ok);
   });
 
+  test("readFriendEntity()", () async {
+    if (_friendId ==  null || _friendId!.isEmpty) {       
+        if ((await bcTest.bcWrapper.friendService.addFriends(profileIds: [userB.profileId!])).statusCode == 200) {
+          _friendId = userB.profileId!;
+        } else {
+          markTestSkipped("cannot set Friend for test");
+          return;
+        }
+    }
+    ServerResponse response = await bcTest.bcWrapper.friendService
+        .readFriendEntity(entityId: "",friendId: userB.profileId!);
+            
+    expect(response.statusCode, StatusCodes.ok);
+  });
+
+  test("readFriendUserState()", () async {
+    if (_friendId ==  null || _friendId!.isEmpty) {       
+        if ((await bcTest.bcWrapper.friendService.addFriends(profileIds: [userB.profileId!])).statusCode == 200) {
+          _friendId = userB.profileId!;
+        } else {
+          markTestSkipped("cannot set Friend for test");
+          return;
+        }
+    }
+    ServerResponse response = await bcTest.bcWrapper.friendService
+        .readFriendUserState(friendId: _friendId!);
+            
+    expect(response.statusCode, StatusCodes.ok);
+  });
+
+
+  test("readFriendsEntities()", retry: 2, () async {
+    if (_friendId ==  null || _friendId!.isEmpty) {       
+        if ((await bcTest.bcWrapper.friendService.addFriends(profileIds: [userB.profileId!])).statusCode == 200) {
+          _friendId = userB.profileId!;
+        } else {
+          markTestSkipped("cannot set Friend for test");
+          return;
+        }
+    }
+    ServerResponse response = await bcTest.bcWrapper.friendService
+        .readFriendsEntities(entityType: "Test");
+            
+    expect(response.statusCode, StatusCodes.ok);
+  });
+
   test("removeFriends()", retry: 2, () async {
-    var ids = [userB.profileId!];
+    // var ids = [userB.profileId!];
+    if (_friendId ==  null || _friendId!.isEmpty) {       
+        if ((await bcTest.bcWrapper.friendService.addFriends(profileIds: [userB.profileId!])).statusCode == 200) {
+          _friendId = userB.profileId!;
+        } else {
+          markTestSkipped("cannot set Friend for test");
+          return;
+        }
+    }
     ServerResponse response =
-        await bcTest.bcWrapper.friendService.removeFriends(profileIds: ids);
+        await bcTest.bcWrapper.friendService.removeFriends(profileIds: [_friendId!]);
 
     expect(response.statusCode, StatusCodes.ok);
   });
@@ -129,6 +187,9 @@ void main() {
 
     expect(response.statusCode, StatusCodes.ok);
   });
+
+
+
 
   /// END TEST
   tearDownAll(() {

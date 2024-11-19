@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'utils/test_base.dart';
@@ -212,6 +210,24 @@ main() async {
       expect(response.data, isMap);
     });
 
+    test("authenticateNintendo", () async {
+            expect(bcTest.bcWrapper.isInitialized, true);
+
+      ServerResponse response = await bcTest.bcWrapper
+          .authenticateNintendo(accountId: "Dart_Tester", authToken: "acceptThis", forceCreate: true);
+
+      expect(response.statusCode, 200);
+    }); 
+
+    test("authenticatePlaystation5", () async {
+            expect(bcTest.bcWrapper.isInitialized, true);
+
+      ServerResponse response = await bcTest.bcWrapper
+          .authenticatePlaystation5(accountId: "Dart_Tester", authToken: "acceptThis", forceCreate: true);
+
+      expect(response.statusCode, 200);
+    }); 
+
     test("resetEmailPassword", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
@@ -227,7 +243,7 @@ main() async {
       expect(response.statusCode, 200);
     });
 
-    test("authenticateEmailPassword", () async {
+    test("resetEmailPasswordWithExpiry", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
       String email = "braincloudunittest@gmail.com";
@@ -242,6 +258,7 @@ main() async {
 
       expect(response.statusCode, 200);
     });
+    
     test("resetEmailPasswordAdvanced", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 

@@ -963,9 +963,9 @@ main() {
 
     /// Utility to create entity for tests requiring one.
 
-    Future createCustomTestEntity(String entityType,
-        {bool owned = false}) async {
-      var jsonEntityData = {"testId": "RedTeam", "team": "RedTeam", "games": 0};
+    Future<Map<String, dynamic>> createCustomTestEntity(String entityType,
+        {dynamic entityData, bool owned = false}) async {
+      var jsonEntityData = entityData ?? {"testId": "RedTeam", "team": "RedTeam", "games": 0};
       var jsonEntityAcl = ACLs.readWrite;
       ServerResponse response = await bcTest.bcWrapper.customEntityService
           .createEntity(entityType, jsonEntityData, jsonEntityAcl,
@@ -975,7 +975,9 @@ main() {
         Map<String, dynamic> body = response.data!;
         entityId = body['entityId'];
         entityVersion = body['version'];
+        return body;
       }
+      return {};
     }
 
     test("CreateEntity", () async {
@@ -1224,7 +1226,7 @@ main() {
       }
     });
 
-    test("IncrementDataSharded", () async {
+    test("incrementDataSharded", () async {
       if (bcTest.ids.customShardedEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test IncrementDataSharded");
@@ -1233,15 +1235,18 @@ main() {
 
       expect(bcTest.bcWrapper.isInitialized, true);
       //Force the creation to ensure the current entityId is of a sharded entity
-      await createCustomTestEntity(bcTest.ids.customShardedEntityType);
+      Map<String, dynamic> shardedEnt = await createCustomTestEntity(bcTest.ids.customShardedEntityType,
+          entityData: {"GamesPlayed": 2, "Name": "Zoro", "Goals": 7},owned: true);
 
-      var jsonInc = {"games": 2};
-      // This shard hkey may not be valie
-      var shardKeyJson = {"ownerId": "profileIdOfEntityOwner"};
+      if (shardedEnt.isEmpty) {
+        markTestSkipped("No entity to increment.");
+      }
+      var jsonInc = {"Goals": 2};
+      var shardKeyJson = {"ownerId": shardedEnt['ownerId']};
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
           .incrementDataSharded(
-              bcTest.ids.customEntityType, entityId, jsonInc, shardKeyJson);
+              bcTest.ids.customShardedEntityType, shardedEnt['entityId'], jsonInc, shardKeyJson);
       expect(response.statusCode, 200);
       expect(response.data, isMap);
       if (response.data != null) {
@@ -1249,11 +1254,11 @@ main() {
         Map<String, dynamic> body = response.data!;
         expect(body['entityId'], entityId);
         expect(body['data'], isMap);
-        expect(body['data']['games'], isA<int>());
+        expect(body['data']['Goals'], isA<int>());
         entityVersion = body['version'];
       }
     });
-    test("UpdateEntityFieldsSharded", () async {
+    test("updateEntityFieldsSharded", () async {
       if (bcTest.ids.customShardedEntityType.isEmpty) {
         markTestSkipped(
             "No sharded collection in test app, skipping test UpdateEntityFieldsSharded");
@@ -1261,13 +1266,16 @@ main() {
       }
       expect(bcTest.bcWrapper.isInitialized, true);
       //Force the creation to ensure the current entityId is of a sharded entity
-      await createCustomTestEntity(bcTest.ids.customShardedEntityType);
-      var jsonEntityData = {"position": "right"};
-      var shardKeyJson = {"ownerId": "profileIdOfEntityOwner"};
+      // await createCustomTestEntity(bcTest.ids.customShardedEntityType);
+      Map<String, dynamic> shardedEnt = await createCustomTestEntity(bcTest.ids.customShardedEntityType,
+       entityData: {"GamesPlayed": 2, "Name": "Zoro", "Goals": 7},owned: true);
+
+      var jsonEntityData = {"Name": "Rambo"};
+      var shardKeyJson = {"ownerId": shardedEnt['ownerId']};
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
           .updateEntityFieldsSharded(bcTest.ids.customShardedEntityType,
-              entityId, entityVersion, jsonEntityData, shardKeyJson);
+              shardedEnt['entityId'], shardedEnt['version'], jsonEntityData, shardKeyJson);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
