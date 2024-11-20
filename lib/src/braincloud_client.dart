@@ -361,12 +361,6 @@ class BrainCloudClient {
     return _comms.getReceivedPacketId();
   }
 
-  /// Restore packetId found in localstorage
-
-  void restorePacketId(int id) {
-    _comms.receivedPacketIdChecker = id;
-  }
-
   /// Returns true if brainCloud has been initialized.
 
   bool isInitialized() {
@@ -556,7 +550,7 @@ class BrainCloudClient {
   }
 
   /// Failure callback invoked for all errors generated
-  void registerGlobalErrorCallback(FailureCallback callback) {
+  void registerGlobalErrorCallback(FailureGlobalCallback callback) {
     _comms.registerGlobalErrorCallback(callback);
   }
 
@@ -816,8 +810,6 @@ class BrainCloudClient {
     // pass this directly to the brainCloud Class
     // which will add it to its queue and send back responses accordingly
     _comms.addToQueue(serviceMessage);
-
-    wrapper.setStoredPacketId(serviceMessage.packetID);
   }
 
   String serializeJson(dynamic payLoad) {

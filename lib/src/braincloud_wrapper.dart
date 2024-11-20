@@ -7,6 +7,7 @@ import 'dart:async';
 import 'package:braincloud_dart/src/braincloud_blockchain.dart';
 import 'package:braincloud_dart/src/server_response.dart';
 import 'package:dart_extensions/dart_extensions.dart';
+import 'package:flutter/services.dart';
 
 import 'package:braincloud_dart/src/common/authentication_ids.dart';
 import 'package:braincloud_dart/src/common/authentication_type.dart';
@@ -236,6 +237,15 @@ class BrainCloudWrapper {
         update();
       });
     }
+  }
+
+  /// Start the built-in runloop timer.
+  /// Restart it if already running.
+  void startTimer() => _startTimer();
+
+  /// Stop the  built-in runloop timer.
+  void stopTimer() {
+    _updateTimer?.cancel();
   }
 
   void runCallbacks() {
@@ -1788,48 +1798,11 @@ class BrainCloudWrapper {
     _saveData();
   }
 
-  /// Gets the stored sessionId
-  String getStoredSessionId() {
-    return _wrapperData.sessionId;
-  }
-
-  /// sets the stored sessionId
-  void setStoredSessionId(String sessionId) {
-    _wrapperData.sessionId = sessionId;
-    _saveData();
-  }
-
-  /// Resets the stored sessionId
-  void resetStoredSessionId() {
-    setStoredSessionId("");
-  }
-
-  /// Gets the stored lastPacketId
-  int getStoredPacketId() {
-    return _wrapperData.lastPacketId;
-  }
-
-  /// sets the stored lastPacketId
-  void setStoredPacketId(int lastPacketId) {
-    _wrapperData.lastPacketId = lastPacketId;
-    _saveData();
-  }
-
-  /// Resets the stored lastPacketId
-  void resetStoredPacketId() {
-    setStoredPacketId(1);
-  }
-
-  void restorePacketId() {
-    _wrapperData.lastPacketId++;
-    _client.restorePacketId(_wrapperData.lastPacketId);
-  }
-
   /// Provides a way to reauthenticate with the stored anonymous and profile id.
   ///
   /// Only works for Anonymous authentications.
   Future reauthenticate() async {
-    var wd =  _wrapperData;  // init will wipe this so save it first.
+    var wd = _wrapperData; // init will wipe this so save it first.
     init(
         appId: _lastAppId,
         version: _lastAppVersion,
@@ -1867,48 +1840,51 @@ class BrainCloudWrapper {
     if (jsonData.containsKey("profileId")) {
       setStoredProfileId(jsonData["profileId"]);
     }
+  }
 
-    if (jsonData.containsKey("sessionId")) {
-      setStoredSessionId(jsonData["sessionId"]);
+  bool _isServicesBindingAvailable() {
+    try {
+      // ignore: unnecessary_null_comparison
+      return ServicesBinding.instance != null;
+    } catch (e) {
+      return false;
     }
   }
 
   Future<void> _saveData() async {
-    String prefix = wrapperName.isEmptyOrNull ? "" : "$wrapperName.";
-    SharedPreferences playerPrefs = await SharedPreferences.getInstance();
-
-    await playerPrefs.setString(
-        prefix + prefsProfileId, _wrapperData.profileId);
-    await playerPrefs.setString(
-        prefix + prefsAnonymousId, _wrapperData.anonymousId);
-    await playerPrefs.setString(
-        prefix + prefsAuthenticationType, _wrapperData.authenticationType);
-    await playerPrefs.setString(
-        prefix + prefsSessionId, _wrapperData.sessionId);
-    await playerPrefs.setInt(
-        prefix + prefsLastPacketId, _wrapperData.lastPacketId);
+    // if no ServicesBinding instance set then ignore saving
+    if (_isServicesBindingAvailable()) {
+      try {
+        String prefix = wrapperName.isEmptyOrNull ? "" : "$wrapperName.";
+        SharedPreferencesAsync playerPrefs = SharedPreferencesAsync();
+        await playerPrefs.setString(
+            prefix + prefsProfileId, _wrapperData.profileId);
+        await playerPrefs.setString(
+            prefix + prefsAnonymousId, _wrapperData.anonymousId);
+        await playerPrefs.setString(
+            prefix + prefsAuthenticationType, _wrapperData.authenticationType);
+      } catch (e) {
+        print("Error saving wrapper data $e");
+      }
+    }
   }
 
   Future<void> _loadData() async {
-    String prefix = wrapperName.isEmptyOrNull ? "" : "$wrapperName.";
-    SharedPreferences playerPrefs = await SharedPreferences.getInstance();
-
-    _wrapperData.profileId =
-        playerPrefs.getString(prefix + prefsProfileId) ?? "";
-    _wrapperData.anonymousId =
-        playerPrefs.getString(prefix + prefsAnonymousId) ?? "";
-    _wrapperData.authenticationType =
-        playerPrefs.getString(prefix + prefsAuthenticationType) ?? "";
-    _wrapperData.sessionId =
-        playerPrefs.getString(prefix + prefsSessionId) ?? "";
-    _wrapperData.lastPacketId =
-        playerPrefs.getInt(prefix + prefsLastPacketId) ?? 1;
-
-    _client.restorePacketId(_wrapperData.lastPacketId);
-  }
-
-  void restoreSession() {
-    _client.comms.restoreProfileAndSessionIds(_wrapperData);
+    // if no ServicesBinding instance set then ignore saving
+    if (_isServicesBindingAvailable()) {
+      try {
+        String prefix = wrapperName.isEmptyOrNull ? "" : "$wrapperName.";
+        SharedPreferencesAsync playerPrefs = SharedPreferencesAsync();
+        _wrapperData.profileId =
+            await playerPrefs.getString(prefix + prefsProfileId) ?? "";
+        _wrapperData.anonymousId =
+            await playerPrefs.getString(prefix + prefsAnonymousId) ?? "";
+        _wrapperData.authenticationType =
+            await playerPrefs.getString(prefix + prefsAuthenticationType) ?? "";
+      } catch (e) {
+        print("Error loading wrapper data $e");
+      }
+    }
   }
 }
 
@@ -1916,11 +1892,9 @@ class WrapperData {
   String profileId = "";
   String anonymousId = "";
   String authenticationType = "";
-  String sessionId = "";
-  int lastPacketId = 1;
 
   @override
   String toString() {
-    return "profileId: $profileId,  anonymousId: $anonymousId, authenticationType: $authenticationType, sessionId: $sessionId, lastPacketId: $lastPacketId";
+    return "profileId: $profileId,  anonymousId: $anonymousId, authenticationType: $authenticationType ";
   }
 }

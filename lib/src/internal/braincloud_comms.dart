@@ -6,7 +6,6 @@ import 'package:dart_extensions/dart_extensions.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:crypto/crypto.dart';
-import 'package:braincloud_dart/src/braincloud_wrapper.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 
@@ -128,7 +127,7 @@ class BrainCloudComms {
 
   FileUploadFailedCallback? _fileUploadFailedCallback;
 
-  FailureCallback? _globalErrorCallback;
+  FailureGlobalCallback? _globalErrorCallback;
 
   NetworkErrorCallback? _networkErrorCallback;
 
@@ -284,7 +283,7 @@ class BrainCloudComms {
     _fileUploadFailedCallback = null;
   }
 
-  void registerGlobalErrorCallback(FailureCallback callback) {
+  void registerGlobalErrorCallback(FailureGlobalCallback callback) {
     _globalErrorCallback = callback;
   }
 
@@ -627,17 +626,6 @@ class BrainCloudComms {
     }
   }
 
-  void restoreProfileAndSessionIds(WrapperData data) {
-    _sessionId = data.sessionId;
-    if (getSessionID.isNotEmpty) {
-      _isAuthenticated = true;
-      authenticateInProgress = false;
-    }
-    _clientRef.authenticationService.profileId = data.profileId;
-    _packetId = data.lastPacketId;
-    resetIdleTimer();
-  }
-
   /// Handles the response bundle and calls registered callbacks.
   ///
   /// @param jsonDataThe received message bundle.
@@ -974,7 +962,9 @@ class BrainCloudComms {
         }
 
         if (_globalErrorCallback != null) {
-          _globalErrorCallback!(statusCode, reasonCode, errorJson);
+          String svc = sc?.getService.value ?? service; 
+          String op = sc?.getOperation.value ?? operation; 
+          _globalErrorCallback!(svc, op, statusCode, reasonCode, errorJson);
         }
 
         if (sc != null) {

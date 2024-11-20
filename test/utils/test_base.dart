@@ -29,7 +29,7 @@ class BCTest {
   BCTest._internal();
 
   /// Initialize the wrapper and load StoredIds
-  setupBC() async {
+  setupBC({String? serverUrl}) async {
     SharedPreferences.setMockInitialValues({});
 
     //load StoredIds
@@ -43,7 +43,7 @@ class BCTest {
             secretKey: ids.secretKey,
             appId: ids.appId,
             version: ids.version,
-            url: ids.url,
+            url: serverUrl ?? ids.url,
             updateTick: 50)
         .onError((error, stackTrace) {
       debugPrint(error.toString());
@@ -120,7 +120,7 @@ class BCTest {
     }
 
     debugPrint(
-        "Current profileId/session ${bcWrapper.getStoredProfileId()} / ${bcWrapper.getStoredSessionId()} as $id");
+        "Current profileId/session ${bcWrapper.getStoredProfileId()} / ${bcWrapper.brainCloudClient.getSessionId()} as $id");
 
     completer.complete();
 

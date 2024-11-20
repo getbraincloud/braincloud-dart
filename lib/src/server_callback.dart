@@ -27,12 +27,18 @@ class ServerCallback {
 /// @param Map<String, dynamic> response
 typedef SuccessCallback = void Function(Map<String, dynamic> response);
 
+/// FailureCallback
+/// 
 /// @param int statusCode
 ///
-///  @param int reasonCode
+/// @param int reasonCode
 ///
 /// @param String statusMessage
 typedef FailureCallback = void Function(
+    int statusCode, int reasonCode, String statusMessage);
+
+typedef FailureGlobalCallback = void Function(
+    String serviceName, String serviceOperation, 
     int statusCode, int reasonCode, String statusMessage);
 
 typedef NetworkErrorCallback = void Function();
