@@ -648,16 +648,6 @@ class BrainCloudClient {
     return _comms.authenticationPacketTimeoutSecs;
   }
 
-  //TODO:  Since this client did not exist back then, there is no need for this, should be completely removed.  
-  /// Sets the error callback to return the status message instead of the
-  /// error JSON string. This flag is used to conform to pre-2.17 client
-  /// behavior.
-  ///
-  /// @param enabledIf set to __true__, enable.
-  // void setOldStyleStatusMessageErrorCallback(bool enabled) {
-  //   _comms.oldStyleStatusResponseInErrorCallback = enabled;
-  // }
-
   /// Returns the low transfer rate timeout in secs
   int getUploadLowTransferRateTimeout() {
     return _comms.uploadLowTransferRateTimeout;

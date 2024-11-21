@@ -878,7 +878,6 @@ class BrainCloudComms {
         }
       } else //if non-200
       {
-        String statusMessageObj;
         int reasonCode = 0;
         String errorJson = "";
         callback = sc?.getCallback;
