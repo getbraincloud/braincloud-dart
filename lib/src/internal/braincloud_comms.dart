@@ -194,8 +194,6 @@ class BrainCloudComms {
 
   int authenticationPacketTimeoutSecs = 15;
 
-  bool oldStyleStatusResponseInErrorCallback = false;
-
   bool _cacheMessagesOnNetworkError = false;
   void enableNetworkErrorMessageCaching(bool enabled) {
     _cacheMessagesOnNetworkError = enabled;
@@ -331,7 +329,7 @@ class BrainCloudComms {
         //HttpStatusCode.OK
         if (_activeRequest?.webRequest?.response?.statusCode == 200) {
           resetIdleTimer();
-          handleResponseBundle(getWebRequestResponse(_activeRequest));
+          handleResponseBundle(_getWebRequestResponse(_activeRequest));
           disposeUploadHandler();
           _activeRequest = null;
         }
@@ -345,17 +343,15 @@ class BrainCloudComms {
           return;
         } else {
           //Error Callback
-          var errorResponse = getWebRequestResponse(_activeRequest);
+          var errorResponse = _getWebRequestResponse(_activeRequest);
           if (_serviceCallsInProgress.isNotEmpty) {
             ServerCall? sc = _serviceCallsInProgress[0];
 
             ServerCallback? callback = sc.getCallback;
             if (callback != null) {
-              callback.onErrorCallback(
-                  404,
-                  _activeRequest?.webRequest?.response?.statusCode ??
-                      ReasonCodes.unknownAuthError,
-                  errorResponse);
+                triggerCommsError(404,  _activeRequest?.webRequest?.response?.statusCode ??
+                        ReasonCodes.unknownAuthError, errorResponse);
+              _activeRequest = null;
             }
           }
         }
@@ -503,8 +499,7 @@ class BrainCloudComms {
     handleResponseBundle(jsonError);
   }
 
-  /// Shuts down the communications layer.
-  /// Make sure to only call this from the main thread!
+  /// Shuts down the communications layer.  
   void shutDown() {
     _serviceCallsWaiting.clear();
 
@@ -712,9 +707,6 @@ class BrainCloudComms {
       // reset the brainCloud communications after a session invalid or network
       // error is triggered.
       //
-      // This is safe to do from the main thread but just in case someone
-      // calls this method from another thread, we lock on _serviceCallsWaiting
-      //
       if (_serviceCallsInProgress.isNotEmpty) {
         sc = _serviceCallsInProgress[0];
         _serviceCallsInProgress.removeAt(0);
@@ -909,14 +901,7 @@ class BrainCloudComms {
           reasonCode = response["reason_code"];
         }
 
-        if (oldStyleStatusResponseInErrorCallback) {
-          if (response.containsKey("status_message")) {
-            statusMessageObj = response["status_message"];
-            errorJson = statusMessageObj;
-          }
-        } else {
-          errorJson = serializeJson(response);
-        }
+        errorJson = serializeJson(response);
 
         if (reasonCode == ReasonCodes.playerSessionExpired ||
             reasonCode == ReasonCodes.noSession ||
@@ -1186,20 +1171,20 @@ class BrainCloudComms {
           }
           internalSendMessage(requestState);
         } else {
-          fakeErrorResponse(requestState, _cachedStatusCode,
+          _fakeErrorResponse(requestState, _cachedStatusCode,
               _cachedReasonCode, _cachedStatusMessage);
           requestState = null;
         }
       } else {
         if (tooManyAuthenticationAttempts()) {
-          fakeErrorResponse(
+          _fakeErrorResponse(
               requestState,
               StatusCodes.clientNetworkError,
               ReasonCodes.clientDisabledFailedAuth,
               "Client has been disabled due to identical repeat Authentication calls that are throwing errors. Authenticating with the same credentials is disabled for 30 seconds");
           requestState = null;
         } else {
-          fakeErrorResponse(
+          _fakeErrorResponse(
               requestState,
               StatusCodes.clientNetworkError,
               ReasonCodes.clientDisabled,
@@ -1213,7 +1198,7 @@ class BrainCloudComms {
   }
 
   /// Creates a fake response to stop packets being sent to the server without a valid session.
-  void fakeErrorResponse(RequestState requestState, int statusCode,
+  void _fakeErrorResponse(RequestState requestState, int statusCode,
       int reasonCode, String statusMessage) {
     Map<String, dynamic> packet = {};
     packet[OperationParam.serviceMessagePacketId.value] = requestState.packetId;
@@ -1311,9 +1296,7 @@ class BrainCloudComms {
               requestState.webRequest?.response = response;
             }))
         .catchError((e) {
-      requestState.webRequest?.error = JsonErrorMessage(
-              StatusCodes.badRequest, ReasonCodes.invalidRequest, e.toString())
-          .toString();
+      requestState.webRequest?.error = e.message ?? e.toString();
     });
   }
 
@@ -1371,7 +1354,7 @@ class BrainCloudComms {
   /// returns The web request response.
   ///
   /// @param requestStaterequest state.
-  String getWebRequestResponse(RequestState? requestState) {
+  String _getWebRequestResponse(RequestState? requestState) {
     return requestState?.webRequest?.response?.body ?? "";
   }
 
@@ -1538,7 +1521,7 @@ class BrainCloudComms {
           String errorResponse = "";
           // we've reached the retry limit - send timeout error to all client callbacks
           if (status == WebRequestStatus.error) {
-            errorResponse = getWebRequestResponse(_activeRequest);
+            errorResponse = _getWebRequestResponse(_activeRequest);
             if (!errorResponse.isEmptyOrNull) {
               _clientRef.log("Timeout with network error: $errorResponse");
             } else {
@@ -1551,6 +1534,7 @@ class BrainCloudComms {
         }
         if (!resendMessage(_activeRequest!)) {
           disposeUploadHandler();
+          String errorResponse = _activeRequest?.webRequest?.error ?? _getWebRequestResponse(_activeRequest);
           _activeRequest = null;
 
           // if we're doing caching of messages on timeout, kick it in now!
@@ -1572,7 +1556,7 @@ class BrainCloudComms {
             triggerCommsError(
                 StatusCodes.clientNetworkError,
                 ReasonCodes.clientNetworkErrorTimeout,
-                "Timeout trying to reach brainCloud server");
+                "Timeout trying to reach brainCloud server ${errorResponse.isNotEmpty ? ": " + errorResponse:""}");
           }
         }
       }
@@ -1597,15 +1581,16 @@ class BrainCloudComms {
     }
   }
 
-  void addCallbackToAuthenticateRequest(ServerCallback? inCallback) {
-    bool inProgress = false;
-    for (int i = 0; i < _serviceCallsInProgress.length && !inProgress; ++i) {
-      if (_serviceCallsInProgress[i].getOperation ==
-          ServiceOperation.authenticate) {
-        inProgress = true;
-      }
-    }
-  }
+  //TODO: Need to confirm this is not needed.
+  // void addCallbackToAuthenticateRequest(ServerCallback? inCallback) {
+  //   bool inProgress = false;
+  //   for (int i = 0; i < _serviceCallsInProgress.length && !inProgress; ++i) {
+  //     if (_serviceCallsInProgress[i].getOperation == ServiceOperation.authenticate) {
+  //         _serviceCallsInProgress[i].getCallback?.addAuthCallbacks(inCallback);
+  //       inProgress = true;
+  //     }
+  //   }
+  // }
 
   bool isAuthenticateRequestInProgress() {
     bool inProgress = false;

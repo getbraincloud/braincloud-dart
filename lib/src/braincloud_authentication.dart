@@ -7,6 +7,7 @@ import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
+import 'package:braincloud_dart/src/reason_codes.dart';
 import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/util.dart';
 import 'package:braincloud_dart/src/version.dart';
@@ -1012,7 +1013,9 @@ class BrainCloudAuthentication {
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.authenticate, data, callback);
     if (_clientRef.comms.isAuthenticateRequestInProgress()) {
-      _clientRef.comms.addCallbackToAuthenticateRequest(callback);
+      // _clientRef.comms.addCallbackToAuthenticateRequest(callback);
+      //TODO: Need to confirm this.
+      completer.complete(ServerResponse(statusCode: 429,reasonCode:ReasonCodes.packetInProgress, statusMessage: "An authenticate call already in progress." ));
       return completer.future;
     }
     _clientRef.sendRequest(sc);
