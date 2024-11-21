@@ -271,8 +271,9 @@ main() {
     });
 
     test("changeEmailIdentity", () async {
-      final String _newEmail = "dart_${generateRandomString(6)}@bitheads.com";
-      final String _oldEmail = "dart_${generateRandomString(6)}@bitheads.com";
+      final String _uniqueToken ="${(DateTime.now().millisecondsSinceEpoch / 60000).floor()}";
+      final String _newEmail = "dart_${_uniqueToken}_new@bitheads.com";
+      final String _oldEmail = "dart_${_uniqueToken}_old@bitheads.com";
       final String _password = generateRandomString(9);
 
       ServerResponse response = await bcTest.bcWrapper
@@ -288,6 +289,7 @@ main() {
           newEmailAddress: _newEmail,
           updateContactEmail: true);
 
+      print("Failed to change Email identity from ${_oldEmail} to ${_newEmail}");
       expect(response.statusCode, 200);
 
       // Return to default user for next test.
