@@ -160,48 +160,94 @@ main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-
     test("scheduleRawPushNotificationUTC()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
-          .scheduleRawPushNotificationUTC( profileId: 
-        userA.profileId!, 
-        startTimeUTC: 0
-        );
+          .scheduleRawPushNotificationUTC(
+              profileId: userA.profileId!, startTimeUTC: 0);
+
+      expect(response.statusCode, StatusCodes.ok);
+
+      response = await bcTest.bcWrapper.pushNotificationService
+          .scheduleRawPushNotificationUTC(
+              profileId: userA.profileId!,
+              startTimeUTC: 0,
+              facebookContent: {"title": "test"},
+              fcmContent: {"title": "test"},
+              iosContent: {"title": "test"});
 
       expect(response.statusCode, StatusCodes.ok);
     });
-
-
 
     test("scheduleRawPushNotificationMinutes()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
-          .scheduleRawPushNotificationMinutes( profileId: 
-        userA.profileId!, 
-        minutesFromNow: 0
-        );
+          .scheduleRawPushNotificationMinutes(
+              profileId: userA.profileId!, minutesFromNow: 0);
+
+      expect(response.statusCode, StatusCodes.ok);
+
+      response = await bcTest.bcWrapper.pushNotificationService
+          .scheduleRawPushNotificationMinutes(
+              profileId: userA.profileId!,
+              minutesFromNow: 0,
+              facebookContent: {"title": "test"},
+              fcmContent: {"title": "test"},
+              iosContent: {"title": "test"});
 
       expect(response.statusCode, StatusCodes.ok);
     });
-
 
     test("sendRawPushNotification()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
-          .sendRawPushNotification( profileId: 
-        userA.profileId!, 
-        iosContent: {"a":"b"}
-        );
+          .sendRawPushNotification(
+              profileId: userA.profileId!, iosContent: {"a": "b"});
+
+      expect(response.statusCode, StatusCodes.ok);
+
+      response = await bcTest.bcWrapper.pushNotificationService
+          .sendRawPushNotification(
+              profileId: userA.profileId!,
+              iosContent: {"a": "b"},
+              facebookContent: {"a": "b"},
+              fcmContent: {"a": "b"});
 
       expect(response.statusCode, StatusCodes.ok);
     });
+
+    test("sendRawPushNotificationBatch()", () async {
+      ServerResponse response = await bcTest.bcWrapper.pushNotificationService
+          .sendRawPushNotificationBatch(profileIds: [
+        userA.profileId!,
+        userB.profileId!,
+        userC.profileId!
+      ], iosContent: {
+        "a": "b"
+      });
+
+      expect(response.statusCode, StatusCodes.ok);
+
+      response = await bcTest.bcWrapper.pushNotificationService
+          .sendRawPushNotificationBatch(profileIds: [
+        userA.profileId!,
+        userB.profileId!,
+        userC.profileId!
+      ], iosContent: {
+        "a": "b"
+      }, facebookContent: {
+        "a": "b"
+      }, fcmContent: {
+        "a": "b"
+      });
+
+      expect(response.statusCode, StatusCodes.ok);
+    });
+
     test("sendRawPushNotificationToGroup()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
-          .sendRawPushNotificationToGroup( groupId:groupId,         
-          iosContent: {"a":"b"}
-        );
+          .sendRawPushNotificationToGroup(
+              groupId: groupId, iosContent: {"a": "b"});
 
       expect(response.statusCode, StatusCodes.ok);
     });
-
 
     test("deleteGroup()", () async {
       ServerResponse response = await bcTest.bcWrapper.groupService.deleteGroup(
@@ -211,12 +257,7 @@ main() {
 
       expect(response.statusCode, StatusCodes.ok);
     });
-
-
   });
-
-
-
 
   /// END TEST
   tearDownAll(() {
