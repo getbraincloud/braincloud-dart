@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'stored_ids.dart';
 import 'test_users.dart';
@@ -30,7 +29,6 @@ class BCTest {
 
   /// Initialize the wrapper and load StoredIds
   setupBC({String? serverUrl}) async {
-    SharedPreferences.setMockInitialValues({});
 
     //load StoredIds
     await ids.load();
@@ -58,7 +56,6 @@ class BCTest {
 
   /// Initialize the wrapper and load StoredIds
   setupBCwithChild() async {
-    SharedPreferences.setMockInitialValues({});
 
     //load StoredIds
     await ids.load();
@@ -131,3 +128,5 @@ class BCTest {
 TestUser userA = TestUser("UserA", generateRandomString(9));
 TestUser userB = TestUser("UserB", generateRandomString(9));
 TestUser userC = TestUser("UserC", generateRandomString(9));
+
+String uniqueString = "${(DateTime.now().millisecondsSinceEpoch / 60000).floor()}";
