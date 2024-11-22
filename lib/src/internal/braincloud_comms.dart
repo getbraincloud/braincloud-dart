@@ -1008,10 +1008,8 @@ class BrainCloudComms {
         _clientRef.log("Failed Authentication Call");
       }
 
-      String num;
-      num = _failedAuthenticationAttempts.toString();
       if (_clientRef.loggingEnabled) {
-        _clientRef.log("Current number of failed authentications: $num");
+        _clientRef.log("Current number of failed authentications: $_failedAuthenticationAttempts");
       }
 
       //have the attempts gone beyond the threshold?
