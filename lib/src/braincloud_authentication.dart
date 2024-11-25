@@ -1013,8 +1013,7 @@ class BrainCloudAuthentication {
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.authenticate, data, callback);
     if (_clientRef.comms.isAuthenticateRequestInProgress()) {
-      // _clientRef.comms.addCallbackToAuthenticateRequest(callback);
-      //TODO: Need to confirm this.
+      // _clientRef.comms.addCallbackToAuthenticateRequest(callback);      
       completer.complete(ServerResponse(statusCode: 429,reasonCode:ReasonCodes.packetInProgress, error: "An authenticate call already in progress." ));
       return completer.future;
     }

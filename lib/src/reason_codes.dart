@@ -626,6 +626,7 @@ class ReasonCodes {
   static const int clientUploadFileUnknown = 90102;
   static const int clientDisabled = 90200;
   static const int clientDisabledFailedAuth = 90201;
+  static const int clientNotInitialized = 90202;
   static const int rsClientError = 90300;
   static const int jsonRequestMaxdepthExceedsLimit = 90400;
   static const int jsonResponseMaxdepthExceedsLimit = 90401;

@@ -193,7 +193,7 @@ void main() {
   group("Test Client no-Wrapper", () {
     test("BrainCloudClient Init", () async {
       await bcTest.ids.load(); //Load test config
-      print("-- will user Universal user ${userA.name}");
+      print("-- will use Universal user ${userA.name}");
 
       final BrainCloudClient bcClient = await BrainCloudClient(null);
 
@@ -216,22 +216,12 @@ void main() {
           .authenticateUniversal(
               userId: userA.name, password: userA.password, forceCreate: true);
 
-      String? pId = authResp1.data?['id'];
-      if (pId == null)
-        print("++++ response : ${authResp1.data}");
-      else
-        print("++++ authResp1: $pId");
-
       expect(authResp1.statusCode, 200);
       expect(bcClient.isAuthenticated(), true, reason: "Should be logged-in");
-
-      print("bcWrapper1 pkt id: ${bcClient.getReceivedPacketId()}");
 
       // Add some operations to ensure packet id are not in sync
       await bcClient.entityService.getSingleton(entityType: "entityType");
       await bcClient.entityService.getSingleton(entityType: "entityTypeB");
-
-      print("bcWrapper1 pkt id: ${bcClient.getReceivedPacketId()}");
 
       expect(bcClient.getReceivedPacketId() > 1, isTrue);
 
@@ -248,28 +238,12 @@ void main() {
 
       bcClient.enableLogging(true);
 
-      // try {
-      // bcClient.initializeWithApps(
-      //   serverURL: bcTest.ids.url,
-      //   defaultAppId: "12345",
-      //   appIdSecretMap: {bcTest.ids.appId: bcTest.ids.secretKey},
-      //   appVersion: bcTest.ids.version,
-      // );
-      // } catch (e) {
-      //   print("e: $e");
-      //   expect(e, "secretKey was null or empty");
-      // }
-
-      print("initializeWithApps returned");
-
-      // expect(bcClient.isInitialized(), false);
-
       ServerResponse response = await bcClient.authenticationService
           .authenticateUniversal(
               userId: userA.name, password: userA.password, forceCreate: true);
       print("Auto Resp: $response");
-      expect(response.statusCode, 900);
-      expect(response.reasonCode, 90200);
+      expect(response.statusCode, StatusCodes.clientNetworkError);   // 900
+      expect(response.reasonCode, ReasonCodes.clientNotInitialized);  // 90202
       expect(response.error, "Client not Initialized");
 
       bcClient.shutDown();

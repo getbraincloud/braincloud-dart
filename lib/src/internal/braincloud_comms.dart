@@ -1427,7 +1427,7 @@ class BrainCloudComms {
     if (_initialized)
        _serviceCallsWaiting.add(call);
     else 
-      call.getCallback?.onErrorCallback(900, ReasonCodes.clientDisabled, "Client not Initialized");
+      call.getCallback?.onErrorCallback(900, ReasonCodes.clientNotInitialized, "Client not Initialized");
   }
 
   /// Enables the communications layer.
