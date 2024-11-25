@@ -67,8 +67,8 @@ void main() {
           expect(operation, isEmpty);
           expect(status, 500);
           expect(reason, 50000);
-          expect(message,
-              '{"reason_code":50000,"status":500,"status_message":"TestMessage","severity":"ERROR"}');
+          expect(message, isA<Map<String,dynamic>>());
+          expect(message['status_message'],"TestMessage");
         }
         if (callbackCount == 1) {
           expect(service, "entity");
@@ -123,6 +123,7 @@ void main() {
             response.reasonCode == ReasonCodes.clientDisabled) {
           print("KillSwitch engaging.");
           _killSwitchEngaged = true;
+          expect(response.error['status_message'], "Client has been disabled due to repeated errors from a single API call");
           completer.complete();
         } else {
           expect(_failureCount, lessThan(13),

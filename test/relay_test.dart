@@ -56,8 +56,8 @@ void main() {
           inChannel: BrainCloudRelay.channelHighPriority_1);
     }
 
-    void onFailed(int status, int reasonCode, String jsonError) async {
-      dynamic errorMap = json.decode(jsonError);
+    void onFailed(int status, int reasonCode, dynamic jsonError) async {
+      dynamic errorMap = (jsonError is String) ? json.decode(jsonError): jsonError;
       if (errorMap['status'] == 403 &&
           errorMap['reason_code'] == 90300 &&
           errorMap['status_message'] == "Invalid NetId: 40") {

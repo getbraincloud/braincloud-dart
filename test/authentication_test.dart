@@ -96,7 +96,7 @@ main() async {
       print(" $response ");
 
       expect(response.statusCode, 403);
-      expect(response.error, contains("\"status_message\":\"Processing exception (message): Token does not match user"));
+      expect(response.error['status_message'], startsWith("Processing exception (message): Token does not match user"));
       
     });
     test("authenticateUniversal Bad User", () async {
@@ -108,7 +108,7 @@ main() async {
           username: userA.name+"make invalid", password: userA.password, forceCreate: false);
       
       expect(response.statusCode, 202);
-      expect(response.error, contains("\"status_message\":\"Processing exception (message): Missing profile, must force create."));
+      expect(response.error["status_message"], startsWith("Processing exception (message): Missing profile, must force create."));
       
     });
 

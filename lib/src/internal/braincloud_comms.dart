@@ -330,7 +330,8 @@ class BrainCloudComms {
         //HttpStatusCode.OK
         if (_activeRequest?.webRequest?.response?.statusCode == 200) {
           resetIdleTimer();
-          handleResponseBundle(_getWebRequestResponse(_activeRequest));
+          var resp = _getWebRequestResponse(_activeRequest);
+          handleResponseBundle(resp);
           disposeUploadHandler();
           _activeRequest = null;
         }
@@ -882,7 +883,7 @@ class BrainCloudComms {
       } else //if non-200
       {
         int reasonCode = 0;
-        String errorJson = "";
+        dynamic errorJson = "";
         callback = sc?.getCallback;
         operation = sc?.getOperation.value ?? "";
 
@@ -903,7 +904,7 @@ class BrainCloudComms {
           reasonCode = response["reason_code"];
         }
 
-        errorJson = serializeJson(response);
+        errorJson = response;
 
         if (reasonCode == ReasonCodes.playerSessionExpired ||
             reasonCode == ReasonCodes.noSession ||

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -47,14 +48,15 @@ void main() {
               username: "abc", password: "abc", forceCreate: true)
           .then((response) {
           expect(response.statusCode, 900, reason: "Should not have completed Authentication Requests. when NetworkErrorMessageCaching and NetworkErrorCallback is register on invalid server");  
-          expect(response.reasonCode, 90001);  
+          expect(response.reasonCode, ReasonCodes.clientNetworkErrorTimeout);   // 90001
       });
 
       // Add more to the mesage queue
       bcWrapper.globalAppService.readProperties().then((response) {
         // print("globalAppService.readProperties: $response");
           expect(response.statusCode, 900, reason: "Should not have completed readProperties Requests. when NetworkErrorMessageCaching and NetworkErrorCallback is register on invalid server");  
-          expect(response.reasonCode, 90001);  
+          expect(response.reasonCode, ReasonCodes.clientNetworkErrorTimeout);  // 90001 
+          expect(response.error, "Timeout trying to reach brainCloud server, please check the URL and/or certificates for server");
       });
 
       await Future.delayed(Duration(seconds: 2));

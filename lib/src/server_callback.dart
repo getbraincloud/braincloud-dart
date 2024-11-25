@@ -15,7 +15,7 @@ class ServerCallback {
     fnSuccessCallback?.call(jsonResponse);
   }
 
-  void onErrorCallback(int statusCode, int reasonCode, String statusMessage) {
+  void onErrorCallback(int statusCode, int reasonCode, dynamic statusMessage) {
     fnFailureCallback?.call(statusCode, reasonCode, statusMessage);
   }
 
@@ -35,11 +35,11 @@ typedef SuccessCallback = void Function(Map<String, dynamic> response);
 ///
 /// @param String statusMessage
 typedef FailureCallback = void Function(
-    int statusCode, int reasonCode, String statusMessage);
+    int statusCode, int reasonCode, dynamic statusMessage);
 
 typedef FailureGlobalCallback = void Function(
     String serviceName, String serviceOperation, 
-    int statusCode, int reasonCode, String statusMessage);
+    int statusCode, int reasonCode, dynamic statusMessage);
 
 typedef NetworkErrorCallback = void Function();
 

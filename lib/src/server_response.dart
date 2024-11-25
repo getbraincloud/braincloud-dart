@@ -12,7 +12,7 @@ class ServerResponse {
   @JsonKey(name: 'reason_code')
   final int? reasonCode;
   @JsonKey(name: 'status_message')
-  final String? error;
+  final dynamic error;
   @JsonKey(name: 'data')
   final Map<String, dynamic>? data;
 
