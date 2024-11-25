@@ -251,7 +251,8 @@ class BrainCloudComms {
     getAppIdSecretMap.clear();
     _appIdSecretMap = appIdSecretMap;
 
-    initialize(serverURL, defaultAppId, getAppIdSecretMap[defaultAppId]!);
+
+    initialize(serverURL, defaultAppId, getAppIdSecretMap[defaultAppId] ?? "");
   }
 
   void registerEventCallback(EventCallback cb) {
@@ -715,7 +716,7 @@ class BrainCloudComms {
       // its a success response
       if (statusCode == 200) {
         resetKillSwitch();
-        service = sc!.getService.value;
+        service = sc?.getService.value ?? "";
         if (response[OperationParam.serviceMessageData.value] != null) {
           responseData = response[OperationParam.serviceMessageData.value];
           // send the data back as not formatted
@@ -731,149 +732,151 @@ class BrainCloudComms {
           data = response;
         }
 
-        // now try to execute the callback
-        callback = sc.getCallback;
-        operation = sc.getOperation.value;
-        bool bIsPeerScriptUploadCall = false;
-        try {
-          bIsPeerScriptUploadCall = operation ==
-                  ServiceOperation.runPeerScript.value &&
-              response.containsKey(OperationParam.serviceMessageData.value) &&
-              (response[OperationParam.serviceMessageData.value] as Map)
-                  .containsKey("response") &&
-              (response[OperationParam.serviceMessageData.value]["response"]
-                      as Map)
-                  .containsKey(OperationParam.serviceMessageData.value) &&
-              (((response[OperationParam.serviceMessageData.value])[
-                          "response"])[OperationParam.serviceMessageData.value]
-                      as Map)
-                  .containsKey("fileDetails");
-        } on Exception {
-          debugPrint(
-              "Exception lib/BrainCloud/Internal/braincloud_comms.dart Line 949");
-        }
-
-        if (operation == ServiceOperation.fullReset.value ||
-            operation == ServiceOperation.logout.value) {
-          // we reset the current player or logged out
-          // we are no longer authenticated
-          _isAuthenticated = false;
-          _sessionId = "";
-          _clientRef.authenticationService.clearSavedProfileID();
-          resetErrorCache();
-        }
-        //either off of authenticate or identity call, be sure to save the profileId and sessionId
-        else if (operation == ServiceOperation.authenticate.value) {
-          processAuthenticate(responseData!);
-        }
-        // switch to child
-        else if (operation == ServiceOperation.switchToChildProfile.value ||
-            operation == ServiceOperation.switchToParentProfile.value) {
-          processSwitchResponse(responseData!);
-        } else if (operation == ServiceOperation.prepareUserUpload.value ||
-            bIsPeerScriptUploadCall) {
-          String peerCode =
-              bIsPeerScriptUploadCall && sc.getJsonData!.containsKey("peer")
-                  ? sc.getJsonData!["peer"]
-                  : "";
-          Map<String, dynamic> fileData = peerCode == ""
-              ? responseData!["fileDetails"]
-              : responseData!["response"]
-                  [OperationParam.serviceMessageData.value]["fileDetails"];
-
-          if (fileData.containsKey("uploadId") &&
-              fileData.containsKey("localPath")) {
-            String uploadId = fileData["uploadId"];
-            String guid = fileData["localPath"];
-            String fileName = fileData["cloudFilename"];
-            var uploader = FileUploader(
-                uploadId: uploadId,
-                guidLocalPath: guid,
-                serverUrl: uploadURL,
-                sessionId: getSessionID,
-                clientRef: _clientRef,
-                peerCode: peerCode,
-                fileName: fileName,
-                timeout: uploadLowTransferRateTimeout,
-                timeoutThreshold: uploadLowTransferRateThreshold);
-
-            if (_clientRef.fileService.fileStorage.containsKey(guid)) {
-              uploader.totalBytesToTransfer =
-                  _clientRef.fileService.fileStorage[guid]?.length ?? 0;
-            }
-            _fileUploads.add(uploader);
-            uploader.start();
-          }
-        }
-
-        // // only process callbacks that are real
-        if (callback != null) {
+        if (sc != null) {
+          // now try to execute the callback
+          callback = sc.getCallback;
+          operation = sc.getOperation.value;
+          bool bIsPeerScriptUploadCall = false;
           try {
-            callback.onSuccessCallback(data);
-          } catch (e) {
-            if (_clientRef.loggingEnabled) {
-              _clientRef.log(e.toString());
-            }
-            exceptions.add(e);
+            bIsPeerScriptUploadCall = operation ==
+                    ServiceOperation.runPeerScript.value &&
+                response.containsKey(OperationParam.serviceMessageData.value) &&
+                (response[OperationParam.serviceMessageData.value] as Map)
+                    .containsKey("response") &&
+                (response[OperationParam.serviceMessageData.value]["response"]
+                        as Map)
+                    .containsKey(OperationParam.serviceMessageData.value) &&
+                (((response[OperationParam.serviceMessageData.value])[
+                            "response"])[OperationParam.serviceMessageData.value]
+                        as Map)
+                    .containsKey("fileDetails");
+          } on Exception {
+            debugPrint(
+                "Exception lib/BrainCloud/Internal/braincloud_comms.dart Line 949");
           }
-        }
 
-        _failedAuthenticationAttempts = 0;
+          if (operation == ServiceOperation.fullReset.value ||
+              operation == ServiceOperation.logout.value) {
+            // we reset the current player or logged out
+            // we are no longer authenticated
+            _isAuthenticated = false;
+            _sessionId = "";
+            _clientRef.authenticationService.clearSavedProfileID();
+            resetErrorCache();
+          }
+          //either off of authenticate or identity call, be sure to save the profileId and sessionId
+          else if (operation == ServiceOperation.authenticate.value) {
+            processAuthenticate(responseData!);
+          }
+          // switch to child
+          else if (operation == ServiceOperation.switchToChildProfile.value ||
+              operation == ServiceOperation.switchToParentProfile.value) {
+            processSwitchResponse(responseData!);
+          } else if (operation == ServiceOperation.prepareUserUpload.value ||
+              bIsPeerScriptUploadCall) {
+            String peerCode =
+                bIsPeerScriptUploadCall && sc.getJsonData!.containsKey("peer")
+                    ? sc.getJsonData!["peer"]
+                    : "";
+            Map<String, dynamic> fileData = peerCode == ""
+                ? responseData!["fileDetails"]
+                : responseData!["response"]
+                    [OperationParam.serviceMessageData.value]["fileDetails"];
 
-        // now deal with rewards
-        if (_rewardCallback != null && responseData != null) {
-          try {
-            Map<String, dynamic>? rewards;
+            if (fileData.containsKey("uploadId") &&
+                fileData.containsKey("localPath")) {
+              String uploadId = fileData["uploadId"];
+              String guid = fileData["localPath"];
+              String fileName = fileData["cloudFilename"];
+              var uploader = FileUploader(
+                  uploadId: uploadId,
+                  guidLocalPath: guid,
+                  serverUrl: uploadURL,
+                  sessionId: getSessionID,
+                  clientRef: _clientRef,
+                  peerCode: peerCode,
+                  fileName: fileName,
+                  timeout: uploadLowTransferRateTimeout,
+                  timeoutThreshold: uploadLowTransferRateThreshold);
 
-            // it's an operation that return a reward
-            if (operation == ServiceOperation.authenticate.value) {
-              dynamic objRewards;
-              if (responseData.containsKey("rewards")) {
-                objRewards = responseData["rewards"];
-                Map<String, dynamic> outerRewards = objRewards;
+              if (_clientRef.fileService.fileStorage.containsKey(guid)) {
+                uploader.totalBytesToTransfer =
+                    _clientRef.fileService.fileStorage[guid]?.length ?? 0;
+              }
+              _fileUploads.add(uploader);
+              uploader.start();
+            }
+          }
 
-                if (outerRewards.containsKey("rewards")) {
-                  objRewards = outerRewards["rewards"];
+          // // only process callbacks that are real
+          if (callback != null) {
+            try {
+              callback.onSuccessCallback(data);
+            } catch (e) {
+              if (_clientRef.loggingEnabled) {
+                _clientRef.log(e.toString());
+              }
+              exceptions.add(e);
+            }
+          }
+
+          _failedAuthenticationAttempts = 0;
+
+          // now deal with rewards
+          if (_rewardCallback != null && responseData != null) {
+            try {
+              Map<String, dynamic>? rewards;
+
+              // it's an operation that return a reward
+              if (operation == ServiceOperation.authenticate.value) {
+                dynamic objRewards;
+                if (responseData.containsKey("rewards")) {
+                  objRewards = responseData["rewards"];
+                  Map<String, dynamic> outerRewards = objRewards;
+
+                  if (outerRewards.containsKey("rewards")) {
+                    objRewards = outerRewards["rewards"];
+                    Map<String, dynamic> innerRewards = objRewards;
+                    if (innerRewards.isNotEmpty) {
+                      // we found rewards
+                      rewards = outerRewards;
+                    }
+                  }
+                }
+              } else if (operation == ServiceOperation.update.value ||
+                  operation == ServiceOperation.trigger.value ||
+                  operation == ServiceOperation.triggerMultiple.value) {
+                dynamic objRewards;
+                if (responseData.containsKey("rewards")) {
+                  objRewards = responseData["rewards"];
                   Map<String, dynamic> innerRewards = objRewards;
                   if (innerRewards.isNotEmpty) {
                     // we found rewards
-                    rewards = outerRewards;
+                    rewards = responseData;
                   }
                 }
               }
-            } else if (operation == ServiceOperation.update.value ||
-                operation == ServiceOperation.trigger.value ||
-                operation == ServiceOperation.triggerMultiple.value) {
-              dynamic objRewards;
-              if (responseData.containsKey("rewards")) {
-                objRewards = responseData["rewards"];
-                Map<String, dynamic> innerRewards = objRewards;
-                if (innerRewards.isNotEmpty) {
-                  // we found rewards
-                  rewards = responseData;
-                }
+
+              if (rewards != null) {
+                Map<String, dynamic> theReward = {};
+                theReward["rewards"] = rewards;
+                theReward["service"] = service;
+                theReward["operation"] = operation;
+                Map<String, dynamic> apiRewards = {};
+                List<dynamic> rewardList = [];
+                rewardList.add(theReward);
+                apiRewards["apiRewards"] = rewardList;
+
+                String rewardsAsJson = _clientRef.serializeJson(apiRewards);
+
+                _rewardCallback!(rewardsAsJson);
               }
+            } catch (e, s) {
+              if (_clientRef.loggingEnabled) {
+                _clientRef.log(s.toString());
+              }
+              exceptions.add(e);
             }
-
-            if (rewards != null) {
-              Map<String, dynamic> theReward = {};
-              theReward["rewards"] = rewards;
-              theReward["service"] = service;
-              theReward["operation"] = operation;
-              Map<String, dynamic> apiRewards = {};
-              List<dynamic> rewardList = [];
-              rewardList.add(theReward);
-              apiRewards["apiRewards"] = rewardList;
-
-              String rewardsAsJson = _clientRef.serializeJson(apiRewards);
-
-              _rewardCallback!(rewardsAsJson);
-            }
-          } catch (e, s) {
-            if (_clientRef.loggingEnabled) {
-              _clientRef.log(s.toString());
-            }
-            exceptions.add(e);
           }
         }
       } else //if non-200
@@ -1421,7 +1424,10 @@ class BrainCloudComms {
   ///
   /// @param call The server call to execute
   void addToQueue(ServerCall call) {
-    _serviceCallsWaiting.add(call);
+    if (_initialized)
+       _serviceCallsWaiting.add(call);
+    else 
+      call.getCallback?.onErrorCallback(900, ReasonCodes.clientDisabled, "Client not Initialized");
   }
 
   /// Enables the communications layer.

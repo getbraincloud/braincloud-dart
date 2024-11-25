@@ -377,12 +377,15 @@ class BrainCloudClient {
   ///
   /// @param appVersion The app version
   void initializeWithApps(
-      {String? serverURL = defaultServerURL,
+      {String serverURL = defaultServerURL,
       required String defaultAppId,
       required Map<String, String> appIdSecretMap,
       required String appVersion}) {
-    initializeHelper(
-        serverURL!, appIdSecretMap[defaultAppId]!, defaultAppId, appVersion);
+
+    String? error = initializeHelper(
+        serverURL, appIdSecretMap[defaultAppId] ?? "", defaultAppId, appVersion);
+
+    if (error != null) throw(error);
 
     // set up braincloud which does the message handling
     _comms.initializeWithApps(serverURL, defaultAppId, appIdSecretMap);
@@ -407,12 +410,15 @@ class BrainCloudClient {
       required appVersion}) {
     serverURL = serverURL ?? defaultServerURL;
 
-    initializeHelper(serverURL, secretKey, appId, appVersion);
+    String? error = initializeHelper(serverURL, secretKey, appId, appVersion);
 
+    if (error != null) throw(error);
+    
     // set up braincloud which does the message handling
     _comms.initialize(serverURL, appId, secretKey);
-
+    
     _initialized = true;
+
   }
 
   /// Initialize the identity aspects of brainCloud.
@@ -824,7 +830,7 @@ class BrainCloudClient {
     return retVal;
   }
 
-  void initializeHelper(
+  String? initializeHelper(
       String serverURL, String secretKey, String appId, String appVersion) {
     //set platform... defaults to web
     if (!kIsWeb) {
@@ -857,8 +863,8 @@ class BrainCloudClient {
     }
 
     if (error != null) {
-      debugPrint("ERROR | Failed to initialize brainCloud - $error");
-      return;
+      log("ERROR | Failed to initialize brainCloud - $error");
+      return error;
     }
 
     _appVersion = appVersion;
@@ -870,6 +876,7 @@ class BrainCloudClient {
           locale.split('_').last; // Extract the country code from locale.
       Util.setCurrentCountryCode(countryCode);
     }
+    return null;
   }
 }
 
