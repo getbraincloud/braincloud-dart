@@ -344,7 +344,7 @@ class BrainCloudGroupFile {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc =
         ServerCall(ServiceName.groupFile, operation, data, callback);
     _clientRef.sendRequest(sc);

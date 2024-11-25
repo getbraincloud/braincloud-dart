@@ -29,7 +29,7 @@ class BrainCloudPresence {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.presence, ServiceOperation.forcePush, data, callback);
@@ -65,7 +65,7 @@ class BrainCloudPresence {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.getPresenceOfFriends, data, callback);
@@ -100,7 +100,7 @@ class BrainCloudPresence {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.getPresenceOfGroup, data, callback);
@@ -135,7 +135,7 @@ class BrainCloudPresence {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.getPresenceOfUsers, data, callback);
@@ -175,7 +175,7 @@ class BrainCloudPresence {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.registerListenersForFriends, data, callback);
@@ -209,7 +209,7 @@ class BrainCloudPresence {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.registerListenersForGroup, data, callback);
@@ -244,7 +244,7 @@ class BrainCloudPresence {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.presence,
         ServiceOperation.registerListenersForProfiles, data, callback);
@@ -273,7 +273,7 @@ class BrainCloudPresence {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.presence, ServiceOperation.setVisibility, data, callback);
@@ -300,7 +300,7 @@ class BrainCloudPresence {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.presence, ServiceOperation.stopListening, data, callback);
@@ -331,7 +331,7 @@ class BrainCloudPresence {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.presence, ServiceOperation.updateActivity, data, callback);

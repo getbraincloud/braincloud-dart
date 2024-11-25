@@ -102,7 +102,7 @@ class BrainCloudMail {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     _clientRef
         .sendRequest(ServerCall(ServiceName.mail, operation, data, callback));
 

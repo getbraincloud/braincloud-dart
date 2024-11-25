@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
+import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'utils/test_base.dart';
@@ -101,7 +102,7 @@ void main() {
 
       late ServerResponse response;
 
-      bool loggingFlag  = bcTest.bcWrapper.brainCloudClient.loggingEnabled;
+      bool loggingFlag = bcTest.bcWrapper.brainCloudClient.loggingEnabled;
       bcTest.bcWrapper.brainCloudClient.enableLogging(false);
 
       response = await bcTest.bcWrapper.timeService.readServerTime();
@@ -121,7 +122,7 @@ void main() {
         if (response.statusCode == 900 &&
             response.reasonCode == ReasonCodes.clientDisabled) {
           print("KillSwitch engaging.");
-          _killSwitchEngaged = true;    
+          _killSwitchEngaged = true;
           completer.complete();
         } else {
           expect(_failureCount, lessThan(13),
@@ -136,14 +137,13 @@ void main() {
       bcTest.bcWrapper.brainCloudClient.enableLogging(loggingFlag);
     });
 
-    
     test("killSwitch Other Authentication", () async {
       // Ensure the client is reset.
       await bcTest.setupBC();
 
       late ServerResponse response;
 
-      bool loggingFlag  = bcTest.bcWrapper.brainCloudClient.loggingEnabled;
+      bool loggingFlag = bcTest.bcWrapper.brainCloudClient.loggingEnabled;
       bcTest.bcWrapper.brainCloudClient.enableLogging(true);
 
       response = await bcTest.bcWrapper.timeService.readServerTime();
@@ -151,15 +151,19 @@ void main() {
 
       String noAccount = "email$uniqueString@bitheadscom";
       for (var i = 0; i < 3; i++) {
-        response = await bcTest.bcWrapper.authenticateEmailPassword(email: noAccount, password: "password", forceCreate: false);
-        expect(response.statusCode, 202,reason: "This account should not exists");
-        expect(response.reasonCode, ReasonCodes.missingProfileError,reason: "This account should not exists");
+        response = await bcTest.bcWrapper.authenticateEmailPassword(
+            email: noAccount, password: "password", forceCreate: false);
+        expect(response.statusCode, 202,
+            reason: "This account should not exists");
+        expect(response.reasonCode, ReasonCodes.missingProfileError,
+            reason: "This account should not exists");
       }
 
-      response = await bcTest.bcWrapper.authenticateEmailPassword(email: noAccount, password: "password", forceCreate: false);
+      response = await bcTest.bcWrapper.authenticateEmailPassword(
+          email: noAccount, password: "password", forceCreate: false);
 
-      expect(response.statusCode,900);
-      expect(response.reasonCode,ReasonCodes.clientDisabledFailedAuth);
+      expect(response.statusCode, 900);
+      expect(response.reasonCode, ReasonCodes.clientDisabledFailedAuth);
 
       // To minimize log entries stop logging but re-enable just before the timer expuiry
       bcTest.bcWrapper.brainCloudClient.enableLogging(false);
@@ -169,18 +173,110 @@ void main() {
 
       // Should be unlock now.
       print("Should be unlock now.");
-      response = await bcTest.bcWrapper.authenticateEmailPassword(email: noAccount, password: "password", forceCreate: false);
-      expect(response.statusCode, 202,reason: "This account should not exists");
-      expect(response.reasonCode, ReasonCodes.missingProfileError,reason: "This account should not exists");
+      response = await bcTest.bcWrapper.authenticateEmailPassword(
+          email: noAccount, password: "password", forceCreate: false);
+      expect(response.statusCode, 202,
+          reason: "This account should not exists");
+      expect(response.reasonCode, ReasonCodes.missingProfileError,
+          reason: "This account should not exists");
 
       // restore flag for other tests.
       bcTest.bcWrapper.brainCloudClient.enableLogging(loggingFlag);
-    },timeout: Timeout.parse("90s"));
-
+    }, timeout: Timeout.parse("90s"));
 
     tearDownAll(() {
       bcTest.bcWrapper.brainCloudClient.enableLogging(false);
       bcTest.dispose();
     });
+  });
+
+  group("Test Client no-Wrapper", () {
+    test("BrainCloudClient Init", () async {
+      await bcTest.ids.load(); //Load test config
+      print("-- will user Universal user ${userA.name}");
+
+      final BrainCloudClient bcClient = await BrainCloudClient(null);
+
+      expect(bcClient.isInitialized(), false);
+      expect(bcClient.isAuthenticated(), false);
+      bcClient.enableLogging(true);
+
+      bcClient.initialize(
+          secretKey: bcTest.ids.secretKey,
+          appId: bcTest.ids.appId,
+          appVersion: bcTest.ids.version,
+          serverURL: bcTest.ids.url);
+      expect(bcClient.isInitialized(), true);
+
+      final runloop = Timer.periodic(Duration(milliseconds: 40), (timer) {
+        bcClient.runCallbacks();
+      });
+
+      ServerResponse authResp1 = await bcClient.authenticationService
+          .authenticateUniversal(
+              userId: userA.name, password: userA.password, forceCreate: true);
+
+      String? pId = authResp1.data?['id'];
+      if (pId == null)
+        print("++++ response : ${authResp1.data}");
+      else
+        print("++++ authResp1: $pId");
+
+      expect(authResp1.statusCode, 200);
+      expect(bcClient.isAuthenticated(), true, reason: "Should be logged-in");
+
+      print("bcWrapper1 pkt id: ${bcClient.getReceivedPacketId()}");
+
+      // Add some operations to ensure packet id are not in sync
+      await bcClient.entityService.getSingleton(entityType: "entityType");
+      await bcClient.entityService.getSingleton(entityType: "entityTypeB");
+
+      print("bcWrapper1 pkt id: ${bcClient.getReceivedPacketId()}");
+
+      expect(bcClient.getReceivedPacketId() > 1, isTrue);
+
+      await bcClient.playerStateService.logout();
+      expect(bcClient.isAuthenticated(), false,
+          reason: "Should have logged-out");
+
+      runloop.cancel();
+    });
+
+    test("Missing Secret for AppId", () async {
+      await bcTest.ids.load(); //Load test config
+      final BrainCloudClient bcClient = await BrainCloudClient(null);
+
+      bcClient.enableLogging(true);
+
+      // try {
+      // bcClient.initializeWithApps(
+      //   serverURL: bcTest.ids.url,
+      //   defaultAppId: "12345",
+      //   appIdSecretMap: {bcTest.ids.appId: bcTest.ids.secretKey},
+      //   appVersion: bcTest.ids.version,
+      // );
+      // } catch (e) {
+      //   print("e: $e");
+      //   expect(e, "secretKey was null or empty");
+      // }
+
+      print("initializeWithApps returned");
+
+      // expect(bcClient.isInitialized(), false);
+
+      ServerResponse response = await bcClient.authenticationService
+          .authenticateUniversal(
+              userId: userA.name, password: userA.password, forceCreate: true);
+      print("Auto Resp: $response");
+      expect(response.statusCode, 900);
+      expect(response.reasonCode, 90200);
+      expect(response.error, "Client not Initialized");
+
+      bcClient.shutDown();
+    });
+  });
+
+  tearDownAll(() {
+    bcTest.dispose();
   });
 }

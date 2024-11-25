@@ -29,7 +29,7 @@ class BrainCloudMessaging {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.messaging, ServiceOperation.deleteMessages, data, callback);
@@ -49,7 +49,7 @@ class BrainCloudMessaging {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.getMessageBoxes, null, callback);
     _clientRef.sendRequest(sc);
@@ -68,7 +68,7 @@ class BrainCloudMessaging {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.getMessageCounts, null, callback);
     _clientRef.sendRequest(sc);
@@ -95,7 +95,7 @@ class BrainCloudMessaging {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.messaging, ServiceOperation.getMessages, data, callback);
     _clientRef.sendRequest(sc);
@@ -119,7 +119,7 @@ class BrainCloudMessaging {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.getMessagesPage, data, callback);
     _clientRef.sendRequest(sc);
@@ -143,7 +143,7 @@ class BrainCloudMessaging {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.getMessagesPageOffset, data, callback);
     _clientRef.sendRequest(sc);
@@ -166,7 +166,7 @@ class BrainCloudMessaging {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.markMessagesRead, data, callback);
     _clientRef.sendRequest(sc);
@@ -191,7 +191,7 @@ class BrainCloudMessaging {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.messaging, ServiceOperation.sendMessage, data, callback);
     _clientRef.sendRequest(sc);
@@ -214,7 +214,7 @@ class BrainCloudMessaging {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.messaging,
         ServiceOperation.sendMessageSimple, data, callback);
     _clientRef.sendRequest(sc);

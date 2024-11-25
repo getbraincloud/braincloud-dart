@@ -31,7 +31,7 @@ class BrainCloudPlayerState {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.playerState, ServiceOperation.read, null, callback);
@@ -62,7 +62,7 @@ class BrainCloudPlayerState {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.playerState, ServiceOperation.fullReset, null, callback);
@@ -90,7 +90,7 @@ class BrainCloudPlayerState {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.playerState, ServiceOperation.dataReset, null, callback);
@@ -113,7 +113,7 @@ class BrainCloudPlayerState {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.playerState, ServiceOperation.logout, null, callback);
@@ -142,7 +142,7 @@ class BrainCloudPlayerState {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.playerState, ServiceOperation.updateName, data, callback);
@@ -190,7 +190,7 @@ class BrainCloudPlayerState {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.updateSummary, data, callback);
@@ -213,7 +213,7 @@ class BrainCloudPlayerState {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.getAttributes, null, callback);
@@ -249,7 +249,7 @@ class BrainCloudPlayerState {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.updateAttributes, data, callback);
@@ -279,7 +279,7 @@ class BrainCloudPlayerState {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.removeAttributes, data, callback);
@@ -308,7 +308,7 @@ class BrainCloudPlayerState {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.updatePictureUrl, data, callback);
@@ -338,7 +338,7 @@ class BrainCloudPlayerState {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.updateContactEmail, data, callback);
@@ -367,7 +367,7 @@ class BrainCloudPlayerState {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.clearUserStatus, data, callback);
@@ -409,7 +409,7 @@ class BrainCloudPlayerState {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.extendUserStatus, data, callback);
     _clientRef.sendRequest(sc);
@@ -437,7 +437,7 @@ class BrainCloudPlayerState {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.getUserStatus, data, callback);
@@ -476,7 +476,7 @@ class BrainCloudPlayerState {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.setUserStatus, data, callback);
@@ -505,7 +505,7 @@ class BrainCloudPlayerState {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.updateLanguageCode, data, callback);
@@ -536,7 +536,7 @@ class BrainCloudPlayerState {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.playerState,
         ServiceOperation.updateTimeZoneOffset, data, callback);

@@ -27,7 +27,7 @@ class BrainCloudGlobalApp {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall serverCall = ServerCall(
         ServiceName.globalApp, ServiceOperation.readProperties, null, callback);
     _clientRef.sendRequest(serverCall);
@@ -56,7 +56,7 @@ class BrainCloudGlobalApp {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall serverCall = ServerCall(ServiceName.globalApp,
         ServiceOperation.readSelectedProperties, data, callback);
     _clientRef.sendRequest(serverCall);
@@ -86,7 +86,7 @@ class BrainCloudGlobalApp {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall serverCall = ServerCall(ServiceName.globalApp,
         ServiceOperation.readPropertiesInCategories, data, callback);
     _clientRef.sendRequest(serverCall);

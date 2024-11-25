@@ -58,7 +58,7 @@ void main() {
               peer: bcTest.ids.peerName);
 
       expect(response.statusCode, StatusCodes.ok,
-          reason: response.statusMessage);
+          reason: response.error);
     });
 
     test("runPeerScriptAsync()", retry: 2, () async {
@@ -69,7 +69,7 @@ void main() {
               peer: bcTest.ids.peerName);
 
       expect(response.statusCode, StatusCodes.ok,
-          reason: response.statusMessage);
+          reason: response.error);
     });
 
     test("getScheduledCloudScripts()", retry: 2, () async {

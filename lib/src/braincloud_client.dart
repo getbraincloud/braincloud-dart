@@ -545,7 +545,7 @@ class BrainCloudClient {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
 
     return completer.future;
   }
@@ -777,7 +777,7 @@ class BrainCloudClient {
           completer.completeError(ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage));
+              error: statusMessage));
         }));
 
     _comms.addToQueue(sc);

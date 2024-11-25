@@ -626,7 +626,7 @@ class BrainCloudAuthentication {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.authenticate,
@@ -667,7 +667,7 @@ class BrainCloudAuthentication {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.authenticate,
@@ -711,7 +711,7 @@ class BrainCloudAuthentication {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.authenticate,
@@ -762,7 +762,7 @@ class BrainCloudAuthentication {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.authenticate,
@@ -797,7 +797,7 @@ class BrainCloudAuthentication {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.authenticate,
@@ -837,7 +837,7 @@ class BrainCloudAuthentication {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.authenticate,
@@ -880,7 +880,7 @@ class BrainCloudAuthentication {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.authenticate,
@@ -930,7 +930,7 @@ class BrainCloudAuthentication {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(
@@ -1007,7 +1007,7 @@ class BrainCloudAuthentication {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.authenticate,
@@ -1015,7 +1015,7 @@ class BrainCloudAuthentication {
     if (_clientRef.comms.isAuthenticateRequestInProgress()) {
       // _clientRef.comms.addCallbackToAuthenticateRequest(callback);
       //TODO: Need to confirm this.
-      completer.complete(ServerResponse(statusCode: 429,reasonCode:ReasonCodes.packetInProgress, statusMessage: "An authenticate call already in progress." ));
+      completer.complete(ServerResponse(statusCode: 429,reasonCode:ReasonCodes.packetInProgress, error: "An authenticate call already in progress." ));
       return completer.future;
     }
     _clientRef.sendRequest(sc);

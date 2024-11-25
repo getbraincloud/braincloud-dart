@@ -41,7 +41,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.getProfileInfoForCredential, data, callback);
     _clientRef.sendRequest(sc);
@@ -75,7 +75,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.getProfileInfoForExternalAuthId, data, callback);
     _clientRef.sendRequest(sc);
@@ -110,7 +110,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.getExternalIdForProfileId, data, callback);
     _clientRef.sendRequest(sc);
@@ -143,7 +143,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.friend, ServiceOperation.readFriendEntity, data, callback);
     _clientRef.sendRequest(sc);
@@ -170,7 +170,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.readFriendsEntities, data, callback);
     _clientRef.sendRequest(sc);
@@ -200,7 +200,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.readFriendPlayerState, data, callback);
     _clientRef.sendRequest(sc);
@@ -229,7 +229,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.getSummaryDataForProfileId, data, callback);
     _clientRef.sendRequest(sc);
@@ -264,7 +264,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.findUsersByExactName, data, callback);
     _clientRef.sendRequest(sc);
@@ -294,7 +294,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.findUserByExactUniversalId, data, callback);
     _clientRef.sendRequest(sc);
@@ -329,7 +329,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.findUsersBySubstrName, data, callback);
     _clientRef.sendRequest(sc);
@@ -364,7 +364,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.friend, ServiceOperation.listFriends, data, callback);
     _clientRef.sendRequest(sc);
@@ -399,7 +399,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.friend, ServiceOperation.listFriends, data, callback);
     _clientRef.sendRequest(sc);
@@ -427,7 +427,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.friend, ServiceOperation.addFriends, data, callback);
     _clientRef.sendRequest(sc);
@@ -465,7 +465,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall serverCall = ServerCall(ServiceName.friend,
         ServiceOperation.addFriendsFromPlatform, data, callback);
     _clientRef.sendRequest(serverCall);
@@ -493,7 +493,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.friend, ServiceOperation.removeFriends, data, callback);
     _clientRef.sendRequest(sc);
@@ -522,7 +522,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.getUsersOnlineStatus, data, callback);
     _clientRef.sendRequest(sc);
@@ -555,7 +555,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.findUsersByNameStartingWith, data, callback);
     _clientRef.sendRequest(sc);
@@ -588,7 +588,7 @@ class BrainCloudFriend {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
         ServiceOperation.findUsersByUniversalIdStartingWith, data, callback);
     _clientRef.sendRequest(sc);

@@ -42,7 +42,7 @@ class BrainCloudDataStream {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall serverCall = ServerCall(ServiceName.dataStream,
         ServiceOperation.customPageEvent, data, callback);
     _clientRef.sendRequest(serverCall);
@@ -78,7 +78,7 @@ class BrainCloudDataStream {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall serverCall = ServerCall(ServiceName.dataStream,
         ServiceOperation.customScreenEvent, data, callback);
     _clientRef.sendRequest(serverCall);
@@ -114,7 +114,7 @@ class BrainCloudDataStream {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall serverCall = ServerCall(ServiceName.dataStream,
         ServiceOperation.customTrackEvent, data, callback);
     _clientRef.sendRequest(serverCall);
@@ -178,7 +178,7 @@ class BrainCloudDataStream {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall serverCall = ServerCall(ServiceName.dataStream,
         ServiceOperation.submitCrashReport, data, callback);
     _clientRef.sendRequest(serverCall);

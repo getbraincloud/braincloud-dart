@@ -32,7 +32,7 @@ class BrainCloudBlockchain {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.blockChain,
         ServiceOperation.getBlockchainItems, data, callback);
     _clientRef.sendRequest(sc);
@@ -58,7 +58,7 @@ class BrainCloudBlockchain {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.blockChain, ServiceOperation.getUniqs, data, callback);
     _clientRef.sendRequest(sc);

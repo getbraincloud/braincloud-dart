@@ -40,7 +40,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.register, data, callback);
@@ -62,7 +62,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.deregisterAll, data, callback);
@@ -96,7 +96,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.deregister, data, callback);
@@ -129,7 +129,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.sendSimple, data, callback);
@@ -198,7 +198,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.sendTemplatedToGroup, data, callback);
@@ -239,7 +239,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.sendNormalizedToGroup, data, callback);
@@ -299,7 +299,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.scheduleRawNotification, data, callback);
@@ -359,7 +359,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.scheduleRawNotification, data, callback);
@@ -414,7 +414,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.pushNotification, ServiceOperation.sendRaw, data, callback);
@@ -469,7 +469,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.sendRawBatch, data, callback);
@@ -523,7 +523,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.sendRawToGroup, data, callback);
@@ -568,7 +568,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.scheduleNormalizedNotification, data, callback);
@@ -614,7 +614,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.scheduleNormalizedNotification, data, callback);
@@ -662,7 +662,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.scheduleRichNotification, data, callback);
@@ -710,7 +710,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.scheduleRichNotification, data, callback);
@@ -750,7 +750,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.sendNormalized, data, callback);
@@ -789,7 +789,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.sendNormalizedBatch, data, callback);
@@ -821,7 +821,7 @@ class BrainCloudPushNotification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.pushNotification,
         ServiceOperation.sendRich, data, callback);

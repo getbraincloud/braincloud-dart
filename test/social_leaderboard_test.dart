@@ -428,7 +428,7 @@ void main() {
               numDaysToRotate: 5);
 
       expect(response.statusCode, StatusCodes.ok,
-          reason: response.statusMessage);
+          reason: response.error);
     });
 
     test("deleteGroup()", retry: 2, () async {

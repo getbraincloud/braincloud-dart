@@ -31,7 +31,7 @@ class BrainCloudGamification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.gamification, ServiceOperation.read, data, callback);
@@ -58,7 +58,7 @@ class BrainCloudGamification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readMilestones, data, callback);
@@ -85,7 +85,7 @@ class BrainCloudGamification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readAchievements, data, callback);
@@ -108,7 +108,7 @@ class BrainCloudGamification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readXpLevels, null, callback);
@@ -136,7 +136,7 @@ class BrainCloudGamification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readAchievedAchievements, data, callback);
@@ -164,7 +164,7 @@ class BrainCloudGamification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readCompletedMilestones, data, callback);
@@ -192,7 +192,7 @@ class BrainCloudGamification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readInProgressMilestones, data, callback);
@@ -224,7 +224,7 @@ class BrainCloudGamification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readMilestonesByCategory, data, callback);
@@ -257,7 +257,7 @@ class BrainCloudGamification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.awardAchievements, data, callback);
@@ -284,7 +284,7 @@ class BrainCloudGamification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.gamification, ServiceOperation.readQuests, data, callback);
@@ -310,7 +310,7 @@ class BrainCloudGamification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readCompletedQuests, data, callback);
@@ -336,7 +336,7 @@ class BrainCloudGamification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readInProgressQuests, data, callback);
@@ -362,7 +362,7 @@ class BrainCloudGamification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readNotStartedQuests, data, callback);
@@ -388,7 +388,7 @@ class BrainCloudGamification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readQuestsWithStatus, data, callback);
@@ -415,7 +415,7 @@ class BrainCloudGamification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readQuestsWithBasicPercentage, data, callback);
@@ -442,7 +442,7 @@ class BrainCloudGamification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readQuestsWithComplexPercentage, data, callback);
@@ -473,7 +473,7 @@ class BrainCloudGamification {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.gamification,
         ServiceOperation.readQuestsByCategory, data, callback);

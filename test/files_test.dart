@@ -134,8 +134,8 @@ main() {
 
       expect(error.statusCode, 900);
       expect(error.reasonCode, 90100);
-      expect(error.statusMessage, isNotNull);
-      expect(error.statusMessage?.trim(),
+      expect(error.error, isNotNull);
+      expect(error.error?.trim(),
           "Upload of largeFile.txt cancelled by user");
       if (error.data != null) {
         expect(error.data, isMap);

@@ -33,7 +33,7 @@ class BrainCloudGlobalFile {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall serverCall = ServerCall(
@@ -69,7 +69,7 @@ class BrainCloudGlobalFile {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall serverCall = ServerCall(ServiceName.globalFile,
@@ -100,7 +100,7 @@ class BrainCloudGlobalFile {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall serverCall = ServerCall(ServiceName.globalFile,
@@ -136,7 +136,7 @@ class BrainCloudGlobalFile {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall serverCall = ServerCall(ServiceName.globalFile,

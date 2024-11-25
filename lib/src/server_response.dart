@@ -12,14 +12,14 @@ class ServerResponse {
   @JsonKey(name: 'reason_code')
   final int? reasonCode;
   @JsonKey(name: 'status_message')
-  final String? statusMessage;
+  final String? error;
   @JsonKey(name: 'data')
   final Map<String, dynamic>? data;
 
   ServerResponse(
       {required this.statusCode,
       this.reasonCode = ReasonCodes.noReasonCode,
-      this.statusMessage,
+      this.error,
       this.data});
 
   factory ServerResponse.fromJson(Map<String, dynamic> json) =>
@@ -29,7 +29,7 @@ class ServerResponse {
 
   @override
   String toString() {
-    return 'ServerResponse(statusCode: $statusCode, reasonCode: $reasonCode, statusMessage: $statusMessage, data: ${(data?.isNotEmpty ?? false) ? '<Has Data>' : '<Data is empty>'})';
+    return 'ServerResponse(statusCode: $statusCode, reasonCode: $reasonCode, statusMessage: $error, data: ${(data?.isNotEmpty ?? false) ? '<Has Data>' : '<Data is empty>'})';
   }
 
   bool isSuccess() => statusCode == StatusCodes.ok;

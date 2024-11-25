@@ -973,7 +973,7 @@ class BrainCloudGroup {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.group, operation, data, callback);
     _clientRef.sendRequest(sc);
 

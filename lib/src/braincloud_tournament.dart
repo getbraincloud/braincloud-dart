@@ -41,7 +41,7 @@ class BrainCloudTournament {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.claimTournamentReward, data, callback);
@@ -70,7 +70,7 @@ class BrainCloudTournament {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.getDivisionInfo, data, callback);
@@ -93,7 +93,7 @@ class BrainCloudTournament {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.getMyDivisions, null, callback);
@@ -127,7 +127,7 @@ class BrainCloudTournament {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.getTournamentStatus, data, callback);
@@ -168,7 +168,7 @@ class BrainCloudTournament {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.tournament, ServiceOperation.joinDivision, data, callback);
@@ -210,7 +210,7 @@ class BrainCloudTournament {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.joinTournament, data, callback);
@@ -240,7 +240,7 @@ class BrainCloudTournament {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.leaveDivisionInstance, data, callback);
@@ -269,7 +269,7 @@ class BrainCloudTournament {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.leaveTournament, data, callback);
@@ -316,7 +316,7 @@ class BrainCloudTournament {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.postTournamentScore, data, callback);
@@ -388,7 +388,7 @@ class BrainCloudTournament {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     _clientRef.sendRequest(ServerCall(ServiceName.tournament,
         ServiceOperation.postTournamentScoreWithResults, data, callback));
@@ -416,7 +416,7 @@ class BrainCloudTournament {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.viewCurrentReward, data, callback);
@@ -450,7 +450,7 @@ class BrainCloudTournament {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.tournament, ServiceOperation.viewReward, data, callback);

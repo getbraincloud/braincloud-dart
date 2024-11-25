@@ -34,7 +34,7 @@ class BrainCloudOneWayMatch {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.oneWayMatch, ServiceOperation.startMatch, data, callback);
@@ -63,7 +63,7 @@ class BrainCloudOneWayMatch {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.oneWayMatch, ServiceOperation.cancelMatch, data, callback);
@@ -92,7 +92,7 @@ class BrainCloudOneWayMatch {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.oneWayMatch,
         ServiceOperation.completeMatch, data, callback);

@@ -29,7 +29,7 @@ class BrainCloudChat {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.channelConnect, data, callback);
     _clientRef.sendRequest(sc);
@@ -51,7 +51,7 @@ class BrainCloudChat {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.channelDisconnect, data, callback);
     _clientRef.sendRequest(sc);
@@ -78,7 +78,7 @@ class BrainCloudChat {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.deleteChatMessage, data, callback);
     _clientRef.sendRequest(sc);
@@ -104,7 +104,7 @@ class BrainCloudChat {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.getChannelId, data, callback);
@@ -127,7 +127,7 @@ class BrainCloudChat {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.getChannelInfo, data, callback);
     _clientRef.sendRequest(sc);
@@ -151,7 +151,7 @@ class BrainCloudChat {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.getChatMessage, data, callback);
     _clientRef.sendRequest(sc);
@@ -175,7 +175,7 @@ class BrainCloudChat {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.chat,
         ServiceOperation.getRecentChatMessages, data, callback);
     _clientRef.sendRequest(sc);
@@ -197,7 +197,7 @@ class BrainCloudChat {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.chat,
         ServiceOperation.getSubscribedChannels, data, callback);
     _clientRef.sendRequest(sc);
@@ -227,7 +227,7 @@ class BrainCloudChat {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.postChatMessage, data, callback);
     _clientRef.sendRequest(sc);
@@ -255,7 +255,7 @@ class BrainCloudChat {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.chat,
         ServiceOperation.postChatMessageSimple, data, callback);
     _clientRef.sendRequest(sc);
@@ -285,7 +285,7 @@ class BrainCloudChat {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.chat, ServiceOperation.updateChatMessage, data, callback);
     _clientRef.sendRequest(sc);

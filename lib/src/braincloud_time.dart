@@ -28,7 +28,7 @@ class BrainCloudTime {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc =
         ServerCall(ServiceName.time, ServiceOperation.read, null, callback);

@@ -46,7 +46,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall =
@@ -77,7 +77,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
     var sc = ServerCall(
         ServiceName.entity, ServiceOperation.readByType, data, callback);
@@ -142,7 +142,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var sc =
@@ -203,7 +203,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var sc = ServerCall(
@@ -252,7 +252,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var sc =
@@ -307,7 +307,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var sc = ServerCall(
@@ -348,7 +348,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
     var sc = ServerCall(
         ServiceName.entity, ServiceOperation.deleteSingleton, data, callback);
@@ -379,7 +379,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var sc =
@@ -412,7 +412,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var sc = ServerCall(
@@ -453,7 +453,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
     var sc = ServerCall(
         ServiceName.entity, ServiceOperation.readSharedEntity, data, callback);
@@ -488,7 +488,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var sc = ServerCall(
@@ -532,7 +532,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(
@@ -585,7 +585,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(ServiceName.entity,
@@ -619,7 +619,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(
@@ -658,7 +658,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(
@@ -701,7 +701,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(
@@ -738,7 +738,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(ServiceName.entity,
@@ -782,7 +782,7 @@ class BrainCloudEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(ServiceName.entity,

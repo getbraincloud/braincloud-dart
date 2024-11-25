@@ -40,7 +40,7 @@ class BrainCloudPlaybackStream {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.startStream, data, callback);
@@ -70,7 +70,7 @@ class BrainCloudPlaybackStream {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.readStream, data, callback);
@@ -100,7 +100,7 @@ class BrainCloudPlaybackStream {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.playbackStream, ServiceOperation.endStream, data, callback);
@@ -130,7 +130,7 @@ class BrainCloudPlaybackStream {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.deleteStream, data, callback);
@@ -177,7 +177,7 @@ class BrainCloudPlaybackStream {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.playbackStream, ServiceOperation.addEvent, data, callback);
@@ -213,7 +213,7 @@ class BrainCloudPlaybackStream {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.getRecentStreamsForInitiatingPlayer, data, callback);
@@ -249,7 +249,7 @@ class BrainCloudPlaybackStream {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.playbackStream,
         ServiceOperation.getRecentStreamsForTargetPlayer, data, callback);

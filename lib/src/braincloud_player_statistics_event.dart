@@ -43,7 +43,7 @@ class BrainCloudPlayerStatisticsEvent {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.playerStatisticsEvent,
         ServiceOperation.trigger, data, callback);
     _clientRef.sendRequest(sc);
@@ -86,7 +86,7 @@ class BrainCloudPlayerStatisticsEvent {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.playerStatisticsEvent,
         ServiceOperation.triggerMultiple, data, callback);
     _clientRef.sendRequest(sc);

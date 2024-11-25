@@ -48,7 +48,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(
@@ -100,7 +100,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(ServiceName.globalEntity,
@@ -140,7 +140,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(
@@ -180,7 +180,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(
@@ -221,7 +221,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(ServiceName.globalEntity,
@@ -256,7 +256,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(
@@ -287,7 +287,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(
@@ -328,7 +328,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(
@@ -364,7 +364,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(ServiceName.globalEntity,
@@ -396,7 +396,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(ServiceName.globalEntity,
@@ -434,7 +434,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(ServiceName.globalEntity,
@@ -483,7 +483,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(ServiceName.globalEntity,
@@ -516,7 +516,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(
@@ -555,7 +555,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(ServiceName.globalEntity,
@@ -590,7 +590,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(ServiceName.globalEntity,
@@ -625,7 +625,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(ServiceName.globalEntity,
@@ -665,7 +665,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(ServiceName.globalEntity,
@@ -705,7 +705,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(ServiceName.globalEntity,
@@ -749,7 +749,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(ServiceName.globalEntity,
@@ -789,7 +789,7 @@ class BrainCloudGlobalEntity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     var serverCall = ServerCall(ServiceName.globalEntity,

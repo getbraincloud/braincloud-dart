@@ -122,7 +122,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(
@@ -173,7 +173,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(
@@ -226,7 +226,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(
@@ -1133,7 +1133,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.identity,
@@ -1162,7 +1162,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.identity,
@@ -1220,7 +1220,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.identity,
@@ -1253,7 +1253,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.identity,
@@ -1278,7 +1278,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(
@@ -1311,7 +1311,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.identity,
@@ -1336,7 +1336,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(
@@ -1361,7 +1361,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.identity,
@@ -1405,7 +1405,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(
@@ -1454,7 +1454,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.identity,
@@ -1517,7 +1517,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.identity,
@@ -1546,7 +1546,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(
@@ -1568,7 +1568,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(
@@ -1599,7 +1599,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.identity,
@@ -1627,7 +1627,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.identity,
@@ -1655,7 +1655,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(
@@ -1683,7 +1683,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(
@@ -1710,7 +1710,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(
@@ -1752,7 +1752,7 @@ class BrainCloudIdentity {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(ServiceName.identity,

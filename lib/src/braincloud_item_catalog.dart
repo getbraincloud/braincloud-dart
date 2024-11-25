@@ -34,7 +34,7 @@ class BrainCloudItemCatalog {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.itemCatalog,
         ServiceOperation.getCatalogItemDefinition, data, callback);
@@ -66,7 +66,7 @@ class BrainCloudItemCatalog {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.itemCatalog,
         ServiceOperation.getCatalogItemsPage, data, callback);
@@ -101,7 +101,7 @@ class BrainCloudItemCatalog {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.itemCatalog,
         ServiceOperation.getCatalogItemsPageOffset, data, callback);

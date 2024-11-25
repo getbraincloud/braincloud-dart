@@ -28,7 +28,7 @@ class BrainCloudMatchMaking {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.matchMaking, ServiceOperation.read, null, callback);
@@ -57,7 +57,7 @@ class BrainCloudMatchMaking {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.matchMaking,
         ServiceOperation.setPlayerRating, data, callback);
@@ -79,7 +79,7 @@ class BrainCloudMatchMaking {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.matchMaking,
         ServiceOperation.resetPlayerRating, null, callback);
@@ -107,7 +107,7 @@ class BrainCloudMatchMaking {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.matchMaking,
         ServiceOperation.incrementPlayerRating, data, callback);
@@ -135,7 +135,7 @@ class BrainCloudMatchMaking {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.matchMaking,
         ServiceOperation.decrementPlayerRating, data, callback);
@@ -157,7 +157,7 @@ class BrainCloudMatchMaking {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.matchMaking, ServiceOperation.shieldOn, null, callback);
@@ -185,7 +185,7 @@ class BrainCloudMatchMaking {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.matchMaking, ServiceOperation.shieldOnFor, data, callback);
@@ -207,7 +207,7 @@ class BrainCloudMatchMaking {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.matchMaking, ServiceOperation.shieldOff, null, callback);
@@ -235,7 +235,7 @@ class BrainCloudMatchMaking {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
 
     ServerCall sc = ServerCall(ServiceName.matchMaking,
@@ -269,7 +269,7 @@ class BrainCloudMatchMaking {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.matchMaking,
         ServiceOperation.getShieldExpiry, data, callback);
@@ -331,7 +331,7 @@ class BrainCloudMatchMaking {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.matchMaking, ServiceOperation.findPlayers, data, callback);
@@ -408,7 +408,7 @@ class BrainCloudMatchMaking {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.matchMaking,
         ServiceOperation.findPlayersUsingFilter, data, callback);
@@ -431,7 +431,7 @@ class BrainCloudMatchMaking {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.matchMaking,
         ServiceOperation.enableMatchMaking, null, callback);
@@ -454,7 +454,7 @@ class BrainCloudMatchMaking {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.matchMaking,
         ServiceOperation.disableMatchMaking, null, callback);

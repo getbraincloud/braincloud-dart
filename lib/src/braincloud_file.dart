@@ -61,7 +61,7 @@ class BrainCloudFile {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(
@@ -126,7 +126,7 @@ class BrainCloudFile {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(
@@ -158,7 +158,7 @@ class BrainCloudFile {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(
@@ -189,7 +189,7 @@ class BrainCloudFile {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(
@@ -221,7 +221,7 @@ class BrainCloudFile {
       completer.complete(ServerResponse(
           statusCode: statusCode,
           reasonCode: reasonCode,
-          statusMessage: statusMessage));
+          error: statusMessage));
     });
 
     ServerCall sc = ServerCall(

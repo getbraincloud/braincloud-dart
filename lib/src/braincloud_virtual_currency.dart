@@ -36,7 +36,7 @@ class BrainCloudVirtualCurrency {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.virtualCurrency,
         ServiceOperation.getPlayerVC, data, callback);
@@ -73,7 +73,7 @@ class BrainCloudVirtualCurrency {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.virtualCurrency,
         ServiceOperation.getParentVC, data, callback);
@@ -110,7 +110,7 @@ class BrainCloudVirtualCurrency {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.virtualCurrency,
         ServiceOperation.getPeerVC, data, callback);
@@ -135,7 +135,7 @@ class BrainCloudVirtualCurrency {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.virtualCurrency,
         ServiceOperation.resetPlayerVC, data, callback);

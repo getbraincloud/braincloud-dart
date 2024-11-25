@@ -176,7 +176,7 @@ class BrainCloudAsyncMatch {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.asyncMatch, ServiceOperation.submitTurn, data, callback);
     _clientRef.sendRequest(sc);
@@ -224,7 +224,7 @@ class BrainCloudAsyncMatch {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.asyncMatch,
         ServiceOperation.updateMatchSummary, data, callback);
     _clientRef.sendRequest(sc);
@@ -275,7 +275,7 @@ class BrainCloudAsyncMatch {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
 
     ServerCall sc = ServerCall(ServiceName.asyncMatch,
         ServiceOperation.updateMatchStateCurrentTurn, data, callback);
@@ -310,7 +310,7 @@ class BrainCloudAsyncMatch {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.asyncMatch, ServiceOperation.complete, data, callback);
     _clientRef.sendRequest(sc);
@@ -344,7 +344,7 @@ class BrainCloudAsyncMatch {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.asyncMatch, ServiceOperation.readMatch, data, callback);
     _clientRef.sendRequest(sc);
@@ -378,7 +378,7 @@ class BrainCloudAsyncMatch {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.asyncMatch,
         ServiceOperation.readMatchHistory, data, callback);
     _clientRef.sendRequest(sc);
@@ -400,7 +400,7 @@ class BrainCloudAsyncMatch {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.asyncMatch, ServiceOperation.findMatches, null, callback);
     _clientRef.sendRequest(sc);
@@ -421,7 +421,7 @@ class BrainCloudAsyncMatch {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.asyncMatch,
         ServiceOperation.findMatchesCompleted, null, callback);
     _clientRef.sendRequest(sc);
@@ -455,7 +455,7 @@ class BrainCloudAsyncMatch {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.asyncMatch, ServiceOperation.abandon, data, callback);
     _clientRef.sendRequest(sc);
@@ -489,7 +489,7 @@ class BrainCloudAsyncMatch {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.asyncMatch, ServiceOperation.deleteMatch, data, callback);
     _clientRef.sendRequest(sc);
@@ -538,7 +538,7 @@ class BrainCloudAsyncMatch {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.asyncMatch,
         ServiceOperation.completeMatchWithSummaryData, data, callback);
     _clientRef.sendRequest(sc);
@@ -585,7 +585,7 @@ class BrainCloudAsyncMatch {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.asyncMatch,
         ServiceOperation.abandonMatchWithSummaryData, data, callback);
     _clientRef.sendRequest(sc);
@@ -633,7 +633,7 @@ class BrainCloudAsyncMatch {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.asyncMatch, ServiceOperation.create, data, callback);
     _clientRef.sendRequest(sc);

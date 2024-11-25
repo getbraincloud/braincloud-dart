@@ -91,7 +91,7 @@ class BrainCloudAppStore {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.appStore, ServiceOperation.getInventory, data, callback);
     _clientRef.sendRequest(sc);
@@ -113,7 +113,7 @@ class BrainCloudAppStore {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.appStore,
         ServiceOperation.eligiblePromotions, null, callback);
     _clientRef.sendRequest(sc);
@@ -153,7 +153,7 @@ class BrainCloudAppStore {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.appStore, ServiceOperation.verifyPurchase, data, callback);
     _clientRef.sendRequest(sc);
@@ -193,7 +193,7 @@ class BrainCloudAppStore {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.appStore, ServiceOperation.startPurchase, data, callback);
     _clientRef.sendRequest(sc);
@@ -240,7 +240,7 @@ class BrainCloudAppStore {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.appStore,
         ServiceOperation.finalizePurchase, data, callback);
     _clientRef.sendRequest(sc);
@@ -264,7 +264,7 @@ class BrainCloudAppStore {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.appStore,
         ServiceOperation.refreshPromotions, data, callback);
     _clientRef.sendRequest(sc);

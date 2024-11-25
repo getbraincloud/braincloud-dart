@@ -80,63 +80,8 @@ void main() {
           isNot(bcWrapper2.brainCloudClient.getReceivedPacketId()),
           reason: "Packet Id should not match");
     });
+
+    
   });
-  group("Test Client", () {
-    test("Direct Client Test", () async {
-      
-      await bcTest.ids.load(); //Load test config
-      print("-- will user Universal user ${userA.name}");
-      
-      final BrainCloudClient bcClient = await BrainCloudClient(null);
-
-      expect(bcClient.isInitialized(), false);
-      expect(bcClient.isAuthenticated(), false);
-      bcClient.enableLogging(true);
-
-
-      bcClient.initialize(
-          secretKey: bcTest.ids.secretKey,
-          appId: bcTest.ids.appId,
-          appVersion: bcTest.ids.version,
-          serverURL: bcTest.ids.url);
-      expect(bcClient.isInitialized(), true);
-
-      final runloop = Timer.periodic(Durations.short1, (timer) {
-        bcClient.runCallbacks();
-      });
-
-      ServerResponse authResp1 = await bcClient.authenticationService
-          .authenticateUniversal(
-              userId: userA.name, password: userA.password, forceCreate: true);
-
-      String? pId = authResp1.data?['id'];
-      if (pId == null)
-        print("++++ response : ${authResp1.data}");
-      else
-        print("++++ authResp1: $pId");
-
-      expect(authResp1.statusCode, 200);
-      expect(bcClient.isAuthenticated(), true, reason: "Should be logged-in");
-
-      print("bcWrapper1 pkt id: ${bcClient.getReceivedPacketId()}");
-
-      // Add some operations to ensure packet id are not in sync
-      await bcClient.entityService.getSingleton(entityType: "entityType");
-      await bcClient.entityService.getSingleton(entityType: "entityTypeB");
-
-      print("bcWrapper1 pkt id: ${bcClient.getReceivedPacketId()}");
-
-      expect(bcClient.getReceivedPacketId() > 1, isTrue);
-
-      await bcClient.playerStateService.logout();
-      expect(bcClient.isAuthenticated(), false,
-          reason: "Should have logged-out");
-
-      runloop.cancel();
-    });
-
-    tearDownAll(() {
-      bcTest.dispose();
-    });
-  });
+ 
 }

@@ -17,6 +17,20 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
+    test("readServerTime() error", () async {
+      BrainCloudWrapper bcWrapper = BrainCloudWrapper();
+
+      bcWrapper.init(secretKey: bcTest.ids.secretKey, appId: bcTest.ids.appId, version: bcTest.ids.version, updateTick: 50);
+
+      ServerResponse response =
+          await bcWrapper.timeService.readServerTime();
+
+      debugPrint("Server Time: ${response.data?['server_time']}");
+      expect(response.statusCode, StatusCodes.forbidden);
+
+      bcWrapper.onDestroy();
+    });
+
     test("TimeUtilsTest", () async {
       var today = DateTime.now().toUtc();
       var tomorrow = today.add(Duration(days: 1));

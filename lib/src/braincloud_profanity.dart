@@ -51,7 +51,7 @@ class BrainCloudProfanity {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.profanity, ServiceOperation.profanityCheck, data, callback);
@@ -102,7 +102,7 @@ class BrainCloudProfanity {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.profanity,
         ServiceOperation.profanityReplaceText, data, callback);
@@ -149,7 +149,7 @@ class BrainCloudProfanity {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.profanity,
         ServiceOperation.profanityIdentifyBadWords, data, callback);

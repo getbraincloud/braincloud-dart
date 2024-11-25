@@ -58,7 +58,7 @@ class BrainCloudLobby {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.findLobby, data, callback);
@@ -128,7 +128,7 @@ class BrainCloudLobby {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.createLobby, data, callback);
     _clientRef.sendRequest(sc);
@@ -201,7 +201,7 @@ class BrainCloudLobby {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.findOrCreateLobby, data, callback);
     _clientRef.sendRequest(sc);
@@ -258,7 +258,7 @@ class BrainCloudLobby {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.getLobbyData, data, callback);
     _clientRef.sendRequest(sc);
@@ -285,7 +285,7 @@ class BrainCloudLobby {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.updateReady, data, callback);
     _clientRef.sendRequest(sc);
@@ -309,7 +309,7 @@ class BrainCloudLobby {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.updateSettings, data, callback);
     _clientRef.sendRequest(sc);
@@ -333,7 +333,7 @@ class BrainCloudLobby {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.switchTeam, data, callback);
     _clientRef.sendRequest(sc);
@@ -357,7 +357,7 @@ class BrainCloudLobby {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.sendSignal, data, callback);
     _clientRef.sendRequest(sc);
@@ -391,7 +391,7 @@ class BrainCloudLobby {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.joinLobby, data, callback);
     _clientRef.sendRequest(sc);
@@ -435,7 +435,7 @@ class BrainCloudLobby {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.leaveLobby, data, callback);
     _clientRef.sendRequest(sc);
@@ -459,7 +459,7 @@ class BrainCloudLobby {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.removeMember, data, callback);
     _clientRef.sendRequest(sc);
@@ -482,7 +482,7 @@ class BrainCloudLobby {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.cancelFindRequest, data, callback);
     _clientRef.sendRequest(sc);
@@ -509,7 +509,7 @@ class BrainCloudLobby {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.lobby,
         ServiceOperation.getRegionsForLobbies, data, callback);
     _clientRef.sendRequest(sc);
@@ -541,7 +541,7 @@ class BrainCloudLobby {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.lobby, ServiceOperation.getLobbyInstances, data, callback);
     _clientRef.sendRequest(sc);
@@ -583,7 +583,7 @@ class BrainCloudLobby {
               ServerResponse(
                   statusCode: statusCode,
                   reasonCode: reasonCode,
-                  statusMessage: statusMessage)),
+                  error: statusMessage)),
           ReasonCodes.missingRequiredParameter,
           "Ping is already happening.");
     }
@@ -619,7 +619,7 @@ class BrainCloudLobby {
               ServerResponse(
                   statusCode: statusCode,
                   reasonCode: reasonCode,
-                  statusMessage: statusMessage)),
+                  error: statusMessage)),
           ReasonCodes.missingRequiredParameter,
           "No Regions to Ping. Please call GetRegionsForLobbies and await the response before calling PingRegions.");
     }
@@ -673,7 +673,7 @@ class BrainCloudLobby {
               ServerResponse(
                   statusCode: statusCode,
                   reasonCode: reasonCode,
-                  statusMessage: statusMessage)));
+                  error: statusMessage)));
 
       ServerCall sc =
           ServerCall(ServiceName.lobby, inOperation, inData, callback);
@@ -684,7 +684,7 @@ class BrainCloudLobby {
               ServerResponse(
                   statusCode: statusCode,
                   reasonCode: reasonCode,
-                  statusMessage: statusMessage)),
+                  error: statusMessage)),
           ReasonCodes.missingRequiredParameter,
           "Processing exception (message): Required message parameter 'pingData' is missing.  Please ensure PingData exists by first calling GetRegionsForLobbies and PingRegions, and waiting for response before proceeding.");
     }

@@ -41,7 +41,7 @@ class BrainCloudScript {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc =
         ServerCall(ServiceName.script, ServiceOperation.run, data, callback);
@@ -83,7 +83,7 @@ class BrainCloudScript {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.scheduleCloudScript, data, callback);
@@ -125,7 +125,7 @@ class BrainCloudScript {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.scheduleCloudScript, data, callback);
@@ -166,7 +166,7 @@ class BrainCloudScript {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.script, ServiceOperation.runParentScript, data, callback);
@@ -194,7 +194,7 @@ class BrainCloudScript {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.cancelScheduledScript, data, callback);
@@ -223,7 +223,7 @@ class BrainCloudScript {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.getScheduledCloudScripts, data, callback);
@@ -247,7 +247,7 @@ class BrainCloudScript {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.getRunningOrQueuedCloudScripts, {}, callback);
@@ -288,7 +288,7 @@ class BrainCloudScript {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.script, ServiceOperation.runPeerScript, data, callback);
@@ -330,7 +330,7 @@ class BrainCloudScript {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.script,
         ServiceOperation.runPeerScriptAsync, data, callback);

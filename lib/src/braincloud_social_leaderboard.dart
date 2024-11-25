@@ -54,7 +54,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getSocialLeaderboard, data, callback);
@@ -106,7 +106,7 @@ class BrainCloudSocialLeaderboard {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     var sc = new ServerCall(ServiceName.leaderboard,
         ServiceOperation.GetSocialLeaderboardIfExists, data, callback);
     _clientRef.sendRequest(sc);
@@ -161,7 +161,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getSocialLeaderboardByVersion, data, callback);
@@ -219,7 +219,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = new ServerCall(ServiceName.leaderboard,
         ServiceOperation.getSocialLeaderboardByVersionIfExists, data, callback);
@@ -263,7 +263,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getMultiSocialLeaderboard, data, callback);
@@ -314,7 +314,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardPage, data, callback);
@@ -368,7 +368,7 @@ class BrainCloudSocialLeaderboard {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
 
     var sc = new ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardPageIfExists, data, callback);
@@ -421,7 +421,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardPage, data, callback);
@@ -476,7 +476,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = new ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardPageIfExists, data, callback);
@@ -602,7 +602,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardView, data, callback);
@@ -660,7 +660,7 @@ class BrainCloudSocialLeaderboard {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     var sc = new ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardViewIfExists, data, callback);
     _clientRef.sendRequest(sc);
@@ -688,7 +688,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardVersions, data, callback);
@@ -721,7 +721,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGroupSocialLeaderboard, data, callback);
@@ -759,7 +759,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGroupSocialLeaderboardByVersion, data, callback);
@@ -809,7 +809,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(
         ServiceName.leaderboard, ServiceOperation.postScore, data, callback);
@@ -844,7 +844,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.removePlayerScore, data, callback);
@@ -919,7 +919,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreDynamic, data, callback);
@@ -1000,7 +1000,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreDynamicUsingConfig, data, callback);
@@ -1080,7 +1080,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreToDynamicGroupLeaderboard, data, callback);
@@ -1155,7 +1155,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreDynamic, data, callback);
@@ -1230,7 +1230,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreToDynamicGroupLeaderboard, data, callback);
@@ -1265,7 +1265,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayersSocialLeaderboard, data, callback);
@@ -1301,7 +1301,7 @@ class BrainCloudSocialLeaderboard {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     var sc = new ServerCall(ServiceName.leaderboard,
         ServiceOperation.GetPlayersSocialLeaderboardIfExists, data, callback);
     _clientRef.sendRequest(sc);
@@ -1341,7 +1341,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayersSocialLeaderboardByVersion, data, callback);
@@ -1384,7 +1384,7 @@ class BrainCloudSocialLeaderboard {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     var sc = new ServerCall(
         ServiceName.leaderboard,
         ServiceOperation.getPlayersSocialLeaderboardByVersionIfExists,
@@ -1409,7 +1409,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.listAllLeaderboards, null, callback);
@@ -1462,7 +1462,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGlobalLeaderboardEntryCount, data, callback);
@@ -1497,7 +1497,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayerScore, data, callback);
@@ -1538,7 +1538,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayerScores, data, callback);
@@ -1572,7 +1572,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getPlayerScoresFromLeaderboards, data, callback);
@@ -1620,7 +1620,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.postScoreToGroupLeaderboard, data, callback);
@@ -1661,7 +1661,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.removeGroupScore, data, callback);
@@ -1713,7 +1713,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGroupLeaderboardView, data, callback);
@@ -1770,7 +1770,7 @@ class BrainCloudSocialLeaderboard {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
         ServiceOperation.getGroupLeaderboardView, data, callback);

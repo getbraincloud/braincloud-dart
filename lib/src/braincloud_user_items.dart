@@ -44,7 +44,7 @@ class BrainCloudUserItems {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.awardUserItem, data, callback);
@@ -85,7 +85,7 @@ class BrainCloudUserItems {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.dropUserItem, data, callback);
@@ -121,7 +121,7 @@ class BrainCloudUserItems {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.getUserItemsPage, data, callback);
@@ -162,7 +162,7 @@ class BrainCloudUserItems {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.getUserItemsPageOffset, data, callback);
@@ -197,7 +197,7 @@ class BrainCloudUserItems {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.getUserItem, data, callback);
@@ -242,7 +242,7 @@ class BrainCloudUserItems {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.giveUserItemTo, data, callback);
@@ -286,7 +286,7 @@ class BrainCloudUserItems {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.purchaseUserItem, data, callback);
@@ -323,7 +323,7 @@ class BrainCloudUserItems {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.receiveUserItemFrom, data, callback);
@@ -373,7 +373,7 @@ class BrainCloudUserItems {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.sellUserItem, data, callback);
@@ -411,7 +411,7 @@ class BrainCloudUserItems {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.updateUserItemData, data, callback);
@@ -453,7 +453,7 @@ class BrainCloudUserItems {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(
         ServiceName.userItems, ServiceOperation.useUserItem, data, callback);
@@ -485,7 +485,7 @@ class BrainCloudUserItems {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.publishUserItemToBlockchain, data, callback);
@@ -510,7 +510,7 @@ class BrainCloudUserItems {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.refreshBlockchainUserItems, data, callback);
@@ -543,7 +543,7 @@ class BrainCloudUserItems {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.userItems,
         ServiceOperation.removeUserItemFromBlockchain, data, callback);

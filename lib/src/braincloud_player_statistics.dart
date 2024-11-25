@@ -27,7 +27,7 @@ class BrainCloudPlayerStatistics {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.playerStatistics, ServiceOperation.read, null, callback);
     _clientRef.sendRequest(sc);
@@ -55,7 +55,7 @@ class BrainCloudPlayerStatistics {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.readSubset, data, callback);
     _clientRef.sendRequest(sc);
@@ -82,7 +82,7 @@ class BrainCloudPlayerStatistics {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.readForCategory, data, callback);
     _clientRef.sendRequest(sc);
@@ -104,7 +104,7 @@ class BrainCloudPlayerStatistics {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.playerStatistics, ServiceOperation.reset, null, callback);
     _clientRef.sendRequest(sc);
@@ -152,7 +152,7 @@ class BrainCloudPlayerStatistics {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.playerStatistics, ServiceOperation.update, data, callback);
     _clientRef.sendRequest(sc);
@@ -188,7 +188,7 @@ class BrainCloudPlayerStatistics {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.processStatistics, data, callback);
     _clientRef.sendRequest(sc);
@@ -209,7 +209,7 @@ class BrainCloudPlayerStatistics {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.readNextXpLevel, null, callback);
     _clientRef.sendRequest(sc);
@@ -237,7 +237,7 @@ class BrainCloudPlayerStatistics {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.playerStatistics, ServiceOperation.update, data, callback);
     _clientRef.sendRequest(sc);
@@ -266,7 +266,7 @@ class BrainCloudPlayerStatistics {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.playerStatistics,
         ServiceOperation.setXpPoints, data, callback);
     _clientRef.sendRequest(sc);

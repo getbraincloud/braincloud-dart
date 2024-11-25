@@ -28,7 +28,7 @@ class BrainCloudGlobalStatistics {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.globalStatistics, ServiceOperation.read, null, callback);
     _clientRef.sendRequest(sc);
@@ -57,7 +57,7 @@ class BrainCloudGlobalStatistics {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.globalStatistics,
         ServiceOperation.readSubset, data, callback);
     _clientRef.sendRequest(sc);
@@ -86,7 +86,7 @@ class BrainCloudGlobalStatistics {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.globalStatistics,
         ServiceOperation.readForCategory, data, callback);
     _clientRef.sendRequest(sc);
@@ -135,7 +135,7 @@ class BrainCloudGlobalStatistics {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.globalStatistics,
         ServiceOperation.updateIncrement, data, callback);
     _clientRef.sendRequest(sc);
@@ -174,7 +174,7 @@ class BrainCloudGlobalStatistics {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.globalStatistics,
         ServiceOperation.processStatistics, data, callback);
     _clientRef.sendRequest(sc);

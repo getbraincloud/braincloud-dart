@@ -52,7 +52,7 @@ class BrainCloudEvent {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc =
         ServerCall(ServiceName.event, ServiceOperation.send, data, callback);
     _clientRef.sendRequest(sc);
@@ -88,7 +88,7 @@ class BrainCloudEvent {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.event, ServiceOperation.updateEventData, data, callback);
     _clientRef.sendRequest(sc);
@@ -125,7 +125,7 @@ class BrainCloudEvent {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
 
     ServerCall sc = ServerCall(ServiceName.event,
         ServiceOperation.updateEventDataIfExists, data, callback);
@@ -153,7 +153,7 @@ class BrainCloudEvent {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.event, ServiceOperation.deleteIncoming, data, callback);
     _clientRef.sendRequest(sc);
@@ -181,7 +181,7 @@ class BrainCloudEvent {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.event,
         ServiceOperation.deleteIncomingEvents, data, callback);
     _clientRef.sendRequest(sc);
@@ -209,7 +209,7 @@ class BrainCloudEvent {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.event,
         ServiceOperation.deleteIncomingEventsOlderThan, data, callback);
     _clientRef.sendRequest(sc);
@@ -241,7 +241,7 @@ class BrainCloudEvent {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.event,
         ServiceOperation.deleteIncomingEventsByTypeOlderThan, data, callback);
     _clientRef.sendRequest(sc);
@@ -261,7 +261,7 @@ class BrainCloudEvent {
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
-                statusMessage: statusMessage)));
+                error: statusMessage)));
     ServerCall sc = ServerCall(
         ServiceName.event, ServiceOperation.getEvents, data, callback);
     _clientRef.sendRequest(sc);

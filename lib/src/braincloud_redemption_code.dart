@@ -49,7 +49,7 @@ class BrainCloudRedemptionCode {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.redemptionCode,
         ServiceOperation.redeemCode, data, callback);
@@ -82,7 +82,7 @@ class BrainCloudRedemptionCode {
           ServerResponse(
               statusCode: statusCode,
               reasonCode: reasonCode,
-              statusMessage: statusMessage)),
+              error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.redemptionCode,
         ServiceOperation.getRedeemedCodes, data, callback);
