@@ -127,7 +127,7 @@ main() {
           .mergeEmailIdentity(email: userC.email, password: userC.password);
 
       expect(response.statusCode, anyOf([200, 202]),
-          reason: response.error);
+          reason: "${response.error?['status_message'] ?? response.error ?? ""}");
       // expect(response.body, isNull);
     });
 
