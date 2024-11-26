@@ -45,7 +45,7 @@ void main() {
 
     void onRelayConnected(Map<String, dynamic> jsonResponse) {
       bcTest.bcWrapper.relayService.setPingInterval(2);
-      String profileId = bcTest.bcWrapper.getStoredProfileId() ?? "";
+      String profileId = bcTest.bcWrapper.getStoredProfileId();
       currentNetId =
           bcTest.bcWrapper.relayService.getNetIdForProfileId(profileId);
 
@@ -93,7 +93,7 @@ void main() {
     void relayCallback(int netId, Uint8List data) {
       String message = utf8.decode(data);
       debugPrint("${DateTime.now()}:TST-> relayCallback:($netId)   $message");
-      String profileId = bcTest.bcWrapper.getStoredProfileId() ?? "";
+      String profileId = bcTest.bcWrapper.getStoredProfileId();
       currentNetId =
           bcTest.bcWrapper.relayService.getNetIdForProfileId(profileId);
 
@@ -116,7 +116,7 @@ void main() {
     void badRelayCallback(int netId, Uint8List data) {
       String message = utf8.decode(data);
       debugPrint("${DateTime.now()}:TST-> badRelayCallback:($netId)   $message");
-      String profileId = bcTest.bcWrapper.getStoredProfileId() ?? "";
+      String profileId = bcTest.bcWrapper.getStoredProfileId();
       currentNetId =
           bcTest.bcWrapper.relayService.getNetIdForProfileId(profileId);
 

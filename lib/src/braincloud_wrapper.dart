@@ -104,16 +104,18 @@ class BrainCloudWrapper {
   BrainCloudClient get brainCloudClient => _client;
 
   /// returns _alwaysAllowProfileSwitch
-  getAllowProfileSwitch() {
-    return _alwaysAllowProfileSwitch;
-  }
+  // getAllowProfileSwitch() {
+  //   return _alwaysAllowProfileSwitch;
+  // }
+  bool get alwaysAllowProfileSwitch => _alwaysAllowProfileSwitch;
+  void set  alwaysAllowProfileSwitch (value) => _alwaysAllowProfileSwitch = value;
 
   /// Sets _alwaysAllowProfileSwitch
   ///
   /// @param value bool
-  setAllowProfileSwitch(bool value) {
-    _alwaysAllowProfileSwitch = value;
-  }
+  // setAllowProfileSwitch(bool value) {
+  //   _alwaysAllowProfileSwitch = value;
+  // }
 
   void onDestroy() {
     _updateTimer?.cancel();
@@ -380,7 +382,7 @@ class BrainCloudWrapper {
         .authenticateAnonymous(forceCreate: true)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -406,7 +408,7 @@ class BrainCloudWrapper {
         .authenticateHandoff(handoffId: handoffId, securityToken: securityToken)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -429,7 +431,7 @@ class BrainCloudWrapper {
         .authenticateSettopHandoff(handoffCode: handoffCode)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -468,7 +470,7 @@ class BrainCloudWrapper {
             email: email, password: password, forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -509,7 +511,7 @@ class BrainCloudWrapper {
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -543,7 +545,7 @@ class BrainCloudWrapper {
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -578,7 +580,7 @@ class BrainCloudWrapper {
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -612,7 +614,7 @@ class BrainCloudWrapper {
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -645,7 +647,7 @@ class BrainCloudWrapper {
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -679,7 +681,7 @@ class BrainCloudWrapper {
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -706,7 +708,7 @@ class BrainCloudWrapper {
             gameCenterId: gameCenterId, forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -740,7 +742,7 @@ class BrainCloudWrapper {
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -774,7 +776,7 @@ class BrainCloudWrapper {
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -808,7 +810,7 @@ class BrainCloudWrapper {
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -842,7 +844,7 @@ class BrainCloudWrapper {
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -880,7 +882,7 @@ class BrainCloudWrapper {
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -914,7 +916,7 @@ class BrainCloudWrapper {
             userId: username, password: password, forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     }).onError((error, stackTrace) {
@@ -950,7 +952,7 @@ class BrainCloudWrapper {
     initializeIdentity(isAnonymous);
 
     ids.externalId =
-        isAnonymous ? getStoredAnonymousId() ?? "" : ids.externalId;
+        isAnonymous ? getStoredAnonymousId() : ids.externalId;
     ids.authenticationToken = isAnonymous ? "" : ids.authenticationToken;
 
     return _client.authenticationService
@@ -961,7 +963,7 @@ class BrainCloudWrapper {
             extraJson: extraJson)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -995,7 +997,7 @@ class BrainCloudWrapper {
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -1030,7 +1032,7 @@ class BrainCloudWrapper {
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
-        authSuccessCallback(json: response.toJson());
+        _authSuccessCallback(response);
       }
       return response;
     });
@@ -1059,7 +1061,7 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchauthenticateEmail({
+  Future<ServerResponse> smartSwitchAuthenticateEmail({
     required String email,
     required String password,
     required bool forceCreate,
@@ -1092,7 +1094,7 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchauthenticateExternal(
+  Future<ServerResponse> smartSwitchAuthenticateExternal(
       {required String userid,
       required String token,
       required String externalAuthName,
@@ -1125,7 +1127,7 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchauthenticateFacebook(
+  Future<ServerResponse> smartSwitchAuthenticateFacebook(
       {required String fbUserId,
       required String fbAuthToken,
       required bool forceCreate}) async {
@@ -1154,7 +1156,7 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchauthenticateFacebookLimited(
+  Future<ServerResponse> smartSwitchAuthenticateFacebookLimited(
       {required String fbLimitedUserId,
       required String fbAuthToken,
       required bool forceCreate}) async {
@@ -1184,7 +1186,7 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchauthenticateOculus(
+  Future<ServerResponse> smartSwitchAuthenticateOculus(
       {required String oculusUserId,
       required String oculusNonce,
       required bool forceCreate}) async {
@@ -1216,7 +1218,7 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchauthenticatePlaystationNetwork(
+  Future<ServerResponse> smartSwitchAuthenticatePlaystationNetwork(
       {required String psnAccountId,
       required String psnAuthToken,
       required bool forceCreate}) async {
@@ -1247,7 +1249,7 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchauthenticateApple(
+  Future<ServerResponse> smartSwitchAuthenticateApple(
       {required String appleUserId,
       required String appleAuthToken,
       required bool forceCreate}) async {
@@ -1274,7 +1276,7 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchauthenticateGameCenter(
+  Future<ServerResponse> smartSwitchAuthenticateGameCenter(
       {required String gameCenterId, required bool forceCreate}) async {
     await _smartSwitchAuthentication();
     return authenticateGameCenter(
@@ -1300,13 +1302,13 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchauthenticateGoogle(
-      {required String userid,
-      required String token,
+  Future<ServerResponse> smartSwitchAuthenticateGoogle(
+      {required String googleUserId,
+      required String serverAuthCode,
       required bool forceCreate}) async {
     await _smartSwitchAuthentication();
     return authenticateGoogle(
-        googleUserId: userid, serverAuthCode: token, forceCreate: forceCreate);
+        googleUserId: googleUserId, serverAuthCode: serverAuthCode, forceCreate: forceCreate);
   }
 
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
@@ -1328,14 +1330,14 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchauthenticateGoogleOpenId(
-      {required String userid,
-      required String token,
+  Future<ServerResponse> smartSwitchAuthenticateGoogleOpenId(
+      {required String googleUserAccountEmail,
+      required String idToken,
       required bool forceCreate}) async {
     await _smartSwitchAuthentication();
     return authenticateGoogleOpenId(
-        googleUserAccountEmail: userid,
-        idToken: token,
+        googleUserAccountEmail: googleUserAccountEmail,
+        idToken: idToken,
         forceCreate: forceCreate);
   }
 
@@ -1358,7 +1360,7 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchauthenticateSteam(
+  Future<ServerResponse> smartSwitchAuthenticateSteam(
       {required String userid,
       required String sessionticket,
       required bool forceCreate}) async {
@@ -1390,7 +1392,7 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchauthenticateTwitter(
+  Future<ServerResponse> smartSwitchAuthenticateTwitter(
       {required String userid,
       required String token,
       required String secret,
@@ -1421,7 +1423,7 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchauthenticateUniversal(
+  Future<ServerResponse> smartSwitchAuthenticateUniversal(
       {required String username,
       required String password,
       required bool forceCreate}) async {
@@ -1454,7 +1456,7 @@ class BrainCloudWrapper {
   /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty String for no extraJson.
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchauthenticateAdvanced(
+  Future<ServerResponse> smartSwitchAuthenticateAdvanced(
       {required AuthenticationType authenticationType,
       required AuthenticationIds ids,
       required bool forceCreate,
@@ -1486,7 +1488,7 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchauthenticateUltra(
+  Future<ServerResponse> smartSwitchAuthenticateUltra(
       {required String ultraUsername,
       required String ultraIdToken,
       required bool forceCreate}) async {
@@ -1517,7 +1519,7 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchauthenticateNintendo(
+  Future<ServerResponse> smartSwitchAuthenticateNintendo(
       {required String nintendoAccountId,
       required String nintendoAuthToken,
       required bool forceCreate}) async {
@@ -1554,6 +1556,16 @@ class BrainCloudWrapper {
         .authenticateAnonymous(forceCreate: false);
   }
 
+    /// 
+    /// Returns true if there is stored profile ID and anonymous ID on device
+    /// 
+    /// returns bool
+    bool canReconnect()
+    {
+        return getStoredProfileId().isNotEmpty && getStoredAnonymousId().isNotEmpty;
+    }
+        
+
   /// Method initializes the identity information from the player prefs cache.
   /// This is specifically useful for an Anonymous authentication as Anonymous authentications
   /// require both the anonymous id *and* the profile id. By using the BrainCloudWrapper
@@ -1568,9 +1580,8 @@ class BrainCloudWrapper {
     String? profileId = getStoredProfileId();
     String? anonymousId = getStoredAnonymousId();
 
-    if ((anonymousId?.isEmpty ?? true) || (anonymousId?.isEmpty ?? true)) {
+    if ((anonymousId.isEmpty) || (anonymousId.isEmpty)) {
       anonymousId = _client.authenticationService.generateAnonymousId();
-      profileId ??= "";
       setStoredAnonymousId(anonymousId);
       setStoredProfileId(profileId);
     }
@@ -1580,7 +1591,7 @@ class BrainCloudWrapper {
     }
     setStoredAuthenticationType(isAnonymousAuth ? authenticationAnonymous : "");
     _client.initializeIdentity(
-        profileIdToauthenticateWith ?? "", anonymousId ?? "");
+        profileIdToauthenticateWith, anonymousId);
   }
 
   /// Reset Email password - Sends a password reset email to the specified address
@@ -1592,9 +1603,9 @@ class BrainCloudWrapper {
   /// The email address to send the reset email to.
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> resetEmailPassword({required String externalId}) {
+  Future<ServerResponse> resetEmailPassword({required String emailAddress}) {
     return _client.authenticationService
-        .resetEmailPassword(emailAddress: externalId);
+        .resetEmailPassword(emailAddress: emailAddress);
   }
 
   /// Reset Email password with service parameters - sends a password reset email to
@@ -1628,9 +1639,9 @@ class BrainCloudWrapper {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> resetEmailPasswordWithExpiry(
-      {required String externalId, required int tokenTtlInMinutes}) {
+      {required String emailAddress, required int tokenTtlInMinutes}) {
     return _client.authenticationService.resetEmailPasswordWithExpiry(
-        emailAddress: externalId, tokenTtlInMinutes: tokenTtlInMinutes);
+        emailAddress: emailAddress, tokenTtlInMinutes: tokenTtlInMinutes);
   }
 
   /// Reset Email password with service parameters - sends a password reset email to
@@ -1738,7 +1749,7 @@ class BrainCloudWrapper {
   /// Gets the stored profile id from user prefs.
   ///
   /// returns The stored profile id.
-  String? getStoredProfileId() {
+  String getStoredProfileId() {
     return _wrapperData.profileId;
   }
 
@@ -1759,7 +1770,7 @@ class BrainCloudWrapper {
   /// Gets the stored anonymous id from user prefs.
   ///
   /// returns The stored anonymous id.
-  String? getStoredAnonymousId() {
+  String getStoredAnonymousId() {
     return _wrapperData.anonymousId;
   }
 
@@ -1780,7 +1791,7 @@ class BrainCloudWrapper {
   /// Gets the type of the stored authentication.
   ///
   /// returns The stored authentication type.
-  String? getStoredAuthenticationType() {
+  String getStoredAuthenticationType() {
     return _wrapperData.authenticationType;
   }
 
@@ -1810,7 +1821,7 @@ class BrainCloudWrapper {
         url: _lastUrl,
         updateTick: _updateTick);
     _wrapperData = wd; // restore warpper Data.
-    String authType = getStoredAuthenticationType() ?? "";
+    String authType = getStoredAuthenticationType();
     if (authType == authenticationAnonymous) {
       return authenticateAnonymous();
     }
@@ -1832,13 +1843,11 @@ class BrainCloudWrapper {
   /// Callback for authentication success using the BrainCloudWrapper class.
   ///
   /// @param json The returned json
-  void authSuccessCallback({required Map<String, dynamic> json}) {
+  void _authSuccessCallback(ServerResponse response) {
     // grab the profileId and save it in PlayerPrefs
 
-    Map<String, dynamic> jsonData = json["data"];
-
-    if (jsonData.containsKey("profileId")) {
-      setStoredProfileId(jsonData["profileId"]);
+    if (response.data?["profileId"] != null) {
+      setStoredProfileId(response.data?["profileId"]);
     }
   }
 

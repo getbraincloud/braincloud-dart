@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:braincloud_dart/src/braincloud_client.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'utils/test_base.dart';
@@ -81,7 +79,39 @@ void main() {
           reason: "Packet Id should not match");
     });
 
-    
+    test("AuthenticateAdvanced", () async {
+      BrainCloudWrapper _bc = BrainCloudWrapper(wrapperName: "_mainWrapper");
+
+      String externalId = "authAdvancedUser";
+      String authenticationToken = "authAdvancedPass";
+      String authenticationSubType = "";
+      AuthenticationIds ids = AuthenticationIds(
+          externalId, authenticationToken, authenticationSubType);
+
+      ServerResponse response = await _bc.authenticateAdvanced(
+          authenticationType: AuthenticationType.universal,
+          ids: ids,
+          extraJson: {"key": "value"},
+          forceCreate: true);
+
+      if (response.statusCode == 200) {
+        // Success
+      } else {
+        // Failed
+      }
+    });
+
+    test("Genereal", () {
+      
+      bcTest.bcWrapper.alwaysAllowProfileSwitch = false;
+      expect(bcTest.bcWrapper.alwaysAllowProfileSwitch, false,
+          reason: "alwaysAllowProfileSwitch should have been false");
+
+      bcTest.bcWrapper.alwaysAllowProfileSwitch = true;
+      expect(bcTest.bcWrapper.alwaysAllowProfileSwitch, true,
+          reason: "alwaysAllowProfileSwitch should have been true");
+
+      expect(bcTest.bcWrapper.canReconnect(), true, reason: "canReconnect should have be true, since we did signin");
+    });
   });
- 
 }

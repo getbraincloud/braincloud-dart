@@ -132,7 +132,7 @@ main() async {
       ServerResponse response = await bcTest.bcWrapper.authenticateAnonymous();
       expect(response.statusCode, 200);
 
-      response = await bcTest.bcWrapper.smartSwitchauthenticateUniversal(
+      response = await bcTest.bcWrapper.smartSwitchAuthenticateUniversal(
           username: userA.email, password: userA.password, forceCreate: true);
       expect(response.statusCode, 200);
       expect(response.data?['profileId'], isA<String>());
@@ -150,7 +150,7 @@ main() async {
           username: userA.email, password: userA.password, forceCreate: false);
       expect(response.statusCode, 200);
 
-      response = await bcTest.bcWrapper.smartSwitchauthenticateAdvanced(
+      response = await bcTest.bcWrapper.smartSwitchAuthenticateAdvanced(
           authenticationType: AuthenticationType.anonymous,
           ids: AuthenticationIds("", "", ""),
           forceCreate: true,
@@ -171,7 +171,7 @@ main() async {
           username: userA.email, password: userA.password, forceCreate: false);
       expect(response.statusCode, 200);
 
-      response = await bcTest.bcWrapper.smartSwitchauthenticateEmail(
+      response = await bcTest.bcWrapper.smartSwitchAuthenticateEmail(
           email: userA.email, password: userA.password, forceCreate: true);
       expect(response.statusCode, 200);
       expect(response.data?['profileId'], isA<String>());
@@ -254,6 +254,15 @@ main() async {
           .authenticatePlaystation5(accountId: "Dart_Tester", authToken: "acceptThis", forceCreate: true);
 
       expect(response.statusCode, 200);
+    }); 
+
+    test("authenticateOculus", () async {
+            expect(bcTest.bcWrapper.isInitialized, true);
+
+      ServerResponse response = await bcTest.bcWrapper
+          .authenticateOculus(oculusUserId: "Dart_Tester", oculusNonce: "acceptThis", forceCreate: true);
+
+      expect(response.statusCode, 403);
     }); 
 
     test("resetEmailPassword", () async {
