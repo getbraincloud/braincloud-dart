@@ -103,19 +103,14 @@ class BrainCloudWrapper {
   late BrainCloudClient _client;
   BrainCloudClient get brainCloudClient => _client;
 
-  /// returns _alwaysAllowProfileSwitch
-  // getAllowProfileSwitch() {
-  //   return _alwaysAllowProfileSwitch;
-  // }
+  /// If set to true, profile id is never sent along with non-anonymous authenticates
+  /// 
+  /// thereby ensuring that valid credentials always work but potentially cause a profile switch.
+  /// If set to false, profile id is passed to the server (if it has been stored) and a profile id
+  /// to non-anonymous credential mismatch will cause an error.
   bool get alwaysAllowProfileSwitch => _alwaysAllowProfileSwitch;
   void set  alwaysAllowProfileSwitch (value) => _alwaysAllowProfileSwitch = value;
 
-  /// Sets _alwaysAllowProfileSwitch
-  ///
-  /// @param value bool
-  // setAllowProfileSwitch(bool value) {
-  //   _alwaysAllowProfileSwitch = value;
-  // }
 
   void onDestroy() {
     _updateTimer?.cancel();
@@ -348,16 +343,6 @@ class BrainCloudWrapper {
       wrapperName = "";
     }
     _updateTimer?.cancel();
-  }
-
-  /// If set to true, profile id is never sent along with non-anonymous authenticates
-  /// thereby ensuring that valid credentials always work but potentially cause a profile switch.
-  /// If set to false, profile id is passed to the server (if it has been stored) and a profile id
-  /// to non-anonymous credential mismatch will cause an error.
-  ///
-  /// @param enabledTrue if we always allow profile switch
-  void setAlwaysAllowProfileSwitch(bool enabled) {
-    _alwaysAllowProfileSwitch = enabled;
   }
 
   /// authenticate a user anonymously with brainCloud - used for apps that don't want to bother

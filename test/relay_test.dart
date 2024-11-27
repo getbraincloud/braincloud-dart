@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:braincloud_dart/src/braincloud_relay.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
