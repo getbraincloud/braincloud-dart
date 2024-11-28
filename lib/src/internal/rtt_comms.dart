@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:core';
+import 'dart:typed_data';
 
 import 'package:braincloud_dart/src/internal/braincloud_websocket.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/reason_codes.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
-import 'package:flutter/foundation.dart';
 
 class RTTComms {
   final BrainCloudClient _clientRef;
@@ -502,11 +502,11 @@ class RTTComms {
   //dynamic _connectedObj;
 
   // For testing only
-  @visibleForTesting
+  // @visibleForTesting
   set connectedSuccessCallback(value) => _connectedSuccessCallback = value;
-  @visibleForTesting
+  // @visibleForTesting
   set connectionFailureCallback(value) => _connectionFailureCallback = value;
-  @visibleForTesting
+  // @visibleForTesting
   set  currentConnectionType(value) =>  _currentConnectionType = value; 
 
   Map<String, dynamic> _rttHeaders = {};

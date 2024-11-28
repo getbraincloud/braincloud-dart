@@ -13,6 +13,8 @@ export 'src/common/acl.dart';
 export 'src/common/group_acl.dart';
 export 'src/time_util.dart';
 export 'src/internal/relay_comms.dart' show RelayConnectionType;
+export 'src/internal/memory_persistance.dart';
+export 'src/preferences_persistance.dart';
 
 // Services
 export 'src/braincloud_wrapper.dart' show BrainCloudWrapper;

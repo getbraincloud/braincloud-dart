@@ -1,6 +1,6 @@
 
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 import 'utils/test_base.dart';
 import 'dart:io' as io;
 
@@ -8,19 +8,25 @@ import 'dart:io' as io;
 main() async {
   BCTest bcTest = BCTest();
   setUpAll(bcTest.setupBC);
+  const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
 
   group("Test Authentication", () {
     test("releasePlatform", () async {
+      
       expect(bcTest.bcWrapper.isInitialized, true);
 
-      String platform = "LINUX";
-      if (io.Platform.isIOS) platform = "IOS";
-      if (io.Platform.isWindows) platform = "WINDOWS";
-      if (io.Platform.isMacOS) platform = "MAC";
-      if (io.Platform.isAndroid) platform = "ANG";
+      if (kIsWeb) {
+        expect(bcTest.bcWrapper.brainCloudClient.releasePlatform,Platform.web);
+      } else {
+        String platform = "LINUX";
+        if (io.Platform.isIOS) platform = "IOS";
+        if (io.Platform.isWindows) platform = "WINDOWS";
+        if (io.Platform.isMacOS) platform = "MAC";
+        if (io.Platform.isAndroid) platform = "ANG";
 
-      expect(bcTest.bcWrapper.brainCloudClient.releasePlatform,
-          Platform.fromString(platform));
+        expect(bcTest.bcWrapper.brainCloudClient.releasePlatform,
+            Platform.fromString(platform));
+      } 
     });
 
     test("authenticateAnonymous", () async {

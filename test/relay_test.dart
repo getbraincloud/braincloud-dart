@@ -1,9 +1,10 @@
+@TestOn('!browser')
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 import 'utils/test_base.dart';
 
@@ -63,7 +64,7 @@ void main() {
         // This one was on purpose
         successCount++;
       } else {        
-        debugPrint(
+        print(
             "${DateTime.now()}:TST-> onFailed for other reason: $jsonError");
         var errorMap = jsonDecode(jsonError);
         if (errorMap['reason_code'] == 90300 && errorMap['status_message'] == 'Relay: Disconnected by server') failureCount++;
@@ -79,10 +80,10 @@ void main() {
       Map<String, dynamic> parsedDict = jsonDecode(json);
       if (parsedDict["op"] == "CONNECT") {
         successCount++;
-        debugPrint(
+        print(
             "${DateTime.now()}:TST-> systemCallback: ${"<".padLeft(successCount + 1, "✅")}");
       } else {
-        debugPrint(">>>> Received an un-expected message $json");
+        print(">>>> Received an un-expected message $json");
         disconnectRelay();
         await Future.delayed(
             Duration(seconds: 2)); // let the connection be fully closed
@@ -91,7 +92,7 @@ void main() {
 
     void relayCallback(int netId, Uint8List data) {
       String message = utf8.decode(data);
-      debugPrint("${DateTime.now()}:TST-> relayCallback:($netId)   $message");
+      print("${DateTime.now()}:TST-> relayCallback:($netId)   $message");
       String profileId = bcTest.bcWrapper.getStoredProfileId();
       currentNetId =
           bcTest.bcWrapper.relayService.getNetIdForProfileId(profileId);
@@ -105,7 +106,7 @@ void main() {
       } else if (message == testString2) {
         successCount++;
         if (successCount >= 2) sendToWrongNetId();
-        debugPrint(
+        print(
             "${DateTime.now()}:TST-> relayCallback: ${"<".padLeft(successCount + 1, "✅")}");
       }
       if (successCount == 4) readyCompleter.complete();
@@ -114,7 +115,7 @@ void main() {
     // Will send a bad Ack once the first msg as been received
     void badRelayCallback(int netId, Uint8List data) {
       String message = utf8.decode(data);
-      debugPrint("${DateTime.now()}:TST-> badRelayCallback:($netId)   $message");
+      print("${DateTime.now()}:TST-> badRelayCallback:($netId)   $message");
       String profileId = bcTest.bcWrapper.getStoredProfileId();
       currentNetId =
           bcTest.bcWrapper.relayService.getNetIdForProfileId(profileId);
@@ -208,13 +209,13 @@ void main() {
 
       final Completer completer = Completer();
       bcTest.bcWrapper.rttService.enableRTT(successCallback: (response) {
-        debugPrint(
+        print(
             "${DateTime.now()}:TST-> rttService.enableRTT returned $response");
         expect(response.data?['operation'], 'CONNECT');
         onRTTEnabled(response);
         completer.complete();
       }, failureCallback: (error) {
-        debugPrint(
+        print(
             "${DateTime.now()}:TST-> rttService.enableRTT for $type returned ERROR $error");
         fail("Got an error trying to Enable  $type RTT");
       });
@@ -223,12 +224,12 @@ void main() {
 
       // Put a time limit on this Future completer so we do not wait forever.
       await readyCompleter.future.timeout(Duration(seconds: 90), onTimeout: () {
-        debugPrint(
+        print(
             "${DateTime.now()}:TST-> Failing $type Test due to 90 timeout");
         fail("Relay $type test timed out");
       });
 
-      debugPrint("${DateTime.now()}:TST-> $type Test almost completed");
+      print("${DateTime.now()}:TST-> $type Test almost completed");
 
       if (bcTest.bcWrapper.relayService.getPing() >= 999)
         await Future.delayed(Duration(seconds: 3));
@@ -237,7 +238,7 @@ void main() {
       if (shouldDisconnect) {
         await disconnectRelay();
       }
-      debugPrint("${DateTime.now()}:TST-> $type Test completely done.");
+      print("${DateTime.now()}:TST-> $type Test completely done.");
     }
 
     /// ========================================================================================================
@@ -310,7 +311,7 @@ void main() {
       bcTest.bcWrapper.relayService.disconnect();
       bcTest.bcWrapper.rttService.disableRTT();
 
-      debugPrint("${DateTime.now()}:TST-> TCP Websocket completely done.");
+      print("${DateTime.now()}:TST-> TCP Websocket completely done.");
     }, timeout: Timeout.parse("90s"));
 
     tearDownAll(() {

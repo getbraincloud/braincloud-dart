@@ -1,13 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+// To support progress monitoring we need to use package:universal_io instead of just package:http 
+import 'package:universal_io/io.dart';
 
 import 'package:braincloud_dart/src/internal/braincloud_comms.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/reason_codes.dart';
 import 'package:braincloud_dart/src/status_codes.dart';
 
-class FileUploader {
+
+class FileUploader {  
   String uploadId;
 
   double progress = 0;
@@ -71,7 +73,7 @@ class FileUploader {
     var data = clientRef.fileService.fileStorage[guidLocalPath];
     if (data != null) {
       var uri = Uri.parse(serverUrl);
-      _request = await HttpClient().postUrl(uri);
+      _request = await newUniversalHttpClient().postUrl(uri);
       _request!.bufferOutput = false;
       if (_request != null) {
         Map<String, String> postForm = {};

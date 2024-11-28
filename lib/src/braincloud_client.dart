@@ -2,12 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'dart:io' as io show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:braincloud_dart/src/reason_codes.dart';
 import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/status_codes.dart';
-import 'package:flutter/material.dart';
 import 'package:braincloud_dart/src/common/platform.dart';
 import 'package:braincloud_dart/src/internal/braincloud_comms.dart';
 import 'package:braincloud_dart/src/internal/relay_comms.dart';
@@ -249,9 +247,9 @@ class BrainCloudClient {
   set countryCode(value) => _countryCode = value;
 
   BrainCloudComms get comms => _comms;
-  @visibleForTesting
+  // @visibleForTesting
   RTTComms get rttComms => _rttComms;
-  @visibleForTesting
+  // @visibleForTesting
   RelayComms get rsComms => _rsComms;
 
   BrainCloudEntity get entityService => _entityService;
@@ -794,7 +792,7 @@ class BrainCloudClient {
       if (_logDelegate != null) {
         _logDelegate!(formattedLog);
       } else {
-        debugPrint(formattedLog);
+        print(formattedLog);
       }
     }
   }
@@ -833,6 +831,8 @@ class BrainCloudClient {
   String? initializeHelper(
       String serverURL, String secretKey, String appId, String appVersion) {
     //set platform... defaults to web
+    const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
+
     if (!kIsWeb) {
       if (io.Platform.isIOS) {
         platform = Platform.iOS;

@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
-import 'dart:io';
-
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:flutter/foundation.dart';
+import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
@@ -20,6 +17,8 @@ import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/reason_codes.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:braincloud_dart/src/status_codes.dart';
+import 'package:braincloud_dart/src/util.dart';
+import 'package:gzip/gzip.dart';
 
 part 'braincloud_comms.g.dart';
 
@@ -464,8 +463,7 @@ class BrainCloudComms {
   /// @param reasonCodereason code.
   ///
   /// @param statusMessagestatus message.
-  
-  @visibleForTesting
+    
   void triggerCommsError(int status, int reasonCode, String statusMessage) {
     // error json format is
     // {
@@ -745,7 +743,7 @@ class BrainCloudComms {
                         as Map)
                     .containsKey("fileDetails");
           } on Exception {
-            debugPrint(
+            print(
                 "Exception lib/BrainCloud/Internal/braincloud_comms.dart Line 949");
           }
 
@@ -1254,7 +1252,7 @@ class BrainCloudComms {
 
     //if the packet we're sending is larger than the size before compressing, then we want to compress it otherwise we're good to send it. AND we have to support compression
     if (compressMessage) {
-      byteArray = _compress(byteArray);
+      byteArray = await _compress(byteArray);
     }
 
     requestState.byteArray = byteArray;
@@ -1293,12 +1291,16 @@ class BrainCloudComms {
     });
   }
 
-  Uint8List _compress(Uint8List raw) {
-    return Uint8List.fromList(gzip.encode(raw));
+  Future<Uint8List> _compress(Uint8List raw) async {
+    final zipper = GZip();
+    return Uint8List.fromList(await zipper.compress(raw));
+    // return Uint8List.fromList(gzip.encode(raw));
   }
 
-  Uint8List _decompress(Uint8List compressedBytes) {
-    return Uint8List.fromList(gzip.decode(compressedBytes.toList()));
+  Future<Uint8List> _decompress(Uint8List compressedBytes) async {
+    final zipper = GZip();
+    return Uint8List.fromList(await zipper.decompress(compressedBytes));    
+    // return Uint8List.fromList(gzip.decode(compressedBytes.toList()));
   }
 
   /// Resends a message bundle. Returns true if sent or

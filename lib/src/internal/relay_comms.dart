@@ -3,15 +3,17 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:braincloud_dart/src/internal/relay_helpers.dart'
-    if (dart.library.html) 'package:braincloud_dart/src/internal/relay_helpers_web.dart';
-import 'package:flutter/foundation.dart';
+    if (dart.library.js_interop) 'package:braincloud_dart/src/internal/relay_helpers_web.dart';
 import 'package:braincloud_dart/src/internal/braincloud_websocket.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/braincloud_relay.dart';
 import 'package:braincloud_dart/src/reason_codes.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+
+const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
 
 class RelayComms {
   final BrainCloudClient _clientRef;
@@ -1180,7 +1182,7 @@ class RelayComms {
     _send(data);
   }
   
-  @visibleForTesting
+  // @visibleForTesting
   void rawSend(Uint8List data) => _send(data);
 }
 

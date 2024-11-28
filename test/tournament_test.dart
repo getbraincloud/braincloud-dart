@@ -1,6 +1,5 @@
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 import 'utils/test_base.dart';
 
@@ -23,7 +22,7 @@ void main() {
 
       if (response.reasonCode ==
           ReasonCodes.playerAlreadyTournamentForLeaderboard) {
-        debugPrint("Already Joined Tournament");
+        print("Already Joined Tournament");
       } else {
         expect(response.statusCode, StatusCodes.ok);
       }
@@ -34,7 +33,7 @@ void main() {
           .getTournamentStatus(leaderboardId: _leaderboardId, versionId: -1);
 
       _version = response.data?["versionId"];
-      debugPrint("Verison: $_version");
+      print("Verison: $_version");
       expect(response.statusCode, StatusCodes.ok);
     });
 

@@ -9,7 +9,6 @@ import 'package:braincloud_dart/src/internal/service_operation.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/util.dart';
-import 'package:dart_extensions/dart_extensions.dart';
 
 class BrainCloudGroup {
   final BrainCloudClient _clientRef;

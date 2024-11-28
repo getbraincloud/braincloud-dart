@@ -1,6 +1,5 @@
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 import 'utils/test_base.dart';
 
@@ -136,7 +135,7 @@ void main() {
     });
 
     test("PublishUserItemToBlockchain())", () async {
-      debugPrint("$item5");
+      print("$item5");
       // bc.userInventoryManagement.publishUserItemToBlockchain(item5, 1, result
       // {
       //     equal(result.status, 200, "Expecting 200");

@@ -5,7 +5,6 @@ homepage: "https://getbraincloud.com/"
 
 environment:
   sdk: '>=3.2.6 <4.0.0'
-  flutter: ">=1.17.0"
 
 dependencies:
   crypto: ^3.0.3
@@ -13,8 +12,7 @@ dependencies:
   dart_ping: ^9.0.1
   dio: ^5.4.3+1
   event: ^3.0.1
-  flutter:
-    sdk: flutter
+  gzip: ^0.2.0
   http: ^1.2.1
   intl: ^0.19.0
   json_annotation: ^4.9.0
@@ -22,12 +20,11 @@ dependencies:
   tcp_client_dart: ^0.2.0
   test: ^1.25.7
   udp: ^5.0.3
-  uuid: ^4.3.3
+  universal_io: ^2.2.2
+  uuid: ^4.5.1
   web_socket_channel: ^3.0.0
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
   flutter_lints: ^5.0.0
   json_serializable: ^6.7.1
   build_runner: ^2.4.9

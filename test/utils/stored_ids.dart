@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 
 class StoredIds {
   final String _path;
@@ -13,7 +12,7 @@ class StoredIds {
 
   Future<void> load() async {
     final file = File(_path);
-    debugPrint('Reading test configs from file: $_path');
+    print('Reading test configs from file: $_path');
     Stream<String> lines = file
         .openRead()
         .transform(utf8.decoder) // Decode bytes to UTF-8.
@@ -28,7 +27,7 @@ class StoredIds {
       }
       // debugPrint('File is now closed.');
     } catch (e) {
-      debugPrint('Error: $e');
+      print('Error: $e');
     }
   }
 
