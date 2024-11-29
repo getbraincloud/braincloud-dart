@@ -1565,8 +1565,9 @@ class BrainCloudWrapper {
     String? profileId = getStoredProfileId();
     String? anonymousId = getStoredAnonymousId();
 
-    if ((anonymousId.isEmpty) || (anonymousId.isEmpty)) {
+    if ((anonymousId.isNotEmpty && profileId.isEmpty) || (anonymousId.isEmpty)) {
       anonymousId = _client.authenticationService.generateAnonymousId();
+      profileId = "";
       setStoredAnonymousId(anonymousId);
       setStoredProfileId(profileId);
     }
