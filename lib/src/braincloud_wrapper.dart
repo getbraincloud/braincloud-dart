@@ -5,8 +5,8 @@
 import 'dart:async';
 
 import 'package:braincloud_dart/src/braincloud_blockchain.dart';
-import 'package:braincloud_dart/src/internal/memory_persistance.dart';// if (dart.library.ui) 'package:braincloud_dart/src/internal/preferences_persistance_flutter.dart';
-import 'package:braincloud_dart/src/preferences_persistance.dart';
+import 'package:braincloud_dart/src/data_persistance.dart';
+import 'package:braincloud_dart/src/internal/default_persistance.dart';
 import 'package:braincloud_dart/src/server_response.dart';
 
 import 'package:braincloud_dart/src/common/authentication_ids.dart';
@@ -216,11 +216,11 @@ class BrainCloudWrapper {
 
   Timer? _updateTimer;
 
-  late PreferencesPersistanceBase _persistance;
+  late DataPersistanceBase _persistance;
 
   /// Create the brainCloud Wrapper, which has utility helpers for using the brainCloud API
-  BrainCloudWrapper({BrainCloudClient? client, this.wrapperName, PreferencesPersistanceBase? persistance}) {
-    _persistance = persistance ?? MemoryPersistance();
+  BrainCloudWrapper({BrainCloudClient? client, this.wrapperName, DataPersistanceBase? persistance}) {
+    _persistance = persistance ?? DataPersistance();
     if (client != null) {
       _client = client;
       _client.wrapper = this;

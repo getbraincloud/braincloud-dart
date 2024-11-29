@@ -1,13 +1,14 @@
 import 'dart:async';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
+import 'package:braincloud_dart/memory_persistance.dart';
 
 import 'stored_ids.dart' if (dart.library.js_interop) 'stored_ids_web.dart';
 import 'test_users.dart';
 
 class BCTest {
 
-  final bcWrapper = BrainCloudWrapper(wrapperName: "FlutterTest", persistance: MemoryPersistance() );
+  final bcWrapper = BrainCloudWrapper(wrapperName: "FlutterTest", persistance: DataPersistance() );
   final String entityType = "DartUnitTests";
 
   StoredIds ids = StoredIds('test/ids.txt');

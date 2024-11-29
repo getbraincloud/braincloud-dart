@@ -34,7 +34,7 @@ class StoredIds {
   String get secretKey => ids['secretKey'] ?? "";
   String get appId => ids['appId'] ?? "";
   String get version => ids['version'] ?? "";
-  String get url => ids['url'] ?? "";
+  String get url => ids['serverUrl'] ?? "";
   String get sharedProfileId => ids['sharedProfileId'] ?? "";
   set sharedProfileId(val) => ids['sharedProfileId'] = val;
   String get customEntityType => ids['customEntityType'] ?? "";
