@@ -1372,8 +1372,8 @@ class BrainCloudComms {
   /// @param requestStateThe active request.
   Duration _getPacketTimeout(RequestState requestState) {
     if (requestState.packetNoRetry) {
-      if (DateTime.now().difference(_activeRequest!.timeSent) >
-          Duration(seconds: authenticationPacketTimeoutSecs)) {
+      if (_activeRequest != null && (DateTime.now().difference(_activeRequest!.timeSent) >
+          Duration(seconds: authenticationPacketTimeoutSecs))) {
         for (int i = 0; i < _listAuthPacketTimeouts.length; i++) {
           if (_listAuthPacketTimeouts[i] == authenticationPacketTimeoutSecs) {
             if (i + 1 < _listAuthPacketTimeouts.length) {

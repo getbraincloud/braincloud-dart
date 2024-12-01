@@ -19,14 +19,14 @@ enum WebRequestStatus {
 class RequestState {
   late int packetId;
 
-  late DateTime timeSent;
+  DateTime timeSent = DateTime.fromMillisecondsSinceEpoch(0); 
 
   WebRequestStatus status = WebRequestStatus.pending;
 
   int retries = 0;
 
   // we process the signature on the background thread
-  late String signature;
+  String signature = "";
 
   // we also process the byte array on the background thread
   Uint8List? byteArray;
@@ -36,9 +36,9 @@ class RequestState {
 
   WebRequest? webRequest;
 
-  late String requestString;
+  String requestString = "";
 
-  late List<dynamic> messageList;
+  List<dynamic> messageList = [];
 
   bool loseThisPacket = false;
 
