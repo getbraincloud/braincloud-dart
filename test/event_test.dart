@@ -1,6 +1,5 @@
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 import 'utils/test_base.dart';
 
@@ -122,7 +121,7 @@ void main() {
         incoming_events = response.data?["incoming_events"];
       }
 
-      debugPrint(
+      print(
           "Found (${incoming_events.length}) Events: ${incoming_events}");
 
       var foundEvent;

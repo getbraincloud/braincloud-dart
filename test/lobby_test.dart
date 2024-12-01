@@ -1,10 +1,8 @@
 import 'dart:async';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
-import 'utils/dns_check.dart';
 import 'utils/test_base.dart';
 
 void main() {
@@ -13,11 +11,9 @@ void main() {
 
   group("Test Lobby", () {
 
-    //TODO: Remove this once timeout issue solve
     //attempt at debugging why timeout when running in Jenkins
     setUpAll(() {
       // bcTest.bcWrapper.brainCloudClient.enableLogging(true);
-      listDnsServers();
       });
 
     test("findLobby()", () async {
@@ -216,15 +212,13 @@ void main() {
       var pingResponse = await bcTest.bcWrapper.lobbyService.pingRegions();
 
       expect(pingResponse.statusCode, StatusCodes.ok, reason: "Expecting 200");
-      debugPrint("PINGS 1: $pingResponse");
-
+      
       // Do it again to make sure things are not cached and resulted pings not too low.
       // We ping in different regions so it shouldn't be < 10ms
       pingResponse = await bcTest.bcWrapper.lobbyService.pingRegions();
 
       expect(pingResponse.statusCode, StatusCodes.ok, reason: "Expecting 200");
-      debugPrint("PINGS 2: $pingResponse");
-
+      
       double avg = pingResponse.data?.entries
           .map((entry) => entry.value)
           .reduce((a, b) => a + b);

@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 import 'utils/test_base.dart';
 import 'utils/test_users.dart';
+
+const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
 
 main() {
   BCTest bcTest = BCTest();
@@ -22,7 +24,7 @@ main() {
     test("uploadFileFromMemory", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
-      final imageData = File('test/TestImg.png').readAsBytesSync();
+      final imageData = kIsWeb ? Uint8List.fromList(generateRandomString(1024 * 4).codeUnits) : File('test/TestImg.png').readAsBytesSync();
 
       // ensure no other callback registered.
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
@@ -69,7 +71,7 @@ main() {
         expect(body['fileDetails']['cloudFilename'], fileNameImage,
             reason: "Should return cloudFilename");
       }
-    }, tags: 'fileService');
+    });
     test("cancelUpload", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
@@ -87,7 +89,7 @@ main() {
       var response = await bcTest.bcWrapper.fileService.uploadFileFromMemory(
           cloudPath, filename, true, true, utf8.encode(fileData));
 
-      debugPrint("uploadFileFromMemory results ${response.toString()}");
+      print("uploadFileFromMemory results ${response.toString()}");
       expect(response.statusCode, 200);
       if (response.data != null) {
         expect(response.data, isMap);
@@ -112,7 +114,7 @@ main() {
       int bytesTransferred =
           bcTest.bcWrapper.fileService.getUploadBytesTransferred(uploadId) ?? 0;
       int maxTries = 10;
-      debugPrint("bytesTransferred: $bytesTransferred ");
+      print("bytesTransferred: $bytesTransferred ");
       while (bytesTransferred <= 0 && maxTries > 0) {
         await Future.delayed(const Duration(milliseconds: 75));
         //  await pumpEventQueue(times: 50);
@@ -120,9 +122,9 @@ main() {
         bytesTransferred =
             bcTest.bcWrapper.fileService.getUploadBytesTransferred(uploadId) ??
                 0;
-        debugPrint("bytesTransferred: $bytesTransferred");
+        print("bytesTransferred: $bytesTransferred");
       }
-      debugPrint("Cancelling Upload $uploadId now...");
+      print("Cancelling Upload $uploadId now...");
 
       // now cancel it.
       bcTest.bcWrapper.fileService.cancelUpload(uploadId);
@@ -130,7 +132,7 @@ main() {
       // cleanup
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
 
-      debugPrint("After cancel results ${error.toString()}");
+      print("After cancel results ${error.toString()}");
 
       expect(error.statusCode, 900);
       expect(error.reasonCode, 90100);
@@ -140,9 +142,9 @@ main() {
       if (error.data != null) {
         expect(error.data, isMap);
         Map<String, dynamic> body = error.data!;
-        debugPrint(body.toString());
+        print(body.toString());
       }
-    }, tags: 'fileService');
+    },timeout: Timeout.parse("90s"));
 
     test("getUploadProgress", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
@@ -232,7 +234,7 @@ main() {
         expect(body['fileDetails']['cloudFilename'], fileNameLarge,
             reason: "Should return cloudFilename");
       }
-    }, tags: 'fileService');
+    },timeout: Timeout.parse("90s"));
 
     test("listUserFiles", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
@@ -245,7 +247,7 @@ main() {
         Map<String, dynamic> body = response.data!;
         expect(body['fileList'], isList);
       }
-    }, tags: 'fileService');
+    });
     test("getCDNUrl", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
@@ -258,7 +260,7 @@ main() {
         expect(body['appServerUrl'], isA<String>());
         expect(body['cdnUrl'], isA<String>());
       }
-    }, tags: 'fileService');
+    });
 
     test("deleteUserFile", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
@@ -269,11 +271,11 @@ main() {
       if (response.data != null) {
         expect(response.data, isMap);
         Map<String, dynamic> body = response.data!;
-        debugPrint(body.toString());
+        print(body.toString());
         expect(body['fileDetails'], isMap);
         expect(body['fileDetails']['cloudFilename'], fileNameLarge);
       }
-    }, tags: 'fileService');
+    });
     test("deleteUserFiles", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
       ServerResponse response =
@@ -284,7 +286,7 @@ main() {
         Map<String, dynamic> body = response.data!;
         expect(body['fileList'], isList);
       }
-    }, tags: 'fileService');
+    });
 
   });
 
@@ -389,7 +391,8 @@ main() {
     // helper fiunction
 
     createUserFile() async {
-      final imageData = File('test/TestImg.png').readAsBytesSync();
+
+      final imageData = kIsWeb ? Uint8List.fromList(generateRandomString(1024 * 1024 * 20).codeUnits) : File('test/TestImg.png').readAsBytesSync();
 
       // ensure no other callback registered.
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
@@ -402,7 +405,7 @@ main() {
 
       ServerResponse uploadResponse = await uploadCompleterFuture;
 
-      debugPrint("++++ uploadResponse returned ${uploadResponse.data}");
+      print("++++ uploadResponse returned ${uploadResponse.data}");
 
       // expect(uploadResponse.data?['fileDetails']['fileId'], isA<String>(),
       //     reason: "Should get a downloadUrl");
@@ -430,7 +433,7 @@ main() {
           groupFileNameImage,
           response.data?['fileDetails']['fileId'],
           response.data?['fileDetails']['version']));
-      debugPrint("!!! groupFileId is now $groupAvailableFiles");
+      print("!!! groupFileId is now $groupAvailableFiles");
     }
 
     setUpAll(() async {
@@ -440,7 +443,7 @@ main() {
           groupType: "test",
           isOpenGroup: false,
           jsonData: {"reason": "Group to test groupd files"});
-      debugPrint("Group File setUpAll createGroup returned ${response.data}");
+      print("Group File setUpAll createGroup returned ${response.data}");
       groupId = response.data?["groupId"];
     });
 
@@ -456,7 +459,7 @@ main() {
               groupFilename: groupFileNameImage,
               groupFileAcl: {"member": 2, "other": 0},
               overwriteIfPresent: true);
-      debugPrint("moveUserToGroupFile returned ${response.data}");
+      print("moveUserToGroupFile returned ${response.data}");
       expect(response.statusCode, StatusCodes.ok);
       expect(response.data, isNotNull,
           reason: "moveUserToGroupFile should return data");
@@ -467,7 +470,7 @@ main() {
       // Ensure there is a file
       if (groupAvailableFiles.isEmpty) await createGroupFile();
 
-      debugPrint(
+      print(
           "--pre-checkFilenameExists returned groupId:$groupId groupCloudPath:$groupCloudPath groupFileNameImage:$groupFileNameImage");
       ServerResponse response = await bcTest.bcWrapper.groupFileService
           .checkFilenameExists(
@@ -475,7 +478,7 @@ main() {
               folderPath: groupCloudPath,
               fileName: groupFileNameImage);
 
-      debugPrint("checkFilenameExists returned ${response.data}");
+      print("checkFilenameExists returned ${response.data}");
       expect(response.statusCode, StatusCodes.ok);
       expect(response.data, isNotNull);
       expect(response.data?['exists'], isA<bool>());
@@ -485,13 +488,13 @@ main() {
       // Ensure there is a file
       if (groupAvailableFiles.isEmpty) await createGroupFile();
 
-      debugPrint(
+      print(
           "--pre-checkFullpathFilenameExists returned groupId:$groupId fullPath:$groupCloudPath/$groupFileNameImage");
       ServerResponse response = await bcTest.bcWrapper.groupFileService
           .checkFullpathFilenameExists(
               groupId: groupId,
               fullPathFilename: "$groupCloudPath/$groupFileNameImage");
-      debugPrint("checkFilenameExists returned ${response.data}");
+      print("checkFilenameExists returned ${response.data}");
       expect(response.statusCode, StatusCodes.ok);
       expect(response.data, isNotNull);
       expect(response.data?['exists'], isA<bool>());
@@ -509,7 +512,7 @@ main() {
               newFilename: "copied$groupFileNameImage",
               overwriteIfPresent: true);
 
-      debugPrint("copyFile returned : ${response.data}");
+      print("copyFile returned : ${response.data}");
       expect(response.statusCode, StatusCodes.ok);
       expect(response.data, isNotNull);
       expect(response.data?['fileDetails'], isNotNull);
@@ -532,7 +535,7 @@ main() {
               fileId: filedetail.fileId,
               version: filedetail.version,
               filename: filedetail.name);
-      debugPrint("deleteFile returned : ${response.data}");
+      print("deleteFile returned : ${response.data}");
       expect(response.statusCode, StatusCodes.ok);
       expect(response.data, isNotNull);
       expect(response.data?['fileDetails'], isNotNull);
@@ -544,7 +547,7 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.groupFileService
           .getCDNUrl(groupId: groupId, fileId: filedetail.fileId);
-      debugPrint("getCDNUrl returned : ${response.data}");
+      print("getCDNUrl returned : ${response.data}");
       expect(response.statusCode, StatusCodes.ok);
       expect(response.data, isNotNull);
       expect(response.data?['cdnUrl'], isA<String>());
@@ -559,7 +562,7 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.groupFileService
           .getFileInfo(groupId: groupId, fileId: filedetail.fileId);
-      debugPrint("getFileInfo returned : ${response.data}");
+      print("getFileInfo returned : ${response.data}");
       expect(response.statusCode, StatusCodes.ok);
       expect(response.data, isNotNull);
       expect(response.data?['fileDetails'], isNotNull);
@@ -576,7 +579,7 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.groupFileService
           .getFileInfoSimple(
               groupId: groupId, filename: filedetail.name, folderPath: "");
-      debugPrint("getFileInfoSimple returned : ${response.data}");
+      print("getFileInfoSimple returned : ${response.data}");
       expect(response.statusCode, StatusCodes.ok);
       expect(response.data, isNotNull);
       expect(response.data?['fileDetails'], isNotNull);
@@ -588,7 +591,7 @@ main() {
     test("getFileList", () async {
       ServerResponse response = await bcTest.bcWrapper.groupFileService
           .getFileList(groupId: groupId, folderPath: "", recurse: false);
-      debugPrint("getFileList returned : ${response.data}");
+      print("getFileList returned : ${response.data}");
       expect(response.statusCode, StatusCodes.ok);
       expect(response.data, isNotNull);
       expect(response.data?['treeVersion'], isNotNull);
@@ -606,7 +609,7 @@ main() {
           .getFileList(groupId: groupId, folderPath: "", recurse: true);
       if (findFolderResponse.data?['fileList'].isNotEmpty &&
           findFolderResponse.data?['fileList']['folders'].isNotEmpty) {
-        debugPrint(
+        print(
             "===--===--===--== findFolderResponse ${findFolderResponse.data?['fileList']['folders']}");
         destFolderName =
             findFolderResponse.data?['fileList']['folders'].keys.first;
@@ -633,7 +636,7 @@ main() {
         expect(response.data?['fileDetails'], isNotNull,
             reason: "moveUserToGroupFile should return data.fileDetails");
       } else {
-        debugPrint("=== findFolderResponse $findFolderResponse");
+        print("=== findFolderResponse $findFolderResponse");
         markTestSkipped("Did not find a folder to move to.");
       }
     });

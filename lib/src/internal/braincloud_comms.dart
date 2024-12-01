@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
-import 'dart:io';
-
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:flutter/foundation.dart';
+import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
@@ -20,13 +17,15 @@ import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/reason_codes.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:braincloud_dart/src/status_codes.dart';
+import 'package:braincloud_dart/src/util.dart';
+import 'package:gzip/gzip.dart';
 
 part 'braincloud_comms.g.dart';
 
-class ServerCallProcessed {
-  late ServerCall serverCall;
-  late String data;
-}
+// class ServerCallProcessed {
+//   late ServerCall serverCall;
+//   late String data;
+// }
 
 class BrainCloudComms {
   bool _supportsCompression = true;
@@ -72,7 +71,7 @@ class BrainCloudComms {
   RequestState? _activeRequest;
 
   /// The last time a packet was sent
-  late DateTime _lastTimePacketSent;
+  DateTime _lastTimePacketSent = DateTime.fromMillisecondsSinceEpoch(0);
 
   /// How long we wait to send a heartbeat if no packets have been sent or received.
   /// This value is set to a percentage of the heartbeat timeout sent by the authenticate response.
@@ -107,7 +106,7 @@ class BrainCloudComms {
   final Duration _authenticationTimeoutDuration = const Duration(seconds: 30);
 
   /// When the authentication timer began
-  late DateTime _authenticationTimeoutStart;
+  DateTime _authenticationTimeoutStart = DateTime.fromMillisecondsSinceEpoch(0);
 
   /// a checker to see what the packet Id we are receiving is
   int _receivedPacketIdChecker = 0;
@@ -132,9 +131,9 @@ class BrainCloudComms {
   final List<FileUploader> _fileUploads = [];
 
   //For handling local session errors
-  late int _cachedStatusCode;
-  late int _cachedReasonCode;
-  late String _cachedStatusMessage;
+  int _cachedStatusCode = StatusCodes.ok;
+  int _cachedReasonCode = ReasonCodes.noReasonCode;
+  String _cachedStatusMessage = "";
 
   //For kill switch
   bool _killSwitchEngaged = false;
@@ -165,10 +164,10 @@ class BrainCloudComms {
   late Map<String, String> _appIdSecretMap;
   Map<String, String> get getAppIdSecretMap => _appIdSecretMap;
 
-  late String _serverURL;
+  String _serverURL = "";
   String get getServerURL => _serverURL;
 
-  late String _uploadURL;
+  String _uploadURL = "";
   String get uploadURL => _uploadURL;
 
   int uploadLowTransferRateTimeout = 120;
@@ -389,7 +388,7 @@ class BrainCloudComms {
     for (int i = _fileUploads.length - 1; i >= 0; i--) {
       _fileUploads[i].update();
       if (_fileUploads[i].status == FileUploaderStatus.completeSuccess) {
-        _fileUploadSuccessCallback!(
+        if (_fileUploadSuccessCallback != null) _fileUploadSuccessCallback!(
             _fileUploads[i].uploadId, _fileUploads[i].response);
 
         if (_clientRef.loggingEnabled) {
@@ -464,8 +463,7 @@ class BrainCloudComms {
   /// @param reasonCodereason code.
   ///
   /// @param statusMessagestatus message.
-  
-  @visibleForTesting
+    
   void triggerCommsError(int status, int reasonCode, String statusMessage) {
     // error json format is
     // {
@@ -745,7 +743,7 @@ class BrainCloudComms {
                         as Map)
                     .containsKey("fileDetails");
           } on Exception {
-            debugPrint(
+            print(
                 "Exception lib/BrainCloud/Internal/braincloud_comms.dart Line 949");
           }
 
@@ -1254,7 +1252,7 @@ class BrainCloudComms {
 
     //if the packet we're sending is larger than the size before compressing, then we want to compress it otherwise we're good to send it. AND we have to support compression
     if (compressMessage) {
-      byteArray = _compress(byteArray);
+      byteArray = await _compress(byteArray);
     }
 
     requestState.byteArray = byteArray;
@@ -1293,12 +1291,16 @@ class BrainCloudComms {
     });
   }
 
-  Uint8List _compress(Uint8List raw) {
-    return Uint8List.fromList(gzip.encode(raw));
+  Future<Uint8List> _compress(Uint8List raw) async {
+    final zipper = GZip();
+    return Uint8List.fromList(await zipper.compress(raw));
+    // return Uint8List.fromList(gzip.encode(raw));
   }
 
-  Uint8List _decompress(Uint8List compressedBytes) {
-    return Uint8List.fromList(gzip.decode(compressedBytes.toList()));
+  Future<Uint8List> _decompress(Uint8List compressedBytes) async {
+    final zipper = GZip();
+    return Uint8List.fromList(await zipper.decompress(compressedBytes));    
+    // return Uint8List.fromList(gzip.decode(compressedBytes.toList()));
   }
 
   /// Resends a message bundle. Returns true if sent or
@@ -1370,8 +1372,8 @@ class BrainCloudComms {
   /// @param requestStateThe active request.
   Duration _getPacketTimeout(RequestState requestState) {
     if (requestState.packetNoRetry) {
-      if (DateTime.now().difference(_activeRequest!.timeSent) >
-          Duration(seconds: authenticationPacketTimeoutSecs)) {
+      if (_activeRequest != null && (DateTime.now().difference(_activeRequest!.timeSent) >
+          Duration(seconds: authenticationPacketTimeoutSecs))) {
         for (int i = 0; i < _listAuthPacketTimeouts.length; i++) {
           if (_listAuthPacketTimeouts[i] == authenticationPacketTimeoutSecs) {
             if (i + 1 < _listAuthPacketTimeouts.length) {

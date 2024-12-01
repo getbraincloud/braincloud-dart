@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:braincloud_dart/memory_persistance.dart';
 
-import 'stored_ids.dart';
+import 'stored_ids.dart' if (dart.library.js_interop) 'stored_ids_web.dart';
 import 'test_users.dart';
 
 class BCTest {
-  final bcWrapper = BrainCloudWrapper(wrapperName: "FlutterTest");
+
+  final bcWrapper = BrainCloudWrapper(wrapperName: "FlutterTest", persistance: DataPersistance() );
   final String entityType = "DartUnitTests";
 
   StoredIds ids = StoredIds('test/ids.txt');
@@ -29,11 +29,11 @@ class BCTest {
 
   /// Initialize the wrapper and load StoredIds
   setupBC({String? serverUrl}) async {
-
+    
     //load StoredIds
     await ids.load();
 
-    debugPrint('appId: ${ids.appId} at ${ids.url}');
+    print('appId: ${ids.appId} at ${ids.url}');
 
     //init wrapper (this will start the update loop)
     await bcWrapper
@@ -44,10 +44,10 @@ class BCTest {
             url: serverUrl ?? ids.url,
             updateTick: 50)
         .onError((error, stackTrace) {
-      debugPrint(error.toString());
+      print(error.toString());
     });
 
-    debugPrint("Platform: ${bcWrapper.brainCloudClient.releasePlatform}");
+    print("Platform: ${bcWrapper.brainCloudClient.releasePlatform}");
 
     bcWrapper.brainCloudClient.authenticationService.clearSavedProfileID();
 
@@ -60,7 +60,7 @@ class BCTest {
     //load StoredIds
     await ids.load();
 
-    debugPrint('appId: ${ids.appId} at ${ids.url}');
+    print('appId: ${ids.appId} at ${ids.url}');
 
     Map<String, String> appIdSecretMap = {
       ids.appId: ids.secretKey,
@@ -76,10 +76,10 @@ class BCTest {
             url: ids.url,
             updateTick: 50)
         .onError((error, stackTrace) {
-      debugPrint(error.toString());
+      print(error.toString());
     });
 
-    debugPrint("Platform: ${bcWrapper.brainCloudClient.releasePlatform}");
+    print("Platform: ${bcWrapper.brainCloudClient.releasePlatform}");
 
     bcWrapper.brainCloudClient.authenticationService.clearSavedProfileID();
 
@@ -116,7 +116,7 @@ class BCTest {
       userA.profileId = response.data?["profileId"];
     }
 
-    debugPrint(
+    print(
         "Current profileId/session ${bcWrapper.getStoredProfileId()} / ${bcWrapper.brainCloudClient.getSessionId()} as $id");
 
     completer.complete();

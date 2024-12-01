@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 import 'utils/test_base.dart';
 import 'utils/ws_proxy.dart';
@@ -59,7 +58,7 @@ main() {
       );
 
       await completer.future;
-    }, tags: "rTTService");
+    });
 
     String channelId = "";
 
@@ -101,7 +100,7 @@ main() {
         channelId = response.data?["channelId"];
         expect(channelId, isNotEmpty);
       }
-    }, tags: "rTTService");
+    });
 
     test("getChannelInfo", () async {
       ServerResponse? response = await bcTest.bcWrapper.chatService
@@ -112,7 +111,7 @@ main() {
       } else {
         expect(response.statusCode, 200);
       }
-    }, tags: "rTTService");
+    });
 
     test("channelConnect", () async {
       if (channelId.isEmpty) {
@@ -123,14 +122,14 @@ main() {
       ServerResponse? response = await bcTest.bcWrapper.chatService
           .channelConnect(channelId: channelId, maxtoreturn: 50);
 
-      debugPrint("Channel Connect response $response");
+      print("Channel Connect response $response");
 
       if (response.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");
       } else {
         expect(response.statusCode, 200);
       }
-    }, tags: "rTTService");
+    });
 
     test("getSubscribedChannels", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
@@ -143,14 +142,14 @@ main() {
         List channels = response.data?['channels'];
 
         for (var chan in channels) {
-          debugPrint(">> Channel Found << ");
-          debugPrint(chan['id']);
-          debugPrint(chan['type']);
-          debugPrint(chan['name']);
-          debugPrint(chan['desc']);
+          print(">> Channel Found << ");
+          print(chan['id']);
+          print(chan['type']);
+          print(chan['name']);
+          print(chan['desc']);
         }
       }
-    }, tags: "rTTService");
+    });
 
     test("postChatMessageSimple", () async {
       if (channelId.isEmpty) {
@@ -166,9 +165,9 @@ main() {
       } else {
         expect(response.statusCode, 200);
         msgId = response.data?['msgId'];
-        debugPrint("Message sent: $msgId");
+        print("Message sent: $msgId");
       }
-    }, tags: "rTTService");
+    });
 
     test("getChatMessage", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
@@ -181,7 +180,7 @@ main() {
         String txt = response.data?['content']['text'];
         expect(txt, msgToSend);
       }
-    }, tags: "rTTService");
+    });
 
     test("RTT websocket disconnect", () async {
       Map<String, dynamic> localConnectionInfo = {
@@ -204,19 +203,19 @@ main() {
       Completer<bool> rttConnected = Completer();
       Completer<bool> testCompleted = Completer();
 
-      debugPrint("[1] Starting test for websocket disconnect");
+      print("[1] Starting test for websocket disconnect");
 
       if (bcTest.bcWrapper.rttService.isRTTEnabled()) {
         bcTest.bcWrapper.rttService.disableRTT();
       }
       void onRttSuccess(RTTCommandResponse data) {
-        debugPrint("RTT Did get callback on success for RTT $data");
+        print("RTT Did get callback on success for RTT $data");
         rttConnected.complete(data.operation == "connect");
       }
 
       ;
       void onRttFailure(RTTCommandResponse data) {
-        debugPrint("Did get callback on failure for RTT ${data.data}");
+        print("Did get callback on failure for RTT ${data.data}");
         String msg = (data.data?['error'] ?? "") as String;
         testCompleted.complete(msg.contains("Websocket closed."));
       }
@@ -229,7 +228,7 @@ main() {
           (statusCode, reasonCode, statusMessage) {});
       final connectionDetails = await conncetionCompleted.future;
 
-      debugPrint("[2] Got a client connection response $connectionDetails");
+      print("[2] Got a client connection response $connectionDetails");
 
       // Create the Proxy server
       String remoteUrl = _getConnectUrl(connectionDetails);
@@ -237,7 +236,7 @@ main() {
 
       // Start proxy server
       proxyWSServer.startProxy();
-      debugPrint(
+      print(
           "[3] Got the proxyingWebSocket ready to interfere with it now.");
 
       // Register success and error callback manually as "enableRTT" is bypass here.
@@ -250,7 +249,7 @@ main() {
 
       bcTest.bcWrapper.brainCloudClient.rttComms
           .rttConnectionServerSuccess(localConnectionInfo);
-      debugPrint(
+      print(
           "[4] rttConnectionServerSuccess called with ${localConnectionInfo}");
 
       // Now wait for RTT to confirm connection.
@@ -258,7 +257,7 @@ main() {
 
       expect(connectResult, true, reason: "Did not get connected to RTT");
 
-      debugPrint(
+      print(
           "[5] TST did receive the proxyWS that can be close for testing purposes.");
 
       await Future.delayed(Duration(seconds: 2));
@@ -269,7 +268,7 @@ main() {
       bool result = await testCompleted.future;
 
       expect(result, true, reason: "Did not detect the webslocket closing.");
-    });
+    },onPlatform: {'browser':Skip('Mock Proxy WS does not work on Web.')});
 
     /// END TEST
     tearDownAll(() {

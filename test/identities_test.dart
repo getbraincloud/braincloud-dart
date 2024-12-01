@@ -1,6 +1,5 @@
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 import 'utils/test_base.dart';
 import 'utils/test_users.dart';
 
@@ -17,7 +16,7 @@ main() {
       return true;
     }
     ;
-    debugPrint(
+    print(
         '🚨 Error while _gotoChildProfile: $response, \n ${response.data}');
     return false;
   }
@@ -29,7 +28,7 @@ main() {
       return true;
     }
     ;
-    debugPrint('🚨 Error while _detachParent: $response, \n ${response.data}');
+    print('🚨 Error while _detachParent: $response, \n ${response.data}');
     return false;
   }
 
@@ -40,7 +39,7 @@ main() {
       return true;
     }
     ;
-    debugPrint('🚨 Error while _detachPeer: $response, \n ${response.data}');
+    print('🚨 Error while _detachPeer: $response, \n ${response.data}');
     return false;
   }
 
@@ -148,7 +147,7 @@ main() {
               childAppId: bcTest.ids.childAppId, forceCreate: true);
 
       if (response.statusCode != 200)
-        debugPrint(
+        print(
             ":switchToSingletonChildProfile returned $response     \n${response.data}");
 
       expect(response.statusCode, 200);
@@ -165,7 +164,7 @@ main() {
       );
 
       if (response.statusCode != 200)
-        debugPrint(
+        print(
             ":switchToParentProfile returned $response     \n${response.data}");
 
       expect(response.statusCode, 200);
@@ -204,7 +203,7 @@ main() {
               forceCreate: true);
 
       if (response.statusCode != 200)
-        debugPrint(
+        print(
             ":attachParentWithIdentity returned $response     \n${response.data}");
 
       expect(response.statusCode, 200);
@@ -216,7 +215,7 @@ main() {
           .getChildProfiles(includeSummaryData: true);
 
       if (response.statusCode != 200)
-        debugPrint(
+        print(
             ":getChildProfiles returned $response     \n${response.data}");
 
       expect(response.statusCode, 200);
@@ -245,7 +244,7 @@ main() {
           await bcTest.bcWrapper.identityService.getIdentities();
 
       if (response.statusCode != 200)
-        debugPrint(":getIdentities returned $response     \n${response.data}");
+        print(":getIdentities returned $response     \n${response.data}");
 
       expect(response.statusCode, 200);
       expect(response.data?['children'], isA<List?>());
@@ -317,7 +316,7 @@ main() {
           await bcTest.bcWrapper.identityService.getPeerProfiles();
 
       if (response.statusCode != 200)
-        debugPrint('getPeerProfiles: ${response.data}');
+        print('getPeerProfiles: ${response.data}');
 
       expect(response.statusCode, 200);
     });
@@ -342,7 +341,7 @@ main() {
           .updateUniversalIdLogin(externalId: "non_login_dart@bitheads.com");
 
       if (response.statusCode != 400)
-        debugPrint('updateUniversalIdLogin: $response \n ${response.data}');
+        print('updateUniversalIdLogin: $response \n ${response.data}');
 
       expect(response.statusCode, 400);
       expect(response.reasonCode, ReasonCodes.newCredentialInUse);

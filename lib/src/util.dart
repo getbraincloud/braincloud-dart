@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 
 class Util {
   static const String _defaultLang = "en";
@@ -16,7 +15,7 @@ class Util {
       utcOffset = DateTime.now().timeZoneOffset.inHours;
     } on Exception catch (_, e) {
       // what to do now?
-      debugPrint(e.toString());
+      print(e.toString());
     }
     return utcOffset;
   }
@@ -41,3 +40,9 @@ class Util {
     return (s != null && s.isNotEmpty);
   }
 }
+
+extension StringExtensions on String? {
+/// Return a bool if the string is null or empty
+  bool get isEmptyOrNull => this == null || this!.isEmpty;
+}
+

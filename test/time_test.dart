@@ -1,6 +1,6 @@
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:braincloud_dart/memory_persistance.dart';
+import 'package:test/test.dart';
 
 import 'utils/test_base.dart';
 
@@ -13,19 +13,19 @@ void main() {
       ServerResponse response =
           await bcTest.bcWrapper.timeService.readServerTime();
 
-      debugPrint("Server Time: ${response.data?['server_time']}");
+      print("Server Time: ${response.data?['server_time']}");
       expect(response.statusCode, StatusCodes.ok);
     });
 
     test("readServerTime() error", () async {
-      BrainCloudWrapper bcWrapper = BrainCloudWrapper();
+      BrainCloudWrapper bcWrapper = BrainCloudWrapper(persistance: DataPersistance());
 
       bcWrapper.init(secretKey: bcTest.ids.secretKey, appId: bcTest.ids.appId, version: bcTest.ids.version, updateTick: 50);
 
       ServerResponse response =
           await bcWrapper.timeService.readServerTime();
 
-      debugPrint("Server Time: ${response.data?['server_time']}");
+      print("Server Time: ${response.data?['server_time']}");
       expect(response.statusCode, StatusCodes.forbidden);
 
       bcWrapper.onDestroy();
@@ -36,13 +36,13 @@ void main() {
       var tomorrow = today.add(Duration(days: 1));
 
       var _dateBefore = TimeUtil.utcDateTimeToUTCMillis(tomorrow);
-      debugPrint("Date Before:  $_dateBefore");
+      print("Date Before:  $_dateBefore");
 
       var _convertedDate = TimeUtil.utcMillisToUTCDateTime(_dateBefore);
-      debugPrint("Converted: $_convertedDate");
+      print("Converted: $_convertedDate");
 
       var _dateAfter = TimeUtil.utcDateTimeToUTCMillis(_convertedDate);
-      debugPrint("Date After: $_dateAfter");
+      print("Date After: $_dateAfter");
 
       expect(_dateBefore, _dateAfter);
     });

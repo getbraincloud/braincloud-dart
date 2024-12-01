@@ -1,7 +1,6 @@
 import 'package:braincloud_dart/braincloud_dart.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 import 'utils/test_base.dart';
 
@@ -424,7 +423,7 @@ void main() {
 
       expect(authResponse.statusCode, StatusCodes.ok);
 
-      debugPrint("Authenticated group tester");
+      print("Authenticated group tester");
 
       ServerResponse joinResponse =
           await bcTest.bcWrapper.groupService.joinGroup(groupId: testGroupId);
@@ -442,7 +441,7 @@ void main() {
       });
 
       if (groupJoinRequestExists) {
-        debugPrint("Group Join Request exists");
+        print("Group Join Request exists");
 
         // Reset for second check
         groupJoinRequestExists = false;
@@ -463,7 +462,7 @@ void main() {
         if (groupJoinRequestExists) {
           expect(groupJoinRequestExists, true);
         } else {
-          debugPrint("Group Join Request no longer exists");
+          print("Group Join Request no longer exists");
 
           await completeDeleteGroupJoinRequestTest();
         }
@@ -476,7 +475,7 @@ void main() {
       await bcTest.bcWrapper.authenticateUniversal(
           username: "JS-Tester1", password: "JS-Tester1", forceCreate: true);
 
-      debugPrint("Authenticated group creator");
+      print("Authenticated group creator");
 
       var name = "JS-Test-ClosedGroup";
       var groupType = "test";
@@ -497,7 +496,7 @@ void main() {
           jsonDefaultMemberAttributes: defaultMemberAttributes);
 
       if (response.statusCode == StatusCodes.ok) {
-        debugPrint("Group created");
+        print("Group created");
 
         testGroupId = response.data?["groupId"];
 

@@ -2,12 +2,12 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:braincloud_dart/src/internal/http_pinger.dart';
+import 'package:braincloud_dart/src/internal/relay_comms.dart';
 import 'package:dart_ping/dart_ping.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/internal/operation_param.dart';
-import 'package:braincloud_dart/src/internal/request_state.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/internal/service_operation.dart';
@@ -729,15 +729,15 @@ class BrainCloudLobby {
   }
 
   void _pingHost(RegionTarget inRegionTarget) {
-    if (inRegionTarget.isHttpType()) {
-      _handleHTTPResponse(inRegionTarget.region, inRegionTarget.target);
+    if (kIsWeb || inRegionTarget.isHttpType()) {
+      _handleHTTPPing(inRegionTarget.region, inRegionTarget.target);
     } else {
-      _handlePingReponse(inRegionTarget.region, inRegionTarget.target);
+      _handleICMPPing(inRegionTarget.region, inRegionTarget.target);
     }
   }
 
-  void _handlePingReponse(String region, String target) async {
-    debugPrint("Region: $region - Target: $target");
+  void _handleICMPPing(String region, String target) async {
+    print("Region: $region - Target: $target");
 
     var ping = Ping(target, count: 1, timeout: 10); // timeout is in seconds
     ping.stream.listen((event) {
@@ -751,21 +751,22 @@ class BrainCloudLobby {
     });
   }
 
-  void _handleHTTPResponse(String region, String target) async {
+  void _handleHTTPPing(String region, String target) async {
     if (!target.startsWith("http")) {
       target = (useHttps ? "https://" : "http://") + target;
     }
 
-    DateTime roundtripTime = DateTime.now().toUtc();
-    WebRequest request = WebRequest(region, Uri.parse(target));
+    HttpPigner request = HttpPigner(Uri.parse(target));
 
-    await request.send();
-
-    if (request.isDone && request.error!.isEmpty) {
-      handlePingTimeResponse(
-          DateTime.now().toUtc().difference(roundtripTime).inMilliseconds,
-          region);
-    } else {
+    try {
+      // await request.send().timeout(Duration(seconds: 10));
+      int pingTime = await request.ping();
+      if (request.isDone && request.error.isEmpty) {
+        handlePingTimeResponse(pingTime,region);
+      } else {
+        _pingNextItemToProcess();
+      }
+    } on TimeoutException {
       _pingNextItemToProcess();
     }
   }
