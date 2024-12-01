@@ -22,10 +22,10 @@ import 'package:gzip/gzip.dart';
 
 part 'braincloud_comms.g.dart';
 
-class ServerCallProcessed {
-  late ServerCall serverCall;
-  late String data;
-}
+// class ServerCallProcessed {
+//   late ServerCall serverCall;
+//   late String data;
+// }
 
 class BrainCloudComms {
   bool _supportsCompression = true;
@@ -71,7 +71,7 @@ class BrainCloudComms {
   RequestState? _activeRequest;
 
   /// The last time a packet was sent
-  late DateTime _lastTimePacketSent;
+  DateTime _lastTimePacketSent = DateTime.fromMillisecondsSinceEpoch(0);
 
   /// How long we wait to send a heartbeat if no packets have been sent or received.
   /// This value is set to a percentage of the heartbeat timeout sent by the authenticate response.
@@ -106,7 +106,7 @@ class BrainCloudComms {
   final Duration _authenticationTimeoutDuration = const Duration(seconds: 30);
 
   /// When the authentication timer began
-  late DateTime _authenticationTimeoutStart;
+  DateTime _authenticationTimeoutStart = DateTime.fromMillisecondsSinceEpoch(0);
 
   /// a checker to see what the packet Id we are receiving is
   int _receivedPacketIdChecker = 0;
@@ -131,9 +131,9 @@ class BrainCloudComms {
   final List<FileUploader> _fileUploads = [];
 
   //For handling local session errors
-  late int _cachedStatusCode;
-  late int _cachedReasonCode;
-  late String _cachedStatusMessage;
+  int _cachedStatusCode = StatusCodes.ok;
+  int _cachedReasonCode = ReasonCodes.noReasonCode;
+  String _cachedStatusMessage = "";
 
   //For kill switch
   bool _killSwitchEngaged = false;
@@ -164,10 +164,10 @@ class BrainCloudComms {
   late Map<String, String> _appIdSecretMap;
   Map<String, String> get getAppIdSecretMap => _appIdSecretMap;
 
-  late String _serverURL;
+  String _serverURL = "";
   String get getServerURL => _serverURL;
 
-  late String _uploadURL;
+  String _uploadURL = "";
   String get uploadURL => _uploadURL;
 
   int uploadLowTransferRateTimeout = 120;
@@ -388,7 +388,7 @@ class BrainCloudComms {
     for (int i = _fileUploads.length - 1; i >= 0; i--) {
       _fileUploads[i].update();
       if (_fileUploads[i].status == FileUploaderStatus.completeSuccess) {
-        _fileUploadSuccessCallback!(
+        if (_fileUploadSuccessCallback != null) _fileUploadSuccessCallback!(
             _fileUploads[i].uploadId, _fileUploads[i].response);
 
         if (_clientRef.loggingEnabled) {

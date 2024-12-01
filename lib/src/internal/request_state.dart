@@ -17,7 +17,7 @@ enum WebRequestStatus {
 }
 
 class RequestState {
-  late int packetId;
+  int packetId = -1;
 
   DateTime timeSent = DateTime.fromMillisecondsSinceEpoch(0); 
 
