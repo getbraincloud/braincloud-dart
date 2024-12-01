@@ -144,7 +144,7 @@ main() {
         Map<String, dynamic> body = error.data!;
         print(body.toString());
       }
-    });
+    },timeout: Timeout.parse("90s"));
 
     test("getUploadProgress", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
@@ -234,7 +234,7 @@ main() {
         expect(body['fileDetails']['cloudFilename'], fileNameLarge,
             reason: "Should return cloudFilename");
       }
-    });
+    },timeout: Timeout.parse("90s"));
 
     test("listUserFiles", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
