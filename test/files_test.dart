@@ -400,12 +400,17 @@ main() {
       var uploadCompleterFuture =
           bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback();
 
-      await bcTest.bcWrapper.fileService.uploadFileFromMemory(
+      Future<ServerResponse> uploadFuture =  bcTest.bcWrapper.fileService.uploadFileFromMemory(
           groupCloudPath, groupFileNameImage, true, true, imageData);
+      bcTest.bcWrapper.brainCloudClient.insertEndOfMessageBundleMarker();
+      
+      ServerResponse response = await uploadFuture;
+
+      expect(response.statusCode, 200, reason: "Failed to upload TestImd");
 
       ServerResponse uploadResponse = await uploadCompleterFuture;
 
-      print("++++ uploadResponse returned ${uploadResponse.data}");
+      print("++++ createUserFile uploadResponse returned ${uploadResponse.data}");
 
       // expect(uploadResponse.data?['fileDetails']['fileId'], isA<String>(),
       //     reason: "Should get a downloadUrl");
@@ -419,6 +424,7 @@ main() {
 
     createGroupFile() async {
       await createUserFile();
+
       ServerResponse response = await bcTest.bcWrapper.groupFileService
           .moveUserToGroupFile(
               userCloudPath: groupCloudPath,
@@ -428,6 +434,8 @@ main() {
               groupFilename: groupFileNameImage,
               groupFileAcl: {"member": 2, "other": 0},
               overwriteIfPresent: true);
+      
+
       expect(response.data?['fileDetails']['fileId'], isNotNull);
       groupAvailableFiles.add(FileDetail(
           groupFileNameImage,
@@ -465,7 +473,7 @@ main() {
           reason: "moveUserToGroupFile should return data");
       expect(response.data?['fileDetails'], isNotNull,
           reason: "moveUserToGroupFile should return data.fileDetails");
-    });
+    },timeout: Timeout.parse("90s"));
     test("checkFilenameExists", () async {
       // Ensure there is a file
       if (groupAvailableFiles.isEmpty) await createGroupFile();
