@@ -44,4 +44,5 @@ class StoredIds {
   String get parentLevelName => ids['parentLevelName'] ?? "";
   String get childAppId => ids['childAppId'] ?? "";
   String get childSecret => ids['childSecret'] ?? "";
+  int get WSProxyPort => int.parse(ids['WSProxyPort'] ?? "8080");
 }
