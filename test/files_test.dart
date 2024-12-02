@@ -400,12 +400,17 @@ main() {
       var uploadCompleterFuture =
           bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback();
 
-      await bcTest.bcWrapper.fileService.uploadFileFromMemory(
+      Future<ServerResponse> uploadFuture =  bcTest.bcWrapper.fileService.uploadFileFromMemory(
           groupCloudPath, groupFileNameImage, true, true, imageData);
+      bcTest.bcWrapper.brainCloudClient.insertEndOfMessageBundleMarker();
+      
+      ServerResponse response = await uploadFuture;
+
+      expect(response.statusCode, 200, reason: "Failed to upload TestImd");
 
       ServerResponse uploadResponse = await uploadCompleterFuture;
 
-      print("++++ uploadResponse returned ${uploadResponse.data}");
+      print("++++ createUserFile uploadResponse returned ${uploadResponse.data}");
 
       // expect(uploadResponse.data?['fileDetails']['fileId'], isA<String>(),
       //     reason: "Should get a downloadUrl");
@@ -413,12 +418,13 @@ main() {
 
       // cleanup
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
-
-      // return fileId;
+      
+      return Future.value();      
     }
 
     createGroupFile() async {
       await createUserFile();
+
       ServerResponse response = await bcTest.bcWrapper.groupFileService
           .moveUserToGroupFile(
               userCloudPath: groupCloudPath,
@@ -428,12 +434,16 @@ main() {
               groupFilename: groupFileNameImage,
               groupFileAcl: {"member": 2, "other": 0},
               overwriteIfPresent: true);
+      
+
       expect(response.data?['fileDetails']['fileId'], isNotNull);
       groupAvailableFiles.add(FileDetail(
           groupFileNameImage,
           response.data?['fileDetails']['fileId'],
           response.data?['fileDetails']['version']));
       print("!!! groupFileId is now $groupAvailableFiles");
+      
+      return Future.value();
     }
 
     setUpAll(() async {
@@ -465,7 +475,7 @@ main() {
           reason: "moveUserToGroupFile should return data");
       expect(response.data?['fileDetails'], isNotNull,
           reason: "moveUserToGroupFile should return data.fileDetails");
-    });
+    },timeout: Timeout.parse("90s"));
     test("checkFilenameExists", () async {
       // Ensure there is a file
       if (groupAvailableFiles.isEmpty) await createGroupFile();
@@ -482,7 +492,7 @@ main() {
       expect(response.statusCode, StatusCodes.ok);
       expect(response.data, isNotNull);
       expect(response.data?['exists'], isA<bool>());
-    });
+    },timeout: Timeout.parse("90s"));
 
     test("checkFullpathFilenameExists", () async {
       // Ensure there is a file
@@ -498,7 +508,7 @@ main() {
       expect(response.statusCode, StatusCodes.ok);
       expect(response.data, isNotNull);
       expect(response.data?['exists'], isA<bool>());
-    });
+    },timeout: Timeout.parse("90s"));
 
     test("copyFile", () async {
       FileDetail filedetail = groupAvailableFiles.first;
@@ -522,7 +532,7 @@ main() {
           "copied$groupFileNameImage",
           response.data?['fileDetails']['fileId'],
           response.data?['fileDetails']['version']));
-    });
+    },timeout: Timeout.parse("90s"));
 
     test("deleteFile", () async {
       // Ensure there is a file to delete
@@ -539,7 +549,7 @@ main() {
       expect(response.statusCode, StatusCodes.ok);
       expect(response.data, isNotNull);
       expect(response.data?['fileDetails'], isNotNull);
-    });
+    },timeout: Timeout.parse("90s"));
     test("getCDNUrl", () async {
       // Ensure there is a file
       if (groupAvailableFiles.isEmpty) await createGroupFile();
@@ -587,7 +597,7 @@ main() {
           reason: "groupdId should be a string");
       expect(response.data?['fileDetails']['url'], isA<String>(),
           reason: "appServerUrl should be a string");
-    });
+    },timeout: Timeout.parse("90s"));
     test("getFileList", () async {
       ServerResponse response = await bcTest.bcWrapper.groupFileService
           .getFileList(groupId: groupId, folderPath: "", recurse: false);
@@ -596,7 +606,7 @@ main() {
       expect(response.data, isNotNull);
       expect(response.data?['treeVersion'], isNotNull);
       expect(response.data?['fileList'], isNotNull);
-    });
+    },timeout: Timeout.parse("90s"));
     test("moveFile", () async {
       if (groupAvailableFiles.isEmpty) await createGroupFile();
       FileDetail filedetail = groupAvailableFiles.first;
@@ -639,7 +649,7 @@ main() {
         print("=== findFolderResponse $findFolderResponse");
         markTestSkipped("Did not find a folder to move to.");
       }
-    });
+    },timeout: Timeout.parse("90s"));
     test("updateFileInfo", () async {
       if (groupAvailableFiles.isEmpty) await createGroupFile();
       FileDetail filedetail = groupAvailableFiles.first;

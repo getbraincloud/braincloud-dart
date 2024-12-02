@@ -68,6 +68,9 @@ void main() {
       ServerResponse response =
           await bcTest.bcWrapper.presenceService.setVisibility(visible: true);
 
+      if (response.statusCode != StatusCodes.badRequest) {
+        print("-- Response is $response with data:\n${response.data}");
+      }
       expect(response.statusCode, StatusCodes.badRequest);
     });
 
@@ -75,6 +78,9 @@ void main() {
       ServerResponse response =
           await bcTest.bcWrapper.presenceService.stopListening();
 
+      if (response.statusCode != StatusCodes.badRequest) {
+        print("-- Response is $response with data:\n${response.data}");
+      }
       expect(response.statusCode, StatusCodes.badRequest);
     });
 
@@ -82,6 +88,9 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.presenceService
           .updateActivity(jsonActivity: {"status": "waiting"});
 
+      if (response.statusCode != StatusCodes.badRequest) {
+        print("-- Response is $response with data:\n${response.data}");
+      }
       expect(response.statusCode, StatusCodes.badRequest);
     });
 

@@ -9,7 +9,7 @@ import 'utils/ws_proxy.dart';
 main() {
   BCTest bcTest = BCTest();
   setUpAll(bcTest.setupBC);
-
+ 
   // helper fucntions for Disconnection test below
   String _getUrlQueryParameters(Map<String, dynamic> _rttHeaders) {
     String sToReturn = "?";
@@ -182,7 +182,8 @@ main() {
       }
     });
 
-    test("RTT websocket disconnect", () async {
+    test("RTT websocket disconnect", () async {   
+
       Map<String, dynamic> localConnectionInfo = {
         'status': 200,
         'data': {
@@ -190,7 +191,7 @@ main() {
           'endpoints': [
             {
               "protocol": "ws",
-              "port": 8080,
+              "port": bcTest.ids.WSProxyPort,
               "host": "localhost",
               "ssl": false,
               "ca": "GoDaddy"
@@ -235,7 +236,7 @@ main() {
       final proxyWSServer = WebSocketProxy(remoteUrl);
 
       // Start proxy server
-      proxyWSServer.startProxy();
+      proxyWSServer.startProxy(port:bcTest.ids.WSProxyPort);
       print(
           "[3] Got the proxyingWebSocket ready to interfere with it now.");
 
