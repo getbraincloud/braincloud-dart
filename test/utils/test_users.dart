@@ -16,7 +16,7 @@ class TestUser {
 String generateRandomString(int length) {
   const characters =
       'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  final random = Random(DateTime.now().microsecond);
+  final random = Random(DateTime.now().millisecondsSinceEpoch);
   return String.fromCharCodes(Iterable.generate(
     length,
     (_) => characters.codeUnitAt(random.nextInt(characters.length)),
