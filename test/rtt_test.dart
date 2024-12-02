@@ -183,6 +183,7 @@ main() {
     });
 
     test("RTT websocket disconnect", () async {
+      int proxyPort = int.fromEnvironment("WSPROXYPORT",defaultValue: 8080);
       Map<String, dynamic> localConnectionInfo = {
         'status': 200,
         'data': {
@@ -190,7 +191,7 @@ main() {
           'endpoints': [
             {
               "protocol": "ws",
-              "port": 8080,
+              "port": proxyPort,
               "host": "localhost",
               "ssl": false,
               "ca": "GoDaddy"
@@ -235,7 +236,7 @@ main() {
       final proxyWSServer = WebSocketProxy(remoteUrl);
 
       // Start proxy server
-      proxyWSServer.startProxy();
+      proxyWSServer.startProxy(port:proxyPort);
       print(
           "[3] Got the proxyingWebSocket ready to interfere with it now.");
 
