@@ -31,11 +31,27 @@ dev_dependencies:
   analyzer: 
   args: ^2.5.0
 
+documentation: "https://docs.braincloudservers.com/api/introduction"
+
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
+
+# temporarily prevent publishing until ready
+publish_to: none
+
+topics:
+  - braincloud
+  
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
-flutter:
+# flutter:
 
   # uses-material-design: true
 
