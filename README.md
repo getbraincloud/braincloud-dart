@@ -52,10 +52,10 @@ class MyApp extends StatelessWidget {
         url: "https://api.braincloudservers.com/dispatcherv2");
 
     /// Check if there was a session
-    bool hadSession = _bcWrapper.getStoredSessionId().isNotEmpty;
-
-    if (hadSession) {
-      _bcWrapper.restoreSession();
+    bool hasSession = false;
+    if (_bcWrapper.canReconnect()) {
+      ServerResponse response = await _bcWrapper.reconnect();
+      hasSession = (response.statusCode == 200);
     }
 
     ///return the route name base on existing session

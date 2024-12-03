@@ -302,7 +302,7 @@ void main() {
           reason: "NetId should be 0");
 
       // only exercise code, no check as this is not echoed back.
-      bcTest.bcWrapper.relayService.sendToAll(inData: utf8.encode(testString2));
+      bcTest.bcWrapper.relayService.sendToAll(inData: utf8.encode(testWelcomeString));
 
       expect(connectOptions.toString(), startsWith("RelayConnectOptions"));
 
