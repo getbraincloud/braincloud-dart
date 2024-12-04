@@ -32,7 +32,7 @@ void main() {
 
     test("channelConnect()", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
-          .channelConnect(channelId: channelId, maxtoreturn: 50);
+          .channelConnect(channelId: channelId, maxToReturn: 50);
 
       expect(response.statusCode, StatusCodes.ok);
     });

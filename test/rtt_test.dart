@@ -120,7 +120,7 @@ main() {
         channelId = response.data?["channelId"];
       }
       ServerResponse? response = await bcTest.bcWrapper.chatService
-          .channelConnect(channelId: channelId, maxtoreturn: 50);
+          .channelConnect(channelId: channelId, maxToReturn: 50);
 
       print("Channel Connect response $response");
 
