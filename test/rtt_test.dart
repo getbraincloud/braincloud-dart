@@ -91,7 +91,7 @@ main() {
 
     test("getChannelId", () async {
       ServerResponse? response = await bcTest.bcWrapper.chatService
-          .getChannelId(channeltype: "gl", channelsubid: "valid");
+          .getChannelId(channelType: "gl", channelSubId: "valid");
 
       if (response.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");
@@ -116,7 +116,7 @@ main() {
     test("channelConnect", () async {
       if (channelId.isEmpty) {
         ServerResponse? response = await bcTest.bcWrapper.chatService
-            .getChannelId(channeltype: "gl", channelsubid: "valid");
+            .getChannelId(channelType: "gl", channelSubId: "valid");
         channelId = response.data?["channelId"];
       }
       ServerResponse? response = await bcTest.bcWrapper.chatService
@@ -133,7 +133,7 @@ main() {
 
     test("getSubscribedChannels", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
-          .getSubscribedChannels(channeltype: "gl");
+          .getSubscribedChannels(channelType: "gl");
 
       if (response.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");
@@ -154,7 +154,7 @@ main() {
     test("postChatMessageSimple", () async {
       if (channelId.isEmpty) {
         ServerResponse? response = await bcTest.bcWrapper.chatService
-            .getChannelId(channeltype: "gl", channelsubid: "valid");
+            .getChannelId(channelType: "gl", channelSubId: "valid");
         channelId = response.data?["channelId"];
       }
       ServerResponse response = await bcTest.bcWrapper.chatService
@@ -171,7 +171,7 @@ main() {
 
     test("getChatMessage", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
-          .getChatMessage(channelId: channelId, messageid: msgId);
+          .getChatMessage(channelId: channelId, messageId: msgId);
 
       if (response.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");
