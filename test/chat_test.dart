@@ -11,7 +11,7 @@ void main() {
   group("Test Chat", () {
     test("getChannelId() with valid channel", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
-          .getChannelId(channeltype: "gl", channelsubid: "valid");
+          .getChannelId(channelType: "gl", channelSubId: "valid");
 
       channelId = response.data?["channelId"];
       expect(response.statusCode, StatusCodes.ok);
@@ -19,7 +19,7 @@ void main() {
 
     test("getChannelId() with invalid channel", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
-          .getChannelId(channeltype: "gl", channelsubid: "invalid");
+          .getChannelId(channelType: "gl", channelSubId: "invalid");
 
       expect(response.statusCode, StatusCodes.badRequest);
     });
@@ -39,7 +39,7 @@ void main() {
 
     test("getSubscribedChannels()", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
-          .getSubscribedChannels(channeltype: "gl");
+          .getSubscribedChannels(channelType: "gl");
 
       List<dynamic> channels = response.data?["channels"];
       channels.forEach((channel) {
@@ -77,7 +77,7 @@ void main() {
     int msgVersion = 0;
     test("getChatMessage()", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
-          .getChatMessage(channelId: channelId, messageid: msgId);
+          .getChatMessage(channelId: channelId, messageId: msgId);
 
       expect(response.data?["content"]["text"], "Hello World!");
       if (response.data?["content"]["rich"].length > 1) {
@@ -92,9 +92,9 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.chatService
           .updateChatMessage(
               channelId: channelId,
-              messageid: msgId,
+              messageId: msgId,
               version: msgVersion,
-              contentjson: {
+              contentJson: {
             "text": "Hello World! edited",
             "rich": {"custom": 2}
           });
@@ -104,7 +104,7 @@ void main() {
 
     test("getChatMessage()", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
-          .getChatMessage(channelId: channelId, messageid: msgId);
+          .getChatMessage(channelId: channelId, messageId: msgId);
 
       expect(response.data?["ver"], 2);
       expect(response.data?["content"]["text"], "Hello World! edited");
@@ -133,7 +133,7 @@ void main() {
     test("deleteChatMessage()", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
           .deleteChatMessage(
-              channelId: channelId, messageid: msgId, version: msgVersion);
+              channelId: channelId, messageId: msgId, version: msgVersion);
       expect(response.statusCode, StatusCodes.ok);
     });
 
