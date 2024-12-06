@@ -850,18 +850,17 @@ class BrainCloudComms {
               }
 
               if (rewards != null) {
-                Map<String, dynamic> theReward = {};
-                theReward["rewards"] = rewards;
-                theReward["service"] = service;
-                theReward["operation"] = operation;
-                Map<String, dynamic> apiRewards = {};
-                List<dynamic> rewardList = [];
-                rewardList.add(theReward);
-                apiRewards["apiRewards"] = rewardList;
+                Map<String, dynamic> apiRewards = {
+                  "apiRewards": [
+                    {
+                      "rewards": rewards,
+                      "service": service,
+                      "operation": operation,
+                    }
+                  ]
+                };
+                _rewardCallback!(apiRewards);
 
-                String rewardsAsJson = _clientRef.serializeJson(apiRewards);
-
-                _rewardCallback!(rewardsAsJson);
               }
             } catch (e, s) {
               if (_clientRef.loggingEnabled) {
@@ -953,11 +952,9 @@ class BrainCloudComms {
     }
 
     if (bundleObj.events != null && _eventCallback != null) {
-      Map<String, List<Map<String, dynamic>>> eventsJsonObj = {};
-      eventsJsonObj["events"] = bundleObj.events!;
-      String eventsAsJson = _clientRef.serializeJson(eventsJsonObj);
+      Map<String, List<Map<String, dynamic>>> eventsJsonObj = {"events":bundleObj.events!};
       try {
-        _eventCallback!(eventsAsJson);
+        _eventCallback!(eventsJsonObj);
       } catch (e) {
         if (_clientRef.loggingEnabled) {
           _clientRef.log(e.toString());

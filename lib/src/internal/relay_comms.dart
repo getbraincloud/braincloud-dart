@@ -461,7 +461,7 @@ class RelayComms {
             break;
           case _EventType.system:
             if (_registeredSystemCallback != null) {
-              _registeredSystemCallback!(evt.message);
+              _registeredSystemCallback!(jsonDecode(evt.message));
             }
             break;
           case _EventType.relay:

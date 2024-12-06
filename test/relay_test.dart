@@ -76,8 +76,9 @@ void main() {
       if (!readyCompleter.isCompleted) readyCompleter.complete();
     }
 
-    void systemCallback(String json) async {
-      Map<String, dynamic> parsedDict = jsonDecode(json);
+    void systemCallback(Map<String, dynamic>?   json) async {
+      // Map<String, dynamic> parsedDict = jsonDecode(json);
+      Map<String, dynamic> parsedDict = json ?? {};
       if (parsedDict["op"] == "CONNECT") {
         successCount++;
         print(
@@ -157,11 +158,12 @@ void main() {
           settings: {});
     }
 
-    onLobbyEvent({Function(int netId, Uint8List data)? rcb}) => (String json)  {
-      var response = jsonDecode(json);
-      var data = response["data"];
+    onLobbyEvent({Function(int netId, Uint8List data)? rcb}) => (RTTCommandResponse  json)  {
+      // var response = jsonDecode(json);
+      // var response = json ?? {};
+      var data = json.data ?? {};
 
-      switch (response["operation"]) {
+      switch (json.operation) {
         case "DISBANDED":
           var reason = data["reason"];
           var reasonCode = reason["code"];

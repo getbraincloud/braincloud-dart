@@ -790,7 +790,7 @@ class BrainCloudClient {
           "${DateFormat("HH:mm:ss.SSS").format(DateTime.now())} #BCC ${(log.length < 14000 ? log : log.substring(0, 14000) + " << (LOG TRUNCATED)")}";
 
       if (_logDelegate != null) {
-        _logDelegate!(formattedLog);
+        _logDelegate!({"msg":formattedLog});
       } else {
         print(formattedLog);
       }

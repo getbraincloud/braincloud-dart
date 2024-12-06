@@ -7,6 +7,9 @@ import 'package:braincloud_dart/src/internal/service_name.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/reason_codes.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'rtt_comms.g.dart';
 
 class RTTComms {
   final BrainCloudClient _clientRef;
@@ -125,7 +128,7 @@ class RTTComms {
       // does this go to one of our registered service listeners?
       if (_registeredCallbacks.containsKey(toProcessResponse.service)) {
         _registeredCallbacks[toProcessResponse.service]!(
-            jsonEncode(toProcessResponse.data ?? "{}"));
+            RTTCommandResponse.fromJson(toProcessResponse.data ?? {}));
       }
 
       // are we actually connected? only pump this back, when the server says we've connected
@@ -221,7 +224,8 @@ class RTTComms {
             service: ServiceName.rttRegistration.value,
             operation: RTTCommandOperation.error,
             reasonCode: _disconnectJson["reason_code"],
-            data: _disconnectJson["reason"]));
+            data: (_disconnectJson["reason"] is Map) ? _disconnectJson["reason"] : _disconnectJson));
+            /// [mc] To ensure data is always a Map and not a String 
       }
     }
     _rttConnectionStatus = RTTConnectionStatus.disconnected;
@@ -518,7 +522,7 @@ class RTTComms {
   RTTConnectionStatus _rttConnectionStatus = RTTConnectionStatus.disconnected;
 }
 
-
+@JsonSerializable()
 class RTTCommandResponse {
   final String service;
   final String operation;
@@ -535,6 +539,10 @@ class RTTCommandResponse {
   String toString() {    
     return "RTTCommandResponse(service:$service, operation:$operation, reasonCode: $reasonCode, data: $data)";
   }
+    factory RTTCommandResponse.fromJson(Map<String, dynamic> json) =>
+      _$RTTCommandResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$RTTCommandResponseToJson(this);
+
 }
 
 typedef RTTSuccessCallback = Function(RTTCommandResponse response);

@@ -11,7 +11,7 @@ ServerResponse _$ServerResponseFromJson(Map<String, dynamic> json) =>
       statusCode: (json['status'] as num).toInt(),
       reasonCode:
           (json['reason_code'] as num?)?.toInt() ?? ReasonCodes.noReasonCode,
-      error: json['status_message'] as String?,
+      error: json['status_message'],
       data: json['data'] as Map<String, dynamic>?,
     );
 

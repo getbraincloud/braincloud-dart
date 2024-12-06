@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:braincloud_dart/braincloud_dart.dart';
+
 class ServerCallback {
   /// ServerCallback
   ///
@@ -43,17 +45,17 @@ typedef FailureGlobalCallback = void Function(
 
 typedef NetworkErrorCallback = void Function();
 
-typedef EventCallback = void Function(String jsonResponse);
+typedef EventCallback = void Function(Map<String, dynamic>?  jsonResponse);
 
-typedef LogCallback = void Function(String jsonResponse);
+typedef LogCallback = void Function(Map<String, dynamic>?  jsonResponse);
 
-typedef RewardCallback = void Function(String jsonResponse);
+typedef RewardCallback = void Function(Map<String, dynamic>?  jsonResponse);
 
-typedef RTTCallback = void Function(String jsonResponse);
+typedef RTTCallback = void Function(RTTCommandResponse rttResponse);
 
 typedef RelayCallback = void Function(int netId, Uint8List data);
 
-typedef RelaySystemCallback = void Function(String jsonResponse);
+typedef RelaySystemCallback = void Function(Map<String, dynamic>?  jsonResponse);
 
 typedef FileUploadSuccessCallback = void Function(
     String fileUploadId, String jsonResponse);
