@@ -27,24 +27,24 @@ class BrainCloudLobby {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> findLobby(
-      {required String roomtype,
+      {required String roomType,
       required int rating,
       required int maxSteps,
       required Map<String, dynamic> algo,
-      Map<String, dynamic>? filterjson,
-      int? timeoutsecs,
+      Map<String, dynamic>? filterJson,
+      int? timeoutSecs,
       required bool isReady,
       required Map<String, dynamic> extraJson,
       String? teamCode,
       List<String>? otherUserCxids}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    data[OperationParam.lobbyRoomType.value] = roomtype;
+    data[OperationParam.lobbyRoomType.value] = roomType;
     data[OperationParam.lobbyRating.value] = rating;
     data[OperationParam.lobbyMaxSteps.value] = maxSteps;
     data[OperationParam.lobbyAlgorithm.value] = algo;
-    data[OperationParam.lobbyFilterJson.value] = filterjson;
-    data[OperationParam.lobbyTimeoutSeconds.value] = timeoutsecs;
+    data[OperationParam.lobbyFilterJson.value] = filterJson;
+    data[OperationParam.lobbyTimeoutSeconds.value] = timeoutSecs;
     data[OperationParam.lobbyIsReady.value] = isReady;
     if (otherUserCxids != null) {
       data[OperationParam.lobbyOtherUserCxIds.value] = otherUserCxids;

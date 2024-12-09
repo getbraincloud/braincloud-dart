@@ -1,15 +1,15 @@
-import 'package:braincloud_dart/src/data_persistance.dart';
+import 'package:braincloud_dart/src/data_persistence.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 
-class DataPersistance implements DataPersistanceBase {
-  static final DataPersistance _instance = DataPersistance._internal();
+class DataPersistence implements DataPersistenceBase {
+  static final DataPersistence _instance = DataPersistence._internal();
 
-  factory DataPersistance() {
+  factory DataPersistence() {
     return _instance;    
   }
 
-  DataPersistance._internal();
+  DataPersistence._internal();
 
   SharedPreferencesAsync _playerPrefs = SharedPreferencesAsync();
 
@@ -25,11 +25,11 @@ class DataPersistance implements DataPersistanceBase {
   Future setString(String key, String value) async {
     if (_isServicesBindingAvailable())
       return _playerPrefs.setString(key, value);
-    throw ("ServiceBinding not yet available, no data will be persisted, consider delaying initialization or providing your own PreferencesPersistance");
+    throw ("ServiceBinding not yet available, no data will be persisted, consider delaying initialization or providing your own PreferencesPersistence");
   }
 
   Future<String?> getString(String key) {
     if (_isServicesBindingAvailable()) return _playerPrefs.getString(key);
-    throw ("ServiceBinding not yet available, no data can be retrived, consider delaying initialization or providing your own PreferencesPersistance");
+    throw ("ServiceBinding not yet available, no data can be retrived, consider delaying initialization or providing your own PreferencesPersistence");
   }
 }

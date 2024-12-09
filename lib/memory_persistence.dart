@@ -1,9 +1,9 @@
-import 'package:braincloud_dart/src/data_persistance.dart';
+import 'package:braincloud_dart/src/data_persistence.dart';
 
-class DataPersistance implements DataPersistanceBase {
-  static final DataPersistance _instance = DataPersistance._internal();
+class DataPersistence implements DataPersistenceBase {
+  static final DataPersistence _instance = DataPersistence._internal();
 
-  factory DataPersistance() {
+  factory DataPersistence() {
     print("***********************************************************");
     print("***********************   WARNING  ************************");
     print("* The Peristance Class in use only persist to memory.     *");
@@ -11,7 +11,7 @@ class DataPersistance implements DataPersistanceBase {
     print("***********************************************************");
     return _instance;
   }
-  DataPersistance._internal();
+  DataPersistence._internal();
 
   Map<String, String> playerPrefs = {};
 

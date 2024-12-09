@@ -18,7 +18,7 @@ void main() {
 
     test("findLobby()", () async {
       ServerResponse response = await bcTest.bcWrapper.lobbyService.findLobby(
-          roomtype: "MATCH_UNRANKED",
+          roomType: "MATCH_UNRANKED",
           rating: 0,
           maxSteps: 1,
           algo: {

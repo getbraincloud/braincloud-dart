@@ -1,5 +1,5 @@
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:braincloud_dart/memory_persistance.dart';
+import 'package:braincloud_dart/memory_persistence.dart';
 import 'package:test/test.dart';
 
 import 'utils/test_base.dart';
@@ -18,7 +18,7 @@ void main() {
     });
 
     test("readServerTime() error", () async {
-      BrainCloudWrapper bcWrapper = BrainCloudWrapper(persistance: DataPersistance());
+      BrainCloudWrapper bcWrapper = BrainCloudWrapper(persistence: DataPersistence());
 
       bcWrapper.init(secretKey: bcTest.ids.secretKey, appId: bcTest.ids.appId, version: bcTest.ids.version, updateTick: 50);
 

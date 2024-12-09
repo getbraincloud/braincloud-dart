@@ -5,8 +5,8 @@
 import 'dart:async';
 
 import 'package:braincloud_dart/src/braincloud_blockchain.dart';
-import 'package:braincloud_dart/src/data_persistance.dart';
-import 'package:braincloud_dart/src/internal/default_persistance.dart';
+import 'package:braincloud_dart/src/data_persistence.dart';
+import 'package:braincloud_dart/src/internal/default_persistence.dart';
 import 'package:braincloud_dart/src/server_response.dart';
 
 import 'package:braincloud_dart/src/common/authentication_ids.dart';
@@ -216,11 +216,11 @@ class BrainCloudWrapper {
 
   Timer? _updateTimer;
 
-  late DataPersistanceBase _persistance;
+  late DataPersistenceBase _persistence;
 
   /// Create the brainCloud Wrapper, which has utility helpers for using the brainCloud API
-  BrainCloudWrapper({BrainCloudClient? client, this.wrapperName, DataPersistanceBase? persistance}) {
-    _persistance = persistance ?? DataPersistance();
+  BrainCloudWrapper({BrainCloudClient? client, this.wrapperName, DataPersistenceBase? persistence}) {
+    _persistence = persistence ?? DataPersistence();
     if (client != null) {
       _client = client;
       _client.wrapper = this;
@@ -1856,12 +1856,11 @@ class BrainCloudWrapper {
     if (_isServicesBindingAvailable()) {
       try {
         String prefix = wrapperName.isEmptyOrNull ? "" : "$wrapperName.";        
-        // PreferencesPersistanceBase playerPrefs = PreferencesPersistance();
-        await _persistance.setString(
+        await _persistence.setString(
             prefix + prefsProfileId, _wrapperData.profileId);
-        await _persistance.setString(
+        await _persistence.setString(
             prefix + prefsAnonymousId, _wrapperData.anonymousId);
-        await _persistance.setString(
+        await _persistence.setString(
             prefix + prefsAuthenticationType, _wrapperData.authenticationType);
       } catch (e) {
         print("Error saving wrapper data $e");
@@ -1874,13 +1873,12 @@ class BrainCloudWrapper {
     if (_isServicesBindingAvailable()) {
       try {
         String prefix = wrapperName.isEmptyOrNull ? "" : "$wrapperName.";
-        // PreferencesPersistanceBase playerPrefs = PreferencesPersistance();
         _wrapperData.profileId =
-            await _persistance.getString(prefix + prefsProfileId) ?? "";
+            await _persistence.getString(prefix + prefsProfileId) ?? "";
         _wrapperData.anonymousId =
-            await _persistance.getString(prefix + prefsAnonymousId) ?? "";
+            await _persistence.getString(prefix + prefsAnonymousId) ?? "";
         _wrapperData.authenticationType =
-            await _persistance.getString(prefix + prefsAuthenticationType) ?? "";
+            await _persistence.getString(prefix + prefsAuthenticationType) ?? "";
       } catch (e) {
         print("Error loading wrapper data $e");
       }
