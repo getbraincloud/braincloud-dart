@@ -212,7 +212,7 @@ class BrainCloudWrapper {
 
   BrainCloudGroupFile get groupFileService => _client.groupFileService;
 
-  BrainCloudBlockchain get blockchainService => _client.blockchain;
+  BrainCloudBlockchain get blockchainService => _client.blockchainService;
 
   Timer? _updateTimer;
 

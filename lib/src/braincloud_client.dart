@@ -338,7 +338,7 @@ class BrainCloudClient {
 
   BrainCloudRelay get relayService => _rsService;
 
-  BrainCloudBlockchain get blockchain => _blockchain;
+  BrainCloudBlockchain get blockchainService => _blockchain;
 
   BrainCloudGroupFile get groupFileService => _groupFileService;
 
