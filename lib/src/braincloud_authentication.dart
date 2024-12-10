@@ -17,7 +17,10 @@ class BrainCloudAuthentication {
   final BrainCloudClient _clientRef;
 
   String? _anonymousId;
-  String? profileId;
+  String? _profileId;
+
+  String? get profileId => _profileId;
+  void set profileId (value) => _profileId = value;    
 
   bool compressResponse = true;
 
@@ -39,7 +42,7 @@ class BrainCloudAuthentication {
   /// @param aId
   /// The anonymous installation id that was generated for this device
   void initialize({required String profileId, required String anonymousId}) {
-    profileId = profileId;
+    _profileId = profileId;
     _anonymousId = anonymousId;
     compressResponse = true;
   }
@@ -47,7 +50,7 @@ class BrainCloudAuthentication {
   /// Used to clear the saved profile id - to use in cases when the user is
   /// attempting to switch to a different app profile.
   void clearSavedProfileID() {
-    profileId = null;
+    _profileId = null;
   }
 
   /// Authenticate a user anonymously with brainCloud - used for apps that don't want to bother
@@ -968,7 +971,7 @@ class BrainCloudAuthentication {
         .value] = compressResponse;
 
     data[OperationParam.authenticateServiceAuthenticateProfileId.value] =
-        profileId;
+        _profileId;
     data[OperationParam.authenticateServiceAuthenticateAnonymousId.value] =
         _anonymousId;
     data[OperationParam.authenticateServiceAuthenticateGameId.value] =

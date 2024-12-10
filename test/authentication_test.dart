@@ -31,7 +31,7 @@ main() async {
 
     test("authenticateAnonymous", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
-
+      
       // bcTest.bcWrapper.brainCloudClient.enableLogging(true);
       bcTest.bcWrapper.resetStoredProfileId();
       bcTest.bcWrapper.resetStoredAnonymousId();
