@@ -17,14 +17,14 @@ main() {
     test("registerPushNotificationDeviceToken()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .registerPushNotificationDeviceToken(
-              platform: Platform.iOS, token: "GARBAGE_TOKEN");
+              platform: PlatformID.iOS, token: "GARBAGE_TOKEN");
       expect(response.statusCode, StatusCodes.ok);
     });
 
     test("deregisterPushNotificationDeviceToken()", () async {
       ServerResponse response = await bcTest.bcWrapper.pushNotificationService
           .deregisterPushNotificationDeviceToken(
-              platform: Platform.iOS, token: "GARBAGE_TOKEN");
+              platform: PlatformID.iOS, token: "GARBAGE_TOKEN");
       expect(response.statusCode, StatusCodes.ok);
     });
 

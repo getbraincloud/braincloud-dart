@@ -6,7 +6,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 @JsonEnum(valueField: 'value')
-enum Platform {
+enum PlatformID {
   appleTVOS('APPLE_TV_OS'),
   amazon('AMAZON'),
   blackBerry('BB'),
@@ -32,12 +32,12 @@ enum Platform {
   nintendo('NINTENDO'),
   steam('STEAM');
 
-  const Platform(this.value);
+  const PlatformID(this.value);
   final String value;
 
-  static Platform fromString(String s) {
-    Platform type = Platform.values
-        .firstWhere((e) => e.value == s, orElse: () => Platform.unknown);
+  static PlatformID fromString(String s) {
+    PlatformID type = PlatformID.values
+        .firstWhere((e) => e.value == s, orElse: () => PlatformID.unknown);
 
     return type;
   }

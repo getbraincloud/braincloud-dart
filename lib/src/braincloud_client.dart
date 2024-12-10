@@ -65,7 +65,7 @@ class BrainCloudClient {
       "https://api.braincloudservers.com/dispatcherv2";
 
   String _appVersion = "";
-  Platform _platform = Platform.web;
+  PlatformID _platform = PlatformID.web;
   set platform(val) => _platform = val;
 
   String? _languageCode = "en";
@@ -237,7 +237,7 @@ class BrainCloudClient {
 
   String get brainCloudClientVersion => Version.getVersion();
 
-  Platform get releasePlatform => _platform;
+  PlatformID get releasePlatform => _platform;
 
   String get languageCode =>
       _languageCode ?? Util.getIsoCodeForCurrentLanguage();
@@ -835,19 +835,19 @@ class BrainCloudClient {
 
     if (!kIsWeb) {
       if (io.Platform.isIOS) {
-        platform = Platform.iOS;
+        platform = PlatformID.iOS;
       }
       if (io.Platform.isWindows) {
-        platform = Platform.windows;
+        platform = PlatformID.windows;
       }
       if (io.Platform.isMacOS) {
-        platform = Platform.mac;
+        platform = PlatformID.mac;
       }
       if (io.Platform.isAndroid) {
-        platform = Platform.googlePlayAndroid;
+        platform = PlatformID.googlePlayAndroid;
       }
       if (io.Platform.isLinux) {
-        platform = Platform.linux;
+        platform = PlatformID.linux;
       }
     }
 

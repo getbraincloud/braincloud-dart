@@ -16,7 +16,7 @@ main() async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
       if (kIsWeb) {
-        expect(bcTest.bcWrapper.brainCloudClient.releasePlatform,Platform.web);
+        expect(bcTest.bcWrapper.brainCloudClient.releasePlatform,PlatformID.web);
       } else {
         String platform = "LINUX";
         if (io.Platform.isIOS) platform = "IOS";
@@ -25,7 +25,7 @@ main() async {
         if (io.Platform.isAndroid) platform = "ANG";
 
         expect(bcTest.bcWrapper.brainCloudClient.releasePlatform,
-            Platform.fromString(platform));
+            PlatformID.fromString(platform));
       } 
     });
 

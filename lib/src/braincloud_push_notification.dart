@@ -26,7 +26,7 @@ class BrainCloudPushNotification {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> registerPushNotificationDeviceToken(
-      {required Platform platform, required String token}) {
+      {required PlatformID platform, required String token}) {
     Completer<ServerResponse> completer = Completer();
     String devicePlatform = platform.toString();
     Map<String, dynamic> data = {};
@@ -82,7 +82,7 @@ class BrainCloudPushNotification {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> deregisterPushNotificationDeviceToken(
-      {required Platform platform, required String token}) {
+      {required PlatformID platform, required String token}) {
     Completer<ServerResponse> completer = Completer();
     String devicePlatform = platform.toString();
     Map<String, dynamic> data = {};

@@ -6,7 +6,7 @@ export 'src/common/authentication_type.dart' show AuthenticationType;
 export 'src/internal/service_name.dart' show ServiceName;
 export 'src/reason_codes.dart' show ReasonCodes;
 export 'src/status_codes.dart' show StatusCodes;
-export 'src/common/platform.dart' show Platform;
+export 'src/common/platform.dart' show PlatformID;
 export 'src/server_response.dart';
 export 'src/common/authentication_ids.dart';
 export 'src/common/acl.dart';
