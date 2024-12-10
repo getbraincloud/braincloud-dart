@@ -17,13 +17,13 @@ class BrainCloudBlockchain {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getBlockchainItems(
-      {String? integrationid, Map<String, dynamic>? contextJson}) {
+      {String? integrationId, Map<String, dynamic>? contextJson}) {
     Completer<ServerResponse> completer = Completer();
 
     Map<String, dynamic> data = {};
 
     data[OperationParam.blockChainIntegrationId.value] =
-        integrationid ?? "default";
+        integrationId ?? "default";
     data[OperationParam.blockChainContext.value] = contextJson;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -44,12 +44,12 @@ class BrainCloudBlockchain {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getUniqs(
-      {required String inIntegrationid, Map<String, dynamic>? contextJson}) {
+      {required String integrationId, Map<String, dynamic>? contextJson}) {
     Completer<ServerResponse> completer = Completer();
 
     Map<String, dynamic> data = {};
 
-    data[OperationParam.blockChainIntegrationId.value] = inIntegrationid;
+    data[OperationParam.blockChainIntegrationId.value] = integrationId;
     data[OperationParam.blockChainContext.value] = contextJson;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(

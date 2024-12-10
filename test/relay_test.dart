@@ -38,9 +38,9 @@ void main() {
           .maxPlayers; // Wrong net id, should be < 40 or ALL_PLAYERS (0x000000FFFFFFFFFF)
       Uint8List bytes = utf8.encode("To Bad Id");
       bcTest.bcWrapper.relayService.send(bytes, myNetId,
-          inReliable: true,
-          inOrdered: true,
-          inChannel: BrainCloudRelay.channelHighPriority_1);
+          reliable: true,
+          ordered: true,
+          channel: BrainCloudRelay.channelHighPriority_1);
     }
 
     void onRelayConnected(Map<String, dynamic> jsonResponse) {
@@ -51,9 +51,9 @@ void main() {
 
       Uint8List bytes = utf8.encode(testHelloString);
       bcTest.bcWrapper.relayService.send(bytes, currentNetId,
-          inReliable: true,
-          inOrdered: true,
-          inChannel: BrainCloudRelay.channelHighPriority_1);
+          reliable: true,
+          ordered: true,
+          channel: BrainCloudRelay.channelHighPriority_1);
     }
 
     void onFailed(int status, int reasonCode, dynamic jsonError) async {
@@ -66,7 +66,7 @@ void main() {
       } else {        
         print(
             "${DateTime.now()}:TST-> onFailed for other reason: $jsonError");
-        var errorMap = jsonDecode(jsonError);
+        var errorMap = jsonError;
         if (errorMap['reason_code'] == 90300 && errorMap['status_message'] == 'Relay: Disconnected by server') failureCount++;
         disconnectRelay();
         await Future.delayed(
@@ -101,9 +101,9 @@ void main() {
       if (message == testHelloString && netId == currentNetId) {
         successCount++;
         bcTest.bcWrapper.relayService.sendToPlayers(
-            inPlayerMask: BrainCloudRelay.toAllPlayers,
-            inData: utf8.encode(testWelcomeString),
-            inChannel: BrainCloudRelay.channelLowPriority);
+            playerMask: BrainCloudRelay.toAllPlayers,
+            data: utf8.encode(testWelcomeString),
+            channel: BrainCloudRelay.channelLowPriority);
       } else if (message == testWelcomeString) {
         successCount++;
         if (successCount >= 2) sendToWrongNetId();
@@ -304,7 +304,7 @@ void main() {
           reason: "NetId should be 0");
 
       // only exercise code, no check as this is not echoed back.
-      bcTest.bcWrapper.relayService.sendToAll(inData: utf8.encode(testWelcomeString));
+      bcTest.bcWrapper.relayService.sendToAll(data: utf8.encode(testWelcomeString));
 
       expect(connectOptions.toString(), startsWith("RelayConnectOptions"));
 

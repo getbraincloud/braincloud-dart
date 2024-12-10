@@ -176,21 +176,21 @@ class BrainCloudRelay {
   /// CHANNEL_NORMAL_PRIORITY = 2;
   /// CHANNEL_LOW_PRIORITY = 3;
 
-  void send(Uint8List inData, int toNetid,
-      {bool inReliable = true, bool inOrdered = true, int inChannel = 0}) {
+  void send(Uint8List data, int toNetid,
+      {bool reliable = true, bool ordered = true, int channel = 0}) {
     if (toNetid == toAllPlayers) {
       sendToAll(
-          inData: inData,
-          inReliable: inReliable,
-          inOrdered: inOrdered,
-          inChannel: inChannel);
+          data: data,
+          reliable: reliable,
+          ordered: ordered,
+          inChannel: channel);
     } else if (toNetid >= maxPlayers) {
       // Error. Invalid net id
       String error = "Invalid NetId: $toNetid";
       _commsLayer.queueError(error);
     } else {
       int playerMask = 1 << toNetid;
-      _commsLayer.send(inData, playerMask, inReliable, inOrdered, inChannel);
+      _commsLayer.send(data, playerMask, reliable, ordered, channel);
     }
   }
 
@@ -207,12 +207,12 @@ class BrainCloudRelay {
   /// CHANNEL_LOW_PRIORITY = 3;
 
   void sendToPlayers(
-      {required Uint8List inData,
-      required int inPlayerMask,
-      bool inReliable = true,
-      bool inOrdered = true,
-      int inChannel = 0}) {
-    _commsLayer.send(inData, inPlayerMask, inReliable, inOrdered, inChannel);
+      {required Uint8List data,
+      required int playerMask,
+      bool reliable = true,
+      bool ordered = true,
+      int channel = 0}) {
+    _commsLayer.send(data, playerMask, reliable, ordered, channel);
   }
 
   /// Send a packet to all except yourself
@@ -227,9 +227,9 @@ class BrainCloudRelay {
   /// CHANNEL_LOW_PRIORITY = 3;
 
   void sendToAll(
-      {required Uint8List inData,
-      bool inReliable = true,
-      bool inOrdered = true,
+      {required Uint8List data,
+      bool reliable = true,
+      bool ordered = true,
       int inChannel = 0}) {
     var myProfileId = _clientRef.authenticationService.profileId;
     var myNetId = getNetIdForProfileId(myProfileId!);
@@ -237,7 +237,7 @@ class BrainCloudRelay {
     int myBit = 1 << myNetId;
     int myInvertedBits = ~myBit;
     int playerMask = toAllPlayers & myInvertedBits;
-    _commsLayer.send(inData, playerMask, inReliable, inOrdered, inChannel);
+    _commsLayer.send(data, playerMask, reliable, ordered, inChannel);
   }
 
   /// Set the ping interval in Seconds

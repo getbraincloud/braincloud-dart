@@ -88,7 +88,7 @@ void main() {
     test("deleteIncomingEvents()", () async {
       List<String> evIds = [];
       ServerResponse response = await bcTest.bcWrapper.eventService
-          .deleteIncomingEvents(inEventids: evIds);
+          .deleteIncomingEvents(evIds: evIds);
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -104,7 +104,7 @@ void main() {
     test("deleteIncomingEventsOlderThan()", () async {
       var dateMillis = 1619804426154;
       ServerResponse response = await bcTest.bcWrapper.eventService
-          .deleteIncomingEventsOlderThan(inDatemillis: dateMillis);
+          .deleteIncomingEventsOlderThan(dateMillis: dateMillis);
       expect(response.statusCode, StatusCodes.ok);
     });
 

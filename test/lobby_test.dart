@@ -91,7 +91,7 @@ void main() {
 
     test("removeMember()", () async {
       ServerResponse response = await bcTest.bcWrapper.lobbyService
-          .removeMember(lobbyId: "wrongLobbyId", inConnectionid: "wrongConId");
+          .removeMember(lobbyId: "wrongLobbyId", connectionId: "wrongConId");
       expect(response.statusCode, StatusCodes.badRequest);
     });
 

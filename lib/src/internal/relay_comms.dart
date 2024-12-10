@@ -956,14 +956,15 @@ class RelayComms {
     return array;
   }
 
-  String _buildRSRequestError(String inStatusmessage) {
+  Map<String, dynamic> _buildRSRequestError(String inStatusmessage) {
     Map<String, dynamic> json = {};
     json["status"] = 403;
     json["reason_code"] = ReasonCodes.rsClientError;
     json["status_message"] = inStatusmessage;
     json["severity"] = "ERROR";
 
-    return _clientRef.serializeJson(json);
+    return json;
+    // return _clientRef.serializeJson(json);
   }
 
   Uint8List _buildDisconnectRequest() {

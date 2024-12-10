@@ -425,7 +425,7 @@ class BrainCloudClient {
   ///
   /// @param anonymousIdThe anonymous id
   void initializeIdentity(String profileId, String anonymousId) {
-    authenticationService.initialize(pId: profileId, aId: anonymousId);
+    authenticationService.initialize(profileId: profileId, anonymousId: anonymousId);
   }
 
   /// Shuts down all systems needed for BrainCloudClient

@@ -28,11 +28,11 @@ class BrainCloudGroupFile {
   Future<ServerResponse> checkFilenameExists(
       {required String groupId,
       required String folderPath,
-      required String fileName}) {
+      required String filename}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.folderPath.value] = folderPath;
-    data[OperationParam.fileName.value] = fileName;
+    data[OperationParam.fileName.value] = filename;
 
     return _sendRequest(ServiceOperation.checkFilenameExists, data);
   }
@@ -322,13 +322,13 @@ class BrainCloudGroupFile {
       required String fileId,
       required int version,
       required String newFilename,
-      required Map<String, dynamic> newACL}) {
+      required Map<String, dynamic> newAcl}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.fileId.value] = fileId;
     data[OperationParam.version.value] = version;
     data[OperationParam.newFilename.value] = newFilename;
-    data[OperationParam.newACL.value] = newACL;
+    data[OperationParam.newACL.value] = newAcl;
 
     return _sendRequest(ServiceOperation.updateFileInfo, data);
   }

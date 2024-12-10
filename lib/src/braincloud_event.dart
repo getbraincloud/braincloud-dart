@@ -170,10 +170,10 @@ class BrainCloudEvent {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> deleteIncomingEvents(
-      {required List<String> inEventids}) {
+      {required List<String> evIds}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    data[OperationParam.eventServiceEvIds.value] = inEventids;
+    data[OperationParam.eventServiceEvIds.value] = evIds;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) => completer.complete(ServerResponse.fromJson(response)),
@@ -198,10 +198,10 @@ class BrainCloudEvent {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> deleteIncomingEventsOlderThan(
-      {required int inDatemillis}) {
+      {required int dateMillis}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    data[OperationParam.eventServiceDateMillis.value] = inDatemillis;
+    data[OperationParam.eventServiceDateMillis.value] = dateMillis;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) => completer.complete(ServerResponse.fromJson(response)),

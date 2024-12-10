@@ -486,7 +486,7 @@ main() {
           .checkFilenameExists(
               groupId: groupId,
               folderPath: groupCloudPath,
-              fileName: groupFileNameImage);
+              filename: groupFileNameImage);
 
       print("checkFilenameExists returned ${response.data}");
       expect(response.statusCode, StatusCodes.ok);
@@ -660,7 +660,7 @@ main() {
               fileId: filedetail.fileId,
               version: filedetail.version,
               newFilename: "new_${filedetail.name}",
-              newACL: {"member": 2, "other": 0});
+              newAcl: {"member": 2, "other": 0});
 
       expect(response.statusCode, StatusCodes.ok);
       expect(response.data, isNotNull,

@@ -822,14 +822,14 @@ class BrainCloudWrapper {
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateSteam(
       {required String userid,
-      required String sessionticket,
+      required String sessionTicket,
       required bool forceCreate}) {
     initializeIdentity(false);
 
     return _client.authenticationService
         .authenticateSteam(
             userId: userid,
-            sessionticket: sessionticket,
+            sessionTicket: sessionTicket,
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
@@ -982,7 +982,7 @@ class BrainCloudWrapper {
     return _client.authenticationService
         .authenticateUltra(
             ultraUsername: ultraUsername,
-            ultraidToken: ultraIdToken,
+            ultraIdToken: ultraIdToken,
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
@@ -1351,12 +1351,12 @@ class BrainCloudWrapper {
   /// returns Future<ServerResponse>
   Future<ServerResponse> smartSwitchAuthenticateSteam(
       {required String userid,
-      required String sessionticket,
+      required String sessionTicket,
       required bool forceCreate}) async {
     await _smartSwitchAuthentication();
 
     return authenticateSteam(
-        userid: userid, sessionticket: sessionticket, forceCreate: forceCreate);
+        userid: userid, sessionTicket: sessionTicket, forceCreate: forceCreate);
   }
 
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.

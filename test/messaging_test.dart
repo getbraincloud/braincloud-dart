@@ -32,8 +32,8 @@ void main() {
 
       ServerResponse response =
           await bcTest.bcWrapper.messagingService.sendMessageSimple(
-        toprofileids: toprofileids,
-        messagetext: "Test",
+        toProfileIds: toprofileids,
+        messageText: "Test",
       );
       expect(response.statusCode, StatusCodes.ok);
       expect(response.data?["actual"], 1);
@@ -51,8 +51,8 @@ void main() {
         toprofileids.add(userA.profileId!);
         ServerResponse newMsgResponse =
             await bcTest.bcWrapper.messagingService.sendMessageSimple(
-          toprofileids: toprofileids,
-          messagetext: "Test",
+          toProfileIds: toprofileids,
+          messageText: "Test",
         );
         msgId = newMsgResponse.data?["msgId"];
         expect(msgId, isNotEmpty, reason: "Need a msg Id to test deletion");
@@ -73,8 +73,8 @@ void main() {
             reason: "Need a profileId for messaging Tests.");
         ServerResponse newMsgResponse =
             await bcTest.bcWrapper.messagingService.sendMessageSimple(
-          toprofileids: [userA.profileId!],
-          messagetext: "Test",
+          toProfileIds: [userA.profileId!],
+          messageText: "Test",
         );
         msgId = newMsgResponse.data?["msgId"];
         expect(msgId, isNotEmpty, reason: "Need a msg Id to test deletion");
@@ -150,8 +150,8 @@ void main() {
             reason: "Need a profileId for messaging Tests.");
         ServerResponse newMsgResponse =
             await bcTest.bcWrapper.messagingService.sendMessageSimple(
-          toprofileids: [userA.profileId!],
-          messagetext: "Test",
+          toProfileIds: [userA.profileId!],
+          messageText: "Test",
         );
         msgId = newMsgResponse.data?["msgId"];
         expect(msgId, isNotEmpty, reason: "Need a msg Id to test deletion");
@@ -171,7 +171,7 @@ void main() {
 
       ServerResponse response = await bcTest.bcWrapper.messagingService
           .sendMessage(
-              toprofileids: toprofileids, contentJson: {"msg": "missed call"});
+              toProfileIds: toprofileids, contentJson: {"msg": "missed call"});
       expect(response.statusCode, StatusCodes.ok);
       expect(response.data?["actual"], 1);
       expect(response.data?["requested"], 1);

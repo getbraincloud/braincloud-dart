@@ -38,9 +38,9 @@ class BrainCloudAuthentication {
   ///
   /// @param aId
   /// The anonymous installation id that was generated for this device
-  void initialize({required String pId, required String aId}) {
-    profileId = pId;
-    _anonymousId = aId;
+  void initialize({required String profileId, required String anonymousId}) {
+    profileId = profileId;
+    _anonymousId = anonymousId;
     compressResponse = true;
   }
 
@@ -303,11 +303,11 @@ class BrainCloudAuthentication {
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateSteam(
       {required String userId,
-      required String sessionticket,
+      required String sessionTicket,
       required bool forceCreate}) {
     return authenticate(
         externalId: userId,
-        authenticationToken: sessionticket,
+        authenticationToken: sessionTicket,
         authenticationType: AuthenticationType.steam,
         forceCreate: forceCreate);
   }
@@ -566,11 +566,11 @@ class BrainCloudAuthentication {
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateUltra(
       {required String ultraUsername,
-      required String ultraidToken,
+      required String ultraIdToken,
       required bool forceCreate}) async {
     return authenticate(
         externalId: ultraUsername,
-        authenticationToken: ultraidToken,
+        authenticationToken: ultraIdToken,
         authenticationType: AuthenticationType.ultra,
         forceCreate: forceCreate);
   }

@@ -177,11 +177,11 @@ class BrainCloudMessaging {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> sendMessage(
-      {required List<String> toprofileids,
+      {required List<String> toProfileIds,
       required Map<String, dynamic> contentJson}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    data[OperationParam.messagingToProfileIds.value] = toprofileids;
+    data[OperationParam.messagingToProfileIds.value] = toProfileIds;
 
     data[OperationParam.messagingContent.value] = contentJson;
 
@@ -202,11 +202,11 @@ class BrainCloudMessaging {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> sendMessageSimple(
-      {required List<String> toprofileids, required String messagetext}) {
+      {required List<String> toProfileIds, required String messageText}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    data[OperationParam.messagingToProfileIds.value] = toprofileids;
-    data[OperationParam.messagingText.value] = messagetext;
+    data[OperationParam.messagingToProfileIds.value] = toProfileIds;
+    data[OperationParam.messagingText.value] = messageText;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) => completer.complete(ServerResponse.fromJson(response)),

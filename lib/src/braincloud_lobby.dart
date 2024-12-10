@@ -447,11 +447,11 @@ class BrainCloudLobby {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> removeMember(
-      {required String lobbyId, required String inConnectionid}) {
+      {required String lobbyId, required String connectionId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyIdentifier.value] = lobbyId;
-    data[OperationParam.lobbyConnectionId.value] = inConnectionid;
+    data[OperationParam.lobbyConnectionId.value] = connectionId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) => completer.complete(ServerResponse.fromJson(response)),

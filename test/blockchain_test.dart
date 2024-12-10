@@ -15,7 +15,7 @@ void main() {
     test("getBlockchainItems()", () async {
       ServerResponse response = await bcTest.bcWrapper.blockchainService
           .getBlockchainItems(
-              integrationid: _defaultIntegrationId,
+              integrationId: _defaultIntegrationId,
               contextJson: _defaultContextJson);
 
       expect(response.statusCode, StatusCodes.badRequest);
@@ -24,7 +24,7 @@ void main() {
     test("getUniqs()", () async {
       ServerResponse response = await bcTest.bcWrapper.blockchainService
           .getUniqs(
-              inIntegrationid: _defaultIntegrationId,
+              integrationId: _defaultIntegrationId,
               contextJson: _defaultContextJson);
 
       expect(response.statusCode, StatusCodes.badRequest);
