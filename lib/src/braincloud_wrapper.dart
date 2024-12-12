@@ -4,6 +4,7 @@
 //----------------------------------------------------
 import 'dart:async';
 
+import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:braincloud_dart/src/braincloud_blockchain.dart';
 import 'package:braincloud_dart/src/data_persistence.dart';
 import 'package:braincloud_dart/src/internal/default_persistence.dart';
@@ -123,6 +124,9 @@ class BrainCloudWrapper {
   /// Name of this wrapper instance. Used for data loading
   String? wrapperName;
 
+
+  BrainCloudAuthentication get authenticationService => _client.authenticationService;
+  
   BrainCloudEntity get entityService => _client.entityService;
 
   BrainCloudGlobalEntity get globalEntityService => _client.globalEntityService;
