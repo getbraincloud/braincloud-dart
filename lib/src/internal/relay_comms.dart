@@ -623,13 +623,24 @@ int bytesToInt40(List<int> bytes) {
     return a <= b;
   }
 
+  void onRelayTEST(Uint8List in_data) {
+    _onRelay(in_data);
+  }
   void _onRelay(Uint8List in_data) {
     final ByteData dataView = ByteData.sublistView(in_data);
     int rh = dataView.getUint16(0);
-    // int playerMask0 = dataView.getUint16(2);
-    // int playerMask1 = dataView.getUint16(4);
-    int playerMask2 = dataView.getUint64(6);
     int ackId = dataView.getUint64(0);
+
+    /// incoming data bytes 
+    /// r = reliable bit
+    /// o = ordered bit
+    /// c = channel 2 bits
+    /// p = packet id 12 bits
+    /// m = palyer mask 48 bits (only the first 40 are used)
+    /// n = from netId 8 bits
+    /// |--- 0 --|--- 1 --|--- 2 --|--- 3 --|--- 4 --|--- 5 --|--- 6 --|--- 7 --|--- .... |
+    /// |roccpppp|pppppppp|mmmmmmmm|mmmmmmmm|mmmmmmmm|mmmmmmmm|mmmmmmmm|nnnnnnnn|....
+
 
     // To allow Web builds this has been extracted to a function that is different when build for Web
     // At this time the Relay is not supported on Web and will not allow connecting.
@@ -640,7 +651,8 @@ int bytesToInt40(List<int> bytes) {
     bool ordered = ((rh & ORDERED_BIT) != 0) ? true : false;
     int channel = (rh >> 12) & 0x3;
     int packetId = rh & 0xFFF;
-    int netId = (playerMask2 & 0x00FF).toUnsigned(8);
+    int netId = dataView.getUint8(7);  // only get the lowest byte fo the player mask.
+    
 
     // Reconstruct ack id without packet id
     if (_connectionType == RelayConnectionType.udp) {
