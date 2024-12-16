@@ -1,4 +1,3 @@
-
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:test/test.dart';
 import 'utils/test_base.dart';
@@ -12,11 +11,11 @@ main() async {
 
   group("Test Authentication", () {
     test("releasePlatform", () async {
-      
       expect(bcTest.bcWrapper.isInitialized, true);
 
       if (kIsWeb) {
-        expect(bcTest.bcWrapper.brainCloudClient.releasePlatform,PlatformID.web);
+        expect(
+            bcTest.bcWrapper.brainCloudClient.releasePlatform, PlatformID.web);
       } else {
         String platform = "LINUX";
         if (io.Platform.isIOS) platform = "IOS";
@@ -26,12 +25,20 @@ main() async {
 
         expect(bcTest.bcWrapper.brainCloudClient.releasePlatform,
             PlatformID.fromString(platform));
-      } 
+      }
+    });
+
+    test("getServerVersion", () async {
+      ServerResponse response = await bcTest.bcWrapper.authenticationService.getServerVersion();
+
+      expect(response.statusCode, 200);
+      expect(response.data?['serverVersion'], isA<String>());
+
     });
 
     test("authenticateAnonymous", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
-      
+
       // bcTest.bcWrapper.brainCloudClient.enableLogging(true);
       bcTest.bcWrapper.resetStoredProfileId();
       bcTest.bcWrapper.resetStoredAnonymousId();
@@ -90,20 +97,24 @@ main() async {
       expect(response.data?['isTester'], isA<bool>());
       expect(response.data?['currency'], isA<Object>());
     });
-    
+
     test("authenticateUniversal Bad PWD", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
       bcTest.bcWrapper.resetStoredProfileId();
       bcTest.bcWrapper.resetStoredAnonymousId();
       ServerResponse response = await bcTest.bcWrapper.authenticateUniversal(
-          username: userA.name, password: userA.password+"make invalid", forceCreate: false);
+          username: userA.name,
+          password: userA.password + "make invalid",
+          forceCreate: false);
 
       print(" $response ");
 
       expect(response.statusCode, 403);
-      expect(response.error['status_message'], startsWith("Processing exception (message): Token does not match user"));
-      
+      expect(
+          response.error['status_message'],
+          startsWith(
+              "Processing exception (message): Token does not match user"));
     });
     test("authenticateUniversal Bad User", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
@@ -111,11 +122,15 @@ main() async {
       bcTest.bcWrapper.resetStoredProfileId();
       bcTest.bcWrapper.resetStoredAnonymousId();
       ServerResponse response = await bcTest.bcWrapper.authenticateUniversal(
-          username: userA.name+"make invalid", password: userA.password, forceCreate: false);
-      
+          username: userA.name + "make invalid",
+          password: userA.password,
+          forceCreate: false);
+
       expect(response.statusCode, 202);
-      expect(response.error["status_message"], startsWith("Processing exception (message): Missing profile, must force create."));
-      
+      expect(
+          response.error["status_message"],
+          startsWith(
+              "Processing exception (message): Missing profile, must force create."));
     });
 
     test("logout", () async {
@@ -251,7 +266,7 @@ main() async {
     //       .authenticateNintendo(accountId: "Dart_Tester", authToken: "acceptThis", forceCreate: true);
 
     //   expect(response.statusCode, 200);
-    // }); 
+    // });
 
     // test("authenticatePlaystation5", () async {
     //         expect(bcTest.bcWrapper.isInitialized, true);
@@ -260,7 +275,7 @@ main() async {
     //       .authenticatePlaystation5(accountId: "Dart_Tester", authToken: "acceptThis", forceCreate: true);
 
     //   expect(response.statusCode, 200);
-    // }); 
+    // });
 
     // test("authenticateOculus", () async {
     //         expect(bcTest.bcWrapper.isInitialized, true);
@@ -269,7 +284,7 @@ main() async {
     //       .authenticateOculus(oculusUserId: "Dart_Tester", oculusNonce: "acceptThis", forceCreate: true);
 
     //   expect(response.statusCode, 403);
-    // }); 
+    // });
 
     test("resetEmailPassword", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
@@ -301,7 +316,7 @@ main() async {
 
       expect(response.statusCode, 200);
     });
-    
+
     test("resetEmailPasswordAdvanced", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
 
@@ -418,7 +433,7 @@ main() async {
           .resetUniversalIdPasswordAdvanced(
               universalId: userA.name, serviceParams: serviceParams);
 
-      if (![409,200].contains(response.statusCode))
+      if (![409, 200].contains(response.statusCode))
         print('Unexpected: $response \n${response.data}');
       expect(response.statusCode, isIn([409, 200]));
     });
@@ -443,7 +458,7 @@ main() async {
               serviceParams: serviceParams,
               tokenTtlInMinutes: 1);
 
-      if (![200,409].contains(response.statusCode))
+      if (![200, 409].contains(response.statusCode))
         print('Unexpected: $response \n${response.data}');
 
       expect(response.statusCode, isIn([409, 200]));

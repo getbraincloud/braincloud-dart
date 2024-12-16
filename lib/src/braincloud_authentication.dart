@@ -20,7 +20,7 @@ class BrainCloudAuthentication {
   String? _profileId;
 
   String? get profileId => _profileId;
-  void set profileId (value) => _profileId = value;    
+  void set profileId(value) => _profileId = value;
 
   bool compressResponse = true;
 
@@ -946,6 +946,30 @@ class BrainCloudAuthentication {
     return completer.future;
   }
 
+  /// Get server version
+  Future<ServerResponse> getServerVersion() async {
+    final Completer<ServerResponse> completer = Completer();
+
+    var callback = BrainCloudClient.createServerCallback((response) {
+      ServerResponse responseObject = ServerResponse.fromJson(response);
+      completer.complete(responseObject);
+    }, (statusCode, reasonCode, statusMessage) {
+      completer.completeError(ServerResponse(
+          statusCode: statusCode,
+          reasonCode: reasonCode,
+          error: statusMessage));
+    });
+
+    var appId = _clientRef.appId;
+    Map<String, dynamic> data = {"gameId": appId};
+
+    ServerCall sc = ServerCall(ServiceName.authenticate,
+        ServiceOperation.getServerVersion, data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticate(
       {required String externalId,
@@ -1016,8 +1040,11 @@ class BrainCloudAuthentication {
     ServerCall sc = ServerCall(ServiceName.authenticate,
         ServiceOperation.authenticate, data, callback);
     if (_clientRef.comms.isAuthenticateRequestInProgress()) {
-      // _clientRef.comms.addCallbackToAuthenticateRequest(callback);      
-      completer.complete(ServerResponse(statusCode: 429,reasonCode:ReasonCodes.packetInProgress, error: "An authenticate call already in progress." ));
+      // _clientRef.comms.addCallbackToAuthenticateRequest(callback);
+      completer.complete(ServerResponse(
+          statusCode: 429,
+          reasonCode: ReasonCodes.packetInProgress,
+          error: "An authenticate call already in progress."));
       return completer.future;
     }
     _clientRef.sendRequest(sc);

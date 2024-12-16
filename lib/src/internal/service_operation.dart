@@ -56,6 +56,7 @@ class ServiceOperation {
       ServiceOperation._("UPDATE_ENTITY_OWNER_AND_ACL");
   static ServiceOperation makeSystemEntity =
       ServiceOperation._("MAKE_SYSTEM_ENTITY");
+  static ServiceOperation getServerVersion = ServiceOperation._("GET_SERVER_VERSION");
 
   // push notification
   static ServiceOperation deregisterAll = ServiceOperation._("DEREGISTER_ALL");

@@ -308,6 +308,11 @@ class BrainCloudWrapper {
     _updateTimer?.cancel();
   }
 
+  /// Get server version
+  Future<ServerResponse> getServerVersion() async {
+    return _client.authenticationService.getServerVersion();
+  }
+
   /// authenticate a user anonymously with brainCloud - used for apps that don't want to bother
   /// the user to login, or for users who are sensitive to their privacy
   ///
