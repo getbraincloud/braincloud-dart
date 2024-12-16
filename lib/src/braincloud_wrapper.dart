@@ -5,53 +5,8 @@
 import 'dart:async';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:braincloud_dart/src/braincloud_blockchain.dart';
-import 'package:braincloud_dart/src/data_persistence.dart';
 import 'package:braincloud_dart/src/internal/default_persistence.dart';
-import 'package:braincloud_dart/src/server_response.dart';
 
-import 'package:braincloud_dart/src/common/authentication_ids.dart';
-import 'package:braincloud_dart/src/common/authentication_type.dart';
-import 'package:braincloud_dart/src/braincloud_app_store.dart';
-import 'package:braincloud_dart/src/braincloud_async_match.dart';
-import 'package:braincloud_dart/src/braincloud_chat.dart';
-import 'package:braincloud_dart/src/braincloud_client.dart';
-import 'package:braincloud_dart/src/braincloud_entity.dart';
-import 'package:braincloud_dart/src/braincloud_custom_entity.dart';
-import 'package:braincloud_dart/src/braincloud_data_stream.dart';
-import 'package:braincloud_dart/src/braincloud_event.dart';
-import 'package:braincloud_dart/src/braincloud_file.dart';
-import 'package:braincloud_dart/src/braincloud_friend.dart';
-import 'package:braincloud_dart/src/braincloud_gamification.dart';
-import 'package:braincloud_dart/src/braincloud_global_app.dart';
-import 'package:braincloud_dart/src/braincloud_global_entity.dart';
-import 'package:braincloud_dart/src/braincloud_global_file.dart';
-import 'package:braincloud_dart/src/braincloud_global_statistics.dart';
-import 'package:braincloud_dart/src/braincloud_group.dart';
-import 'package:braincloud_dart/src/braincloud_group_file.dart';
-import 'package:braincloud_dart/src/braincloud_identity.dart';
-import 'package:braincloud_dart/src/braincloud_item_catalog.dart';
-import 'package:braincloud_dart/src/braincloud_lobby.dart';
-import 'package:braincloud_dart/src/braincloud_mail.dart';
-import 'package:braincloud_dart/src/braincloud_match_making.dart';
-import 'package:braincloud_dart/src/braincloud_messaging.dart';
-import 'package:braincloud_dart/src/braincloud_one_way_match.dart';
-import 'package:braincloud_dart/src/braincloud_playback_stream.dart';
-import 'package:braincloud_dart/src/braincloud_player_state.dart';
-import 'package:braincloud_dart/src/braincloud_player_statistics.dart';
-import 'package:braincloud_dart/src/braincloud_player_statistics_event.dart';
-import 'package:braincloud_dart/src/braincloud_presence.dart';
-import 'package:braincloud_dart/src/braincloud_profanity.dart';
-import 'package:braincloud_dart/src/braincloud_push_notification.dart';
-import 'package:braincloud_dart/src/braincloud_redemption_code.dart';
-import 'package:braincloud_dart/src/braincloud_relay.dart';
-import 'package:braincloud_dart/src/braincloud_rtt.dart';
-import 'package:braincloud_dart/src/braincloud_script.dart';
-import 'package:braincloud_dart/src/braincloud_social_leaderboard.dart';
-import 'package:braincloud_dart/src/braincloud_time.dart';
-import 'package:braincloud_dart/src/braincloud_tournament.dart';
-import 'package:braincloud_dart/src/braincloud_user_items.dart';
-import 'package:braincloud_dart/src/braincloud_virtual_currency.dart';
 import 'package:braincloud_dart/src/util.dart';
 
 /// The BrainCloudWrapper class provides some glue between the Dart environment and the
@@ -533,8 +488,8 @@ class BrainCloudWrapper {
     initializeIdentity(false);
     return _client.authenticationService
         .authenticateFacebook(
-            externalId: fbUserId,
-            authenticationToken: fbAuthToken,
+            facebookId: fbUserId,
+            token: fbAuthToken,
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
@@ -568,8 +523,8 @@ class BrainCloudWrapper {
 
     return _client.authenticationService
         .authenticateFacebookLimited(
-            externalId: fbLimitedUserId,
-            authenticationToken: fbAuthToken,
+            facebookId: fbLimitedUserId,
+            token: fbAuthToken,
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
@@ -594,57 +549,24 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> authenticateOculus(
-      {required String oculusUserId,
-      required String oculusNonce,
-      required bool forceCreate}) {
-    initializeIdentity(false);
+  // Future<ServerResponse> authenticateOculus(
+  //     {required String oculusUserId,
+  //     required String oculusNonce,
+  //     required bool forceCreate}) {
+  //   initializeIdentity(false);
 
-    return _client.authenticationService
-        .authenticateOculus(
-            oculusId: oculusUserId,
-            oculusNonce: oculusNonce,
-            forceCreate: forceCreate)
-        .then((response) {
-      if (response.isSuccess()) {
-        _authSuccessCallback(response);
-      }
-      return response;
-    });
-  }
-
-  /// authenticate the user using their psn account id and an auth token
-  ///
-  /// Service Name - authenticate
-  /// Service Operation - authenticate
-  ///
-  /// @param accountId
-  /// The user's PSN account id
-  ///
-  /// @param authToken
-  /// The user's PSN auth token
-  ///
-  /// @param forceCreate
-  /// Should a new profile be created for this user if the account does not exist?
-  ///
-  /// returns Future<ServerResponse>
-  Future<ServerResponse> authenticatePlaystationNetwork(
-      {required String accountId,
-      required String authToken,
-      required bool forceCreate}) {
-    initializeIdentity(false);
-    return _client.authenticationService
-        .authenticatePlaystationNetwork(
-            accountId: accountId,
-            authToken: authToken,
-            forceCreate: forceCreate)
-        .then((response) {
-      if (response.isSuccess()) {
-        _authSuccessCallback(response);
-      }
-      return response;
-    });
-  }
+  //   return _client.authenticationService
+  //       .authenticateOculus(
+  //           oculusId: oculusUserId,
+  //           oculusNonce: oculusNonce,
+  //           forceCreate: forceCreate)
+  //       .then((response) {
+  //     if (response.isSuccess()) {
+  //       _authSuccessCallback(response);
+  //     }
+  //     return response;
+  //   });
+  // }
 
   /// authenticate the user using their psn account id and an auth token
   ///
@@ -661,24 +583,57 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> authenticatePlaystation5(
-      {required String accountId,
-      required String authToken,
-      required bool forceCreate}) {
-    initializeIdentity(false);
+  // Future<ServerResponse> authenticatePlaystationNetwork(
+  //     {required String accountId,
+  //     required String authToken,
+  //     required bool forceCreate}) {
+  //   initializeIdentity(false);
+  //   return _client.authenticationService
+  //       .authenticatePlaystationNetwork(
+  //           accountId: accountId,
+  //           authToken: authToken,
+  //           forceCreate: forceCreate)
+  //       .then((response) {
+  //     if (response.isSuccess()) {
+  //       _authSuccessCallback(response);
+  //     }
+  //     return response;
+  //   });
+  // }
 
-    return _client.authenticationService
-        .authenticatePlaystation5(
-            accountId: accountId,
-            authToken: authToken,
-            forceCreate: forceCreate)
-        .then((response) {
-      if (response.isSuccess()) {
-        _authSuccessCallback(response);
-      }
-      return response;
-    });
-  }
+  /// authenticate the user using their psn account id and an auth token
+  ///
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
+  ///
+  /// @param accountId
+  /// The user's PSN account id
+  ///
+  /// @param authToken
+  /// The user's PSN auth token
+  ///
+  /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+  ///
+  /// returns Future<ServerResponse>
+  // Future<ServerResponse> authenticatePlaystation5(
+  //     {required String accountId,
+  //     required String authToken,
+  //     required bool forceCreate}) {
+  //   initializeIdentity(false);
+
+  //   return _client.authenticationService
+  //       .authenticatePlaystation5(
+  //           accountId: accountId,
+  //           authToken: authToken,
+  //           forceCreate: forceCreate)
+  //       .then((response) {
+  //     if (response.isSuccess()) {
+  //       _authSuccessCallback(response);
+  //     }
+  //     return response;
+  //   });
+  // }
 
   /// authenticate the user using their Game Center id
   ///
@@ -832,7 +787,7 @@ class BrainCloudWrapper {
 
     return _client.authenticationService
         .authenticateSteam(
-            userId: userid,
+            steamId: userid,
             sessionTicket: sessionTicket,
             forceCreate: forceCreate)
         .then((response) {
@@ -869,7 +824,7 @@ class BrainCloudWrapper {
     initializeIdentity(false);
     return _client.authenticationService
         .authenticateTwitter(
-            userId: userid,
+            twitterId: userid,
             token: token,
             secret: secret,
             forceCreate: forceCreate)
@@ -1011,25 +966,25 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> authenticateNintendo({
-    required String accountId,
-    required String authToken,
-    required bool forceCreate,
-  }) {
-    initializeIdentity(false);
+  // Future<ServerResponse> authenticateNintendo({
+  //   required String accountId,
+  //   required String authToken,
+  //   required bool forceCreate,
+  // }) {
+  //   initializeIdentity(false);
 
-    return _client.authenticationService
-        .authenticateNintendo(
-            accountId: accountId,
-            authToken: authToken,
-            forceCreate: forceCreate)
-        .then((response) {
-      if (response.isSuccess()) {
-        _authSuccessCallback(response);
-      }
-      return response;
-    });
-  }
+  //   return _client.authenticationService
+  //       .authenticateNintendo(
+  //           accountId: accountId,
+  //           authToken: authToken,
+  //           forceCreate: forceCreate)
+  //       .then((response) {
+  //     if (response.isSuccess()) {
+  //       _authSuccessCallback(response);
+  //     }
+  //     return response;
+  //   });
+  // }
 
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
@@ -1179,17 +1134,17 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchAuthenticateOculus(
-      {required String oculusUserId,
-      required String oculusNonce,
-      required bool forceCreate}) async {
-    await _smartSwitchAuthentication();
+  // Future<ServerResponse> smartSwitchAuthenticateOculus(
+  //     {required String oculusUserId,
+  //     required String oculusNonce,
+  //     required bool forceCreate}) async {
+  //   await _smartSwitchAuthentication();
 
-    return authenticateOculus(
-        oculusUserId: oculusUserId,
-        oculusNonce: oculusNonce,
-        forceCreate: forceCreate);
-  }
+  //   return authenticateOculus(
+  //       oculusUserId: oculusUserId,
+  //       oculusNonce: oculusNonce,
+  //       forceCreate: forceCreate);
+  // }
 
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
@@ -1211,16 +1166,16 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchAuthenticatePlaystationNetwork(
-      {required String psnAccountId,
-      required String psnAuthToken,
-      required bool forceCreate}) async {
-    await _smartSwitchAuthentication();
-    return authenticatePlaystationNetwork(
-        accountId: psnAccountId,
-        authToken: psnAuthToken,
-        forceCreate: forceCreate);
-  }
+  // Future<ServerResponse> smartSwitchAuthenticatePlaystationNetwork(
+  //     {required String psnAccountId,
+  //     required String psnAuthToken,
+  //     required bool forceCreate}) async {
+  //   await _smartSwitchAuthentication();
+  //   return authenticatePlaystationNetwork(
+  //       accountId: psnAccountId,
+  //       authToken: psnAuthToken,
+  //       forceCreate: forceCreate);
+  // }
 
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
@@ -1512,16 +1467,16 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> smartSwitchAuthenticateNintendo(
-      {required String nintendoAccountId,
-      required String nintendoAuthToken,
-      required bool forceCreate}) async {
-    await _smartSwitchAuthentication();
-    return authenticateNintendo(
-        accountId: nintendoAccountId,
-        authToken: nintendoAuthToken,
-        forceCreate: forceCreate);
-  }
+  // Future<ServerResponse> smartSwitchAuthenticateNintendo(
+  //     {required String nintendoAccountId,
+  //     required String nintendoAuthToken,
+  //     required bool forceCreate}) async {
+  //   await _smartSwitchAuthentication();
+  //   return authenticateNintendo(
+  //       accountId: nintendoAccountId,
+  //       authToken: nintendoAuthToken,
+  //       forceCreate: forceCreate);
+  // }
 
   /// returns Future<ServerResponse>
   Future<ServerResponse> _smartSwitchAuthentication() async {

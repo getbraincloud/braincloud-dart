@@ -213,14 +213,6 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /*Unavailable for now...
-         * void UpdateEntityPartial(String entityId, String entityType, String jsonEntityData, SuccessCallback? success, FailureCallback? failure)
-        {
-            // TODO: actually call the right method...
-            UpdateEntity(entityId, entityType, jsonEntityData, success, failure);
-        }
-         */
-
   /// Method deletes the given entity on the server.
   ///
   /// Service Name - Entity

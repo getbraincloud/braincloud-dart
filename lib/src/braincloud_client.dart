@@ -594,7 +594,7 @@ class BrainCloudClient {
     _rttComms.disableRTT();
     _rsComms.disconnect();
     update();
-    authenticationService.clearSavedProfileID();
+    authenticationService.clearSavedProfileId();
   }
 
   /// Enable Communications with the server. By default this is true

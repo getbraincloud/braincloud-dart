@@ -753,7 +753,7 @@ class BrainCloudComms {
             // we are no longer authenticated
             _isAuthenticated = false;
             _sessionId = "";
-            _clientRef.authenticationService.clearSavedProfileID();
+            _clientRef.authenticationService.clearSavedProfileId();
             _resetErrorCache();
           }
           //either off of authenticate or identity call, be sure to save the profileId and sessionId

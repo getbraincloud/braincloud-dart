@@ -255,19 +255,17 @@ class BrainCloudAsyncMatch {
       {required String ownerId,
       required String matchId,
       required int version,
-      required Map<String, dynamic> jsonMatchState,
-      Map<String, dynamic>? jsonStatistics}) {
+      required Map<String, dynamic> matchState,
+      Map<String, dynamic>? statistics}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
     data["ownerId"] = ownerId;
     data["matchId"] = matchId;
     data["version"] = version;
-    data["matchState"] = jsonMatchState;
+    data["matchState"] = matchState;
+    data["statistics"] = statistics;
 
-    //if (Util.isOptionalParameterValid(jsonStatistics)) {
-    data["statistics"] = jsonStatistics;
-//}
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) => completer.complete(ServerResponse.fromJson(response)),

@@ -49,7 +49,7 @@ class BrainCloudAuthentication {
 
   /// Used to clear the saved profile id - to use in cases when the user is
   /// attempting to switch to a different app profile.
-  void clearSavedProfileID() {
+  void clearSavedProfileId() {
     _profileId = null;
   }
 
@@ -152,12 +152,12 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateFacebook(
-      {required String externalId,
-      required String authenticationToken,
+      {required String facebookId,
+      required String token,
       required bool forceCreate}) {
     return authenticate(
-        externalId: externalId,
-        authenticationToken: authenticationToken,
+        externalId: facebookId,
+        authenticationToken: token,
         authenticationType: AuthenticationType.facebook,
         forceCreate: forceCreate);
   }
@@ -179,12 +179,12 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateFacebookLimited(
-      {required String externalId,
-      required String authenticationToken,
+      {required String facebookId,
+      required String token,
       required bool forceCreate}) async {
     return authenticate(
-      externalId: externalId,
-      authenticationToken: authenticationToken,
+      externalId: facebookId,
+      authenticationToken: token,
       authenticationType: AuthenticationType.facebookLimited,
       forceCreate: forceCreate,
     );
@@ -205,16 +205,16 @@ class BrainCloudAuthentication {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> authenticateOculus(
-      {required String oculusId,
-      required String oculusNonce,
-      required bool forceCreate}) {
-    return authenticate(
-        externalId: oculusId,
-        authenticationToken: oculusNonce,
-        authenticationType: AuthenticationType.oculus,
-        forceCreate: forceCreate);
-  }
+  // Future<ServerResponse> authenticateOculus(
+  //     {required String oculusId,
+  //     required String oculusNonce,
+  //     required bool forceCreate}) {
+  //   return authenticate(
+  //       externalId: oculusId,
+  //       authenticationToken: oculusNonce,
+  //       authenticationType: AuthenticationType.oculus,
+  //       forceCreate: forceCreate);
+  // }
 
   /// Authenticate the user using their psn account id and an auth token
   ///
@@ -231,16 +231,16 @@ class BrainCloudAuthentication {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> authenticatePlaystationNetwork(
-      {required String accountId,
-      required String authToken,
-      required bool forceCreate}) async {
-    return authenticate(
-        externalId: accountId,
-        authenticationToken: authToken,
-        authenticationType: AuthenticationType.playstationNetwork,
-        forceCreate: forceCreate);
-  }
+  // Future<ServerResponse> authenticatePlaystationNetwork(
+  //     {required String accountId,
+  //     required String authToken,
+  //     required bool forceCreate}) async {
+  //   return authenticate(
+  //       externalId: accountId,
+  //       authenticationToken: authToken,
+  //       authenticationType: AuthenticationType.playstationNetwork,
+  //       forceCreate: forceCreate);
+  // }
 
   /// Authenticate the user using their psn account id and an auth token
   ///
@@ -257,16 +257,16 @@ class BrainCloudAuthentication {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> authenticatePlaystation5(
-      {required String accountId,
-      required String authToken,
-      required bool forceCreate}) async {
-    return authenticate(
-        externalId: accountId,
-        authenticationToken: authToken,
-        authenticationType: AuthenticationType.playstationNetwork5,
-        forceCreate: forceCreate);
-  }
+  // Future<ServerResponse> authenticatePlaystation5(
+  //     {required String accountId,
+  //     required String authToken,
+  //     required bool forceCreate}) async {
+  //   return authenticate(
+  //       externalId: accountId,
+  //       authenticationToken: authToken,
+  //       authenticationType: AuthenticationType.playstationNetwork5,
+  //       forceCreate: forceCreate);
+  // }
 
   /// Authenticate the user using their Game Center id
   ///
@@ -305,11 +305,11 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateSteam(
-      {required String userId,
+      {required String steamId,
       required String sessionTicket,
       required bool forceCreate}) {
     return authenticate(
-        externalId: userId,
+        externalId: steamId,
         authenticationToken: sessionTicket,
         authenticationType: AuthenticationType.steam,
         forceCreate: forceCreate);
@@ -412,12 +412,12 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateTwitter(
-      {required String userId,
+      {required String twitterId,
       required String token,
       required String secret,
       required bool forceCreate}) async {
     return authenticate(
-        externalId: userId,
+        externalId: twitterId,
         authenticationToken: "$token:$secret",
         authenticationType: AuthenticationType.twitter,
         forceCreate: forceCreate);
@@ -439,12 +439,12 @@ class BrainCloudAuthentication {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> authenticateParse(
-      {required String userId,
-      required String token,
+      {required String parseId,
+      required String parseToken,
       required bool forceCreate}) async {
     return authenticate(
-        externalId: userId,
-        authenticationToken: token,
+        externalId: parseId,
+        authenticationToken: parseToken,
         authenticationType: AuthenticationType.parse,
         forceCreate: forceCreate);
   }
@@ -593,16 +593,16 @@ class BrainCloudAuthentication {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> authenticateNintendo(
-      {required String accountId,
-      required String authToken,
-      required bool forceCreate}) async {
-    return authenticate(
-        externalId: accountId,
-        authenticationToken: authToken,
-        authenticationType: AuthenticationType.nintendo,
-        forceCreate: forceCreate);
-  }
+  // Future<ServerResponse> authenticateNintendo(
+  //     {required String accountId,
+  //     required String authToken,
+  //     required bool forceCreate}) async {
+  //   return authenticate(
+  //       externalId: accountId,
+  //       authenticationToken: authToken,
+  //       authenticationType: AuthenticationType.nintendo,
+  //       forceCreate: forceCreate);
+  // }
 
   /// Reset Email password - Sends a password reset email to the specified address
   ///

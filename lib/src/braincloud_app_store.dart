@@ -20,7 +20,7 @@ class BrainCloudAppStore {
   /// Service Name - AppStore
   /// Service Operation - GetInventory
   ///
-  /// @param platform
+  /// @param storeId
   /// The store platform. Valid stores are:
   /// - itunes
   /// - facebook
@@ -36,9 +36,9 @@ class BrainCloudAppStore {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getSalesInventory(
-      {required String platform, required String userCurrency}) {
+      {required String storeId, required String userCurrency}) {
     return getSalesInventoryByCategory(
-        storeId: platform, userCurrency: userCurrency);
+        storeId: storeId, userCurrency: userCurrency);
   }
 
   /// Method gets the active sales inventory for the passed-in
@@ -140,12 +140,12 @@ class BrainCloudAppStore {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> verifyPurchase(
-      {required String storeId, required Map<String, dynamic> receiptJson}) {
+      {required String storeId, required Map<String, dynamic> receiptData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.appStoreServiceStoreId.value] = storeId;
 
-    data[OperationParam.appStoreServiceReceiptData.value] = receiptJson;
+    data[OperationParam.appStoreServiceReceiptData.value] = receiptData;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) => completer.complete(ServerResponse.fromJson(response)),
@@ -180,12 +180,12 @@ class BrainCloudAppStore {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> startPurchase(
-      {required String storeId, required Map<String, dynamic> purchaseJson}) {
+      {required String storeId, required Map<String, dynamic> purchaseData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.appStoreServiceStoreId.value] = storeId;
 
-    data[OperationParam.appStoreServicePurchaseData.value] = purchaseJson;
+    data[OperationParam.appStoreServicePurchaseData.value] = purchaseData;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) => completer.complete(ServerResponse.fromJson(response)),
@@ -226,13 +226,13 @@ class BrainCloudAppStore {
   Future<ServerResponse> finalizePurchase(
       {required String storeId,
       required String transactionId,
-      required Map<String, dynamic> transactionJson}) {
+      required Map<String, dynamic> transactionData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.appStoreServiceStoreId.value] = storeId;
     data[OperationParam.appStoreServiceTransactionId.value] = transactionId;
 
-    data[OperationParam.appStoreServiceTransactionData.value] = transactionJson;
+    data[OperationParam.appStoreServiceTransactionData.value] = transactionData;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) => completer.complete(ServerResponse.fromJson(response)),
