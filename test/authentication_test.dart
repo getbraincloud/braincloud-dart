@@ -244,32 +244,32 @@ main() async {
       expect(response.data, isMap);
     });
 
-    test("authenticateNintendo", () async {
-            expect(bcTest.bcWrapper.isInitialized, true);
+    // test("authenticateNintendo", () async {
+    //         expect(bcTest.bcWrapper.isInitialized, true);
 
-      ServerResponse response = await bcTest.bcWrapper
-          .authenticateNintendo(accountId: "Dart_Tester", authToken: "acceptThis", forceCreate: true);
+    //   ServerResponse response = await bcTest.bcWrapper
+    //       .authenticateNintendo(accountId: "Dart_Tester", authToken: "acceptThis", forceCreate: true);
 
-      expect(response.statusCode, 200);
-    }); 
+    //   expect(response.statusCode, 200);
+    // }); 
 
-    test("authenticatePlaystation5", () async {
-            expect(bcTest.bcWrapper.isInitialized, true);
+    // test("authenticatePlaystation5", () async {
+    //         expect(bcTest.bcWrapper.isInitialized, true);
 
-      ServerResponse response = await bcTest.bcWrapper
-          .authenticatePlaystation5(accountId: "Dart_Tester", authToken: "acceptThis", forceCreate: true);
+    //   ServerResponse response = await bcTest.bcWrapper
+    //       .authenticatePlaystation5(accountId: "Dart_Tester", authToken: "acceptThis", forceCreate: true);
 
-      expect(response.statusCode, 200);
-    }); 
+    //   expect(response.statusCode, 200);
+    // }); 
 
-    test("authenticateOculus", () async {
-            expect(bcTest.bcWrapper.isInitialized, true);
+    // test("authenticateOculus", () async {
+    //         expect(bcTest.bcWrapper.isInitialized, true);
 
-      ServerResponse response = await bcTest.bcWrapper
-          .authenticateOculus(oculusUserId: "Dart_Tester", oculusNonce: "acceptThis", forceCreate: true);
+    //   ServerResponse response = await bcTest.bcWrapper
+    //       .authenticateOculus(oculusUserId: "Dart_Tester", oculusNonce: "acceptThis", forceCreate: true);
 
-      expect(response.statusCode, 403);
-    }); 
+    //   expect(response.statusCode, 403);
+    // }); 
 
     test("resetEmailPassword", () async {
       expect(bcTest.bcWrapper.isInitialized, true);

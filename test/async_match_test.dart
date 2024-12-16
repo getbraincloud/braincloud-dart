@@ -40,8 +40,8 @@ void main() {
               ownerId: userA.profileId!,
               matchId: matchId,
               version: 1,
-              jsonMatchState: {"map": "level1"},
-              jsonStatistics: {"summary": "sum"});
+              matchState: {"map": "level1"},
+              statistics: {"summary": "sum"});
 
       expect(response.statusCode, StatusCodes.ok);
     });

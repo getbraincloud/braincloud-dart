@@ -49,7 +49,7 @@ class BCTest {
 
     print("Platform: ${bcWrapper.brainCloudClient.releasePlatform}");
 
-    bcWrapper.brainCloudClient.authenticationService.clearSavedProfileID();
+    bcWrapper.brainCloudClient.authenticationService.clearSavedProfileId();
 
     await auth();
   }
@@ -81,7 +81,7 @@ class BCTest {
 
     print("Platform: ${bcWrapper.brainCloudClient.releasePlatform}");
 
-    bcWrapper.brainCloudClient.authenticationService.clearSavedProfileID();
+    bcWrapper.brainCloudClient.authenticationService.clearSavedProfileId();
 
     await auth();
   }
