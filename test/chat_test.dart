@@ -77,7 +77,7 @@ void main() {
     int msgVersion = 0;
     test("getChatMessage()", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
-          .getChatMessage(channelId: channelId, messageId: msgId);
+          .getChatMessage(channelId: channelId, msgId: msgId);
 
       expect(response.data?["content"]["text"], "Hello World!");
       if (response.data?["content"]["rich"].length > 1) {
@@ -104,7 +104,7 @@ void main() {
 
     test("getChatMessage()", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
-          .getChatMessage(channelId: channelId, messageId: msgId);
+          .getChatMessage(channelId: channelId, msgId: msgId);
 
       expect(response.data?["ver"], 2);
       expect(response.data?["content"]["text"], "Hello World! edited");
@@ -118,7 +118,7 @@ void main() {
 
     test("getRecentChatMessages()", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
-          .getRecentChatMessages(channelId: channelId, maxToReturn: 50);
+          .getRecentChatMessages(channelId: channelId, maxReturn: 50);
 
       List<dynamic> messages = response.data?["messages"];
       messages.forEach((message) {
@@ -133,7 +133,7 @@ void main() {
     test("deleteChatMessage()", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
           .deleteChatMessage(
-              channelId: channelId, messageId: msgId, version: msgVersion);
+              channelId: channelId, msgId: msgId, version: msgVersion);
       expect(response.statusCode, StatusCodes.ok);
     });
 

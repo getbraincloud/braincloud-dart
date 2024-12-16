@@ -171,7 +171,7 @@ main() {
 
     test("getChatMessage", () async {
       ServerResponse response = await bcTest.bcWrapper.chatService
-          .getChatMessage(channelId: channelId, messageId: msgId);
+          .getChatMessage(channelId: channelId, msgId: msgId);
 
       if (response.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");

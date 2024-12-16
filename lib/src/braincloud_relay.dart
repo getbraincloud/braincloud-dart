@@ -189,7 +189,7 @@ class BrainCloudRelay {
       String error = "Invalid NetId: $toNetid";
       _commsLayer.queueError(error);
     } else {
-      int playerMask = 1 << toNetid;
+      int playerMask = (1 << toNetid);
       _commsLayer.send(data, playerMask, reliable, ordered, channel);
     }
   }

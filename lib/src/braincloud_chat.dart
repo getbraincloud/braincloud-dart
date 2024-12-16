@@ -64,12 +64,12 @@ class BrainCloudChat {
   /// returns Future<ServerResponse>
   Future<ServerResponse> deleteChatMessage(
       {required String channelId,
-      required String messageId,
+      required String msgId,
       required int version}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.chatChannelId.value] = channelId;
-    data[OperationParam.chatMessageId.value] = messageId;
+    data[OperationParam.chatMessageId.value] = msgId;
     data[OperationParam.chatVersion.value] = version;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -139,11 +139,11 @@ class BrainCloudChat {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getChatMessage(
-      {required String channelId, required String messageId}) {
+      {required String channelId, required String msgId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.chatChannelId.value] = channelId;
-    data[OperationParam.chatMessageId.value] = messageId;
+    data[OperationParam.chatMessageId.value] = msgId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) => completer.complete(ServerResponse.fromJson(response)),
@@ -163,11 +163,11 @@ class BrainCloudChat {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getRecentChatMessages(
-      {required String channelId, required int maxToReturn}) {
+      {required String channelId, required int maxReturn}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
     data[OperationParam.chatChannelId.value] = channelId;
-    data[OperationParam.chatMaxReturn.value] = maxToReturn;
+    data[OperationParam.chatMaxReturn.value] = maxReturn;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) => completer.complete(ServerResponse.fromJson(response)),
