@@ -1,12 +1,8 @@
-import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:braincloud_dart/src/internal/relay_helpers.dart'
-    if (dart.library.js_interop) 'package:braincloud_dart/src/internal/relay_helpers_web.dart';
 import 'package:braincloud_dart/src/internal/braincloud_websocket.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/braincloud_relay.dart';
@@ -15,9 +11,9 @@ import 'package:braincloud_dart/src/server_callback.dart';
 
 /// ******************************************************************************************
 /// ******************************************************************************************
-/// **    This is the main version of relay comms.                                          **
-/// **    When building for Web the alternate version will be uses instead of this one.     **
-/// **    Any changes made here must be also done int the web version.                      **
+/// **    This is an alternate version of relay comms only used when building for web       **
+/// **    Any changes made to the default relay comms must be made here too.                **
+/// **    Only supported protosols is WebSocket, TCP and UDP will throw an error here.      **
 /// ******************************************************************************************
 /// ******************************************************************************************
 
@@ -46,20 +42,15 @@ class RelayComms {
   static const int MAX_RSMG_HISTORY = 50;
 
   late RelayConnectOptions _connectOptions;
-  RelayConnectionType _connectionType = RelayConnectionType.invalid;
+  RelayConnectionType _connectionType = RelayConnectionType.websocket;
 
   List<_Event> _events = [];
   bool _isConnected = false;
   int _pingIntervalMs = 1000; // one second
-  DateTime _lastRecvTime = DateTime.fromMillisecondsSinceEpoch(0);
 
-  static const int _MAX_PACKET_ID_HISTORY = 60 * 10;
-  // ^^ So we last 10 seconds at 60 fps
   static const int _MAX_RELIABLE_RESEND_INTERVAL = 500;
   static const int _MAX_PACKET_ID = 0xFFF;
-  // static const int MAX_CHANNELS = 4;
-  static const double _PACKET_LOWER_THRESHOLD = _MAX_PACKET_ID * 25 / 100;
-  static const double _PACKET_HIGHER_THRESHOLD = _MAX_PACKET_ID * 75 / 100;
+
   static const int SIZE_OF_LENGTH_PREFIX_BYTE_ARRAY = 2;
   static const int SIZE_OF_ACKID_MESSAGE = 11;
   static const int CONNECT_RESEND_INTERVAL_MS = 500;
@@ -71,20 +62,12 @@ class RelayComms {
   Map<String, int> _cxIdToNetId = {};
   Map<int, String> _netIdToCxId = {};
 
-  // start
-  // different connection types
   // WebSocket
   BrainCloudWebSocket? _webSocket;
 
   // TCP
-  Socket? _tcpClient = null;
-  Uint8List _tcpReadBuffer = Uint8List(MAX_PACKET_SIZE);
-  int _tcpBufferWriteIndex = 0;
-
-  // List<int> _tcpReadBuffer = [];
-  // Uint8List get tcpReadBuffer => Uint8List.fromList(_tcpReadBuffer);
-  Uint8List get tcpReadBuffer =>
-      Uint8List.sublistView(_tcpReadBuffer, 0, _tcpBufferWriteIndex);
+  /// for class interface compatibility purpose only, TCP not use on WEB
+  Uint8List get tcpReadBuffer => Uint8List(MAX_PACKET_SIZE);
 
   // ASync TCP Reads
   int _tcpBytesRead = 0; // the ones already processed
@@ -98,15 +81,10 @@ class RelayComms {
   dynamic fLock;
   Queue<Uint8List> fToSend = Queue<Uint8List>();
 
-  // UDP
-  RawDatagramSocket? _udpClient;
-  StreamSubscription<RawSocketEvent>? _udpClientStream;
-  InternetAddress? _relayHostAddress;
-
   // Packet history
   List<int> _rsmgHistory = [];
   Uint8List get rsmgHistory => Uint8List.fromList(_rsmgHistory);
-  Map<int, int> _sendPacketId = {};
+  Map<int, Map<int, int>> _sendPacketId = {};
   Map<int, int> _recvPacketId = {};
   Map<int, int> get recvPacketId => _recvPacketId;
   Map<int, _UDPPacket> _reliables = {};
@@ -116,7 +94,6 @@ class RelayComms {
   Map<int, Map<int, int>> _trackedPacketIds = {};
   // end
 
-  bool _resendConnectRequest = false;
   bool _endMatchRequested = false;
   DateTime _lastConnectResendTime = DateTime.now();
   DateTime get lastConnectResendTime => _lastConnectResendTime;
@@ -152,10 +129,12 @@ class RelayComms {
     if (_isConnected) {
       switch (_connectionType) {
         case RelayConnectionType.tcp:
-          _tcpClient?.close();
+          if (kIsWeb)
+            throw ("Relay service only support WebSocket on Web deployment.");
           break;
         case RelayConnectionType.udp:
-          _udpClient?.close();
+          if (kIsWeb)
+            throw ("Relay service only support WebSocket on Web deployment.");
           break;
         case RelayConnectionType.websocket:
           _webSocket?.close();
@@ -166,7 +145,6 @@ class RelayComms {
     _connectionType = inConnectionType;
     _ping = 999;
     _endMatchRequested = false;
-    _resendConnectRequest = false;
     _connectOptions = inOptions;
     _connectedSuccessCallback = inSuccess;
     _connectionFailureCallback = inFailure;
@@ -176,30 +154,15 @@ class RelayComms {
     _rsmgHistory.clear();
     _trackedPacketIds.clear();
     _orderedReliablePackets.clear();
-    _udpClientStream = null;
-    _udpClient = null;
-    _tcpClient = null;
-    _relayHostAddress = null;
 
     bool sslEnabled = _connectOptions.ssl;
     String host = _connectOptions.host;
     int port = _connectOptions.port;
-    _relayHostAddress = (await InternetAddress(host));
 
     switch (_connectionType) {
       case RelayConnectionType.websocket:
         {
           _connectWebSocket(host, port, sslEnabled);
-        }
-        break;
-      case RelayConnectionType.tcp:
-        {
-          _connectTCPAsync(host, port);
-        }
-        break;
-      case RelayConnectionType.udp:
-        {
-          _connectUdpAsync(host, port);
         }
         break;
       default:
@@ -243,7 +206,6 @@ class RelayComms {
     _queueErrorEvent(error);
   }
 
-
 int reverseBits8(int value) {
     int num = value & 0xFF;
     int reversed = 0;
@@ -253,7 +215,7 @@ int reverseBits8(int value) {
     }
     return reversed;
 }
-  // Dummy fubction to make inrterfe parity with Web version.
+
 List<int> splitToBytes40(int number) {
     var value = number & 0x0000FFFFFFFFFF;    
     List<int>  bytes = [];
@@ -274,6 +236,7 @@ int bytesToInt40(List<int> bytes) {
     return number;
 }
 
+
   void send(Uint8List inData, int inPlayerMask, bool inReliable, bool inOrdered,
       int inChannel) {
     if (!_isConnected) return;
@@ -284,6 +247,8 @@ int bytesToInt40(List<int> bytes) {
       return;
     }
 
+    List<int> playerMaskBytes = splitToBytes40(inPlayerMask);
+
     // Control Byte
     Uint8List controlByteHeader = Uint8List.fromList([CL2RS_RELAY]);
 
@@ -293,40 +258,31 @@ int bytesToInt40(List<int> bytes) {
     if (inOrdered) rh |= ORDERED_BIT;
     rh |= ((inChannel << 12) & 0x3000);
 
-    // Store inverted player mask
-    int playerMask = 0;
-    for (int i = 0, len = MAX_PLAYERS; i < len; ++i) {
-      playerMask |= ((inPlayerMask >> (MAX_PLAYERS - i - 1)) & 1) << i;
-    }
-    playerMask = (playerMask << 8) & 0x0000FFFFFFFFFF00;
-
-    // AckId without packet id
-    int ackIdWithoutPacketId = ((rh << 48) & 0xFFFF000000000000) | playerMask;
-
+    // Due to JS limitation of 32bits we separate the reliable header and the player mask in 2 dim array.
     // Packet Id
     int packetId = 0;
-    if (_sendPacketId.containsKey(ackIdWithoutPacketId)) {
-      packetId = _sendPacketId[ackIdWithoutPacketId]!;
-    }
-    _sendPacketId[ackIdWithoutPacketId] = (packetId + 1) & _MAX_PACKET_ID;
+    if (_sendPacketId.containsKey(rh)) {
+      if (_sendPacketId[rh]?.containsKey(inPlayerMask) ?? false) {
+        packetId = _sendPacketId[rh]?[inPlayerMask] ?? packetId;
+      }
+    } else {
+      _sendPacketId[rh] = {};
+    } 
+    _sendPacketId[rh]?[inPlayerMask] = (packetId + 1) & _MAX_PACKET_ID;
 
     // Add packet id to the header, then encode
     rh |= packetId;
-
-    int playerMask0 = ((playerMask >> 32) & 0xFFFF);
-    int playerMask1 = ((playerMask >> 16) & 0xFFFF);
-    int playerMask2 = ((playerMask) & 0xFFFF);
 
     int header0, header1, header2, header3, header4, header5, header6, header7;
 
     header0 = (rh >> 8);
     header1 = (rh >> 0);
-    header2 = (playerMask0 >> 8) & 0xFF;
-    header3 = playerMask0 & 0xFF;
-    header4 = (playerMask1 >> 8) & 0xFF;
-    header5 = playerMask1 & 0xFF;
-    header6 = (playerMask2 >> 8) & 0xFF;
-    header7 = playerMask2 & 0xFF;
+    header2 = playerMaskBytes[0] & 0xFF;
+    header3 = playerMaskBytes[1] & 0xFF;
+    header4 = playerMaskBytes[2] & 0xFF;
+    header5 = playerMaskBytes[3] & 0xFF;
+    header6 = playerMaskBytes[4] & 0xFF;
+    header7 = playerMaskBytes[5] & 0xFF;
 
     Uint8List ackIdData = Uint8List.fromList([
       header0,
@@ -344,14 +300,6 @@ int bytesToInt40(List<int> bytes) {
     Uint8List packetData = _concatenateByteArrays(header, inData);
 
     _send(packetData);
-
-    // UDP, store reliable in send map
-    if (inReliable && _connectionType == RelayConnectionType.udp) {
-      _UDPPacket packet = _UDPPacket(packetData, inChannel, packetId, 0);
-
-      int ackId = ackIdData.buffer.asByteData().getUint64(0);
-      _reliables[ackId] = packet;
-    }
   }
 
   void setPingInterval(int inIntervalSec) {
@@ -397,52 +345,18 @@ int bytesToInt40(List<int> bytes) {
 
   /// Callbacks responded to on the main thread
   update() {
-    // if (_events.length > 0) 
     // ** Resend connect request **
     // A UDP client needs to resend that until a confirmation is received that they are connected.
     // A subsequent connection request will just be ignored if already connected.
     // Re-transmission doesn't need to be high frequency. A suitable interval could be 500ms.
-    if (_connectionType == RelayConnectionType.udp && _resendConnectRequest) {
-      if ((DateTime.now().difference(_lastConnectResendTime)).inMilliseconds >
-          CONNECT_RESEND_INTERVAL_MS) {
-        _lastConnectResendTime = DateTime.now();
-        _send(_buildConnectionRequest());
-      }
-    }
 
     DateTime nowMS = DateTime.now();
     if (_isConnected) {
       // Ping
+      // if ((DateTime.now().millisecondsSinceEpoch - _lastPingTime) >= _pingIntervalMs) {
       if (nowMS.millisecondsSinceEpoch - _lastPingTime >= _pingIntervalMs) {
         _sendPing();
       }
-
-      // Process reliable resends
-      if (_connectionType == RelayConnectionType.udp) {
-        _reliables.values.forEach((value) {
-          _UDPPacket packet = value;
-          if (packet.timeSinceFirstSend.difference(nowMS).inMilliseconds >
-              TIMEOUT_SECONDS) {
-            disconnect();
-            _queueErrorEvent("Relay d_isConnected, too many packet lost");
-            //break;
-          }
-          if (packet.lastTimeSent.difference(nowMS).inMilliseconds >
-              packet.timeInterval) {
-            packet.updateTimeIntervalSent();
-            _send(packet.rawData);
-          }
-        }); //for (var kv in _reliables)
-      }
-    }
-
-    // Check if we timeout
-    if (_connectionType == RelayConnectionType.udp &&
-        _udpClient != null &&
-        nowMS.difference(_lastRecvTime).inSeconds > TIMEOUT_SECONDS) {
-      _disconnect();
-      _queueErrorEvent(
-          "Relay Socket Timeout ${nowMS.difference(_lastRecvTime).inSeconds} sec since last packet.");
     }
 
     // Perform event callbacks
@@ -458,7 +372,6 @@ int bytesToInt40(List<int> bytes) {
         _Event evt = eventsCopy[j];
         switch (evt.type) {
           case _EventType.socketData:
-            _lastRecvTime = DateTime.now();
             if (evt.data != null) _onRecv(evt.data!);
             break;
           case _EventType.socketError:
@@ -467,18 +380,13 @@ int bytesToInt40(List<int> bytes) {
             break;
           case _EventType.socketConnected:
             {
-              _lastRecvTime = DateTime.now();
               _send(_buildConnectionRequest());
-
-              if (_connectionType == RelayConnectionType.udp) {
-                _resendConnectRequest = true;
-                _lastConnectResendTime = DateTime.now();
-              }
               break;
             }
           case _EventType.connectSuccess:
             if (_connectedSuccessCallback != null) {
-              var callback = _connectedSuccessCallback; // prevent multiple call back
+              var callback =
+                  _connectedSuccessCallback; // prevent multiple call back
               _connectedSuccessCallback = null; // prevent multiple call back
               callback!(jsonDecode(evt.message));
             }
@@ -532,7 +440,6 @@ int bytesToInt40(List<int> bytes) {
     _isConnected = false;
     _connectedSuccessCallback = null;
     // _connectedObj = null;
-    _resendConnectRequest = false;
 
     _connectionType = RelayConnectionType.invalid;
 
@@ -543,15 +450,6 @@ int bytesToInt40(List<int> bytes) {
     if (!_endMatchRequested) {
       if (_webSocket != null) _webSocket?.close();
       _webSocket = null;
-
-      if (_tcpClient != null) {
-        _tcpClient?.close();
-        fToSend.clear();
-      }
-      _tcpClient = null;
-
-      if (_udpClient != null) _udpClient?.close();
-      _udpClient = null;
     }
 
     // cleanup UDP stuff
@@ -592,9 +490,6 @@ int bytesToInt40(List<int> bytes) {
             "ack packet cannot be smaller than $SIZE_OF_ACKID_MESSAGE bytes");
         return;
       }
-      if (_connectionType == RelayConnectionType.udp) {
-        _onUdpAcknowledge(in_packet.sublist(3));
-      }
     } else if (controlByte == RS2CL_RELAY) {
       if (in_packet.length < SIZE_OF_ACKID_MESSAGE) {
         _queueErrorEvent(
@@ -613,170 +508,29 @@ int bytesToInt40(List<int> bytes) {
     }
   }
 
-  bool _packetLE(int a, int b) {
-    if (a > _PACKET_HIGHER_THRESHOLD && b <= _PACKET_LOWER_THRESHOLD) {
-      return true;
-    }
-    if (b > _PACKET_HIGHER_THRESHOLD && a <= _PACKET_LOWER_THRESHOLD) {
-      return false;
-    }
-    return a <= b;
-  }
+  // bool _packetLE(int a, int b) {
+  //   if (a > _PACKET_HIGHER_THRESHOLD && b <= _PACKET_LOWER_THRESHOLD) {
+  //     return true;
+  //   }
+  //   if (b > _PACKET_HIGHER_THRESHOLD && a <= _PACKET_LOWER_THRESHOLD) {
+  //     return false;
+  //   }
+  //   return a <= b;
+  // }
 
   void _onRelay(Uint8List in_data) {
     final ByteData dataView = ByteData.sublistView(in_data);
-    int rh = dataView.getUint16(0);
-    // int playerMask0 = dataView.getUint16(2);
-    // int playerMask1 = dataView.getUint16(4);
-    int playerMask2 = dataView.getUint64(6);
-    int ackId = dataView.getUint64(0);
+    int playerMask2 = dataView.getUint16(6);
 
-    // To allow Web builds this has been extracted to a function that is different when build for Web
-    // At this time the Relay is not supported on Web and will not allow connecting.
-    // int ackIdWithoutPacketId = (ackId &  0xF000FFFFFFFFFFFF).toUnsigned(64);
-    // Note: there are other mask above in send() that may also need to be exernalized
-    int ackIdWithoutPacketId = getAckIdWithoutPacketId(ackId);
-    bool reliable = ((rh & RELIABLE_BIT) != 0) ? true : false;
-    bool ordered = ((rh & ORDERED_BIT) != 0) ? true : false;
-    int channel = (rh >> 12) & 0x3;
-    int packetId = rh & 0xFFF;
     int netId = (playerMask2 & 0x00FF).toUnsigned(8);
 
     // Reconstruct ack id without packet id
-    if (_connectionType == RelayConnectionType.udp) {
-      // Ack reliables, always. An ack might have been previously dropped.
-      if (reliable) {
-        //extract the data part of the message only.
-        _sendAck(in_data);
-      }
-
-      if (ordered) {
-        int prevPacketId = _MAX_PACKET_ID;
-        if (_recvPacketId.containsKey(ackIdWithoutPacketId)) {
-          prevPacketId = _recvPacketId[ackIdWithoutPacketId] ?? _MAX_PACKET_ID;
-        }
-
-        //look for a tracked packetId in channel for netId
-        if (_trackedPacketIds.isNotEmpty &&
-            _trackedPacketIds.containsKey(channel) &&
-            _trackedPacketIds[channel]!.containsKey(netId)) {
-          prevPacketId = _trackedPacketIds[channel]![netId]!;
-          _trackedPacketIds[channel]!.remove(netId);
-          if (_clientRef.loggingEnabled) {
-            _clientRef.log(
-                "Found tracked packetId for channel: ${channel} netId: ${netId} which was ${prevPacketId}");
-          }
-        }
-
-        if (reliable) {
-          if (_packetLE(packetId, prevPacketId)) {
-            // We already received that packet if it's lower than the last confirmed
-            // packetId. This must be a duplicate
-            if (_clientRef.loggingEnabled) {
-              _clientRef.log(
-                  "Duplicated packet from $netId. got $packetId, ignoring it.");
-            }
-            return;
-          }
-
-          // Check if it's out of order, then save it for later
-          if (!_orderedReliablePackets.containsKey(ackIdWithoutPacketId)) {
-            _orderedReliablePackets[ackIdWithoutPacketId] = [];
-          }
-          List<_UDPPacket> orderedReliablePackets =
-              _orderedReliablePackets[ackIdWithoutPacketId] ?? [];
-          if (packetId != ((prevPacketId + 1) & _MAX_PACKET_ID)) {
-            if (orderedReliablePackets.length > _MAX_PACKET_ID_HISTORY) {
-              disconnect();
-              _queueErrorEvent(
-                  "Relay disconnected, too many queued out of order packets.");
-              return;
-            }
-
-            int insertIdx = 0;
-            for (; insertIdx < orderedReliablePackets.length; ++insertIdx) {
-              var packet = orderedReliablePackets[insertIdx];
-              if (packet._id == packetId) {
-                if (_clientRef.loggingEnabled) {
-                  _clientRef
-                      .log("Duplicated packet from $netId. got $packetId");
-                }
-                return;
-              }
-              if (_packetLE(packetId, packet._id)) break;
-            }
-            var newPacket =
-                _UDPPacket(in_data.sublist(8), channel, packetId, netId);
-            orderedReliablePackets.insert(insertIdx, newPacket);
-            if (_clientRef.loggingEnabled) {
-              _clientRef.log(
-                  "Queuing out of order reliable from $netId. got $packetId");
-            }
-            return;
-          }
-
-          // It's in order, queue event
-          _recvPacketId[ackIdWithoutPacketId] = packetId;
-          _queueRelayEvent(netId, in_data.sublist(8));
-
-          // Empty previously queued packets if they follow this one
-          while (orderedReliablePackets.length > 0) {
-            var packet = orderedReliablePackets[0];
-            if (packet._id == ((packetId + 1) & _MAX_PACKET_ID)) {
-              if (packet._netId != null) {
-                _queueRelayEvent(packet._netId!, packet._rawData);
-                orderedReliablePackets.removeAt(0);
-                packetId = packet._id;
-                _recvPacketId[ackIdWithoutPacketId] = packetId;
-              }
-              continue;
-            }
-            break; // Out of order
-          }
-          return;
-        } else {
-          if (_packetLE(packetId, prevPacketId)) {
-            // Just drop out of order packets for unreliables
-            if (_clientRef.loggingEnabled) {
-              _clientRef.log(
-                  "Out of order packet from $netId. Expecting ${((prevPacketId + 1) & _MAX_PACKET_ID)} , got $packetId");
-            }
-            return;
-          }
-          _recvPacketId[ackIdWithoutPacketId] = packetId;
-        }
-      }
-    }
 
     _queueRelayEvent(netId, in_data.sublist(8));
   }
 
   void _onRSMG(Uint8List in_data) {
     // Here in_data start at the data.
-    int rsmgPacketId = in_data.buffer.asByteData().getUint16(0);
-
-    if (_connectionType == RelayConnectionType.udp) {
-      // Send ack, always. Even if we already received it
-      _sendRSMGAck(rsmgPacketId);
-
-      // If already received, we ignore
-      for (int i = 0; i < _rsmgHistory.length; ++i) {
-        if (_rsmgHistory[i] == rsmgPacketId) {
-          if (_clientRef.loggingEnabled) {
-            _clientRef.log("Duplicated System Msg: $rsmgPacketId");
-          }
-          return;
-        }
-      }
-
-      // Add to history
-      _rsmgHistory.add(rsmgPacketId);
-
-      // Crop to max history
-      while (_rsmgHistory.length > MAX_RSMG_HISTORY) {
-        _rsmgHistory.removeAt(0);
-      }
-    }
 
     int stringOffset = 2; // 2 for packet id
     int stringLen = in_data.length - stringOffset;
@@ -802,7 +556,6 @@ int bytesToInt40(List<int> bytes) {
           if (cxId == _clientRef.rttConnectionID && !_isConnected) {
             _ownerCxId = parsedDict["ownerCxId"] as String;
             _isConnected = true;
-            _resendConnectRequest = false;
             _queueConnectSuccessEvent(jsonMessage);
           }
           break;
@@ -912,20 +665,6 @@ int bytesToInt40(List<int> bytes) {
           }
         }
         break;
-      case RelayConnectionType.tcp:
-        {
-          if (_tcpClient == null) {
-            return bMessageSent;
-          }
-        }
-        break;
-      case RelayConnectionType.udp:
-        {
-          if (_udpClient == null) {
-            return bMessageSent;
-          }
-        }
-        break;
       default:
         break;
     }
@@ -937,22 +676,6 @@ int bytesToInt40(List<int> bytes) {
           {
             _webSocket?.sendAsync(newData);
             bMessageSent = true;
-          }
-          break;
-        case RelayConnectionType.tcp:
-          {
-            _tcpClient?.add(newData);
-            // _tcpClient?.flush();
-            bMessageSent = true;
-          }
-          break;
-        case RelayConnectionType.udp:
-          {
-            if (_relayHostAddress != null) {
-              bMessageSent = _udpSend(newData);
-            } else {
-              _queueSocketErrorEvent("Missing Server address");
-            }
           }
           break;
         default:
@@ -1068,156 +791,6 @@ int bytesToInt40(List<int> bytes) {
       _clientRef.log("Relay Error: $message");
     }
     _queueErrorEvent(message);
-  }
-
-  /// -----------------------
-  /// TcpSocket
-
-  void _connectTCPAsync(String host, int port) async {
-    _tcpClient = await Socket.connect(host, port);
-    _tcpClient?.setOption(SocketOption.tcpNoDelay, true);
-
-    if (_clientRef.loggingEnabled) {
-      _clientRef.log(
-          "Starting TCP connect ASYNC  ${_tcpClient?.remoteAddress} s: ${_tcpClient?.remotePort}");
-    }
-
-    if (_tcpClient != null) {
-      _tcpClient?.listen(_onTcpRead, onError: _onTcpError, onDone: _onTcpDone);
-      _queueSocketConnectedEvent();
-      _tcpBytesToRead = 0;
-    } else {
-      _queueSocketErrorEvent("Could not connect to Relay server $host");
-    }
-  }
-
-  void _onTcpRead(Uint8List data) {
-    // Expand buffer if needed
-    if (_tcpBufferWriteIndex + data.length > _tcpReadBuffer.length) {
-      final newSize = (_tcpBufferWriteIndex + data.length) * 2;
-      final newBuffer = Uint8List(newSize)
-        ..setRange(0, _tcpBufferWriteIndex, _tcpReadBuffer);
-      _tcpReadBuffer = newBuffer;
-    }
-
-    // Add new data to the buffer
-    _tcpReadBuffer.setRange(
-        _tcpBufferWriteIndex, _tcpBufferWriteIndex + data.length, data);
-    _tcpBufferWriteIndex += data.length;
-
-    // Process messages
-    int readIndex = 0;
-    while (_tcpBufferWriteIndex - readIndex >= 3) {
-      int messageLength =
-          (_tcpReadBuffer[readIndex] << 8) | _tcpReadBuffer[readIndex + 1];
-
-      if (_tcpBufferWriteIndex - readIndex >= messageLength) {
-        // We must create a new Uint8List here as sublistView refer to the _tcpReadBuffer and can cause issue if more than 1 msg is received.
-        Uint8List completeMsg = Uint8List.fromList(Uint8List.sublistView(
-            _tcpReadBuffer, readIndex, readIndex + messageLength));
-        _queueSocketDataEvent(completeMsg);
-        readIndex += messageLength;
-      } else {
-        break;
-      }
-    }
-
-    // Shift unprocessed data to the start of the buffer
-    if (readIndex > 0) {
-      _tcpReadBuffer.setRange(
-          0, _tcpBufferWriteIndex - readIndex, _tcpReadBuffer, readIndex);
-      _tcpBufferWriteIndex -= readIndex;
-    }
-  }
-
-  void _onTcpError(Object error) {
-    _queueErrorEvent("Tcp error ${error.toString()}");
-  }
-
-  void _onTcpDone() {
-    if (_tcpClient != null) _tcpClient?.close();
-    _tcpClient = null;
-  }
-
-  /// -----------------------
-  /// UdpSocket
-
-  void _connectUdpAsync(String host, int port) async {
-    final adrType = _relayHostAddress?.type == InternetAddressType.IPv6
-        ? InternetAddress.anyIPv6
-        : InternetAddress.anyIPv4;
-    _udpClient = await RawDatagramSocket.bind(adrType, 0, reuseAddress: true);
-    if (_udpClient != null) {
-      _lastRecvTime = DateTime.now();
-      _udpClientStream = _udpClient?.listen(_onUdpEvent,
-          onError: _onUdpError, onDone: _onUdpDone);
-      _queueSocketConnectedEvent();
-    }
-  }
-
-  void _onUdpAcknowledge(Uint8List in_data) {
-    int ackId = in_data.buffer.asByteData().getInt64(0);
-    _reliables.remove(ackId);
-
-    if (_clientRef.loggingEnabled) {
-      _clientRef.log("RELAY RECV ACK: $ackId");
-    }
-  }
-
-  bool _udpSend(Uint8List data) {
-    if (_relayHostAddress != null && _udpClient != null) {
-      int bSent =
-          _udpClient!.send(data, _relayHostAddress!, _connectOptions.port);
-      return (bSent == data.length);
-    }
-    return false;
-  }
-
-  void _onUdpEvent(RawSocketEvent event) {
-    // Check what kind of event this is and proceed
-    try {
-      switch (event) {
-        case RawSocketEvent.read:
-          final Datagram? datagram = _udpClient?.receive();
-          if (datagram != null) _queueSocketDataEvent(datagram.data);
-          // _udpClient?.writeEventsEnabled = true;
-          break;
-        case RawSocketEvent.write:
-          // Indicate ready to sending....
-          break;
-        case RawSocketEvent.closed:
-          _disconnect();
-          break;
-        default:
-          _queueErrorEvent("Unexpected event $event");
-      }
-    } catch (e) {
-      _queueErrorEvent(e.toString());
-    }
-  }
-
-  void _onUdpError(Object error) {
-    _queueErrorEvent("Udp error ${error.toString()}");
-  }
-
-  void _onUdpDone() {
-    _udpClientStream?.cancel();
-    _udpClient?.close();
-    _udpClientStream = null;
-    _udpClient = null;
-  }
-
-  void _sendAck(Uint8List in_data) {
-    Uint8List header = Uint8List.fromList([CL2RS_ACK]);
-    final SIZE_HEADER = 3; // 2 bytes fos size + 1 byte cmd.
-    _send(_concatenateByteArrays(
-        header, in_data.sublist(0, SIZE_OF_ACKID_MESSAGE - SIZE_HEADER)));
-  }
-
-  void _sendRSMGAck(int rsmgPacketId) {
-    Uint8List data = Uint8List.fromList(
-        [CL2RS_RSMG_ACK, (rsmgPacketId >> 8) & 0xFF, rsmgPacketId & 0xFF]);
-    _send(data);
   }
 
   // @visibleForTesting

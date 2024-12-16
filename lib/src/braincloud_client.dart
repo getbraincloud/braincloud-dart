@@ -8,7 +8,7 @@ import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/status_codes.dart';
 import 'package:braincloud_dart/src/common/platform.dart';
 import 'package:braincloud_dart/src/internal/braincloud_comms.dart';
-import 'package:braincloud_dart/src/internal/relay_comms.dart';
+import 'package:braincloud_dart/src/internal/relay_comms.dart' if (dart.library.js_interop) 'package:braincloud_dart/src/internal/relay_comms_web.dart';
 import 'package:braincloud_dart/src/internal/rtt_comms.dart';
 import 'package:braincloud_dart/src/internal/server_call.dart';
 import 'package:braincloud_dart/src/internal/service_name.dart';

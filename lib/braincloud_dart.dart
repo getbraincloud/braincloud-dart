@@ -12,7 +12,7 @@ export 'src/common/authentication_ids.dart';
 export 'src/common/acl.dart';
 export 'src/common/group_acl.dart';
 export 'src/time_util.dart';
-export 'src/internal/relay_comms.dart' show RelayConnectionType;
+export 'src/internal/relay_comms.dart' if (dart.library.js_interop) 'src/internal/relay_comms_web.dart' show RelayConnectionType ;
 export 'src/data_persistence.dart';
 
 // Services

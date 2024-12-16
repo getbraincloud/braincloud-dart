@@ -3,7 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:braincloud_dart/src/internal/http_pinger.dart';
-import 'package:braincloud_dart/src/internal/relay_comms.dart';
+import 'package:braincloud_dart/src/internal/relay_comms.dart' if (dart.library.js_interop) 'package:braincloud_dart/src/internal/relay_comms_web.dart';
 import 'package:dart_ping/dart_ping.dart';
 
 import 'package:braincloud_dart/src/braincloud_client.dart';

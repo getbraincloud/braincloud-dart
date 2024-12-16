@@ -114,34 +114,53 @@ class RTTComms {
       // if (_webSocketStatus == WebsocketStatus.closed  && toProcessResponse.operation != RTTCommandOperation.disconnect ) {
       if (_webSocketStatus == WebsocketStatus.closed) {
         _rttConnectionStatus = RTTConnectionStatus.disconnecting;
-        if (_connectionFailureCallback != null) _connectionFailureCallback!(RTTCommandResponse(
-            service: ServiceName.rtt.value,
-            operation: RTTCommandOperation.error,
-            data: {
-              "error":
-                  "RTT Connection has been closed. Re-Enable RTT to re-establish connection : ${toProcessResponse.data}"
-            }));
+        if (_connectionFailureCallback != null)
+          try {
+            _connectionFailureCallback!(RTTCommandResponse(
+                service: ServiceName.rtt.value,
+                operation: RTTCommandOperation.error,
+                data: {
+                  "error":
+                      "RTT Connection has been closed. Re-Enable RTT to re-establish connection : ${toProcessResponse.data}"
+                }));
+          } catch (e) {
+            _clientRef.log(
+                "WARNING - this callback threw an exception: " + e.toString(),
+                bypassLogEnabled: true);
+          }
         disconnect();
         break;
       }
 
       // does this go to one of our registered service listeners?
       if (_registeredCallbacks.containsKey(toProcessResponse.service)) {
-        _registeredCallbacks[toProcessResponse.service]!(
-            RTTCommandResponse.fromJson(toProcessResponse.data ?? {}));
+        try {
+          _registeredCallbacks[toProcessResponse.service]!(
+              RTTCommandResponse.fromJson(toProcessResponse.data ?? {}));
+        } catch (e) {
+          _clientRef.log(
+              "WARNING - this callback threw an exception: " + e.toString(),
+              bypassLogEnabled: true);
+        }
       }
 
       // are we actually connected? only pump this back, when the server says we've connected
-      else if (_rttConnectionStatus == RTTConnectionStatus.connecting &&            
+      else if (_rttConnectionStatus == RTTConnectionStatus.connecting &&
           toProcessResponse.operation == RTTCommandOperation.connect) {
         _sinceLastHeartbeat = DateTime.now();
         _rttConnectionStatus = RTTConnectionStatus.connected;
-        if (_connectedSuccessCallback != null) _connectedSuccessCallback!(toProcessResponse);
+        if (_connectedSuccessCallback != null)
+          try {
+            _connectedSuccessCallback!(toProcessResponse);
+          } catch (e) {
+            _clientRef.log(
+                "WARNING - this callback threw an exception: " + e.toString(),
+                bypassLogEnabled: true);
+          }
       }
 
       //if we're connected and we get a disconnect - we disconnect the comms...
       else if (_rttConnectionStatus == RTTConnectionStatus.connected &&
-          _connectionFailureCallback != null &&
           toProcessResponse.operation == RTTCommandOperation.disconnect) {
         _rttConnectionStatus = RTTConnectionStatus.disconnecting;
         disconnect();
@@ -154,23 +173,41 @@ class RTTComms {
           Map<String, dynamic> messageData = toProcessResponse.data ?? {};
           if (messageData.containsKey("status") &&
               messageData.containsKey("reason_code")) {
-            _connectionFailureCallback!(RTTCommandResponse(
-              service: ServiceName.rtt.value,
-              operation: RTTCommandOperation.error,
-              data: messageData,
-            ));
+            try {
+              _connectionFailureCallback!(RTTCommandResponse(
+                service: ServiceName.rtt.value,
+                operation: RTTCommandOperation.error,
+                data: messageData,
+              ));
+            } catch (e) {
+              _clientRef.log(
+                  "WARNING - this callback threw an exception: " + e.toString(),
+                  bypassLogEnabled: true);
+            }
           } else {
             //in the rare case the message is differently structured.
+            try {
+              _connectionFailureCallback!(RTTCommandResponse(
+                  service: ServiceName.rtt.value,
+                  operation: RTTCommandOperation.error,
+                  data: messageData));
+            } catch (e) {
+              _clientRef.log(
+                  "WARNING - this callback threw an exception: " + e.toString(),
+                  bypassLogEnabled: true);
+            }
+          }
+        } else {
+          try {
             _connectionFailureCallback!(RTTCommandResponse(
                 service: ServiceName.rtt.value,
                 operation: RTTCommandOperation.error,
-                data: messageData));
+                data: {"error": "Error - No Response from Server"}));
+          } catch (e) {
+            _clientRef.log(
+                "WARNING - this callback threw an exception: " + e.toString(),
+                bypassLogEnabled: true);
           }
-        } else {
-          _connectionFailureCallback!(RTTCommandResponse(
-              service: ServiceName.rtt.value,
-              operation: RTTCommandOperation.error,
-              data: {"error": "Error - No Response from Server"}));
         }
       }
 
@@ -187,7 +224,6 @@ class RTTComms {
       }
     }
     _queuedRTTCommands.clear();
-
     if (_rttConnectionStatus == RTTConnectionStatus.connected) {
       if (DateTime.now().difference(_sinceLastHeartbeat) >= _heartBeatTime) {
         _sinceLastHeartbeat = DateTime.now();
@@ -224,8 +260,11 @@ class RTTComms {
             service: ServiceName.rttRegistration.value,
             operation: RTTCommandOperation.error,
             reasonCode: _disconnectJson["reason_code"],
-            data: (_disconnectJson["reason"] is Map) ? _disconnectJson["reason"] : _disconnectJson));
-            /// [mc] To ensure data is always a Map and not a String 
+            data: (_disconnectJson["reason"] is Map)
+                ? _disconnectJson["reason"]
+                : _disconnectJson));
+
+        /// [mc] To ensure data is always a Map and not a String
       }
     }
     _rttConnectionStatus = RTTConnectionStatus.disconnected;
@@ -331,8 +370,7 @@ class RTTComms {
     }
     _webSocketStatus = WebsocketStatus.closed;
     if (_rttConnectionStatus == RTTConnectionStatus.disconnected ||
-    _rttConnectionStatus == RTTConnectionStatus.disconnecting
-    ) return;
+        _rttConnectionStatus == RTTConnectionStatus.disconnecting) return;
     addRTTCommandResponse(RTTCommandResponse(
         service: ServiceName.rttRegistration.value,
         operation: RTTCommandOperation.disconnect,
@@ -345,7 +383,8 @@ class RTTComms {
     }
     _webSocketStatus = WebsocketStatus.open;
     addRTTCommandResponse(RTTCommandResponse(
-        service: ServiceName.rttRegistration.value, operation: RTTCommandOperation.connect));
+        service: ServiceName.rttRegistration.value,
+        operation: RTTCommandOperation.connect));
   }
 
   void webSocketOnMessage({required Uint8List data}) {
@@ -511,7 +550,7 @@ class RTTComms {
   // @visibleForTesting
   set connectionFailureCallback(value) => _connectionFailureCallback = value;
   // @visibleForTesting
-  set  currentConnectionType(value) =>  _currentConnectionType = value; 
+  set currentConnectionType(value) => _currentConnectionType = value;
 
   Map<String, dynamic> _rttHeaders = {};
   final Map<String, RTTCallback> _registeredCallbacks = {};
@@ -536,13 +575,13 @@ class RTTCommandResponse {
       this.reasonCode});
 
   @override
-  String toString() {    
+  String toString() {
     return "RTTCommandResponse(service:$service, operation:$operation, reasonCode: $reasonCode, data: $data)";
   }
-    factory RTTCommandResponse.fromJson(Map<String, dynamic> json) =>
+
+  factory RTTCommandResponse.fromJson(Map<String, dynamic> json) =>
       _$RTTCommandResponseFromJson(json);
   Map<String, dynamic> toJson() => _$RTTCommandResponseToJson(this);
-
 }
 
 typedef RTTSuccessCallback = Function(RTTCommandResponse response);
