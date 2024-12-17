@@ -37,8 +37,8 @@ void main() {
       expect(bcTest.bcWrapper.brainCloudClient.getUrl(), bcTest.ids.url);
       expect(bcTest.bcWrapper.brainCloudClient.getAppId(), bcTest.ids.appId);
 
-      bcTest.bcWrapper.brainCloudClient.enableCompressedRequests = true;
-      bcTest.bcWrapper.brainCloudClient.enableCompressedResponses = true;
+      bcTest.bcWrapper.brainCloudClient.enableCompressedRequests(true);
+      bcTest.bcWrapper.brainCloudClient.enableCompressedResponses(true);
 
       expect(bcTest.bcWrapper.brainCloudClient.getSessionId(), isA<String>());
 
@@ -122,7 +122,8 @@ void main() {
             response.reasonCode == ReasonCodes.clientDisabled) {
           print("KillSwitch engaging.");
           _killSwitchEngaged = true;
-          expect(response.error['status_message'], "Client has been disabled due to repeated errors from a single API call");
+          expect(response.error['status_message'],
+              "Client has been disabled due to repeated errors from a single API call");
           completer.complete();
         } else {
           expect(_failureCount, lessThan(13),
@@ -202,10 +203,12 @@ void main() {
       bcClient.enableLogging(true);
 
       bcClient.initialize(
+          serverURL: bcTest.ids.url,
           secretKey: bcTest.ids.secretKey,
           appId: bcTest.ids.appId,
           appVersion: bcTest.ids.version,
-          serverURL: bcTest.ids.url);
+      )
+      ;
       expect(bcClient.isInitialized(), true);
 
       final runloop = Timer.periodic(Duration(milliseconds: 40), (timer) {

@@ -68,7 +68,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.chatService
           .postChatMessageSimple(
               channelId: channelId,
-              plain: "Hello World Simple!",
+              chatMessage: "Hello World Simple!",
               recordInHistory: true);
 
       expect(response.statusCode, StatusCodes.ok);

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
+import 'package:dio/dio.dart';
 import 'package:test/test.dart';
 import 'utils/test_base.dart';
 import 'utils/test_users.dart';
@@ -29,14 +30,15 @@ main() {
       // ensure no other callback registered.
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
 
-      var uploadCompleterFuture =
-          bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback();
+      Completer<ServerResponse> uploadCompleterFuture = Completer<ServerResponse>();
+      
+      bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback(uploadCompleterFuture.complete);
 
       ServerResponse response = await bcTest.bcWrapper.fileService
           .uploadFileFromMemory(
               cloudPath, fileNameImage, true, true, imageData);
 
-      ServerResponse uploadResponse = await uploadCompleterFuture;
+      ServerResponse uploadResponse = await uploadCompleterFuture.future;
 
       // cleanup
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
@@ -78,8 +80,8 @@ main() {
       // ensure no other callback registered.
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
 
-      var uploadCompleterFuture =
-          bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback();
+      Completer<ServerResponse> uploadCompleterFuture = Completer<ServerResponse>();
+      bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback(uploadCompleterFuture.complete);
 
       String filename = "largeFile.txt";
       String fileData = generateRandomString(
@@ -128,7 +130,7 @@ main() {
 
       // now cancel it.
       bcTest.bcWrapper.fileService.cancelUpload(uploadId);
-      ServerResponse error = await uploadCompleterFuture;
+      ServerResponse error = await uploadCompleterFuture.future;
       // cleanup
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
 
@@ -151,8 +153,8 @@ main() {
       // ensure no other callback registered.
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
 
-      var uploadCompleterFuture =
-          bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback();
+      Completer<ServerResponse> uploadCompleterFuture = Completer<ServerResponse>();
+      bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback(uploadCompleterFuture.complete);
 
       String fileData = generateRandomString(1024 * 1024 * 20);
       String uploadId = "";
@@ -206,7 +208,7 @@ main() {
         );
       }
 
-      ServerResponse uploadResponse = await uploadCompleterFuture;
+      ServerResponse uploadResponse = await uploadCompleterFuture.future;
       // cleaup
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
 
@@ -397,8 +399,8 @@ main() {
       // ensure no other callback registered.
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
 
-      var uploadCompleterFuture =
-          bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback();
+      Completer<ServerResponse> uploadCompleterFuture = Completer<ServerResponse>();
+      bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback(uploadCompleterFuture.complete);
 
       Future<ServerResponse> uploadFuture =  bcTest.bcWrapper.fileService.uploadFileFromMemory(
           groupCloudPath, groupFileNameImage, true, true, imageData);
@@ -408,7 +410,7 @@ main() {
 
       expect(response.statusCode, 200, reason: "Failed to upload TestImd");
 
-      ServerResponse uploadResponse = await uploadCompleterFuture;
+      ServerResponse uploadResponse = await uploadCompleterFuture.future;
 
       print("++++ createUserFile uploadResponse returned ${uploadResponse.data}");
 

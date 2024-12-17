@@ -210,10 +210,10 @@ class BrainCloudClient {
 
   bool get initialized => _initialized;
 
-  set enableCompressedRequests(bool isEnabled) =>
+  void enableCompressedRequests(bool isEnabled) =>
       _comms.enableCompression(isEnabled);
 
-  set enableCompressedResponses(bool isEnabled) =>
+  void enableCompressedResponses(bool isEnabled) =>
       _authenticationService.compressResponse = isEnabled;
 
   /// returns the sessionId or empty String if no session present.
@@ -233,7 +233,7 @@ class BrainCloudClient {
 
   String get appVersion => _appVersion;
 
-  String get getAppVersion => appVersion;
+  String getAppVersion() => appVersion;
 
   String get brainCloudClientVersion => Version.getVersion();
 
@@ -531,21 +531,17 @@ class BrainCloudClient {
   /// Registers the file upload callbacks.
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> registerFileUploadCallback() {
-    final Completer<ServerResponse> completer = Completer();
+  void registerFileUploadCallback(Function(ServerResponse) callBack) {
 
     _comms.registerFileUploadCallbacks((a, b) {
       var response = jsonDecode(b);
-      completer.complete(ServerResponse(
-          statusCode: response['status'], data: response['data']));
+      callBack(ServerResponse(statusCode: response['status'], data: response['data']));
     },
-        (a, statusCode, reasonCode, statusMessage) => completer.complete(
+        (a, statusCode, reasonCode, statusMessage) => callBack(
             ServerResponse(
                 statusCode: statusCode,
                 reasonCode: reasonCode,
                 error: statusMessage)));
-
-    return completer.future;
   }
 
   /// De-registers the file upload callbacks.

@@ -213,13 +213,13 @@ class BrainCloudChat {
   Future<ServerResponse> postChatMessage(
       {required String channelId,
       required Map<String, dynamic> contentJson,
-      bool inRecordInHistory = true}) {
+      bool recordInHistory = true}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
 
     data[OperationParam.chatChannelId.value] = channelId;
     data[OperationParam.chatContent.value] = contentJson;
-    data[OperationParam.chatRecordInHistory.value] = inRecordInHistory;
+    data[OperationParam.chatRecordInHistory.value] = recordInHistory;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) => completer.complete(ServerResponse.fromJson(response)),
@@ -240,13 +240,13 @@ class BrainCloudChat {
   /// returns Future<ServerResponse>
   Future<ServerResponse> postChatMessageSimple(
       {required String channelId,
-      required String plain,
+      required String chatMessage,
       bool recordInHistory = true}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
 
     data[OperationParam.chatChannelId.value] = channelId;
-    data[OperationParam.chatText.value] = plain;
+    data[OperationParam.chatText.value] = chatMessage;
     data[OperationParam.chatRecordInHistory.value] = recordInHistory;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(

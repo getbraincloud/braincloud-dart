@@ -158,7 +158,7 @@ main() {
         channelId = response.data?["channelId"];
       }
       ServerResponse response = await bcTest.bcWrapper.chatService
-          .postChatMessageSimple(channelId: channelId, plain: msgToSend);
+          .postChatMessageSimple(channelId: channelId, chatMessage: msgToSend);
 
       if (response.reasonCode == ReasonCodes.featureNotEnabled) {
         markTestSkipped("Rtt not enable for this app.");
