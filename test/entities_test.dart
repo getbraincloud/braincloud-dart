@@ -954,7 +954,6 @@ main() {
             reason: 'owner should be null for system entity');
       }
     });
-
   });
 
   group("Custom Entity Tests", () {
@@ -965,11 +964,16 @@ main() {
 
     Future<Map<String, dynamic>> createCustomTestEntity(String entityType,
         {dynamic entityData, bool owned = false}) async {
-      var jsonEntityData = entityData ?? {"testId": "RedTeam", "team": "RedTeam", "games": 0};
+      var jsonEntityData =
+          entityData ?? {"testId": "RedTeam", "team": "RedTeam", "games": 0};
       var jsonEntityAcl = ACLs.readWrite;
       ServerResponse response = await bcTest.bcWrapper.customEntityService
-          .createEntity(entityType, jsonEntityData, jsonEntityAcl,
-              const Duration(hours: 12), owned);
+          .createEntity(
+              entityType: entityType,
+              dataJson: jsonEntityData,
+              acl: jsonEntityAcl,
+              timeToLive: Duration(hours: 12),
+              isOwned: owned);
       if (response.data != null) {
         expect(response.data, isMap);
         Map<String, dynamic> body = response.data!;
@@ -996,8 +1000,12 @@ main() {
       var jsonEntityAcl = ACLs.readWrite;
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
-          .createEntity(bcTest.ids.customEntityType, jsonEntityData,
-              jsonEntityAcl, const Duration(hours: 1), false);
+          .createEntity(
+              entityType: bcTest.ids.customEntityType,
+              dataJson: jsonEntityData,
+              acl: jsonEntityAcl,
+              timeToLive: Duration(hours: 1),
+              isOwned: false);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -1021,7 +1029,7 @@ main() {
       var where = {"data.teamId": "RedTeam"};
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
-          .getCount(bcTest.ids.customEntityType, where);
+          .getCount(entityType: bcTest.ids.customEntityType, whereJson: where);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -1048,7 +1056,9 @@ main() {
       };
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
-          .getEntityPage(bcTest.ids.customEntityType, jsonContext);
+          .getEntityPage(
+              entityType: bcTest.ids.customEntityType,
+              jsonContext: jsonContext);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -1079,7 +1089,10 @@ main() {
       String contextString = base64Encode(jsonEncode(jsonContext).codeUnits);
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
-          .getEntityPageOffset(bcTest.ids.customEntityType, contextString, 1);
+          .getEntityPageOffset(
+              entityType: bcTest.ids.customEntityType,
+              context: contextString,
+              pageOffset: 1);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -1105,7 +1118,10 @@ main() {
       var where = {"data.teamId": "RedTeam"};
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
-          .getRandomEntitiesMatching(bcTest.ids.customEntityType, where, 2);
+          .getRandomEntitiesMatching(
+              entityType: bcTest.ids.customEntityType,
+              whereJson: where,
+              maxReturn: 2);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -1130,7 +1146,10 @@ main() {
       var jsonInc = {"games": 2};
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
-          .incrementData(bcTest.ids.customEntityType, entityId, jsonInc);
+          .incrementData(
+              entityType: bcTest.ids.customEntityType,
+              entityId: entityId,
+              fieldsJson: jsonInc);
       expect(response.statusCode, 200);
       expect(response.data, isMap);
       if (response.data != null) {
@@ -1153,7 +1172,8 @@ main() {
         await createCustomTestEntity(bcTest.ids.customEntityType);
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
-          .readEntity(bcTest.ids.customEntityType, entityId);
+          .readEntity(
+              entityType: bcTest.ids.customEntityType, entityId: entityId);
       expect(response.statusCode, 200);
       expect(response.data, isMap);
       if (response.data != null) {
@@ -1185,8 +1205,13 @@ main() {
       var jsonEntityAcl = ACLs.readWrite;
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
-          .updateEntity(bcTest.ids.customEntityType, entityId, entityVersion,
-              jsonEntityData, jsonEntityAcl, const Duration(hours: 1));
+          .updateEntity(
+              entityType: bcTest.ids.customEntityType,
+              entityId: entityId,
+              version: entityVersion,
+              dataJson: jsonEntityData,
+              acl: jsonEntityAcl,
+              timeToLive: Duration(hours: 1));
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -1211,8 +1236,11 @@ main() {
       var jsonEntityData = {"position": "right"};
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
-          .updateEntityFields(bcTest.ids.customEntityType, entityId,
-              entityVersion, jsonEntityData);
+          .updateEntityFields(
+              entityType: bcTest.ids.customEntityType,
+              entityId: entityId,
+              version: entityVersion,
+              fieldsJson: jsonEntityData);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -1235,8 +1263,10 @@ main() {
 
       expect(bcTest.bcWrapper.isInitialized, true);
       //Force the creation to ensure the current entityId is of a sharded entity
-      Map<String, dynamic> shardedEnt = await createCustomTestEntity(bcTest.ids.customShardedEntityType,
-          entityData: {"GamesPlayed": 2, "Name": "Zoro", "Goals": 7},owned: true);
+      Map<String, dynamic> shardedEnt = await createCustomTestEntity(
+          bcTest.ids.customShardedEntityType,
+          entityData: {"GamesPlayed": 2, "Name": "Zoro", "Goals": 7},
+          owned: true);
 
       if (shardedEnt.isEmpty) {
         markTestSkipped("No entity to increment.");
@@ -1246,7 +1276,10 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
           .incrementDataSharded(
-              bcTest.ids.customShardedEntityType, shardedEnt['entityId'], jsonInc, shardKeyJson);
+              entityType: bcTest.ids.customShardedEntityType,
+              entityId: shardedEnt['entityId'],
+              fieldsJson: jsonInc,
+              shardKeyJson: shardKeyJson);
       expect(response.statusCode, 200);
       expect(response.data, isMap);
       if (response.data != null) {
@@ -1267,15 +1300,21 @@ main() {
       expect(bcTest.bcWrapper.isInitialized, true);
       //Force the creation to ensure the current entityId is of a sharded entity
       // await createCustomTestEntity(bcTest.ids.customShardedEntityType);
-      Map<String, dynamic> shardedEnt = await createCustomTestEntity(bcTest.ids.customShardedEntityType,
-       entityData: {"GamesPlayed": 2, "Name": "Zoro", "Goals": 7},owned: true);
+      Map<String, dynamic> shardedEnt = await createCustomTestEntity(
+          bcTest.ids.customShardedEntityType,
+          entityData: {"GamesPlayed": 2, "Name": "Zoro", "Goals": 7},
+          owned: true);
 
       var jsonEntityData = {"Name": "Rambo"};
       var shardKeyJson = {"ownerId": shardedEnt['ownerId']};
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
-          .updateEntityFieldsSharded(bcTest.ids.customShardedEntityType,
-              shardedEnt['entityId'], shardedEnt['version'], jsonEntityData, shardKeyJson);
+          .updateEntityFieldsSharded(
+              entityType: bcTest.ids.customShardedEntityType,
+              entityId: shardedEnt['entityId'],
+              version: shardedEnt['version'],
+              fieldsJson: jsonEntityData,
+              shardKeyJson: shardKeyJson);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -1301,7 +1340,9 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
           .deleteEntity(
-              bcTest.ids.customOwnedEntityType, entityId, entityVersion);
+              entityType: bcTest.ids.customOwnedEntityType,
+              entityId: entityId,
+              version: entityVersion);
 
       expect(response.statusCode, 200);
       expect(response.data, isNull);
@@ -1321,7 +1362,9 @@ main() {
       var deleteCriteria = {"data.testId": "RedTeam"};
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
-          .deleteEntities(bcTest.ids.customOwnedEntityType, deleteCriteria);
+          .deleteEntities(
+              entityType: bcTest.ids.customOwnedEntityType,
+              deleteCriteria: deleteCriteria);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -1349,8 +1392,12 @@ main() {
       var jsonEntityAcl = ACLs.none;
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
-          .updateSingleton(bcTest.ids.customOwnedEntityType, entityVersion,
-              jsonEntityData, jsonEntityAcl, const Duration(hours: 4));
+          .updateSingleton(
+              entityType: bcTest.ids.customOwnedEntityType,
+              version: entityVersion,
+              dataJson: jsonEntityData,
+              acl: jsonEntityAcl,
+              timeToLive: Duration(hours: 4));
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -1378,7 +1425,8 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
           .incrementSingletonData(
-              bcTest.ids.customOwnedEntityType, jsonFieldsData);
+              entityType: bcTest.ids.customOwnedEntityType,
+              fieldsJson: jsonFieldsData);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -1404,7 +1452,7 @@ main() {
       }
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
-          .readSingleton(bcTest.ids.customOwnedEntityType);
+          .readSingleton(entityType: bcTest.ids.customOwnedEntityType);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -1433,7 +1481,9 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
           .updateSingletonFields(
-              bcTest.ids.customOwnedEntityType, -1, jsonFieldsData);
+              entityType: bcTest.ids.customOwnedEntityType,
+              version: -1,
+              fieldsJson: jsonFieldsData);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -1458,15 +1508,16 @@ main() {
       }
 
       ServerResponse response = await bcTest.bcWrapper.customEntityService
-          .deleteSingleton(bcTest.ids.customOwnedEntityType, -1);
+          .deleteSingleton(
+              entityType: bcTest.ids.customOwnedEntityType, version: -1);
 
       expect(response.statusCode, 200);
       expect(response.data, isNull);
     });
-
   });
-    /// END TEST
-    tearDownAll(() {
-      bcTest.dispose();
-    });
+
+  /// END TEST
+  tearDownAll(() {
+    bcTest.dispose();
+  });
 }
