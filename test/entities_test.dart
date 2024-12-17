@@ -267,7 +267,7 @@ main() {
       }
 
       ServerResponse response = await bcTest.bcWrapper.entityService
-          .getSharedEntitiesForProfileId(profileId: bcTest.ids.sharedProfileId);
+          .getSharedEntitiesForProfileId(targetProfileId: bcTest.ids.sharedProfileId);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -298,7 +298,7 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.entityService
           .getSharedEntitiesListForProfileId(
-              profileId: bcTest.ids.sharedProfileId,
+              targetProfileId: bcTest.ids.sharedProfileId,
               whereJson: whereJson,
               orderByJson: orderByJson,
               maxReturn: maxReturn);
@@ -324,7 +324,7 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.entityService
           .getSharedEntityForProfileId(
-              profileId: bcTest.ids.sharedProfileId, entityId: sharedEntityId);
+              targetProfileId: bcTest.ids.sharedProfileId, entityId: sharedEntityId);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);

@@ -432,9 +432,9 @@ class BrainCloudEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getSharedEntityForProfileId(
-      {required String profileId, required String entityId}) async {
+      {required String targetProfileId, required String entityId}) async {
     Map<String, dynamic> data = {};
-    data[OperationParam.entityServiceTargetPlayerId.value] = profileId;
+    data[OperationParam.entityServiceTargetPlayerId.value] = targetProfileId;
     data[OperationParam.entityServiceEntityId.value] = entityId;
 
     final Completer<ServerResponse> completer = Completer();
@@ -468,9 +468,9 @@ class BrainCloudEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getSharedEntitiesForProfileId(
-      {required String profileId}) async {
+      {required String targetProfileId}) async {
     Map<String, dynamic> data = {};
-    data[OperationParam.entityServiceTargetPlayerId.value] = profileId;
+    data[OperationParam.entityServiceTargetPlayerId.value] = targetProfileId;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -558,13 +558,13 @@ class BrainCloudEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getSharedEntitiesListForProfileId(
-      {required String profileId,
+      {required String targetProfileId,
       required Map<String, dynamic> whereJson,
       required Map<String, int> orderByJson,
       required int maxReturn}) async {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.entityServiceTargetPlayerId.value] = profileId;
+    data[OperationParam.entityServiceTargetPlayerId.value] = targetProfileId;
     data[OperationParam.globalEntityServiceWhere.value] = whereJson;
     data[OperationParam.globalEntityServiceOrderBy.value] = orderByJson;
     data[OperationParam.globalEntityServiceMaxReturn.value] = maxReturn;
