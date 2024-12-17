@@ -254,6 +254,7 @@ class ServiceOperation {
       ServiceOperation._("REFRESH_PROMOTIONS");
 
   static ServiceOperation send = ServiceOperation._("SEND");
+  static ServiceOperation sendEventToProfiles = ServiceOperation._("SEND_EVENT_TO_PROFILES");
   static ServiceOperation updateEventData =
       ServiceOperation._("UPDATE_EVENT_DATA");
   static ServiceOperation updateEventDataIfExists =

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:braincloud_dart/braincloud_dart.dart';
 import 'package:test/test.dart';
 
@@ -18,7 +20,7 @@ void main() {
 
       ServerResponse response = await bcTest.bcWrapper.eventService
           .updateIncomingEventDataIfExists(
-              evId: nonExistentEventId, jsonEventData: {eventDataKey: 118});
+              evId: nonExistentEventId, eventData: {eventDataKey: 118});
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -36,12 +38,12 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.eventService.sendEvent(
           toProfileId: userA.profileId!,
           eventType: eventType,
-          jsonEventData: {eventDataKey: 24});
+          eventData: {eventDataKey: 24});
 
       response = await bcTest.bcWrapper.eventService.sendEvent(
           toProfileId: userA.profileId!,
           eventType: eventType,
-          jsonEventData: {eventDataKey: 24});
+          eventData: {eventDataKey: 24});
 
       expect(response.statusCode, StatusCodes.ok);
       eventId = response.data?["evId"];
@@ -50,14 +52,14 @@ void main() {
     test("updateIncomingEventData()", () async {
       ServerResponse response = await bcTest.bcWrapper.eventService
           .updateIncomingEventData(
-              evId: eventId, jsonEventData: {eventDataKey: 117});
+              evId: eventId, eventData: {eventDataKey: 117});
       expect(response.statusCode, StatusCodes.ok);
     });
 
     test("updateIncomingEventDataIfExistsTrue()", () async {
       ServerResponse response = await bcTest.bcWrapper.eventService
           .updateIncomingEventDataIfExists(
-              evId: eventId, jsonEventData: {eventDataKey: 118});
+              evId: eventId, eventData: {eventDataKey: 118});
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -79,7 +81,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.eventService.sendEvent(
           toProfileId: userB.profileId!,
           eventType: eventType,
-          jsonEventData: {eventDataKey: 24});
+          eventData: {eventDataKey: 24});
 
       expect(response.statusCode, StatusCodes.ok);
       eventId = response.data?["evId"];
@@ -121,8 +123,7 @@ void main() {
         incoming_events = response.data?["incoming_events"];
       }
 
-      print(
-          "Found (${incoming_events.length}) Events: ${incoming_events}");
+      print("Found (${incoming_events.length}) Events: ${incoming_events}");
 
       var foundEvent;
       for (var event in incoming_events) {
@@ -139,6 +140,31 @@ void main() {
           reason: "userA.profileId should equal ['fromPlayerId'] ");
       expect(foundEvent["toPlayerId"], userB.profileId,
           reason: "userB.profileId should equal ['toPlayerId'] ");
+    });
+
+    test("sendEventToProfiles()", () async {
+      Completer<Map<String, dynamic>> eventReceiveCompleter = Completer();
+
+      bcTest.bcWrapper.brainCloudClient.registerEventCallback((response) {
+        eventReceiveCompleter.complete(response);
+      });
+
+      List<String> evIds = [userA.profileId ?? "", userB.profileId ?? ""];
+
+      ServerResponse result = await bcTest.bcWrapper.eventService
+          .sendEventToProfiles(
+              toIds: evIds, eventType: "Test", eventData: {eventDataKey: 134});
+
+      if (result.statusCode == 200) {
+        Map<String, dynamic> response = await eventReceiveCompleter.future;
+        var events = response['events'];
+        expect(events, isList);
+        List<Map<String,dynamic>> eventsList = events;
+        expect(eventsList.any((e)=>(e['eventData']?[eventDataKey] == 134)), true, reason: "Did not find expected message in events");
+      } else {
+        print("Failed ${result.error['status_message'] ?? result.error}");
+      }
+      bcTest.bcWrapper.brainCloudClient.deregisterEventCallback();
     });
 
     /// END TEST

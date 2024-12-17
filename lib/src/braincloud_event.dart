@@ -35,15 +35,15 @@ class BrainCloudEvent {
   Future<ServerResponse> sendEvent(
       {required String toProfileId,
       required String eventType,
-      Map<String, dynamic>? jsonEventData}) {
+      Map<String, dynamic>? eventData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
     data[OperationParam.eventServiceSendToId.value] = toProfileId;
     data[OperationParam.eventServiceSendEventType.value] = eventType;
 
-    if (jsonEventData != null) {
-      data[OperationParam.eventServiceSendEventData.value] = jsonEventData;
+    if (eventData != null) {
+      data[OperationParam.eventServiceSendEventData.value] = eventData;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -55,6 +55,52 @@ class BrainCloudEvent {
                 error: statusMessage)));
     ServerCall sc =
         ServerCall(ServiceName.event, ServiceOperation.send, data, callback);
+    _clientRef.sendRequest(sc);
+    return completer.future;
+  }
+
+  /// Sends an event to the nultiple profile ids with the attached json data.
+  /// Any events that have been sent to a user will show up in their
+  /// incoming event mailbox. If the recordLocally flag is set to true,
+  /// a copy of this event (with the exact same event id) will be stored
+  /// in the sending user's "sent" event mailbox.
+  ///
+  /// Service Name - Event
+  /// Service Operation - Send
+  ///
+  /// @param toProfileId
+  /// The id of the user who is being sent the event
+  ///
+  /// @param eventType
+  /// The user-defined type of the event.
+  ///
+  /// @param jsonEventData
+  /// The user-defined data for this event encoded in JSON.
+  ///
+  /// returns Future<ServerResponse>
+  Future<ServerResponse> sendEventToProfiles(
+      {required List<String> toIds,
+      required String eventType,
+      Map<String, dynamic>? eventData}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+
+    data[OperationParam.eventServiceSendToIds.value] = toIds;
+    data[OperationParam.eventServiceSendEventType.value] = eventType;
+
+    if (eventData != null) {
+      data[OperationParam.eventServiceSendEventData.value] = eventData;
+    }
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) => completer.complete(ServerResponse.fromJson(response)),
+        (statusCode, reasonCode, statusMessage) => completer.complete(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                error: statusMessage)));
+    ServerCall sc =
+        ServerCall(ServiceName.event, ServiceOperation.sendEventToProfiles, data, callback);
     _clientRef.sendRequest(sc);
     return completer.future;
   }
@@ -72,14 +118,14 @@ class BrainCloudEvent {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> updateIncomingEventData(
-      {required String evId, Map<String, dynamic>? jsonEventData}) {
+      {required String evId, Map<String, dynamic>? eventData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.evId.value] = evId;
 
-    if (jsonEventData != null) {
+    if (eventData != null) {
       data[OperationParam.eventServiceUpdateEventDataData.value] =
-          jsonEventData;
+          eventData;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -109,14 +155,14 @@ class BrainCloudEvent {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> updateIncomingEventDataIfExists(
-      {required String evId, Map<String, dynamic>? jsonEventData}) {
+      {required String evId, Map<String, dynamic>? eventData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.evId.value] = evId;
 
-    if (jsonEventData != null) {
+    if (eventData != null) {
       data[OperationParam.eventServiceUpdateEventDataData.value] =
-          jsonEventData;
+          eventData;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(

@@ -161,6 +161,7 @@ class OperationParam {
 
   // Event Service - Send Params
   static OperationParam eventServiceSendToId = OperationParam("toId");
+  static OperationParam eventServiceSendToIds = OperationParam("toIds");
   static OperationParam eventServiceSendEventType = OperationParam("eventType");
   static OperationParam eventServiceSendEventId = OperationParam("eventId");
   static OperationParam eventServiceSendEventData = OperationParam("eventData");
