@@ -37,14 +37,14 @@ class BrainCloudCustomEntity {
       {required String entityType,
       required Map<String, dynamic> dataJson,
       required ACL acl,
-      required Duration timeToLive,
+      required int? timeToLive,
       required bool isOwned}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.customEntityServiceEntityType.value] = entityType;
     data[OperationParam.customEntityServiceDataJson.value] = dataJson;
     data[OperationParam.customEntityServiceAcl.value] = acl;
     data[OperationParam.customEntityServiceTimeToLive.value] =
-        timeToLive.inMilliseconds;
+        timeToLive;
     data[OperationParam.customEntityServiceIsOwned.value] = isOwned;
 
     final Completer<ServerResponse> completer = Completer();
@@ -80,10 +80,10 @@ class BrainCloudCustomEntity {
   /// returns Future<ServerResponse>
   Future<ServerResponse> getEntityPage(
       {required String entityType,
-      required Map<String, dynamic> jsonContext}) async {
+      required Map<String, dynamic> context}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.customEntityServiceEntityType.value] = entityType;
-    data[OperationParam.customEntityServiceContext.value] = jsonContext;
+    data[OperationParam.customEntityServiceContext.value] = context;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -316,7 +316,7 @@ class BrainCloudCustomEntity {
       required int version,
       required Map<String, dynamic> dataJson,
       required ACL acl,
-      required Duration timeToLive}) async {
+      required int? timeToLive}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.customEntityServiceEntityType.value] = entityType;
     data[OperationParam.customEntityServiceEntityId.value] = entityId;
@@ -324,7 +324,7 @@ class BrainCloudCustomEntity {
     data[OperationParam.customEntityServiceDataJson.value] = dataJson;
     data[OperationParam.customEntityServiceAcl.value] = acl;
     data[OperationParam.customEntityServiceTimeToLive.value] =
-        timeToLive.inMilliseconds;
+        timeToLive;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -693,14 +693,14 @@ class BrainCloudCustomEntity {
       required int version,
       required Map<String, dynamic> dataJson,
       required ACL acl,
-      required Duration timeToLive}) async {
+      required int? timeToLive}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.customEntityServiceEntityType.value] = entityType;
     data[OperationParam.customEntityServiceVersion.value] = version;
     data[OperationParam.customEntityServiceDataJson.value] = dataJson;
     data[OperationParam.customEntityServiceAcl.value] = acl;
     data[OperationParam.customEntityServiceTimeToLive.value] =
-        timeToLive.inMilliseconds;
+        timeToLive;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {

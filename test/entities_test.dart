@@ -972,7 +972,7 @@ main() {
               entityType: entityType,
               dataJson: jsonEntityData,
               acl: jsonEntityAcl,
-              timeToLive: Duration(hours: 12),
+              timeToLive: Duration(hours: 12).inMilliseconds,
               isOwned: owned);
       if (response.data != null) {
         expect(response.data, isMap);
@@ -1004,7 +1004,7 @@ main() {
               entityType: bcTest.ids.customEntityType,
               dataJson: jsonEntityData,
               acl: jsonEntityAcl,
-              timeToLive: Duration(hours: 1),
+              timeToLive: Duration(hours: 1).inMilliseconds,
               isOwned: false);
 
       expect(response.statusCode, 200);
@@ -1058,7 +1058,7 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.customEntityService
           .getEntityPage(
               entityType: bcTest.ids.customEntityType,
-              jsonContext: jsonContext);
+              context: jsonContext);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -1211,7 +1211,7 @@ main() {
               version: entityVersion,
               dataJson: jsonEntityData,
               acl: jsonEntityAcl,
-              timeToLive: Duration(hours: 1));
+              timeToLive: Duration(hours: 1).inMilliseconds);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -1397,7 +1397,7 @@ main() {
               version: entityVersion,
               dataJson: jsonEntityData,
               acl: jsonEntityAcl,
-              timeToLive: Duration(hours: 4));
+              timeToLive: Duration(hours: 4).inMilliseconds);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
