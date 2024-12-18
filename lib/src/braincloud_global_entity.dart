@@ -31,12 +31,14 @@ class BrainCloudGlobalEntity {
   /// The entity's data
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> createEntity(String entityType, Duration? timeToLive,
-      ACL? jsonEntityAcl, Map<String, dynamic> jsonEntityData) async {
+  Future<ServerResponse> createEntity(
+      {required String entityType,
+      int? timeToLive,
+      ACL? jsonEntityAcl,
+      required Map<String, dynamic> jsonEntityData}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityType.value] = entityType;
-    data[OperationParam.globalEntityServiceTimeToLive.value] =
-        timeToLive?.inMilliseconds;
+    data[OperationParam.globalEntityServiceTimeToLive.value] = timeToLive;
     data[OperationParam.globalEntityServiceData.value] = jsonEntityData;
     data[OperationParam.globalEntityServiceAcl.value] = jsonEntityAcl;
 
@@ -79,16 +81,15 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> createEntityWithIndexedId(
-      String entityType,
-      String indexedId,
-      Duration? timeToLive,
+      {required String entityType,
+      required String indexedId,
+      int? timeToLive,
       ACL? jsonEntityAcl,
-      Map<String, dynamic> jsonEntityData) async {
+      required Map<String, dynamic> jsonEntityData}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityType.value] = entityType;
     data[OperationParam.globalEntityServiceIndexedId.value] = indexedId;
-    data[OperationParam.globalEntityServiceTimeToLive.value] =
-        timeToLive?.inMilliseconds;
+    data[OperationParam.globalEntityServiceTimeToLive.value] = timeToLive;
     data[OperationParam.globalEntityServiceData.value] = jsonEntityData;
     data[OperationParam.globalEntityServiceAcl.value] = jsonEntityAcl;
 
@@ -126,7 +127,9 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> updateEntity(
-      String entityId, int version, Map<String, dynamic> jsonEntityData) {
+      {required String entityId,
+      required int version,
+      required Map<String, dynamic> jsonEntityData}) {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
     data[OperationParam.globalEntityServiceVersion.value] = version;
@@ -166,7 +169,9 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> updateEntityAcl(
-      String entityId, int version, ACL jsonEntityAcl) async {
+      {required String entityId,
+      required int version,
+      required ACL jsonEntityAcl}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
     data[OperationParam.globalEntityServiceVersion.value] = version;
@@ -206,12 +211,13 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> updateEntityTimeToLive(
-      String entityId, int version, Duration timeToLive) async {
+      {required String entityId,
+      required int version,
+      required int timeToLive}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
     data[OperationParam.globalEntityServiceVersion.value] = version;
-    data[OperationParam.globalEntityServiceTimeToLive.value] =
-        timeToLive.inMilliseconds;
+    data[OperationParam.globalEntityServiceTimeToLive.value] = timeToLive;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -243,7 +249,8 @@ class BrainCloudGlobalEntity {
   /// The version of the entity to delete
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> deleteEntity(String entityId, int version) async {
+  Future<ServerResponse> deleteEntity(
+      {required String entityId, required int version}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
     data[OperationParam.globalEntityServiceVersion.value] = version;
@@ -275,7 +282,7 @@ class BrainCloudGlobalEntity {
   /// The entity ID
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> readEntity(String entityId) async {
+  Future<ServerResponse> readEntity({required String entityId}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
 
@@ -312,8 +319,10 @@ class BrainCloudGlobalEntity {
   /// The maximum number of entities to return
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> getList(Map<String, dynamic> whereJson,
-      Map<String, int> orderByJson, int maxReturn) async {
+  Future<ServerResponse> getList(
+      {required Map<String, dynamic> whereJson,
+      required Map<String, int> orderByJson,
+      required int maxReturn}) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.globalEntityServiceWhere.value] = whereJson;
@@ -351,7 +360,7 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getListByIndexedId(
-      String entityIndexedId, int maxReturn) async {
+      {required String entityIndexedId, required int maxReturn}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceIndexedId.value] = entityIndexedId;
     data[OperationParam.globalEntityServiceMaxReturn.value] = maxReturn;
@@ -383,7 +392,8 @@ class BrainCloudGlobalEntity {
   /// Mongo style query String
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> getListCount(Map<String, dynamic> whereJson) async {
+  Future<ServerResponse> getListCount(
+      {required Map<String, dynamic> whereJson}) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.globalEntityServiceWhere.value] = whereJson;
@@ -420,7 +430,8 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getListCountWithHint(
-      Map<String, dynamic> whereJson, Map<String, dynamic> hintJson) async {
+      {required Map<String, dynamic> whereJson,
+      required Map<String, dynamic> hintJson}) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.globalEntityServiceWhere.value] = whereJson;
@@ -464,10 +475,10 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getListWithHint(
-      Map<String, dynamic> whereJson,
-      Map<String, int> orderByJson,
-      int maxReturn,
-      Map<String, dynamic> hintJson) async {
+      {required Map<String, dynamic> whereJson,
+      required Map<String, int> orderByJson,
+      required int maxReturn,
+      required Map<String, dynamic> hintJson}) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.globalEntityServiceWhere.value] = whereJson;
@@ -504,7 +515,8 @@ class BrainCloudGlobalEntity {
   /// See the portal appendix documentation for format
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> getPage(Map<String, dynamic> jsonContext) async {
+  Future<ServerResponse> getPage(
+      {required Map<String, dynamic> jsonContext}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceContext.value] = jsonContext;
 
@@ -541,7 +553,8 @@ class BrainCloudGlobalEntity {
   /// retrieved using the context String to determine a starting point.
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> getPageOffset(String context, int pageOffset) async {
+  Future<ServerResponse> getPageOffset(
+      {required String context, required int pageOffset}) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.globalEntityServiceContext.value] = context;
@@ -576,7 +589,8 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> incrementGlobalEntityData(
-      String entityId, Map<String, dynamic> jsonData) async {
+      {required String entityId,
+      required Map<String, dynamic> jsonData}) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
@@ -611,7 +625,7 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getRandomEntitiesMatching(
-      Map<String, dynamic> whereJson, int maxReturn) async {
+      {required Map<String, dynamic> whereJson, required int maxReturn}) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.globalEntityServiceWhere.value] = whereJson;
@@ -648,9 +662,9 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getRandomEntitiesMatchingWithHint(
-      Map<String, dynamic> whereJson,
-      Map<String, dynamic> hintJson,
-      int maxReturn) async {
+      {required Map<String, dynamic> whereJson,
+      required Map<String, dynamic> hintJson,
+      required int maxReturn}) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.globalEntityServiceWhere.value] = whereJson;
@@ -691,7 +705,9 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> updateEntityIndexedId(
-      String entityId, int version, String entityIndexedId) async {
+      {required String entityId,
+      required int version,
+      required String entityIndexedId}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
     data[OperationParam.globalEntityServiceVersion.value] = version;
@@ -734,7 +750,10 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> updateEntityOwnerAndAcl(
-      String entityId, int version, String ownerId, ACL acl) async {
+      {required String entityId,
+      required int version,
+      required String ownerId,
+      required ACL acl}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
     data[OperationParam.globalEntityServiceVersion.value] = version;
@@ -775,7 +794,9 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> makeSystemEntity(
-      String entityId, int version, ACL acl) async {
+      {required String entityId,
+      required int version,
+      required ACL acl}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
     data[OperationParam.globalEntityServiceVersion.value] = version;
