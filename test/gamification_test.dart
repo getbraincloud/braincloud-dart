@@ -15,7 +15,7 @@ main() {
   group("Test Gamification", () {
     test("awardAchievements()", () async {
       ServerResponse response = await bcTest.bcWrapper.gamificationService
-          .awardAchievements(achievementIds: [achievementId1, achievementId2]);
+          .awardAchievements(achievements: [achievementId1, achievementId2]);
 
       expect(response.statusCode, 200);
     });
@@ -113,7 +113,7 @@ main() {
 
     test("readXPLevelsMetaData()", () async {
       ServerResponse response =
-          await bcTest.bcWrapper.gamificationService.readXPLevelsMetaData();
+          await bcTest.bcWrapper.gamificationService.readXpLevelsMetadata();
 
       expect(response.statusCode, 200);
     });

@@ -100,7 +100,7 @@ class BrainCloudGamification {
   /// Service Operation - ReadXpLevels
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> readXPLevelsMetaData() {
+  Future<ServerResponse> readXpLevelsMetadata() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) => completer.complete(ServerResponse.fromJson(response)),
@@ -245,11 +245,11 @@ class BrainCloudGamification {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> awardAchievements(
-      {required List<String> achievementIds}) {
+      {required List<String> achievements}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.gamificationServiceAchievementsName.value] =
-        achievementIds;
+        achievements;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) => completer.complete(ServerResponse.fromJson(response)),
