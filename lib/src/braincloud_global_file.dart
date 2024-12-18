@@ -21,7 +21,7 @@ class BrainCloudGlobalFile {
   /// The Id of the file
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> getFileInfo(String fileId) async {
+  Future<ServerResponse> getFileInfo({required String fileId}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFileId.value] = fileId;
 
@@ -56,7 +56,7 @@ class BrainCloudGlobalFile {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getFileInfoSimple(
-      String folderPath, String filename) async {
+      {required String folderPath, required String filename}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFolderPath.value] = folderPath;
     data[OperationParam.globalFileServiceFileName.value] = filename;
@@ -88,7 +88,7 @@ class BrainCloudGlobalFile {
   /// The Id of the file
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> getGlobalCDNUrl(String fileId) async {
+  Future<ServerResponse> getGlobalCDNUrl({required String fileId}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFileId.value] = fileId;
 
@@ -123,7 +123,7 @@ class BrainCloudGlobalFile {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalFileList(
-      String folderPath, bool recurse) async {
+      {required String folderPath, required bool recurse}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalFileServiceFolderPath.value] = folderPath;
     data[OperationParam.globalFileServiceRecurse.value] = recurse;

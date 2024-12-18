@@ -35,7 +35,11 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.fileService
           .uploadFileFromMemory(
-              cloudPath, fileNameImage, true, true, imageData);
+              cloudPath:cloudPath, 
+              cloudFilename:fileNameImage, 
+              shareable:true, 
+              replaceIfExists:true, 
+              fileData:imageData);
 
       ServerResponse uploadResponse = await uploadCompleterFuture.future;
 
@@ -88,7 +92,7 @@ main() {
       String uploadId = "";
 
       var response = await bcTest.bcWrapper.fileService.uploadFileFromMemory(
-          cloudPath, filename, true, true, utf8.encode(fileData));
+          cloudPath:cloudPath, cloudFilename:filename, shareable:true, replaceIfExists:true, fileData:utf8.encode(fileData));
 
       print("uploadFileFromMemory results ${response.toString()}");
       expect(response.statusCode, 200);
@@ -113,7 +117,7 @@ main() {
 
       // Wait until the transfer actually starts
       int bytesTransferred =
-          bcTest.bcWrapper.fileService.getUploadBytesTransferred(uploadId) ?? 0;
+          bcTest.bcWrapper.fileService.getUploadBytesTransferred(uploadId: uploadId) ?? 0;
       int maxTries = 10;
       print("bytesTransferred: $bytesTransferred ");
       while (bytesTransferred <= 0 && maxTries > 0) {
@@ -121,14 +125,14 @@ main() {
         //  await pumpEventQueue(times: 50);
         maxTries--;
         bytesTransferred =
-            bcTest.bcWrapper.fileService.getUploadBytesTransferred(uploadId) ??
+            bcTest.bcWrapper.fileService.getUploadBytesTransferred(uploadId: uploadId) ??
                 0;
         print("bytesTransferred: $bytesTransferred");
       }
       print("Cancelling Upload $uploadId now...");
 
       // now cancel it.
-      bcTest.bcWrapper.fileService.cancelUpload(uploadId);
+      bcTest.bcWrapper.fileService.cancelUpload(uploadId: uploadId);
       ServerResponse error = await uploadCompleterFuture.future;
       // cleanup
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
@@ -160,7 +164,7 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.fileService
           .uploadFileFromMemory(
-              cloudPath, fileNameLarge, true, true, utf8.encode(fileData));
+              cloudPath: cloudPath, cloudFilename: fileNameLarge, shareable:true, replaceIfExists:true, fileData:utf8.encode(fileData));
 
       expect(response.statusCode, 200);
       expect(bcTest.bcWrapper.isInitialized, true);
@@ -188,11 +192,11 @@ main() {
           Duration(milliseconds: 500 * i),
           () {
             var progress =
-                bcTest.bcWrapper.fileService.getUploadProgress(uploadId);
+                bcTest.bcWrapper.fileService.getUploadProgress(uploadId: uploadId);
             var transferred = bcTest.bcWrapper.fileService
-                .getUploadBytesTransferred(uploadId);
+                .getUploadBytesTransferred(uploadId: uploadId);
             var total = bcTest.bcWrapper.fileService
-                .getUploadTotalBytesToTransfer(uploadId);
+                .getUploadTotalBytesToTransfer(uploadId: uploadId);
             expect(progress, isA<double>());
             expect(progress, isNot(-1),
                 reason: "getUploadProgress should not be -1 yet");
@@ -211,11 +215,11 @@ main() {
       // cleaup
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
 
-      var progress = bcTest.bcWrapper.fileService.getUploadProgress(uploadId);
+      var progress = bcTest.bcWrapper.fileService.getUploadProgress(uploadId: uploadId);
       var transferred =
-          bcTest.bcWrapper.fileService.getUploadBytesTransferred(uploadId);
+          bcTest.bcWrapper.fileService.getUploadBytesTransferred(uploadId: uploadId);
       var total =
-          bcTest.bcWrapper.fileService.getUploadTotalBytesToTransfer(uploadId);
+          bcTest.bcWrapper.fileService.getUploadTotalBytesToTransfer(uploadId: uploadId);
       // print('final progress: $progress  => $transferred of $total');
       expect(progress, -1, reason: "getUploadProgress should now be -1");
       expect(transferred, -1,
@@ -241,7 +245,7 @@ main() {
       expect(bcTest.bcWrapper.isInitialized, true);
 
       ServerResponse response =
-          await bcTest.bcWrapper.fileService.listUserFiles(cloudPath, true);
+          await bcTest.bcWrapper.fileService.listUserFiles(cloudPath: cloudPath, recurse:true);
       expect(response.statusCode, 200);
       if (response.data != null) {
         expect(response.data, isMap);
@@ -253,7 +257,7 @@ main() {
       expect(bcTest.bcWrapper.isInitialized, true);
 
       ServerResponse response = await bcTest.bcWrapper.fileService
-          .getCDNUrl(cloudPath, fileNameLarge);
+          .getCDNUrl(cloudPath: cloudPath, cloudFilename:fileNameLarge);
       expect(response.statusCode, 200);
       if (response.data != null) {
         expect(response.data, isMap);
@@ -267,7 +271,7 @@ main() {
       expect(bcTest.bcWrapper.isInitialized, true);
 
       ServerResponse response = await bcTest.bcWrapper.fileService
-          .deleteUserFile(cloudPath, fileNameLarge);
+          .deleteUserFile(cloudPath: cloudPath, cloudFilename:fileNameLarge);
       expect(response.statusCode, 200);
       if (response.data != null) {
         expect(response.data, isMap);
@@ -280,7 +284,7 @@ main() {
     test("deleteUserFiles", () async {
       expect(bcTest.bcWrapper.isInitialized, true);
       ServerResponse response =
-          await bcTest.bcWrapper.fileService.deleteUserFiles(cloudPath, true);
+          await bcTest.bcWrapper.fileService.deleteUserFiles(cloudPath: cloudPath, recurse:true);
       expect(response.statusCode, 200);
       if (response.data != null) {
         expect(response.data, isMap);
@@ -296,7 +300,7 @@ main() {
       expect(bcTest.bcWrapper.isInitialized, true);
 
       ServerResponse response = await bcTest.bcWrapper.globalFileService
-          .getGlobalFileList('/fname', true);
+          .getGlobalFileList(folderPath: '/fname', recurse:true);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -325,7 +329,7 @@ main() {
         return;
       }
       ServerResponse response = await bcTest.bcWrapper.globalFileService
-          .getFileInfo(testFile['fileId']);
+          .getFileInfo(fileId:testFile['fileId']);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -347,7 +351,7 @@ main() {
       }
 
       ServerResponse response = await bcTest.bcWrapper.globalFileService
-          .getFileInfoSimple(testFile['folderPath'], testFile['fileName']);
+          .getFileInfoSimple(folderPath:testFile['folderPath'], filename:testFile['fileName']);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -369,7 +373,7 @@ main() {
       }
 
       ServerResponse response = await bcTest.bcWrapper.globalFileService
-          .getGlobalCDNUrl(testFile['fileId']);
+          .getGlobalCDNUrl(fileId:testFile['fileId']);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);
@@ -402,7 +406,7 @@ main() {
       bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback(uploadCompleterFuture.complete);
 
       Future<ServerResponse> uploadFuture =  bcTest.bcWrapper.fileService.uploadFileFromMemory(
-          groupCloudPath, groupFileNameImage, true, true, imageData);
+          cloudPath: groupCloudPath, cloudFilename:groupFileNameImage, shareable:true, replaceIfExists:true, fileData:imageData);
       bcTest.bcWrapper.brainCloudClient.insertEndOfMessageBundleMarker();
       
       ServerResponse response = await uploadFuture;

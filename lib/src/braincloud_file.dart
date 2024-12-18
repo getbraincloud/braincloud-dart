@@ -32,12 +32,12 @@ class BrainCloudFile {
   /// @param fileDataThe file memory data in Uint8List
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> uploadFileFromMemory(
-      String cloudPath,
-      String cloudFilename,
-      bool shareable,
-      bool replaceIfExists,
-      Uint8List fileData) async {
+  Future<ServerResponse> uploadFileFromMemory({
+      required String cloudPath,
+      required String cloudFilename,
+      required bool shareable,
+      required bool replaceIfExists,
+      required Uint8List fileData}) async {
     if (fileData.isEmpty) {
       _clientRef.log("File data is empty");
       Future.error(Exception('File data is empty'));
@@ -75,28 +75,28 @@ class BrainCloudFile {
   /// the fileUploadFailed callback method will be called once the upload has been canceled.
   ///
   /// @param uploadIdUpload ID of the file to cancel
-  void cancelUpload(String uploadId) {
+  void cancelUpload({required String uploadId}) {
     _clientRef.comms.cancelUpload(uploadId);
   }
 
   /// Returns the progress of the given upload from 0.0 to 1.0 or -1 if upload not found.
   ///
   /// @param uploadIdThe id of the upload
-  double? getUploadProgress(String uploadId) {
+  double? getUploadProgress({required String uploadId}) {
     return _clientRef.comms.getUploadProgress(uploadId);
   }
 
   /// Returns the number of bytes uploaded or -1 if upload not found.
   ///
   /// @param uploadIdThe id of the upload
-  int? getUploadBytesTransferred(String uploadId) {
+  int? getUploadBytesTransferred({required String uploadId}) {
     return _clientRef.comms.getUploadBytesTransferred(uploadId);
   }
 
   /// Returns the total number of bytes that will be uploaded or -1 if upload not found.
 
   /// @param uploadIdThe id of the upload
-  int? getUploadTotalBytesToTransfer(String uploadId) {
+  int? getUploadTotalBytesToTransfer({required String uploadId}) {
     return _clientRef.comms.getUploadTotalBytesToTransfer(uploadId);
   }
 
@@ -107,7 +107,7 @@ class BrainCloudFile {
   /// @param recurseWhether to recurse down the path
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> listUserFiles(String cloudPath, bool? recurse) async {
+  Future<ServerResponse> listUserFiles({required String cloudPath, bool? recurse}) async {
     Map<String, dynamic> data = {};
 
     if (Util.isOptionalParameterValid(cloudPath)) {
@@ -143,12 +143,12 @@ class BrainCloudFile {
   /// @param cloudFileName
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> deleteUserFile(
-      String cloudPath, String cloudFileName) async {
+  Future<ServerResponse> deleteUserFile({
+      required String cloudPath, required String cloudFilename}) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.uploadCloudPath.value] = cloudPath;
-    data[OperationParam.uploadCloudFilename.value] = cloudFileName;
+    data[OperationParam.uploadCloudFilename.value] = cloudFilename;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -175,7 +175,7 @@ class BrainCloudFile {
   /// @param recurseWhether to recurse down the path
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> deleteUserFiles(String cloudPath, bool recurse) async {
+  Future<ServerResponse> deleteUserFiles({required String cloudPath, required bool recurse}) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.uploadCloudPath.value] = cloudPath;
@@ -206,8 +206,8 @@ class BrainCloudFile {
   /// @param cloudFilenameName of file
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> getCDNUrl(
-      String cloudPath, String cloudFilename) async {
+  Future<ServerResponse> getCDNUrl({
+      required String cloudPath, required String cloudFilename}) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.uploadCloudPath.value] = cloudPath;
