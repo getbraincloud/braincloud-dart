@@ -595,7 +595,7 @@ main() {
       var orderBy = {"data.team": 1};
 
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
-          .getList(whereJson: where, orderByJson: orderBy, maxReturn: 1);
+          .getList(where: where, orderBy: orderBy, maxReturn: 1);
       expect(response.statusCode, 200);
       expect(response.data, isMap);
       if (response.data != null) {
@@ -612,7 +612,7 @@ main() {
       var where = {"entityType": entityType};
 
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
-          .getListCount(whereJson: where);
+          .getListCount(where: where);
       expect(response.statusCode, 200);
       expect(response.data, isMap);
       if (response.data != null) {
@@ -630,7 +630,7 @@ main() {
       var hint = {"gameId": 1, "entityIndexedId": 1};
 
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
-          .getListCountWithHint(whereJson: where, hintJson: hint);
+          .getListCountWithHint(where: where, hintJson: hint);
       expect(response.statusCode, 200);
       expect(response.data, isMap);
       if (response.data != null) {
@@ -649,8 +649,8 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .getListWithHint(
-              whereJson: where,
-              orderByJson: orderBy,
+              where: where,
+              orderBy: orderBy,
               maxReturn: 2,
               hintJson: hint);
       expect(response.statusCode, 200);
@@ -672,7 +672,7 @@ main() {
       };
 
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
-          .getPage(jsonContext: context);
+          .getPage(context: context);
       expect(response.statusCode, 200);
       expect(response.data, isMap);
       if (response.data != null) {
@@ -717,7 +717,7 @@ main() {
       var where = {"data.team": "RedTeam"};
 
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
-          .getRandomEntitiesMatching(whereJson: where, maxReturn: 2);
+          .getRandomEntitiesMatching(where: where, maxReturn: 2);
       expect(response.statusCode, 200);
       expect(response.data, isMap);
       if (response.data != null) {
@@ -735,7 +735,7 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .getRandomEntitiesMatchingWithHint(
-              whereJson: where, hintJson: hint, maxReturn: 2);
+              where: where, hintJson: hint, maxReturn: 2);
       expect(response.statusCode, 200);
       expect(response.data, isMap);
       if (response.data != null) {
@@ -752,7 +752,7 @@ main() {
       var jsonInc = {"games": 2};
 
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
-          .incrementGlobalEntityData(entityId: entityId, jsonData: jsonInc);
+          .incrementGlobalEntityData(entityId: entityId, jsonEntityData: jsonInc);
       expect(response.statusCode, 200);
       expect(response.data, isMap);
       if (response.data != null) {
@@ -843,7 +843,7 @@ main() {
               entityId: entityId,
               version: entityVersion,
               ownerId: bcTest.ids.sharedProfileId,
-              acl: jsonEntityAcl);
+              jsonEntityAcl: jsonEntityAcl);
       expect(response.statusCode, 200);
       expect(response.data, isMap);
       if (response.data != null) {
@@ -971,7 +971,7 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .makeSystemEntity(
-              entityId: entityId, version: entityVersion, acl: jsonEntityAcl);
+              entityId: entityId, version: entityVersion, jsonEntityAcl: jsonEntityAcl);
 
       expect(response.statusCode, 200);
       expect(response.data, isMap);

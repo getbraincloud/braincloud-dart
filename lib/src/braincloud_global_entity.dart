@@ -320,13 +320,13 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getList(
-      {required Map<String, dynamic> whereJson,
-      required Map<String, int> orderByJson,
+      {required Map<String, dynamic> where,
+      required Map<String, int> orderBy,
       required int maxReturn}) async {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.globalEntityServiceWhere.value] = whereJson;
-    data[OperationParam.globalEntityServiceOrderBy.value] = orderByJson;
+    data[OperationParam.globalEntityServiceWhere.value] = where;
+    data[OperationParam.globalEntityServiceOrderBy.value] = orderBy;
     data[OperationParam.globalEntityServiceMaxReturn.value] = maxReturn;
 
     final Completer<ServerResponse> completer = Completer();
@@ -393,10 +393,10 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getListCount(
-      {required Map<String, dynamic> whereJson}) async {
+      {required Map<String, dynamic> where}) async {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.globalEntityServiceWhere.value] = whereJson;
+    data[OperationParam.globalEntityServiceWhere.value] = where;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -430,11 +430,11 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getListCountWithHint(
-      {required Map<String, dynamic> whereJson,
+      {required Map<String, dynamic> where,
       required Map<String, dynamic> hintJson}) async {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.globalEntityServiceWhere.value] = whereJson;
+    data[OperationParam.globalEntityServiceWhere.value] = where;
     data[OperationParam.globalEntityServiceHint.value] = hintJson;
 
     final Completer<ServerResponse> completer = Completer();
@@ -475,14 +475,14 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getListWithHint(
-      {required Map<String, dynamic> whereJson,
-      required Map<String, int> orderByJson,
+      {required Map<String, dynamic> where,
+      required Map<String, int> orderBy,
       required int maxReturn,
       required Map<String, dynamic> hintJson}) async {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.globalEntityServiceWhere.value] = whereJson;
-    data[OperationParam.globalEntityServiceOrderBy.value] = orderByJson;
+    data[OperationParam.globalEntityServiceWhere.value] = where;
+    data[OperationParam.globalEntityServiceOrderBy.value] = orderBy;
     data[OperationParam.globalEntityServiceMaxReturn.value] = maxReturn;
     data[OperationParam.globalEntityServiceHint.value] = hintJson;
 
@@ -516,9 +516,9 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getPage(
-      {required Map<String, dynamic> jsonContext}) async {
+      {required Map<String, dynamic> context}) async {
     Map<String, dynamic> data = {};
-    data[OperationParam.globalEntityServiceContext.value] = jsonContext;
+    data[OperationParam.globalEntityServiceContext.value] = context;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -590,11 +590,11 @@ class BrainCloudGlobalEntity {
   /// returns Future<ServerResponse>
   Future<ServerResponse> incrementGlobalEntityData(
       {required String entityId,
-      required Map<String, dynamic> jsonData}) async {
+      required Map<String, dynamic> jsonEntityData}) async {
     Map<String, dynamic> data = {};
 
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
-    data[OperationParam.globalEntityServiceData.value] = jsonData;
+    data[OperationParam.globalEntityServiceData.value] = jsonEntityData;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -625,10 +625,10 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getRandomEntitiesMatching(
-      {required Map<String, dynamic> whereJson, required int maxReturn}) async {
+      {required Map<String, dynamic> where, required int maxReturn}) async {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.globalEntityServiceWhere.value] = whereJson;
+    data[OperationParam.globalEntityServiceWhere.value] = where;
     data[OperationParam.globalEntityServiceMaxReturn.value] = maxReturn;
 
     final Completer<ServerResponse> completer = Completer();
@@ -662,12 +662,12 @@ class BrainCloudGlobalEntity {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getRandomEntitiesMatchingWithHint(
-      {required Map<String, dynamic> whereJson,
+      {required Map<String, dynamic> where,
       required Map<String, dynamic> hintJson,
       required int maxReturn}) async {
     Map<String, dynamic> data = {};
 
-    data[OperationParam.globalEntityServiceWhere.value] = whereJson;
+    data[OperationParam.globalEntityServiceWhere.value] = where;
     data[OperationParam.globalEntityServiceHint.value] = hintJson;
     data[OperationParam.globalEntityServiceMaxReturn.value] = maxReturn;
 
@@ -753,12 +753,12 @@ class BrainCloudGlobalEntity {
       {required String entityId,
       required int version,
       required String ownerId,
-      required ACL acl}) async {
+      required ACL jsonEntityAcl}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
     data[OperationParam.globalEntityServiceVersion.value] = version;
     data[OperationParam.ownerId.value] = ownerId;
-    data[OperationParam.globalEntityServiceAcl.value] = acl;
+    data[OperationParam.globalEntityServiceAcl.value] = jsonEntityAcl;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -796,11 +796,11 @@ class BrainCloudGlobalEntity {
   Future<ServerResponse> makeSystemEntity(
       {required String entityId,
       required int version,
-      required ACL acl}) async {
+      required ACL jsonEntityAcl}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.globalEntityServiceEntityId.value] = entityId;
     data[OperationParam.globalEntityServiceVersion.value] = version;
-    data[OperationParam.globalEntityServiceAcl.value] = acl;
+    data[OperationParam.globalEntityServiceAcl.value] = jsonEntityAcl;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
