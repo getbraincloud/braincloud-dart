@@ -12,7 +12,7 @@ void main() {
     test("incrementGlobalStats()", () async {
       ServerResponse response = await bcTest.bcWrapper.globalStatisticsService
           .incrementGlobalStats(
-              jsonData: 
+              statistics: 
                   {"gamesPlayed": 1, "gamesWon": 1, "gamesLost": 2});
 
       expect(response.statusCode, StatusCodes.ok);
@@ -26,7 +26,7 @@ void main() {
 
     test("readGlobalStatsSubset()", () async {
       ServerResponse response = await bcTest.bcWrapper.globalStatisticsService
-          .readGlobalStatsSubset(globalStats: ["gamesPlayed"]);
+          .readGlobalStatsSubset(statistics: ["gamesPlayed"]);
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -40,7 +40,7 @@ void main() {
 
     test("processStatistics()", () async {
       ServerResponse response = await bcTest.bcWrapper.globalStatisticsService
-          .processStatistics(statisticsData: {
+          .processStatistics(statistics: {
         "gamesPlayed": 1,
         "gamesWon": 1,
         "gamesLost": 2

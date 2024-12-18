@@ -14,7 +14,7 @@ void main() {
   group("Test Redemptionm Code", () {
     test("getCodeToRedeem()", () async {
       ServerResponse response = await bcTest.bcWrapper.globalStatisticsService
-          .incrementGlobalStats(jsonData: {_lastCodeUsedStatName: "+1"});
+          .incrementGlobalStats(statistics: {_lastCodeUsedStatName: "+1"});
 
       expect(response.statusCode, StatusCodes.ok);
 
@@ -23,7 +23,7 @@ void main() {
 
     test("redeemCode()", () async {
       ServerResponse response = await bcTest.bcWrapper.globalStatisticsService
-          .incrementGlobalStats(jsonData: {_lastCodeUsedStatName: "+1"});
+          .incrementGlobalStats(statistics: {_lastCodeUsedStatName: "+1"});
 
       expect(response.statusCode, StatusCodes.ok);
 
