@@ -282,6 +282,8 @@ print(" converted bytes is $reloadedMask");
 
 
     test("FullFlow TCP", () async {
+      if (bcTest.bcWrapper.rttService.isRTTEnabled())  await disconnectRelay();
+      
       await fullFlow(RelayConnectionType.tcp);
 
       expect(successCount, 4);
@@ -292,6 +294,8 @@ print(" converted bytes is $reloadedMask");
 
     // Purposefully set this in the middle of other test to ensure proper cleanup
     test("Invalid ACK", () async {
+      if (bcTest.bcWrapper.rttService.isRTTEnabled())  await disconnectRelay();
+
       await fullFlow(RelayConnectionType.udp, rcb: badRelayCallback);
 
       expect(successCount, 2);
@@ -301,6 +305,8 @@ print(" converted bytes is $reloadedMask");
     });
 
     test("FullFlow UDP", () async {
+      if (bcTest.bcWrapper.rttService.isRTTEnabled())  await disconnectRelay();
+
       await fullFlow(RelayConnectionType.udp);
 
       expect(successCount, 4);
@@ -310,6 +316,8 @@ print(" converted bytes is $reloadedMask");
     });
 
     test("FullFlow WebSocket", () async {
+      if (bcTest.bcWrapper.rttService.isRTTEnabled())  await disconnectRelay();
+
       // do not disconnect in the fullFlow as we want to test other cmds while the connection is still alive
       await fullFlow(RelayConnectionType.websocket, shouldDisconnect: false);
 
