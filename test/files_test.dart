@@ -84,7 +84,9 @@ main() {
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
 
       Completer<ServerResponse> uploadCompleterFuture = Completer<ServerResponse>();
-      bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback(uploadCompleterFuture.complete);
+      bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback((response) {
+        if (!uploadCompleterFuture.isCompleted) uploadCompleterFuture.complete(response);
+      });
 
       String filename = "largeFile.txt";
       String fileData = generateRandomString(
