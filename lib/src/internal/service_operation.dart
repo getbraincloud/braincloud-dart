@@ -465,6 +465,7 @@ class ServiceOperation {
   static ServiceOperation getChildProfiles =
       ServiceOperation._("GET_CHILD_PROFILES");
   static ServiceOperation getIdentities = ServiceOperation._("GET_IDENTITIES");
+  static ServiceOperation getIdentityStatus = ServiceOperation._("GET_IDENTITY_STATUS");
   static ServiceOperation getExpiredIdentities =
       ServiceOperation._("GET_EXPIRED_IDENTITIES");
   static ServiceOperation refreshIdentity =
@@ -621,6 +622,8 @@ class ServiceOperation {
   static ServiceOperation detachPeer = ServiceOperation._("DETACH_PEER");
   static ServiceOperation getPeerProfiles =
       ServiceOperation._("GET_PEER_PROFILES");
+  static ServiceOperation mergePeerProfiles =
+      ServiceOperation._("MERGE_PEER_PROFILE");
 
   //presence
   static ServiceOperation forcePush = ServiceOperation._("FORCE_PUSH");

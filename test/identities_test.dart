@@ -247,7 +247,20 @@ main() {
         print(":getIdentities returned $response     \n${response.data}");
 
       expect(response.statusCode, 200);
-      expect(response.data?['children'], isA<List?>());
+      expect(response.data?['identities'], isA<Map>());
+    });
+
+    test("getIdentityStatus", () async {
+      ServerResponse response =
+          await bcTest.bcWrapper.identityService.getIdentityStatus(authenticationType: AuthenticationType.anonymous,externalAuthName: "");
+
+        print(":getIdentities returned $response     \n${response.data}");
+      if (response.statusCode != 200)
+        print(":getIdentities returned $response     \n${response.data}");
+
+      expect(response.statusCode, 200);
+      expect(response.data?['identities'], isA<Map>());
+      expect(response.data?['identities'][AuthenticationType.anonymous.value], isA<Map>());
     });
 
     test("getExpiredIdentities", () async {
@@ -284,7 +297,7 @@ main() {
 
       response = await bcTest.bcWrapper.identityService.changeEmailIdentity(
           oldEmailAddress: _oldEmail,
-          password: _password,
+          authenticationToken: _password,
           newEmailAddress: _newEmail,
           updateContactEmail: true);
 
