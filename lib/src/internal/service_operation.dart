@@ -109,8 +109,12 @@ class ServiceOperation {
       ServiceOperation._("GET_FRIEND_PROFILE_INFO_FOR_EXTERNAL_ID");
   static ServiceOperation getProfileInfoForCredential =
       ServiceOperation._("GET_PROFILE_INFO_FOR_CREDENTIAL");
+  static ServiceOperation getProfileInfoForCredentialIfExists =
+      ServiceOperation._("GET_PROFILE_INFO_FOR_CREDENTIAL_IF_EXISTS");
   static ServiceOperation getProfileInfoForExternalAuthId =
       ServiceOperation._("GET_PROFILE_INFO_FOR_EXTERNAL_AUTH_ID");
+  static ServiceOperation getProfileInfoForExternalAuthIdIfExists =
+      ServiceOperation._("GET_PROFILE_INFO_FOR_EXTERNAL_AUTH_ID_IF_EXISTS");
   static ServiceOperation getExternalIdForProfileId =
       ServiceOperation._("GET_EXTERNAL_ID_FOR_PROFILE_ID");
   static ServiceOperation findPlayerByUniversalId =
@@ -562,6 +566,7 @@ class ServiceOperation {
       ServiceOperation._("INVITE_GROUP_MEMBER");
   static ServiceOperation joinGroup = ServiceOperation._("JOIN_GROUP");
   static ServiceOperation leaveGroup = ServiceOperation._("LEAVE_GROUP");
+  static ServiceOperation leaveGroupAuto = ServiceOperation._("LEAVE_GROUP_AUTO");
   static ServiceOperation listGroupsPage =
       ServiceOperation._("LIST_GROUPS_PAGE");
   static ServiceOperation listGroupsPageByOffset =
@@ -586,10 +591,14 @@ class ServiceOperation {
       ServiceOperation._("REMOVE_GROUP_MEMBER");
   static ServiceOperation updateGroupData =
       ServiceOperation._("UPDATE_GROUP_DATA");
+  static ServiceOperation updateGroupEntityAcl =
+      ServiceOperation._("UPDATE_GROUP_ENTITY_ACL");
   static ServiceOperation updateGroupEntity =
       ServiceOperation._("UPDATE_GROUP_ENTITY_DATA");
   static ServiceOperation updateGroupMember =
       ServiceOperation._("UPDATE_GROUP_MEMBER");
+  static ServiceOperation updateGroupAcl =
+      ServiceOperation._("UPDATE_GROUP_ACL");
   static ServiceOperation updateGroupName =
       ServiceOperation._("UPDATE_GROUP_NAME");
   static ServiceOperation setGroupOpen = ServiceOperation._("SET_GROUP_OPEN");

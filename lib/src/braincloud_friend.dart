@@ -14,6 +14,9 @@ class BrainCloudFriend {
 
   BrainCloudFriend(this._clientRef);
 
+// Remove this API as it does nothing more useful than the newer getProfileInfoForCredentialIfExists 
+// [mc] 2024-12-19
+
   /// Retrieves profile information of the specified user.
   ///
   /// Service Name - Friend
@@ -26,7 +29,42 @@ class BrainCloudFriend {
   /// The authentication type used for the user's ID
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> getProfileInfoForCredential(
+  // Future<ServerResponse> getProfileInfoForCredential(
+  //     {required String externalId,
+  //     required AuthenticationType authenticationType}) {
+  //   Completer<ServerResponse> completer = Completer();
+  //   Map<String, dynamic> data = {};
+  //   data[OperationParam.friendServiceExternalId.value] = externalId;
+  //   data[OperationParam.friendServiceAuthenticationType.value] =
+  //       authenticationType.toString();
+
+  //   ServerCallback? callback = BrainCloudClient.createServerCallback(
+  //       (response) => completer.complete(ServerResponse.fromJson(response)),
+  //       (statusCode, reasonCode, statusMessage) => completer.complete(
+  //           ServerResponse(
+  //               statusCode: statusCode,
+  //               reasonCode: reasonCode,
+  //               error: statusMessage)));
+  //   ServerCall sc = ServerCall(ServiceName.friend,
+  //       ServiceOperation.getProfileInfoForCredential, data, callback);
+  //   _clientRef.sendRequest(sc);
+
+  //   return completer.future;
+  // }
+  /// Retrieves profile information of the specified user. Will not log an error if 
+  /// profile does not exists.
+  ///
+  /// Service Name - Friend
+  /// Service Operation - GET_PROFILE_INFO_FOR_CREDENTIAL_IF_EXISTS
+  ///
+  /// @param externalId
+  /// External id of the user to find
+  ///
+  /// @param authenticationType
+  /// The authentication type used for the user's ID
+  ///
+  /// returns Future<ServerResponse>
+  Future<ServerResponse> getProfileInfoForCredentialIfExists(
       {required String externalId,
       required AuthenticationType authenticationType}) {
     Completer<ServerResponse> completer = Completer();
@@ -43,11 +81,49 @@ class BrainCloudFriend {
                 reasonCode: reasonCode,
                 error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
-        ServiceOperation.getProfileInfoForCredential, data, callback);
+        ServiceOperation.getProfileInfoForCredentialIfExists, data, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;
   }
+
+// Remove this API as it does nothing more useful than the newer getProfileInfoForCredentialIfExists 
+// [mc] 2024-12-19
+
+  /// Retrieves profile information for the specified external auth user. Will not log an error if 
+  /// profile does not exists.
+  ///
+  /// Service Name - Friend
+  /// Service Operation - GET_PROFILE_INFO_FOR_EXTERNAL_AUTH_ID_IF_EXISTS
+  ///
+  /// @param externalId
+  /// External id of the friend to find
+  ///
+  /// @param externalAuthType
+  /// The external authentication type used for this friend's external id
+  ///
+  /// returns Future<ServerResponse>
+  // Future<ServerResponse> getProfileInfoForExternalAuthId(
+  //     {required String externalId,
+  //     required String externalAuthType}) {
+  //   Completer<ServerResponse> completer = Completer();
+  //   Map<String, dynamic> data = {};
+  //   data[OperationParam.friendServiceExternalId.value] = externalId;
+  //   data[OperationParam.externalAuthType.value] = externalAuthType.toString();
+
+  //   ServerCallback? callback = BrainCloudClient.createServerCallback(
+  //       (response) => completer.complete(ServerResponse.fromJson(response)),
+  //       (statusCode, reasonCode, statusMessage) => completer.complete(
+  //           ServerResponse(
+  //               statusCode: statusCode,
+  //               reasonCode: reasonCode,
+  //               error: statusMessage)));
+  //   ServerCall sc = ServerCall(ServiceName.friend,
+  //       ServiceOperation.getProfileInfoForExternalAuthId, data, callback);
+  //   _clientRef.sendRequest(sc);
+
+  //   return completer.future;
+  // }
 
   /// Retrieves profile information for the specified external auth user.
   ///
@@ -61,9 +137,9 @@ class BrainCloudFriend {
   /// The external authentication type used for this friend's external id
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> getProfileInfoForExternalAuthId(
+  Future<ServerResponse> getProfileInfoForExternalAuthIdIfExists(
       {required String externalId,
-      required AuthenticationType externalAuthType}) {
+      required String externalAuthType}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceExternalId.value] = externalId;
@@ -77,7 +153,7 @@ class BrainCloudFriend {
                 reasonCode: reasonCode,
                 error: statusMessage)));
     ServerCall sc = ServerCall(ServiceName.friend,
-        ServiceOperation.getProfileInfoForExternalAuthId, data, callback);
+        ServiceOperation.getProfileInfoForExternalAuthIdIfExists, data, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;
@@ -277,16 +353,16 @@ class BrainCloudFriend {
   /// Service Name - Friend
   /// Service Operation - FIND_USER_BY_EXACT_UNIVERSAL_ID
   ///
-  /// @param searchText
-  /// The String to search for.
+  /// @param universalId
+  /// The universal id to search for.
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> findUserByExactUniversalId(
-      {required String searchText}) {
+      {required String universalId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
-    data[OperationParam.friendServiceSearchText.value] = searchText;
+    data[OperationParam.friendServiceSearchText.value] = universalId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) => completer.complete(ServerResponse.fromJson(response)),

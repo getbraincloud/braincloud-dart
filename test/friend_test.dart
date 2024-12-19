@@ -13,7 +13,7 @@ void main() {
 
     test("getProfileInfoForCredential()", retry: 2, () async {
       ServerResponse response = await bcTest.bcWrapper.friendService
-          .getProfileInfoForCredential(
+          .getProfileInfoForCredentialIfExists(
               externalId: userA.name,
               authenticationType: AuthenticationType.universal);
 
@@ -22,18 +22,19 @@ void main() {
 
     test("getProfileInfoForExternalAuthId()", retry: 2, () async {
       ServerResponse response = await bcTest.bcWrapper.friendService
-          .getProfileInfoForExternalAuthId(
+          .getProfileInfoForExternalAuthIdIfExists(
               externalId: "externalId",
-              externalAuthType: AuthenticationType.facebook);
+              externalAuthType: "Test");
 
       expect(response.statusCode, StatusCodes.badRequest);
     });
 
     test("getExternalIdForProfileId()", retry: 2, () async {
+      var authenticationType = AuthenticationType.facebook;
       ServerResponse response = await bcTest.bcWrapper.friendService
           .getExternalIdForProfileId(
               profileId: userA.profileId!,
-              authenticationType: AuthenticationType.facebook);
+              authenticationType: authenticationType);
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -89,7 +90,7 @@ void main() {
   test("getMySocialInfo()", () async {
     ServerResponse response = await bcTest.bcWrapper.friendService
         .getMySocialInfo(
-            friendPlatform: FriendPlatform.all, includeSummaryData: false);
+            friendPlatform: FriendPlatform.facebook, includeSummaryData: false);
 
     expect(response.statusCode, StatusCodes.ok);
   });
@@ -183,7 +184,7 @@ void main() {
   //still needs to be added.
   test("finduserbyExactUniversalId()", retry: 2, () async {
     ServerResponse response = await bcTest.bcWrapper.friendService
-        .findUserByExactUniversalId(searchText: "completelyRandomUniversalId");
+        .findUserByExactUniversalId(universalId: "completelyRandomUniversalId");
 
     expect(response.statusCode, StatusCodes.ok);
   });
