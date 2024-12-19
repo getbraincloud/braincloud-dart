@@ -127,7 +127,7 @@ void main() {
         successCount++;
         // This is a bad Ack
         bcTest.bcWrapper.brainCloudClient.rsComms.rawSend(
-            Uint8List.fromList([3, 192, 0, 128, 0, 0, 0, 0, 0, 72, 101, 108]));
+            Uint8List.fromList([3, 192, 0, 128, 0, 0, 2, 2, 2, 72, 101, 108]));
         if (successCount == 4) readyCompleter.complete();
       }
     }
