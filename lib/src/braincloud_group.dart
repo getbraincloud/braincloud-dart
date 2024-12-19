@@ -10,6 +10,8 @@ import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:braincloud_dart/src/server_response.dart';
 import 'package:braincloud_dart/src/util.dart';
 
+import 'common/acl.dart';
+
 class BrainCloudGroup {
   final BrainCloudClient _clientRef;
 
@@ -45,7 +47,7 @@ class BrainCloudGroup {
   /// @param role
   /// Role of the member being added.
   ///
-  /// @param jsonAttributes
+  /// @param attributes
   /// Attributes of the member being added.
   ///
   /// returns Future<ServerResponse>
@@ -53,14 +55,14 @@ class BrainCloudGroup {
       {required String groupId,
       required String profileId,
       required Role role,
-      Map<String, dynamic>? jsonAttributes}) {
+      Map<String, dynamic>? attributes}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupProfileId.value] = profileId;
     data[OperationParam.groupRole.value] = role.toString();
 
-    if (jsonAttributes != null) {
-      data[OperationParam.groupAttributes.value] = jsonAttributes;
+    if (attributes != null) {
+      data[OperationParam.groupAttributes.value] = attributes;
     }
 
     return _sendRequest(ServiceOperation.addGroupMember, data);
@@ -80,7 +82,7 @@ class BrainCloudGroup {
   /// @param role
   /// Role of the member being invited.
   ///
-  /// @param jsonAttributes
+  /// @param attributes
   /// Attributes of the member being invited.
   ///
   /// returns Future<ServerResponse>
@@ -88,14 +90,14 @@ class BrainCloudGroup {
       {required String groupId,
       required String profileId,
       required Role role,
-      Map<String, dynamic>? jsonAttributes}) {
+      Map<String, dynamic>? attributes}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupProfileId.value] = profileId;
     data[OperationParam.groupRole.value] = role.toString();
 
-    if (jsonAttributes != null) {
-      data[OperationParam.groupAttributes.value] = jsonAttributes;
+    if (attributes != null) {
+      data[OperationParam.groupAttributes.value] = attributes;
     }
 
     return _sendRequest(ServiceOperation.approveGroupJoinRequest, data);
@@ -150,15 +152,12 @@ class BrainCloudGroup {
   Future<ServerResponse> autoJoinGroupMulti(
       {required List<String> groupTypes,
       required AutoJoinStrategy autoJoinStrategy,
-      String? dataQueryJson}) {
+      Map<String, dynamic>? where}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupTypes.value] = groupTypes;
     data[OperationParam.groupAutoJoinStrategy.value] =
         autoJoinStrategy.toString();
-
-    if (Util.isOptionalParameterValid(dataQueryJson)) {
-      data[OperationParam.groupWhere.value] = dataQueryJson;
-    }
+      data[OperationParam.groupWhere.value] = where;
 
     return _sendRequest(ServiceOperation.autoJoinGroupMulti, data);
   }
@@ -232,33 +231,33 @@ class BrainCloudGroup {
       required String groupType,
       bool? isOpenGroup,
       GroupACL? acl,
-      Map<String, dynamic>? jsonData,
-      Map<String, dynamic>? jsonOwnerAttributes,
-      Map<String, dynamic>? jsonDefaultMemberAttributes}) {
-    Map<String, dynamic> data = {};
+      Map<String, dynamic>? data,
+      Map<String, dynamic>? ownerAttributes,
+      Map<String, dynamic>? defaultMemberAttributes}) {
+    Map<String, dynamic> mapData = {};
 
     if (!name.isEmptyOrNull) {
-      data[OperationParam.groupName.value] = name;
+      mapData[OperationParam.groupName.value] = name;
     }
-    data[OperationParam.groupType.value] = groupType;
+    mapData[OperationParam.groupType.value] = groupType;
     if (isOpenGroup != null && isOpenGroup) {
-      data[OperationParam.groupIsOpenGroup.value] = isOpenGroup;
+      mapData[OperationParam.groupIsOpenGroup.value] = isOpenGroup;
     }
     if (acl != null) {
-      data[OperationParam.groupAcl.value] = acl.toJsonMap();
+      mapData[OperationParam.groupAcl.value] = acl.toJsonMap();
     }
-    if (jsonData != null) {
-      data[OperationParam.groupData.value] = jsonData;
+    if (data != null) {
+      mapData[OperationParam.groupData.value] = data;
     }
-    if (jsonOwnerAttributes != null) {
-      data[OperationParam.groupOwnerAttributes.value] = jsonOwnerAttributes;
+    if (ownerAttributes != null) {
+      mapData[OperationParam.groupOwnerAttributes.value] = ownerAttributes;
     }
-    if (jsonDefaultMemberAttributes != null) {
-      data[OperationParam.groupDefaultMemberAttributes.value] =
-          jsonDefaultMemberAttributes;
+    if (defaultMemberAttributes != null) {
+      mapData[OperationParam.groupDefaultMemberAttributes.value] =
+          defaultMemberAttributes;
     }
 
-    return _sendRequest(ServiceOperation.createGroup, data);
+    return _sendRequest(ServiceOperation.createGroup, mapData);
   }
 
   /// Create a group. With additional summary data
@@ -296,37 +295,37 @@ class BrainCloudGroup {
       required String groupType,
       bool? isOpenGroup,
       GroupACL? acl,
-      Map<String, dynamic>? jsonData,
-      Map<String, dynamic>? jsonOwnerAttributes,
-      Map<String, dynamic>? jsonDefaultMemberAttributes,
-      Map<String, dynamic>? jsonSummaryData}) {
-    Map<String, dynamic> data = {};
+      Map<String, dynamic>? data,
+      Map<String, dynamic>? ownerAttributes,
+      Map<String, dynamic>? defaultMemberAttributes,
+      Map<String, dynamic>? summaryData}) {
+    Map<String, dynamic> mapData = {};
 
     if (!name.isEmptyOrNull) {
-      data[OperationParam.groupName.value] = name;
+      mapData[OperationParam.groupName.value] = name;
     }
-    data[OperationParam.groupType.value] = groupType;
+    mapData[OperationParam.groupType.value] = groupType;
     if (isOpenGroup != null && isOpenGroup) {
-      data[OperationParam.groupIsOpenGroup.value] = isOpenGroup;
+      mapData[OperationParam.groupIsOpenGroup.value] = isOpenGroup;
     }
     if (acl != null) {
-      data[OperationParam.groupAcl.value] = acl.toJsonMap();
+      mapData[OperationParam.groupAcl.value] = acl.toJsonMap();
     }
-    if (jsonData != null) {
-      data[OperationParam.groupData.value] = jsonData;
+    if (data != null) {
+      mapData[OperationParam.groupData.value] = data;
     }
-    if (jsonOwnerAttributes != null) {
-      data[OperationParam.groupOwnerAttributes.value] = jsonOwnerAttributes;
+    if (ownerAttributes != null) {
+      mapData[OperationParam.groupOwnerAttributes.value] = ownerAttributes;
     }
-    if (jsonDefaultMemberAttributes != null) {
-      data[OperationParam.groupDefaultMemberAttributes.value] =
-          jsonDefaultMemberAttributes;
+    if (defaultMemberAttributes != null) {
+      mapData[OperationParam.groupDefaultMemberAttributes.value] =
+          defaultMemberAttributes;
     }
-    if (jsonSummaryData != null) {
-      data[OperationParam.groupSummaryData.value] = jsonSummaryData;
+    if (summaryData != null) {
+      mapData[OperationParam.groupSummaryData.value] = summaryData;
     }
 
-    return _sendRequest(ServiceOperation.createGroup, data);
+    return _sendRequest(ServiceOperation.createGroup, mapData);
   }
 
   /// Create a group entity.
@@ -355,24 +354,24 @@ class BrainCloudGroup {
       required String entityType,
       bool? isOwnedByGroupMember,
       GroupACL? acl,
-      Map<String, dynamic>? jsonData}) {
-    Map<String, dynamic> data = {};
-    data[OperationParam.groupId.value] = groupId;
+      Map<String, dynamic>? data}) {
+    Map<String, dynamic> mapData = {};
+    mapData[OperationParam.groupId.value] = groupId;
     if (!entityType.isEmptyOrNull) {
-      data[OperationParam.groupEntityType.value] = entityType;
+      mapData[OperationParam.groupEntityType.value] = entityType;
     }
     if (isOwnedByGroupMember != null) {
-      data[OperationParam.groupIsOwnedByGroupMember.value] =
+      mapData[OperationParam.groupIsOwnedByGroupMember.value] =
           isOwnedByGroupMember;
     }
     if (acl != null) {
-      data[OperationParam.groupAcl.value] = acl.toJsonMap();
+      mapData[OperationParam.groupAcl.value] = acl.toJsonMap();
     }
-    if (jsonData != null) {
-      data[OperationParam.groupData.value] = jsonData;
+    if (data != null) {
+      mapData[OperationParam.groupData.value] = data;
     }
 
-    return _sendRequest(ServiceOperation.createGroupEntity, data);
+    return _sendRequest(ServiceOperation.createGroupEntity, mapData);
   }
 
   /// Delete a group.
@@ -446,14 +445,14 @@ class BrainCloudGroup {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> incrementGroupData(
-      {required String groupId, Map<String, dynamic>? jsonData}) {
-    Map<String, dynamic> data = {};
-    data[OperationParam.groupId.value] = groupId;
-    if (jsonData != null) {
-      data[OperationParam.groupData.value] = jsonData;
+      {required String groupId, Map<String, dynamic>? data}) {
+    Map<String, dynamic> mapData = {};
+    mapData[OperationParam.groupId.value] = groupId;
+    if (data != null) {
+      mapData[OperationParam.groupData.value] = data;
     }
 
-    return _sendRequest(ServiceOperation.incrementGroupData, data);
+    return _sendRequest(ServiceOperation.incrementGroupData, mapData);
   }
 
   /// Increment elements for the group entity's data field.
@@ -474,14 +473,14 @@ class BrainCloudGroup {
   Future<ServerResponse> incrementGroupEntityData(
       {required String groupId,
       required String entityId,
-      Map<String, dynamic>? jsonData}) {
-    Map<String, dynamic> data = {};
-    data[OperationParam.groupId.value] = groupId;
-    data[OperationParam.groupEntityId.value] = entityId;
-    if (jsonData != null) {
-      data[OperationParam.groupData.value] = jsonData;
+      Map<String, dynamic>? data}) {
+    Map<String, dynamic> dataMap = {};
+    dataMap[OperationParam.groupId.value] = groupId;
+    dataMap[OperationParam.groupEntityId.value] = entityId;
+    if (data != null) {
+      dataMap[OperationParam.groupData.value] = data;
     }
-    return _sendRequest(ServiceOperation.incrementGroupEntityData, data);
+    return _sendRequest(ServiceOperation.incrementGroupEntityData, dataMap);
   }
 
   /// Invite a member to the group.
@@ -506,13 +505,13 @@ class BrainCloudGroup {
       {required String groupId,
       required String profileId,
       required Role role,
-      Map<String, dynamic>? jsonAttributes}) {
+      Map<String, dynamic>? attributes}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
     data[OperationParam.groupProfileId.value] = profileId;
     data[OperationParam.groupRole.value] = role.toString();
-    if (jsonAttributes != null) {
-      data[OperationParam.groupAttributes.value] = jsonAttributes;
+    if (attributes != null) {
+      data[OperationParam.groupAttributes.value] = attributes;
     }
 
     return _sendRequest(ServiceOperation.inviteGroupMember, data);
@@ -550,6 +549,24 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.leaveGroup, data);
   }
 
+  /// Leave a group in which the user is a member. If member is OWNER, a new owner is 
+  /// automatically selected: most recently active ADMIN; otherwise, most recently 
+  /// active MEMBER; otherwise, group is deleted.
+  ///
+  /// Service Name - group
+  /// Service Operation - LEAVE_GROUP
+  ///
+  /// @param groupId
+  /// ID of the group.
+  ///
+  /// returns Future<ServerResponse>
+  Future<ServerResponse> leaveGroupAuto({required String groupId}) {
+    Map<String, dynamic> data = {};
+    data[OperationParam.groupId.value] = groupId;
+
+    return _sendRequest(ServiceOperation.leaveGroupAuto, data);
+  }
+
   /// Retrieve a page of group summary information based on the specified context.
   ///
   /// Service Name - group
@@ -560,9 +577,9 @@ class BrainCloudGroup {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> listGroupsPage(
-      {required Map<String, dynamic> jsonContext}) {
+      {required Map<String, dynamic> context}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.groupContext.value] = jsonContext;
+    data[OperationParam.groupContext.value] = context;
 
     return _sendRequest(ServiceOperation.listGroupsPage, data);
   }
@@ -647,9 +664,9 @@ class BrainCloudGroup {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> readGroupEntitiesPage(
-      {required Map<String, dynamic> jsonContext}) {
+      {required Map<String, dynamic> context}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.groupContext.value] = jsonContext;
+    data[OperationParam.groupContext.value] = context;
 
     return _sendRequest(ServiceOperation.readGroupEntitiesPage, data);
   }
@@ -667,9 +684,9 @@ class BrainCloudGroup {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> readGroupEntitiesPageByOffset(
-      {required String encodedContext, required int pageOffset}) {
+      {required String context, required int pageOffset}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.groupContext.value] = encodedContext;
+    data[OperationParam.groupContext.value] = context;
     data[OperationParam.groupPageOffset.value] = pageOffset;
 
     return _sendRequest(ServiceOperation.readGroupEntitiesPageByOffset, data);
@@ -788,15 +805,40 @@ class BrainCloudGroup {
   Future<ServerResponse> updateGroupData(
       {required String groupId,
       required int version,
-      Map<String, dynamic>? jsonData}) {
-    Map<String, dynamic> data = {};
-    data[OperationParam.groupId.value] = groupId;
-    data[OperationParam.groupVersion.value] = version;
-    data[OperationParam.groupData.value] = jsonData ?? '';
+      Map<String, dynamic>? data}) {
+    Map<String, dynamic> dataMap = {};
+    dataMap[OperationParam.groupId.value] = groupId;
+    dataMap[OperationParam.groupVersion.value] = version;
+    dataMap[OperationParam.groupData.value] = data;
 
-    return _sendRequest(ServiceOperation.updateGroupData, data);
+    return _sendRequest(ServiceOperation.updateGroupData, dataMap);
   }
 
+  ///Update the acl settings for a group entity, enforcing ownership.
+  ///
+  /// Service Name - group
+  /// Service Operation - UPDATE_GROUP_ENTITY_ACL
+  ///
+  /// @param groupId
+  /// ID of the group.
+  ///
+  /// @param acl
+  /// Access control list for the group entity.
+  ///
+  /// returns Future<ServerResponse>
+  Future<ServerResponse> updateGroupEntityAcl(
+      {required String groupId,
+      required String entityId,      
+      ACL? acl}) {
+    Map<String, dynamic> data = {};
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.groupEntityId.value] = entityId;
+    if (acl != null && acl.isNotEmpty) {
+      data[OperationParam.groupAcl.value] = acl;
+    }
+
+    return _sendRequest(ServiceOperation.updateGroupEntityAcl, data);
+  }
   /// Update a group entity.
   ///
   /// Service Name - group
@@ -908,6 +950,30 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.setGroupOpen, data);
   }
 
+  /// Update a group's access conditions,
+  ///
+  /// Service Name - group
+  /// Service Operation - UPDATE_GROUP_ACL
+  ///
+  /// @param groupId
+  /// ID of the group.
+  ///
+   /// @param jsonSummaryData
+  /// Custom application data.
+  ///
+  /// returns Future<ServerResponse>
+  Future<ServerResponse> updateGroupAcl(
+      {required String groupId,
+      Map<String, dynamic>? acl}) {
+    Map<String, dynamic> data = {};
+    data[OperationParam.groupId.value] = groupId;
+    if (acl != null) {
+      data[OperationParam.groupAcl.value] = acl;
+    }
+
+    return _sendRequest(ServiceOperation.updateGroupAcl, data);
+  }
+
   /// Update a group's summary data
   ///
   /// Service Name - group
@@ -916,11 +982,8 @@ class BrainCloudGroup {
   /// @param groupId
   /// ID of the group.
   ///
-  /// @param version
-  /// Current version of the group
-  ///
-  /// @param jsonSummaryData
-  /// Custom application data.
+  /// @param acl
+  /// The group's access control list. A null ACL implies default.
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> updateGroupSummaryData(
@@ -952,10 +1015,10 @@ class BrainCloudGroup {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getRandomGroupsMatching(
-      {Map<String, dynamic>? jsonWhere, required int maxReturn}) {
+      {Map<String, dynamic>? where, required int maxReturn}) {
     Map<String, dynamic> data = {};
-    if (jsonWhere != null) {
-      data[OperationParam.groupWhere.value] = jsonWhere;
+    if (where != null) {
+      data[OperationParam.groupWhere.value] = where;
     }
     data[OperationParam.groupMaxReturn.value] = maxReturn;
 

@@ -59,7 +59,7 @@ main() {
           name: "test",
           groupType: "test",
           isOpenGroup: false,
-          jsonData: {"test": "asdf"});
+          data: {"test": "asdf"});
 
       expect(response.statusCode, StatusCodes.ok);
       groupId = response.data?["groupId"];

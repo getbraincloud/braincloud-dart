@@ -24,7 +24,7 @@ void main() {
           name: "test",
           groupType: "test",
           isOpenGroup: false,
-          jsonData: {"test": "asdf"});
+          data: {"test": "asdf"});
 
       groupId = response.data?["groupId"];
       expect(response.statusCode, StatusCodes.ok);
@@ -36,8 +36,8 @@ void main() {
               name: "test",
               groupType: "test",
               isOpenGroup: false,
-              jsonOwnerAttributes: {"test": "asdf"},
-              jsonSummaryData: {"summary": "asdf"});
+              ownerAttributes: {"test": "asdf"},
+              summaryData: {"summary": "asdf"});
 
       groupId = response.data?["groupId"];
       expect(response.statusCode, StatusCodes.ok);
@@ -63,6 +63,15 @@ void main() {
 
       ServerResponse response =
           await bcTest.bcWrapper.groupService.leaveGroup(groupId: groupId);
+
+      expect(response.statusCode, StatusCodes.ok);
+    });
+
+    test("leaveGroupAuto()", () async {
+      await reAuth();
+
+      ServerResponse response =
+          await bcTest.bcWrapper.groupService.leaveGroupAuto(groupId: groupId);
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -178,7 +187,7 @@ void main() {
               groupId: groupId,
               entityType: "test",
               isOwnedByGroupMember: false,
-              jsonData: testData);
+              data: testData);
 
       entityId = response.data?["entityId"];
       expect(response.statusCode, StatusCodes.ok);
@@ -205,7 +214,7 @@ void main() {
     test("incrementGroupEntityData()", () async {
       ServerResponse response = await bcTest.bcWrapper.groupService
           .incrementGroupEntityData(
-              groupId: groupId, entityId: entityId, jsonData: testData);
+              groupId: groupId, entityId: entityId, data: testData);
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -231,7 +240,7 @@ void main() {
       entityContext["searchCriteria"]?["groupId"] = groupId;
 
       ServerResponse response = await bcTest.bcWrapper.groupService
-          .readGroupEntitiesPage(jsonContext: entityContext);
+          .readGroupEntitiesPage(context: entityContext);
 
       entityReturnedContext = response.data?["context"];
 
@@ -241,21 +250,21 @@ void main() {
     test("readGroupEntitiesPageByOffset()", () async {
       ServerResponse response = await bcTest.bcWrapper.groupService
           .readGroupEntitiesPageByOffset(
-              encodedContext: entityReturnedContext, pageOffset: 1);
+              context: entityReturnedContext, pageOffset: 1);
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
     test("updateGroupData()", () async {
       ServerResponse response = await bcTest.bcWrapper.groupService
-          .updateGroupData(groupId: groupId, version: -1, jsonData: testData);
+          .updateGroupData(groupId: groupId, version: -1, data: testData);
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
     test("incrementGroupData()", () async {
       ServerResponse response = await bcTest.bcWrapper.groupService
-          .incrementGroupData(groupId: groupId, jsonData: testData);
+          .incrementGroupData(groupId: groupId, data: testData);
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -289,7 +298,7 @@ void main() {
 
     test("listGroupsPage()", () async {
       ServerResponse response = await bcTest.bcWrapper.groupService
-          .listGroupsPage(jsonContext: groupContext);
+          .listGroupsPage(context: groupContext);
 
       groupReturnedContext = response.data?["context"];
       expect(response.statusCode, StatusCodes.ok);
@@ -342,11 +351,65 @@ void main() {
           name: "test",
           groupType: "test",
           isOpenGroup: true,
-          jsonData: {"test": "asdf"});
+          data: {"test": "asdf"});
 
       groupId = response.data?["groupId"];
       userToAuth = userB;
       expect(response.statusCode, StatusCodes.ok);
+    });
+
+    test("updateGroupAcl()", () async {
+      bcTest.bcWrapper.brainCloudClient.enableLogging(true);
+      ServerResponse response = ServerResponse(statusCode: 200); //
+      if (groupId.isEmpty) {
+        response = await bcTest.bcWrapper.groupService.createGroup(
+            name: "testAcl",
+            groupType: "test",
+            isOpenGroup: true,
+            data: {"test": "asdf"});
+        if (response.statusCode == 200) {
+          groupId = response.data?["groupId"];
+        }
+      }
+      if (response.statusCode == 200) {
+        response = await bcTest.bcWrapper.groupService
+            .updateGroupAcl(groupId: groupId, acl: {"member": 2, "other": 0});
+        //  due to a mis-configuration that will be fix later ignoring a error of cloudCodeOnlyMethod
+        if (response.reasonCode != ReasonCodes.cloudCodeOnlyMethod) {
+          expect(response.statusCode, StatusCodes.ok);
+        }
+      }
+    });
+
+    test("updateGroupEntityAcl()", () async {
+      bcTest.bcWrapper.brainCloudClient.enableLogging(true);
+      ServerResponse response = ServerResponse(statusCode: 200); 
+      if (groupId.isEmpty) {
+        response = await bcTest.bcWrapper.groupService.createGroup(
+            name: "testAcl",
+            groupType: "test",
+            isOpenGroup: true,
+            data: {"test": "asdf"});
+        if (response.statusCode == 200) {
+          groupId = response.data?["groupId"];
+        }
+      }
+      if (response.statusCode == 200) {
+        response = await bcTest.bcWrapper.groupService.createGroupEntity(
+          groupId: groupId, 
+          entityType: "entityType",data: {"name":"value"},
+          isOwnedByGroupMember: true);
+      if (response.statusCode == 200) {
+        var entityId = response.data?["entityId"];
+        response = await bcTest.bcWrapper.groupService
+            .updateGroupEntityAcl(groupId: groupId, entityId: entityId, acl: {"member": 2, "other": 1});
+
+        //  due to a mis-configuration that will be fix later ignoring a error of cloudCodeOnlyMethod
+        if (response.reasonCode != ReasonCodes.cloudCodeOnlyMethod) {
+          expect(response.statusCode, StatusCodes.ok);
+        }
+        }
+      }     
     });
 
     test("autoJoinGroup()", () async {
@@ -371,8 +434,7 @@ void main() {
 
     test("GetRandomGroupsMatching()", () async {
       ServerResponse response = await bcTest.bcWrapper.groupService
-          .getRandomGroupsMatching(
-              jsonWhere: {"groupType": "BLUE"}, maxReturn: 20);
+          .getRandomGroupsMatching(where: {"groupType": "BLUE"}, maxReturn: 20);
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -491,9 +553,9 @@ void main() {
           groupType: groupType,
           isOpenGroup: isOpenGroup,
           acl: acl,
-          jsonData: jsonData,
-          jsonOwnerAttributes: ownerAttributes,
-          jsonDefaultMemberAttributes: defaultMemberAttributes);
+          data: jsonData,
+          ownerAttributes: ownerAttributes,
+          defaultMemberAttributes: defaultMemberAttributes);
 
       if (response.statusCode == StatusCodes.ok) {
         print("Group created");

@@ -457,7 +457,7 @@ main() {
           name: "test",
           groupType: "test",
           isOpenGroup: false,
-          jsonData: {"reason": "Group to test groupd files"});
+          data: {"reason": "Group to test groupd files"});
       print("Group File setUpAll createGroup returned ${response.data}");
       groupId = response.data?["groupId"];
     });
