@@ -33,7 +33,7 @@ void main() {
       ServerResponse response =
           await bcTest.bcWrapper.messagingService.sendMessageSimple(
         toProfileIds: toprofileids,
-        messageText: "Test",
+        text: "Test",
       );
       expect(response.statusCode, StatusCodes.ok);
       expect(response.data?["actual"], 1);
@@ -52,7 +52,7 @@ void main() {
         ServerResponse newMsgResponse =
             await bcTest.bcWrapper.messagingService.sendMessageSimple(
           toProfileIds: toprofileids,
-          messageText: "Test",
+          text: "Test",
         );
         msgId = newMsgResponse.data?["msgId"];
         expect(msgId, isNotEmpty, reason: "Need a msg Id to test deletion");
@@ -74,14 +74,14 @@ void main() {
         ServerResponse newMsgResponse =
             await bcTest.bcWrapper.messagingService.sendMessageSimple(
           toProfileIds: [userA.profileId!],
-          messageText: "Test",
+          text: "Test",
         );
         msgId = newMsgResponse.data?["msgId"];
         expect(msgId, isNotEmpty, reason: "Need a msg Id to test deletion");
       }
 
       ServerResponse response = await bcTest.bcWrapper.messagingService
-          .getMessages(inMsgbox: 'inbox', inMsgsids: [msgId], markAsRead: true);
+          .getMessages(msgBox: 'inbox', msgIds: [msgId], markAsRead: true);
       expect(response.statusCode, StatusCodes.ok);
       expect(response.data?["requested"], 1,
           reason: 'should match requested 1 msg');
@@ -151,7 +151,7 @@ void main() {
         ServerResponse newMsgResponse =
             await bcTest.bcWrapper.messagingService.sendMessageSimple(
           toProfileIds: [userA.profileId!],
-          messageText: "Test",
+          text: "Test",
         );
         msgId = newMsgResponse.data?["msgId"];
         expect(msgId, isNotEmpty, reason: "Need a msg Id to test deletion");

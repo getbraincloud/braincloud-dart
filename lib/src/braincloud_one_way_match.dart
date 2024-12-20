@@ -22,10 +22,10 @@ class BrainCloudOneWayMatch {
   /// @param rangeDelta The range delta used for the initial match search
   /// returns Future<ServerResponse>
   Future<ServerResponse> startMatch(
-      {required String otherPlayerId, required int rangeDelta}) {
+      {required String playerId, required int rangeDelta}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    data[OperationParam.offlineMatchServicePlayerId.value] = otherPlayerId;
+    data[OperationParam.offlineMatchServicePlayerId.value] = playerId;
     data[OperationParam.offlineMatchServiceRangeDelta.value] = rangeDelta;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(

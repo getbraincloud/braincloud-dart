@@ -13,7 +13,7 @@ void main() {
 
     test("startMatch()", () async {
       ServerResponse response = await bcTest.bcWrapper.oneWayMatchService
-          .startMatch(otherPlayerId: userB.profileId!, rangeDelta: 1000);
+          .startMatch(playerId: userB.profileId!, rangeDelta: 1000);
 
       streamId = response.data?["playbackStreamId"];
       expect(response.statusCode, StatusCodes.ok);
@@ -28,7 +28,7 @@ void main() {
 
     test("startMatch()", () async {
       ServerResponse response = await bcTest.bcWrapper.oneWayMatchService
-          .startMatch(otherPlayerId: userB.profileId!, rangeDelta: 1000);
+          .startMatch(playerId: userB.profileId!, rangeDelta: 1000);
 
       streamId = response.data?["playbackStreamId"];
       expect(response.statusCode, StatusCodes.ok);
