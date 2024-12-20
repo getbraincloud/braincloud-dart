@@ -18,7 +18,7 @@ void main() {
 
     test("findLobby()", () async {
       ServerResponse response = await bcTest.bcWrapper.lobbyService.findLobby(
-          roomType: "MATCH_UNRANKED",
+          lobbyType: "MATCH_UNRANKED",
           rating: 0,
           maxSteps: 1,
           algo: {
@@ -35,7 +35,7 @@ void main() {
 
     test("createLobby()", () async {
       ServerResponse response = await bcTest.bcWrapper.lobbyService.createLobby(
-          roomType: "MATCH_UNRANKED",
+          lobbyType: "MATCH_UNRANKED",
           rating: 0,
           isReady: true,
           extraJson: {},
@@ -47,7 +47,7 @@ void main() {
     test("findOrCreateLobby()", () async {
       ServerResponse response =
           await bcTest.bcWrapper.lobbyService.findOrCreateLobby(
-              roomType: "MATCH_UNRANKED",
+              lobbyType: "MATCH_UNRANKED",
               rating: 0,
               maxSteps: 1,
               algo: {
@@ -103,7 +103,7 @@ void main() {
 
     test("switchTeam()", () async {
       ServerResponse response = await bcTest.bcWrapper.lobbyService
-          .switchTeam(lobbyId: "wrongLobbyId", toTeamName: "all");
+          .switchTeam(lobbyId: "wrongLobbyId", toTeamCode: "all");
       expect(response.statusCode, StatusCodes.badRequest);
     });
 
@@ -123,7 +123,6 @@ void main() {
 
       final Completer completer = Completer();
       bcTest.bcWrapper.rttService.enableRTT( successCallback: (RTTCommandResponse response){
-        
       expect(response.data?['operation'], "CONNECT",
           reason: "Expecting \"CONNECT\"");        
           completer.complete();
@@ -133,8 +132,23 @@ void main() {
 
       await completer.future;
 
+      ServerResponse response = await bcTest.bcWrapper.lobbyService.findLobby(
+          lobbyType: "MATCH_UNRANKED",
+          rating: 0,
+          maxSteps: 1,
+          algo: {
+            "strategy": "ranged-absolute",
+            "alignment": "center",
+            "ranges": [1000]
+          },
+          extraJson: {},
+          isReady: true,
+          teamCode: "all");
+
+      String entryId = response.data?['entryId'] ?? "";
+
       ServerResponse lobbyResponse = await bcTest.bcWrapper.lobbyService
-          .cancelFindRequest(roomType: "MATCH_UNRANKED");
+          .cancelFindRequest(lobbyType: "MATCH_UNRANKED",entryId: entryId);
 
       expect(lobbyResponse.statusCode, StatusCodes.ok);
     });
@@ -149,7 +163,7 @@ void main() {
     test("findOrCreateLobbyWithPingData() without pings", () async {
       ServerResponse response =
           await bcTest.bcWrapper.lobbyService.findOrCreateLobbyWithPingData(
-              roomType: "MATCH_UNRANKED",
+              lobbyType: "MATCH_UNRANKED",
               rating: 0,
               maxSteps: 1,
               algo: {
@@ -170,7 +184,7 @@ void main() {
 
     test("getRegionsForLobbies()", () async {
       ServerResponse response = await bcTest.bcWrapper.lobbyService
-          .getRegionsForLobbies(roomTypes: ["MATCH_UNRANKED"]);
+          .getRegionsForLobbies(lobbyTypes: ["MATCH_UNRANKED"]);
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -185,7 +199,7 @@ void main() {
 
     test("getLobbyInstancesWithPingData()", () async {
       ServerResponse response = await bcTest.bcWrapper.lobbyService
-          .getRegionsForLobbies(roomTypes: ["MATCH_UNRANKED"]);
+          .getRegionsForLobbies(lobbyTypes: ["MATCH_UNRANKED"]);
 
       expect(response.statusCode, StatusCodes.ok);
 
@@ -205,7 +219,7 @@ void main() {
 
     test("pingRegions()", () async {
       ServerResponse response = await bcTest.bcWrapper.lobbyService
-          .getRegionsForLobbies(roomTypes: ["MATCH_UNRANKED"]);
+          .getRegionsForLobbies(lobbyTypes: ["MATCH_UNRANKED"]);
 
       expect(response.statusCode, StatusCodes.ok);
 
@@ -232,7 +246,7 @@ void main() {
     //Call all the <>WithPingData functions and make sure they go through braincloud
     test("WithPingData()", () async {
       ServerResponse response = await bcTest.bcWrapper.lobbyService
-          .getRegionsForLobbies(roomTypes: ["MATCH_UNRANKED"]);
+          .getRegionsForLobbies(lobbyTypes: ["MATCH_UNRANKED"]);
 
       expect(response.statusCode, StatusCodes.ok, reason: "Expecting 200");
       response = await bcTest.bcWrapper.lobbyService.pingRegions();
@@ -241,7 +255,7 @@ void main() {
 
       response =
           await bcTest.bcWrapper.lobbyService.findOrCreateLobbyWithPingData(
-              roomType: "MATCH_UNRANKED",
+              lobbyType: "MATCH_UNRANKED",
               rating: 0,
               maxSteps: 1,
               algo: {
@@ -267,7 +281,7 @@ void main() {
           reason: "Expecting bc.statusCodes.BAD_REQUEST");
 
       response = await bcTest.bcWrapper.lobbyService.findLobbyWithPingData(
-          roomType: "MATCH_UNRANKED",
+          lobbyType: "MATCH_UNRANKED",
           rating: 0,
           maxSteps: 1,
           algo: {
@@ -283,7 +297,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok, reason: "Expecting 200");
 
       response = await bcTest.bcWrapper.lobbyService.createLobbyWithPingData(
-          roomType: "MATCH_UNRANKED",
+          lobbyType: "MATCH_UNRANKED",
           rating: 0,
           isReady: true,
           settings: {},

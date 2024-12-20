@@ -151,7 +151,7 @@ void main() {
       algo["ranges"] = ranges;
 
       bcTest.bcWrapper.lobbyService.findOrCreateLobby(
-          roomType: "READY_START_V2",
+          lobbyType: "READY_START_V2",
           rating: 0,
           maxSteps: 1,
           algo: algo,

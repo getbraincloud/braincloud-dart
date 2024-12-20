@@ -27,24 +27,22 @@ class BrainCloudLobby {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> findLobby(
-      {required String roomType,
+      {required String lobbyType,
       required int rating,
       required int maxSteps,
       required Map<String, dynamic> algo,
       Map<String, dynamic>? filterJson,
-      int? timeoutSecs,
       required bool isReady,
       required Map<String, dynamic> extraJson,
       String? teamCode,
       List<String>? otherUserCxids}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    data[OperationParam.lobbyRoomType.value] = roomType;
+    data[OperationParam.lobbyRoomType.value] = lobbyType;
     data[OperationParam.lobbyRating.value] = rating;
     data[OperationParam.lobbyMaxSteps.value] = maxSteps;
     data[OperationParam.lobbyAlgorithm.value] = algo;
     data[OperationParam.lobbyFilterJson.value] = filterJson;
-    data[OperationParam.lobbyTimeoutSeconds.value] = timeoutSecs;
     data[OperationParam.lobbyIsReady.value] = isReady;
     if (otherUserCxids != null) {
       data[OperationParam.lobbyOtherUserCxIds.value] = otherUserCxids;
@@ -72,23 +70,21 @@ class BrainCloudLobby {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> findLobbyWithPingData(
-      {required String roomType,
+      {required String lobbyType,
       required int rating,
       required int maxSteps,
       required Map<String, dynamic> algo,
       Map<String, dynamic>? filterJson,
-      int? timeoutSecs,
       required bool isReady,
       required Map<String, dynamic> extraJson,
       String? teamCode,
       List<String>? otherUserCxids}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.lobbyRoomType.value] = roomType;
+    data[OperationParam.lobbyRoomType.value] = lobbyType;
     data[OperationParam.lobbyRating.value] = rating;
     data[OperationParam.lobbyMaxSteps.value] = maxSteps;
     data[OperationParam.lobbyAlgorithm.value] = algo;
     data[OperationParam.lobbyFilterJson.value] = filterJson;
-    data[OperationParam.lobbyTimeoutSeconds.value] = timeoutSecs;
     data[OperationParam.lobbyIsReady.value] = isReady;
     if (otherUserCxids != null) {
       data[OperationParam.lobbyOtherUserCxIds.value] = otherUserCxids;
@@ -103,7 +99,7 @@ class BrainCloudLobby {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> createLobby(
-      {required String roomType,
+      {required String lobbyType,
       required int rating,
       required bool isReady,
       required Map<String, dynamic> extraJson,
@@ -112,7 +108,7 @@ class BrainCloudLobby {
       List<String>? otherUserCxids}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    data[OperationParam.lobbyRoomType.value] = roomType;
+    data[OperationParam.lobbyRoomType.value] = lobbyType;
     data[OperationParam.lobbyRating.value] = rating;
     data[OperationParam.lobbySettings.value] = settings;
     data[OperationParam.lobbyIsReady.value] = isReady;
@@ -140,7 +136,7 @@ class BrainCloudLobby {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> createLobbyWithPingData(
-      {required String roomType,
+      {required String lobbyType,
       required int rating,
       required bool isReady,
       required Map<String, dynamic> extraJson,
@@ -148,7 +144,7 @@ class BrainCloudLobby {
       required Map<String, dynamic> settings,
       List<String>? otherUserCxids}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.lobbyRoomType.value] = roomType;
+    data[OperationParam.lobbyRoomType.value] = lobbyType;
     data[OperationParam.lobbyRating.value] = rating;
     data[OperationParam.lobbySettings.value] = settings;
     data[OperationParam.lobbyIsReady.value] = isReady;
@@ -168,12 +164,11 @@ class BrainCloudLobby {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> findOrCreateLobby(
-      {required String roomType,
+      {required String lobbyType,
       required int rating,
       required int maxSteps,
       required Map<String, dynamic> algo,
       Map<String, dynamic>? filterJson,
-      int? timeoutSecs,
       required bool isReady,
       required Map<String, dynamic> extraJson,
       String? teamCode,
@@ -181,12 +176,11 @@ class BrainCloudLobby {
       List<String>? otherUserCxids}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    data[OperationParam.lobbyRoomType.value] = roomType;
+    data[OperationParam.lobbyRoomType.value] = lobbyType;
     data[OperationParam.lobbyRating.value] = rating;
     data[OperationParam.lobbyMaxSteps.value] = maxSteps;
     data[OperationParam.lobbyAlgorithm.value] = algo;
     data[OperationParam.lobbyFilterJson.value] = filterJson;
-    data[OperationParam.lobbyTimeoutSeconds.value] = timeoutSecs;
     data[OperationParam.lobbySettings.value] = settings;
     data[OperationParam.lobbyIsReady.value] = isReady;
     if (otherUserCxids != null) {
@@ -214,24 +208,22 @@ class BrainCloudLobby {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> findOrCreateLobbyWithPingData(
-      {required String roomType,
+      {required String lobbyType,
       required int rating,
       required int maxSteps,
       required Map<String, dynamic> algo,
       Map<String, dynamic>? filterJson,
-      int? timeoutSecs,
       required bool isReady,
       required Map<String, dynamic> extraJson,
       String? teamCode,
       required Map<String, dynamic> settings,
       List<String>? otherUserCxids}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.lobbyRoomType.value] = roomType;
+    data[OperationParam.lobbyRoomType.value] = lobbyType;
     data[OperationParam.lobbyRating.value] = rating;
     data[OperationParam.lobbyMaxSteps.value] = maxSteps;
     data[OperationParam.lobbyAlgorithm.value] = algo;
     data[OperationParam.lobbyFilterJson.value] = filterJson;
-    data[OperationParam.lobbyTimeoutSeconds.value] = timeoutSecs;
     data[OperationParam.lobbySettings.value] = settings;
     data[OperationParam.lobbyIsReady.value] = isReady;
     if (otherUserCxids != null) {
@@ -321,11 +313,11 @@ class BrainCloudLobby {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> switchTeam(
-      {required String lobbyId, required String toTeamName}) {
+      {required String lobbyId, required String toTeamCode}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyIdentifier.value] = lobbyId;
-    data[OperationParam.lobbyToTeamName.value] = toTeamName;
+    data[OperationParam.lobbyToTeamName.value] = toTeamCode;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) => completer.complete(ServerResponse.fromJson(response)),
@@ -470,11 +462,12 @@ class BrainCloudLobby {
   /// Cancel this members Find, Join and Searching of Lobbies
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> cancelFindRequest({required String roomType}) {
+  Future<ServerResponse> cancelFindRequest({required String lobbyType,required String entryId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    data[OperationParam.lobbyRoomType.value] = roomType;
+    data[OperationParam.lobbyRoomType.value] = lobbyType;
     data[OperationParam.lobbyConnectionId.value] = _clientRef.rttConnectionID;
+    data[OperationParam.entryId.value] = entryId;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) => completer.complete(ServerResponse.fromJson(response)),
@@ -495,10 +488,10 @@ class BrainCloudLobby {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> getRegionsForLobbies(
-      {required List<String> roomTypes}) {
+      {required List<String> lobbyTypes}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    data[OperationParam.lobbyTypes.value] = roomTypes;
+    data[OperationParam.lobbyTypes.value] = lobbyTypes;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
         (response) {
@@ -742,7 +735,7 @@ class BrainCloudLobby {
     var ping = Ping(target, count: 1, timeout: 10); // timeout is in seconds
     ping.stream.listen((event) {
       if (event.response != null) {
-        handlePingTimeResponse(
+        _handlePingTimeResponse(
             event.response?.time?.inMilliseconds ?? 0, region);
       }
       ping.stop();
@@ -762,7 +755,7 @@ class BrainCloudLobby {
       // await request.send().timeout(Duration(seconds: 10));
       int pingTime = await request.ping();
       if (request.isDone && request.error.isEmpty) {
-        handlePingTimeResponse(pingTime,region);
+        _handlePingTimeResponse(pingTime,region);
       } else {
         _pingNextItemToProcess();
       }
@@ -771,7 +764,7 @@ class BrainCloudLobby {
     }
   }
 
-  void handlePingTimeResponse(int responsetime, String region) {
+  void _handlePingTimeResponse(int responsetime, String region) {
     var regions = _cachedPingResponses[region];
 
     regions?.add(responsetime);

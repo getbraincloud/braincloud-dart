@@ -671,6 +671,7 @@ class OperationParam {
   static OperationParam sentMessageType = OperationParam("sent");
 
   // lobby
+  static OperationParam entryId = OperationParam("entryId");
   static OperationParam lobbyRoomType = OperationParam("lobbyType");
   static OperationParam lobbyTypes = OperationParam("lobbyTypes");
   static OperationParam lobbyRating = OperationParam("rating");
@@ -706,6 +707,7 @@ class OperationParam {
   static OperationParam strategyAbsolute = OperationParam("absolute");
   static OperationParam strategyCompound = OperationParam("compound");
   static OperationParam alignmentCenter = OperationParam("center");
+
   //custom entity
   static OperationParam customEntityServiceEntityType =
       OperationParam("entityType");
