@@ -31,7 +31,7 @@ void main() {
 
     test("sendAdvancedEmail()", () async {
       ServerResponse response = await bcTest.bcWrapper.mailService
-          .sendAdvancedEmail(profileId: userA.profileId!, jsonServiceParams: {
+          .sendAdvancedEmail(profileId: userA.profileId!, serviceParams: {
         "subject": "Test Subject - TestSendAdvancedEmailSendGrid",
         "body": "Test body content message.",
         "categories": ["unit-test"]
@@ -44,7 +44,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.mailService
           .sendAdvancedEmailByAddress(
               emailAddress: userA.email,
-              jsonServiceParams: {
+              serviceParams: {
             "subject": "Test Subject - TestSendAdvancedEmailSendGrid",
             "body": "Test body content message.",
             "categories": ["unit-test"]

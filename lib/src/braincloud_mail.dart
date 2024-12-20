@@ -56,11 +56,11 @@ class BrainCloudMail {
   /// returns Future<ServerResponse>
   Future<ServerResponse> sendAdvancedEmail(
       {required String profileId,
-      required Map<String, dynamic> jsonServiceParams}) {
+      required Map<String, dynamic> serviceParams}) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.profileId.value] = profileId;
-    data[OperationParam.serviceParams.value] = jsonServiceParams;
+    data[OperationParam.serviceParams.value] = serviceParams;
 
     return _sendMessage(
       ServiceOperation.sendAdvancedEmail,
@@ -83,11 +83,11 @@ class BrainCloudMail {
   /// returns Future<ServerResponse>
   Future<ServerResponse> sendAdvancedEmailByAddress(
       {required String emailAddress,
-      required Map<String, dynamic> jsonServiceParams}) {
+      required Map<String, dynamic> serviceParams}) {
     Map<String, dynamic> data = {};
 
     data[OperationParam.emailAddress.value] = emailAddress;
-    data[OperationParam.serviceParams.value] = jsonServiceParams;
+    data[OperationParam.serviceParams.value] = serviceParams;
 
     return _sendMessage(ServiceOperation.sendAdvancedEmailByAddress, data);
   }
