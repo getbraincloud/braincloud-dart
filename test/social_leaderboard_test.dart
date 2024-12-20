@@ -12,66 +12,66 @@ void main() {
     var leaderboardName = "testLeaderboard";
     var groupLeaderboard = "groupLeaderboardConfig";
 
-    test("getGlobalLeaderboardPage()", retry: 2, () async {
+    test("getGlobalLeaderboardPage()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGlobalLeaderboardPage(
               leaderboardId: leaderboardName,
-              sort: SortOrder.HIGH_TO_LOW,
+              sortOrder: SortOrder.HIGH_TO_LOW,
               startIndex: 0,
               endIndex: 10);
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getGlobalLeaderboardPageIfExistsTrue()", retry: 2, () async {
+    test("getGlobalLeaderboardPageIfExistsTrue()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGlobalLeaderboardPageIfExists(
               leaderboardId: leaderboardName,
-              sort: SortOrder.HIGH_TO_LOW,
+              sortOrder: SortOrder.HIGH_TO_LOW,
               startIndex: 0,
               endIndex: 10);
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getGlobalLeaderboardPageIfExistsFalse()", retry: 2, () async {
+    test("getGlobalLeaderboardPageIfExistsFalse()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGlobalLeaderboardPageIfExists(
               leaderboardId: "nonExistentLeaderboard",
-              sort: SortOrder.HIGH_TO_LOW,
+              sortOrder: SortOrder.HIGH_TO_LOW,
               startIndex: 0,
               endIndex: 10);
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getGlobalLeaderboardView()", retry: 2, () async {
+    test("getGlobalLeaderboardView()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGlobalLeaderboardView(
               leaderboardId: leaderboardName,
-              sort: SortOrder.HIGH_TO_LOW,
+              sortOrder: SortOrder.HIGH_TO_LOW,
               beforeCount: 4,
               afterCount: 5);
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getGlobalLeaderboardViewIfExistsTrue()", retry: 2, () async {
+    test("getGlobalLeaderboardViewIfExistsTrue()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGlobalLeaderboardViewIfExists(
               leaderboardId: leaderboardName,
-              sort: SortOrder.HIGH_TO_LOW,
+              sortOrder: SortOrder.HIGH_TO_LOW,
               beforeCount: 4,
               afterCount: 5);
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getGlobalLeaderboardViewIfExistsFalse()", retry: 2, () async {
+    test("getGlobalLeaderboardViewIfExistsFalse()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGlobalLeaderboardViewIfExists(
               leaderboardId: "nonExistentLeaderboard",
-              sort: SortOrder.HIGH_TO_LOW,
+              sortOrder: SortOrder.HIGH_TO_LOW,
               beforeCount: 4,
               afterCount: 5);
 
@@ -80,7 +80,7 @@ void main() {
 
     var versionId = 0;
 
-    test("getGlobalLeaderboardVersions()", retry: 2, () async {
+    test("getGlobalLeaderboardVersions()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGlobalLeaderboardVersions(leaderboardId: leaderboardName);
 
@@ -92,11 +92,11 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getGlobalLeaderboardPageByVersion()", retry: 2, () async {
+    test("getGlobalLeaderboardPageByVersion()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGlobalLeaderboardPageByVersion(
               leaderboardId: leaderboardName,
-              sort: SortOrder.HIGH_TO_LOW,
+              sortOrder: SortOrder.HIGH_TO_LOW,
               startIndex: 0,
               endIndex: 10,
               versionId: versionId);
@@ -104,11 +104,11 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getGlobalLeaderboardPageByVersionIfExistsTrue()", retry: 2, () async {
+    test("getGlobalLeaderboardPageByVersionIfExistsTrue()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGlobalLeaderboardPageByVersionIfExists(
               leaderboardId: leaderboardName,
-              sort: SortOrder.HIGH_TO_LOW,
+              sortOrder: SortOrder.HIGH_TO_LOW,
               startIndex: 0,
               endIndex: 10,
               versionId: versionId);
@@ -116,23 +116,23 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getGlobalLeaderboardPageByVersionIfExistsFalse()", retry: 2,
+    test("getGlobalLeaderboardPageByVersionIfExistsFalse()",
         () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGlobalLeaderboardPageByVersionIfExists(
               leaderboardId: "nonExistentLeaderboard",
-              sort: SortOrder.HIGH_TO_LOW,
+              sortOrder: SortOrder.HIGH_TO_LOW,
               startIndex: 0,
               endIndex: 10,
               versionId: versionId);
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getGlobalLeaderboardViewByVersion()", retry: 2, () async {
+    test("getGlobalLeaderboardViewByVersion()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGlobalLeaderboardViewByVersion(
               leaderboardId: leaderboardName,
-              sort: SortOrder.HIGH_TO_LOW,
+              sortOrder: SortOrder.HIGH_TO_LOW,
               beforeCount: 4,
               afterCount: 5,
               versionId: versionId);
@@ -140,11 +140,11 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getGlobalLeaderboardViewByVersionIfExistsTrue()", retry: 2, () async {
+    test("getGlobalLeaderboardViewByVersionIfExistsTrue()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGlobalLeaderboardViewByVersionIfExists(
               leaderboardId: leaderboardName,
-              sort: SortOrder.HIGH_TO_LOW,
+              sortOrder: SortOrder.HIGH_TO_LOW,
               beforeCount: 4,
               afterCount: 5,
               versionId: versionId);
@@ -152,12 +152,12 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getGlobalLeaderboardViewByVersionIfExistsFalse()", retry: 2,
+    test("getGlobalLeaderboardViewByVersionIfExistsFalse()",
         () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGlobalLeaderboardViewByVersionIfExists(
               leaderboardId: "nonExistentLeaderboard",
-              sort: SortOrder.HIGH_TO_LOW,
+              sortOrder: SortOrder.HIGH_TO_LOW,
               beforeCount: 4,
               afterCount: 5,
               versionId: versionId);
@@ -165,13 +165,13 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getGlobalLeaderboardEntryCount()", retry: 2, () async {
+    test("getGlobalLeaderboardEntryCount()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGlobalLeaderboardEntryCount(leaderboardId: leaderboardName);
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("postScoreToDynamicLeaderboard()", retry: 2, () async {
+    test("postScoreToDynamicLeaderboard()", () async {
       var today = DateTime.now();
       var tomorrow = today.add(Duration(days: 1));
 
@@ -179,7 +179,7 @@ void main() {
           .postScoreToDynamicLeaderboardUTC(
               leaderboardId: "testDynamicJs",
               score: 1000,
-              jsonData: {"extra": 123},
+              data: {"extra": 123},
               leaderboardType: SocialLeaderboardType.HIGH_VALUE,
               rotationType: RotationType.DAILY,
               rotationResetUTC: tomorrow.millisecondsSinceEpoch,
@@ -188,7 +188,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("postScoreToDynamicLeaderboardUTC()", retry: 2, () async {
+    test("postScoreToDynamicLeaderboardUTC()", () async {
       var today = DateTime.now();
       var tomorrow = today.add(Duration(days: 1));
 
@@ -196,7 +196,7 @@ void main() {
           .postScoreToDynamicLeaderboardUTC(
               leaderboardId: "testDynamicJs",
               score: 1000,
-              jsonData: {"extra": 123},
+              data: {"extra": 123},
               leaderboardType: SocialLeaderboardType.HIGH_VALUE,
               rotationType: RotationType.DAILY,
               rotationResetUTC: tomorrow.millisecondsSinceEpoch,
@@ -205,7 +205,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("postScoreToDynamicLeaderboardUsingConfig", retry: 2, () async {
+    test("postScoreToDynamicLeaderboardUsingConfig", () async {
       var today = DateTime.now();
       var tomorrow = today.add(Duration(days: 1));
 
@@ -229,7 +229,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("postScoreToDynamicLeaderboardDays()", retry: 2, () async {
+    test("postScoreToDynamicLeaderboardDays()", () async {
       var today = DateTime.now();
       var tomorrow = today.add(Duration(days: 1));
 
@@ -237,26 +237,26 @@ void main() {
           .postScoreToDynamicLeaderboardDaysUTC(
               leaderboardId: "testDynamicJsDays",
               score: 1000,
-              jsonData: {"extra": 123},
+              data: {"extra": 123},
               leaderboardType: SocialLeaderboardType.HIGH_VALUE,
-              rotationResetUTC: tomorrow.millisecondsSinceEpoch,
+              rotationReset: tomorrow.millisecondsSinceEpoch,
               numDaysToRotate: 3,
               retainedCount: 3);
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("postScoreToLeaderboard()", retry: 2, () async {
+    test("postScoreToLeaderboard()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .postScoreToLeaderboard(
               leaderboardId: leaderboardName,
               score: 1000,
-              jsonData: {"extra": 123});
+              data: {"extra": 123});
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getSocialLeaderboard()", retry: 2, () async {
+    test("getSocialLeaderboard()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getSocialLeaderboard(
               leaderboardId: leaderboardName, replaceName: true);
@@ -264,7 +264,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getSocialLeaderboardIfExistsTrue()", retry: 2, () async {
+    test("getSocialLeaderboardIfExistsTrue()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getSocialLeaderboardIfExists(
               leaderboardId: leaderboardName, replaceName: true);
@@ -272,7 +272,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getSocialLeaderboardIfExistsFalse()", retry: 2, () async {
+    test("getSocialLeaderboardIfExistsFalse()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getSocialLeaderboardIfExists(
               leaderboardId: "nonExistentLeaderboard", replaceName: true);
@@ -280,7 +280,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getSocialLeaderboardByVersion()", retry: 2, () async {
+    test("getSocialLeaderboardByVersion()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getSocialLeaderboardByVersion(
               leaderboardId: leaderboardName, replaceName: true, versionId: 0);
@@ -288,7 +288,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getSocialLeaderboardByVersionIfExistsTrue()", retry: 2, () async {
+    test("getSocialLeaderboardByVersionIfExistsTrue()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getSocialLeaderboardByVersionIfExists(
               leaderboardId: leaderboardName, replaceName: true, versionId: 0);
@@ -296,7 +296,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getSocialLeaderboardByVersionIfExistsFalse()", retry: 2, () async {
+    test("getSocialLeaderboardByVersionIfExistsFalse()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getSocialLeaderboardByVersionIfExists(
               leaderboardId: "nonExistentLeaderboard",
@@ -306,7 +306,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getMultiSocialLeaderboard()", retry: 2, () async {
+    test("getMultiSocialLeaderboard()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getMultiSocialLeaderboard(
               leaderboardIds: [leaderboardName, "testDynamicJs"],
@@ -316,7 +316,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("listAllLeaderboards()", retry: 2, () async {
+    test("listAllLeaderboards()", () async {
       ServerResponse response =
           await bcTest.bcWrapper.leaderboardService.listAllLeaderboards();
       expect(response.statusCode, StatusCodes.ok);
@@ -324,7 +324,7 @@ void main() {
 
     var groupId = "";
 
-    test("createGroup()", retry: 2, () async {
+    test("createGroup()", () async {
       ServerResponse response = await bcTest.bcWrapper.groupService.createGroup(
           name: "test",
           groupType: "test",
@@ -335,7 +335,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getGroupSocialLeaderboard()", retry: 2, () async {
+    test("getGroupSocialLeaderboard()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGroupSocialLeaderboard(
               leaderboardId: leaderboardName, groupId: groupId);
@@ -343,7 +343,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getGroupSocialLeaderboardByVersion()", retry: 2, () async {
+    test("getGroupSocialLeaderboardByVersion()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGroupSocialLeaderboardByVersion(
               leaderboardId: leaderboardName, groupId: groupId, versionId: 0);
@@ -351,24 +351,24 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("postScoreToGroupLeaderboard())", retry: 2, () async {
+    test("postScoreToGroupLeaderboard())", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .postScoreToGroupLeaderboard(
               leaderboardId: groupLeaderboard,
               groupId: groupId,
               score: 0,
-              jsonData: {"test": "asdf"});
+              data: {"test": "asdf"});
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("postScoreToDynamicGroupLeaderboardUtc())", retry: 2, () async {
+    test("postScoreToDynamicGroupLeaderboardUtc())", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .postScoreToDynamicGroupLeaderboardUTC(
               leaderboardId: groupLeaderboard,
               groupId: groupId,
               score: 0,
-              jsonData: {"test": "asdf"},
+              data: {"test": "asdf"},
               leaderboardType: SocialLeaderboardType.HIGH_VALUE,
               rotationType: RotationType.WEEKLY,
               rotationResetUTC: 1570818219096,
@@ -377,7 +377,34 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("removeGroupScore())", retry: 2, () async {
+    test("postScoreToDynamicGroupLeaderboardUsingConfig", () async {
+      var today = DateTime.now();
+      var tomorrow = today.add(Duration(days: 1));
+
+      var leaderboardId = groupLeaderboard;
+      var score = 9999;
+      var scoreData = {"nickname": "tarnished"};
+      var configJson = {
+        "leaderboardType": "HIGH_VALUE",
+        "rotationType": "DAYS",
+        "numDaysToRotate": 4,
+        "resetAt": tomorrow.millisecondsSinceEpoch,
+        "retainedCount": 2,
+        "expireInMins": null
+      };
+      ServerResponse response = await bcTest.bcWrapper.leaderboardService
+          .postScoreToDynamicGroupLeaderboardUsingConfig(
+              leaderboardId: leaderboardId,
+              groupId: groupId,
+              score: score,
+              scoreData: scoreData,
+              configJson: configJson);
+
+      print("postScoreToDynamicGroupLeaderboardUsingConfig: $response,   ${response.data}");
+      expect(response.statusCode, StatusCodes.ok);
+    });
+
+    test("removeGroupScore())", () async {
       ServerResponse response =
           await bcTest.bcWrapper.leaderboardService.removeGroupScore(
         leaderboardId: groupLeaderboard,
@@ -388,32 +415,32 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getGroupLeaderboardView())", retry: 2, () async {
+    test("getGroupLeaderboardView())", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGroupLeaderboardView(
               leaderboardId: groupLeaderboard,
               groupId: groupId,
-              sort: SortOrder.HIGH_TO_LOW,
+              sortOrder: SortOrder.HIGH_TO_LOW,
               beforeCount: 5,
               afterCount: 5);
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getGroupLeaderboardViewByVersion())", retry: 2, () async {
+    test("getGroupLeaderboardViewByVersion())", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getGroupLeaderboardViewByVersion(
               leaderboardId: groupLeaderboard,
               groupId: groupId,
               versionId: 1,
-              sort: SortOrder.HIGH_TO_LOW,
+              sortOrder: SortOrder.HIGH_TO_LOW,
               beforeCount: 5,
               afterCount: 5);
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("postScoreToDynamicGroupLeaderboardDaysUTC()", retry: 2, () async {
+    test("postScoreToDynamicGroupLeaderboardDaysUTC()", () async {
       var today = DateTime.now();
 
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
@@ -421,9 +448,9 @@ void main() {
               leaderboardId: groupLeaderboard,
               groupId: groupId,
               score: 0,
-              jsonData: {"extra": 123},
+              data: {"extra": 123},
               leaderboardType: SocialLeaderboardType.HIGH_VALUE,
-              rotationResetUTC: today.millisecondsSinceEpoch,
+              rotationResetTime: today.millisecondsSinceEpoch,
               retainedCount: 2,
               numDaysToRotate: 5);
 
@@ -431,14 +458,14 @@ void main() {
           reason: response.error);
     });
 
-    test("deleteGroup()", retry: 2, () async {
+    test("deleteGroup()", () async {
       ServerResponse response = await bcTest.bcWrapper.groupService
           .deleteGroup(groupId: groupId, version: -1);
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getPlayersSocialLeaderboard()", retry: 2, () async {
+    test("getPlayersSocialLeaderboard()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getPlayersSocialLeaderboard(
               leaderboardId: leaderboardName,
@@ -447,7 +474,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getPlayersSocialLeaderboardIfExistsTrue()", retry: 2, () async {
+    test("getPlayersSocialLeaderboardIfExistsTrue()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getPlayersSocialLeaderboardIfExists(
               leaderboardId: leaderboardName,
@@ -456,7 +483,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getPlayersSocialLeaderboardIfExistsFalse()", retry: 2, () async {
+    test("getPlayersSocialLeaderboardIfExistsFalse()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getPlayersSocialLeaderboardIfExists(
               leaderboardId: "nonExistentLeaderboard",
@@ -465,7 +492,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getPlayersSocialLeaderboardByVersion()", retry: 2, () async {
+    test("getPlayersSocialLeaderboardByVersion()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getPlayersSocialLeaderboardByVersion(
               leaderboardId: leaderboardName,
@@ -475,7 +502,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getPlayersSocialLeaderboardByVersionIfExistsTrue()", retry: 2,
+    test("getPlayersSocialLeaderboardByVersionIfExistsTrue()",
         () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getPlayersSocialLeaderboardByVersionIfExists(
@@ -486,7 +513,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getPlayersSocialLeaderboardByVersionIfExistsFalse()", retry: 2,
+    test("getPlayersSocialLeaderboardByVersionIfExistsFalse()",
         () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getPlayersSocialLeaderboardByVersionIfExists(
@@ -497,14 +524,14 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getPlayerScore()", retry: 2, () async {
+    test("getPlayerScore()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getPlayerScore(leaderboardId: leaderboardName, versionId: -1);
 
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getPlayerScores()", retry: 2, () async {
+    test("getPlayerScores()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getPlayerScores(
               leaderboardId: leaderboardName, versionId: -1, maxResults: 3);
@@ -512,7 +539,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("getPlayerScoresFromLeaderboards()", retry: 2, () async {
+    test("getPlayerScoresFromLeaderboards()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .getPlayerScoresFromLeaderboards(
         leaderboardIds: [leaderboardName],
@@ -520,7 +547,7 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("removePlayerScore()", retry: 2, () async {
+    test("removePlayerScore()", () async {
       ServerResponse response = await bcTest.bcWrapper.leaderboardService
           .removePlayerScore(leaderboardId: leaderboardName, versionId: -1);
 

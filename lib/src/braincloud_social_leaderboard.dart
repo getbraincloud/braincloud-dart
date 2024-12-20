@@ -297,14 +297,14 @@ class BrainCloudSocialLeaderboard {
   /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardPage(
       {required String leaderboardId,
-      required SortOrder sort,
+      required SortOrder sortOrder,
       required int startIndex,
       required int endIndex}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
-    data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
+    data[OperationParam.socialLeaderboardServiceSort.value] = sortOrder.name;
     data[OperationParam.socialLeaderboardServiceStartIndex.value] = startIndex;
     data[OperationParam.socialLeaderboardServiceEndIndex.value] = endIndex;
 
@@ -350,7 +350,7 @@ class BrainCloudSocialLeaderboard {
   /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardPageIfExists(
       {required String leaderboardId,
-      required SortOrder sort,
+      required SortOrder sortOrder,
       required int startIndex,
       required int endIndex}) {
     Completer<ServerResponse> completer = Completer();
@@ -358,7 +358,7 @@ class BrainCloudSocialLeaderboard {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
-    data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
+    data[OperationParam.socialLeaderboardServiceSort.value] = sortOrder.name;
     data[OperationParam.socialLeaderboardServiceStartIndex.value] = startIndex;
     data[OperationParam.socialLeaderboardServiceEndIndex.value] = endIndex;
 
@@ -402,7 +402,7 @@ class BrainCloudSocialLeaderboard {
   /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardPageByVersion(
       {required String leaderboardId,
-      required SortOrder sort,
+      required SortOrder sortOrder,
       required int startIndex,
       required int endIndex,
       required int versionId}) {
@@ -410,7 +410,7 @@ class BrainCloudSocialLeaderboard {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
-    data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
+    data[OperationParam.socialLeaderboardServiceSort.value] = sortOrder.name;
     data[OperationParam.socialLeaderboardServiceStartIndex.value] = startIndex;
     data[OperationParam.socialLeaderboardServiceEndIndex.value] = endIndex;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
@@ -457,7 +457,7 @@ class BrainCloudSocialLeaderboard {
   /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardPageByVersionIfExists(
       {required String leaderboardId,
-      required SortOrder sort,
+      required SortOrder sortOrder,
       required int startIndex,
       required int endIndex,
       required int versionId}) {
@@ -465,7 +465,7 @@ class BrainCloudSocialLeaderboard {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
-    data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
+    data[OperationParam.socialLeaderboardServiceSort.value] = sortOrder.name;
     data[OperationParam.socialLeaderboardServiceStartIndex.value] = startIndex;
     data[OperationParam.socialLeaderboardServiceEndIndex.value] = endIndex;
     data[OperationParam.socialLeaderboardServiceVersionId.value] = versionId;
@@ -508,12 +508,12 @@ class BrainCloudSocialLeaderboard {
   /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardView(
       {required String leaderboardId,
-      required SortOrder sort,
+      required SortOrder sortOrder,
       required int beforeCount,
       required int afterCount}) {
     return getGlobalLeaderboardViewByVersion(
         leaderboardId: leaderboardId,
-        sort: sort,
+        sortOrder: sortOrder,
         beforeCount: beforeCount,
         afterCount: afterCount,
         versionId: -1);
@@ -544,12 +544,12 @@ class BrainCloudSocialLeaderboard {
   /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardViewIfExists(
       {required String leaderboardId,
-      required SortOrder sort,
+      required SortOrder sortOrder,
       required int beforeCount,
       required int afterCount}) {
     return getGlobalLeaderboardViewByVersionIfExists(
         leaderboardId: leaderboardId,
-        sort: sort,
+        sortOrder: sortOrder,
         beforeCount: beforeCount,
         afterCount: afterCount,
         versionId: -1);
@@ -580,7 +580,7 @@ class BrainCloudSocialLeaderboard {
   /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardViewByVersion(
       {required String leaderboardId,
-      required SortOrder sort,
+      required SortOrder sortOrder,
       required int beforeCount,
       required int afterCount,
       required int versionId}) {
@@ -588,7 +588,7 @@ class BrainCloudSocialLeaderboard {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
-    data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
+    data[OperationParam.socialLeaderboardServiceSort.value] = sortOrder.name;
     data[OperationParam.socialLeaderboardServiceBeforeCount.value] =
         beforeCount;
     data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
@@ -638,7 +638,7 @@ class BrainCloudSocialLeaderboard {
   /// returns Future<ServerResponse>
   Future<ServerResponse> getGlobalLeaderboardViewByVersionIfExists(
       {required String leaderboardId,
-      required SortOrder sort,
+      required SortOrder sortOrder,
       required int beforeCount,
       required int afterCount,
       required int versionId}) {
@@ -646,7 +646,7 @@ class BrainCloudSocialLeaderboard {
     Map<String, dynamic> data = {};
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
-    data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
+    data[OperationParam.socialLeaderboardServiceSort.value] = sortOrder.name;
     data[OperationParam.socialLeaderboardServiceBeforeCount.value] =
         beforeCount;
     data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
@@ -793,14 +793,14 @@ class BrainCloudSocialLeaderboard {
   Future<ServerResponse> postScoreToLeaderboard(
       {required String leaderboardId,
       required int score,
-      Map<String, dynamic>? jsonData}) {
+      Map<String, dynamic>? data}) {
     Completer<ServerResponse> completer = Completer();
-    Map<String, dynamic> data = {};
-    data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
+    Map<String, dynamic> dataMap = {};
+    dataMap[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
-    data[OperationParam.socialLeaderboardServiceScore.value] = score;
-    if (jsonData != null) {
-      data[OperationParam.socialLeaderboardServiceData.value] = jsonData;
+    dataMap[OperationParam.socialLeaderboardServiceScore.value] = score;
+    if (data != null) {
+      dataMap[OperationParam.socialLeaderboardServiceData.value] = data;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -812,7 +812,7 @@ class BrainCloudSocialLeaderboard {
               error: statusMessage)),
     );
     var sc = ServerCall(
-        ServiceName.leaderboard, ServiceOperation.postScore, data, callback);
+        ServiceName.leaderboard, ServiceOperation.postScore, dataMap, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;
@@ -887,30 +887,30 @@ class BrainCloudSocialLeaderboard {
   Future<ServerResponse> postScoreToDynamicLeaderboardUTC(
       {required String leaderboardId,
       required int score,
-      Map<String, dynamic>? jsonData,
+      Map<String, dynamic>? data,
       required SocialLeaderboardType leaderboardType,
       required RotationType rotationType,
       int? rotationResetUTC,
       required int retainedCount}) {
     Completer<ServerResponse> completer = Completer();
-    Map<String, dynamic> data = {};
-    data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
+    Map<String, dynamic> dataMap = {};
+    dataMap[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
-    data[OperationParam.socialLeaderboardServiceScore.value] = score;
-    if (jsonData != null) {
-      data[OperationParam.socialLeaderboardServiceData.value] = jsonData;
+    dataMap[OperationParam.socialLeaderboardServiceScore.value] = score;
+    if (data != null) {
+      dataMap[OperationParam.socialLeaderboardServiceData.value] = data;
     }
-    data[OperationParam.socialLeaderboardServiceLeaderboardType.value] =
-        leaderboardType.toString();
-    data[OperationParam.socialLeaderboardServiceRotationType.value] =
-        rotationType.toString();
+    dataMap[OperationParam.socialLeaderboardServiceLeaderboardType.value] =
+        leaderboardType.value;
+    dataMap[OperationParam.socialLeaderboardServiceRotationType.value] =
+        rotationType.value;
 
     if (rotationResetUTC != null) {
-      data[OperationParam.socialLeaderboardServiceRotationResetTime.value] =
+      dataMap[OperationParam.socialLeaderboardServiceRotationResetTime.value] =
           rotationResetUTC.toUnsigned(64);
     }
 
-    data[OperationParam.socialLeaderboardServiceRetainedCount.value] =
+    dataMap[OperationParam.socialLeaderboardServiceRetainedCount.value] =
         retainedCount;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -922,7 +922,7 @@ class BrainCloudSocialLeaderboard {
               error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
-        ServiceOperation.postScoreDynamic, data, callback);
+        ServiceOperation.postScoreDynamic, dataMap, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;
@@ -1047,31 +1047,31 @@ class BrainCloudSocialLeaderboard {
       {required String leaderboardId,
       required String groupId,
       required int score,
-      Map<String, dynamic>? jsonData,
+      Map<String, dynamic>? data,
       required SocialLeaderboardType leaderboardType,
       required RotationType rotationType,
       int? rotationResetUTC,
       required int retainedCount}) {
     Completer<ServerResponse> completer = Completer();
-    Map<String, dynamic> data = {};
-    data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
+    Map<String, dynamic> dataMap = {};
+    dataMap[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
-    data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
-    data[OperationParam.socialLeaderboardServiceScore.value] = score;
-    if (jsonData != null) {
-      data[OperationParam.socialLeaderboardServiceData.value] = jsonData;
+    dataMap[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
+    dataMap[OperationParam.socialLeaderboardServiceScore.value] = score;
+    if (data != null) {
+      dataMap[OperationParam.socialLeaderboardServiceData.value] = data;
     }
-    data[OperationParam.socialLeaderboardServiceLeaderboardType.value] =
-        leaderboardType.toString();
-    data[OperationParam.socialLeaderboardServiceRotationType.value] =
-        rotationType.toString();
+    dataMap[OperationParam.socialLeaderboardServiceLeaderboardType.value] =
+        leaderboardType.value;
+    dataMap[OperationParam.socialLeaderboardServiceRotationType.value] =
+        rotationType.value;
 
     if (rotationResetUTC != null) {
-      data[OperationParam.socialLeaderboardServiceRotationResetTime.value] =
+      dataMap[OperationParam.socialLeaderboardServiceRotationResetTime.value] =
           rotationResetUTC.toUnsigned(64);
     }
 
-    data[OperationParam.socialLeaderboardServiceRetainedCount.value] =
+    dataMap[OperationParam.socialLeaderboardServiceRetainedCount.value] =
         retainedCount;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -1083,12 +1083,48 @@ class BrainCloudSocialLeaderboard {
               error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
-        ServiceOperation.postScoreToDynamicGroupLeaderboard, data, callback);
+        ServiceOperation.postScoreToDynamicGroupLeaderboard, dataMap, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;
   }
 
+Future<ServerResponse> postScoreToDynamicGroupLeaderboardUsingConfig(
+   {required String leaderboardId,
+      required String groupId,
+      required int score,
+      Map<String, dynamic>? scoreData,
+      required Map<String, dynamic> configJson}) {
+    Completer<ServerResponse> completer = Completer();
+
+    Map<String, dynamic> data = {};
+    data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
+        leaderboardId;
+    data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
+    data[OperationParam.socialLeaderboardServiceScore.value] = score;
+    if (scoreData != null) {
+      var optionalScoreData = scoreData;
+      data[OperationParam.socialLeaderboardServiceScoreData.value] =
+          optionalScoreData;
+    }
+    var leaderboardConfigJson = configJson;
+    data[OperationParam.socialLeaderboardServiceConfigJson.value] =
+        leaderboardConfigJson;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) => completer.complete(ServerResponse.fromJson(response)),
+      (statusCode, reasonCode, statusMessage) => completer.complete(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              error: statusMessage)),
+    );
+    var sc = ServerCall(ServiceName.leaderboard,
+        ServiceOperation.postScoreToDynamicGroupLeaderboardUsingConfig, data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+}
   /// Post the players score to the given social leaderboard with a rotation type of DAYS.
   /// Pass leaderboard config data to dynamically create if necessary.
   /// You can optionally send a user-defined json String of data
@@ -1123,31 +1159,31 @@ class BrainCloudSocialLeaderboard {
   Future<ServerResponse> postScoreToDynamicLeaderboardDaysUTC(
       {required String leaderboardId,
       required int score,
-      Map<String, dynamic>? jsonData,
+      Map<String, dynamic>? data,
       required SocialLeaderboardType leaderboardType,
-      int? rotationResetUTC,
+      int? rotationReset,
       required int retainedCount,
       required int numDaysToRotate}) {
     Completer<ServerResponse> completer = Completer();
-    Map<String, dynamic> data = {};
-    data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
+    Map<String, dynamic> dataMap = {};
+    dataMap[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
-    data[OperationParam.socialLeaderboardServiceScore.value] = score;
-    if (jsonData != null) {
-      data[OperationParam.socialLeaderboardServiceData.value] = jsonData;
+    dataMap[OperationParam.socialLeaderboardServiceScore.value] = score;
+    if (data != null) {
+      dataMap[OperationParam.socialLeaderboardServiceData.value] = data;
     }
-    data[OperationParam.socialLeaderboardServiceLeaderboardType.value] =
-        leaderboardType.toString();
-    data[OperationParam.socialLeaderboardServiceRotationType.value] = "DAYS";
+    dataMap[OperationParam.socialLeaderboardServiceLeaderboardType.value] =
+        leaderboardType.value;
+    dataMap[OperationParam.socialLeaderboardServiceRotationType.value] = "DAYS";
 
-    if (rotationResetUTC != null) {
-      data[OperationParam.socialLeaderboardServiceRotationResetTime.value] =
-          rotationResetUTC.toUnsigned(64);
+    if (rotationReset != null) {
+      dataMap[OperationParam.socialLeaderboardServiceRotationResetTime.value] =
+          rotationReset.toUnsigned(64);
     }
 
-    data[OperationParam.socialLeaderboardServiceRetainedCount.value] =
+    dataMap[OperationParam.socialLeaderboardServiceRetainedCount.value] =
         retainedCount;
-    data[OperationParam.numDaysToRotate.value] = numDaysToRotate;
+    dataMap[OperationParam.numDaysToRotate.value] = numDaysToRotate;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) => completer.complete(ServerResponse.fromJson(response)),
@@ -1158,7 +1194,7 @@ class BrainCloudSocialLeaderboard {
               error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
-        ServiceOperation.postScoreDynamic, data, callback);
+        ServiceOperation.postScoreDynamic, dataMap, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;
@@ -1197,32 +1233,32 @@ class BrainCloudSocialLeaderboard {
       {required String leaderboardId,
       required String groupId,
       required int score,
-      Map<String, dynamic>? jsonData,
+      Map<String, dynamic>? data,
       required SocialLeaderboardType leaderboardType,
-      int? rotationResetUTC,
+      int? rotationResetTime,
       required int retainedCount,
       required int numDaysToRotate}) {
     Completer<ServerResponse> completer = Completer();
-    Map<String, dynamic> data = {};
-    data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
+    Map<String, dynamic> dataMap = {};
+    dataMap[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
-    data[OperationParam.socialLeaderboardServiceScore.value] = score;
-    data[OperationParam.presenceServiceGroupId.value] = groupId;
-    if (jsonData != null) {
-      data[OperationParam.socialLeaderboardServiceData.value] = jsonData;
+    dataMap[OperationParam.socialLeaderboardServiceScore.value] = score;
+    dataMap[OperationParam.presenceServiceGroupId.value] = groupId;
+    if (data != null) {
+      dataMap[OperationParam.socialLeaderboardServiceData.value] = data;
     }
-    data[OperationParam.socialLeaderboardServiceLeaderboardType.value] =
-        leaderboardType.toString();
-    data[OperationParam.socialLeaderboardServiceRotationType.value] = "DAYS";
+    dataMap[OperationParam.socialLeaderboardServiceLeaderboardType.value] =
+        leaderboardType.value;
+    dataMap[OperationParam.socialLeaderboardServiceRotationType.value] = "DAYS";
 
-    if (rotationResetUTC != null) {
-      data[OperationParam.socialLeaderboardServiceRotationResetTime.value] =
-          rotationResetUTC.toUnsigned(64);
+    if (rotationResetTime != null) {
+      dataMap[OperationParam.socialLeaderboardServiceRotationResetTime.value] =
+          rotationResetTime.toUnsigned(64);
     }
 
-    data[OperationParam.socialLeaderboardServiceRetainedCount.value] =
+    dataMap[OperationParam.socialLeaderboardServiceRetainedCount.value] =
         retainedCount;
-    data[OperationParam.numDaysToRotate.value] = numDaysToRotate;
+    dataMap[OperationParam.numDaysToRotate.value] = numDaysToRotate;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) => completer.complete(ServerResponse.fromJson(response)),
@@ -1233,7 +1269,7 @@ class BrainCloudSocialLeaderboard {
               error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
-        ServiceOperation.postScoreToDynamicGroupLeaderboard, data, callback);
+        ServiceOperation.postScoreToDynamicGroupLeaderboard, dataMap, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;
@@ -1603,15 +1639,15 @@ class BrainCloudSocialLeaderboard {
       {required String leaderboardId,
       required String groupId,
       required int score,
-      Map<String, dynamic>? jsonData}) {
+      Map<String, dynamic>? data}) {
     Completer<ServerResponse> completer = Completer();
-    Map<String, dynamic> data = {};
-    data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
+    Map<String, dynamic> dataMap = {};
+    dataMap[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
-    data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
-    data[OperationParam.socialLeaderboardServiceScore.value] = score;
-    if (jsonData != null) {
-      data[OperationParam.socialLeaderboardServiceData.value] = jsonData;
+    dataMap[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
+    dataMap[OperationParam.socialLeaderboardServiceScore.value] = score;
+    if (data != null) {
+      dataMap[OperationParam.socialLeaderboardServiceData.value] = data;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -1623,7 +1659,7 @@ class BrainCloudSocialLeaderboard {
               error: statusMessage)),
     );
     var sc = ServerCall(ServiceName.leaderboard,
-        ServiceOperation.postScoreToGroupLeaderboard, data, callback);
+        ServiceOperation.postScoreToGroupLeaderboard, dataMap, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;
@@ -1694,7 +1730,7 @@ class BrainCloudSocialLeaderboard {
   Future<ServerResponse> getGroupLeaderboardView(
       {required String leaderboardId,
       required String groupId,
-      required SortOrder sort,
+      required SortOrder sortOrder,
       required int beforeCount,
       required int afterCount}) {
     Completer<ServerResponse> completer = Completer();
@@ -1702,7 +1738,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
-    data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
+    data[OperationParam.socialLeaderboardServiceSort.value] = sortOrder.name;
     data[OperationParam.socialLeaderboardServiceBeforeCount.value] =
         beforeCount;
     data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
@@ -1750,7 +1786,7 @@ class BrainCloudSocialLeaderboard {
       {required String leaderboardId,
       required String groupId,
       required int versionId,
-      required SortOrder sort,
+      required SortOrder sortOrder,
       required int beforeCount,
       required int afterCount}) {
     Completer<ServerResponse> completer = Completer();
@@ -1758,7 +1794,7 @@ class BrainCloudSocialLeaderboard {
     data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
     data[OperationParam.socialLeaderboardServiceGroupId.value] = groupId;
-    data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
+    data[OperationParam.socialLeaderboardServiceSort.value] = sortOrder.name;
     data[OperationParam.socialLeaderboardServiceBeforeCount.value] =
         beforeCount;
     data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;

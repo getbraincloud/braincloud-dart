@@ -180,6 +180,8 @@ class ServiceOperation {
       ServiceOperation._("POST_SCORE_DYNAMIC_USING_CONFIG");
   static ServiceOperation postScoreToDynamicGroupLeaderboard =
       ServiceOperation._("POST_GROUP_SCORE_DYNAMIC");
+  static ServiceOperation postScoreToDynamicGroupLeaderboardUsingConfig =
+      ServiceOperation._("POST_GROUP_SCORE_DYNAMIC_USING_CONFIG");
   static ServiceOperation removePlayerScore =
       ServiceOperation._("REMOVE_PLAYER_SCORE");
   static ServiceOperation getCompletedTournament =
