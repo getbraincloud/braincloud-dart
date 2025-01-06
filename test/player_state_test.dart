@@ -11,7 +11,7 @@ void main() {
   group("Test Player State", () {
     test("updateName()", () async {
       ServerResponse response = await bcTest.bcWrapper.playerStateService
-          .updateName(userName: "junit");
+          .updateUserName(userName: "junit");
       expect(response.statusCode, StatusCodes.ok);
     });
 
