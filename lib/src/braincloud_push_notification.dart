@@ -84,7 +84,7 @@ class BrainCloudPushNotification {
   Future<ServerResponse> deregisterPushNotificationDeviceToken(
       {required PlatformID platform, required String token}) {
     Completer<ServerResponse> completer = Completer();
-    String devicePlatform = platform.toString();
+    String devicePlatform = platform.value;
     Map<String, dynamic> data = {};
     data[OperationParam.pushNotificationRegisterParamDeviceType.value] =
         devicePlatform;
@@ -116,11 +116,11 @@ class BrainCloudPushNotification {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> sendSimplePushNotification(
-      {required String toProfileId, required String message}) {
+      {required String profileId, required String message}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.pushNotificationSendParamToPlayerId.value] =
-        toProfileId;
+        profileId;
     data[OperationParam.pushNotificationSendParamMessage.value] = message;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -154,13 +154,13 @@ class BrainCloudPushNotification {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> sendRichPushNotificationWithParams(
-      {required String toProfileId,
+      {required String profileId,
       required int notificationTemplateId,
-      required Map<String, dynamic> substitutionJson}) {
+      required Map<String, dynamic> substitutions}) {
     return sendRichPushNotification(
-        toProfileId: toProfileId,
+        profileId: profileId,
         notificationTemplateId: notificationTemplateId,
-        substitutionJson: substitutionJson);
+        substitutionJson: substitutions);
   }
 
   /// Sends a notification to a "group" of user based on a brainCloud portal configured notification template.
@@ -223,14 +223,14 @@ class BrainCloudPushNotification {
   /// returns Future<ServerResponse>
   Future<ServerResponse> sendNormalizedPushNotificationToGroup(
       {required String groupId,
-      required Map<String, dynamic> alertContentJson,
-      Map<String, dynamic>? customDataJson}) {
+      required Map<String, dynamic> alertContent,
+      Map<String, dynamic>? customData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
-    data[OperationParam.alertContent.value] = alertContentJson;
-    if (customDataJson != null) {
-      data[OperationParam.customData.value] = customDataJson;
+    data[OperationParam.alertContent.value] = alertContent;
+    if (customData != null) {
+      data[OperationParam.customData.value] = customData;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -548,16 +548,16 @@ class BrainCloudPushNotification {
   /// returns Future<ServerResponse>
   Future<ServerResponse> scheduleNormalizedPushNotificationUTC(
       {required String profileId,
-      required Map<String, dynamic> alertContentJson,
-      Map<String, dynamic>? customDataJson,
+      required Map<String, dynamic> alertContent,
+      Map<String, dynamic>? customData,
       required int startTimeUTC}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.pushNotificationSendParamProfileId.value] = profileId;
-    data[OperationParam.alertContent.value] = alertContentJson;
+    data[OperationParam.alertContent.value] = alertContent;
 
-    if (customDataJson != null) {
-      data[OperationParam.customData.value] = customDataJson;
+    if (customData != null) {
+      data[OperationParam.customData.value] = customData;
     }
 
     data[OperationParam.startDateUTC.value] = startTimeUTC.toUnsigned(64);
@@ -594,16 +594,16 @@ class BrainCloudPushNotification {
   /// returns Future<ServerResponse>
   Future<ServerResponse> scheduleNormalizedPushNotificationMinutes(
       {required String profileId,
-      required Map<String, dynamic> alertContentJson,
-      Map<String, dynamic>? customDataJson,
+      required Map<String, dynamic> alertContent,
+      Map<String, dynamic>? customData,
       required int minutesFromNow}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.pushNotificationSendParamProfileId.value] = profileId;
-    data[OperationParam.alertContent.value] = alertContentJson;
+    data[OperationParam.alertContent.value] = alertContent;
 
-    if (customDataJson != null) {
-      data[OperationParam.customData.value] = customDataJson;
+    if (customData != null) {
+      data[OperationParam.customData.value] = customData;
     }
 
     data[OperationParam.minutesFromNow.value] = minutesFromNow;
@@ -641,7 +641,7 @@ class BrainCloudPushNotification {
   Future<ServerResponse> scheduleRichPushNotificationUTC(
       {required String profileId,
       required int notificationTemplateId,
-      Map<String, dynamic>? substitutionsJson,
+      Map<String, dynamic>? substitutions,
       required int startTimeUTC}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -649,9 +649,9 @@ class BrainCloudPushNotification {
     data[OperationParam.pushNotificationSendParamNotificationTemplateId.value] =
         notificationTemplateId;
 
-    if (substitutionsJson != null) {
+    if (substitutions != null) {
       data[OperationParam.pushNotificationSendParamSubstitutions.value] =
-          substitutionsJson;
+          substitutions;
     }
 
     data[OperationParam.startDateUTC.value] = startTimeUTC.toUnsigned(64);
@@ -689,7 +689,7 @@ class BrainCloudPushNotification {
   Future<ServerResponse> scheduleRichPushNotificationMinutes(
       {required String profileId,
       required int notificationTemplateId,
-      Map<String, dynamic>? substitutionsJson,
+      Map<String, dynamic>? substitutions,
       required int minutesFromNow}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -697,9 +697,9 @@ class BrainCloudPushNotification {
     data[OperationParam.pushNotificationSendParamNotificationTemplateId.value] =
         notificationTemplateId;
 
-    if (substitutionsJson != null) {
+    if (substitutions != null) {
       data[OperationParam.pushNotificationSendParamSubstitutions.value] =
-          substitutionsJson;
+          substitutions;
     }
 
     data[OperationParam.minutesFromNow.value] = minutesFromNow;
@@ -732,16 +732,16 @@ class BrainCloudPushNotification {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> sendNormalizedPushNotification(
-      {required String toProfileId,
-      required Map<String, dynamic> alertContentJson,
-      Map<String, dynamic>? customDataJson}) {
+      {required String profileId,
+      required Map<String, dynamic> alertContent,
+      Map<String, dynamic>? customData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.pushNotificationSendParamToPlayerId.value] =
-        toProfileId;
-    data[OperationParam.alertContent.value] = alertContentJson;
-    if (customDataJson != null) {
-      data[OperationParam.customData.value] = customDataJson;
+        profileId;
+    data[OperationParam.alertContent.value] = alertContent;
+    if (customData != null) {
+      data[OperationParam.customData.value] = customData;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -773,14 +773,14 @@ class BrainCloudPushNotification {
   /// returns Future<ServerResponse>
   Future<ServerResponse> sendNormalizedPushNotificationBatch(
       {required List<String> profileIds,
-      required Map<String, dynamic> alertContentJson,
-      Map<String, dynamic>? customDataJson}) {
+      required Map<String, dynamic> alertContent,
+      Map<String, dynamic>? customData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.pushNotificationSendParamProfileIds.value] = profileIds;
-    data[OperationParam.alertContent.value] = alertContentJson;
-    if (customDataJson != null) {
-      data[OperationParam.customData.value] = customDataJson;
+    data[OperationParam.alertContent.value] = alertContent;
+    if (customData != null) {
+      data[OperationParam.customData.value] = customData;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -800,13 +800,13 @@ class BrainCloudPushNotification {
 
   /// returns Future<ServerResponse>
   Future<ServerResponse> sendRichPushNotification(
-      {required String toProfileId,
+      {required String profileId,
       required int notificationTemplateId,
       Map<String, dynamic>? substitutionJson}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.pushNotificationSendParamToPlayerId.value] =
-        toProfileId;
+        profileId;
     data[OperationParam.pushNotificationSendParamNotificationTemplateId.value] =
         notificationTemplateId;
 
