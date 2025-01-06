@@ -29,7 +29,7 @@ class BrainCloudPlayerStatisticsEvent {
   /// see [BrainCloudPlayerStatistics]
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> triggerUserStatsEvent(
+  Future<ServerResponse> triggerStatsEvent(
       {required String eventName, required int eventMultiplier}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -73,7 +73,7 @@ class BrainCloudPlayerStatisticsEvent {
   /// ```
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> triggerUserStatsEvents(
+  Future<ServerResponse> triggerStatsEvents(
       {required List<Map<String, dynamic>> jsonData}) async {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};

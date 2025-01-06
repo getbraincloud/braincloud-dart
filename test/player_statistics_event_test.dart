@@ -15,7 +15,7 @@ void main() {
     test("triggerUserStatsEvent()", () async {
       ServerResponse response = await bcTest
           .bcWrapper.playerStatisticsEventService
-          .triggerUserStatsEvent(eventName: eventId1, eventMultiplier: 10);
+          .triggerStatsEvent(eventName: eventId1, eventMultiplier: 10);
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -23,7 +23,7 @@ void main() {
     test("triggerUserStatsEvents()", () async {
       ServerResponse response = await bcTest
           .bcWrapper.playerStatisticsEventService
-          .triggerUserStatsEvents(jsonData: [
+          .triggerStatsEvents(jsonData: [
         {"eventName": eventId1, "eventMultiplier": 10},
         {"eventName": eventId2, "eventMultiplier": 10}
       ]);
@@ -55,7 +55,7 @@ void main() {
           .auth(); // resetUser will log you out so this so need to re-authenticate
 
       await bcTest.bcWrapper.playerStatisticsEventService
-          .triggerUserStatsEvents(jsonData: [
+          .triggerStatsEvents(jsonData: [
         {"eventName": "incQuest1Stat", "eventMultiplier": 1},
         {"eventName": "incQuest2Stat", "eventMultiplier": 1}
       ]);
