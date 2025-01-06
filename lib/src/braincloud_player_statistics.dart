@@ -44,9 +44,9 @@ class BrainCloudPlayerStatistics {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> readUserStatsSubset(
-      {required List<String> playerStats}) {
+      {required List<String> userStats}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.playerStatisticsServiceStats.value] = playerStats;
+    data[OperationParam.playerStatisticsServiceStats.value] = userStats;
 
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -141,9 +141,9 @@ class BrainCloudPlayerStatistics {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> incrementUserStats(
-      {required Map<String, dynamic> stats}) {
+      {required Map<String, dynamic> statistics}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.playerStatisticsServiceStats.value] = stats;
+    data[OperationParam.playerStatisticsServiceStats.value] = statistics;
 
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -177,9 +177,9 @@ class BrainCloudPlayerStatistics {
   /// ```
   /// returns Future<ServerResponse>
   Future<ServerResponse> processStatistics(
-      {required Map<String, dynamic> statisticsData}) {
+      {required Map<String, dynamic> statistics}) {
     Map<String, dynamic> data = {};
-    data[OperationParam.playerStatisticsServiceStats.value] = statisticsData;
+    data[OperationParam.playerStatisticsServiceStats.value] = statistics;
 
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(

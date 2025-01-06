@@ -21,7 +21,7 @@ void main() {
 
     test("incrementUserStats()", () async {
       ServerResponse response = await bcTest.bcWrapper.playerStatisticsService
-          .incrementUserStats(stats: {"wins": 10, "losses": 4});
+          .incrementUserStats(statistics: {"wins": 10, "losses": 4});
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -33,7 +33,7 @@ void main() {
 
     test("readUserStatsSubset()", () async {
       ServerResponse response = await bcTest.bcWrapper.playerStatisticsService
-          .readUserStatsSubset(playerStats: ["wins"]);
+          .readUserStatsSubset(userStats: ["wins"]);
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -59,7 +59,7 @@ void main() {
 
     test("processStatistics()", () async {
       ServerResponse response = await bcTest.bcWrapper.playerStatisticsService
-          .processStatistics(statisticsData: {
+          .processStatistics(statistics: {
         "gamesPlayed": 1,
         "gamesWon": 1,
         "gamesLost": 2
