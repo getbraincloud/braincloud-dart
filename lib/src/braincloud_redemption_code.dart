@@ -32,15 +32,15 @@ class BrainCloudRedemptionCode {
   Future<ServerResponse> redeemCode(
       {required String scanCode,
       required String codeType,
-      Map<String, dynamic>? jsonCustomRedemptionInfo}) {
+      Map<String, dynamic>? customRedemptionInfo}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.redemptionCodeServiceScanCode.value] = scanCode;
     data[OperationParam.redemptionCodeServiceCodeType.value] = codeType;
 
-    if (jsonCustomRedemptionInfo != null) {
+    if (customRedemptionInfo != null) {
       data[OperationParam.redemptionCodeServiceCustomRedemptionInfo.value] =
-          jsonCustomRedemptionInfo;
+          customRedemptionInfo;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(

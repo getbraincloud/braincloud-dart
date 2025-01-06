@@ -34,7 +34,7 @@ void main() {
           .redeemCode(
               scanCode: _codeToRedeem,
               codeType: _codeType,
-              jsonCustomRedemptionInfo: {});
+              customRedemptionInfo: {});
       expect(response2.statusCode, StatusCodes.ok);
     });
 
