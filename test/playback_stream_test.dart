@@ -41,6 +41,15 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
+    test("addEvent(no data)", () async {
+      if (streamId == null) await createStream();
+
+      ServerResponse response = await bcTest.bcWrapper.playbackStreamService
+          .addEvent(
+              playbackStreamId: streamId);
+      expect(response.statusCode, StatusCodes.ok);
+    });
+
     test("readStream()", () async {
       if (streamId == null) await createStream();
 
