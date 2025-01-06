@@ -26,7 +26,7 @@ void main() {
     /// Helper functions for Tests
     ///
     Future disconnectRelay() async {
-      bcTest.bcWrapper.relayService.endMatch({});
+      bcTest.bcWrapper.relayService.endMatch(payload:{});
       bcTest.bcWrapper.relayService.disconnect();
       bcTest.bcWrapper.rttService.disableRTT();
       // Allow time for the connection to close.
@@ -44,6 +44,7 @@ void main() {
     }
 
     void onRelayConnected(Map<String, dynamic> jsonResponse) {
+      print("onRelayConnected: $jsonResponse");
       bcTest.bcWrapper.relayService.setPingInterval(2);
       String profileId = bcTest.bcWrapper.getStoredProfileId();
       currentNetId =
@@ -103,8 +104,8 @@ void main() {
       if (message == testHelloString && netId == currentNetId) {
         successCount++;
         bcTest.bcWrapper.relayService.sendToPlayers(
+            utf8.encode(testWelcomeString),
             playerMask: BrainCloudRelay.toAllPlayers,
-            data: utf8.encode(testWelcomeString),
             channel: BrainCloudRelay.channelLowPriority);
       } else if (message == testWelcomeString) {
         successCount++;
@@ -138,7 +139,7 @@ void main() {
         bcTest.bcWrapper.relayService
             .registerRelayCallback(rcb ?? relayCallback);
         bcTest.bcWrapper.relayService.connect(
-            connectionType, connectOptions!, onRelayConnected, onFailed);
+            connectionType:connectionType, options:connectOptions!, onSuccess: onRelayConnected, onFailure: onFailed);
       }
     }
 
@@ -348,12 +349,12 @@ print(" converted bytes is $reloadedMask");
 
       // only exercise code, no check as this is not echoed back.
       bcTest.bcWrapper.relayService
-          .sendToAll(data: utf8.encode(testWelcomeString));
+          .sendToAll(utf8.encode(testWelcomeString));
 
       expect(connectOptions.toString(), startsWith("RelayConnectOptions"));
 
       // since we did not let the FullFlow disconnect do it now.
-      bcTest.bcWrapper.relayService.endMatch({});
+      bcTest.bcWrapper.relayService.endMatch(payload:{});
       bcTest.bcWrapper.relayService.disconnect();
       bcTest.bcWrapper.rttService.disableRTT();
 

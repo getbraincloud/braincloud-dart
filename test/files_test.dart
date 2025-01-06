@@ -85,6 +85,7 @@ main() {
 
       Completer<ServerResponse> uploadCompleterFuture = Completer<ServerResponse>();
       bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback((response) {
+        print("--> registerFileUploadCallback called with: $response");
         if (!uploadCompleterFuture.isCompleted) uploadCompleterFuture.complete(response);
       });
 

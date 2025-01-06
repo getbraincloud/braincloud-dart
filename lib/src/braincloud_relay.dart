@@ -74,12 +74,12 @@ class BrainCloudRelay {
   /// @param in_connectionType
   /// @param in_options
   void connect(
-      RelayConnectionType inConnectiontype,      
-      RelayConnectOptions inOptions,
-      SuccessCallback? inSuccess,
-      FailureCallback? inFailure) {
+      {required RelayConnectionType connectionType,      
+      required RelayConnectOptions options,
+      SuccessCallback? onSuccess,
+      FailureCallback? onFailure}) {
       // This cannot be converted to use Future as these callack can be called multiple times.
-    _commsLayer.connect(inConnectiontype, inOptions, inSuccess, inFailure);
+    _commsLayer.connect(connectionType, options, onSuccess, onFailure);
   }
 
   /// Disables relay event for this session.
@@ -91,8 +91,8 @@ class BrainCloudRelay {
   /// Terminate the match instance by the owner.
 
   /// @param jsonpayload data sent in JSON format. It will be relayed to other connnected players.
-  void endMatch(Map<String, dynamic> json) {
-    _commsLayer.endMatch(json);
+  void endMatch({required Map<String, dynamic> payload}) {
+    _commsLayer.endMatch(payload);
   }
 
   /// Is Connected
@@ -180,7 +180,7 @@ class BrainCloudRelay {
       {bool reliable = true, bool ordered = true, int channel = 0}) {
     if (toNetid == toAllPlayers) {
       sendToAll(
-          data: data,
+          data,
           reliable: reliable,
           ordered: ordered,
           inChannel: channel);
@@ -207,8 +207,8 @@ class BrainCloudRelay {
   /// CHANNEL_LOW_PRIORITY = 3;
 
   void sendToPlayers(
-      {required Uint8List data,
-      required int playerMask,
+      Uint8List data,
+      {required int playerMask,
       bool reliable = true,
       bool ordered = true,
       int channel = 0}) {
@@ -227,8 +227,8 @@ class BrainCloudRelay {
   /// CHANNEL_LOW_PRIORITY = 3;
 
   void sendToAll(
-      {required Uint8List data,
-      bool reliable = true,
+      Uint8List data,
+      {bool reliable = true,
       bool ordered = true,
       int inChannel = 0}) {
     var myProfileId = _clientRef.authenticationService.profileId;
