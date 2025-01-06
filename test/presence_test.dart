@@ -86,7 +86,7 @@ void main() {
 
     test("updateActivity()", () async {
       ServerResponse response = await bcTest.bcWrapper.presenceService
-          .updateActivity(jsonActivity: {"status": "waiting"});
+          .updateActivity(activity: {"status": "waiting"});
 
       if (response.statusCode != StatusCodes.badRequest) {
         print("-- Response is $response with data:\n${response.data}");

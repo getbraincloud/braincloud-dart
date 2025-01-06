@@ -314,15 +314,15 @@ class BrainCloudPresence {
   /// Service Name - Presence
   /// Service Operation - UpdateActivity
   ///
-  /// @param jsonActivity
+  /// @param activity
   /// the Json data
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> updateActivity(
-      {required Map<String, dynamic> jsonActivity}) {
+      {required Map<String, dynamic> activity}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    var jsonActivityString = jsonActivity;
+    var jsonActivityString = activity;
     data[OperationParam.presenceServiceActivity.value] = jsonActivityString;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
