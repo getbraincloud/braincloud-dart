@@ -131,7 +131,7 @@ class BrainCloudPlayerState {
   /// The name of the user
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> updateName({required String userName}) {
+  Future<ServerResponse> updateUserName({required String userName}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.playerStateServiceUpdateNameData.value] = userName;
@@ -174,12 +174,12 @@ class BrainCloudPlayerState {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> updateSummaryFriendData(
-      {Map<String, dynamic>? jsonSummaryData}) {
+      {Map<String, dynamic>? summaryFriendData}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic>? data = {};
-    if (jsonSummaryData != null) {
+    if (summaryFriendData != null) {
       data[OperationParam.playerStateServiceUpdateSummaryFriendData.value] =
-          jsonSummaryData;
+          summaryFriendData;
     } else {
       data = null;
     }
@@ -235,12 +235,12 @@ class BrainCloudPlayerState {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> updateAttributes(
-      {required Map<String, dynamic> jsonAttributes,
+      {required Map<String, dynamic> attributes,
       required bool wipeExisting}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
-    data[OperationParam.playerStateServiceAttributes.value] = jsonAttributes;
+    data[OperationParam.playerStateServiceAttributes.value] = attributes;
     data[OperationParam.playerStateServiceWipeExisting.value] = wipeExisting;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -268,10 +268,10 @@ class BrainCloudPlayerState {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> removeAttributes(
-      {required List<String> attributeNames}) {
+      {required List<String> attributes}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    data[OperationParam.playerStateServiceAttributes.value] = attributeNames;
+    data[OperationParam.playerStateServiceAttributes.value] = attributes;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) => completer.complete(ServerResponse.fromJson(response)),
@@ -524,7 +524,7 @@ class BrainCloudPlayerState {
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> updateTimeZoneOffset(
-      {required String timeZoneOffset}) {
+      {required double timeZoneOffset}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.playerStateServiceTimeZoneOffset.value] =

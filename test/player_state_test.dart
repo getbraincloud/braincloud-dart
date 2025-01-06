@@ -24,7 +24,7 @@ void main() {
     test("updateAttributes()", () async {
       ServerResponse response = await bcTest.bcWrapper.playerStateService
           .updateAttributes(
-              jsonAttributes: {"att1": "123", "att2": "blue"},
+              attributes: {"att1": "123", "att2": "blue"},
               wipeExisting: true);
 
       expect(response.statusCode, StatusCodes.ok);
@@ -41,13 +41,13 @@ void main() {
 
     test("removeAttributes()", () async {
       ServerResponse response = await bcTest.bcWrapper.playerStateService
-          .removeAttributes(attributeNames: ["att1", "att2"]);
+          .removeAttributes(attributes: ["att1", "att2"]);
       expect(response.statusCode, StatusCodes.ok, reason: "${response.data}");
     });
 
     test("updateSummaryFriendData()", () async {
       ServerResponse response = await bcTest.bcWrapper.playerStateService
-          .updateSummaryFriendData(jsonSummaryData: {"field": "value"});
+          .updateSummaryFriendData(summaryFriendData: {"field": "value"});
 
       expect(response.statusCode, StatusCodes.ok, reason: "${response.data}");
     });
@@ -107,7 +107,7 @@ void main() {
     test("updateTimeZoneOffset()", () async {
       ServerResponse response =
           await bcTest.bcWrapper.playerStateService.updateTimeZoneOffset(
-        timeZoneOffset: "1",
+        timeZoneOffset: 2.124545,
       );
 
       expect(response.statusCode, StatusCodes.ok, reason: "${response.data}");
