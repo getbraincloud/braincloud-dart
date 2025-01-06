@@ -11,6 +11,16 @@ void main() {
   group("Test Playback Stream", () {
     var streamId;
 
+    Future<String> createStream() async {
+      ServerResponse response = await bcTest.bcWrapper.playbackStreamService
+          .startStream(
+              targetPlayerId: userB.profileId!, includeSharedData: true);
+
+      streamId = response.data?["playbackStreamId"];
+
+      return streamId;
+    };
+
     test("startStream()", () async {
       ServerResponse response = await bcTest.bcWrapper.playbackStreamService
           .startStream(
@@ -21,6 +31,8 @@ void main() {
     });
 
     test("addEvent()", () async {
+      if (streamId == null) await createStream();
+
       ServerResponse response = await bcTest.bcWrapper.playbackStreamService
           .addEvent(
               playbackStreamId: streamId,
@@ -30,6 +42,8 @@ void main() {
     });
 
     test("readStream()", () async {
+      if (streamId == null) await createStream();
+
       ServerResponse response = await bcTest.bcWrapper.playbackStreamService
           .readStream(playbackStreamId: streamId);
 
@@ -67,22 +81,26 @@ void main() {
     });
 
     test("endStream()", () async {
+      if (streamId == null) await createStream();
       ServerResponse response = await bcTest.bcWrapper.playbackStreamService
           .endStream(playbackStreamId: streamId);
       expect(response.statusCode, StatusCodes.ok);
     });
 
-    test("startStream()", () async {
-      ServerResponse response = await bcTest.bcWrapper.playbackStreamService
-          .startStream(
-              targetPlayerId: userB.profileId!, includeSharedData: true);
+    test("protectStreamUntil()", () async {
+      if (streamId == null) await createStream();
 
-      streamId = response.data?["playbackStreamId"];
+      ServerResponse response = await bcTest.bcWrapper.playbackStreamService
+          .protectStreamUntil(
+              playbackStreamId: streamId!, numDays: 8);
 
       expect(response.statusCode, StatusCodes.ok);
+      expect(response.data?['protectedUntil'], isA<String>());
     });
 
+
     test("deleteStream()", () async {
+      if (streamId == null) await createStream();
       ServerResponse response = await bcTest.bcWrapper.playbackStreamService
           .deleteStream(playbackStreamId: streamId);
       expect(response.statusCode, StatusCodes.ok);

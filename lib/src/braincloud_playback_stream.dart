@@ -257,4 +257,44 @@ class BrainCloudPlaybackStream {
 
     return completer.future;
   }
+
+  /// Protects a playback stream from being purged (but not deleted) for the 
+  /// given number of days (from now). If the number of days given is less 
+  /// than the normal purge interval days (from createdAt), the longer protection 
+  /// date is applied. Can only be called by users involved in the playback stream.
+  ///
+  /// Service Name - PlaybackStream
+  /// Service Operation - PROTECT_STREAM_UNTIL
+  ///
+  /// @param playbackStreamId
+  /// Identifies the stream to protect
+  ///
+  /// @param numDays
+  /// The number of days the stream is to be protected (from now).
+  ///
+  /// returns Future<ServerResponse>
+  Future<ServerResponse> protectStreamUntil(
+      {required String playbackStreamId, required int numDays}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    data[OperationParam.playbackStreamServicePlaybackStreamId.value] =
+        playbackStreamId;
+    data[OperationParam.playbackStreamServiceNumDays.value] = numDays;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) => completer.complete(ServerResponse.fromJson(response)),
+      (statusCode, reasonCode, statusMessage) => completer.complete(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              error: statusMessage)),
+    );
+    ServerCall sc = ServerCall(ServiceName.playbackStream,
+        ServiceOperation.ProtectStreamUntil, data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
+
 }

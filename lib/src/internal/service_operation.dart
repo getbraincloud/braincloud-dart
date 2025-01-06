@@ -403,6 +403,8 @@ class ServiceOperation {
       ServiceOperation._("GET_RECENT_STREAMS_FOR_INITIATING_PLAYER");
   static ServiceOperation getRecentStreamsForTargetPlayer =
       ServiceOperation._("GET_RECENT_STREAMS_FOR_TARGET_PLAYER");
+  static ServiceOperation ProtectStreamUntil =
+      ServiceOperation._("PROTECT_STREAM_UNTIL");
 
   static ServiceOperation getUserInfo = ServiceOperation._("GET_USER_INFO");
   static ServiceOperation initializeTransaction =

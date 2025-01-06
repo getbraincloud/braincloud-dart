@@ -502,6 +502,8 @@ class OperationParam {
       OperationParam("eventData");
   static OperationParam playbackStreamServiceSummary =
       OperationParam("summary");
+  static OperationParam playbackStreamServiceNumDays =
+      OperationParam("numDays");
 
   static OperationParam productServiceTransId = OperationParam("transId");
   static OperationParam productServiceOrderId = OperationParam("orderId");
