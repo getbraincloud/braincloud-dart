@@ -7,8 +7,8 @@ import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
 
 class BrainCloudRTT {
-  final BrainCloudClient? _clientRef;
-  final RTTComms? _commsLayer;
+  final BrainCloudClient _clientRef;
+  final RTTComms _commsLayer;
 
   BrainCloudRTT(this._commsLayer, this._clientRef);
 
@@ -24,100 +24,100 @@ class BrainCloudRTT {
   /// returns Future<RTTCommandResponse>
   void enableRTT({RTTConnectionType? connectiontype,RTTSuccessCallback? successCallback, RTTFailureCallback? failureCallback}) {
     
-    _commsLayer?.enableRTT(connectiontype ?? RTTConnectionType.websocket,successCallback,failureCallback);
+    _commsLayer.enableRTT(connectiontype ?? RTTConnectionType.websocket,successCallback,failureCallback);
 
   }
 
   /// Disables Real Time event for this session.
   void disableRTT() {
-    _commsLayer?.disableRTT();
+    _commsLayer.disableRTT();
   }
 
   /// Returns true if RTT is enabled
   bool isRTTEnabled() {
-    return _commsLayer?.isRTTEnabled() ?? false;
+    return _commsLayer.isRTTEnabled();
   }
 
   /// Returns rtt connectionstatus
   RTTConnectionStatus? getConnectionStatus() {
-    return _commsLayer?.getConnectionStatus();
+    return _commsLayer.getConnectionStatus();
   }
 
   ///
   void registerRTTEventCallback(RTTCallback inCallback) {
-    _commsLayer?.registerRTTCallback(ServiceName.event, inCallback);
+    _commsLayer.registerRTTCallback(ServiceName.event, inCallback);
   }
 
   ///
   void deregisterRTTEventCallback() {
-    _commsLayer?.deregisterRTTCallback(ServiceName.event);
+    _commsLayer.deregisterRTTCallback(ServiceName.event);
   }
 
   ///
   void registerRTTChatCallback(RTTCallback inCallback) {
-    _commsLayer?.registerRTTCallback(ServiceName.chat, inCallback);
+    _commsLayer.registerRTTCallback(ServiceName.chat, inCallback);
   }
 
   ///
   void deregisterRTTChatCallback() {
-    _commsLayer?.deregisterRTTCallback(ServiceName.chat);
+    _commsLayer.deregisterRTTCallback(ServiceName.chat);
   }
 
   ///
   void registerRTTPresenceCallback(RTTCallback inCallback) {
-    _commsLayer?.registerRTTCallback(ServiceName.presence, inCallback);
+    _commsLayer.registerRTTCallback(ServiceName.presence, inCallback);
   }
 
   void deregisterRTTPresenceCallback() {
-    _commsLayer?.deregisterRTTCallback(ServiceName.presence);
+    _commsLayer.deregisterRTTCallback(ServiceName.presence);
   }
 
   void registerRTTMessagingCallback(RTTCallback inCallback) {
-    _commsLayer?.registerRTTCallback(ServiceName.messaging, inCallback);
+    _commsLayer.registerRTTCallback(ServiceName.messaging, inCallback);
   }
 
   void deregisterRTTMessagingCallback() {
-    _commsLayer?.deregisterRTTCallback(ServiceName.messaging);
+    _commsLayer.deregisterRTTCallback(ServiceName.messaging);
   }
 
   void registerRTTLobbyCallback(RTTCallback inCallback) {
-    _commsLayer?.registerRTTCallback(ServiceName.lobby, inCallback);
+    _commsLayer.registerRTTCallback(ServiceName.lobby, inCallback);
   }
 
   void deregisterRTTLobbyCallback() {
-    _commsLayer?.deregisterRTTCallback(ServiceName.lobby);
+    _commsLayer.deregisterRTTCallback(ServiceName.lobby);
   }
 
   void registerRTTAsyncMatchCallback(RTTCallback inCallback) {
-    _commsLayer?.registerRTTCallback(ServiceName.asyncMatch, inCallback);
+    _commsLayer.registerRTTCallback(ServiceName.asyncMatch, inCallback);
   }
 
   void registerRTTBlockchainRefresh(RTTCallback inCallback) {
-    _commsLayer?.registerRTTCallback(ServiceName.userItems, inCallback);
+    _commsLayer.registerRTTCallback(ServiceName.userItems, inCallback);
   }
 
   void deregisterRTTBlockchainRefresh() {
-    _commsLayer?.deregisterRTTCallback(ServiceName.userItems);
+    _commsLayer.deregisterRTTCallback(ServiceName.userItems);
   }
 
   void registerRTTBlockchainItemEvent(RTTCallback inCallback) {
-    _commsLayer?.registerRTTCallback(ServiceName.blockChain, inCallback);
+    _commsLayer.registerRTTCallback(ServiceName.blockChain, inCallback);
   }
 
   void deregisterRTTBlockchainItemEvent() {
-    _commsLayer?.deregisterRTTCallback(ServiceName.blockChain);
+    _commsLayer.deregisterRTTCallback(ServiceName.blockChain);
   }
 
   void deregisterRTTAsyncMatchCallback() {
-    _commsLayer?.deregisterRTTCallback(ServiceName.asyncMatch);
+    _commsLayer.deregisterRTTCallback(ServiceName.asyncMatch);
   }
 
   void deregisterAllRTTCallbacks() {
-    _commsLayer?.deregisterAllRTTCallbacks();
+    _commsLayer.deregisterAllRTTCallbacks();
   }
 
   void setRTTHeartBeatSeconds(int inValue) {
-    _commsLayer?.setRTTHeartBeatSeconds(inValue);
+    _commsLayer.setRTTHeartBeatSeconds(inValue);
   }
 
   /// Requests the event server address
@@ -127,11 +127,11 @@ class BrainCloudRTT {
         BrainCloudClient.createServerCallback(success, failure);
     ServerCall sc = ServerCall(ServiceName.rttRegistration,
         ServiceOperation.requestClientConnection, null, callback);
-    _clientRef?.sendRequest(sc);
+    _clientRef.sendRequest(sc);
   }
 
   ///
   String? getRTTConnectionID() {
-    return _commsLayer?.rttConnectionID;
+    return _commsLayer.rttConnectionID;
   }
 }

@@ -9,7 +9,7 @@ import 'utils/ws_proxy.dart';
 main() {
   BCTest bcTest = BCTest();
   setUpAll(bcTest.setupBC);
- 
+
   // helper fucntions for Disconnection test below
   String _getUrlQueryParameters(Map<String, dynamic> _rttHeaders) {
     String sToReturn = "?";
@@ -113,6 +113,14 @@ main() {
       }
     });
 
+
+    test("getConnectionStatus", () async {
+      RTTConnectionStatus? response = bcTest.bcWrapper.rttService.getConnectionStatus();
+      expect(response, isIn(RTTConnectionStatus.values));
+    });
+
+
+
     test("channelConnect", () async {
       if (channelId.isEmpty) {
         ServerResponse? response = await bcTest.bcWrapper.chatService
@@ -182,8 +190,7 @@ main() {
       }
     });
 
-    test("RTT websocket disconnect", () async {   
-
+    test("RTT websocket disconnect", () async {
       Map<String, dynamic> localConnectionInfo = {
         'status': 200,
         'data': {
@@ -212,16 +219,13 @@ main() {
       void onRttSuccess(RTTCommandResponse data) {
         print("RTT Did get callback on success for RTT $data");
         rttConnected.complete(data.operation == "connect");
-      }
+      };
 
-      ;
       void onRttFailure(RTTCommandResponse data) {
         print("Did get callback on failure for RTT ${data.data}");
         String msg = (data.data?['error'] ?? "") as String;
         testCompleted.complete(msg.contains("Websocket closed."));
-      }
-
-      ;
+      };
 
       // Get the client connection data from RTT
       bcTest.bcWrapper.rttService.requestClientConnection(
@@ -236,9 +240,8 @@ main() {
       final proxyWSServer = WebSocketProxy(remoteUrl);
 
       // Start proxy server
-      proxyWSServer.startProxy(port:bcTest.ids.WSProxyPort);
-      print(
-          "[3] Got the proxyingWebSocket ready to interfere with it now.");
+      proxyWSServer.startProxy(port: bcTest.ids.WSProxyPort);
+      print("[3] Got the proxyingWebSocket ready to interfere with it now.");
 
       // Register success and error callback manually as "enableRTT" is bypass here.
       bcTest.bcWrapper.brainCloudClient.rttComms.connectedSuccessCallback =
@@ -269,7 +272,7 @@ main() {
       bool result = await testCompleted.future;
 
       expect(result, true, reason: "Did not detect the webslocket closing.");
-    },onPlatform: {'browser':Skip('Mock Proxy WS does not work on Web.')});
+    }, onPlatform: {'browser': Skip('Mock Proxy WS does not work on Web.')});
 
     /// END TEST
     tearDownAll(() {
