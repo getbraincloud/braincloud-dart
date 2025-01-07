@@ -63,7 +63,7 @@ void main() {
 
     test("leaveDivisionInstance()", retry: 2, () async {
       ServerResponse response = await bcTest.bcWrapper.tournamentService
-          .leaveDivisionInstance(leaderboardId: _divSetId);
+          .leaveDivisionInstance(divisionSetInstance: _divSetId);
 
       expect(response.statusCode, StatusCodes.badRequest);
     });
@@ -80,10 +80,10 @@ void main() {
 
     test("postTournamentScore()", () async {
       ServerResponse response =
-          await bcTest.bcWrapper.tournamentService.postTournamentScore(
+          await bcTest.bcWrapper.tournamentService.postTournamentScoreUTC(
         leaderboardId: _leaderboardId,
         score: 200,
-        jsonData: {"test": "test"},
+        data: {"test": "test"},
         roundStartTimeUTC: DateTime.now().millisecondsSinceEpoch,
       );
 
@@ -92,10 +92,10 @@ void main() {
 
     test("postTournamentScoreWithresponses()", () async {
       ServerResponse response = await bcTest.bcWrapper.tournamentService
-          .postTournamentScoreWithResults(
+          .postTournamentScoreWithResultsUTC(
               leaderboardId: _leaderboardId,
               score: 200,
-              jsonData: {"test": "test"},
+              data: {"test": "test"},
               roundStartTimeUTC: DateTime.now().millisecondsSinceEpoch,
               sort: SortOrder.HIGH_TO_LOW,
               beforeCount: 10,

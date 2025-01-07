@@ -224,15 +224,15 @@ class BrainCloudTournament {
   /// Service Name - tournament
   /// Service Operation - GET_DIVISION_INFO
   ///
-  /// @param learboardId
+  /// @param divSetId
   /// The division
   ///
   /// returns Future<ServerResponse>
   Future<ServerResponse> leaveDivisionInstance(
-      {required String leaderboardId}) {
+      {required String divisionSetInstance}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    data[OperationParam.leaderboardId.value] = leaderboardId;
+    data[OperationParam.leaderboardId.value] = divisionSetInstance;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) => completer.complete(ServerResponse.fromJson(response)),
@@ -296,19 +296,19 @@ class BrainCloudTournament {
   /// Uses UTC time in milliseconds since epoch
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> postTournamentScore(
+  Future<ServerResponse> postTournamentScoreUTC(
       {required String leaderboardId,
       required int score,
-      Map<String, dynamic>? jsonData,
+      Map<String, dynamic>? data,
       required int roundStartTimeUTC}) {
     Completer<ServerResponse> completer = Completer();
-    Map<String, dynamic> data = {};
-    data[OperationParam.leaderboardId.value] = leaderboardId;
-    data[OperationParam.score.value] = score;
-    data[OperationParam.roundStartedEpoch.value] = roundStartTimeUTC;
+    Map<String, dynamic> _data = {};
+    _data[OperationParam.leaderboardId.value] = leaderboardId;
+    _data[OperationParam.score.value] = score;
+    _data[OperationParam.roundStartedEpoch.value] = roundStartTimeUTC;
 
-    if (jsonData != null) {
-      data[OperationParam.data.value] = jsonData;
+    if (data != null) {
+      _data[OperationParam.data.value] = data;
     }
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) => completer.complete(ServerResponse.fromJson(response)),
@@ -319,7 +319,7 @@ class BrainCloudTournament {
               error: statusMessage)),
     );
     ServerCall sc = ServerCall(ServiceName.tournament,
-        ServiceOperation.postTournamentScore, data, callback);
+        ServiceOperation.postTournamentScore, _data, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;
@@ -356,31 +356,31 @@ class BrainCloudTournament {
   /// Usually 0, unless leaderboard is LOW_VALUE
   ///
   /// returns Future<ServerResponse>
-  Future<ServerResponse> postTournamentScoreWithResults(
+  Future<ServerResponse> postTournamentScoreWithResultsUTC(
       {required String leaderboardId,
       required int score,
-      Map<String, dynamic>? jsonData,
+      Map<String, dynamic>? data,
       required int roundStartTimeUTC,
       required SortOrder sort,
       required int beforeCount,
       required int afterCount,
       required int initialScore}) {
     Completer<ServerResponse> completer = Completer();
-    Map<String, dynamic> data = {};
-    data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
+    Map<String, dynamic> _data = {};
+    _data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
         leaderboardId;
-    data[OperationParam.score.value] = score;
-    data[OperationParam.roundStartedEpoch.value] = roundStartTimeUTC;
-    data[OperationParam.initialScore.value] = initialScore;
+    _data[OperationParam.score.value] = score;
+    _data[OperationParam.roundStartedEpoch.value] = roundStartTimeUTC;
+    _data[OperationParam.initialScore.value] = initialScore;
 
-    if (jsonData != null) {
-      data[OperationParam.data.value] = jsonData;
+    if (data != null) {
+      _data[OperationParam.data.value] = data;
     }
 
-    data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
-    data[OperationParam.socialLeaderboardServiceBeforeCount.value] =
+    _data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
+    _data[OperationParam.socialLeaderboardServiceBeforeCount.value] =
         beforeCount;
-    data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
+    _data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
 
     var callback = BrainCloudClient.createServerCallback(
       (response) => completer.complete(ServerResponse.fromJson(response)),
@@ -391,7 +391,7 @@ class BrainCloudTournament {
               error: statusMessage)),
     );
     _clientRef.sendRequest(ServerCall(ServiceName.tournament,
-        ServiceOperation.postTournamentScoreWithResults, data, callback));
+        ServiceOperation.postTournamentScoreWithResults, _data, callback));
 
     return completer.future;
   }
