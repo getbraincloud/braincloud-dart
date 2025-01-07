@@ -8,9 +8,25 @@ void main() {
   setUpAll(bcTest.setupBC);
 
   group("Test Virtual Currency", () {
+
+
+    test("awardCurrency()", () async {
+      ServerResponse response = await bcTest.bcWrapper.virtualCurrencyService
+          .awardCurrency(vcId: "test",vcAmount: 23);
+print("awardCurrency(): $response");
+      expect(response.statusCode, StatusCodes.ok);
+    });
+
+    test("consumeCurrency()", () async {
+      ServerResponse response = await bcTest.bcWrapper.virtualCurrencyService
+          .consumeCurrency(vcId: "test",vcAmount: 5);
+print("consumeCurrency(): $response");
+      expect(response.statusCode, StatusCodes.ok);
+    });
+    
     test("getCurrency()", () async {
       ServerResponse response = await bcTest.bcWrapper.virtualCurrencyService
-          .getCurrency(currencyType: "_invalid_id_");
+          .getCurrency(vcId: "_invalid_id_");
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -18,7 +34,7 @@ void main() {
     test("getParentCurrency()", () async {
       ServerResponse response = await bcTest.bcWrapper.virtualCurrencyService
           .getParentCurrency(
-              currencyType: "_invalid_id_", levelName: "_invalid_level_");
+              vcId: "_invalid_id_", levelName: "_invalid_level_");
 
       expect(response.statusCode, StatusCodes.badRequest);
       expect(response.reasonCode, ReasonCodes.missingPlayerParent);
@@ -27,7 +43,7 @@ void main() {
     test("getPeerCurrency()", () async {
       ServerResponse response = await bcTest.bcWrapper.virtualCurrencyService
           .getPeerCurrency(
-              currencyType: "_invalid_id_", peerCode: "_invalid_peer_code_");
+              vcId: "_invalid_id_", peerCode: "_invalid_peer_code_");
 
       expect(response.statusCode, StatusCodes.badRequest);
       expect(response.reasonCode, ReasonCodes.profilePeerNotFound);
