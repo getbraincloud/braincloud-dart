@@ -21,7 +21,7 @@ void main() {
     final String testHelloString = "Hello World!";
     final String testWelcomeString = "Welcome aboard";
     int currentNetId = 0;
-
+    Timer? roomAssignedDetectedCompleter;// = Completer();
     /// ========================================================================================================
     /// Helper functions for Tests
     ///
@@ -197,7 +197,20 @@ void main() {
                   port,
                   data["passcode"],
                   data["lobbyId"]);
-
+              break;
+            case "STATUS_UPDATE":
+                roomAssignedDetectedCompleter = Timer(Duration(seconds: 10),() {
+                  print("++++++++                                         ++++++++++++++");
+                  print("++++++++  STATUS_UPDATE                          ++++++++++++++");
+                  print("++++++++  received but no ROOM_ASSIGNED received ++++++++++++++");
+                  print("++++++++                                         ++++++++++++++");
+                },);
+              break;
+            case "ROOM_ASSIGNED":
+              if (roomAssignedDetectedCompleter != null && roomAssignedDetectedCompleter!.isActive) {
+                  print("--------- ROOM_ASSIGNED was received.");
+                roomAssignedDetectedCompleter?.cancel();
+              }
               break;
           }
         };
