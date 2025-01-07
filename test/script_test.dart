@@ -14,7 +14,7 @@ void main() {
 
     test("runScript()", retry: 2, () async {
       ServerResponse response = await bcTest.bcWrapper.scriptService
-          .runScript(scriptName: scriptName, jsonScriptData: scriptData);
+          .runScript(scriptName: scriptName, scriptData: scriptData);
       expect(response.statusCode, StatusCodes.ok);
     });
 
@@ -25,8 +25,8 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.scriptService
           .scheduleRunScriptMillisUTC(
               scriptName: scriptName,
-              jsonScriptData: scriptData,
-              roundStartTimeUTC: tomorrow.millisecondsSinceEpoch);
+              scriptData: scriptData,
+              startDateUTC: tomorrow.millisecondsSinceEpoch);
 
       expect(response.statusCode, StatusCodes.ok);
     });
@@ -37,7 +37,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.scriptService
           .scheduleRunScriptMinutes(
               scriptName: scriptName,
-              jsonScriptData: scriptData,
+              scriptData: scriptData,
               minutesFromNow: 60);
 
       jobId = response.data?["jobId"];
@@ -54,7 +54,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.scriptService
           .runPeerScript(
               scriptName: peerScriptName,
-              jsonScriptData: scriptData,
+              scriptData: scriptData,
               peer: bcTest.ids.peerName);
 
       expect(response.statusCode, StatusCodes.ok,
@@ -65,7 +65,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.scriptService
           .runPeerScriptAsync(
               scriptName: peerScriptName,
-              jsonScriptData: scriptData,
+              scriptData: scriptData,
               peer: bcTest.ids.peerName);
 
       expect(response.statusCode, StatusCodes.ok,
