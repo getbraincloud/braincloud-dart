@@ -353,7 +353,7 @@ class BrainCloudGroup {
       {required String groupId,
       required String entityType,
       bool? isOwnedByGroupMember,
-      GroupACL? acl,
+      required GroupACL acl,
       Map<String, dynamic>? data}) {
     Map<String, dynamic> mapData = {};
     mapData[OperationParam.groupId.value] = groupId;
@@ -364,9 +364,8 @@ class BrainCloudGroup {
       mapData[OperationParam.groupIsOwnedByGroupMember.value] =
           isOwnedByGroupMember;
     }
-    if (acl != null) {
-      mapData[OperationParam.groupAcl.value] = acl.toJsonMap();
-    }
+    mapData[OperationParam.groupAcl.value] =  acl.toJsonMap();
+    
     if (data != null) {
       mapData[OperationParam.groupData.value] = data;
     }

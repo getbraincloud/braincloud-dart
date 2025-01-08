@@ -187,6 +187,7 @@ void main() {
               groupId: groupId,
               entityType: "test",
               isOwnedByGroupMember: false,
+              acl: GroupACL(Access.readWrite, Access.readWrite),
               data: testData);
 
       entityId = response.data?["entityId"];
@@ -398,6 +399,7 @@ void main() {
         response = await bcTest.bcWrapper.groupService.createGroupEntity(
           groupId: groupId, 
           entityType: "entityType",data: {"name":"value"},
+          acl: GroupACL(Access.readWrite, Access.readWrite),
           isOwnedByGroupMember: true);
       if (response.statusCode == 200) {
         var entityId = response.data?["entityId"];
@@ -443,7 +445,7 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.groupService
           .updateGroupSummaryData(
               groupId: groupId,
-              version: 1,
+              version: -1,
               jsonSummaryData: {"summary": "asdf"});
 
       expect(response.statusCode, StatusCodes.ok);
