@@ -234,7 +234,7 @@ main() async {
       expect(handoffId, isNotEmpty);
       expect(securityToken, isNotEmpty);
 
-      response = await bcTest.bcWrapper.brainCloudClient.authenticationService
+      response = await bcTest.bcWrapper.authenticationService
           .authenticateHandoff(
               handoffId: handoffId, securityToken: securityToken);
 
@@ -252,7 +252,7 @@ main() async {
       String handoffCode = response.data?['response']['handoffCode'] ?? "";
       expect(handoffCode, isNotEmpty);
 
-      response = await bcTest.bcWrapper.brainCloudClient.authenticationService
+      response = await bcTest.bcWrapper.authenticationService
           .authenticateSettopHandoff(handoffCode: handoffCode);
 
       expect(response.statusCode, 200);
@@ -295,7 +295,7 @@ main() async {
           .authenticateEmailPassword(
               email: email, password: email, forceCreate: true);
 
-      response = await bcTest.bcWrapper.brainCloudClient.authenticationService
+      response = await bcTest.bcWrapper.authenticationService
           .resetEmailPassword(emailAddress: email);
 
       expect(response.statusCode, 200);
@@ -310,7 +310,7 @@ main() async {
           .authenticateEmailPassword(
               email: email, password: email, forceCreate: true);
 
-      response = await bcTest.bcWrapper.brainCloudClient.authenticationService
+      response = await bcTest.bcWrapper.authenticationService
           .resetEmailPasswordWithExpiry(
               emailAddress: email, tokenTtlInMinutes: 1);
 
@@ -340,7 +340,7 @@ main() async {
           .authenticateEmailPassword(
               email: email, password: email, forceCreate: true);
 
-      response = await bcTest.bcWrapper.brainCloudClient.authenticationService
+      response = await bcTest.bcWrapper.authenticationService
           .resetEmailPasswordAdvanced(
               emailAddress: email, serviceParams: serviceParams);
 
@@ -372,7 +372,7 @@ main() async {
           .authenticateEmailPassword(
               email: email, password: email, forceCreate: true);
 
-      response = await bcTest.bcWrapper.brainCloudClient.authenticationService
+      response = await bcTest.bcWrapper.authenticationService
           .resetEmailPasswordAdvancedWithExpiry(
               emailAddress: email,
               serviceParams: serviceParams,
@@ -387,7 +387,7 @@ main() async {
 
       // Tests normally login with userA as universal.
       ServerResponse response = await bcTest
-          .bcWrapper.brainCloudClient.authenticationService
+          .bcWrapper.authenticationService
           .resetUniversalIdPassword(universalId: userA.name);
 
       expect(response.statusCode, isIn([409, 200]));
@@ -403,7 +403,7 @@ main() async {
 
       // Tests normally login with userA as universal.
       ServerResponse response = await bcTest
-          .bcWrapper.brainCloudClient.authenticationService
+          .bcWrapper.authenticationService
           .resetUniversalIdPasswordWithExpiry(
               universalId: userA.name, tokenTtlInMinutes: 1);
 
@@ -429,7 +429,7 @@ main() async {
 
       // Tests normally login with userA as universal.
       ServerResponse response = await bcTest
-          .bcWrapper.brainCloudClient.authenticationService
+          .bcWrapper.authenticationService
           .resetUniversalIdPasswordAdvanced(
               universalId: userA.name, serviceParams: serviceParams);
 
@@ -452,7 +452,7 @@ main() async {
 
       // Tests normally login with userA as universal.
       ServerResponse response = await bcTest
-          .bcWrapper.brainCloudClient.authenticationService
+          .bcWrapper.authenticationService
           .resetUniversalIdPasswordAdvancedWithExpiry(
               universalId: userA.name,
               serviceParams: serviceParams,

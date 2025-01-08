@@ -79,7 +79,7 @@ void main() {
           reason: "Packet Id should not match");
     });
 
-    test("AuthenticateAdvanced", () async {
+    test("authenticateAdvanced", () async {
       BrainCloudWrapper _bc = BrainCloudWrapper(wrapperName: "_mainWrapper");
 
       String externalId = "authAdvancedUser";
@@ -101,8 +101,57 @@ void main() {
       }
     });
 
-    test("Genereal", () {
+    test("resetWrapper", () async {
+      expect(bcTest.bcWrapper.wrapperName, "FlutterTest");
+
+      bcTest.bcWrapper.resetWrapper(resetWrapperName: true);
+
+      expect(bcTest.bcWrapper.wrapperName, isNot("FlutterTest"));
+      expect(bcTest.bcWrapper.wrapperName, isEmpty);
+    });
+
+    test("getServerVersion", () async {
+      ServerResponse response = await bcTest.bcWrapper.getServerVersion();
+
+      expect(response.statusCode, 200);
+      expect(response.data?["serverVersion"], isA<String>());
+    });
+
+    test("authenticateHandoff", () async {
+      ServerResponse tokenResp = await bcTest.bcWrapper.scriptService
+          .runScript(scriptName: "createHandoffId");
+
+      if (tokenResp.statusCode == 200) {
+        String handoffId = tokenResp.data?["response"]["handoffId"];
+        String securityToken = tokenResp.data?["response"]["securityToken"];
+        ServerResponse response = await bcTest.bcWrapper
+            .authenticateHandoff(handoffId: handoffId, securityToken: securityToken);
+
+        expect(response.statusCode, 200);
+      }
+    });
+    test("authenticateSettopHandoff", () async {
+      ServerResponse tokenResp = await bcTest.bcWrapper.scriptService
+          .runScript(scriptName: "CreateSettopHandoffCode");
+      if (tokenResp.statusCode == 200) {
+        String handoffCode = tokenResp.data?["response"]["handoffCode"];
+        ServerResponse response = await bcTest.bcWrapper
+            .authenticateSettopHandoff(handoffCode: handoffCode);
+        expect(response.statusCode, 200);
+      }
+    });
+    test("resetStoredAuthenticationType", () {
       
+      String authType = bcTest.bcWrapper.getStoredAuthenticationType();      
+      if (authType.isNotEmpty) {
+        bcTest.bcWrapper.resetStoredAuthenticationType();
+        expect(bcTest.bcWrapper.getStoredAuthenticationType(), isEmpty);
+      } else {
+        Skip("Authentication type not initialized cannot test reseting it,");
+      }
+    });
+
+    test("Genereal", () {
       bcTest.bcWrapper.alwaysAllowProfileSwitch = false;
       expect(bcTest.bcWrapper.alwaysAllowProfileSwitch, false,
           reason: "alwaysAllowProfileSwitch should have been false");
@@ -111,7 +160,8 @@ void main() {
       expect(bcTest.bcWrapper.alwaysAllowProfileSwitch, true,
           reason: "alwaysAllowProfileSwitch should have been true");
 
-      expect(bcTest.bcWrapper.canReconnect(), true, reason: "canReconnect should have be true, since we did signin");
+      expect(bcTest.bcWrapper.canReconnect(), true,
+          reason: "canReconnect should have be true, since we did signin");
     });
   });
 }
