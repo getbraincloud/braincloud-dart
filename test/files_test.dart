@@ -399,11 +399,11 @@ main() {
     // helper fiunction
 
     createUserFile() async {
-
-      final imageData = kIsWeb ? Uint8List.fromList(generateRandomString(1024 * 1024 * 20).codeUnits) : File('test/TestImg.png').readAsBytesSync();
-
       // ensure no other callback registered.
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
+
+      // if Running from Web then use generated data else load from image file.
+      final imageData = kIsWeb ? Uint8List.fromList(generateRandomString(1024 * 1024 * 20).codeUnits) : File('test/TestImg.png').readAsBytesSync();
 
       Completer<ServerResponse> uploadCompleterFuture = Completer<ServerResponse>();
       bcTest.bcWrapper.brainCloudClient.registerFileUploadCallback(uploadCompleterFuture.complete);
@@ -419,10 +419,6 @@ main() {
       ServerResponse uploadResponse = await uploadCompleterFuture.future;
 
       print("++++ createUserFile uploadResponse returned ${uploadResponse.data}");
-
-      // expect(uploadResponse.data?['fileDetails']['fileId'], isA<String>(),
-      //     reason: "Should get a downloadUrl");
-      // String fileId = uploadResponse.data?['fileDetails']['fileId'];
 
       // cleanup
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
@@ -462,7 +458,9 @@ main() {
           isOpenGroup: false,
           data: {"reason": "Group to test groupd files"});
       print("Group File setUpAll createGroup returned ${response.data}");
-      groupId = response.data?["groupId"];
+      if (response.data?["groupId"] != null) {
+        groupId = response.data?["groupId"];
+      }
     });
 
     test("moveUserToGroupFile", () async {

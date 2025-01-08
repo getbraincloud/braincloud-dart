@@ -21,7 +21,7 @@ void main() {
     final String testHelloString = "Hello World!";
     final String testWelcomeString = "Welcome aboard";
     int currentNetId = 0;
-    Timer? roomAssignedDetectedCompleter;// = Completer();
+    Timer? roomAssignedDetectedCompleter = null;// = Completer();
     /// ========================================================================================================
     /// Helper functions for Tests
     ///
@@ -199,12 +199,15 @@ void main() {
                   data["lobbyId"]);
               break;
             case "STATUS_UPDATE":
-                roomAssignedDetectedCompleter = Timer(Duration(seconds: 10),() {
-                  print("++++++++                                         ++++++++++++++");
-                  print("++++++++  STATUS_UPDATE                          ++++++++++++++");
-                  print("++++++++  received but no ROOM_ASSIGNED received ++++++++++++++");
-                  print("++++++++                                         ++++++++++++++");
-                },);
+            case "MEMBER_JOIN":
+                if (roomAssignedDetectedCompleter == null) {
+                  roomAssignedDetectedCompleter = Timer(Duration(seconds: 10),() {
+                    print("++++++++                                         ++++++++++++++");
+                    print("++++++++  STATUS_UPDATE or MEMBER_JOIN received. ++++++++++++++");
+                    print("++++++++       but no ROOM_ASSIGNED received.    ++++++++++++++");
+                    print("++++++++                                         ++++++++++++++");
+                  },);
+                }
               break;
             case "ROOM_ASSIGNED":
               if (roomAssignedDetectedCompleter != null && roomAssignedDetectedCompleter!.isActive) {
@@ -296,6 +299,7 @@ print(" converted bytes is $reloadedMask");
 
 
     test("FullFlow TCP", () async {
+       roomAssignedDetectedCompleter = null;
       if (bcTest.bcWrapper.rttService.isRTTEnabled())  await disconnectRelay();
       
       await fullFlow(RelayConnectionType.tcp);
@@ -308,6 +312,7 @@ print(" converted bytes is $reloadedMask");
 
     // Purposefully set this in the middle of other test to ensure proper cleanup
     test("Invalid ACK", () async {
+      roomAssignedDetectedCompleter = null;
       if (bcTest.bcWrapper.rttService.isRTTEnabled())  await disconnectRelay();
 
       await fullFlow(RelayConnectionType.udp, rcb: badRelayCallback);
@@ -319,6 +324,7 @@ print(" converted bytes is $reloadedMask");
     });
 
     test("FullFlow UDP", () async {
+      roomAssignedDetectedCompleter = null;
       if (bcTest.bcWrapper.rttService.isRTTEnabled())  await disconnectRelay();
 
       await fullFlow(RelayConnectionType.udp);
@@ -330,6 +336,7 @@ print(" converted bytes is $reloadedMask");
     });
 
     test("FullFlow WebSocket", () async {
+      roomAssignedDetectedCompleter = null;
       if (bcTest.bcWrapper.rttService.isRTTEnabled())  await disconnectRelay();
 
       // do not disconnect in the fullFlow as we want to test other cmds while the connection is still alive
