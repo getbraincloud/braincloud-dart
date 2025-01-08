@@ -4,11 +4,11 @@ import 'ids.g.dart';
 
 
 class StoredIds {
-  final String _path;
+  final String path;
 
   Map<String, String> ids = {};
 
-  StoredIds(this._path);
+  StoredIds(this.path);
 
   Future<void> load() async {}
 

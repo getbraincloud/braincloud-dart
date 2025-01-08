@@ -18,7 +18,7 @@ import 'package:braincloud_dart/src/reason_codes.dart';
 import 'package:braincloud_dart/src/server_callback.dart';
 import 'package:braincloud_dart/src/status_codes.dart';
 import 'package:braincloud_dart/src/util.dart';
-import 'package:gzip/gzip.dart';
+import 'package:archive/archive.dart';
 
 part 'braincloud_comms.g.dart';
 
@@ -1289,16 +1289,16 @@ class BrainCloudComms {
   }
 
   Future<Uint8List> _compress(Uint8List raw) async {
-    final zipper = GZip();
-    return Uint8List.fromList(await zipper.compress(raw));
+    final zipper = GZipEncoder();
+    return Uint8List.fromList(await zipper.encode(raw));
     // return Uint8List.fromList(gzip.encode(raw));
   }
 
-  Future<Uint8List> _decompress(Uint8List compressedBytes) async {
-    final zipper = GZip();
-    return Uint8List.fromList(await zipper.decompress(compressedBytes));    
-    // return Uint8List.fromList(gzip.decode(compressedBytes.toList()));
-  }
+  // Future<Uint8List> _decompress(Uint8List compressedBytes) async {
+  //   final zipper = GZipDecoder();
+  //   return Uint8List.fromList(await zipper.decodeBytes(compressedBytes));    
+  //   // return Uint8List.fromList(gzip.decode(compressedBytes.toList()));
+  // }
 
   /// Resends a message bundle. Returns true if sent or
   /// false if max retries has been reached.

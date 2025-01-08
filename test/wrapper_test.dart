@@ -9,6 +9,20 @@ void main() {
   BCTest bcTest = BCTest();
   // setUpAll(bcTest.setupBC);
 
+  group("Test Wrapper Reset", () {
+    setUpAll(bcTest.setupBC);
+    // This test need to be in a separate group not to impact other tests 
+    // as it reset the wrapper
+    test("resetWrapper", () async {
+      expect(bcTest.bcWrapper.wrapperName, "FlutterTest");
+
+      bcTest.bcWrapper.resetWrapper(resetWrapperName: true);
+
+      expect(bcTest.bcWrapper.wrapperName, isNot("FlutterTest"));
+      expect(bcTest.bcWrapper.wrapperName, isEmpty);
+    });
+  });
+
   group("Test Wrapper", () {
     setUpAll(() async {
       await bcTest.setupBC();
@@ -101,15 +115,6 @@ void main() {
       }
     });
 
-    test("resetWrapper", () async {
-      expect(bcTest.bcWrapper.wrapperName, "FlutterTest");
-
-      bcTest.bcWrapper.resetWrapper(resetWrapperName: true);
-
-      expect(bcTest.bcWrapper.wrapperName, isNot("FlutterTest"));
-      expect(bcTest.bcWrapper.wrapperName, isEmpty);
-    });
-
     test("getServerVersion", () async {
       ServerResponse response = await bcTest.bcWrapper.getServerVersion();
 
@@ -124,8 +129,8 @@ void main() {
       if (tokenResp.statusCode == 200) {
         String handoffId = tokenResp.data?["response"]["handoffId"];
         String securityToken = tokenResp.data?["response"]["securityToken"];
-        ServerResponse response = await bcTest.bcWrapper
-            .authenticateHandoff(handoffId: handoffId, securityToken: securityToken);
+        ServerResponse response = await bcTest.bcWrapper.authenticateHandoff(
+            handoffId: handoffId, securityToken: securityToken);
 
         expect(response.statusCode, 200);
       }
@@ -141,8 +146,7 @@ void main() {
       }
     });
     test("resetStoredAuthenticationType", () {
-      
-      String authType = bcTest.bcWrapper.getStoredAuthenticationType();      
+      String authType = bcTest.bcWrapper.getStoredAuthenticationType();
       if (authType.isNotEmpty) {
         bcTest.bcWrapper.resetStoredAuthenticationType();
         expect(bcTest.bcWrapper.getStoredAuthenticationType(), isEmpty);

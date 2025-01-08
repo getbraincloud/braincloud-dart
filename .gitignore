@@ -45,3 +45,10 @@ test/ids.txt
 coverage
 ids.txt
 test-report.xml
+
+**/ids.txt
+logs/*
+t.sh
+test-results.json
+testServer/
+codeGen.sh
