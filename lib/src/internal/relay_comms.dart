@@ -5,8 +5,6 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:braincloud_dart/src/internal/relay_helpers.dart'
-    if (dart.library.js_interop) 'package:braincloud_dart/src/internal/relay_helpers_web.dart';
 import 'package:braincloud_dart/src/internal/braincloud_websocket.dart';
 import 'package:braincloud_dart/src/braincloud_client.dart';
 import 'package:braincloud_dart/src/braincloud_relay.dart';
@@ -149,6 +147,11 @@ class RelayComms {
       RelayConnectOptions inOptions,
       SuccessCallback? inSuccess,
       FailureCallback? inFailure) async {
+    // First close any old connection, if any.
+    if (_connectionType != RelayConnectionType.invalid) {
+      _clientRef
+          .log("RELAY Closing old connection of type ${_connectionType.name}");
+    }
     if (_isConnected) {
       switch (_connectionType) {
         case RelayConnectionType.tcp:
@@ -185,6 +188,11 @@ class RelayComms {
     String host = _connectOptions.host;
     int port = _connectOptions.port;
     _relayHostAddress = (await InternetAddress(host));
+
+    if (_isConnected != RelayConnectionType.invalid) {
+      _clientRef.log(
+          "RELAY Establishing new connection of type ${_connectionType.name} to $host:$port");
+    }
 
     switch (_connectionType) {
       case RelayConnectionType.websocket:
@@ -243,36 +251,36 @@ class RelayComms {
     _queueErrorEvent(error);
   }
 
-
-int reverseBits8(int value) {
+  int reverseBits8(int value) {
     int num = value & 0xFF;
     int reversed = 0;
     for (int i = 0; i < 8; i++) {
-        reversed = (reversed << 1) | (num & 1); // Shift left and add the least significant bit
-        num >>= 1; // Shift the input number to the right
+      reversed = (reversed << 1) | (num & 1); // Shift left and add the least significant bit
+      num >>= 1; // Shift the input number to the right
     }
     return reversed;
-}
+  }
+
   // Dummy fubction to make inrterfe parity with Web version.
-List<int> splitToBytes40(int number) {
-    var value = number & 0x0000FFFFFFFFFF;    
-    List<int>  bytes = [];
+  List<int> splitToBytes40(int number) {
+    var value = number & 0x0000FFFFFFFFFF;
+    List<int> bytes = [];
     for (var i = 0; i < 6; i++) {
-        bytes.add(reverseBits8(value >> (i * 8)) & 0xFF); // Extract each byte
+      bytes.add(reverseBits8(value >> (i * 8)) & 0xFF); // Extract each byte
     }
     return bytes; // Big-endian order
-}
+  }
 
-int bytesToInt40(List<int> bytes) {
+  int bytesToInt40(List<int> bytes) {
     if (bytes.length < 6) {
-        throw new Exception("Byte array must have at lease 6 elements.");
+      throw new Exception("Byte array must have at lease 6 elements.");
     }
     var number = 0;
-    for (var i = 0; i < bytes.length; i++) {    
+    for (var i = 0; i < bytes.length; i++) {
       number += (reverseBits8(bytes[i]) << (i * 8));
     }
     return number;
-}
+  }
 
   void send(Uint8List inData, int inPlayerMask, bool inReliable, bool inOrdered,
       int inChannel) {
@@ -397,7 +405,6 @@ int bytesToInt40(List<int> bytes) {
 
   /// Callbacks responded to on the main thread
   update() {
-    // if (_events.length > 0) 
     // ** Resend connect request **
     // A UDP client needs to resend that until a confirmation is received that they are connected.
     // A subsequent connection request will just be ignored if already connected.
@@ -529,6 +536,8 @@ int bytesToInt40(List<int> bytes) {
   }
 
   void _disconnect() {
+    _clientRef.log("RELAY Closing connection of type ${_connectionType.name}");
+
     _isConnected = false;
     _connectedSuccessCallback = null;
     // _connectedObj = null;
@@ -580,6 +589,8 @@ int bytesToInt40(List<int> bytes) {
             "Relay Recv Error: Packet is smaller than header's size");
         return;
       }
+      _clientRef.log(
+          "RELAY System RECV:  ${in_packet.length}  bytes, msg: ${String.fromCharCodes(in_packet.sublist(3))} on ${_connectionType.name}");
       _onRSMG(in_packet.sublist(3));
     } else if (controlByte == RS2CL_DISCONNECT) {
       disconnect();
@@ -601,10 +612,8 @@ int bytesToInt40(List<int> bytes) {
             "Relay packets cannot be smaller than $SIZE_OF_ACKID_MESSAGE bytes");
         return;
       }
-      if (_clientRef.loggingEnabled) {
-        _clientRef
-            .log("RELAY RECV:  ${in_packet.length}  bytes, msg: $in_packet}");
-      }
+      _clientRef
+          .log("RELAY RECV:  ${in_packet.length}  bytes, msg: $in_packet}");
       _onRelay(in_packet.sublist(3));
     } else {
       // Invalid packet, throw error
@@ -626,12 +635,17 @@ int bytesToInt40(List<int> bytes) {
   void onRelayTEST(Uint8List in_data) {
     _onRelay(in_data);
   }
+
+  int getAckIdWithoutPacketId(int ackId) {
+    return (ackId & 0xF000FFFFFFFFFFFF).toUnsigned(64);
+  }
+
   void _onRelay(Uint8List in_data) {
     final ByteData dataView = ByteData.sublistView(in_data);
     int rh = dataView.getUint16(0);
     int ackId = dataView.getUint64(0);
 
-    /// incoming data bytes 
+    /// incoming data bytes
     /// r = reliable bit
     /// o = ordered bit
     /// c = channel 2 bits
@@ -640,7 +654,6 @@ int bytesToInt40(List<int> bytes) {
     /// n = from netId 8 bits
     /// |--- 0 --|--- 1 --|--- 2 --|--- 3 --|--- 4 --|--- 5 --|--- 6 --|--- 7 --|--- .... |
     /// |roccpppp|pppppppp|mmmmmmmm|mmmmmmmm|mmmmmmmm|mmmmmmmm|mmmmmmmm|nnnnnnnn|....
-
 
     // To allow Web builds this has been extracted to a function that is different when build for Web
     // At this time the Relay is not supported on Web and will not allow connecting.
@@ -651,8 +664,7 @@ int bytesToInt40(List<int> bytes) {
     bool ordered = ((rh & ORDERED_BIT) != 0) ? true : false;
     int channel = (rh >> 12) & 0x3;
     int packetId = rh & 0xFFF;
-    int netId = dataView.getUint8(7);  // only get the lowest byte fo the player mask.
-    
+    int netId = dataView.getUint8(7); // only get the lowest byte fo the player mask.
 
     // Reconstruct ack id without packet id
     if (_connectionType == RelayConnectionType.udp) {
@@ -674,20 +686,16 @@ int bytesToInt40(List<int> bytes) {
             _trackedPacketIds[channel]!.containsKey(netId)) {
           prevPacketId = _trackedPacketIds[channel]![netId]!;
           _trackedPacketIds[channel]!.remove(netId);
-          if (_clientRef.loggingEnabled) {
-            _clientRef.log(
-                "Found tracked packetId for channel: ${channel} netId: ${netId} which was ${prevPacketId}");
-          }
+          _clientRef.log(
+              "Found tracked packetId for channel: ${channel} netId: ${netId} which was ${prevPacketId}");
         }
 
         if (reliable) {
           if (_packetLE(packetId, prevPacketId)) {
             // We already received that packet if it's lower than the last confirmed
             // packetId. This must be a duplicate
-            if (_clientRef.loggingEnabled) {
-              _clientRef.log(
-                  "Duplicated packet from $netId. got $packetId, ignoring it.");
-            }
+            _clientRef.log(
+                "Duplicated packet from $netId. got $packetId, ignoring it.");
             return;
           }
 
@@ -709,10 +717,7 @@ int bytesToInt40(List<int> bytes) {
             for (; insertIdx < orderedReliablePackets.length; ++insertIdx) {
               var packet = orderedReliablePackets[insertIdx];
               if (packet._id == packetId) {
-                if (_clientRef.loggingEnabled) {
-                  _clientRef
-                      .log("Duplicated packet from $netId. got $packetId");
-                }
+                _clientRef.log("Duplicated packet from $netId. got $packetId");
                 return;
               }
               if (_packetLE(packetId, packet._id)) break;
@@ -720,10 +725,9 @@ int bytesToInt40(List<int> bytes) {
             var newPacket =
                 _UDPPacket(in_data.sublist(8), channel, packetId, netId);
             orderedReliablePackets.insert(insertIdx, newPacket);
-            if (_clientRef.loggingEnabled) {
-              _clientRef.log(
-                  "Queuing out of order reliable from $netId. got $packetId");
-            }
+
+            _clientRef.log(
+                "Queuing out of order reliable from $netId. got $packetId");
             return;
           }
 
@@ -749,10 +753,8 @@ int bytesToInt40(List<int> bytes) {
         } else {
           if (_packetLE(packetId, prevPacketId)) {
             // Just drop out of order packets for unreliables
-            if (_clientRef.loggingEnabled) {
-              _clientRef.log(
-                  "Out of order packet from $netId. Expecting ${((prevPacketId + 1) & _MAX_PACKET_ID)} , got $packetId");
-            }
+            _clientRef.log(
+                "Out of order packet from $netId. Expecting ${((prevPacketId + 1) & _MAX_PACKET_ID)} , got $packetId");
             return;
           }
           _recvPacketId[ackIdWithoutPacketId] = packetId;
@@ -774,9 +776,7 @@ int bytesToInt40(List<int> bytes) {
       // If already received, we ignore
       for (int i = 0; i < _rsmgHistory.length; ++i) {
         if (_rsmgHistory[i] == rsmgPacketId) {
-          if (_clientRef.loggingEnabled) {
-            _clientRef.log("Duplicated System Msg: $rsmgPacketId");
-          }
+          _clientRef.log("Duplicated System Msg: $rsmgPacketId");
           return;
         }
       }
@@ -798,9 +798,7 @@ int bytesToInt40(List<int> bytes) {
     }
 
     String jsonMessage = String.fromCharCodes(in_data.sublist(stringOffset));
-    if (_clientRef.loggingEnabled) {
-      _clientRef.log("Relay System Msg: $jsonMessage");
-    }
+    _clientRef.log("Relay System Msg: $jsonMessage ");
 
     Map<String, dynamic> parsedDict = jsonDecode(jsonMessage);
 
@@ -832,10 +830,8 @@ int bytesToInt40(List<int> bytes) {
               int packetID = packetIdArray[channelID];
               if (packetID != 0) {
                 _trackedPacketIds[channelID]?[netId] = packetID;
-                if (_clientRef.loggingEnabled) {
-                  _clientRef.log(
-                      "Added tracked packetId ${packetID} for netID ${netId} at channel ${channelID}");
-                }
+                _clientRef.log(
+                    "Added tracked packetId ${packetID} for netID ${netId} at channel ${channelID}");
               }
             }
           }
@@ -873,9 +869,7 @@ int bytesToInt40(List<int> bytes) {
 
   void _onPong() {
     _ping = DateTime.now().millisecondsSinceEpoch - _lastPingTime;
-    if (_clientRef.loggingEnabled) {
-      _clientRef.log("Relay LastPing: $_ping ms");
-    }
+    _clientRef.log("Relay LastPing: $_ping ms");
   }
 
   void _queueSocketErrorEvent(String message) {
@@ -970,13 +964,9 @@ int bytesToInt40(List<int> bytes) {
         default:
           break;
       }
-      if (_clientRef.loggingEnabled) {
-        _clientRef.log("RELAY SEND:  ${newData.length}  bytes, msg: $newData}");
-      }
+      _clientRef.log("RELAY SEND:  ${newData.length}  bytes, msg: $newData}");
     } catch (socketException) {
-      if (_clientRef.loggingEnabled) {
-        _clientRef.log("send exception: $socketException");
-      }
+      _clientRef.log("send exception: $socketException");
       _queueSocketErrorEvent(socketException.toString());
     }
 
@@ -1053,20 +1043,16 @@ int bytesToInt40(List<int> bytes) {
   }
 
   void _webSocketOnClose({required int code, required String reason}) {
-    if (_clientRef.loggingEnabled) {
-      if (_endMatchRequested) {
-        _clientRef.log("Relay: Connection closed by end match");
-      } else {
-        _clientRef.log("Relay: Connection closed: $reason");
-      }
+    if (_endMatchRequested) {
+      _clientRef.log("Relay: Connection closed by end match");
+    } else {
+      _clientRef.log("Relay: Connection closed: $reason");
     }
     _queueErrorEvent(reason);
   }
 
   void _websocketOnOpen() {
-    if (_clientRef.loggingEnabled) {
-      _clientRef.log("Relay: Connection established.");
-    }
+    _clientRef.log("Relay: Connection established.");
     // initial connect call, sets connection requests if not connected
     _queueSocketConnectedEvent();
   }
@@ -1076,9 +1062,7 @@ int bytesToInt40(List<int> bytes) {
   }
 
   void _websocketOnError({required String message}) {
-    if (_clientRef.loggingEnabled) {
-      _clientRef.log("Relay Error: $message");
-    }
+    _clientRef.log("Relay Error: $message");
     _queueErrorEvent(message);
   }
 
@@ -1089,10 +1073,8 @@ int bytesToInt40(List<int> bytes) {
     _tcpClient = await Socket.connect(host, port);
     _tcpClient?.setOption(SocketOption.tcpNoDelay, true);
 
-    if (_clientRef.loggingEnabled) {
-      _clientRef.log(
-          "Starting TCP connect ASYNC  ${_tcpClient?.remoteAddress} s: ${_tcpClient?.remotePort}");
-    }
+    _clientRef.log(
+        "Starting TCP connect ASYNC  ${_tcpClient?.remoteAddress} s: ${_tcpClient?.remotePort}");
 
     if (_tcpClient != null) {
       _tcpClient?.listen(_onTcpRead, onError: _onTcpError, onDone: _onTcpDone);
@@ -1171,9 +1153,7 @@ int bytesToInt40(List<int> bytes) {
     int ackId = in_data.buffer.asByteData().getInt64(0);
     _reliables.remove(ackId);
 
-    if (_clientRef.loggingEnabled) {
-      _clientRef.log("RELAY RECV ACK: $ackId");
-    }
+    _clientRef.log("RELAY RECV ACK: $ackId");
   }
 
   bool _udpSend(Uint8List data) {
@@ -1190,6 +1170,17 @@ int bytesToInt40(List<int> bytes) {
     try {
       switch (event) {
         case RawSocketEvent.read:
+          if (_connectionType != RelayConnectionType.udp) {
+            Uint8List? data;
+            if (_udpClient != null) {
+              final Datagram? tempDatagram = _udpClient?.receive();      
+              data = tempDatagram?.data;
+            }
+            _clientRef.log(
+                "RELAY Received data on UDP while not active, _endMatchRequested:$_endMatchRequested , data: $data",
+                bypassLogEnabled: true);
+            return;
+          }
           final Datagram? datagram = _udpClient?.receive();
           if (datagram != null) _queueSocketDataEvent(datagram.data);
           // _udpClient?.writeEventsEnabled = true;
@@ -1198,7 +1189,7 @@ int bytesToInt40(List<int> bytes) {
           // Indicate ready to sending....
           break;
         case RawSocketEvent.closed:
-          _disconnect();
+          if (_connectionType == RelayConnectionType.udp) _disconnect();
           break;
         default:
           _queueErrorEvent("Unexpected event $event");
@@ -1236,7 +1227,7 @@ int bytesToInt40(List<int> bytes) {
   void rawSend(Uint8List data) => _send(data);
 }
 
-enum RelayConnectionType { invalid, websocket, tcp, udp, max }
+enum RelayConnectionType { invalid, websocket, tcp, udp }
 
 enum _EventType {
   socketError,
