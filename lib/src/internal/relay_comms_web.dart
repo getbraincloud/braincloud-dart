@@ -496,10 +496,8 @@ int bytesToInt40(List<int> bytes) {
             "Relay packets cannot be smaller than $SIZE_OF_ACKID_MESSAGE bytes");
         return;
       }
-      if (_clientRef.loggingEnabled) {
-        _clientRef
+      _clientRef
             .log("RELAY RECV:  ${in_packet.length}  bytes, msg: $in_packet}");
-      }
       _onRelay(in_packet.sublist(3));
     } else {
       // Invalid packet, throw error
@@ -540,9 +538,7 @@ int bytesToInt40(List<int> bytes) {
     }
 
     String jsonMessage = String.fromCharCodes(in_data.sublist(stringOffset));
-    if (_clientRef.loggingEnabled) {
-      _clientRef.log("Relay System Msg: $jsonMessage");
-    }
+    _clientRef.log("Relay System Msg: $jsonMessage");
 
     Map<String, dynamic> parsedDict = jsonDecode(jsonMessage);
 
@@ -573,10 +569,8 @@ int bytesToInt40(List<int> bytes) {
               int packetID = packetIdArray[channelID];
               if (packetID != 0) {
                 _trackedPacketIds[channelID]?[netId] = packetID;
-                if (_clientRef.loggingEnabled) {
-                  _clientRef.log(
-                      "Added tracked packetId ${packetID} for netID ${netId} at channel ${channelID}");
-                }
+                _clientRef.log(
+                    "Added tracked packetId ${packetID} for netID ${netId} at channel ${channelID}");
               }
             }
           }
@@ -614,9 +608,7 @@ int bytesToInt40(List<int> bytes) {
 
   void _onPong() {
     _ping = DateTime.now().millisecondsSinceEpoch - _lastPingTime;
-    if (_clientRef.loggingEnabled) {
-      _clientRef.log("Relay LastPing: $_ping ms");
-    }
+    _clientRef.log("Relay LastPing: $_ping ms");
   }
 
   void _queueSocketErrorEvent(String message) {
@@ -681,13 +673,9 @@ int bytesToInt40(List<int> bytes) {
         default:
           break;
       }
-      if (_clientRef.loggingEnabled) {
-        _clientRef.log("RELAY SEND:  ${newData.length}  bytes, msg: $newData}");
-      }
+      _clientRef.log("RELAY SEND:  ${newData.length}  bytes, msg: $newData}");
     } catch (socketException) {
-      if (_clientRef.loggingEnabled) {
-        _clientRef.log("send exception: $socketException");
-      }
+      _clientRef.log("send exception: $socketException");
       _queueSocketErrorEvent(socketException.toString());
     }
 
@@ -764,20 +752,16 @@ int bytesToInt40(List<int> bytes) {
   }
 
   void _webSocketOnClose({required int code, required String reason}) {
-    if (_clientRef.loggingEnabled) {
-      if (_endMatchRequested) {
-        _clientRef.log("Relay: Connection closed by end match");
-      } else {
-        _clientRef.log("Relay: Connection closed: $reason");
-      }
+    if (_endMatchRequested) {
+      _clientRef.log("Relay: Connection closed by end match");
+    } else {
+      _clientRef.log("Relay: Connection closed: $reason");
     }
     _queueErrorEvent(reason);
   }
 
   void _websocketOnOpen() {
-    if (_clientRef.loggingEnabled) {
-      _clientRef.log("Relay: Connection established.");
-    }
+    _clientRef.log("Relay: Connection established.");
     // initial connect call, sets connection requests if not connected
     _queueSocketConnectedEvent();
   }
@@ -787,9 +771,7 @@ int bytesToInt40(List<int> bytes) {
   }
 
   void _websocketOnError({required String message}) {
-    if (_clientRef.loggingEnabled) {
-      _clientRef.log("Relay Error: $message");
-    }
+    _clientRef.log("Relay Error: $message");
     _queueErrorEvent(message);
   }
 

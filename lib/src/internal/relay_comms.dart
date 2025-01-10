@@ -148,11 +148,8 @@ class RelayComms {
       SuccessCallback? inSuccess,
       FailureCallback? inFailure) async {
     // First close any old connection, if any.
-    if (_connectionType != RelayConnectionType.invalid) {
-      _clientRef
-          .log("RELAY Closing old connection of type ${_connectionType.name}");
-    }
-    if (_isConnected) {
+    if (_isConnected && _connectionType != RelayConnectionType.invalid) {
+      _clientRef.log("RELAY Closing old ${_connectionType.name} connection");
       switch (_connectionType) {
         case RelayConnectionType.tcp:
           _tcpClient?.close();
@@ -590,7 +587,7 @@ class RelayComms {
         return;
       }
       _clientRef.log(
-          "RELAY System RECV:  ${in_packet.length}  bytes, msg: ${String.fromCharCodes(in_packet.sublist(3))} on ${_connectionType.name}");
+          "RELAY System RECV:  ${in_packet.length}  bytes, msg: ${String.fromCharCodes(in_packet.sublist(5))} on ${_connectionType.name}");
       _onRSMG(in_packet.sublist(3));
     } else if (controlByte == RS2CL_DISCONNECT) {
       disconnect();
