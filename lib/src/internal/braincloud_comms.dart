@@ -3,6 +3,7 @@ import 'dart:core';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 
@@ -28,7 +29,7 @@ part 'braincloud_comms.g.dart';
 // }
 
 class BrainCloudComms {
-  bool _supportsCompression = true;
+  bool _supportsCompression = false;
 
   bool get supportsCompression => _supportsCompression;
 
@@ -1248,16 +1249,19 @@ class BrainCloudComms {
         byteArray.length >=
             clientSideCompressionThreshold; // and byte array is greater or equal to the threshold
 
-    //if the packet we're sending is larger than the size before compressing, then we want to compress it otherwise we're good to send it. AND we have to support compression
-    if (compressMessage) {
-      byteArray = await _compress(byteArray);
-    }
-
-    requestState.byteArray = byteArray;
-
     Map<String, String>? headers = {};
     headers["Content-Type"] = "application/json;charset=utf-8";
     headers["X-SIG"] = sig;
+
+    //if the packet we're sending is larger than the size before compressing, then we want to compress it otherwise we're good to send it. AND we have to support compression
+    if (compressMessage) {
+      Uint8List cbyteArray = await _compress(byteArray);
+      _clientRef.log("Message of ${byteArray.length} bytes is > $clientSideCompressionThreshold, will be compressed down to ${cbyteArray.length} bytes");
+      byteArray = cbyteArray;
+      headers['Content-Encoding'] = 'gzip';
+    }
+
+    requestState.byteArray = byteArray;
 
     if (getAppId.isNotEmpty) {
       headers["X-APPID"] = getAppId;
@@ -1265,7 +1269,7 @@ class BrainCloudComms {
 
     WebRequest req = WebRequest("POST", Uri.parse(_serverURL));
     req.headers.addAll(headers);
-    req.body = jsonRequestString;
+    req.bodyBytes  = byteArray;
 
     requestState.webRequest = req;
 

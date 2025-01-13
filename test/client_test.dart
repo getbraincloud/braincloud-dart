@@ -53,7 +53,7 @@ void main() {
 
       bcTest.bcWrapper.brainCloudClient.log("log");
     });
-
+    
     test("registerGlobalErrorCallback", () async {
       final Completer completer = Completer();
 
@@ -250,6 +250,41 @@ void main() {
       expect(response.error, "Client not Initialized");
 
       bcClient.shutDown();
+    });
+  });
+
+  group("Compression Test", (){
+
+    setUpAll(bcTest.setupBC);
+
+    Map<String,dynamic> testData = {
+      "name": "Sample Data",
+      "data": "ABCDEF".padRight(2000,'GHI')
+    };
+
+    test("Test Compression off", () async {
+      bcTest.bcWrapper.brainCloudClient.enableLogging(true);
+      bcTest.bcWrapper.brainCloudClient.enableCompressedRequests(false);
+      ServerResponse response = await bcTest.bcWrapper.entityService.createEntity(entityType: "UnCompressed", jsonEntityData:testData);
+      
+      expect(response.statusCode, 200);
+
+      await Future.delayed(Duration(seconds: 1),(){
+        print("Delay completed");
+      });
+
+    });
+    test("Test Compression on", () async {
+      bcTest.bcWrapper.brainCloudClient.enableLogging(true);
+      bcTest.bcWrapper.brainCloudClient.enableCompressedRequests(true);
+      ServerResponse response = await bcTest.bcWrapper.entityService.createEntity(entityType: "Compressed", jsonEntityData:testData);
+
+      expect(response.statusCode, 200);
+
+      await Future.delayed(Duration(seconds: 1),(){
+        print("Delay completed");
+      });
+
     });
   });
 
