@@ -492,4 +492,30 @@ main() async {
       bcTest.dispose();
     });
   });
+
+  group("Un-Authenticated Tests", () {
+
+    test("Server Version", () async {
+      final BrainCloudWrapper bcWrapper = await BrainCloudWrapper(wrapperName: "srvVersion");
+
+      await bcWrapper
+          .init(
+              secretKey: bcTest.ids.secretKey,
+              appId: bcTest.ids.appId,
+              version: bcTest.ids.version,
+              url: bcTest.ids.url,
+              updateTick: 50)
+          .onError((error, stackTrace) {
+        print(error.toString());
+      });
+
+      ServerResponse response = await bcWrapper.authenticationService.getServerVersion();
+
+      print("ServerVersion response: $response,   ${response.data}");
+      expect(response.statusCode, 200);
+      expect(response.data?['serverVersion'],isA<String>());
+    });
+
+
+  });
 }

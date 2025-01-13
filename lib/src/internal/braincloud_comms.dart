@@ -1097,7 +1097,7 @@ class BrainCloudComms {
 
       // prepare json data for server
       List<dynamic> messageList = [];
-      bool isAuth = false;
+      bool isAuthorized = false;
 
       ServerCall scIndex;
       ServiceOperation? operation;
@@ -1137,8 +1137,9 @@ class BrainCloudComms {
             operation == ServiceOperation.resetEmailPassword ||
             operation == ServiceOperation.resetEmailPasswordAdvanced ||
             operation == ServiceOperation.resetUniversalIdPassword ||
-            operation == ServiceOperation.resetUniversalIdPasswordAdvanced) {
-          isAuth = true;
+            operation == ServiceOperation.resetUniversalIdPasswordAdvanced ||
+            operation == ServiceOperation.getServerVersion ) {
+          isAuthorized = true;
         }
 
         if (operation == ServiceOperation.fullReset ||
@@ -1153,7 +1154,7 @@ class BrainCloudComms {
       ++_packetId;
 
       if (!_killSwitchEngaged && !tooManyAuthenticationAttempts()) {
-        if (_isAuthenticated || isAuth) {
+        if (_isAuthenticated || isAuthorized) {
           if (_clientRef.loggingEnabled) {
             _clientRef.log("SENDING REQUEST");
           }
