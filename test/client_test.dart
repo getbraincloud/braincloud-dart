@@ -254,8 +254,8 @@ void main() {
   });
 
   group("Compression Test", (){
-
-    setUpAll(bcTest.setupBC);
+    BCTest bccTest = BCTest();
+    setUpAll(bccTest.setupBC);
 
     Map<String,dynamic> testData = {
       "name": "Sample Data",
@@ -263,9 +263,9 @@ void main() {
     };
 
     test("Test Compression off", () async {
-      bcTest.bcWrapper.brainCloudClient.enableLogging(true);
-      bcTest.bcWrapper.brainCloudClient.enableCompressedRequests(false);
-      ServerResponse response = await bcTest.bcWrapper.entityService.createEntity(entityType: "UnCompressed", jsonEntityData:testData);
+      bccTest.bcWrapper.brainCloudClient.enableLogging(true);
+      bccTest.bcWrapper.brainCloudClient.enableCompressedRequests(false);
+      ServerResponse response = await bccTest.bcWrapper.entityService.createEntity(entityType: "UnCompressed", jsonEntityData:testData);
       
       expect(response.statusCode, 200);
 
@@ -275,9 +275,9 @@ void main() {
 
     });
     test("Test Compression on", () async {
-      bcTest.bcWrapper.brainCloudClient.enableLogging(true);
-      bcTest.bcWrapper.brainCloudClient.enableCompressedRequests(true);
-      ServerResponse response = await bcTest.bcWrapper.entityService.createEntity(entityType: "Compressed", jsonEntityData:testData);
+      bccTest.bcWrapper.brainCloudClient.enableLogging(true);
+      bccTest.bcWrapper.brainCloudClient.enableCompressedRequests(true);
+      ServerResponse response = await bccTest.bcWrapper.entityService.createEntity(entityType: "Compressed", jsonEntityData:testData);
 
       expect(response.statusCode, 200);
 

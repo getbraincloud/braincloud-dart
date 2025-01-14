@@ -3,7 +3,6 @@ import 'dart:core';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
-import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 
@@ -27,13 +26,15 @@ part 'braincloud_comms.g.dart';
 //   late ServerCall serverCall;
 //   late String data;
 // }
+const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
 
 class BrainCloudComms {
   bool _supportsCompression = false;
 
   bool get supportsCompression => _supportsCompression;
 
-  void enableCompression(bool compress) => _supportsCompression = compress;
+  // TODO: Compression does not work currently in web, so do not allow it.
+  void enableCompression(bool compress) => _supportsCompression = kIsWeb ? false : compress;
 
   /// Byte size threshold that determines if the message size is something we want to compress or not. We make an initial value, but recevie the value for future calls based on the servers
   ///auth response
@@ -1296,7 +1297,6 @@ class BrainCloudComms {
   Future<Uint8List> _compress(Uint8List raw) async {
     final zipper = GZipEncoder();
     return Uint8List.fromList(await zipper.encode(raw));
-    // return Uint8List.fromList(gzip.encode(raw));
   }
 
   // Future<Uint8List> _decompress(Uint8List compressedBytes) async {
