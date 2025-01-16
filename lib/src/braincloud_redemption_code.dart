@@ -28,7 +28,7 @@ class BrainCloudRedemptionCode {
   /// @param jsonCustomRedemptionInfo
   /// Optional - A JSON String containing custom redemption data
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> redeemCode(
       {required String scanCode,
       required String codeType,
@@ -66,7 +66,7 @@ class BrainCloudRedemptionCode {
   /// @param codeType
   /// Optional - The type of codes to retrieve. Returns all codes if left unspecified.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getRedeemedCodes({required String codeType}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};

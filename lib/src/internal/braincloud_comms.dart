@@ -390,8 +390,9 @@ class BrainCloudComms {
     for (int i = _fileUploads.length - 1; i >= 0; i--) {
       _fileUploads[i].update();
       if (_fileUploads[i].status == FileUploaderStatus.completeSuccess) {
-        if (_fileUploadSuccessCallback != null) _fileUploadSuccessCallback!(
-            _fileUploads[i].uploadId, _fileUploads[i].response);
+        if (_fileUploadSuccessCallback != null) {
+          _fileUploadSuccessCallback!(_fileUploads[i].uploadId, _fileUploads[i].response);
+        }
 
         if (_clientRef.loggingEnabled) {
           _clientRef.log(
@@ -1256,7 +1257,7 @@ class BrainCloudComms {
 
     //if the packet we're sending is larger than the size before compressing, then we want to compress it otherwise we're good to send it. AND we have to support compression
     if (compressMessage) {
-      Uint8List cbyteArray = await _compress(byteArray);
+      Uint8List cbyteArray = _compress(byteArray);
       _clientRef.log("Message of ${byteArray.length} bytes is > $clientSideCompressionThreshold, will be compressed down to ${cbyteArray.length} bytes");
       byteArray = cbyteArray;
       headers['Content-Encoding'] = 'gzip';
@@ -1294,9 +1295,9 @@ class BrainCloudComms {
     });
   }
 
-  Future<Uint8List> _compress(Uint8List raw) async {
+  Uint8List _compress(Uint8List raw)  {
     final zipper = GZipEncoder();
-    return Uint8List.fromList(await zipper.encode(raw));
+    return Uint8List.fromList(zipper.encode(raw));
   }
 
   // Future<Uint8List> _decompress(Uint8List compressedBytes) async {

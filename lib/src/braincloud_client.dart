@@ -530,7 +530,7 @@ class BrainCloudClient {
 
   /// Registers the file upload callbacks.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   void registerFileUploadCallback(Function(ServerResponse) callBack) {
 
     _comms.registerFileUploadCallbacks((a, b) {

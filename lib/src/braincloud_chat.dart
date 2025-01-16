@@ -13,9 +13,9 @@ class BrainCloudChat {
 
   BrainCloudChat(this._clientRef);
 
-  /// Registers a listener for incoming events from <channelId>. Also returns a list of <maxReturn> recent messages from history.
+  /// Registers a listener for incoming events from channelId. Also returns a list of maxReturn recent messages from history.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> channelConnect(
       {required String channelId, required int maxToReturn}) {
     Completer<ServerResponse> completer = Completer();
@@ -37,9 +37,9 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// Unregisters a listener for incoming events from <channelId>.
+  /// Unregisters a listener for incoming events from channelId.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> channelDisconnect({required String channelId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
@@ -59,9 +59,9 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// Delete a chat message. <version> must match the latest or pass -1 to bypass version check.
+  /// Delete a chat message. version must match the latest or pass -1 to bypass version check.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteChatMessage(
       {required String channelId,
       required String msgId,
@@ -86,9 +86,9 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// Gets the channelId for the given <channelType> and <channelSubId>. Channel type must be one of "gl"(GlobalChannelType) or "gr"(GroupChannelType).
+  /// Gets the channelId for the given channelType and channelSubId. Channel type must be one of "gl"(GlobalChannelType) or "gr"(GroupChannelType).
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getChannelId(
       {required String channelType, required String channelSubId}) {
     Completer<ServerResponse> completer = Completer();
@@ -113,9 +113,9 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// Gets description info and activity stats for channel <channelId>. Note that numMsgs and listeners only returned for non-global groups. Only callable for channels the user is a member of.
+  /// Gets description info and activity stats for channel channelId. Note that numMsgs and listeners only returned for non-global groups. Only callable for channels the user is a member of.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getChannelInfo({required String channelId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
@@ -137,7 +137,7 @@ class BrainCloudChat {
 
   /// Gets a populated chat object (normally for editing).
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getChatMessage(
       {required String channelId, required String msgId}) {
     Completer<ServerResponse> completer = Completer();
@@ -159,9 +159,9 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// Get a list of <maxReturn> messages from history of channel <channelId>
+  /// Get a list of maxReturn messages from history of channel channelId
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getRecentChatMessages(
       {required String channelId, required int maxReturn}) {
     Completer<ServerResponse> completer = Completer();
@@ -183,9 +183,9 @@ class BrainCloudChat {
     return completer.future;
   }
 
-  /// Gets a list of the channels of type <channelType> that the user has access to. Channel type must be one of "gl"(GlobalChannelType), "gr"(GroupChannelType) or "all"(AllChannelType).
+  /// Gets a list of the channels of type channelType that the user has access to. Channel type must be one of "gl"(GlobalChannelType), "gr"(GroupChannelType) or "all"(AllChannelType).
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getSubscribedChannels({required String channelType}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = <String, dynamic>{};
@@ -209,7 +209,7 @@ class BrainCloudChat {
   ///
   /// By convention, content should contain a field named text for plain-text content. Returns the id of the message created.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> postChatMessage(
       {required String channelId,
       required Map<String, dynamic> contentJson,
@@ -237,7 +237,7 @@ class BrainCloudChat {
 
   /// Sends a plain-text chat message.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> postChatMessageSimple(
       {required String channelId,
       required String chatMessage,
@@ -265,7 +265,7 @@ class BrainCloudChat {
 
   /// Update the specified chat message. Message must have been from this user. Version provided must match (or pass -1 to bypass version enforcement).
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateChatMessage(
       {required String channelId,
       required String messageId,

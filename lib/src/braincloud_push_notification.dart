@@ -24,7 +24,7 @@ class BrainCloudPushNotification {
   /// @param token
   /// The platform-dependant device token needed for push notifications.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> registerPushNotificationDeviceToken(
       {required PlatformID platform, required String token}) {
     Completer<ServerResponse> completer = Completer();
@@ -51,7 +51,7 @@ class BrainCloudPushNotification {
 
   /// Deregisters all device tokens currently registered to the user.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deregisterAllPushNotificationDeviceTokens() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -80,7 +80,7 @@ class BrainCloudPushNotification {
   /// @param token
   /// The platform-dependant device token needed for push notifications.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deregisterPushNotificationDeviceToken(
       {required PlatformID platform, required String token}) {
     Completer<ServerResponse> completer = Completer();
@@ -114,7 +114,7 @@ class BrainCloudPushNotification {
   /// @param message
   /// Text of the push notification
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> sendSimplePushNotification(
       {required String profileId, required String message}) {
     Completer<ServerResponse> completer = Completer();
@@ -152,7 +152,7 @@ class BrainCloudPushNotification {
   /// @param substitutionJson
   /// JSON defining the substitution params to use with the template
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> sendRichPushNotificationWithParams(
       {required String profileId,
       required int notificationTemplateId,
@@ -176,7 +176,7 @@ class BrainCloudPushNotification {
   /// @param substitutionsJson
   /// JSON defining the substitution params to use with the template
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> sendTemplatedPushNotificationToGroup(
       {required String groupId,
       required int notificationTemplateId,
@@ -220,7 +220,7 @@ class BrainCloudPushNotification {
   /// @param customDataJson
   /// Optional custom data
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> sendNormalizedPushNotificationToGroup(
       {required String groupId,
       required Map<String, dynamic> alertContent,
@@ -265,7 +265,7 @@ class BrainCloudPushNotification {
   /// @param startTimeUTC
   /// Start time of sending the push notification
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> scheduleRawPushNotificationUTC(
       {required String profileId,
       Map<String, dynamic>? fcmContent,
@@ -325,7 +325,7 @@ class BrainCloudPushNotification {
   /// @param minutesFromNow
   /// Minutes from now to send the push notification
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> scheduleRawPushNotificationMinutes(
       {required String profileId,
       Map<String, dynamic>? fcmContent,
@@ -382,7 +382,7 @@ class BrainCloudPushNotification {
   /// @param facebookContent
   /// Facebook template String
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> sendRawPushNotification(
       {required String profileId,
       Map<String, dynamic>? fcmContent,
@@ -437,7 +437,7 @@ class BrainCloudPushNotification {
   /// @param facebookContent
   /// Facebook template String
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> sendRawPushNotificationBatch(
       {required List<String> profileIds,
       Map<String, dynamic>? fcmContent,
@@ -492,7 +492,7 @@ class BrainCloudPushNotification {
   /// @param facebookContent
   /// Facebook template String
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> sendRawPushNotificationToGroup(
       {required String groupId,
       Map<String, dynamic>? fcmContent,
@@ -545,7 +545,7 @@ class BrainCloudPushNotification {
   /// @param startTimeUTC
   /// Start time of sending the push notification
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> scheduleNormalizedPushNotificationUTC(
       {required String profileId,
       required Map<String, dynamic> alertContent,
@@ -591,7 +591,7 @@ class BrainCloudPushNotification {
   /// @param minutesFromNow
   /// Minutes from now to send the push notification
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> scheduleNormalizedPushNotificationMinutes(
       {required String profileId,
       required Map<String, dynamic> alertContent,
@@ -637,7 +637,7 @@ class BrainCloudPushNotification {
   /// @param startTimeUTC
   /// Start time of sending the push notification
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> scheduleRichPushNotificationUTC(
       {required String profileId,
       required int notificationTemplateId,
@@ -685,7 +685,7 @@ class BrainCloudPushNotification {
   /// @param minutesFromNow
   /// Minutes from now to send the push notification
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> scheduleRichPushNotificationMinutes(
       {required String profileId,
       required int notificationTemplateId,
@@ -730,7 +730,7 @@ class BrainCloudPushNotification {
   /// @param customDataJson
   /// Optional custom data
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> sendNormalizedPushNotification(
       {required String profileId,
       required Map<String, dynamic> alertContent,
@@ -770,7 +770,7 @@ class BrainCloudPushNotification {
   /// @param customDataJson
   /// Optional custom data
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> sendNormalizedPushNotificationBatch(
       {required List<String> profileIds,
       required Map<String, dynamic> alertContent,
@@ -798,7 +798,7 @@ class BrainCloudPushNotification {
     return completer.future;
   }
 
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> sendRichPushNotification(
       {required String profileId,
       required int notificationTemplateId,

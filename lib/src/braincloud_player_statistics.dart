@@ -18,7 +18,7 @@ class BrainCloudPlayerStatistics {
   /// Service Name - PlayerStatistics
   /// Service Operation - Read
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readAllUserStats() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -42,7 +42,7 @@ class BrainCloudPlayerStatistics {
   /// @param playerStats
   /// A list containing the subset of statistics to read.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readUserStatsSubset(
       {required List<String> userStats}) {
     Map<String, dynamic> data = {};
@@ -70,7 +70,7 @@ class BrainCloudPlayerStatistics {
   /// @param [category]
   /// The user statistics category
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readUserStatsForCategory({required String category}) {
     Map<String, dynamic> data = {};
     data[OperationParam.gamificationServiceCategory.value] = category;
@@ -95,7 +95,7 @@ class BrainCloudPlayerStatistics {
   /// Service Operation - Reset
   ///
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetAllUserStats() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -139,7 +139,7 @@ class BrainCloudPlayerStatistics {
   /// ```
   /// which increments stat1 by 9 up to a limit of 30.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> incrementUserStats(
       {required Map<String, dynamic> statistics}) {
     Map<String, dynamic> data = {};
@@ -175,7 +175,7 @@ class BrainCloudPlayerStatistics {
   ///     "TREES_CLIMBED": 1
   /// }
   /// ```
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> processStatistics(
       {required Map<String, dynamic> statistics}) {
     Map<String, dynamic> data = {};
@@ -200,7 +200,7 @@ class BrainCloudPlayerStatistics {
   /// Service Name - PlayerStatistics
   /// Service Operation - ReadNextXpLevel
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getNextExperienceLevel() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -225,7 +225,7 @@ class BrainCloudPlayerStatistics {
   /// @param xpValue
   /// The amount to increase the user's experience by
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> incrementExperiencePoints({required int xpValue}) {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticsExperiencePoints.value] = xpValue;
@@ -254,7 +254,7 @@ class BrainCloudPlayerStatistics {
   /// @param xpValue
   /// The amount to set the the player's experience to
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> setExperiencePoints({required int xpValue}) {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticsExperiencePoints.value] = xpValue;

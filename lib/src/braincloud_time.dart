@@ -19,7 +19,7 @@ class BrainCloudTime {
   /// Service Name - Time
   /// Service Operation - Read
   /// 
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readServerTime() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(

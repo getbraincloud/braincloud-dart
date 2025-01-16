@@ -24,7 +24,7 @@ class BrainCloudGroupFile {
   /// @param fileName
   /// File cloud name
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> checkFilenameExists(
       {required String groupId,
       required String folderPath,
@@ -45,7 +45,7 @@ class BrainCloudGroupFile {
   /// @param fullPathFilename
   /// File cloud name in full path
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> checkFullpathFilenameExists(
       {required String groupId, required String fullPathFilename}) {
     Map<String, dynamic> data = {};
@@ -77,7 +77,7 @@ class BrainCloudGroupFile {
   /// @param overwriteIfPresent
   /// Whether to allow overwrite of an existing file if present.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> copyFile(
       {required String groupId,
       required String fileId,
@@ -112,7 +112,7 @@ class BrainCloudGroupFile {
   /// @param filename
   /// The file name for verification purposes.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteFile(
       {required String groupId,
       required String fileId,
@@ -135,7 +135,7 @@ class BrainCloudGroupFile {
   /// @param fileId
   /// The id of the file.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getCDNUrl(
       {required String groupId, required String fileId}) {
     Map<String, dynamic> data = {};
@@ -153,7 +153,7 @@ class BrainCloudGroupFile {
   /// @param fileId
   /// The id of the file.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getFileInfo(
       {required String groupId, required String fileId}) {
     Map<String, dynamic> data = {};
@@ -174,7 +174,7 @@ class BrainCloudGroupFile {
   /// @param filename
   /// The file name.
   //
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getFileInfoSimple(
       {required String groupId,
       required String folderPath,
@@ -198,7 +198,7 @@ class BrainCloudGroupFile {
   /// @param recurse
   /// Whether to recurse beyond the starting folder.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getFileList(
       {required String groupId,
       required String folderPath,
@@ -234,7 +234,7 @@ class BrainCloudGroupFile {
   /// @param overwriteIfPresent
   /// Whether to allow overwrite of an existing file if present.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> moveFile(
       {required String groupId,
       required String fileId,
@@ -278,7 +278,7 @@ class BrainCloudGroupFile {
   /// @param overwriteIfPresent
   /// Whether to allow overwrite of an existing file if present.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> moveUserToGroupFile(
       {required String userCloudPath,
       required String userCloudFilename,
@@ -316,7 +316,7 @@ class BrainCloudGroupFile {
   /// @param newACL
   /// The optional new acl.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateFileInfo(
       {required String groupId,
       required String fileId,
@@ -333,7 +333,7 @@ class BrainCloudGroupFile {
     return _sendRequest(ServiceOperation.updateFileInfo, data);
   }
 
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> _sendRequest(
       ServiceOperation operation, Map<String, dynamic> data) {
     Completer<ServerResponse> completer = Completer();

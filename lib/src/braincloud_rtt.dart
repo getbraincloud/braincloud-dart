@@ -21,7 +21,7 @@ class BrainCloudRTT {
   ///
   /// @param in_connectionType
   ///
-  /// returns Future<RTTCommandResponse>
+  /// returns `Future<RTTCommandResponse>`
   void enableRTT({RTTConnectionType? connectiontype,RTTSuccessCallback? successCallback, RTTFailureCallback? failureCallback}) {
     
     _commsLayer.enableRTT(connectiontype ?? RTTConnectionType.websocket,successCallback,failureCallback);

@@ -25,7 +25,7 @@ class BrainCloudLobby {
 
   /// Finds a lobby matching the specified parameters
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> findLobby(
       {required String lobbyType,
       required int rating,
@@ -68,7 +68,7 @@ class BrainCloudLobby {
   /// Finds a lobby matching the specified parameters WITH PING DATA.  GetRegionsForLobbies and PingRegions must be successfully responded to
   /// prior to calling.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> findLobbyWithPingData(
       {required String lobbyType,
       required int rating,
@@ -97,7 +97,7 @@ class BrainCloudLobby {
 
   /// Like findLobby, but explicitely geared toward creating new lobbies
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> createLobby(
       {required String lobbyType,
       required int rating,
@@ -134,7 +134,7 @@ class BrainCloudLobby {
   /// Like findLobby, but explicitely geared toward creating new lobbies WITH PING DATA.  GetRegionsForLobbies and PingRegions must be successfully responded to
   /// prior to calling.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> createLobbyWithPingData(
       {required String lobbyType,
       required int rating,
@@ -162,7 +162,7 @@ class BrainCloudLobby {
 
   /// Finds a lobby matching the specified parameters, or creates one
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> findOrCreateLobby(
       {required String lobbyType,
       required int rating,
@@ -206,7 +206,7 @@ class BrainCloudLobby {
   /// Finds a lobby matching the specified parameters, or creates one WITH PING DATA.  GetRegionsForLobbies and PingRegions must be successfully responded to
   /// prior to calling.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> findOrCreateLobbyWithPingData(
       {required String lobbyType,
       required int rating,
@@ -236,9 +236,9 @@ class BrainCloudLobby {
         data, ServiceOperation.findOrCreateLobbyWithPingData);
   }
 
-  /// Gets data for the given lobby instance <lobbyId>.
+  /// Gets data for the given lobby instance lobbyId.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getLobbyData({required String lobbyId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -260,7 +260,7 @@ class BrainCloudLobby {
 
   /// updates the ready state of the player
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateReady(
       {required String lobbyId,
       required bool isReady,
@@ -287,7 +287,7 @@ class BrainCloudLobby {
 
   /// valid only for the owner of the group -- edits the overally lobby config data
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateSettings(
       {required String lobbyId, required Map<String, dynamic> settings}) {
     Completer<ServerResponse> completer = Completer();
@@ -311,7 +311,7 @@ class BrainCloudLobby {
 
   /// switches to the specified team (if allowed). Note - may be blocked by cloud code script
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> switchTeam(
       {required String lobbyId, required String toTeamCode}) {
     Completer<ServerResponse> completer = Completer();
@@ -335,7 +335,7 @@ class BrainCloudLobby {
 
   /// sends LOBBY_SIGNAL_DATA message to all lobby members
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> sendSignal(
       {required String lobbyId, required Map<String, dynamic> signalData}) {
     Completer<ServerResponse> completer = Completer();
@@ -359,7 +359,7 @@ class BrainCloudLobby {
 
   /// User joins the specified lobby.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> joinLobby(
       {required String lobbyId,
       required bool isReady,
@@ -394,7 +394,7 @@ class BrainCloudLobby {
   /// User joins the specified lobby WITH PING DATA.  GetRegionsForLobbies and PingRegions must be successfully responded to
   /// prior to calling.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> joinLobbyWithPingData(
       {required String lobbyId,
       required bool isReady,
@@ -415,7 +415,7 @@ class BrainCloudLobby {
 
   /// User leaves the specified lobby. if the user was the owner, a new owner will be chosen
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> leaveLobby({required String lobbyId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -437,7 +437,7 @@ class BrainCloudLobby {
 
   /// Only valid from the owner of the lobby -- removes the specified member from the lobby
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> removeMember(
       {required String lobbyId, required String connectionId}) {
     Completer<ServerResponse> completer = Completer();
@@ -461,7 +461,7 @@ class BrainCloudLobby {
 
   /// Cancel this members Find, Join and Searching of Lobbies
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> cancelFindRequest({required String lobbyType,required String entryId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -484,9 +484,9 @@ class BrainCloudLobby {
   }
 
   /// Retrieves the region settings for each of the given lobby types. Upon SuccessCallback or afterwards, call PingRegions to start retrieving appropriate data.
-  /// Once that completes, the associated region Ping Data is retrievable via PingData and all associated <>WithPingData APIs are useable
+  /// Once that completes, the associated region Ping Data is retrievable via PingData and all associated WithPingData APIs are useable
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getRegionsForLobbies(
       {required List<String> lobbyTypes}) {
     Completer<ServerResponse> completer = Completer();
@@ -520,7 +520,7 @@ class BrainCloudLobby {
   ///
   /// @param criteriaJson A JSON object used to describe filter criteria.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getLobbyInstances(
       {required String lobbyType, Map<String, dynamic>? criteriaJson}) {
     Completer<ServerResponse> completer = Completer();
@@ -552,7 +552,7 @@ class BrainCloudLobby {
   ///
   /// @param criteriaJson A JSON object used to describe filter criteria.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getLobbyInstancesWithPingData(
       {required String lobbyType, Map<String, dynamic>? criteriaJson}) {
     Map<String, dynamic> data = {};
@@ -563,10 +563,10 @@ class BrainCloudLobby {
         data, ServiceOperation.getLobbyInstancesWithPingData);
   }
 
-  /// Retrieves associated PingData averages to be used with all associated <>WithPingData APIs.
+  /// Retrieves associated PingData averages to be used with all associated WithPingData APIs.
   /// Call anytime after GetRegionsForLobbies before proceeding.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> pingRegions() {
     Completer<ServerResponse> completer = Completer();
 
@@ -585,7 +585,7 @@ class BrainCloudLobby {
 
     /// Now we have the region ping data, we can start pinging each region and its defined target
     ///
-    /// returns Future<ServerResponse>
+    /// returns `Future<ServerResponse>`
     Map<String, dynamic> regionInner;
     if (_regionPingData.isNotEmpty) {
       _pingRegionSuccessCallback = (response) => completer.complete(response);

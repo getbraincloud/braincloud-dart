@@ -28,7 +28,7 @@ class BrainCloudFriend {
   /// @param authenticationType
   /// The authentication type used for the user's ID
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> getProfileInfoForCredential(
   //     {required String externalId,
   //     required AuthenticationType authenticationType}) {
@@ -63,7 +63,7 @@ class BrainCloudFriend {
   /// @param authenticationType
   /// The authentication type used for the user's ID
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getProfileInfoForCredentialIfExists(
       {required String externalId,
       required AuthenticationType authenticationType}) {
@@ -102,7 +102,7 @@ class BrainCloudFriend {
   /// @param externalAuthType
   /// The external authentication type used for this friend's external id
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> getProfileInfoForExternalAuthId(
   //     {required String externalId,
   //     required String externalAuthType}) {
@@ -136,7 +136,7 @@ class BrainCloudFriend {
   /// @param externalAuthType
   /// The external authentication type used for this friend's external id
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getProfileInfoForExternalAuthIdIfExists(
       {required String externalId,
       required String externalAuthType}) {
@@ -170,7 +170,7 @@ class BrainCloudFriend {
   /// @param authenticationType
   /// Associated authentication type.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getExternalIdForProfileId(
       {required String profileId,
       required AuthenticationType authenticationType}) {
@@ -205,7 +205,7 @@ class BrainCloudFriend {
   /// @param friendId
   /// Profile Id of friend who owns entity.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readFriendEntity(
       {required String entityId, required String friendId}) {
     Completer<ServerResponse> completer = Completer();
@@ -234,7 +234,7 @@ class BrainCloudFriend {
   /// @param entityType
   /// Types of entities to retrieve.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readFriendsEntities({required String entityType}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -264,7 +264,7 @@ class BrainCloudFriend {
   /// @param friendId
   /// Profile Id of friend to retrieve user state for.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readFriendUserState({required String friendId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -292,7 +292,7 @@ class BrainCloudFriend {
   /// @param profileId
   /// Profile Id of user to retrieve player state for.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getSummaryDataForProfileId(
       {required String profileId}) {
     Completer<ServerResponse> completer = Completer();
@@ -325,7 +325,7 @@ class BrainCloudFriend {
   /// @param maxResults
   /// Maximum number of results to return.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> findUsersByExactName(
       {required String searchText, required int maxResults}) {
     Completer<ServerResponse> completer = Completer();
@@ -356,7 +356,7 @@ class BrainCloudFriend {
   /// @param universalId
   /// The universal id to search for.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> findUserByExactUniversalId(
       {required String universalId}) {
     Completer<ServerResponse> completer = Completer();
@@ -390,7 +390,7 @@ class BrainCloudFriend {
   /// @param maxResults
   /// Maximum number of results to return.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> findUsersBySubstrName(
       {required String searchText, required int maxResults}) {
     Completer<ServerResponse> completer = Completer();
@@ -422,7 +422,7 @@ class BrainCloudFriend {
   ///
   /// @param includeSummaryDataTrue if including summary data; false otherwise.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> listFriends(
       {required FriendPlatform friendPlatform,
       required bool includeSummaryData}) {
@@ -457,7 +457,7 @@ class BrainCloudFriend {
   ///
   /// @param includeSummaryDataTrue if including summary data; false otherwise.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getMySocialInfo(
       {required FriendPlatform friendPlatform,
       required bool includeSummaryData}) {
@@ -490,7 +490,7 @@ class BrainCloudFriend {
   ///
   /// @param profileIdsCollection of profile IDs.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> addFriends({required List<String> profileIds}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -522,7 +522,7 @@ class BrainCloudFriend {
   ///
   /// @param externalIdsCollection of external ID's from the friend platform
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> addFriendsFromPlatform(
       {required FriendPlatform friendPlatform,
       required String mode,
@@ -556,7 +556,7 @@ class BrainCloudFriend {
   ///
   /// @param profileIdsCollection of profile IDs.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> removeFriends({required List<String> profileIds}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -584,7 +584,7 @@ class BrainCloudFriend {
   ///
   /// @param profileIdsCollection of profile IDs.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getUsersOnlineStatus(
       {required List<String> profileIds}) {
     Completer<ServerResponse> completer = Completer();
@@ -617,7 +617,7 @@ class BrainCloudFriend {
   /// @param maxResults
   /// Maximum number of results to return.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> findUsersByNameStartingWith(
       {required String searchText, required int maxResults}) {
     Completer<ServerResponse> completer = Completer();
@@ -650,7 +650,7 @@ class BrainCloudFriend {
   /// @param maxResults
   /// Maximum number of results to return.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> findUsersByUniversalIdStartingWith(
       {required String searchText, required int maxResults}) {
     Completer<ServerResponse> completer = Completer();

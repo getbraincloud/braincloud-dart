@@ -65,7 +65,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created if it does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateAnonymous(
       {required bool forceCreate}) async {
     return authenticate(
@@ -95,7 +95,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateEmailPassword(
       {required String email,
       required String password,
@@ -123,7 +123,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateUniversal(
       {required String userId,
       required String password,
@@ -150,7 +150,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateFacebook(
       {required String facebookId,
       required String token,
@@ -177,7 +177,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateFacebookLimited(
       {required String facebookId,
       required String token,
@@ -204,7 +204,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> authenticateOculus(
   //     {required String oculusId,
   //     required String oculusNonce,
@@ -230,7 +230,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> authenticatePlaystationNetwork(
   //     {required String accountId,
   //     required String authToken,
@@ -256,7 +256,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> authenticatePlaystation5(
   //     {required String accountId,
   //     required String authToken,
@@ -279,7 +279,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateGameCenter(
       {required String gameCenterId, required bool forceCreate}) async {
     return authenticate(
@@ -303,7 +303,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateSteam(
       {required String steamId,
       required String sessionTicket,
@@ -329,7 +329,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateApple(
       {required String appleUserId,
       required String identityToken,
@@ -355,7 +355,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateGoogle(
       {required String googleUserId,
       required String serverAuthCode,
@@ -381,7 +381,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateGoogleOpenId(
       {required String googleUserAccountEmail,
       required String idToken,
@@ -410,7 +410,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateTwitter(
       {required String twitterId,
       required String token,
@@ -437,7 +437,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateParse(
       {required String parseId,
       required String parseToken,
@@ -457,7 +457,7 @@ class BrainCloudAuthentication {
   /// @param handoffCode
   /// brainCloud handoffId that is generated from cloud script createSettopHandoffCode
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateSettopHandoff(
       {required String handoffCode}) async {
     return authenticate(
@@ -477,7 +477,7 @@ class BrainCloudAuthentication {
   /// @param securityToken
   /// brainCloud securityToken that is generated from cloud script createHandoffId()
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateHandoff(
       {required String handoffId, required String securityToken}) async {
     return authenticate(
@@ -505,7 +505,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateExternal(
       {required String userId,
       required String token,
@@ -537,7 +537,7 @@ class BrainCloudAuthentication {
   /// @param extraJson
   /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave an empty Map for no extraJson.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateAdvanced(
       {required AuthenticationType authenticationType,
       required AuthenticationIds ids,
@@ -566,7 +566,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateUltra(
       {required String ultraUsername,
       required String ultraIdToken,
@@ -592,7 +592,7 @@ class BrainCloudAuthentication {
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> authenticateNintendo(
   //     {required String accountId,
   //     required String authToken,
@@ -612,7 +612,7 @@ class BrainCloudAuthentication {
   /// @param emailAddress
   /// The email address to send the reset email to.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetEmailPassword(
       {required String emailAddress}) async {
     Map<String, dynamic> data = {};
@@ -650,7 +650,7 @@ class BrainCloudAuthentication {
   /// @param expiryTimeInMin
   /// expiry time in mins
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetEmailPasswordWithExpiry(
       {required String emailAddress, required int tokenTtlInMinutes}) async {
     Map<String, dynamic> data = <String, dynamic>{};
@@ -693,7 +693,7 @@ class BrainCloudAuthentication {
   /// The parameters to send the email service. See documentation for full list
   /// http://getbraincloud.com/apidocs/apiref/#capi-mail
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetEmailPasswordAdvanced(
       {required String emailAddress,
       required Map<String, dynamic> serviceParams}) async {
@@ -740,7 +740,7 @@ class BrainCloudAuthentication {
   /// @param expiryTimeInMin
   /// expiry time in mins
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetEmailPasswordAdvancedWithExpiry(
       {required String emailAddress,
       required Map<String, dynamic> serviceParams,
@@ -783,7 +783,7 @@ class BrainCloudAuthentication {
   /// @param universalId
   /// The universalId that you want to have change password.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetUniversalIdPassword(
       {required String universalId}) async {
     Map<String, dynamic> data = {};
@@ -821,7 +821,7 @@ class BrainCloudAuthentication {
   /// @param expiryTimeInMin
   /// takes in an Expiry time in mins
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetUniversalIdPasswordWithExpiry(
       {required String universalId, required int tokenTtlInMinutes}) async {
     Map<String, dynamic> data = <String, dynamic>{};
@@ -862,7 +862,7 @@ class BrainCloudAuthentication {
   /// The parameters to send the email service. See documentation for full list
   /// http://getbraincloud.com/apidocs/apiref/#capi-mail
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetUniversalIdPasswordAdvanced(
       {required String universalId,
       required Map<String, dynamic> serviceParams}) async {
@@ -908,7 +908,7 @@ class BrainCloudAuthentication {
   /// @param expiryTimeInMin
   /// takes in an Expiry time to determine how long it will stay available
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetUniversalIdPasswordAdvancedWithExpiry(
       {required String universalId,
       required Map<String, dynamic> serviceParams,
@@ -970,7 +970,7 @@ class BrainCloudAuthentication {
     return completer.future;
   }
 
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticate(
       {required String externalId,
       required String authenticationToken,

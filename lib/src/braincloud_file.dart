@@ -31,7 +31,7 @@ class BrainCloudFile {
   ///
   /// @param fileDataThe file memory data in Uint8List
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> uploadFileFromMemory({
       required String cloudPath,
       required String cloudFilename,
@@ -106,7 +106,7 @@ class BrainCloudFile {
   ///
   /// @param recurseWhether to recurse down the path
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> listUserFiles({required String cloudPath, bool? recurse}) async {
     Map<String, dynamic> data = {};
 
@@ -142,7 +142,7 @@ class BrainCloudFile {
   ///
   /// @param cloudFileName
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteUserFile({
       required String cloudPath, required String cloudFilename}) async {
     Map<String, dynamic> data = {};
@@ -174,7 +174,7 @@ class BrainCloudFile {
   ///
   /// @param recurseWhether to recurse down the path
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteUserFiles({required String cloudPath, required bool recurse}) async {
     Map<String, dynamic> data = {};
 
@@ -205,7 +205,7 @@ class BrainCloudFile {
   ///
   /// @param cloudFilenameName of file
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getCDNUrl({
       required String cloudPath, required String cloudFilename}) async {
     Map<String, dynamic> data = {};

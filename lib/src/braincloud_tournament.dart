@@ -27,7 +27,7 @@ class BrainCloudTournament {
   ///
   /// Use -1 for the latest version.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> claimTournamentReward(
       {required String leaderboardId, required int versionId}) {
     Completer<ServerResponse> completer = Completer();
@@ -58,7 +58,7 @@ class BrainCloudTournament {
   /// @param divSetId
   /// The division
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getDivisionInfo({required String divSetId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -84,7 +84,7 @@ class BrainCloudTournament {
   /// Service Name - tournament
   /// Service Operation - GET_MY_DIVISIONS
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getMyDivisions() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -113,7 +113,7 @@ class BrainCloudTournament {
   /// @param versionId
   /// Version of the tournament. Use -1 for the latest version.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getTournamentStatus(
       {required String leaderboardId, required int versionId}) {
     Completer<ServerResponse> completer = Completer();
@@ -151,7 +151,7 @@ class BrainCloudTournament {
   /// The initial score for players first joining a tournament
   /// Usually 0, unless leaderboard is LOW_VALUE
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> joinDivision(
       {required String divSetId,
       required String tournamentCode,
@@ -193,7 +193,7 @@ class BrainCloudTournament {
   /// The initial score for players first joining a tournament
   /// Usually 0, unless leaderboard is LOW_VALUE
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> joinTournament(
       {required String leaderboardId,
       required String tournamentCode,
@@ -227,7 +227,7 @@ class BrainCloudTournament {
   /// @param divSetId
   /// The division
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> leaveDivisionInstance(
       {required String divisionSetInstance}) {
     Completer<ServerResponse> completer = Completer();
@@ -257,7 +257,7 @@ class BrainCloudTournament {
   /// @param leaderboardId
   /// The leaderboard for the tournament
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> leaveTournament({required String leaderboardId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -295,7 +295,7 @@ class BrainCloudTournament {
   /// @param roundStartTimeUTC
   /// Uses UTC time in milliseconds since epoch
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> postTournamentScoreUTC(
       {required String leaderboardId,
       required int score,
@@ -355,7 +355,7 @@ class BrainCloudTournament {
   /// The initial score for players first joining a tournament
   /// Usually 0, unless leaderboard is LOW_VALUE
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> postTournamentScoreWithResultsUTC(
       {required String leaderboardId,
       required int score,
@@ -404,7 +404,7 @@ class BrainCloudTournament {
   /// @param leaderboardId
   /// The leaderboard for the tournament
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> viewCurrentReward({required String leaderboardId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -436,7 +436,7 @@ class BrainCloudTournament {
   /// @param versionId
   /// Version of the tournament. Use -1 for the latest version.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> viewReward(
       {required String leaderboardId, required int versionId}) {
     Completer<ServerResponse> completer = Completer();

@@ -18,7 +18,7 @@ class BrainCloudPresence {
   /// Service Name - Presence
   /// Service Operation - ForcePush
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> forcePush() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -51,7 +51,7 @@ class BrainCloudPresence {
   /// @param includeOffline
   /// Will not include offline profiles unless includeOffline is set to true.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getPresenceOfFriends(
       {required String platform, required bool includeOffline}) {
     Completer<ServerResponse> completer = Completer();
@@ -74,8 +74,8 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// Gets the presence data for the given <groupId>. Will not include
-  /// offline profiles unless<includeOffline> is set to true.
+  /// Gets the presence data for the given groupId. Will not include
+  /// offline profiles unless includeOffline is set to true.
   ///
   /// Service Name - Presence
   /// Service Operation - GetPresenceOfGroup
@@ -86,7 +86,7 @@ class BrainCloudPresence {
   /// @param includeOffline
   /// Will not include offline profiles unless includeOffline is set to true.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getPresenceOfGroup(
       {required String groupId, required bool includeOffline}) {
     Completer<ServerResponse> completer = Completer();
@@ -109,8 +109,8 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  ///Gets the presence data for the given<profileIds>.Will not include
-  /// offline profiles unless<includeOffline> is set to true.
+  ///Gets the presence data for the given profileIds.Will not include
+  /// offline profiles unless includeOffline is set to true.
   ///
   /// Service Name - Presence
   /// Service Operation - GetPresenceOfUsers
@@ -121,7 +121,7 @@ class BrainCloudPresence {
   /// @param includeOffline
   /// Will not include offline profiles unless includeOffline is set to true.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getPresenceOfUsers(
       {required List<String> profileIds, required bool includeOffline}) {
     Completer<ServerResponse> completer = Completer();
@@ -161,7 +161,7 @@ class BrainCloudPresence {
   /// @param bidirectional
   /// Allows registration of target user for presence update
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> registerListenersForFriends(
       {required String platform, required bool bidirectional}) {
     Completer<ServerResponse> completer = Completer();
@@ -195,7 +195,7 @@ class BrainCloudPresence {
   /// @param bidirectional
   /// Allows registration of target user for presence update
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> registerListenersForGroup(
       {required String groupId, required bool bidirectional}) {
     Completer<ServerResponse> completer = Completer();
@@ -230,7 +230,7 @@ class BrainCloudPresence {
   /// @param bidirectional
   /// Allows registration of target user for presence update
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> registerListenersForProfiles(
       {required List<String> profileIds, required bool bidirectional}) {
     Completer<ServerResponse> completer = Completer();
@@ -261,7 +261,7 @@ class BrainCloudPresence {
   /// @param visible
   /// Determines if the user is visible
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> setVisibility({required bool visible}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -289,7 +289,7 @@ class BrainCloudPresence {
   /// Service Name - Presence
   /// Service Operation - StopListening
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> stopListening() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -317,7 +317,7 @@ class BrainCloudPresence {
   /// @param activity
   /// the Json data
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateActivity(
       {required Map<String, dynamic> activity}) {
     Completer<ServerResponse> completer = Completer();

@@ -1,6 +1,6 @@
 name: braincloud_dart
 description: "brainCloud is a backend platform for mobile games and apps, offering robust features, tools, and support. brainCloud_dart enables use in Dart and Flutter projects."
-version: 5.5.0
+version: 5.5.0+1
 homepage: "https://getbraincloud.com/"
 
 environment:

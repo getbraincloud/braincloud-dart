@@ -27,7 +27,7 @@ class BrainCloudUserItems {
   ///
   /// @param includeDef
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> awardUserItem(
       {required String defId,
       required int quantity,
@@ -68,7 +68,7 @@ class BrainCloudUserItems {
   ///
   /// @param includeDef
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> dropUserItem(
       {required String itemId,
       required int quantity,
@@ -106,7 +106,7 @@ class BrainCloudUserItems {
   ///
   /// @param includeDef
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getUserItemsPage(
       {required Map<String, dynamic> context, required bool includeDef}) {
     Completer<ServerResponse> completer = Completer();
@@ -145,7 +145,7 @@ class BrainCloudUserItems {
   ///
   /// @param includeDef
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getUserItemsPageOffset(
       {required String context,
       required int pageOffset,
@@ -183,7 +183,7 @@ class BrainCloudUserItems {
   ///
   /// @param includeDef
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getUserItem(
       {required String itemId, required bool includeDef}) {
     Completer<ServerResponse> completer = Completer();
@@ -221,7 +221,7 @@ class BrainCloudUserItems {
   ///
   /// @param immediate
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> giveUserItemTo(
       {required String profileId,
       required String itemId,
@@ -267,7 +267,7 @@ class BrainCloudUserItems {
   ///
   /// @param includeDef
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> purchaseUserItem(
       {required String defId,
       required int quantity,
@@ -309,7 +309,7 @@ class BrainCloudUserItems {
   ///
   /// @param includeDef
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> receiveUserItemFrom(
       {required String profileId, required String itemId}) {
     Completer<ServerResponse> completer = Completer();
@@ -352,7 +352,7 @@ class BrainCloudUserItems {
   ///
   /// @param includeDef
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> sellUserItem(
       {required String itemId,
       required int version,
@@ -393,7 +393,7 @@ class BrainCloudUserItems {
   ///
   /// @param newItemData
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateUserItemData(
       {required String itemId,
       required int version,
@@ -433,7 +433,7 @@ class BrainCloudUserItems {
   ///
   /// @param includeDef
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> useUserItem(
       {required String itemId,
       required int version,
@@ -471,7 +471,7 @@ class BrainCloudUserItems {
   ///
   /// @param version
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> publishUserItemToBlockchain(
       {required String itemId, required int version}) {
     Completer<ServerResponse> completer = Completer();
@@ -499,7 +499,7 @@ class BrainCloudUserItems {
   /// Service Name - UserInventoryManagement
   /// Service Operation - RefreshBlockchainUserItems
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> refreshBlockchainUserItems() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -529,7 +529,7 @@ class BrainCloudUserItems {
   ///
   /// @param version
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> removeUserItemFromBlockchain(
       {required String itemId, required int version}) {
     Completer<ServerResponse> completer = Completer();

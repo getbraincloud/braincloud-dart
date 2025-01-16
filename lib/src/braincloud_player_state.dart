@@ -22,7 +22,7 @@ class BrainCloudPlayerState {
   /// Service Name - PlayerState
   /// Service Operation - Read
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readUserState() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -48,7 +48,7 @@ class BrainCloudPlayerState {
   /// Service Name - PlayerState
   /// Service Operation - FullReset
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteUser() {
     Completer<ServerResponse> completer = Completer();
 
@@ -80,7 +80,7 @@ class BrainCloudPlayerState {
   /// Service Name - PlayerState
   /// Service Operation - DataReset
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetUser() {
     Completer<ServerResponse> completer = Completer();
 
@@ -104,7 +104,7 @@ class BrainCloudPlayerState {
   /// Service Name - PlayerState
   /// Service Operation - Logout
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> logout() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -130,7 +130,7 @@ class BrainCloudPlayerState {
   /// @param userName
   /// The name of the user
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateUserName({required String userName}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -172,7 +172,7 @@ class BrainCloudPlayerState {
   /// }
   /// ```
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateSummaryFriendData(
       {Map<String, dynamic>? summaryFriendData}) {
     Completer<ServerResponse> completer = Completer();
@@ -204,7 +204,7 @@ class BrainCloudPlayerState {
   /// Service Name - PlayerState
   /// Service Operation - GetAttributes
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getAttributes() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -233,7 +233,7 @@ class BrainCloudPlayerState {
   /// @param wipeExisting
   /// Whether to wipe existing attributes prior to update.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateAttributes(
       {required Map<String, dynamic> attributes,
       required bool wipeExisting}) {
@@ -266,7 +266,7 @@ class BrainCloudPlayerState {
   /// @param attributeNames
   /// List of attribute names.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> removeAttributes(
       {required List<String> attributes}) {
     Completer<ServerResponse> completer = Completer();
@@ -296,7 +296,7 @@ class BrainCloudPlayerState {
   /// @param pictureUrl
   /// URL to apply.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateUserPictureUrl({required String pictureUrl}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -326,7 +326,7 @@ class BrainCloudPlayerState {
   /// @param contactEmail
   /// Updated email
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateContactEmail({required String contactEmail}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -355,7 +355,7 @@ class BrainCloudPlayerState {
   /// @param statusName
   /// The name of the status.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> clearUserStatus({required String statusName}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -390,7 +390,7 @@ class BrainCloudPlayerState {
   /// @param details
   /// The details of the status.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> extendUserStatus(
       {required String statusName,
       required int additionalSecs,
@@ -425,7 +425,7 @@ class BrainCloudPlayerState {
   /// @param statusName
   /// The name of the status.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getUserStatus({required String statusName}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -458,7 +458,7 @@ class BrainCloudPlayerState {
   /// @param details
   /// The details of the status.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> setUserStatus(
       {required String statusName,
       required int durationSecs,
@@ -493,7 +493,7 @@ class BrainCloudPlayerState {
   /// @param statusName
   /// The name of the status.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateLanguageCode({required String languageCode}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -522,7 +522,7 @@ class BrainCloudPlayerState {
   /// @param statusName
   /// The name of the status.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateTimeZoneOffset(
       {required double timeZoneOffset}) {
     Completer<ServerResponse> completer = Completer();

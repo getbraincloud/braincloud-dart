@@ -24,7 +24,7 @@ class BrainCloudScript {
   /// @param jsonScriptData
   /// Data to be sent to the script in json format
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> runScript(
       {required String scriptName, Map<String, dynamic>? scriptData}) {
     Completer<ServerResponse> completer = Completer();
@@ -61,7 +61,7 @@ class BrainCloudScript {
   ///
   /// @param roundStartTimeUTC  use UTC time in milliseconds since epoch
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> scheduleRunScriptMillisUTC(
       {required String scriptName,
       Map<String, dynamic>? scriptData,
@@ -103,7 +103,7 @@ class BrainCloudScript {
   ///
   /// @param minutesFromNow Number of minutes from now to run script
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> scheduleRunScriptMinutes(
       {required String scriptName,
       Map<String, dynamic>? scriptData,
@@ -145,7 +145,7 @@ class BrainCloudScript {
   ///
   /// @param parentLevel The level name of the parent to run the script from
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> runParentScript(
       {required String scriptName,
       Map<String, dynamic>? scriptData,
@@ -182,7 +182,7 @@ class BrainCloudScript {
   ///
   /// @param jobId ID of script job to cancel
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> cancelScheduledScript({required String jobId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -210,7 +210,7 @@ class BrainCloudScript {
   ///
   /// @param startDateUTC Return scripts that are scheduled to run before this specified time.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getScheduledCloudScripts(
       {required DateTime startDateUTC}) {
     Completer<ServerResponse> completer = Completer();
@@ -238,7 +238,7 @@ class BrainCloudScript {
   /// Service Operation - GET_RUNNING_OR_QUEUED_CLOUD_SCRIPTS
   ///
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getRunningOrQueuedCloudScripts() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -267,7 +267,7 @@ class BrainCloudScript {
   ///
   /// @param peerIdentifies the peer
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> runPeerScript(
       {required String scriptName,
       Map<String, dynamic>? scriptData,
@@ -309,7 +309,7 @@ class BrainCloudScript {
   ///
   /// @param peerIdentifies the peer
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> runPeerScriptAsync(
       {required String scriptName,
       Map<String, dynamic>? scriptData,

@@ -27,7 +27,7 @@ class BrainCloudIdentity {
   /// The validated token from the Facebook SDK
   ///   (that will be further validated when sent to the bC service)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachFacebookIdentity(
       {required String facebookId, required String authenticationToken}) async {
     return _attachIdentity(
@@ -47,7 +47,7 @@ class BrainCloudIdentity {
   /// The validated token from the Facebook SDK
   /// (that will be further validated when sent to the bC service)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeFacebookIdentity(
       {required String facebookId, required String authenticationToken}) async {
     return _mergeIdentity(
@@ -65,7 +65,7 @@ class BrainCloudIdentity {
   /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachFacebookIdentity(
       {required String facebookId, required continueAnon}) async {
     return _detachIdentity(
@@ -92,7 +92,7 @@ class BrainCloudIdentity {
   /// @param extraJson
   /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave an empty Map for no extraJson.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachAdvancedIdentity(
       {required AuthenticationType authenticationType,
       required AuthenticationIds ids,
@@ -143,7 +143,7 @@ class BrainCloudIdentity {
   /// @param extraJson
   /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave an empty Map for no extraJson.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeAdvancedIdentity(
       {required AuthenticationType authenticationType,
       required AuthenticationIds ids,
@@ -201,7 +201,7 @@ class BrainCloudIdentity {
   /// @param extraJson
   /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave an empty Map for no extraJson.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachAdvancedIdentity(
       {required AuthenticationType authenticationType,
       required String externalId,
@@ -253,7 +253,7 @@ class BrainCloudIdentity {
   /// @param ultraIdToken
   /// The "id_token" taken from Ultra's JWT.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachUltraIdentity(
       {required String ultraUsername, required String ultraIdToken}) async {
     return _attachIdentity(
@@ -271,7 +271,7 @@ class BrainCloudIdentity {
   /// @param ultraIdToken
   /// The "id_token" taken from Ultra's JWT.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeUltraIdentity(
       {required String ultraUsername, required String ultraIdToken}) async {
     return _mergeIdentity(
@@ -293,7 +293,7 @@ class BrainCloudIdentity {
   /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachUltraIdentity(
       {required String ultraUsername, required bool continueAnon}) async {
     return _detachIdentity(
@@ -311,7 +311,7 @@ class BrainCloudIdentity {
   /// @param oculusNonce
   /// token from the Oculus SDK
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> attachOculusIdentity(
   //     {required String oculusId, required String oculusNonce}) async {
   //   return _attachIdentity(oculusId, oculusNonce, AuthenticationType.oculus);
@@ -329,7 +329,7 @@ class BrainCloudIdentity {
   /// @param oculusNonce
   /// token from the Oculus SDK
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> mergeOculusIdentity(
   //     {required String oculusId, required String oculusNonce}) async {
   //   return _mergeIdentity(oculusId, oculusNonce, AuthenticationType.oculus);
@@ -346,7 +346,7 @@ class BrainCloudIdentity {
   /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> detachOculusIdentity(
   //     {required String oculusId, required bool continueAnon}) {
   //   return _detachIdentity(oculusId, AuthenticationType.oculus, continueAnon);
@@ -364,7 +364,7 @@ class BrainCloudIdentity {
   /// The validated token from the Facebook SDK
   ///   (that will be further validated when sent to the bC service)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachFacebookLimitedIdentity(
       {required String facebookId,
       required String authenticationToken}) async {
@@ -385,7 +385,7 @@ class BrainCloudIdentity {
   /// The validated token from the Facebook SDK
   /// (that will be further validated when sent to the bC service)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeFacebookLimitedIdentity(
       {required String facebookId,
       required String authenticationToken}) async {
@@ -404,7 +404,7 @@ class BrainCloudIdentity {
   /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachFacebookLimitedIdentity(
       {required String facebookId, required bool continueAnon}) async {
     return _detachIdentity(
@@ -423,7 +423,7 @@ class BrainCloudIdentity {
   /// The validated token from the Playstation SDK
   ///   (that will be further validated when sent to the bC service)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> attachPlaystationNetworkIdentity(
   //     {required String psnAccountId,
   //     required String authenticationToken}) async {
@@ -443,7 +443,7 @@ class BrainCloudIdentity {
   /// The validated token from the Playstation SDK
   /// (that will be further validated when sent to the bC service)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> mergePlaystationNetworkIdentity(
   //     {required String psnAccountId,
   //     required String authenticationToken}) async {
@@ -462,7 +462,7 @@ class BrainCloudIdentity {
   /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> detachPlaystationNetworkIdentity(
   //     {required String psnAccountId, required bool continueAnon}) async {
   //   return _detachIdentity(
@@ -481,7 +481,7 @@ class BrainCloudIdentity {
   /// The validated token from the Playstation SDK
   ///   (that will be further validated when sent to the bC service)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> attachPlaystation5Identity(
   //     {required String psnAccountId,
   //     required String authenticationToken}) async {
@@ -502,7 +502,7 @@ class BrainCloudIdentity {
   /// The validated token from the Playstation SDK
   /// (that will be further validated when sent to the bC service)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> mergePlaystation5Identity(
   //     {required String psnAccountId,
   //     required String authenticationToken}) async {
@@ -521,7 +521,7 @@ class BrainCloudIdentity {
   /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> detachPlaystation5Identity(
   //     {required String psnAccountId, required bool continueAnon}) async {
   //   return _detachIdentity(
@@ -536,7 +536,7 @@ class BrainCloudIdentity {
   /// @param gameCenterId
   /// The user's game center id  (use the playerID property from the local GKPlayer dynamic)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachGameCenterIdentity(
       {required String gameCenterId}) async {
     return _attachIdentity(gameCenterId, "", AuthenticationType.gameCenter);
@@ -550,7 +550,7 @@ class BrainCloudIdentity {
   /// @param gameCenterId
   /// The user's game center id  (use the playerID property from the local GKPlayer dynamic)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeGameCenterIdentity(
       {required String gameCenterId}) async {
     return _mergeIdentity(gameCenterId, "", AuthenticationType.gameCenter);
@@ -567,7 +567,7 @@ class BrainCloudIdentity {
   /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachGameCenterIdentity(
       {required String gameCenterId, required bool continueAnon}) async {
     return _detachIdentity(
@@ -585,7 +585,7 @@ class BrainCloudIdentity {
   /// @param password
   /// The user's password
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachEmailIdentity(
       {required String email, required String password}) async {
     return _attachIdentity(email, password, AuthenticationType.email);
@@ -602,7 +602,7 @@ class BrainCloudIdentity {
   /// @param password
   /// The user's password
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeEmailIdentity(
       {required String email, required String password}) async {
     return _mergeIdentity(email, password, AuthenticationType.email);
@@ -619,7 +619,7 @@ class BrainCloudIdentity {
   /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachEmailIdentity(
       {required String email, required bool continueAnon}) async {
     return _detachIdentity(email, AuthenticationType.email, continueAnon);
@@ -636,7 +636,7 @@ class BrainCloudIdentity {
   /// @param password
   /// The user's password
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachUniversalIdentity(
       {required String userId, required String password}) async {
     return _attachIdentity(userId, password, AuthenticationType.universal);
@@ -653,7 +653,7 @@ class BrainCloudIdentity {
   /// @param password
   /// The user's password
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeUniversalIdentity(
       {required String userId, required String password}) {
     return _mergeIdentity(userId, password, AuthenticationType.universal);
@@ -670,7 +670,7 @@ class BrainCloudIdentity {
   /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachUniversalIdentity(
       {required String userId, required bool continueAnon}) async {
     return _detachIdentity(userId, AuthenticationType.universal, continueAnon);
@@ -687,7 +687,7 @@ class BrainCloudIdentity {
   /// @param sessionTicket
   /// The user's session ticket (hex encoded)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachSteamIdentity(
       {required String steamId, required String sessionTicket}) {
     return _attachIdentity(steamId, sessionTicket, AuthenticationType.steam);
@@ -704,7 +704,7 @@ class BrainCloudIdentity {
   /// @param sessionTicket
   /// The user's session ticket (hex encoded)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeSteamIdentity(
       {required String steamId, required String sessionTicket}) async {
     return _mergeIdentity(steamId, sessionTicket, AuthenticationType.steam);
@@ -721,7 +721,7 @@ class BrainCloudIdentity {
   /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachSteamIdentity(
       {required String steamId, required bool continueAnon}) async {
     return _detachIdentity(steamId, AuthenticationType.steam, continueAnon);
@@ -739,7 +739,7 @@ class BrainCloudIdentity {
   /// The validated token from the Google SDK
   ///   (that will be further validated when sent to the bC service)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachGoogleIdentity(
       {required String googleId, required String authenticationToken}) async {
     return _attachIdentity(
@@ -759,7 +759,7 @@ class BrainCloudIdentity {
   /// The validated token from the Google SDK
   /// (that will be further validated when sent to the bC service)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeGoogleIdentity(
       {required String googleId, required String authenticationToken}) async {
     return _mergeIdentity(
@@ -777,7 +777,7 @@ class BrainCloudIdentity {
   /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachGoogleIdentity(
       {required String googleId, required bool continueAnon}) async {
     return _detachIdentity(
@@ -795,7 +795,7 @@ class BrainCloudIdentity {
   /// @param IdToken
   /// The id token of the google account. Can get with calls like requestIdToken
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachGoogleOpenIdIdentity(
       {required String googleId, required String authenticationToken}) async {
     return _attachIdentity(
@@ -814,7 +814,7 @@ class BrainCloudIdentity {
   /// @param IdToken
   /// The id token of the google account. Can get with calls like requestIdToken
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeGoogleOpenIdIdentity(
       {required String googleId, required String authenticationToken}) async {
     return _mergeIdentity(
@@ -832,7 +832,7 @@ class BrainCloudIdentity {
   /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachGoogleOpenIdIdentity(
       {required String googleId,
       required bool continueAnon}) async {
@@ -851,7 +851,7 @@ class BrainCloudIdentity {
   /// @param identityToken
   /// The token confirming the user's identity
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachAppleIdentity(
       {required String appleId, required String authenticationToken}) async {
     return _attachIdentity(
@@ -870,7 +870,7 @@ class BrainCloudIdentity {
   /// @param identityToken
   /// The token confirming the user's identity
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeAppleIdentity(
       {required String appleUserId, required String identityToken}) {
     return _mergeIdentity(appleUserId, identityToken, AuthenticationType.apple);
@@ -887,7 +887,7 @@ class BrainCloudIdentity {
   /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachAppleIdentity(
       {required String appleUserId, required bool continueAnon}) async {
     return _detachIdentity(appleUserId, AuthenticationType.apple, continueAnon);
@@ -907,7 +907,7 @@ class BrainCloudIdentity {
   /// @param secret
   /// The secret given when attempting to link with Twitter
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachTwitterIdentity(
       {required String twitterId,
       required String authenticationToken,
@@ -931,7 +931,7 @@ class BrainCloudIdentity {
   /// @param secret
   /// The secret given when attempting to link with Twitter
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeTwitterIdentity(
       {required String twitterId,
       required String authenticationToken,
@@ -951,7 +951,7 @@ class BrainCloudIdentity {
   /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachTwitterIdentity(
       {required String twitterId, required bool continueAnon}) async {
     return _detachIdentity(twitterId, AuthenticationType.twitter, continueAnon);
@@ -969,7 +969,7 @@ class BrainCloudIdentity {
   /// The validated token from Parse
   ///   (that will be further validated when sent to the bC service)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachParseIdentity(
       {required String parseId, required String authenticationToken}) async {
     return _attachIdentity(
@@ -989,7 +989,7 @@ class BrainCloudIdentity {
   /// The validated token from Parse
   /// (that will be further validated when sent to the bC service)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeParseIdentity(
       {required String parseId, required String authenticationToken}) async {
     return _mergeIdentity(
@@ -1007,7 +1007,7 @@ class BrainCloudIdentity {
   /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachParseIdentity(
       {required String parseId, required bool continueAnon}) async {
     return _detachIdentity(parseId, AuthenticationType.parse, continueAnon);
@@ -1025,7 +1025,7 @@ class BrainCloudIdentity {
   /// The validated token from the Nintendo SDK
   ///   (that will be further validated when sent to the bC service)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> attachNintendoIdentity(
   //     {required String nintendoAccountId,
   //     required String authenticationToken}) {
@@ -1046,7 +1046,7 @@ class BrainCloudIdentity {
   /// The validated token from the Nintendo SDK
   /// (that will be further validated when sent to the bC service)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> mergeNintendoIdentity(
   //     {required String nintendoAccountId,
   //     required String authenticationToken}) {
@@ -1065,7 +1065,7 @@ class BrainCloudIdentity {
   /// @param continueAnon
   /// Proceed even if the profile will revert to anonymous?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   // Future<ServerResponse> detachNintendoIdentity(
   //     {required String nintendoAccountId, required bool continueAnon}) async {
   //   return _detachIdentity(
@@ -1087,7 +1087,7 @@ class BrainCloudIdentity {
   /// @param forceCreate
   /// Should a new profile be created if it does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> switchToChildProfile(
       {String? childProfileId,
       required String childAppId,
@@ -1108,7 +1108,7 @@ class BrainCloudIdentity {
   /// @param forceCreate
   /// Should a new profile be created if one does not exist?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> switchToSingletonChildProfile(
       {required String childAppId, required bool forceCreate}) async {
     return _switchToChildProfile(null, childAppId, forceCreate, true);
@@ -1119,7 +1119,7 @@ class BrainCloudIdentity {
   /// @param externalId
   /// User ID
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachNonLoginUniversalId(
       {required String externalId}) async {
     Map<String, dynamic> data = {};
@@ -1148,7 +1148,7 @@ class BrainCloudIdentity {
   /// @param externalId
   /// User ID
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateUniversalIdLogin(
       {required String externalId}) async {
     Map<String, dynamic> data = {};
@@ -1189,7 +1189,7 @@ class BrainCloudIdentity {
   /// @param forceCreate
   /// If the profile does not exist, should it be created?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachParentWithIdentity(
       {required String externalId,
       required String authenticationToken,
@@ -1238,7 +1238,7 @@ class BrainCloudIdentity {
   /// @param parentLevelName
   /// The level of the parent to switch to
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> switchToParentProfile(
       {required String parentLevelName}) async {
     Map<String, dynamic> data = {};
@@ -1268,7 +1268,7 @@ class BrainCloudIdentity {
   /// Service Name - identity
   /// Service Operation - DETACH_PARENT
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachParent() async {
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -1296,7 +1296,7 @@ class BrainCloudIdentity {
   /// @param includeSummaryData
   /// Whether to return the summary friend data along with this call
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getChildProfiles(
       {required bool includeSummaryData}) async {
     Map<String, dynamic> data = {};
@@ -1326,7 +1326,7 @@ class BrainCloudIdentity {
   /// Service Name - identity
   /// Service Operation - GET_IDENTITIES
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getIdentities() async {
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -1388,7 +1388,7 @@ class BrainCloudIdentity {
   /// Service Name - identity
   /// Service Operation - GET_EXPIRED_IDENTITIES
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getExpiredIdentities() async {
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -1422,7 +1422,7 @@ class BrainCloudIdentity {
   /// @param authenticationType
   /// Type of authentication
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> refreshIdentity(
       {required String externalId,
       required String authenticationToken,
@@ -1469,7 +1469,7 @@ class BrainCloudIdentity {
   /// @param updateContactEmail
   /// Whether to update contact email in profile
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> changeEmailIdentity(
       {required String oldEmailAddress,
       required String authenticationToken,
@@ -1521,7 +1521,7 @@ class BrainCloudIdentity {
   /// @param forceCreate
   /// If the profile does not exist, should it be created?
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachPeerProfile(
       {required String peer,
       required String externalId,
@@ -1569,7 +1569,7 @@ class BrainCloudIdentity {
   /// @param peer
   /// Name of the peer to connect to
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachPeer({required String peer}) async {
     Map<String, dynamic> data = {};
 
@@ -1595,7 +1595,7 @@ class BrainCloudIdentity {
 
   /// Retrieves a list of attached peer profiles
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getPeerProfiles() async {
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -1621,7 +1621,7 @@ class BrainCloudIdentity {
   ///
   /// @param publicKey
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachBlockChainIdentity(
       {required String blockchainConfig, required String publicKey}) async {
     Map<String, dynamic> data = {};
@@ -1650,7 +1650,7 @@ class BrainCloudIdentity {
   ///
   /// @param blockchainConfig
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachBlockChainIdentity(
       {required String blockchainConfig}) async {
     Map<String, dynamic> data = {};
@@ -1729,7 +1729,7 @@ class BrainCloudIdentity {
   }
 
 
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> _attachIdentity(String externalId,
       String authenticationToken, AuthenticationType authenticationType) async {
     Map<String, dynamic> data = {};
@@ -1757,7 +1757,7 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> _mergeIdentity(String externalId,
       String authenticationToken, AuthenticationType authenticationType) {
     Map<String, dynamic> data = {};
@@ -1785,7 +1785,7 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> _detachIdentity(String externalId,
       AuthenticationType authenticationType, bool continueAnon) async {
     Map<String, dynamic> data = {};
@@ -1812,7 +1812,7 @@ class BrainCloudIdentity {
     return completer.future;
   }
 
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> _switchToChildProfile(String? childProfileId,
       String childAppd, bool forceCreate, bool forceSingleton) async {
     Map<String, dynamic> data = {};

@@ -19,7 +19,7 @@ class BrainCloudGlobalStatistics {
   /// Service Name - globalGameStatistics
   /// Service Operation - Read
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readAllGlobalStats() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -44,7 +44,7 @@ class BrainCloudGlobalStatistics {
   /// @param globalStats
   /// A list containing the statistics to read
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readGlobalStatsSubset(
       {required List<String> statistics}) {
     Completer<ServerResponse> completer = Completer();
@@ -73,7 +73,7 @@ class BrainCloudGlobalStatistics {
   /// @param category
   /// The global statistics category
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readGlobalStatsForCategory(
       {required String category}) {
     Completer<ServerResponse> completer = Completer();
@@ -121,7 +121,7 @@ class BrainCloudGlobalStatistics {
   /// ```
   /// which increments stat1 by 9 up to a limit of 30.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> incrementGlobalStats(
       {required Map<String, dynamic> statistics}) {
     Completer<ServerResponse> completer = Completer();
@@ -160,7 +160,7 @@ class BrainCloudGlobalStatistics {
   /// }
   /// ```
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> processStatistics(
       {required Map<String, dynamic> statistics}) {
     Completer<ServerResponse> completer = Completer();

@@ -24,7 +24,7 @@ class BrainCloudDataStream {
   /// @param jsonEventProperties
   /// The properties of the event
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> customPageEvent(
       {required String eventName, Map<String, dynamic>? jsonEventProperties}) {
     Completer<ServerResponse> completer = Completer();
@@ -60,7 +60,7 @@ class BrainCloudDataStream {
   /// @param jsonEventProperties
   /// The properties of the event
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> customScreenEvent(
       {required String eventName, Map<String, dynamic>? jsonEventProperties}) {
     Completer<ServerResponse> completer = Completer();
@@ -96,7 +96,7 @@ class BrainCloudDataStream {
   /// @param jsonEventProperties
   /// The properties of the event
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> customTrackEvent(
       {required String eventName, Map<String, dynamic>? jsonEventProperties}) {
     Completer<ServerResponse> completer = Completer();
@@ -150,7 +150,7 @@ class BrainCloudDataStream {
   /// @param userSubmitted
   /// The bool passed by the user
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> submitCrashReport(
       {required String crashType,
       required String errorMsg,

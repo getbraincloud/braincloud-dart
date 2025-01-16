@@ -34,7 +34,7 @@ class BrainCloudAppStore {
   /// The currency to retrieve the sales
   /// inventory for. This is only used for Steam and Facebook stores.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getSalesInventory(
       {required String storeId, required String userCurrency}) {
     return getSalesInventoryByCategory(
@@ -64,7 +64,7 @@ class BrainCloudAppStore {
   /// @param category
   /// The AppStore category
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getSalesInventoryByCategory(
       {required String storeId,
       required String userCurrency,
@@ -104,7 +104,7 @@ class BrainCloudAppStore {
   /// Service Name - AppStore
   /// Service Operation - EligiblePromotions
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getEligiblePromotions() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -138,7 +138,7 @@ class BrainCloudAppStore {
   /// @param receiptJson
   /// The specific store data required
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> verifyPurchase(
       {required String storeId, required Map<String, dynamic> receiptData}) {
     Completer<ServerResponse> completer = Completer();
@@ -178,7 +178,7 @@ class BrainCloudAppStore {
   /// @param purchaseJson
   /// The specific store data required
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> startPurchase(
       {required String storeId, required Map<String, dynamic> purchaseData}) {
     Completer<ServerResponse> completer = Completer();
@@ -222,7 +222,7 @@ class BrainCloudAppStore {
   /// @param transactionJson
   /// The specific store data required
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> finalizePurchase(
       {required String storeId,
       required String transactionId,
@@ -253,7 +253,7 @@ class BrainCloudAppStore {
   /// Service Name - appStore
   /// Service Operation - RefreshPromotions
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> refreshPromotions() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};

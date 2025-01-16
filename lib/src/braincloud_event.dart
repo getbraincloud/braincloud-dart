@@ -31,7 +31,7 @@ class BrainCloudEvent {
   /// @param jsonEventData
   /// The user-defined data for this event encoded in JSON.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> sendEvent(
       {required String toProfileId,
       required String eventType,
@@ -77,7 +77,7 @@ class BrainCloudEvent {
   /// @param jsonEventData
   /// The user-defined data for this event encoded in JSON.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> sendEventToProfiles(
       {required List<String> toIds,
       required String eventType,
@@ -116,7 +116,7 @@ class BrainCloudEvent {
   /// @param jsonEventData
   /// The user-defined data for this event encoded in JSON.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateIncomingEventData(
       {required String evId, Map<String, dynamic>? eventData}) {
     Completer<ServerResponse> completer = Completer();
@@ -153,7 +153,7 @@ class BrainCloudEvent {
   /// @param jsonEventData
   /// The user-defined data for this event encoded in JSON.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateIncomingEventDataIfExists(
       {required String evId, Map<String, dynamic>? eventData}) {
     Completer<ServerResponse> completer = Completer();
@@ -187,7 +187,7 @@ class BrainCloudEvent {
   /// @param evId
   /// The event id
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteIncomingEvent({required String evId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -214,7 +214,7 @@ class BrainCloudEvent {
   /// @param in_eventIds
   /// Collection of event ids
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteIncomingEvents(
       {required List<String> evIds}) {
     Completer<ServerResponse> completer = Completer();
@@ -242,7 +242,7 @@ class BrainCloudEvent {
   /// @param in_dateMillis
   /// CreatedAt cut-off time whereby older events will be deleted (In UTC since Epoch)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteIncomingEventsOlderThan(
       {required int dateMillis}) {
     Completer<ServerResponse> completer = Completer();
@@ -273,7 +273,7 @@ class BrainCloudEvent {
   /// @param in_dateMillis
   /// CreatedAt cut-off time whereby older events will be deleted (In UTC since Epoch)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteIncomingEventsByTypeOlderThan(
       {required String eventType, required int dateMillis}) {
     Completer<ServerResponse> completer = Completer();
@@ -296,7 +296,7 @@ class BrainCloudEvent {
 
   /// Get the events currently queued for the user.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getEvents() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};

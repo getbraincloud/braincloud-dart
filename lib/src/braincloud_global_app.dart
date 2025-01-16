@@ -18,7 +18,7 @@ class BrainCloudGlobalApp {
   /// Service Name - GlobalApp
   /// Service Operation - ReadProperties
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readProperties() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -43,7 +43,7 @@ class BrainCloudGlobalApp {
   /// @param propertyNames
   /// Specifies which properties to return
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readSelectedProperties(
       {required List<String> propertyNames}) {
     Completer<ServerResponse> completer = Completer();
@@ -73,7 +73,7 @@ class BrainCloudGlobalApp {
   /// @param categories
   /// Specifies which categories to return
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readPropertiesInCategories(
       {required List<String> categories}) {
     Completer<ServerResponse> completer = Completer();

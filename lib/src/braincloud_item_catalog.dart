@@ -22,7 +22,7 @@ class BrainCloudItemCatalog {
   ///
   /// @param defId
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getCatalogItemDefinition({required String defId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -52,7 +52,7 @@ class BrainCloudItemCatalog {
   ///
   /// @param context
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getCatalogItemsPage(
       {required Map<String, dynamic> context}) {
     Completer<ServerResponse> completer = Completer();
@@ -87,7 +87,7 @@ class BrainCloudItemCatalog {
   ///
   /// @param pageOffset
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getCatalogItemsPageOffset(
       {required String context, required int pageOffset}) {
     Completer<ServerResponse> completer = Completer();

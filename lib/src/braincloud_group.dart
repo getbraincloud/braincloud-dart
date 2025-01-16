@@ -25,7 +25,7 @@ class BrainCloudGroup {
   /// @param groupId
   /// ID of the group.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> acceptGroupInvitation({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -50,7 +50,7 @@ class BrainCloudGroup {
   /// @param attributes
   /// Attributes of the member being added.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> addGroupMember(
       {required String groupId,
       required String profileId,
@@ -85,7 +85,7 @@ class BrainCloudGroup {
   /// @param attributes
   /// Attributes of the member being invited.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> approveGroupJoinRequest(
       {required String groupId,
       required String profileId,
@@ -117,7 +117,7 @@ class BrainCloudGroup {
   /// @param dataQueryJson
   /// Query parameters (optional)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> autoJoinGroup(
       {required String groupType,
       required AutoJoinStrategy autoJoinStrategy,
@@ -148,7 +148,7 @@ class BrainCloudGroup {
   /// @param dataQueryJson
   /// Query parameters (optional)
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> autoJoinGroupMulti(
       {required List<String> groupTypes,
       required AutoJoinStrategy autoJoinStrategy,
@@ -173,7 +173,7 @@ class BrainCloudGroup {
   /// @param profileId
   /// Profile ID of the invitation being deleted.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> cancelGroupInvitation(
       {required String groupId, required String profileId}) {
     Map<String, dynamic> data = {};
@@ -191,7 +191,7 @@ class BrainCloudGroup {
   /// @param groupId
   /// The id of the group.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteGroupJoinRequest({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -225,7 +225,7 @@ class BrainCloudGroup {
   /// @param jsonData
   /// Custom application data.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> createGroup(
       {required String name,
       required String groupType,
@@ -289,7 +289,7 @@ class BrainCloudGroup {
   /// @param jsonSummaryData
   /// Custom application data.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> createGroupWithSummaryData(
       {required String name,
       required String groupType,
@@ -348,7 +348,7 @@ class BrainCloudGroup {
   /// @param jsonData
   /// Custom application data.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> createGroupEntity(
       {required String groupId,
       required String entityType,
@@ -384,7 +384,7 @@ class BrainCloudGroup {
   /// @param version
   /// Current version of the group
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteGroup(
       {required String groupId, required int version}) {
     Map<String, dynamic> data = {};
@@ -408,7 +408,7 @@ class BrainCloudGroup {
   /// @param version
   /// The current version of the group entity (for concurrency checking).
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteGroupEntity(
       {required String groupId,
       required String entityId,
@@ -426,7 +426,7 @@ class BrainCloudGroup {
   /// Service Name - group
   /// Service Operation - GET_MY_GROUPS
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getMyGroups() {
     return _sendRequest(ServiceOperation.getMyGroups, {});
   }
@@ -442,7 +442,7 @@ class BrainCloudGroup {
   /// @param jsonData
   /// Partial data map with incremental values.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> incrementGroupData(
       {required String groupId, Map<String, dynamic>? data}) {
     Map<String, dynamic> mapData = {};
@@ -468,7 +468,7 @@ class BrainCloudGroup {
   /// @param jsonData
   /// Partial data map with incremental values.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> incrementGroupEntityData(
       {required String groupId,
       required String entityId,
@@ -499,7 +499,7 @@ class BrainCloudGroup {
   /// @param jsonAttributes
   /// Attributes of the member being invited.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> inviteGroupMember(
       {required String groupId,
       required String profileId,
@@ -524,7 +524,7 @@ class BrainCloudGroup {
   /// @param groupId
   /// ID of the group.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> joinGroup({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -540,7 +540,7 @@ class BrainCloudGroup {
   /// @param groupId
   /// ID of the group.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> leaveGroup({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -558,7 +558,7 @@ class BrainCloudGroup {
   /// @param groupId
   /// ID of the group.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> leaveGroupAuto({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -574,7 +574,7 @@ class BrainCloudGroup {
   /// @param jsonContext
   /// Query context.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> listGroupsPage(
       {required Map<String, dynamic> context}) {
     Map<String, dynamic> data = {};
@@ -595,7 +595,7 @@ class BrainCloudGroup {
   /// @param pageOffset
   /// Number of pages by which to offset the query.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> listGroupsPageByOffset(
       {required String context, required int pageOffset}) {
     Map<String, dynamic> data = {};
@@ -613,7 +613,7 @@ class BrainCloudGroup {
   /// @param profileId
   /// User to read groups for
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> listGroupsWithMember({required String profileId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupProfileId.value] = profileId;
@@ -629,7 +629,7 @@ class BrainCloudGroup {
   /// @param groupId
   /// ID of the group.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readGroup({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -645,7 +645,7 @@ class BrainCloudGroup {
   /// @param groupId
   /// ID of the group.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readGroupData({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -661,7 +661,7 @@ class BrainCloudGroup {
   /// @param jsonContext
   /// Query context.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readGroupEntitiesPage(
       {required Map<String, dynamic> context}) {
     Map<String, dynamic> data = {};
@@ -681,7 +681,7 @@ class BrainCloudGroup {
   /// @param pageOffset
   /// Number of pages by which to offset the query.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readGroupEntitiesPageByOffset(
       {required String context, required int pageOffset}) {
     Map<String, dynamic> data = {};
@@ -702,7 +702,7 @@ class BrainCloudGroup {
   /// @param entityId
   /// ID of the entity.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readGroupEntity(
       {required String groupId, required String entityId}) {
     Map<String, dynamic> data = {};
@@ -720,7 +720,7 @@ class BrainCloudGroup {
   /// @param groupId
   /// ID of the group.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readGroupMembers({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -736,7 +736,7 @@ class BrainCloudGroup {
   /// @param groupId
   /// ID of the group.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> rejectGroupInvitation({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -755,7 +755,7 @@ class BrainCloudGroup {
   /// @param profileId
   /// Profile ID of the invitation being deleted.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> rejectGroupJoinRequest(
       {required String groupId, required String profileId}) {
     Map<String, dynamic> data = {};
@@ -776,7 +776,7 @@ class BrainCloudGroup {
   /// @param profileId
   /// Profile ID of the member being deleted.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> removeGroupMember(
       {required String groupId, required String profileId}) {
     Map<String, dynamic> data = {};
@@ -800,7 +800,7 @@ class BrainCloudGroup {
   /// @param jsonData
   /// Data to apply.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateGroupData(
       {required String groupId,
       required int version,
@@ -824,7 +824,7 @@ class BrainCloudGroup {
   /// @param acl
   /// Access control list for the group entity.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateGroupEntityAcl(
       {required String groupId,
       required String entityId,      
@@ -855,7 +855,7 @@ class BrainCloudGroup {
   /// @param jsonData
   /// Custom application data.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateGroupEntityData(
       {required String groupId,
       required String entityId,
@@ -889,7 +889,7 @@ class BrainCloudGroup {
   /// @param jsonAttributes
   /// Attributes of the member being updated (optional).
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateGroupMember(
       {required groupId,
       required String profileId,
@@ -918,7 +918,7 @@ class BrainCloudGroup {
   /// @param name
   /// Name to apply.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateGroupName(
       {required String groupId, required String name}) {
     Map<String, dynamic> data = {};
@@ -939,7 +939,7 @@ class BrainCloudGroup {
   /// @param isOpenGroup
   /// true or false if a group is open.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> setGroupOpen(
       {required String groupId, required bool isOpenGroup}) {
     Map<String, dynamic> data = {};
@@ -960,7 +960,7 @@ class BrainCloudGroup {
    /// @param jsonSummaryData
   /// Custom application data.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateGroupAcl(
       {required String groupId,
       Map<String, dynamic>? acl}) {
@@ -984,7 +984,7 @@ class BrainCloudGroup {
   /// @param acl
   /// The group's access control list. A null ACL implies default.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateGroupSummaryData(
       {required String groupId,
       required int version,
@@ -1012,7 +1012,7 @@ class BrainCloudGroup {
   /// @param maxReturn
   /// max num groups wanted
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getRandomGroupsMatching(
       {Map<String, dynamic>? where, required int maxReturn}) {
     Map<String, dynamic> data = {};
@@ -1024,7 +1024,7 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.getRandomGroupsMatching, data);
   }
 
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> _sendRequest(
       ServiceOperation operation, Map<String, dynamic> data) {
     Completer<ServerResponse> completer = Completer();

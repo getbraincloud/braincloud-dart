@@ -24,7 +24,7 @@ class BrainCloudPlaybackStream {
   /// @param includeSharedData
   /// Whether to include shared data in the stream
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> startStream(
       {required String targetPlayerId, required bool includeSharedData}) {
     Completer<ServerResponse> completer = Completer();
@@ -57,7 +57,7 @@ class BrainCloudPlaybackStream {
   /// @param playbackStreamId
   /// Identifies the stream to read
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readStream({required String playbackStreamId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -87,7 +87,7 @@ class BrainCloudPlaybackStream {
   /// @param playbackStreamId
   /// Identifies the stream to read
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> endStream({required String playbackStreamId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -117,7 +117,7 @@ class BrainCloudPlaybackStream {
   /// @param playbackStreamId
   /// Identifies the stream to read
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteStream({required String playbackStreamId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -153,7 +153,7 @@ class BrainCloudPlaybackStream {
   /// @param summary
   /// Current summary data as of this event
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> addEvent(
       {required String playbackStreamId,
       Map<String, dynamic>? eventData,
@@ -197,7 +197,7 @@ class BrainCloudPlaybackStream {
   /// @param maxNumStreams
   /// The player that started the stream
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getRecentStreamsForInitiatingPlayer(
       {String? initiatingPlayerId, required int maxNumStreams}) {
     Completer<ServerResponse> completer = Completer();
@@ -233,7 +233,7 @@ class BrainCloudPlaybackStream {
   /// @param maxNumStreams
   /// The player that started the stream
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getRecentStreamsForTargetPlayer(
       {String? targetPlayerId, required int maxNumStreams}) {
     Completer<ServerResponse> completer = Completer();
@@ -272,7 +272,7 @@ class BrainCloudPlaybackStream {
   /// @param numDays
   /// The number of days the stream is to be protected (from now).
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> protectStreamUntil(
       {required String playbackStreamId, required int numDays}) {
     Completer<ServerResponse> completer = Completer();

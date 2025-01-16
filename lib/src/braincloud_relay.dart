@@ -166,11 +166,11 @@ class BrainCloudRelay {
 
   /// Send a packet to peer(s)
 
-  /// <param in_data="message to be sent">
-  /// <param to_netId="the net id to send to, BrainCloudRelay.TO_ALL_PLAYERS to relay to all">
-  /// <param in_reliable="send this reliably or not">
-  /// <param in_ordered="received this ordered or not">
-  /// <param in_channel="0,1,2,3 (max of four channels)">
+  /// param in_data="message to be sent"
+  /// param to_netId="the net id to send to, BrainCloudRelay.TO_ALL_PLAYERS to relay to all"
+  /// param in_reliable="send this reliably or not"
+  /// param in_ordered="received this ordered or not"
+  /// param in_channel="0,1,2,3 (max of four channels)"
   /// CHANNEL_HIGH_PRIORITY_1 = 0;
   /// CHANNEL_HIGH_PRIORITY_2 = 1;
   /// CHANNEL_NORMAL_PRIORITY = 2;
@@ -196,11 +196,11 @@ class BrainCloudRelay {
 
   /// Send a packet to any players by using a mask
 
-  /// <param in_data="message to be sent">
-  /// <param in_playerMask="Mask of the players to send to. 0001 = netId 0, 0010 = netId 1, etc. If you pass ALL_PLAYER_MASK you will be included and you will get an echo for your message. Use sendToAll instead, you will be filtered out. You can manually filter out by : ALL_PLAYER_MASK &= ~(1 << myNetId)">
-  /// <param in_reliable="send this reliably or not">
-  /// <param in_ordered="received this ordered or not">
-  /// <param in_channel="0,1,2,3 (max of four channels)">
+  /// param in_data="message to be sent"
+  /// param in_playerMask="Mask of the players to send to. 0001 = netId 0, 0010 = netId 1, etc. If you pass ALL_PLAYER_MASK you will be included and you will get an echo for your message. Use sendToAll instead, you will be filtered out. You can manually filter out by : ALL_PLAYER_MASK &= ~(1 << myNetId)"
+  /// param in_reliable="send this reliably or not"
+  /// param in_ordered="received this ordered or not"
+  /// param in_channel="0,1,2,3 (max of four channels)"
   /// CHANNEL_HIGH_PRIORITY_1 = 0;
   /// CHANNEL_HIGH_PRIORITY_2 = 1;
   /// CHANNEL_NORMAL_PRIORITY = 2;
@@ -217,10 +217,10 @@ class BrainCloudRelay {
 
   /// Send a packet to all except yourself
 
-  /// <param in_data="message to be sent">
-  /// <param in_reliable="send this reliably or not">
-  /// <param in_ordered="received this ordered or not">
-  /// <param in_channel="0,1,2,3 (max of four channels)">
+  /// param in_data="message to be sent"
+  /// param in_reliable="send this reliably or not"
+  /// param in_ordered="received this ordered or not"
+  /// param in_channel="0,1,2,3 (max of four channels)"
   /// CHANNEL_HIGH_PRIORITY_1 = 0;
   /// CHANNEL_HIGH_PRIORITY_2 = 1;
   /// CHANNEL_NORMAL_PRIORITY = 2;

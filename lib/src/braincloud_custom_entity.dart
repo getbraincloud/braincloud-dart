@@ -32,7 +32,7 @@ class BrainCloudCustomEntity {
   /// @param timeToLive
   /// The Entity Type
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> createEntity(
       {required String entityType,
       required Map<String, dynamic> dataJson,
@@ -77,7 +77,7 @@ class BrainCloudCustomEntity {
   ///
   /// @param context
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getEntityPage(
       {required String entityType,
       required Map<String, dynamic> context}) async {
@@ -118,7 +118,7 @@ class BrainCloudCustomEntity {
   ///
   /// @param pageOffset
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getEntityPageOffset(
       {required String entityType,
       required String context,
@@ -153,7 +153,7 @@ class BrainCloudCustomEntity {
   ///
   /// @param entityId
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readEntity(
       {required String entityType, required String entityId}) async {
     Map<String, dynamic> data = {};
@@ -187,7 +187,7 @@ class BrainCloudCustomEntity {
   ///
   /// @param entityId
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> incrementData(
       {required String entityType,
       required String entityId,
@@ -227,7 +227,7 @@ class BrainCloudCustomEntity {
   /// @param shardKeyJson
   /// The shard key field(s) and value(s), as JSON, applicable to the entity being updated. If entity is owned, ownerId must be specified in the shardKeyJson info; otherwise, shardKeyJson must indicate values for all fields in the applicable shard key index.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> incrementDataSharded(
       {required String entityType,
       required String entityId,
@@ -268,7 +268,7 @@ class BrainCloudCustomEntity {
   /// @param fieldsJson
   /// Specific fields, as JSON, within entity's custom data, with respective increment amount.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> incrementSingletonData(
       {required String entityType,
       required Map<String, dynamic> fieldsJson}) async {
@@ -309,7 +309,7 @@ class BrainCloudCustomEntity {
   ///
   /// @param timeToLive
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateEntity(
       {required String entityType,
       required String entityId,
@@ -351,7 +351,7 @@ class BrainCloudCustomEntity {
   ///
   /// @param pageOffset
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateEntityFields(
       {required String entityType,
       required String entityId,
@@ -395,7 +395,7 @@ class BrainCloudCustomEntity {
   /// @param shardKeyJson
   /// The shard key field(s) and value(s), as JSON, applicable to the entity being updated.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateEntityFieldsSharded(
       {required String entityType,
       required String entityId,
@@ -437,7 +437,7 @@ class BrainCloudCustomEntity {
   ///
   /// @param deleteCriteria
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteEntities(
       {required String entityType,
       required Map<String, dynamic> deleteCriteria}) async {
@@ -471,7 +471,7 @@ class BrainCloudCustomEntity {
   ///
   /// @param whereJson
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getCount(
       {required String entityType,
       required Map<String, dynamic> whereJson}) async {
@@ -504,7 +504,7 @@ class BrainCloudCustomEntity {
   ///
   /// @param entityId
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteEntity(
       {required String entityType,
       required String entityId,
@@ -547,7 +547,7 @@ class BrainCloudCustomEntity {
   /// @param maxReturn
   /// number of max returns
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getRandomEntitiesMatching(
       {required String entityType,
       required Map<String, dynamic> whereJson,
@@ -584,7 +584,7 @@ class BrainCloudCustomEntity {
   ///
   /// @param version
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteSingleton(
       {required String entityType, required int version}) async {
     Map<String, dynamic> data = {};
@@ -618,7 +618,7 @@ class BrainCloudCustomEntity {
   ///
   /// @param version
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readSingleton({required String entityType}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.customEntityServiceEntityType.value] = entityType;
@@ -650,7 +650,7 @@ class BrainCloudCustomEntity {
   ///
   /// @param entityId
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateSingletonFields(
       {required String entityType,
       required int version,
@@ -687,7 +687,7 @@ class BrainCloudCustomEntity {
   ///
   /// @param entityId
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateSingleton(
       {required String entityType,
       required int version,

@@ -27,7 +27,7 @@ class BrainCloudVirtualCurrency {
   /// 
   /// if all currency types are being requested.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> awardCurrency({required String vcId, required int vcAmount}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -58,7 +58,7 @@ class BrainCloudVirtualCurrency {
   ///
   /// if all currency types are being requested.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> consumeCurrency({required String vcId, required int vcAmount}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -90,7 +90,7 @@ class BrainCloudVirtualCurrency {
   ///
   /// if all currency types are being requested.
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getCurrency({required String vcId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -124,7 +124,7 @@ class BrainCloudVirtualCurrency {
   /// @param levelName
   /// The parent level name
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getParentCurrency(
       {required String vcId, required String levelName}) {
     Completer<ServerResponse> completer = Completer();
@@ -161,7 +161,7 @@ class BrainCloudVirtualCurrency {
   /// @param peerCode
   /// The peer code
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getPeerCurrency(
       {required String vcId, required String peerCode}) {
     Completer<ServerResponse> completer = Completer();
@@ -190,7 +190,7 @@ class BrainCloudVirtualCurrency {
   /// Service Name - VirtalCurrency
   /// Service Operation - ResetCurrency
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetCurrency() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};

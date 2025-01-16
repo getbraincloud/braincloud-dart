@@ -28,7 +28,7 @@ class BrainCloudProfanity {
   ///
   /// @param flagUrlsOptional processing of urls
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> profanityCheck(
       {required String text,
       String? languages,
@@ -77,7 +77,7 @@ class BrainCloudProfanity {
   ///
   /// @param flagUrlsOptional processing of urls
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> profanityReplaceText(
       {required String text,
       required String replaceSymbol,
@@ -126,7 +126,7 @@ class BrainCloudProfanity {
   ///
   /// @param flagUrlsOptional processing of urls
   ///
-  /// returns Future<ServerResponse>
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> profanityIdentifyBadWords(
       {required String text,
       String? languages,
