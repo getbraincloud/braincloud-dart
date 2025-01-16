@@ -40,9 +40,6 @@ platforms:
   web:
   windows:
 
-# temporarily prevent publishing until ready
-publish_to: none
-
 topics:
   - braincloud
   
