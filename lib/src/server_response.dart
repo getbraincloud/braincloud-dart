@@ -1,5 +1,5 @@
-import 'package:braincloud_dart/src/reason_codes.dart';
-import 'package:braincloud_dart/src/status_codes.dart';
+import '/src/reason_codes.dart';
+import '/src/status_codes.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 

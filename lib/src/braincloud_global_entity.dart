@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:braincloud_dart/src/common/acl.dart';
-import 'package:braincloud_dart/src/internal/operation_param.dart';
-import 'package:braincloud_dart/src/internal/server_call.dart';
-import 'package:braincloud_dart/src/internal/service_name.dart';
-import 'package:braincloud_dart/src/internal/service_operation.dart';
-import 'package:braincloud_dart/src/braincloud_client.dart';
-import 'package:braincloud_dart/src/server_response.dart';
+import '/src/common/acl.dart';
+import '/src/internal/operation_param.dart';
+import '/src/internal/server_call.dart';
+import '/src/internal/service_name.dart';
+import '/src/internal/service_operation.dart';
+import '/src/braincloud_client.dart';
+import '/src/server_response.dart';
 
 class BrainCloudGlobalEntity {
   final BrainCloudClient _clientRef;

@@ -1,6 +1,6 @@
 # BrainCloud Dart App Example
 
-This repository contains a Dart application that demonstrates how to integrate and use the `braincloud_dart` package for communication with a BrainCloud backend. The app supports command-line arguments for configuration and allows user authentication and interaction with BrainCloud services.
+This repository contains a Dart application that demonstrates how to integrate and use the `braincloud` package for communication with a BrainCloud backend. The app supports command-line arguments for configuration and allows user authentication and interaction with BrainCloud services.
 
 ## Features
 
@@ -14,7 +14,7 @@ This repository contains a Dart application that demonstrates how to integrate a
 ## Requirements
 
 1. [Dart SDK](https://dart.dev/get-dart) (>=2.19.0)
-2. [braincloud_dart](https://pub.dev/packages/braincloud_dart) package (installed via `pub get`).
+2. [braincloud](https://pub.dev/packages/braincloud) package (installed via `pub get`).
 
 ---
 

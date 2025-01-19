@@ -2,18 +2,18 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:braincloud_dart/src/internal/http_pinger.dart';
-import 'package:braincloud_dart/src/internal/relay_comms.dart' if (dart.library.js_interop) 'package:braincloud_dart/src/internal/relay_comms_web.dart';
+import '/src/internal/http_pinger.dart';
+import '/src/internal/relay_comms.dart' if (dart.library.js_interop) '/src/internal/relay_comms_web.dart';
 import 'package:dart_ping/dart_ping.dart';
 
-import 'package:braincloud_dart/src/braincloud_client.dart';
-import 'package:braincloud_dart/src/internal/operation_param.dart';
-import 'package:braincloud_dart/src/internal/server_call.dart';
-import 'package:braincloud_dart/src/internal/service_name.dart';
-import 'package:braincloud_dart/src/internal/service_operation.dart';
-import 'package:braincloud_dart/src/reason_codes.dart';
-import 'package:braincloud_dart/src/server_callback.dart';
-import 'package:braincloud_dart/src/server_response.dart';
+import '/src/braincloud_client.dart';
+import '/src/internal/operation_param.dart';
+import '/src/internal/server_call.dart';
+import '/src/internal/service_name.dart';
+import '/src/internal/service_operation.dart';
+import '/src/reason_codes.dart';
+import '/src/server_callback.dart';
+import '/src/server_response.dart';
 
 class BrainCloudLobby {
   final BrainCloudClient _clientRef;

@@ -1,7 +1,7 @@
-import 'package:braincloud_dart/src/internal/braincloud_comms.dart';
-import 'package:braincloud_dart/src/internal/service_name.dart';
-import 'package:braincloud_dart/src/internal/service_operation.dart';
-import 'package:braincloud_dart/src/server_callback.dart';
+import '/src/internal/braincloud_comms.dart';
+import '/src/internal/service_name.dart';
+import '/src/internal/service_operation.dart';
+import '/src/server_callback.dart';
 
 class ServerCall {
   final ServerCallback? _callback;

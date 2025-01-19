@@ -15,10 +15,13 @@ Install the plugin by adding it to your project's pubspec.yaml, under the depend
 
 ```bash
 dependencies:
-  braincloud_dart:
-    git: git@github.com:getbraincloud/braincloud-dart.git
+  braincloud: ^5.5.0
+  braincloud_data_persistence: : ^5.5.0
 ```
-This will eventually live on pub.dev, but we can link it like this for now. 
+
+NOTE: The package `braincloud_data_persistence` provides persistence support for the brainCloud Dart SDK by integrating platform preferences using SharedPreferencesAsync. 
+It is optional and you can create your own if you desire.
+
 ## Usage/Examples
 
 Here's an example on how to initiate the client wrapper and start an update timer. The example also shows how to restore session and update the route accordingly. 
@@ -26,11 +29,12 @@ Here's an example on how to initiate the client wrapper and start an update time
 ```dart
 import 'dart:async';
 
-import 'package:braincloud_dart/braincloud_dart.dart';
+import 'package:braincloud_data_persistence/braincloud_data_persistence.dart';
+import 'package:braincloud/braincloud.dart';
 import 'package:flutter/material.dart';
 
 final _bcWrapper =
-    BrainCloudWrapper(wrapperName: "<Your_Project_Wrapper_Name>");
+    BrainCloudWrapper(wrapperName: "<Your_Project_Wrapper_Name>",persistence: DataPersistence());
 
 const routeHome = '/home';
 const routeSignIn = '/signIn';
@@ -87,3 +91,25 @@ class MyApp extends StatelessWidget {
 
 ```
 
+## Custom Data Persistence
+
+ Here's an example of a simple data persistacen implementation that just saves to memory.
+
+ ```dart
+ import 'package:braincloud/data_persistence.dart';
+
+class DataPersistence implements DataPersistenceBase {
+
+  Map<String, String> playerPrefs = {};
+
+  /// Set a String value
+  Future setString(String key, String value) async {
+    playerPrefs[key] = value;
+  }
+
+  /// Get a String value
+  Future<String?> getString(String key) {
+    return Future.value(playerPrefs[key]);
+  }
+}
+```

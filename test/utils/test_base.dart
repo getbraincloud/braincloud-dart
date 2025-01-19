@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:braincloud_dart/memory_persistence.dart';
+import 'package:braincloud/braincloud.dart';
+import 'package:braincloud/memory_persistence.dart';
 
 import 'stored_ids.dart' if (dart.library.js_interop) 'stored_ids_web.dart';
 import 'test_users.dart';

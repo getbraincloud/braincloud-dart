@@ -1,4 +1,4 @@
-import 'package:braincloud_dart/src/server_callback.dart';
+import '/src/server_callback.dart';
 
 class WrapperAuthCallbackObject {
   SuccessCallback? successCallback;
