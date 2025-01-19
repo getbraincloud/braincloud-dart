@@ -5,7 +5,8 @@
 import 'dart:async';
 
 import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:braincloud_dart/src/internal/default_persistence.dart';
+import 'package:braincloud_dart/data_persistence.dart';
+import 'package:braincloud_dart/memory_persistence.dart';
 
 import 'package:braincloud_dart/src/util.dart';
 
@@ -23,7 +24,7 @@ import 'package:braincloud_dart/src/util.dart';
 /// functionality as you see fit. It is simply used as a starting point to get developers off the
 /// ground - especially with authentications.
 ///
-/// [ref link]: See http://getbraincloud.com/apidocs/ for the full list of brainCloud APIs.
+/// [ref link](http://getbraincloud.com/apidocs/): See http://getbraincloud.com/apidocs/ for the full list of brainCloud APIs.
 class BrainCloudWrapper {
   /// The key for the user prefs profile id
   static String prefsProfileId = "brainCloud.profileId";

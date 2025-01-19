@@ -1,4 +1,4 @@
-import 'package:braincloud_dart/src/data_persistence.dart';
+import 'package:braincloud_dart/data_persistence.dart';
 
 class DataPersistence implements DataPersistenceBase {
   static final DataPersistence _instance = DataPersistence._internal();
@@ -15,10 +15,12 @@ class DataPersistence implements DataPersistenceBase {
 
   Map<String, String> playerPrefs = {};
 
+  @override
   Future setString(String key, String value) async {
     playerPrefs[key] = value;
   }
 
+  @override
   Future<String?> getString(String key) {
     return Future.value(playerPrefs[key]);
   }
