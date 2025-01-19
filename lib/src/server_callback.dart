@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:braincloud_dart/braincloud_dart.dart';
+import '/braincloud.dart';
 
 class ServerCallback {
   /// ServerCallback

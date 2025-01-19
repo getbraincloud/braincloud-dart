@@ -3,10 +3,10 @@ import 'dart:convert';
 // To support progress monitoring we need to use package:universal_io instead of just package:http 
 import 'package:universal_io/io.dart';
 
-import 'package:braincloud_dart/src/internal/braincloud_comms.dart';
-import 'package:braincloud_dart/src/braincloud_client.dart';
-import 'package:braincloud_dart/src/reason_codes.dart';
-import 'package:braincloud_dart/src/status_codes.dart';
+import '/src/internal/braincloud_comms.dart';
+import '/src/braincloud_client.dart';
+import '/src/reason_codes.dart';
+import '/src/status_codes.dart';
 
 
 class FileUploader {  

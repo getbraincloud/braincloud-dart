@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:braincloud_dart/src/braincloud_client.dart';
-import 'package:braincloud_dart/src/internal/server_call.dart';
-import 'package:braincloud_dart/src/internal/service_name.dart';
-import 'package:braincloud_dart/src/internal/service_operation.dart';
-import 'package:braincloud_dart/src/server_callback.dart';
-import 'package:braincloud_dart/src/server_response.dart';
-import 'package:braincloud_dart/src/util.dart';
+import '/src/braincloud_client.dart';
+import '/src/internal/server_call.dart';
+import '/src/internal/service_name.dart';
+import '/src/internal/service_operation.dart';
+import '/src/server_callback.dart';
+import '/src/server_response.dart';
+import '/src/util.dart';
 
 class BrainCloudAsyncMatch {
   final BrainCloudClient _clientRef;

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:braincloud_dart/braincloud_dart.dart';
+import 'package:braincloud/braincloud.dart';
 import 'package:test/test.dart';
 import 'utils/test_base.dart';
 import 'utils/test_users.dart';

@@ -1,16 +1,16 @@
 import 'dart:async';
 
-import 'package:braincloud_dart/src/common/authentication_ids.dart';
-import 'package:braincloud_dart/src/common/authentication_type.dart';
-import 'package:braincloud_dart/src/internal/operation_param.dart';
-import 'package:braincloud_dart/src/internal/server_call.dart';
-import 'package:braincloud_dart/src/internal/service_name.dart';
-import 'package:braincloud_dart/src/internal/service_operation.dart';
-import 'package:braincloud_dart/src/braincloud_client.dart';
-import 'package:braincloud_dart/src/reason_codes.dart';
-import 'package:braincloud_dart/src/server_response.dart';
-import 'package:braincloud_dart/src/util.dart';
-import 'package:braincloud_dart/src/version.dart';
+import '/src/common/authentication_ids.dart';
+import '/src/common/authentication_type.dart';
+import '/src/internal/operation_param.dart';
+import '/src/internal/server_call.dart';
+import '/src/internal/service_name.dart';
+import '/src/internal/service_operation.dart';
+import '/src/braincloud_client.dart';
+import '/src/reason_codes.dart';
+import '/src/server_response.dart';
+import '/src/util.dart';
+import '/src/version.dart';
 import 'package:uuid/uuid.dart';
 
 class BrainCloudAuthentication {

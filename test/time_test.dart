@@ -1,5 +1,5 @@
-import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:braincloud_dart/memory_persistence.dart';
+import 'package:braincloud/braincloud.dart';
+import 'package:braincloud/memory_persistence.dart';
 import 'package:test/test.dart';
 
 import 'utils/test_base.dart';

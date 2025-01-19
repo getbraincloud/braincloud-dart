@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:typed_data';
 
-import 'package:braincloud_dart/src/internal/relay_comms.dart' if (dart.library.js_interop) 'package:braincloud_dart/src/internal/relay_comms_web.dart';
-import 'package:braincloud_dart/src/braincloud_client.dart';
-import 'package:braincloud_dart/src/server_callback.dart';
+import '/src/internal/relay_comms.dart' if (dart.library.js_interop) '/src/internal/relay_comms_web.dart';
+import '/src/braincloud_client.dart';
+import '/src/server_callback.dart';
 
 
 class BrainCloudRelay {

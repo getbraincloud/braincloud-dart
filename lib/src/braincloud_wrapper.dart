@@ -4,11 +4,11 @@
 //----------------------------------------------------
 import 'dart:async';
 
-import 'package:braincloud_dart/braincloud_dart.dart';
-import 'package:braincloud_dart/data_persistence.dart';
-import 'package:braincloud_dart/memory_persistence.dart';
+import '/braincloud.dart';
+import '/data_persistence.dart';
+import '/memory_persistence.dart';
 
-import 'package:braincloud_dart/src/util.dart';
+import '/src/util.dart';
 
 /// The BrainCloudWrapper class provides some glue between the Dart environment and the
 /// brainCloud library. Specifically the BrainCloudWrapper does the following:

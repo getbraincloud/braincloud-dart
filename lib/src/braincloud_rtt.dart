@@ -1,10 +1,10 @@
 
-import 'package:braincloud_dart/src/internal/rtt_comms.dart';
-import 'package:braincloud_dart/src/internal/server_call.dart';
-import 'package:braincloud_dart/src/internal/service_name.dart';
-import 'package:braincloud_dart/src/internal/service_operation.dart';
-import 'package:braincloud_dart/src/braincloud_client.dart';
-import 'package:braincloud_dart/src/server_callback.dart';
+import '/src/internal/rtt_comms.dart';
+import '/src/internal/server_call.dart';
+import '/src/internal/service_name.dart';
+import '/src/internal/service_operation.dart';
+import '/src/braincloud_client.dart';
+import '/src/server_callback.dart';
 
 class BrainCloudRTT {
   final BrainCloudClient _clientRef;

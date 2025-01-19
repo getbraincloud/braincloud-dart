@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:typed_data';
 
-import 'package:braincloud_dart/src/internal/braincloud_websocket.dart';
-import 'package:braincloud_dart/src/internal/service_name.dart';
-import 'package:braincloud_dart/src/braincloud_client.dart';
-import 'package:braincloud_dart/src/reason_codes.dart';
-import 'package:braincloud_dart/src/server_callback.dart';
+import '/src/internal/braincloud_websocket.dart';
+import '/src/internal/service_name.dart';
+import '/src/braincloud_client.dart';
+import '/src/reason_codes.dart';
+import '/src/server_callback.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'rtt_comms.g.dart';

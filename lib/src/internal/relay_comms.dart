@@ -5,11 +5,11 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:braincloud_dart/src/internal/braincloud_websocket.dart';
-import 'package:braincloud_dart/src/braincloud_client.dart';
-import 'package:braincloud_dart/src/braincloud_relay.dart';
-import 'package:braincloud_dart/src/reason_codes.dart';
-import 'package:braincloud_dart/src/server_callback.dart';
+import '/src/internal/braincloud_websocket.dart';
+import '/src/braincloud_client.dart';
+import '/src/braincloud_relay.dart';
+import '/src/reason_codes.dart';
+import '/src/server_callback.dart';
 
 /// ******************************************************************************************
 /// ******************************************************************************************

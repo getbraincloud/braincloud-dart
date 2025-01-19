@@ -15,11 +15,11 @@ Install the plugin by adding it to your project's pubspec.yaml, under the depend
 
 ```bash
 dependencies:
-  braincloud_dart: ^5.5.0
-  braincloud_dart_persistence: : ^5.5.0
+  braincloud: ^5.5.0
+  braincloud_data_persistence: : ^5.5.0
 ```
 
-NOTE: The package `braincloud_dart_persistence` provides persistence support for the brainCloud Dart SDK by integrating platform preferences using SharedPreferencesAsync. 
+NOTE: The package `braincloud_data_persistence` provides persistence support for the brainCloud Dart SDK by integrating platform preferences using SharedPreferencesAsync. 
 It is optional and you can create your own if you desire.
 
 ## Usage/Examples
@@ -29,8 +29,8 @@ Here's an example on how to initiate the client wrapper and start an update time
 ```dart
 import 'dart:async';
 
-import 'package:braincloud_dart_persistence/braincloud_dart_persistence.dart';
-import 'package:braincloud_dart/braincloud_dart.dart';
+import 'package:braincloud_data_persistence/braincloud_data_persistence.dart';
+import 'package:braincloud/braincloud.dart';
 import 'package:flutter/material.dart';
 
 final _bcWrapper =
@@ -96,7 +96,7 @@ class MyApp extends StatelessWidget {
  Here's an example of a simple data persistacen implementation that just saves to memory.
 
  ```dart
- import 'package:braincloud_dart/data_persistence.dart';
+ import 'package:braincloud/data_persistence.dart';
 
 class DataPersistence implements DataPersistenceBase {
 

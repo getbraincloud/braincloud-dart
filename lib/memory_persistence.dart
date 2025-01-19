@@ -1,4 +1,4 @@
-import 'package:braincloud_dart/data_persistence.dart';
+import '/data_persistence.dart';
 
 class DataPersistence implements DataPersistenceBase {
   static final DataPersistence _instance = DataPersistence._internal();
