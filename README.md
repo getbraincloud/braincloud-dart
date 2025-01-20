@@ -1,5 +1,5 @@
 
-# Braincloud Dart Client Library
+# brainCloud Dart Client Library
 
 Thanks for checking out [brainCloud](https://getbraincloud.com/)! This repository contains the client library for brainCloud projects that make use of the Flutter framework.
 
