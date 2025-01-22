@@ -619,6 +619,8 @@ class ServiceOperation {
       ServiceOperation._("SEND_ADVANCED_EMAIL");
   static ServiceOperation sendAdvancedEmailByAddress =
       ServiceOperation._("SEND_ADVANCED_EMAIL_BY_ADDRESS");
+  static ServiceOperation sendAdvancedEmailByAddresses =
+      ServiceOperation._("SEND_ADVANCED_EMAIL_BY_ADDRESSES");
 
   //peer
   static ServiceOperation attachPeerProfile =
