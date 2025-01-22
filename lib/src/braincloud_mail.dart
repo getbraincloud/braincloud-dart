@@ -76,7 +76,7 @@ class BrainCloudMail {
   /// @param emailAddress
   /// The address to send the email to
   ///
-  /// @param jsonServiceParams
+  /// @param serviceParams
   /// Parameters to send to the email service. See the documentation for
   /// a full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
   ///
@@ -90,6 +90,30 @@ class BrainCloudMail {
     data[OperationParam.serviceParams.value] = serviceParams;
 
     return _sendMessage(ServiceOperation.sendAdvancedEmailByAddress, data);
+  }
+
+  /// Sends an advanced email to the specified email address
+  ///
+  /// Service Name - mail
+  /// Service Operation - SEND_ADVANCED_EMAIL_BY_EMAIL
+  ///
+  /// @param emailAddresses
+  /// The list of addresses to send the email to
+  ///
+  /// @param serviceParams
+  /// Parameters to send to the email service. See the documentation for
+  /// a full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
+  ///
+  /// returns `Future<ServerResponse>`
+  Future<ServerResponse> sendAdvancedEmailByAddresses(
+      {required List<String> emailAddresses,
+      required Map<String, dynamic> serviceParams}) {
+    Map<String, dynamic> data = {};
+
+    data[OperationParam.emailAddresses.value] = emailAddresses;
+    data[OperationParam.serviceParams.value] = serviceParams;
+
+    return _sendMessage(ServiceOperation.sendAdvancedEmailByAddresses, data);
   }
 
   /// returns `Future<ServerResponse>`
