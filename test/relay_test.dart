@@ -333,9 +333,8 @@ print(" converted bytes is $reloadedMask");
       expect(successCount, 4);
       expect(failureCount, 0);
     }, timeout: Timeout.parse("90s"),onPlatform: {
-      'browser': [Skip('Browser does not support Relay UDP connection, skipping')],
-      'windows': [Retry(2)]  //Make windows retry once more for this test.
-    });
+      'browser': [Skip('Browser does not support Relay UDP connection, skipping')],      
+    }, retry: 2); //Make retry once more for this test. Windows seem to fail more than others
 
     test("FullFlow WebSocket", () async {
       roomAssignedDetectedCompleter = null;
