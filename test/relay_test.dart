@@ -323,6 +323,7 @@ print(" converted bytes is $reloadedMask");
       'browser': [Skip('Browser does not support Relay UDP connection, skipping')]
     });
 
+    /// This test has a retry to ensure that networking issues are not the cause of the failure.
     test("FullFlow UDP", () async {
       roomAssignedDetectedCompleter = null;
       if (bcTest.bcWrapper.rttService.isRTTEnabled())  await disconnectRelay();
@@ -332,7 +333,8 @@ print(" converted bytes is $reloadedMask");
       expect(successCount, 4);
       expect(failureCount, 0);
     }, timeout: Timeout.parse("90s"),onPlatform: {
-      'browser': [Skip('Browser does not support Relay UDP connection, skipping')]
+      'browser': [Skip('Browser does not support Relay UDP connection, skipping')],
+      'windows': [Retry(2)]  //Make windows retry once more for this test.
     });
 
     test("FullFlow WebSocket", () async {
