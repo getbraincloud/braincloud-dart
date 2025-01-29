@@ -252,7 +252,8 @@ class RelayComms {
     int num = value & 0xFF;
     int reversed = 0;
     for (int i = 0; i < 8; i++) {
-      reversed = (reversed << 1) | (num & 1); // Shift left and add the least significant bit
+      // Shift left and add the least significant bit
+      reversed = (reversed << 1) | (num & 1); 
       num >>= 1; // Shift the input number to the right
     }
     return reversed;
@@ -482,7 +483,7 @@ class RelayComms {
             }
           case _EventType.connectSuccess:
             if (_connectedSuccessCallback != null) {
-              var callback = _connectedSuccessCallback; // prevent multiple call back
+              var callback = _connectedSuccessCallback; 
               _connectedSuccessCallback = null; // prevent multiple call back
               callback!(jsonDecode(evt.message));
             }
@@ -661,7 +662,8 @@ class RelayComms {
     bool ordered = ((rh & ORDERED_BIT) != 0) ? true : false;
     int channel = (rh >> 12) & 0x3;
     int packetId = rh & 0xFFF;
-    int netId = dataView.getUint8(7); // only get the lowest byte fo the player mask.
+    // only get the lowest byte fo the player mask.
+    int netId = dataView.getUint8(7); 
 
     // Reconstruct ack id without packet id
     if (_connectionType == RelayConnectionType.udp) {
@@ -1137,11 +1139,15 @@ class RelayComms {
     final adrType = _relayHostAddress?.type == InternetAddressType.IPv6
         ? InternetAddress.anyIPv6
         : InternetAddress.anyIPv4;
-    _udpClient = await RawDatagramSocket.bind(adrType, 0, reuseAddress: true);
+    _udpClient = await RawDatagramSocket.bind(adrType, 0, reuseAddress: false);
     if (_udpClient != null) {
       _lastRecvTime = DateTime.now();
-      _udpClientStream = _udpClient?.listen(_onUdpEvent,
-          onError: _onUdpError, onDone: _onUdpDone);
+      _clientRef.log("RELAY listenning on UDP port  ${_udpClient?.address.host}:${_udpClient?.port}");
+      _udpClientStream = _udpClient!.listen(
+        _onUdpEvent,
+        onError: _onUdpError,
+        onDone: _onUdpDone,
+      );
       _queueSocketConnectedEvent();
     }
   }
@@ -1170,11 +1176,11 @@ class RelayComms {
           if (_connectionType != RelayConnectionType.udp) {
             Uint8List? data;
             if (_udpClient != null) {
-              final Datagram? tempDatagram = _udpClient?.receive();      
+              final Datagram? tempDatagram = _udpClient?.receive();
               data = tempDatagram?.data;
             }
             _clientRef.log(
-                "RELAY Received data on UDP while not active, _endMatchRequested:$_endMatchRequested , data: $data",
+                "RELAY Received data on UDP while not active, _endMatchRequested:$_endMatchRequested , in-port:${_udpClient?.port},  data: $data ",
                 bypassLogEnabled: true);
             return;
           }
@@ -1201,10 +1207,15 @@ class RelayComms {
   }
 
   void _onUdpDone() {
-    _udpClientStream?.cancel();
-    _udpClient?.close();
-    _udpClientStream = null;
-    _udpClient = null;
+    if (_udpClientStream != null) {
+      _udpClientStream!.cancel();
+      _udpClientStream = null;
+    }
+    if (_udpClient != null) {
+      _udpClient!.readEventsEnabled = false;
+      _udpClient?.close();
+      _udpClient = null;
+    }
   }
 
   void _sendAck(Uint8List in_data) {
