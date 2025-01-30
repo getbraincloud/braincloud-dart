@@ -107,7 +107,11 @@ class BrainCloudComms {
   /// the client will not be able to try and authenticate again until the timer is up.
   final Duration _authenticationTimeoutDuration = const Duration(seconds: 30);
 
-  bool autoReAuthenticate = false;
+  /// Flag to indicate that a message sent to an expired session should automatically
+  /// re-authenticate and retry the message.
+  bool _autoReAuthenticate = false;
+  void set autoReAuthenticate (value) => _autoReAuthenticate = value;
+  bool get autoReAuthenticate => _autoReAuthenticate;
 
   /// When the authentication timer began
   DateTime _authenticationTimeoutStart = DateTime.fromMillisecondsSinceEpoch(0);
@@ -902,7 +906,7 @@ class BrainCloudComms {
 
         // if session expired and liongSession enabled then re-authenticate
         if (reasonCode == ReasonCodes.playerSessionExpired &&
-            autoReAuthenticate &&
+            _autoReAuthenticate &&
             sc?.getOperation != ServiceOperation.authenticate &&
             _isAuthenticated ) {
           // save current call.
