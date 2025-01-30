@@ -109,9 +109,9 @@ class BrainCloudComms {
 
   /// Flag to indicate that a message sent to an expired session should automatically
   /// re-authenticate and retry the message.
-  bool _autoReAuthenticate = false;
-  void set autoReAuthenticate (value) => _autoReAuthenticate = value;
-  bool get autoReAuthenticate => _autoReAuthenticate;
+  bool _longSessionEnabled = false;
+  void set longSessionEnabled (value) => _longSessionEnabled = value;
+  bool get longSessionEnabled => _longSessionEnabled;
 
   /// When the authentication timer began
   DateTime _authenticationTimeoutStart = DateTime.fromMillisecondsSinceEpoch(0);
@@ -906,7 +906,7 @@ class BrainCloudComms {
 
         // if session expired and liongSession enabled then re-authenticate
         if (reasonCode == ReasonCodes.playerSessionExpired &&
-            _autoReAuthenticate &&
+            _longSessionEnabled &&
             sc?.getOperation != ServiceOperation.authenticate &&
             _isAuthenticated ) {
           // save current call.
@@ -928,7 +928,7 @@ class BrainCloudComms {
                   return; // next update loop will take care off things
                 } else {
                   _clientRef.log("Long session re-authentication failed.");
-                  this.autoReAuthenticate = false;                
+                  this.longSessionEnabled = false;                
                   expiredServerCall?.getCallback?.onErrorCallback(statusCode, reasonCode, errorJson);
                 }
               },

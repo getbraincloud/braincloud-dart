@@ -1523,7 +1523,7 @@ class BrainCloudWrapper {
   /// Enable long lived session by auto reconnecting if expired.
   void enableLongSession(bool value) {
     initializeIdentity(true);
-    _client.comms.autoReAuthenticate = value;
+    _client.comms.longSessionEnabled = value;
   }
 
   
