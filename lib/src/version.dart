@@ -1,3 +1,3 @@
 class Version {
-  static String getVersion() => "5.1.1";
+  static String getVersion() => "5.5.0";
 }
