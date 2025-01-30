@@ -904,7 +904,7 @@ class BrainCloudComms {
 
         errorJson = response;
 
-        // if session expired and liongSession enabled then re-authenticate
+        // if session expired and longSession enabled then re-authenticate
         if (reasonCode == ReasonCodes.playerSessionExpired &&
             _longSessionEnabled &&
             sc?.getOperation != ServiceOperation.authenticate &&
@@ -924,7 +924,7 @@ class BrainCloudComms {
                     // re-queue the call that failed
                     _serviceCallsWaiting.add(expiredServerCall);
                     // and any other msg in the bundle as they will fail too.
-                    _serviceCallsWaiting.addAll(otherServerCallInProgress); // need to reque any other 
+                    _serviceCallsWaiting.addAll(otherServerCallInProgress); // need to re-queue  any other 
                   }
                   return; // next update loop will take care off things
                 } else {
