@@ -9,7 +9,7 @@ void main() {
   BCTest bcTest = BCTest();
   // setUpAll(bcTest.setupBC);
 
-  Future<BrainCloudWrapper> _createWraper(String name) async {
+  Future<BrainCloudWrapper> _createWrapper(String name) async {
     var bcWrapper = BrainCloudWrapper(wrapperName: name);
     await bcWrapper
         .init(
@@ -46,8 +46,8 @@ void main() {
 
     test("Multi-Wrapper", () async {
       print("--");
-      final BrainCloudWrapper bcWrapper1 = await _createWraper("Wrap1");
-      final BrainCloudWrapper bcWrapper2 = await _createWraper("Wrap2");
+      final BrainCloudWrapper bcWrapper1 = await _createWrapper("Wrap1");
+      final BrainCloudWrapper bcWrapper2 = await _createWrapper("Wrap2");
 
       expect(bcWrapper1.brainCloudClient.isAuthenticated(), false);
       expect(bcWrapper2.brainCloudClient.isAuthenticated(), false);
@@ -173,7 +173,7 @@ void main() {
     setUpAll(bcTest.setupBC);
 
     test("Confirm Disconnect", () async {
-      final BrainCloudWrapper userWrapper = await _createWraper("user");
+      final BrainCloudWrapper userWrapper = await _createWrapper("user");
       userWrapper.brainCloudClient.enableLogging(true);
       ServerResponse userSessionResp = await userWrapper.authenticateUniversal(
           username: userB.name, password: userB.password, forceCreate: true);
@@ -211,7 +211,7 @@ void main() {
 
     });
     test("Auto-Reconnect", () async {
-      final BrainCloudWrapper userWrapper = await _createWraper("user");
+      final BrainCloudWrapper userWrapper = await _createWrapper("user");
       userWrapper.brainCloudClient.enableLogging(true);
       ServerResponse userSessionResp = await userWrapper.authenticateUniversal(
           username: userB.name, password: userB.password, forceCreate: true);
@@ -251,7 +251,7 @@ void main() {
 
     });
     test("Auto-Reconnect Anonymous", () async {
-      final BrainCloudWrapper userWrapper = await _createWraper("user");
+      final BrainCloudWrapper userWrapper = await _createWrapper("user");
       userWrapper.brainCloudClient.enableLogging(true);
       ServerResponse userSessionResp = await userWrapper.authenticateLongSession();
       
@@ -290,7 +290,7 @@ void main() {
 
     });
     test("Auto-Reconnect with bundle", () async {
-      final BrainCloudWrapper userWrapper = await _createWraper("user");
+      final BrainCloudWrapper userWrapper = await _createWrapper("user");
       userWrapper.brainCloudClient.enableLogging(true);
       ServerResponse userSessionResp = await userWrapper.authenticateUniversal(
           username: userB.name, password: userB.password, forceCreate: true);
@@ -333,7 +333,7 @@ void main() {
 
     });
   test("Auto-Reconnect fails", () async {
-      final BrainCloudWrapper userWrapper = await _createWraper("user");
+      final BrainCloudWrapper userWrapper = await _createWrapper("user");
       userWrapper.brainCloudClient.enableLogging(true);
       ServerResponse userSessionResp = await userWrapper.authenticateUniversal(
           username: userB.name, password: userB.password, forceCreate: true);
