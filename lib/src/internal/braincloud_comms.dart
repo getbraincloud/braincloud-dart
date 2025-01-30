@@ -914,6 +914,7 @@ class BrainCloudComms {
           var otherServerCallInProgress = List<ServerCall>.from(_serviceCallsInProgress);
           _serviceCallsInProgress.clear();
           _clientRef.log("Long session expired, will attempt re-authentication.");
+          _packetId = 0; // resetting packet if here as we are creating a new session.
           _clientRef.authenticationService
               .authenticateAnonymous(forceCreate: false)
               .then( (value) {

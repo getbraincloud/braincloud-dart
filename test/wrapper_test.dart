@@ -417,6 +417,9 @@ void main() {
     });
     test("Auto-Reconnect with bundle", () async {
       final BrainCloudWrapper userWrapper = await _createWrapper("user");
+      userWrapper.resetStoredAnonymousId();
+      userWrapper.resetStoredProfileId();
+
       userWrapper.brainCloudClient.enableLogging(true);
       userWrapper.enableLongSession(true);
       ServerResponse userSessionResp = await userWrapper.authenticateUniversal(
@@ -466,6 +469,9 @@ void main() {
     });
     test("Auto-Reconnect fails", () async {
       final BrainCloudWrapper userWrapper = await _createWrapper("user");
+      userWrapper.resetStoredAnonymousId();
+      userWrapper.resetStoredProfileId();
+
       userWrapper.brainCloudClient.enableLogging(true);
       userWrapper.enableLongSession(true);
 
