@@ -342,6 +342,22 @@ class BrainCloudWrapper {
     });
   }
 
+  
+  Future<ServerResponse> authenticateLongSession() {
+    initializeIdentity(true);
+    _client.comms.autoReAuthenticate = false;
+    return _client.authenticationService
+        .authenticateAnonymous(forceCreate: true)
+        .then((response) {
+      if (response.isSuccess()) {
+        _authSuccessCallback(response);
+        _client.comms.autoReAuthenticate = true;
+      }
+      return response;
+    });
+  }
+
+
   /// authenticate the user using a Pase userid and authentication token
   ///
   /// Service Name - authenticate

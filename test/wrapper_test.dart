@@ -9,9 +9,24 @@ void main() {
   BCTest bcTest = BCTest();
   // setUpAll(bcTest.setupBC);
 
+  Future<BrainCloudWrapper> _createWraper(String name) async {
+    var bcWrapper = BrainCloudWrapper(wrapperName: name);
+    await bcWrapper
+        .init(
+            secretKey: bcTest.ids.secretKey,
+            appId: bcTest.ids.appId,
+            version: bcTest.ids.version,
+            url: bcTest.ids.url,
+            updateTick: 50)
+        .onError((error, stackTrace) {
+      print(error.toString());
+    });
+    return bcWrapper;
+  }
+
   group("Test Wrapper Reset", () {
     setUpAll(bcTest.setupBC);
-    // This test need to be in a separate group not to impact other tests 
+    // This test need to be in a separate group not to impact other tests
     // as it reset the wrapper
     test("resetWrapper", () async {
       expect(bcTest.bcWrapper.wrapperName, "FlutterTest");
@@ -28,21 +43,6 @@ void main() {
       await bcTest.setupBC();
       bcTest.bcWrapper.brainCloudClient.enableLogging(true);
     });
-
-    Future<BrainCloudWrapper> _createWraper(String name) async {
-      var bcWrapper = BrainCloudWrapper(wrapperName: name);
-      await bcWrapper
-          .init(
-              secretKey: bcTest.ids.secretKey,
-              appId: bcTest.ids.appId,
-              version: bcTest.ids.version,
-              url: bcTest.ids.url,
-              updateTick: 50)
-          .onError((error, stackTrace) {
-        print(error.toString());
-      });
-      return bcWrapper;
-    }
 
     test("Multi-Wrapper", () async {
       print("--");
@@ -167,5 +167,218 @@ void main() {
       expect(bcTest.bcWrapper.canReconnect(), true,
           reason: "canReconnect should have be true, since we did signin");
     });
+  });
+
+  group("Test auto-reconnect", () {
+    setUpAll(bcTest.setupBC);
+
+    test("Confirm Disconnect", () async {
+      final BrainCloudWrapper userWrapper = await _createWraper("user");
+      userWrapper.brainCloudClient.enableLogging(true);
+      ServerResponse userSessionResp = await userWrapper.authenticateUniversal(
+          username: userB.name, password: userB.password, forceCreate: true);
+      
+      print(userSessionResp.data);
+
+      expect(userSessionResp.statusCode, StatusCodes.ok, reason: "Failed to login test user");
+      String profileId = userSessionResp.data?["id"];
+      String sessionId = userSessionResp.data?["sessionId"];
+      expect(profileId, isA<String>(),reason: "Failed to get profileId from login results");
+      expect(sessionId, isA<String>(),reason: "Failed to get sessionId from login results");
+      expect(profileId, isNotEmpty);
+      expect(sessionId, isNotEmpty);
+
+      print("User\n\t\t profile: $profileId\n\t\t session: $sessionId\n");
+
+      // Call an api to validate the session is well and alive
+      userSessionResp = await userWrapper.playerStateService.getAttributes();
+      expect(userSessionResp.statusCode, StatusCodes.ok, reason: "Failed to get attributes for user");
+      
+      print("\n Pre-Users Attributes: ${userSessionResp.data}\n");
+
+
+      // kill the session from the other user
+      ServerResponse response = await bcTest.bcWrapper.scriptService.runScript(scriptName: "LogoutSession",scriptData:{"profileId":profileId,"sessionId":sessionId} );
+      expect(response.statusCode, StatusCodes.ok,reason: "Failed to run script to logout session");
+      print("LogoutSession returned: ${response.data}");
+
+      // Call an api to validate the session has been terminated.
+      userSessionResp = await userWrapper.playerStateService.getAttributes();
+      expect(userSessionResp.statusCode, 403, reason: "Session should have been invalidated");
+      expect(userSessionResp.reasonCode, ReasonCodes.playerSessionExpired, reason: "Resoncode should be userSessionExpired 40303");
+     
+      print("\nPost-Users Attributes: ${userSessionResp.data}\n");
+
+    });
+    test("Auto-Reconnect", () async {
+      final BrainCloudWrapper userWrapper = await _createWraper("user");
+      userWrapper.brainCloudClient.enableLogging(true);
+      ServerResponse userSessionResp = await userWrapper.authenticateUniversal(
+          username: userB.name, password: userB.password, forceCreate: true);
+      
+      print(userSessionResp.data);
+
+      userSessionResp = await userWrapper.authenticateLongSession();
+
+      expect(userSessionResp.statusCode, StatusCodes.ok, reason: "Failed to login test user");
+      String profileId = userSessionResp.data?["id"];
+      String sessionId = userSessionResp.data?["sessionId"];
+      expect(profileId, isA<String>(),reason: "Failed to get profileId from login results");
+      expect(sessionId, isA<String>(),reason: "Failed to get sessionId from login results");
+      expect(profileId, isNotEmpty);
+      expect(sessionId, isNotEmpty);
+
+
+      print("User\n\t\t profile: $profileId\n\t\t session: $sessionId\n");
+
+      // Call an api to validate the session is well and alive
+      userSessionResp = await userWrapper.playerStateService.getAttributes();
+      expect(userSessionResp.statusCode, StatusCodes.ok, reason: "Failed to get attributes for user");
+      
+      print("\n Pre-Users Attributes: ${userSessionResp.data}\n");
+
+
+      // kill the session from the other user
+      ServerResponse response = await bcTest.bcWrapper.scriptService.runScript(scriptName: "LogoutSession",scriptData:{"profileId":profileId,"sessionId":sessionId} );
+      expect(response.statusCode, StatusCodes.ok,reason: "Failed to run script to logout session");
+      print("LogoutSession returned: ${response.data}");
+
+      // Call an api to validate the session has been terminated.
+      userSessionResp = await userWrapper.playerStateService.getAttributes();
+      expect(userSessionResp.statusCode, StatusCodes.ok, reason: "Session be able to get attributes again");
+
+      print("\nPost-Users Attributes: ${userSessionResp.data}\n");
+
+    });
+    test("Auto-Reconnect Anonymous", () async {
+      final BrainCloudWrapper userWrapper = await _createWraper("user");
+      userWrapper.brainCloudClient.enableLogging(true);
+      ServerResponse userSessionResp = await userWrapper.authenticateLongSession();
+      
+      print(userSessionResp.data);
+
+      // userSessionResp = await userWrapper.authenticateLongSession();
+
+      expect(userSessionResp.statusCode, StatusCodes.ok, reason: "Failed to login test user");
+      String profileId = userSessionResp.data?["id"];
+      String sessionId = userSessionResp.data?["sessionId"];
+      expect(profileId, isA<String>(),reason: "Failed to get profileId from login results");
+      expect(sessionId, isA<String>(),reason: "Failed to get sessionId from login results");
+      expect(profileId, isNotEmpty);
+      expect(sessionId, isNotEmpty);
+
+
+      print("User\n\t\t profile: $profileId\n\t\t session: $sessionId\n");
+
+      // Call an api to validate the session is well and alive
+      userSessionResp = await userWrapper.playerStateService.getAttributes();
+      expect(userSessionResp.statusCode, StatusCodes.ok, reason: "Failed to get attributes for user");
+      
+      print("\n Pre-Users Attributes: ${userSessionResp.data}\n");
+
+
+      // kill the session from the other user
+      ServerResponse response = await bcTest.bcWrapper.scriptService.runScript(scriptName: "LogoutSession",scriptData:{"profileId":profileId,"sessionId":sessionId} );
+      expect(response.statusCode, StatusCodes.ok,reason: "Failed to run script to logout session");
+      print("LogoutSession returned: ${response.data}");
+
+      // Call an api to validate the session has been terminated.
+      userSessionResp = await userWrapper.playerStateService.getAttributes();
+      expect(userSessionResp.statusCode, StatusCodes.ok, reason: "Session be able to get attributes again");
+
+      print("\nPost-Users Attributes: ${userSessionResp.data}\n");
+
+    });
+    test("Auto-Reconnect with bundle", () async {
+      final BrainCloudWrapper userWrapper = await _createWraper("user");
+      userWrapper.brainCloudClient.enableLogging(true);
+      ServerResponse userSessionResp = await userWrapper.authenticateUniversal(
+          username: userB.name, password: userB.password, forceCreate: true);
+      
+      print(userSessionResp.data);
+
+      userSessionResp = await userWrapper.authenticateLongSession();
+
+      expect(userSessionResp.statusCode, StatusCodes.ok, reason: "Failed to login test user");
+      String profileId = userSessionResp.data?["id"];
+      String sessionId = userSessionResp.data?["sessionId"];
+      expect(profileId, isA<String>(),reason: "Failed to get profileId from login results");
+      expect(sessionId, isA<String>(),reason: "Failed to get sessionId from login results");
+      expect(profileId, isNotEmpty);
+      expect(sessionId, isNotEmpty);
+
+
+      print("User\n\t\t profile: $profileId\n\t\t session: $sessionId\n");
+
+      // Call an api to validate the session is well and alive
+      userWrapper.playerStateService.setUserStatus(statusName:"Active", durationSecs: 5, details: {"value":true} );
+      userSessionResp = await userWrapper.playerStateService.getAttributes();
+
+      expect(userSessionResp.statusCode, StatusCodes.ok, reason: "Failed to get attributes for user");
+      
+      print("\n Pre-Users Attributes: ${userSessionResp.data}\n");
+
+
+      // kill the session from the other user
+      ServerResponse response = await bcTest.bcWrapper.scriptService.runScript(scriptName: "LogoutSession",scriptData:{"profileId":profileId,"sessionId":sessionId} );
+      expect(response.statusCode, StatusCodes.ok,reason: "Failed to run script to logout session");
+      print("LogoutSession returned: ${response.data}");
+
+      // Call an api to validate the session has been terminated.
+      userWrapper.playerStateService.setUserStatus(statusName:"Active", durationSecs: 5, details: {"value":false} );
+      userSessionResp = await userWrapper.playerStateService.getAttributes();
+      expect(userSessionResp.statusCode, StatusCodes.ok, reason: "Session be able to get attributes again");
+
+      print("\nPost-Users Attributes: ${userSessionResp.data}\n");
+
+    });
+  test("Auto-Reconnect fails", () async {
+      final BrainCloudWrapper userWrapper = await _createWraper("user");
+      userWrapper.brainCloudClient.enableLogging(true);
+      ServerResponse userSessionResp = await userWrapper.authenticateUniversal(
+          username: userB.name, password: userB.password, forceCreate: true);
+      
+      print(userSessionResp.data);
+
+      userSessionResp = await userWrapper.authenticateLongSession();
+
+      expect(userSessionResp.statusCode, StatusCodes.ok, reason: "Failed to login test user");
+      String profileId = userSessionResp.data?["id"];
+      String sessionId = userSessionResp.data?["sessionId"];
+      expect(profileId, isA<String>(),reason: "Failed to get profileId from login results");
+      expect(sessionId, isA<String>(),reason: "Failed to get sessionId from login results");
+      expect(profileId, isNotEmpty);
+      expect(sessionId, isNotEmpty);
+
+
+      print("User\n\t\t profile: $profileId\n\t\t session: $sessionId\n");
+
+      // Call an api to validate the session is well and alive
+      userSessionResp = await userWrapper.playerStateService.getAttributes();
+      expect(userSessionResp.statusCode, StatusCodes.ok, reason: "Failed to get attributes for user");
+      
+      print("\n Pre-Users Attributes: ${userSessionResp.data}\n");
+
+
+      // kill the session from the other user
+      ServerResponse response = await bcTest.bcWrapper.scriptService.runScript(scriptName: "LogoutSession",scriptData:{"profileId":profileId,"sessionId":sessionId} );
+      expect(response.statusCode, StatusCodes.ok,reason: "Failed to run script to logout session");
+      print("LogoutSession returned: ${response.data}");
+
+      // Now update the anonymousId to make the re-connect fail.
+      userWrapper.setStoredAnonymousId("not-valid");
+      userWrapper.authenticationService.initialize(profileId: profileId, anonymousId: "not-valid");
+
+      // Call an api to validate the session has been terminated.
+      userSessionResp = await userWrapper.playerStateService.getAttributes();
+      print("\nPost-Users Attributes: $userSessionResp  : ${userSessionResp.data}\n");
+
+      expect(userSessionResp.statusCode, 403, reason: "Session should have been invalidated");
+      expect(userSessionResp.reasonCode, ReasonCodes.playerSessionExpired, reason: "Resoncode should be userSessionExpired 40303");
+
+      print("\nPost-Users Attributes: ${userSessionResp.data}\n");
+
+    });
+    
   });
 }
