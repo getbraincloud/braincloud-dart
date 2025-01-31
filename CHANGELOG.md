@@ -9,3 +9,7 @@
 ## 5.5.0+2
 
 * Added missing API `sendAdvancedEmailByAddresses()` to mail service.
+
+## 5.5.0+3
+
+* Fix erroneous client library version reported in BrainCloud.
