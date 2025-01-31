@@ -52,6 +52,20 @@ void main() {
 
       expect(response.statusCode, StatusCodes.ok);
     });
+
+    test("sendAdvancedEmailByAddresses()", () async {
+      ServerResponse response = await bcTest.bcWrapper.mailService
+          .sendAdvancedEmailByAddresses(
+              emailAddresses: [userA.email],
+              serviceParams: {
+            "subject": "Test Subject - TestSendAdvancedEmailSendGrid",
+            "body": "Test body content message.",
+            "categories": ["unit-test"]
+          });
+
+      expect(response.statusCode, StatusCodes.ok);
+    });
+
     tearDownAll(() {
       bcTest.bcWrapper.brainCloudClient.enableLogging(false);
     });

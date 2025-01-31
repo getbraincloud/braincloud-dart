@@ -627,6 +627,7 @@ class OperationParam {
   static OperationParam body = OperationParam("body");
   static OperationParam serviceParams = OperationParam("serviceParams");
   static OperationParam emailAddress = OperationParam("emailAddress");
+  static OperationParam emailAddresses = OperationParam("emailAddresses");
 
   static OperationParam leaderboardId = OperationParam("leaderboardId");
   static OperationParam divSetId = OperationParam("divSetId");
