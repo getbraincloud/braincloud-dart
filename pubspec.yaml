@@ -1,6 +1,7 @@
 name: braincloud
 description: "brainCloud is a backend platform for mobile games and apps, offering robust features, tools, and support. braincloud package enables use of brainCloud in Dart and Flutter projects."
-version: 5.5.0+2
+# Only digits and . + -  allowed in the version.  Remember to udpate CHANGELOG too.
+version: 5.5.0+3
 homepage: "https://getbraincloud.com/"
 
 environment:
@@ -28,6 +29,7 @@ dev_dependencies:
   build_runner: ^2.4.9
   analyzer: 
   args: ^2.5.0
+  version_gen: ^1.0.1
 
 documentation: "https://docs.braincloudservers.com/api/introduction"
 
@@ -42,3 +44,5 @@ platforms:
 topics:
   - braincloud
   
+version_gen:
+  path: lib/gen/
