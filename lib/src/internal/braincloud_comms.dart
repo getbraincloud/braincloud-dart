@@ -107,6 +107,12 @@ class BrainCloudComms {
   /// the client will not be able to try and authenticate again until the timer is up.
   final Duration _authenticationTimeoutDuration = const Duration(seconds: 30);
 
+  /// Flag to indicate that a message sent to an expired session should automatically
+  /// re-authenticate and retry the message.
+  bool _longSessionEnabled = false;
+  void set longSessionEnabled (value) => _longSessionEnabled = value;
+  bool get longSessionEnabled => _longSessionEnabled;
+
   /// When the authentication timer began
   DateTime _authenticationTimeoutStart = DateTime.fromMillisecondsSinceEpoch(0);
 
@@ -466,7 +472,7 @@ class BrainCloudComms {
   /// @param reasonCodereason code.
   ///
   /// @param statusMessagestatus message.
-    
+
   void triggerCommsError(int status, int reasonCode, String statusMessage) {
     // error json format is
     // {
@@ -496,7 +502,7 @@ class BrainCloudComms {
     handleResponseBundle(jsonError);
   }
 
-  /// Shuts down the communications layer.  
+  /// Shuts down the communications layer.
   void shutDown() {
     _serviceCallsWaiting.clear();
 
@@ -898,6 +904,39 @@ class BrainCloudComms {
 
         errorJson = response;
 
+        // if session expired and longSession enabled then re-authenticate
+        if (reasonCode == ReasonCodes.playerSessionExpired &&
+            _longSessionEnabled &&
+            sc?.getOperation != ServiceOperation.authenticate &&
+            _isAuthenticated ) {
+          // save current call.
+          var expiredServerCall = sc;
+          var otherServerCallInProgress = List<ServerCall>.from(_serviceCallsInProgress);
+          _serviceCallsInProgress.clear();
+          _clientRef.log("Long session expired, will attempt re-authentication.");
+          _packetId = 0; // resetting packet if here as we are creating a new session.
+          _clientRef.authenticationService
+              .authenticateAnonymous(forceCreate: false)
+              .then( (value) {
+                if (value.isSuccess()) {
+                  // retry here
+                  if (expiredServerCall != null) {
+                    // re-queue the call that failed
+                    _serviceCallsWaiting.add(expiredServerCall);
+                    // and any other msg in the bundle as they will fail too.
+                    _serviceCallsWaiting.addAll(otherServerCallInProgress); // need to re-queue  any other 
+                  }
+                  return; // next update loop will take care off things
+                } else {
+                  _clientRef.log("Long session re-authentication failed.");
+                  this.longSessionEnabled = false;                
+                  expiredServerCall?.getCallback?.onErrorCallback(statusCode, reasonCode, errorJson);
+                }
+              },
+          );
+          return; // Do not process callback for this call they will handled async inline above 
+        }
+
         if (reasonCode == ReasonCodes.playerSessionExpired ||
             reasonCode == ReasonCodes.noSession ||
             reasonCode == ReasonCodes.playerSessionLoggedOut) {
@@ -942,8 +981,8 @@ class BrainCloudComms {
         }
 
         if (_globalErrorCallback != null) {
-          String svc = sc?.getService.value ?? service; 
-          String op = sc?.getOperation.value ?? operation; 
+          String svc = sc?.getService.value ?? service;
+          String op = sc?.getOperation.value ?? operation;
           _globalErrorCallback!(svc, op, statusCode, reasonCode, errorJson);
         }
 
@@ -1141,7 +1180,7 @@ class BrainCloudComms {
             operation == ServiceOperation.resetEmailPasswordAdvanced ||
             operation == ServiceOperation.resetUniversalIdPassword ||
             operation == ServiceOperation.resetUniversalIdPasswordAdvanced ||
-            operation == ServiceOperation.getServerVersion ) {
+            operation == ServiceOperation.getServerVersion) {
           isAuthorized = true;
         }
 
@@ -1271,7 +1310,7 @@ class BrainCloudComms {
 
     WebRequest req = WebRequest("POST", Uri.parse(_serverURL));
     req.headers.addAll(headers);
-    req.bodyBytes  = byteArray;
+    req.bodyBytes = byteArray;
 
     requestState.webRequest = req;
 
@@ -1295,14 +1334,14 @@ class BrainCloudComms {
     });
   }
 
-  Uint8List _compress(Uint8List raw)  {
+  Uint8List _compress(Uint8List raw) {
     final zipper = GZipEncoder();
     return Uint8List.fromList(zipper.encode(raw));
   }
 
   // Future<Uint8List> _decompress(Uint8List compressedBytes) async {
   //   final zipper = GZipDecoder();
-  //   return Uint8List.fromList(await zipper.decodeBytes(compressedBytes));    
+  //   return Uint8List.fromList(await zipper.decodeBytes(compressedBytes));
   //   // return Uint8List.fromList(gzip.decode(compressedBytes.toList()));
   // }
 
@@ -1376,7 +1415,7 @@ class BrainCloudComms {
   Duration _getPacketTimeout(RequestState requestState) {
     if (requestState.packetNoRetry) {
       if (_activeRequest != null && (DateTime.now().difference(_activeRequest!.timeSent) >
-          Duration(seconds: authenticationPacketTimeoutSecs))) {
+              Duration(seconds: authenticationPacketTimeoutSecs))) {
         for (int i = 0; i < _listAuthPacketTimeouts.length; i++) {
           if (_listAuthPacketTimeouts[i] == authenticationPacketTimeoutSecs) {
             if (i + 1 < _listAuthPacketTimeouts.length) {
@@ -1423,8 +1462,8 @@ class BrainCloudComms {
   /// @param call The server call to execute
   void addToQueue(ServerCall call) {
     if (_initialized)
-       _serviceCallsWaiting.add(call);
-    else 
+      _serviceCallsWaiting.add(call);
+    else
       call.getCallback?.onErrorCallback(900, ReasonCodes.clientNotInitialized, "Client not Initialized");
   }
 
@@ -1557,7 +1596,7 @@ class BrainCloudComms {
             triggerCommsError(
                 StatusCodes.clientNetworkError,
                 ReasonCodes.clientNetworkErrorTimeout,
-                "Timeout trying to reach brainCloud server ${errorResponse.isNotEmpty ? ": " + errorResponse:""}");
+                "Timeout trying to reach brainCloud server ${errorResponse.isNotEmpty ? ": " + errorResponse : ""}");
           }
         }
       }

@@ -342,6 +342,7 @@ class BrainCloudWrapper {
     });
   }
 
+  
   /// authenticate the user using a Pase userid and authentication token
   ///
   /// Service Name - authenticate
@@ -1518,8 +1519,14 @@ class BrainCloudWrapper {
     {
         return getStoredProfileId().isNotEmpty && getStoredAnonymousId().isNotEmpty;
     }
-        
 
+  /// Enable long lived session by auto reconnecting if expired.
+  void enableLongSession(bool value) {
+    initializeIdentity(true);
+    _client.comms.longSessionEnabled = value;
+  }
+
+  
   /// Method initializes the identity information from the player prefs cache.
   /// This is specifically useful for an Anonymous authentication as Anonymous authentications
   /// require both the anonymous id *and* the profile id. By using the BrainCloudWrapper

@@ -53,8 +53,9 @@ main() {
         await bcTest.bcWrapper.identityService
             .switchToParentProfile(parentLevelName: bcTest.ids.parentLevelName);
       }
-      await bcTest.bcWrapper.authenticateUniversal(
+      if (bcTest.bcWrapper.brainCloudClient.profileId != userA.profileId || !bcTest.bcWrapper.brainCloudClient.isAuthenticated()) {      await bcTest.bcWrapper.authenticateUniversal(
           username: userA.name, password: userA.password, forceCreate: false);
+      }
     });
 
     test("getExpiredIdentities", () async {

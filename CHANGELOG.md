@@ -13,3 +13,7 @@
 ## 5.5.0+3
 
 * Fix erroneous client library version reported in BrainCloud.
+
+## 5.6.0
+
+* Uptated for Braincloud version 5.6.0
