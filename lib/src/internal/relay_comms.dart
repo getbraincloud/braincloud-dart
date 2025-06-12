@@ -60,7 +60,7 @@ class RelayComms {
   static const double _PACKET_HIGHER_THRESHOLD = _MAX_PACKET_ID * 75 / 100;
   static const int SIZE_OF_LENGTH_PREFIX_BYTE_ARRAY = 2;
   static const int SIZE_OF_ACKID_MESSAGE = 11;
-  static const int CONNECT_RESEND_INTERVAL_MS = 500;
+  static const int CONNECT_RESEND_INTERVAL_MS = 2000;
 
   static const int MAX_PACKET_SIZE = 1024;
   static const int TIMEOUT_SECONDS = 10;
