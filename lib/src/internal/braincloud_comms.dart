@@ -29,7 +29,7 @@ part 'braincloud_comms.g.dart';
 const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
 
 class BrainCloudComms {
-  bool _supportsCompression = false;
+  bool _supportsCompression = true;
 
   bool get supportsCompression => _supportsCompression;
 
