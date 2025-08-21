@@ -2,6 +2,7 @@ import 'package:braincloud/braincloud.dart';
 import 'package:test/test.dart';
 
 import 'utils/test_base.dart';
+@Timeout(Duration(seconds: 120))
 
 void main() {
   BCTest bcTest = BCTest();
