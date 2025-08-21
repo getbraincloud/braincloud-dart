@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:braincloud/braincloud.dart';
 import 'package:test/test.dart';
 
@@ -68,6 +70,17 @@ main() {
           await bcTest.bcWrapper.appStoreService.refreshPromotions();
 
       expect(response.statusCode, 200);
+    });
+
+    test("cachePurchaseContext()", () async {
+      ServerResponse response = await bcTest.bcWrapper.appStoreService
+          .cachePurchaseContext(
+              storeId: "_invalid_store_id_",
+              iapId: "_invalid_transaction_id_",
+              payload: "{}");
+
+      expect(response.statusCode, StatusCodes.badRequest);
+      expect(response.reasonCode, ReasonCodes.invalidStoreId);
     });
 
     /// END TEST
