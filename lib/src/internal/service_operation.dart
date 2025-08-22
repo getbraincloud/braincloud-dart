@@ -258,6 +258,7 @@ class ServiceOperation {
       ServiceOperation._("FINALIZE_PURCHASE");
   static ServiceOperation refreshPromotions =
       ServiceOperation._("REFRESH_PROMOTIONS");
+  static ServiceOperation cachePurchaseContext = ServiceOperation._("CACHE_PURCHASE_PAYLOAD_CONTEXT");
 
   static ServiceOperation send = ServiceOperation._("SEND");
   static ServiceOperation sendEventToProfiles = ServiceOperation._("SEND_EVENT_TO_PROFILES");
