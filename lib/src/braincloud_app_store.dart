@@ -278,7 +278,7 @@ class BrainCloudAppStore {
   /// user properly paid for the correct product before awarding them the IAP product.
   /// 
   /// Service Name - AppStore
-  /// Service Operation - CachePurchaseContext
+  /// Service Operation - CachePurchasePayloadContext
   /// @param storeId
   /// The store storeId. Valid stores are:
   /// - itunes
@@ -294,7 +294,7 @@ class BrainCloudAppStore {
   /// 
   /// @param payload
   /// The payload retrieved for the IAP product after the GetSalesInventory method.
-  Future<ServerResponse> cachePurchaseContext({
+  Future<ServerResponse> cachePurchasePayloadContext({
       required String storeId,
       required String iapId,
       required String payload}) {
@@ -315,7 +315,7 @@ class BrainCloudAppStore {
                 error: statusMessage)));
 
     ServerCall sc = ServerCall(ServiceName.appStore,
-        ServiceOperation.cachePurchaseContext, data, callback);
+        ServiceOperation.cachePurchasePayloadContext, data, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;

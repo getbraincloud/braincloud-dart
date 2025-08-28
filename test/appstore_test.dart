@@ -72,9 +72,9 @@ main() {
       expect(response.statusCode, 200);
     });
 
-    test("cachePurchaseContext()", () async {
+    test("cachePurchasePayloadContext()", () async {
       ServerResponse response = await bcTest.bcWrapper.appStoreService
-          .cachePurchaseContext(
+          .cachePurchasePayloadContext(
               storeId: "_invalid_store_id_",
               iapId: "_invalid_transaction_id_",
               payload: "{}");
