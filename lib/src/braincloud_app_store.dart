@@ -271,4 +271,53 @@ class BrainCloudAppStore {
 
     return completer.future;
   }
+
+  /// Before making a purchase with the IAP store, you will need to store the purchase
+  /// payload context on brainCloud so that the purchase can be verified for the proper IAP product.
+  /// This payload will be used during the VerifyPurchase method to ensure the
+  /// user properly paid for the correct product before awarding them the IAP product.
+  /// 
+  /// Service Name - AppStore
+  /// Service Operation - CachePurchasePayloadContext
+  /// @param storeId
+  /// The store storeId. Valid stores are:
+  /// - itunes
+  /// - facebook
+  /// - appworld
+  /// - steam
+  /// - windows
+  /// - windowsPhone
+  /// - googlePlay
+  /// 
+  /// @param iapId
+  /// The IAP product Id as configured for the product on brainCloud.
+  /// 
+  /// @param payload
+  /// The payload retrieved for the IAP product after the GetSalesInventory method.
+  Future<ServerResponse> cachePurchasePayloadContext({
+      required String storeId,
+      required String iapId,
+      required String payload}) {
+
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    
+    data[OperationParam.appStoreServiceStoreId.value] = storeId;
+    data[OperationParam.appStoreServiceIAPId.value] = iapId;
+    data[OperationParam.appStoreServicePayload.value] = payload;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) => completer.complete(ServerResponse.fromJson(response)),
+        (statusCode, reasonCode, statusMessage) => completer.complete(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                error: statusMessage)));
+
+    ServerCall sc = ServerCall(ServiceName.appStore,
+        ServiceOperation.cachePurchasePayloadContext, data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
 }

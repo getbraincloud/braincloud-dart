@@ -46,7 +46,7 @@ class BCTest {
         .onError((error, stackTrace) {
       print(error.toString());
     });
-
+    bcWrapper.brainCloudClient.enableLogging(true);
     print("Platform: ${bcWrapper.brainCloudClient.releasePlatform}");
 
     bcWrapper.brainCloudClient.authenticationService.clearSavedProfileId();

@@ -1,3 +1,3 @@
-## 5.7.0
+## 5.8.0
 
-* brainCloud 5.7 is live! - [updates.braincloudservers.com](https://updates.braincloudservers.com/braincloud-5.7-is-live-2CLjcA)
+* brainCloud 5.8 is live! - [updates.braincloudservers.com](https://updates.braincloudservers.com/braincloud-5.8-is-live-2bCXZe)

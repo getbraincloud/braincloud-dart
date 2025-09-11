@@ -400,6 +400,9 @@ class OperationParam {
   static OperationParam appStoreServiceUserCurrency =
       OperationParam("userCurrency");
   static OperationParam appStoreServiceCategory = OperationParam("category");
+  static OperationParam appStoreServiceIAPId = OperationParam("iapId");
+  static OperationParam appStoreServicePayload = OperationParam("payload");
+  
 
   // Virtual Currency Service
   static OperationParam virtualCurrencyServiceCurrencyId =
