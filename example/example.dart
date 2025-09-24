@@ -51,7 +51,7 @@ void main(List<String> args) async {
   Params params = parseArgs(args);
 
   print("appId     : ${params.appId}");
-  print("appSecret : ${params.appSecret.replaceRange(3, null,  "*****-****-****-****-************")}");
+  //print("appSecret : ${params.appSecret.replaceRange(3, null,  "*****-****-****-****-************")}");
   if ((params.serverUrl ?? "").isNotEmpty ) ("serverUrl : ${params.serverUrl}");
 
   /// Initialize brainCloud client
