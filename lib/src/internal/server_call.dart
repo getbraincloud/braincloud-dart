@@ -1,3 +1,4 @@
+// Copyright 2025 bitHeads, Inc. All Rights Reserved.
 import '/src/internal/braincloud_comms.dart';
 import '/src/internal/service_name.dart';
 import '/src/internal/service_operation.dart';

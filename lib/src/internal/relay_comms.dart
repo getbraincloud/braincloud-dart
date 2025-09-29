@@ -1,3 +1,4 @@
+// Copyright 2025 bitHeads, Inc. All Rights Reserved.
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';

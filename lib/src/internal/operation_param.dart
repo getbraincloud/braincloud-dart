@@ -1,3 +1,4 @@
+// Copyright 2025 bitHeads, Inc. All Rights Reserved.
 class OperationParam {
   //Push Notification Service - Register Params
   static OperationParam pushNotificationRegisterParamDeviceType =

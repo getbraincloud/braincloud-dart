@@ -1,4 +1,4 @@
-
+// Copyright 2025 bitHeads, Inc. All Rights Reserved.
 class Util {
   static const String _defaultLang = "en";
 

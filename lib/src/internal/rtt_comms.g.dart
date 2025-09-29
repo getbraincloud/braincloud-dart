@@ -1,3 +1,4 @@
+// Copyright 2025 bitHeads, Inc. All Rights Reserved.
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'rtt_comms.dart';
