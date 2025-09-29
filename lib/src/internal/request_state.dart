@@ -1,3 +1,4 @@
+// Copyright 2025 bitHeads, Inc. All Rights Reserved.
 import 'dart:typed_data';
 
 import 'package:http/http.dart';

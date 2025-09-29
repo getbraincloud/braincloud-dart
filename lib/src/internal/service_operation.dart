@@ -1,3 +1,4 @@
+// Copyright 2025 bitHeads, Inc. All Rights Reserved.
 class ServiceOperation {
   static ServiceOperation authenticate = ServiceOperation._("AUTHENTICATE");
   static ServiceOperation attach = ServiceOperation._("ATTACH");
