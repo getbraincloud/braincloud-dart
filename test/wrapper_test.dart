@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:braincloud/braincloud.dart';
+import 'package:braincloud/src/internal/service_operation.dart';
 import 'package:test/test.dart';
 
 import 'utils/test_base.dart';
@@ -528,4 +529,41 @@ void main() {
       print("\nPost-Users Attributes: ${userSessionResp.data}\n");
     });
   });
+
+  group("Test constants accessibility", () {
+    setUpAll(bcTest.setupBC);
+    
+    test("Reason Code accessibility", () async {
+        int reasonCode = ReasonCodes.INVALID_REQUEST;
+
+        print("Reason Code = $reasonCode");
+
+        expect(40001, reasonCode, reason: "Reason Code 'INVALID_REQUEST' (40001) should be publicly accessible");
+    });
+    
+    test("Service Name accessibility", () async {
+        String serviceName = ServiceName.asyncMatch.value;
+
+        print("Service Name = $serviceName");
+        
+        expect(serviceName, "asyncMatch", reason: "Service Name 'asyncMatch' should be publicly accessible");
+    });
+
+    test("Service Operation accessibility", () async {
+        String serviceOperation = ServiceOperation.abandon.value;
+
+        print("Service Operation = $serviceOperation");
+        
+        expect(serviceOperation, "ABANDON", reason: "Service Operation 'abandon' should be publicly accessible");
+    });
+
+    test("Status Code accessibility", () async {
+        int statusCode = StatusCodes.ok;
+
+        print("Status Code = $statusCode");
+
+        expect(statusCode, 200, reason: "Status Code 'ok' (200) should be publicly accessible");
+    });
+  });
+
 }
