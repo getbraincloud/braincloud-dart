@@ -162,6 +162,40 @@ void main() {
       expect(response.statusCode, StatusCodes.badRequest);
     });
 
+    test("AwardUserItemWithOptions())", () async {
+      Map<String, Object> options = {
+        'blockIfExceedItemMaxStackable': false
+      };
+      ServerResponse response = await bcTest.bcWrapper.userItemsService
+          .awardUserItemWithOptions(defId: "sword001", quantity: 1, includeDef: true, optionsJson: options);
+
+      expect(response.statusCode, StatusCodes.ok);
+    });
+
+    test("PurchaseUserItemWithOptions())", () async {
+      Map<String, Object> options = {
+        'blockIfExceedItemMaxStackable': false
+      };
+      ServerResponse response = await bcTest.bcWrapper.userItemsService
+          .purchaseUserItemWithOptions(defId: "sword001", quantity: 1, includeDef: true, optionsJson: options);
+
+      expect(response.statusCode, StatusCodes.ok);
+    });
+
+    test("GetItemsOnPromotion())", () async {
+      ServerResponse response = await bcTest.bcWrapper.userItemsService
+          .getItemsOnPromotion(shopId: "", includeDef: true, includePromotionDetails: true);
+
+      expect(response.statusCode, StatusCodes.ok);
+    });
+
+    test("GetItemPromotionDetails())", () async {
+      ServerResponse response = await bcTest.bcWrapper.userItemsService
+          .getItemPromotionDetails(defId: "sword001", shopId: "", includeDef: true, includePromotionDetails: true);
+
+      expect(response.statusCode, StatusCodes.ok);
+    });
+
     /// END TEST
     tearDownAll(() {
       bcTest.dispose();
