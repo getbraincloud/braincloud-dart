@@ -22,11 +22,11 @@ class BrainCloudUserItems {
   /// Service Name - userItems
   /// Service Operation - AwardUserItem
   ///
-  /// @param defId
+  /// @param defId The unique id of the item definition to award.
   ///
-  /// @param quantity
+  /// @param quantity The quantity of the item to award.
   ///
-  /// @param includeDef
+  /// @param includeDef If true, the associated item definition will be included in the response.
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> awardUserItem(
@@ -63,11 +63,11 @@ class BrainCloudUserItems {
   /// Service Name - userItems
   /// Service Operation - DropUserItem
   ///
-  /// @param itemId
+  /// @param itemId The unique id of the user item.
   ///
-  /// @param quantity
+  /// @param quantity The quantity of the user item to drop.
   ///
-  /// @param includeDef
+  /// @param includeDef If true and any quantity of the user item remains, the associated item definition will be included in the response.
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> dropUserItem(
@@ -103,9 +103,9 @@ class BrainCloudUserItems {
   /// Service Name - userItems
   /// Service Operation - GetUserInventoryPage
   ///
-  /// @param context
+  /// @param context The json context for the page request.
   ///
-  /// @param includeDef
+  /// @param includeDef If true, the associated item definition will be included in the response.
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> getUserItemsPage(
@@ -140,11 +140,11 @@ class BrainCloudUserItems {
   /// Service Name - userItems
   /// Service Operation - GetUserInventoryPageOffset
   ///
-  /// @param context
+  /// @param context The context string returned from the server from a previous call to SysGetCatalogItemsPage or SysGetCatalogItemsPageOffset.
   ///
-  /// @param pageOffset
+  /// @param pageOffset The positive or negative page offset to fetch. Uses the last page retrieved using the context string to determine a starting point.
   ///
-  /// @param includeDef
+  /// @param includeDef If true, the associated item definition will be included in the response.
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> getUserItemsPageOffset(
@@ -180,9 +180,9 @@ class BrainCloudUserItems {
   /// Service Name - userItems
   /// Service Operation - GetUserItem
   ///
-  /// @param itemId
+  /// @param itemId The unique id of the user item.
   ///
-  /// @param includeDef
+  /// @param includeDef If true, the associated item definition will be included in the response.
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> getUserItem(
@@ -212,15 +212,15 @@ class BrainCloudUserItems {
   /// Service Name - userItems
   /// Service Operation - GetUserItem
   ///
-  /// @param profileId
+  /// @param profileId The ID of the recipient's user profile.
   ///
-  /// @param itemId
+  /// @param itemId The ID uniquely identifying the user item to be transferred.
   ///
-  /// @param version
+  /// @param version The version of the user item being transferred.
   ///
-  /// @param quantity
+  /// @param quantity The quantity of the user item to transfer.
   ///
-  /// @param immediate
+  /// @param immediate Flag set to true if item is to be immediately transferred, otherwise false to have the sender sents an event and transfers item(s) only when recipient calls receiveUserItemFrom.
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> giveUserItemTo(
@@ -260,13 +260,13 @@ class BrainCloudUserItems {
   /// Service Name - userItems
   /// Service Operation - GetUserItem
   ///
-  /// @param defId
+  /// @param defId The unique id of the item definition to purchase.
   ///
-  /// @param quatity
+  /// @param quatity The quantity of the item to purchase.
   ///
-  /// @param shopId
+  /// @param shopId The id identifying the store the item is being purchased from (not yet supported). Use null or empty string to specify the default shop price.
   ///
-  /// @param includeDef
+  /// @param includeDef If true, the associated item definition will be included in the response.
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> purchaseUserItem(
@@ -297,18 +297,14 @@ class BrainCloudUserItems {
   }
 
   /// Retrieves and transfers the gift item from the specified player,
-  //who must have previously called giveUserItemTo.
+  /// who must have previously called giveUserItemTo.
   ///
   /// Service Name - userItems
-  /// Service Operation - GetUserItem
+  /// Service Operation - receiveUserItemFrom
   ///
-  /// @param defId
+  /// @param profileId The profile ID of the user who is giving the item.
   ///
-  /// @param quatity
-  ///
-  /// @param shopId
-  ///
-  /// @param includeDef
+  /// @param itemId The ID uniquely identifying the user item to be transferred.
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> receiveUserItemFrom(
@@ -343,15 +339,15 @@ class BrainCloudUserItems {
   /// Service Name - userItems
   /// Service Operation - SellUserItem
   ///
-  /// @param itemId
+  /// @param itemId The unique id of the user item.
   ///
-  /// @param version
+  /// @param version The version of the user item being sold.
   ///
-  /// @param quantity
+  /// @param quantity The quantity of the user item to sell.
   ///
-  /// @param shopId
+  /// @param shopId 	The id identifying the store the item is being purchased from (not yet supported). Use null or empty string to specify the default shop price.
   ///
-  /// @param includeDef
+  /// @param includeDef 	If true and any quantity of the user item remains, the associated item definition will be included in the response.
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> sellUserItem(
@@ -388,11 +384,11 @@ class BrainCloudUserItems {
   /// Service Name - userItems
   /// Service Operation - UpdateUserItemData
   ///
-  /// @param itemId
+  /// @param itemId The unique id of the user item.
   ///
-  /// @param version
+  /// @param version The version of the user item being updated.
   ///
-  /// @param newItemData
+  /// @param newItemData New item data to replace existing user item data.
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateUserItemData(
@@ -426,13 +422,13 @@ class BrainCloudUserItems {
   /// Service Name - userItems
   /// Service Operation - UseUserItem
   ///
-  /// @param itemId
+  /// @param itemId The unique id of the user item.
   ///
-  /// @param version
+  /// @param version The version of the user item being used.
   ///
-  /// @param newItemData
+  /// @param newItemData Optional item data to replace existing user item data. Specify null to leave item data unchanged. Specify empty map to clear item data.
   ///
-  /// @param includeDef
+  /// @param includeDef If true, the associated item definition will be included in the response.
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> useUserItem(
@@ -468,9 +464,9 @@ class BrainCloudUserItems {
   /// Service Name - userItems
   /// Service Operation - PublishUserItemToBlockchain
   ///
-  /// @param itemId
+  /// @param itemId The unique id of the user item.
   ///
-  /// @param version
+  /// @param version The version of the user item being published.
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> publishUserItemToBlockchain(
@@ -525,10 +521,10 @@ class BrainCloudUserItems {
   /// Service Name - userItems
   /// Service Operation - RemoveUserItemFromBlockchain
   ///
-  /// @param itemId
+  /// @param itemId The unique id of the user item.
   ///
   ///
-  /// @param version
+  /// @param version The version of the user item being removed.
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> removeUserItemFromBlockchain(
@@ -577,6 +573,7 @@ class BrainCloudUserItems {
   ///  response key 'itemsNotAwarded' - unless the adjusted quantity would be 
   ///  0, in which case the call is blocked and an error is returned.
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> awardUserItemWithOptions(
       {required String defId,
       required int quantity,
@@ -629,6 +626,8 @@ class BrainCloudUserItems {
   ///  to the allowed maximum and the quantity not awarded is reported in 
   ///  response key 'itemsNotAwarded' - unless the adjusted quantity would be 
   ///  0, in which case the call is blocked and an error is returned.
+  ///
+  ///  returns `Future<ServerResponse>`
   Future<ServerResponse> purchaseUserItemWithOptions(
       {required String defId,
       required int quantity,
@@ -667,7 +666,8 @@ class BrainCloudUserItems {
   /// @param includeDef If true, the associated item definition will be included in the response.
   ///
   /// @param includePromotionDetails If true, the promotion details of the eligible promotions will be included in the response.
-  /// 
+  /// ///
+  ///  returns `Future<ServerResponse>`
   Future<ServerResponse> getItemsOnPromotion(
       {required String shopId,
       required bool includeDef,
@@ -707,7 +707,8 @@ class BrainCloudUserItems {
   /// @param includeDef If true, the associated item definition will be included in the response.
   ///
   /// @param includePromotionDetails If true, the promotion details of the eligible promotions will be included in the response.
-  /// 
+  /// ///
+  ///  returns `Future<ServerResponse>`
   Future<ServerResponse> getItemPromotionDetails(
       {required String defId,
       required String shopId,
