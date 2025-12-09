@@ -770,6 +770,8 @@ class OperationParam {
   static OperationParam userItemsServiceShopId = OperationParam("shopId");
   static OperationParam userItemsServiceNewItemData =
       OperationParam("newItemData");
+  static OperationParam userItemsServiceOptionsJson = OperationParam("optionsJson");
+  static OperationParam userItemsServiceIncludePromotionDetails = OperationParam("includePromotionDetails");
 
   //global app
   static OperationParam globalAppPropertyNames =
