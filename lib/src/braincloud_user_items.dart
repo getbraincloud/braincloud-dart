@@ -666,17 +666,28 @@ class BrainCloudUserItems {
   /// @param includeDef If true, the associated item definition will be included in the response.
   ///
   /// @param includePromotionDetails If true, the promotion details of the eligible promotions will be included in the response.
-  /// ///
+  ///
+  /// @param optionsJson Optional support for specifying 'blockIfExceedItemMaxStackable' indicating 
+  ///  how to process the award if the defId is for a stackable item with a max 
+  ///  stackable quantity and the specified quantity to award is too high. If 
+  ///  true and the quantity is too high, the call is blocked and an error is returned.
+  ///  If false (default) and quantity is too high, the quantity is adjusted 
+  ///  to the allowed maximum and the quantity not awarded is reported in 
+  ///  response key 'itemsNotAwarded' - unless the adjusted quantity would be 
+  ///  0, in which case the call is blocked and an error is returned.
+  /// 
   ///  returns `Future<ServerResponse>`
   Future<ServerResponse> getItemsOnPromotion(
       {required String shopId,
       required bool includeDef,
-      required bool includePromotionDetails}) {
+      required bool includePromotionDetails,
+      required Map<String, Object> optionsJson}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceShopId.value] = shopId;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
     data[OperationParam.userItemsServiceIncludePromotionDetails.value] = includePromotionDetails;
+    data[OperationParam.userItemsServiceOptionsJson.value] = optionsJson;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) => completer.complete(ServerResponse.fromJson(response)),

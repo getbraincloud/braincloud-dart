@@ -183,8 +183,11 @@ void main() {
     });
 
     test("GetItemsOnPromotion())", () async {
+      Map<String, Object> options = {
+        'blockIfExceedItemMaxStackable': false
+      };
       ServerResponse response = await bcTest.bcWrapper.userItemsService
-          .getItemsOnPromotion(shopId: "", includeDef: true, includePromotionDetails: true);
+          .getItemsOnPromotion(shopId: "", includeDef: true, includePromotionDetails: true, optionsJson: options);
 
       expect(response.statusCode, StatusCodes.ok);
     });
