@@ -1,4 +1,4 @@
-// Copyright 2025 bitHeads, Inc. All Rights Reserved.
+// Copyright 2026 bitHeads, Inc. All Rights Reserved.
 import '/src/reason_codes.dart';
 import '/src/status_codes.dart';
 

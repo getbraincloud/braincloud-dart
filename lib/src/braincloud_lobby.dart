@@ -1,4 +1,4 @@
-// Copyright 2025 bitHeads, Inc. All Rights Reserved.
+// Copyright 2026 bitHeads, Inc. All Rights Reserved.
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 import 'dart:convert';
