@@ -1,4 +1,4 @@
-// Copyright 2025 bitHeads, Inc. All Rights Reserved.
+// Copyright 2026 bitHeads, Inc. All Rights Reserved.
 class TimeUtil {
   static int utcDateTimeToUTCMillis(DateTime utcDate) {
     return utcDate.toUtc().millisecond; // return the utc milliseconds

@@ -1,4 +1,4 @@
-// Copyright 2025 bitHeads, Inc. All Rights Reserved.
+// Copyright 2026 bitHeads, Inc. All Rights Reserved.
 // Reason codes for BrainCloud
 class ReasonCodes {
   static const int noReasonCode = 0;
