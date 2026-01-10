@@ -602,6 +602,65 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
+  /// Allows a quantity of a specified bundle user item to be opened. Response indicates any items 
+  /// and currency awards configured for the associated bundle user item's BUNDLE type item definition, 
+  /// plus any 'items' awarded and any 'currencies' awarded, along with the resulting currency balances. 
+  /// If includeItemDef is true, the associated item definition will be included in the response for any 
+  /// user items awarded and for the bundle user item being opened (if any quantity of the bundle user 
+  /// item remains), with language fields limited to the current or default language.
+  ///
+  /// Service Name - userItems
+  /// Service Operation - OpenBundle
+  ///
+  /// @param itemId The unique id of the bundle user item.
+  /// 
+  /// @param version The version of the bundle user item being sold. Accepts -1 if any version.
+  ///
+  /// @param quantity The quantity of the bundle user item to open.
+  ///
+  /// @param includeDef 	If true, the associated item definition will be included in the response 
+  /// for any user items awarded and if any quantity of the bundle user item remains.
+  ///
+  /// @param optionsJson Optional support for specifying 'blockIfExceedItemMaxStackable' indicating 
+  /// how to process awarding the bundle content items if the defId for any is for a stackable item 
+  /// with a max stackable quantity and the specified quantity to be awarded is too high. If true 
+  /// and the quantity is too high, the call is blocked and an error is returned. If false 
+  /// (default) and quantity is too high, the quantity is adjusted to the allowed maximum and the 
+  /// quantity not awarded is reported in response key 'itemsNotAwarded' - unless the adjusted 
+  /// quantity would be 0, in which case the call is blocked and an error is returned.
+  ///
+  /// returns `Future<ServerResponse>`
+  Future<ServerResponse> openBundle(
+      {required String itemId,
+      required int version,
+      required int quantity,
+      required bool includeDef,
+      Map<String, Object>? optionsJson}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    data[OperationParam.userItemsServiceItemId.value] = itemId;
+    data[OperationParam.userItemsServiceVersion.value] = version;
+    data[OperationParam.userItemsServiceQuantity.value] = quantity;
+    data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
+    if (optionsJson != null) {
+      data[OperationParam.userItemsServiceOptionsJson.value] = optionsJson;
+    }
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) => completer.complete(ServerResponse.fromJson(response)),
+      (statusCode, reasonCode, statusMessage) => completer.complete(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              error: statusMessage)),
+    );
+    ServerCall sc = ServerCall(
+        ServiceName.userItems, ServiceOperation.openBundle, data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
   /// Purchases a quantity of an item from the specified store,
   ///if the user has enough funds. If includeDef is true,
   ///response includes associated itemDef with language fields
