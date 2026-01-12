@@ -799,6 +799,7 @@ class ServiceOperation {
   static ServiceOperation getUserItem = ServiceOperation._("GET_USER_ITEM");
   static ServiceOperation giveUserItemTo =
       ServiceOperation._("GIVE_USER_ITEM_TO");
+  static ServiceOperation openBundle = ServiceOperation._("OPEN_BUNDLE");
   static ServiceOperation purchaseUserItem =
       ServiceOperation._("PURCHASE_USER_ITEM");
   static ServiceOperation receiveUserItemFrom =
