@@ -1,3 +1,4 @@
+// Copyright 2026 bitHeads, Inc. All Rights Reserved.
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:math';

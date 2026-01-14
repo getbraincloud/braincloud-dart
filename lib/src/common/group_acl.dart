@@ -1,6 +1,7 @@
+// Copyright 2026 bitHeads, Inc. All Rights Reserved.
 //----------------------------------------------------
 // brainCloud client source code
-// Copyright 2024 bitHeads, inc.
+
 //----------------------------------------------------
 
 enum Access {

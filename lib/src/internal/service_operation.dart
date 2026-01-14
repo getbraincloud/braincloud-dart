@@ -1,3 +1,4 @@
+// Copyright 2026 bitHeads, Inc. All Rights Reserved.
 class ServiceOperation {
   static ServiceOperation authenticate = ServiceOperation._("AUTHENTICATE");
   static ServiceOperation attach = ServiceOperation._("ATTACH");
@@ -798,6 +799,7 @@ class ServiceOperation {
   static ServiceOperation getUserItem = ServiceOperation._("GET_USER_ITEM");
   static ServiceOperation giveUserItemTo =
       ServiceOperation._("GIVE_USER_ITEM_TO");
+  static ServiceOperation openBundle = ServiceOperation._("OPEN_BUNDLE");
   static ServiceOperation purchaseUserItem =
       ServiceOperation._("PURCHASE_USER_ITEM");
   static ServiceOperation receiveUserItemFrom =
@@ -812,6 +814,8 @@ class ServiceOperation {
       ServiceOperation._("REFRESH_BLOCKCHAIN_USER_ITEMS");
   static ServiceOperation removeUserItemFromBlockchain =
       ServiceOperation._("REMOVE_USER_ITEM_FROM_BLOCKCHAIN");
+  static ServiceOperation getPromotionDetails = ServiceOperation._("GET_ITEMS_ON_PROMOTION");
+  static ServiceOperation getItemPromotionDetails = ServiceOperation._("GET_ITEM_PROMOTION_DETAILS");
 
   //Group File Services
   static ServiceOperation checkFilenameExists =

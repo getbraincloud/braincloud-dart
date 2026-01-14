@@ -1,3 +1,4 @@
+// Copyright 2026 bitHeads, Inc. All Rights Reserved.
 class OperationParam {
   //Push Notification Service - Register Params
   static OperationParam pushNotificationRegisterParamDeviceType =
@@ -769,6 +770,8 @@ class OperationParam {
   static OperationParam userItemsServiceShopId = OperationParam("shopId");
   static OperationParam userItemsServiceNewItemData =
       OperationParam("newItemData");
+  static OperationParam userItemsServiceOptionsJson = OperationParam("optionsJson");
+  static OperationParam userItemsServiceIncludePromotionDetails = OperationParam("includePromotionDetails");
 
   //global app
   static OperationParam globalAppPropertyNames =

@@ -1,3 +1,4 @@
+// Copyright 2026 bitHeads, Inc. All Rights Reserved.
 import '/src/internal/server_call.dart';
 import '/src/internal/service_name.dart';
 import '/src/internal/service_operation.dart';

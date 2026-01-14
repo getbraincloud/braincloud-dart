@@ -1,3 +1,4 @@
+// Copyright 2026 bitHeads, Inc. All Rights Reserved.
 import 'package:json_annotation/json_annotation.dart';
 
 part 'entity.g.dart';

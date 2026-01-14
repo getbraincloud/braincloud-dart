@@ -162,6 +162,72 @@ void main() {
       expect(response.statusCode, StatusCodes.badRequest);
     });
 
+    test("AwardUserItemWithOptions())", () async {
+      Map<String, Object> options = {
+        'blockIfExceedItemMaxStackable': false
+      };
+      ServerResponse response = await bcTest.bcWrapper.userItemsService
+          .awardUserItemWithOptions(defId: "sword001", quantity: 1, includeDef: true, optionsJson: options);
+
+      expect(response.statusCode, StatusCodes.ok);
+    });
+
+    test("OpenBundle())", () async {
+      Map<String, Object> options = {};
+      ServerResponse response = await bcTest.bcWrapper.userItemsService
+          .awardUserItemWithOptions(
+              defId: "equipmentBundle",
+              quantity: 1,
+              includeDef: true,
+              optionsJson: options);
+
+      expect(response.statusCode, StatusCodes.ok);
+
+      var items = response.data?['items'] as Map<String, dynamic>?;
+      var item = items?.values.first as Map<String, dynamic>?;
+      var itemId = item?['itemId'];
+
+      expect(itemId, isNotEmpty);
+
+      ServerResponse openBundleResponse =
+          await bcTest.bcWrapper.userItemsService.openBundle(
+              itemId: itemId,
+              version: -1,
+              quantity: 1,
+              includeDef: true,
+              optionsJson: options);
+
+      expect(openBundleResponse.statusCode, StatusCodes.ok);
+    });
+    
+
+    test("PurchaseUserItemWithOptions())", () async {
+      Map<String, Object> options = {
+        'blockIfExceedItemMaxStackable': false
+      };
+      ServerResponse response = await bcTest.bcWrapper.userItemsService
+          .purchaseUserItemWithOptions(defId: "sword001", quantity: 1, includeDef: true, optionsJson: options);
+
+      expect(response.statusCode, StatusCodes.ok);
+    });
+
+    test("GetItemsOnPromotion())", () async {
+      Map<String, Object> options = {
+        'blockIfExceedItemMaxStackable': false
+      };
+      ServerResponse response = await bcTest.bcWrapper.userItemsService
+          .getItemsOnPromotion(shopId: "", includeDef: true, includePromotionDetails: true, optionsJson: options);
+
+      expect(response.statusCode, StatusCodes.ok);
+    });
+
+    test("GetItemPromotionDetails())", () async {
+      ServerResponse response = await bcTest.bcWrapper.userItemsService
+          .getItemPromotionDetails(defId: "sword001", shopId: "", includeDef: true, includePromotionDetails: true);
+
+      expect(response.statusCode, StatusCodes.ok);
+    });
+
     /// END TEST
     tearDownAll(() {
       bcTest.dispose();

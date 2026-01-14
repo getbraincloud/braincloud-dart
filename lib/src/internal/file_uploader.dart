@@ -1,3 +1,4 @@
+// Copyright 2026 bitHeads, Inc. All Rights Reserved.
 import 'dart:async';
 import 'dart:convert';
 // To support progress monitoring we need to use package:universal_io instead of just package:http 
