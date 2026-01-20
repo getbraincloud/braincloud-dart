@@ -40,7 +40,7 @@ class BrainCloudComms {
   /// Byte size threshold that determines if the message size is something we want to compress or not. We make an initial value, but recevie the value for future calls based on the servers
   ///auth response
 
-  int _clientSideCompressionThreshold = 50000;
+  int _clientSideCompressionThreshold = 51200;
   int get clientSideCompressionThreshold => _clientSideCompressionThreshold;
 
   /// The id of _expectedIncomingPacketId when no packet expected
