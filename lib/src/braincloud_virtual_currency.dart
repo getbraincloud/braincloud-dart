@@ -14,15 +14,22 @@ class BrainCloudVirtualCurrency {
 
   BrainCloudVirtualCurrency(this._clientRef);
 
-  /// @warning Method is recommended to be used in Cloud Code only for security
-  /// If you need to use it client side, enable 'Allow Currency Calls from Client' on the brainCloud dashboard
+  /// Award user the passed-in amount of currency. Returns an object 
+  /// representing the new currency values.
   ///
-  /// @param in_currencyType The currency type to award
-  /// @param in_amount The amount to award
-  /// @param in_callback The method to be invoked when the server response is received
+  /// Service Name - VirtalCurrency
+  /// Service Operation - AWARD_VC
   ///
-  Future<ServerResponse> awardCurrency(
-      {required String vcId, required int vcAmount}) {
+  /// @param vcId
+  /// The currency type to retrieve or null
+  ///
+  /// @param vcAmount	
+  /// The amount of currency to award.
+  /// 
+  /// if all currency types are being requested.
+  ///
+  /// returns `Future<ServerResponse>`
+  Future<ServerResponse> awardCurrency({required String vcId, required int vcAmount}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.virtualCurrencyServiceCurrencyId.value] = vcId;
@@ -36,22 +43,24 @@ class BrainCloudVirtualCurrency {
               reasonCode: reasonCode,
               error: statusMessage)),
     );
-    ServerCall sc = ServerCall(
-        ServiceName.virtualCurrency, ServiceOperation.awardVC, data, callback);
+    ServerCall sc = ServerCall(ServiceName.virtualCurrency,
+        ServiceOperation.awardVC, data, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;
   }
-
-  /// @warning Method is recommended to be used in Cloud Code only for security
-  /// If you need to use it client side, enable 'Allow Currency Calls from Client' on the brainCloud dashboard
+  /// Consume the passed-in amount of currency from the player.
   ///
-  /// @param in_currencyType The currency type to consume
-  /// @param in_amount The amount to consume
-  /// @param in_callback The method to be invoked when the server response is received
+  /// Service Name - VirtalCurrency
+  /// Service Operation - CONSUME_VC
   ///
-  Future<ServerResponse> consumeCurrency(
-      {required String vcId, required int vcAmount}) {
+  /// @param currencyType
+  /// The currency type to retrieve or null
+  ///
+  /// if all currency types are being requested.
+  ///
+  /// returns `Future<ServerResponse>`
+  Future<ServerResponse> consumeCurrency({required String vcId, required int vcAmount}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.virtualCurrencyServiceCurrencyId.value] = vcId;
@@ -71,14 +80,18 @@ class BrainCloudVirtualCurrency {
 
     return completer.future;
   }
-
-  /// Retrieve the user's currency account. Optional parameter: `in_vcId` (if retrieving a specific currency).
-  /// Service Name - VirtualCurrency
-  /// Service Operation - GetCurrency
+  /// Gets the player's currency for the given currency type
+  /// or all currency types if null passed in.
   ///
-  /// @param in_vcId Optional currency id to retrieve (pass NULL to get all currencies)
-  /// @param in_callback The method to be invoked when the server response is received
+  /// Service Name - VirtalCurrency
+  /// Service Operation - GetPlayerVC
   ///
+  /// @param currencyType
+  /// The currency type to retrieve or null
+  ///
+  /// if all currency types are being requested.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getCurrency({required String vcId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -99,14 +112,20 @@ class BrainCloudVirtualCurrency {
     return completer.future;
   }
 
-  /// Retrieve the parent user's currency account. Optional parameter: `in_vcId` (if retrieving a specific currency).
-  /// Service Name - VirtualCurrency
-  /// Service Operation - GetParentCurrency
+  /// Gets the parents's currency for the given currency type
+  /// or all currency types if null passed in.
   ///
-  /// @param in_vcId Optional currency id to retrieve (pass NULL to get all currencies)
-  /// @param in_levelName The parent level name
-  /// @param in_callback The method to be invoked when the server response is received
+  /// Service Name - VirtalCurrency
+  /// Service Operation - GetParentVC
   ///
+  /// @param currencyType
+  /// The currency type to retrieve or null
+  /// if all currency types are being requested.
+  ///
+  /// @param levelName
+  /// The parent level name
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getParentCurrency(
       {required String vcId, required String levelName}) {
     Completer<ServerResponse> completer = Completer();
@@ -130,14 +149,20 @@ class BrainCloudVirtualCurrency {
     return completer.future;
   }
 
-  /// Retrieve the peer user's currency account. Optional parameter: `in_vcId` (if retrieving a specific currency).
-  /// Service Name - VirtualCurrency
-  /// Service Operation - GetPeerCurrency
+  /// Gets the peers's currency for the given currency type
+  /// or all currency types if null passed in.
   ///
-  /// @param in_vcId Optional currency id to retrieve (pass NULL to get all currencies)
-  /// @param in_peerCode The peer code identifying the other user
-  /// @param in_callback The method to be invoked when the server response is received
+  /// Service Name - VirtalCurrency
+  /// Service Operation - GetPeerVC
   ///
+  /// @param currencyType
+  /// The currency type to retrieve or null
+  /// if all currency types are being requested.
+  ///
+  /// @param peerCode
+  /// The peer code
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getPeerCurrency(
       {required String vcId, required String peerCode}) {
     Completer<ServerResponse> completer = Completer();
@@ -161,12 +186,12 @@ class BrainCloudVirtualCurrency {
     return completer.future;
   }
 
-  /// Reset player's currency to zero
-  /// Service Name - VirtualCurrency
+  /// Resets player currency to zero
+  ///
+  /// Service Name - VirtalCurrency
   /// Service Operation - ResetCurrency
   ///
-  /// @param in_callback The method to be invoked when the server response is received
-  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetCurrency() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};

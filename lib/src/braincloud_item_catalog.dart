@@ -14,14 +14,16 @@ class BrainCloudItemCatalog {
 
   BrainCloudItemCatalog(this._clientRef);
 
-  /// Reads an existing item definition from the server, with language fields
-  /// limited to the current or default language.
+  /// Reads an existing item definition from the
+  ///server, with language fields limited to the
+  /// current or default language.
+  ///
   /// Service Name - ItemCatalog
-  /// Service Operation - GET_CATALOG_ITEM_DEFINITION
+  /// Service Operation - GetCatalogItemDefinition
   ///
-  /// @param in_defId The identifier of the catalog item definition to retrieve
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param defId
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getCatalogItemDefinition({required String defId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -42,14 +44,16 @@ class BrainCloudItemCatalog {
     return completer.future;
   }
 
-  /// Retrieve a page of catalog items from the server, with language fields
-  /// limited to the text for the current or default language.
+  /// Retrieves page of catalog items from the server,
+  ///with language fields limited to the text for the
+  ///current or default language.
+  ///
   /// Service Name - ItemCatalog
-  /// Service Operation - GET_CATALOG_ITEMS_PAGE
+  /// Service Operation - GetCatalogItemDefinition
   ///
-  /// @param in_context The pagination context returned from a previous catalog page request
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param context
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getCatalogItemsPage(
       {required Map<String, dynamic> context}) {
     Completer<ServerResponse> completer = Completer();
@@ -71,16 +75,20 @@ class BrainCloudItemCatalog {
     return completer.future;
   }
 
-  /// Gets a page of catalog items from the server based on the encoded
-  /// context and specified page offset, with language fields limited to the
-  /// text for the current or default language.
+  /// Gets the page of catalog items from the
+  ///server based on the encoded context and
+  ///specified page offset, with language fields
+  ///limited to the text for the current or default
+  ///language.
+  ///
   /// Service Name - ItemCatalog
-  /// Service Operation - GET_CATALOG_ITEMS_PAGE_OFFSET
+  /// Service Operation - GetCatalogItemDefinition
   ///
-  /// @param in_context The pagination context returned from a previous catalog page request
-  /// @param in_pageOffset The page offset relative to the current context
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param context
   ///
+  /// @param pageOffset
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getCatalogItemsPageOffset(
       {required String context, required int pageOffset}) {
     Completer<ServerResponse> completer = Completer();

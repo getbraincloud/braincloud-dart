@@ -16,14 +16,14 @@ class BrainCloudPlayerState {
 
   /// Read the state of the currently logged in user.
   /// This method returns a JSON object describing most of the
-  /// user's data: entities, statistics, level, currency.
+  /// player's data: entities, statistics, level, currency.
   /// Apps will typically call this method after authenticating to get an
   /// up-to-date view of the user's data.
+  ///
   /// Service Name - PlayerState
   /// Service Operation - Read
   ///
-  /// @param in_callback The method to be invoked when the server response is received
-  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readUserState() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -45,11 +45,11 @@ class BrainCloudPlayerState {
   /// by the user. After calling this method, the user will need
   /// to re-authenticate and create a new profile.
   /// This is mostly used for debugging/qa.
+  ///
   /// Service Name - PlayerState
   /// Service Operation - FullReset
   ///
-  /// @param in_callback The method to be invoked when the server response is received
-  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteUser() {
     Completer<ServerResponse> completer = Completer();
 
@@ -101,11 +101,11 @@ class BrainCloudPlayerState {
   }
 
   /// Logs user out of server.
+  ///
   /// Service Name - PlayerState
   /// Service Operation - Logout
   ///
-  /// @param in_callback The method to be invoked when the server response is received
-  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> logout() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -123,13 +123,15 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// Sets the user's name.
+  /// Sets the user name.
+  ///
   /// Service Name - playerState
   /// Service Operation - UPDATE_NAME
   ///
-  /// @param in_userName The name of the user
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param userName
+  /// The name of the user
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateUserName({required String userName}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -155,19 +157,23 @@ class BrainCloudPlayerState {
   /// leaderboards will return the player's score in the leaderboard along
   /// with the friend summary data. Generally this data is used to provide
   /// a quick overview of the player without requiring a separate API call
-  /// to read their public stats or entity data.
+  /// to read their stats or entity data.
+  ///
   /// Service Name - PlayerState
   /// Service Operation - UpdateSummary
   ///
-  /// @param in_jsonSummaryData A JSON string defining the summary data.
-  ///        For example:
-  ///        {
-  ///        "xp":123,
-  ///        "level":12,
-  ///        "highScore":45123
-  ///        }
-  /// @param in_callback Method to be invoked when the server response is received.
+  /// @param jsonSummaryData
+  /// A JSON String defining the summary data.
+  /// For example:
+  /// ```JSON
+  /// {
+  ///   "xp":123,
+  ///   "level":12,
+  ///   "highScore":45123
+  /// }
+  /// ```
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateSummaryFriendData(
       {Map<String, dynamic>? summaryFriendData}) {
     Completer<ServerResponse> completer = Completer();
@@ -195,11 +201,11 @@ class BrainCloudPlayerState {
   }
 
   /// Retrieve the user's attributes.
+  ///
   /// Service Name - PlayerState
   /// Service Operation - GetAttributes
   ///
-  /// @param in_callback The method to be invoked when the server response is received
-  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getAttributes() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -218,15 +224,20 @@ class BrainCloudPlayerState {
   }
 
   /// Update user's attributes.
+  ///
   /// Service Name - PlayerState
   /// Service Operation - UpdateAttributes
   ///
-  /// @param in_jsonAttributes Single layer json string that is a set of key-value pairs
-  /// @param in_wipeExisting Whether to wipe existing attributes prior to update.
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param jsonAttributes
+  /// Single layer json String that is a set of key-value pairs
   ///
+  /// @param wipeExisting
+  /// Whether to wipe existing attributes prior to update.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateAttributes(
-      {required Map<String, dynamic> attributes, required bool wipeExisting}) {
+      {required Map<String, dynamic> attributes,
+      required bool wipeExisting}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
 
@@ -249,13 +260,16 @@ class BrainCloudPlayerState {
   }
 
   /// Remove user's attributes.
+  ///
   /// Service Name - PlayerState
-  /// Service Operation - RemoveAttribute
+  /// Service Operation - RemoveAttributes
   ///
-  /// @param in_attributeNames Collection of attribute names.
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param attributeNames
+  /// List of attribute names.
   ///
-  Future<ServerResponse> removeAttributes({required List<String> attributes}) {
+  /// returns `Future<ServerResponse>`
+  Future<ServerResponse> removeAttributes(
+      {required List<String> attributes}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.playerStateServiceAttributes.value] = attributes;
@@ -275,13 +289,15 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// Update User picture URL.
+  /// Updates player's picture URL.
+  ///
   /// Service Name - PlayerState
   /// Service Operation - UPDATE_PICTURE_URL
   ///
-  /// @param in_pictureUrl URL to apply
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param pictureUrl
+  /// URL to apply.
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateUserPictureUrl({required String pictureUrl}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -304,12 +320,14 @@ class BrainCloudPlayerState {
 
   /// Update the user's contact email.
   /// Note this is unrelated to email authentication.
+  ///
   /// Service Name - PlayerState
   /// Service Operation - UPDATE_CONTACT_EMAIL
   ///
-  /// @param in_contactEmail Updated email
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param contactEmail
+  /// Updated email
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateContactEmail({required String contactEmail}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -330,13 +348,15 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// Delete's the specified status
+  /// Clear the user's status.
+  ///
   /// Service Name - PlayerState
-  /// Service Operation - CLEAR_USER_STATUS
+  /// Service Operation - ClearUserStatus
   ///
-  /// @param in_statusName Updated email
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param statusName
+  /// The name of the status.
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> clearUserStatus({required String statusName}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -357,15 +377,21 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// Stack user's statuses
+  /// Extends the Status.
+  ///
   /// Service Name - PlayerState
-  /// Service Operation - EXTEND_USER_STATUS
+  /// Service Operation - ExtendUserStatus
   ///
-  /// @param in_statusName Updated email
-  ///        @param additionalSecs
-  ///        @param details
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param statusName
+  /// The name of the status.
   ///
+  /// @param additionalSecs
+  /// The number of seconds to add.
+  ///
+  /// @param details
+  /// The details of the status.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> extendUserStatus(
       {required String statusName,
       required int additionalSecs,
@@ -392,13 +418,15 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// Get user status
+  /// Gets the Status.
+  ///
   /// Service Name - PlayerState
-  /// Service Operation - GET_USER_STATUS
+  /// Service Operation - GetUserStatus
   ///
-  /// @param in_statusName Updated email
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param statusName
+  /// The name of the status.
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getUserStatus({required String statusName}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -419,15 +447,19 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// Set timed status for a user
+  /// Sets the Status.
+  ///
   /// Service Name - PlayerState
-  /// Service Operation - SET_USER_STATUS
+  /// Service Operation - SetUserStatus
   ///
-  /// @param in_statusName Updated email
-  ///        @param in_durationSecs
-  ///        @param in_details
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param statusName
+  /// The name of the status.
+  /// @param durationSecs
+  /// The number of seconds to add.
+  /// @param details
+  /// The details of the status.
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> setUserStatus(
       {required String statusName,
       required int durationSecs,
@@ -454,13 +486,15 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// Remove user's attributes.
+  /// Gets the Status.
+  ///
   /// Service Name - PlayerState
-  /// Service Operation - RemoveAttributes
+  /// Service Operation - UpdateLanguageCode
   ///
-  /// @param in_attributeNames Collection of attribute names.
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param statusName
+  /// The name of the status.
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateLanguageCode({required String languageCode}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -481,13 +515,15 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// Remove user's attributes.
+  /// Gets the Status.
+  ///
   /// Service Name - PlayerState
-  /// Service Operation - RemoveAttributes
+  /// Service Operation - UpdateLanguageCode
   ///
-  /// @param in_attributeNames Collection of attribute names.
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param statusName
+  /// The name of the status.
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateTimeZoneOffset(
       {required double timeZoneOffset}) {
     Completer<ServerResponse> completer = Completer();

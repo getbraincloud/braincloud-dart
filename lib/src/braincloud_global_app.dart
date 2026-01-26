@@ -14,12 +14,12 @@ class BrainCloudGlobalApp {
 
   BrainCloudGlobalApp(this._clientRef);
 
-  /// Read game's global properties
+  /// Method reads all the global properties of the game
+  ///
   /// Service Name - GlobalApp
   /// Service Operation - ReadProperties
   ///
-  /// @param in_callback The method to be invoked when the server response is received
-  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readProperties() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -35,14 +35,16 @@ class BrainCloudGlobalApp {
     return completer.future;
   }
 
-  /// Returns a list of properties, identified by the property names provided.
+  /// Returns a list of properties, identified by the propertyNames provided.
   /// If a property from the list isn't found, it just isn't returned (no error).
+  ///
   /// Service Name - GlobalApp
-  /// Service Operation - READ_SELECTED_PROPERTIES
+  /// Service Operation - ReadSelectedProperties
   ///
-  /// @param propertyNames Specifies which properties to return
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param propertyNames
+  /// Specifies which properties to return
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readSelectedProperties(
       {required List<String> propertyNames}) {
     Completer<ServerResponse> completer = Completer();
@@ -63,13 +65,16 @@ class BrainCloudGlobalApp {
   }
 
   /// Returns a list of properties, identified by the categories provided.
+  ///
   /// If a category from the list isn't found, it just isn't returned (no error).
+  ///
   /// Service Name - GlobalApp
-  /// Service Operation - READ_PROPERTIES_IN_CATEGORIES
+  /// Service Operation - ReadPropertiesInCategories
   ///
-  /// @param categories Specifies which category to return
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param categories
+  /// Specifies which categories to return
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readPropertiesInCategories(
       {required List<String> categories}) {
     Completer<ServerResponse> completer = Completer();

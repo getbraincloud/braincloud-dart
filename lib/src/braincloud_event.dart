@@ -14,21 +14,25 @@ class BrainCloudEvent {
 
   BrainCloudEvent(this._clientRef);
 
-  /// Sends an event to the designated user id with the attached json data.
+  /// Sends an event to the designated profile id with the attached json data.
   /// Any events that have been sent to a user will show up in their
-  /// incoming event mailbox. If the in_recordLocally flag is set to true,
+  /// incoming event mailbox. If the recordLocally flag is set to true,
   /// a copy of this event (with the exact same event id) will be stored
   /// in the sending user's "sent" event mailbox.
-  /// Note that the list of sent and incoming events for a user is returned
-  /// in the "ReadPlayerState" call (in the BrainCloudPlayer module).
-  /// Service Name - event
-  /// Service Operation - SEND
   ///
-  /// @param in_toProfileId The id of the user who is being sent the event
-  /// @param in_eventType The user-defined type of the event.
-  /// @param in_jsonEventData The user-defined data for this event encoded in JSON.
-  /// @param in_callback The method to be invoked when the server response is received
+  /// Service Name - Event
+  /// Service Operation - Send
   ///
+  /// @param toProfileId
+  /// The id of the user who is being sent the event
+  ///
+  /// @param eventType
+  /// The user-defined type of the event.
+  ///
+  /// @param jsonEventData
+  /// The user-defined data for this event encoded in JSON.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> sendEvent(
       {required String toProfileId,
       required String eventType,
@@ -56,15 +60,25 @@ class BrainCloudEvent {
     return completer.future;
   }
 
-  /// Sends an event to multiple users with the attached json data.
+  /// Sends an event to the nultiple profile ids with the attached json data.
+  /// Any events that have been sent to a user will show up in their
+  /// incoming event mailbox. If the recordLocally flag is set to true,
+  /// a copy of this event (with the exact same event id) will be stored
+  /// in the sending user's "sent" event mailbox.
+  ///
   /// Service Name - Event
-  /// Service Operation - SEND_EVENT_TO_PROFILES
+  /// Service Operation - Send
   ///
-  /// @param in_toIds The profile ids of the users to send the event
-  /// @param in_eventType The user-defined type of the event
-  /// @param in_eventData The user-defined data for this event encoded in JSON
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param toProfileId
+  /// The id of the user who is being sent the event
   ///
+  /// @param eventType
+  /// The user-defined type of the event.
+  ///
+  /// @param jsonEventData
+  /// The user-defined data for this event encoded in JSON.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> sendEventToProfiles(
       {required List<String> toIds,
       required String eventType,
@@ -86,20 +100,24 @@ class BrainCloudEvent {
                 statusCode: statusCode,
                 reasonCode: reasonCode,
                 error: statusMessage)));
-    ServerCall sc = ServerCall(ServiceName.event,
-        ServiceOperation.sendEventToProfiles, data, callback);
+    ServerCall sc =
+        ServerCall(ServiceName.event, ServiceOperation.sendEventToProfiles, data, callback);
     _clientRef.sendRequest(sc);
     return completer.future;
   }
 
   /// Updates an event in the user's incoming event mailbox.
-  /// Service Name - event
-  /// Service Operation - UPDATE_EVENT_DATA
   ///
-  /// @param in_evId The event id
-  /// @param in_jsonEventData The user-defined data for this event encoded in JSON.
-  /// @param in_callback The method to be invoked when the server response is received
+  /// Service Name - Event
+  /// Service Operation - UpdateEventData
   ///
+  /// @param evId
+  /// The event id
+  ///
+  /// @param jsonEventData
+  /// The user-defined data for this event encoded in JSON.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateIncomingEventData(
       {required String evId, Map<String, dynamic>? eventData}) {
     Completer<ServerResponse> completer = Completer();
@@ -107,7 +125,8 @@ class BrainCloudEvent {
     data[OperationParam.evId.value] = evId;
 
     if (eventData != null) {
-      data[OperationParam.eventServiceUpdateEventDataData.value] = eventData;
+      data[OperationParam.eventServiceUpdateEventDataData.value] =
+          eventData;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -124,14 +143,18 @@ class BrainCloudEvent {
   }
 
   /// Updates an event in the user's incoming event mailbox.
-  /// Returns the same data as updateIncomingEventData, but returns null instead of an error if none exists.
-  /// Service Name - event
-  /// Service Operation - UPDATE_EVENT_DATA
+  /// Returns the same data as UpdateIncomingEventData, but does not return an error if the event does not exist.
   ///
-  /// @param in_evId The event id
-  /// @param in_jsonEventData The user-defined data for this event encoded in JSON.
-  /// @param in_callback The method to be invoked when the server response is received
+  /// Service Name - Event
+  /// Service Operation - UpdateEventData
   ///
+  /// @param evId
+  /// The event id
+  ///
+  /// @param jsonEventData
+  /// The user-defined data for this event encoded in JSON.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateIncomingEventDataIfExists(
       {required String evId, Map<String, dynamic>? eventData}) {
     Completer<ServerResponse> completer = Completer();
@@ -139,7 +162,8 @@ class BrainCloudEvent {
     data[OperationParam.evId.value] = evId;
 
     if (eventData != null) {
-      data[OperationParam.eventServiceUpdateEventDataData.value] = eventData;
+      data[OperationParam.eventServiceUpdateEventDataData.value] =
+          eventData;
     }
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -157,12 +181,14 @@ class BrainCloudEvent {
   }
 
   /// Delete an event out of the user's incoming mailbox.
-  /// Service Name - event
-  /// Service Operation - DELETE_INCOMING
   ///
-  /// @param in_evId The event id
-  /// @param in_callback The method to be invoked when the server response is received
+  /// Service Name - Event
+  /// Service Operation - DeleteIncoming
   ///
+  /// @param evId
+  /// The event id
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteIncomingEvent({required String evId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -182,13 +208,16 @@ class BrainCloudEvent {
   }
 
   /// Delete a list of events out of the user's incoming mailbox.
+  ///
   /// Service Name - event
   /// Service Operation - DELETE_INCOMING_EVENTS
   ///
-  /// @param in_eventIds Collection of event ids
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param in_eventIds
+  /// Collection of event ids
   ///
-  Future<ServerResponse> deleteIncomingEvents({required List<String> evIds}) {
+  /// returns `Future<ServerResponse>`
+  Future<ServerResponse> deleteIncomingEvents(
+      {required List<String> evIds}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.eventServiceEvIds.value] = evIds;
@@ -207,12 +236,14 @@ class BrainCloudEvent {
   }
 
   /// Delete any events older than the given date out of the user's incoming mailbox.
+  ///
   /// Service Name - event
   /// Service Operation - DELETE_INCOMING_EVENTS_OLDER_THAN
   ///
-  /// @param in_dateMillis createdAt cut-off time whereby older events will be deleted (In UTC since Epoch)
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param in_dateMillis
+  /// CreatedAt cut-off time whereby older events will be deleted (In UTC since Epoch)
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteIncomingEventsOlderThan(
       {required int dateMillis}) {
     Completer<ServerResponse> completer = Completer();
@@ -233,13 +264,17 @@ class BrainCloudEvent {
   }
 
   /// Delete any events of the given type older than the given date out of the user's incoming mailbox.
+  ///
   /// Service Name - event
   /// Service Operation - DELETE_INCOMING_EVENTS_BY_TYPE_OLDER_THAN
   ///
-  /// @param in_eventType The user-defined type of the event
-  /// @param in_dateMillis createdAt cut-off time whereby older events will be deleted (In UTC since Epoch)
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param in_eventId
+  /// The event id
   ///
+  /// @param in_dateMillis
+  /// CreatedAt cut-off time whereby older events will be deleted (In UTC since Epoch)
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteIncomingEventsByTypeOlderThan(
       {required String eventType, required int dateMillis}) {
     Completer<ServerResponse> completer = Completer();
@@ -261,11 +296,8 @@ class BrainCloudEvent {
   }
 
   /// Get the events currently queued for the user.
-  /// Service Name - event
-  /// Service Operation - GET_EVENTS
   ///
-  /// @param in_callback The method to be invoked when the server response is received
-  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getEvents() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};

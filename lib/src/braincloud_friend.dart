@@ -15,7 +15,7 @@ class BrainCloudFriend {
 
   BrainCloudFriend(this._clientRef);
 
-// Remove this API as it does nothing more useful than the newer getProfileInfoForCredentialIfExists
+// Remove this API as it does nothing more useful than the newer getProfileInfoForCredentialIfExists 
 // [mc] 2024-12-19
 
   /// Retrieves profile information of the specified user.
@@ -52,15 +52,19 @@ class BrainCloudFriend {
 
   //   return completer.future;
   // }
-  /// Retrieves profile information for the specified user.
-  /// Silently fails, if profile does not exist, just returns null and success, instead of an error.
-  /// Service Name - friend
+  /// Retrieves profile information of the specified user. Will not log an error if 
+  /// profile does not exists.
+  ///
+  /// Service Name - Friend
   /// Service Operation - GET_PROFILE_INFO_FOR_CREDENTIAL_IF_EXISTS
   ///
-  /// @param in_externalId The users's external ID
-  /// @param in_authenticationType The authentication type of the user ID
-  /// @param in_callback Method to be invoked when the server response is received.
+  /// @param externalId
+  /// External id of the user to find
   ///
+  /// @param authenticationType
+  /// The authentication type used for the user's ID
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getProfileInfoForCredentialIfExists(
       {required String externalId,
       required AuthenticationType authenticationType}) {
@@ -84,10 +88,10 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-// Remove this API as it does nothing more useful than the newer getProfileInfoForCredentialIfExists
+// Remove this API as it does nothing more useful than the newer getProfileInfoForCredentialIfExists 
 // [mc] 2024-12-19
 
-  /// Retrieves profile information for the specified external auth user. Will not log an error if
+  /// Retrieves profile information for the specified external auth user. Will not log an error if 
   /// profile does not exists.
   ///
   /// Service Name - Friend
@@ -122,16 +126,21 @@ class BrainCloudFriend {
   //   return completer.future;
   // }
 
-  /// Retrieves profile information for the specified user. Silently fails, if profile does not exist, just returns null and success, instead of an error.
+  /// Retrieves profile information for the specified external auth user.
+  ///
   /// Service Name - Friend
-  /// Service Operation - GET_PROFILE_INFO_FOR_EXTERNAL_AUTH_ID_IF_EXISTS
+  /// Service Operation - GET_PROFILE_INFO_FOR_EXTERNAL_AUTH_ID
   ///
-  /// @param in_externalId External ID of the friend to find
-  /// @param in_externalAuthType The external authentication type used for this friend's external ID
-  /// @param in_callback Method to be invoked when the server response is received.
+  /// @param externalId
+  /// External id of the friend to find
   ///
+  /// @param externalAuthType
+  /// The external authentication type used for this friend's external id
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getProfileInfoForExternalAuthIdIfExists(
-      {required String externalId, required String externalAuthType}) {
+      {required String externalId,
+      required String externalAuthType}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.friendServiceExternalId.value] = externalId;
@@ -144,11 +153,8 @@ class BrainCloudFriend {
                 statusCode: statusCode,
                 reasonCode: reasonCode,
                 error: statusMessage)));
-    ServerCall sc = ServerCall(
-        ServiceName.friend,
-        ServiceOperation.getProfileInfoForExternalAuthIdIfExists,
-        data,
-        callback);
+    ServerCall sc = ServerCall(ServiceName.friend,
+        ServiceOperation.getProfileInfoForExternalAuthIdIfExists, data, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;
@@ -156,10 +162,16 @@ class BrainCloudFriend {
 
   /// Retrieves the external ID for the specified user profile ID on the specified social platform.
   ///
-  /// @param in_profileId Profile (user) ID.
-  /// @param in_authenticationType Associated authentication type.
-  /// @param in_callback The method to be invoked when the server response is received
+  /// Service Name - Friend
+  /// Service Operation - GET_EXTERNAL_ID_FOR_PROFILE_ID
   ///
+  /// @param profileId
+  /// Profile (user) ID.
+  ///
+  /// @param authenticationType
+  /// Associated authentication type.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getExternalIdForProfileId(
       {required String profileId,
       required AuthenticationType authenticationType}) {
@@ -184,13 +196,17 @@ class BrainCloudFriend {
   }
 
   /// Returns a particular entity of a particular friend.
+  ///
   /// Service Name - Friend
   /// Service Operation - ReadFriendEntity
   ///
-  /// @param in_entityId Id of entity to retrieve.
-  /// @param in_friendId Profile Id of friend who owns entity.
-  /// @param in_callback Method to be invoked when the server response is received.
+  /// @param entityId
+  /// Id of entity to retrieve.
   ///
+  /// @param friendId
+  /// Profile Id of friend who owns entity.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readFriendEntity(
       {required String entityId, required String friendId}) {
     Completer<ServerResponse> completer = Completer();
@@ -211,13 +227,15 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Returns entities of all friends optionally based on type.
+  /// Returns entities of all friends based on type and/or subtype.
+  ///
   /// Service Name - Friend
   /// Service Operation - ReadFriendsEntities
   ///
-  /// @param in_entityType Types of entities to retrieve.
-  /// @param in_callback Method to be invoked when the server response is received.
+  /// @param entityType
+  /// Types of entities to retrieve.
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readFriendsEntities({required String entityType}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -237,15 +255,17 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Read a friend's user state.
+  /// Returns user state of a particular friend.
   /// If you are not friend with this user, you will get an error
   /// with NOT_FRIENDS reason code.
+  ///
   /// Service Name - Friend
-  /// Service Operation - ReadFriendsPlayerState
+  /// Service Operation - ReadFriendPlayerState
   ///
-  /// @param in_friendId Target friend
-  /// @param in_callback Method to be invoked when the server response is received.
+  /// @param friendId
+  /// Profile Id of friend to retrieve user state for.
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readFriendUserState({required String friendId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -266,12 +286,14 @@ class BrainCloudFriend {
   }
 
   /// Returns user state of a particular user.
+  ///
   /// Service Name - Friend
   /// Service Operation - GET_SUMMARY_DATA_FOR_PROFILE_ID
   ///
-  /// @param in_profileId Profile Id of user to retrieve user state for.
-  /// @param in_callback Method to be invoked when the server response is received.
+  /// @param profileId
+  /// Profile Id of user to retrieve player state for.
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getSummaryDataForProfileId(
       {required String profileId}) {
     Completer<ServerResponse> completer = Completer();
@@ -292,14 +314,19 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Finds a list of users matching the search text by performing an exact match search
-  /// Service Name - friend
+  /// Finds a list of users matching the search text by performing an exact
+  /// search of all user names.
+  ///
+  /// Service Name - Friend
   /// Service Operation - FIND_USERS_BY_EXACT_NAME
   ///
-  /// @param searchText The string to search for.
-  /// @param maxResults Maximum number of results to return.
-  /// @param in_callback The method to be invoked when the server response is received
+  /// @param searchText
+  /// The String to search for.
   ///
+  /// @param maxResults
+  /// Maximum number of results to return.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> findUsersByExactName(
       {required String searchText, required int maxResults}) {
     Completer<ServerResponse> completer = Completer();
@@ -322,11 +349,15 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Retrieves profile information of the specified universal Id.
+  /// Find a specific user by their Universal Id
   ///
-  /// @param in_searchText Universal ID text on which to search.
-  /// @param in_callback The method to be invoked when the server response is received
+  /// Service Name - Friend
+  /// Service Operation - FIND_USER_BY_EXACT_UNIVERSAL_ID
   ///
+  /// @param universalId
+  /// The universal id to search for.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> findUserByExactUniversalId(
       {required String universalId}) {
     Completer<ServerResponse> completer = Completer();
@@ -348,15 +379,19 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Finds a list of users matching the search text by performing a substring
+  /// Finds a list of users matching the search text by performing a subString
   /// search of all user names.
-  /// Service Name - friend
-  /// Service Operation - FIND_USERS_BY_SUBSTR_NAME
   ///
-  /// @param searchText The substring to search for. Minimum length of 3 characters.
-  /// @param maxResults Maximum number of results to return. If there are more the message
-  /// @param in_callback The method to be invoked when the server response is received
+  /// Service Name - Friend
+  /// Service Operation - FIND_USERS_BY_EXACT_NAME
   ///
+  /// @param searchText
+  /// The subString to search for. Minimum length of 3 characters.
+  ///
+  /// @param maxResults
+  /// Maximum number of results to return.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> findUsersBySubstrName(
       {required String searchText, required int maxResults}) {
     Completer<ServerResponse> completer = Completer();
@@ -380,13 +415,15 @@ class BrainCloudFriend {
   }
 
   /// Retrieves a list of user and friend platform information for all friends of the current user.
+  ///
   /// Service Name - Friend
   /// Service Operation - LIST_FRIENDS
   ///
-  /// @param in_friendPlatform Friend platform to query.
-  /// @param in_includeSummaryData True if including summary data; false otherwise.
-  /// @param in_callback Method to be invoked when the server response is received.
+  /// @param friendPlatformFriend platform to query.
   ///
+  /// @param includeSummaryDataTrue if including summary data; false otherwise.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> listFriends(
       {required FriendPlatform friendPlatform,
       required bool includeSummaryData}) {
@@ -448,12 +485,13 @@ class BrainCloudFriend {
   }
 
   /// Links the current user and the specified users as brainCloud friends.
+  ///
   /// Service Name - Friend
   /// Service Operation - ADD_FRIENDS
   ///
-  /// @param in_profileIds Collection of profile IDs.
-  /// @param in_callback Method to be invoked when the server response is received.
+  /// @param profileIdsCollection of profile IDs.
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> addFriends({required List<String> profileIds}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -475,14 +513,17 @@ class BrainCloudFriend {
   }
 
   /// Links the profiles for the specified externalIds for the given friend platform as internal friends.
+  ///
   /// Service Name - Friend
   /// Service Operation - ADD_FRIENDS_FROM_PLATFORM
   ///
-  /// @param in_friendPlatform Platform to add from (i.e: FriendPlatform::Facebook)
-  /// @param in_mode ADD or SYNC
-  /// @param in_externalIds Collection of external IDs from the friend platform.
-  /// @param in_callback Method to be invoked when the server response is received.
+  /// @param friendPlatformPlatform to add from (i.e: FriendPlatform:Facebook)
   ///
+  /// @param modeADD or SYNC
+  ///
+  /// @param externalIdsCollection of external ID's from the friend platform
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> addFriendsFromPlatform(
       {required FriendPlatform friendPlatform,
       required String mode,
@@ -510,12 +551,13 @@ class BrainCloudFriend {
   }
 
   /// Unlinks the current user and the specified users as brainCloud friends.
+  ///
   /// Service Name - Friend
   /// Service Operation - REMOVE_FRIENDS
   ///
-  /// @param in_profileIds Collection of profile IDs.
-  /// @param in_callback Method to be invoked when the server response is received.
+  /// @param profileIdsCollection of profile IDs.
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> removeFriends({required List<String> profileIds}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -537,12 +579,13 @@ class BrainCloudFriend {
   }
 
   /// Get users online status
+  ///
   /// Service Name - Friend
   /// Service Operation - GET_USERS_ONLINE_STATUS
   ///
-  /// @param in_profileIds Collection of profile IDs.
-  /// @param in_callback Method to be invoked when the server response is received.
+  /// @param profileIdsCollection of profile IDs.
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getUsersOnlineStatus(
       {required List<String> profileIds}) {
     Completer<ServerResponse> completer = Completer();
@@ -564,12 +607,18 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Retrieves profile information for the users whos names start with search text.
+  /// Retrieves Name information for the partial matches of the specified text.
   ///
-  /// @param in_searchText Name text on which to search.
-  /// @param in_maxResults Maximum number of results to return.
-  /// @param in_callback The method to be invoked when the server response is received
+  /// Service Name - Friend
+  /// Service Operation - FIND_USERS_BY_NAME_STARTING_WITH
   ///
+  /// @param searchText
+  /// text on which to search.
+  ///
+  /// @param maxResults
+  /// Maximum number of results to return.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> findUsersByNameStartingWith(
       {required String searchText, required int maxResults}) {
     Completer<ServerResponse> completer = Completer();
@@ -591,12 +640,18 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Retrieves profile information for the users whos UniversalId start with search text.
+  /// Retrieves Universal Id information for the partial matches of the specified text.
   ///
-  /// @param in_searchText Universal ID text on which to search.
-  /// @param in_maxResults Maximum number of results to return.
-  /// @param in_callback The method to be invoked when the server response is received
+  /// Service Name - Friend
+  /// Service Operation - FIND_USERS_BY_UNIVERSAL_ID_STARTING_WITH
   ///
+  /// @param searchText
+  /// text on which to search.
+  ///
+  /// @param maxResults
+  /// Maximum number of results to return.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> findUsersByUniversalIdStartingWith(
       {required String searchText, required int maxResults}) {
     Completer<ServerResponse> completer = Completer();
