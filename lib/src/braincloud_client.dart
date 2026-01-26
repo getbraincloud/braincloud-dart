@@ -9,7 +9,8 @@ import '/src/server_response.dart';
 import '/src/status_codes.dart';
 import '/src/common/platform.dart';
 import '/src/internal/braincloud_comms.dart';
-import '/src/internal/relay_comms.dart' if (dart.library.js_interop) '/src/internal/relay_comms_web.dart';
+import '/src/internal/relay_comms.dart'
+    if (dart.library.js_interop) '/src/internal/relay_comms_web.dart';
 import '/src/internal/rtt_comms.dart';
 import '/src/internal/server_call.dart';
 import '/src/internal/service_name.dart';
@@ -348,9 +349,10 @@ class BrainCloudClient {
     return sessionID;
   }
 
-  /// Returns true if the user is currently authenticated.
-  /// If a session time out or session invalidation is returned from executing a
-  /// sever API call, this flag will reset back to false.
+  /// Returns whether the client is authenticated with the brainCloud server.
+  ///
+  /// @return Future<ServerResponse>
+  ///
 
   bool isAuthenticated() {
     return authenticated;
@@ -360,31 +362,33 @@ class BrainCloudClient {
     return _comms.getReceivedPacketId();
   }
 
-  /// Returns true if brainCloud has been initialized.
+  /// Returns whether the client is initialized.
+  ///
+  /// @return Future<ServerResponse>
+  ///
 
   bool isInitialized() {
     return initialized;
   }
 
-  /// Method initializes the BrainCloudClient.
+  /// Method initializes the BrainCloudClient with multiple app/secret.
+  /// Used when needed to switch between child and parent apps. Automatically passes in
+  /// current serverURL which is https://api.braincloudservers.com/dispatcherv2
   ///
-  /// @param serverURLThe URL to the brainCloud server
+  /// @param in_defaultAppId The default app id that we start with
+  /// @param in_secretMap A map of <appId, secretKey>
+  /// @param in_appVersion The version
+  /// @return Future<ServerResponse>
   ///
-  /// @param defaultAppId The app id
-  ///
-  /// @param appIdSecrectMap The map of appid to secret
-  ///
-  /// @param appVersion The app version
   void initializeWithApps(
       {String serverURL = defaultServerURL,
       required String defaultAppId,
       required Map<String, String> appIdSecretMap,
       required String appVersion}) {
+    String? error = initializeHelper(serverURL,
+        appIdSecretMap[defaultAppId] ?? "", defaultAppId, appVersion);
 
-    String? error = initializeHelper(
-        serverURL, appIdSecretMap[defaultAppId] ?? "", defaultAppId, appVersion);
-
-    if (error != null) throw(error);
+    if (error != null) throw (error);
 
     // set up braincloud which does the message handling
     _comms.initializeWithApps(serverURL, defaultAppId, appIdSecretMap);
@@ -392,15 +396,13 @@ class BrainCloudClient {
     _initialized = true;
   }
 
-  /// Method initializes the BrainCloudClient.
+  /// Method initializes the BrainCloudClient. Automatically passes in current serverURL
+  /// as https://api.braincloudservers.com/dispatcherv2
   ///
-  /// @param serverURLThe URL to the brainCloud server
-  ///
-  /// @param secretKeyThe secret key for your app
-  ///
-  /// @param appId The app id
-  ///
-  /// @param appVersionThe app version
+  /// @param in_secretKey The secret key for your game
+  /// @param in_appId The app id
+  /// @param in_appVersion The version
+  /// @return Future<ServerResponse>
   ///
   void initialize(
       {String? serverURL = defaultServerURL,
@@ -411,35 +413,38 @@ class BrainCloudClient {
 
     String? error = initializeHelper(serverURL, secretKey, appId, appVersion);
 
-    if (error != null) throw(error);
-    
+    if (error != null) throw (error);
+
     // set up braincloud which does the message handling
     _comms.initialize(serverURL, appId, secretKey);
-    
+
     _initialized = true;
-
   }
 
-  /// Initialize the identity aspects of brainCloud.
+  /// Initialize - initializes the identity service with the saved
+  /// anonymous installation id and most recently used profile id
   ///
-  /// @param profileIdThe profile id
+  /// @param in_profileId The id of the profile id that was most recently used by the app (on this device)
+  /// @param in_anonymousId The anonymous installation id that was generated for this device
+  /// @return Future<ServerResponse>
   ///
-  /// @param anonymousIdThe anonymous id
   void initializeIdentity(String profileId, String anonymousId) {
-    authenticationService.initialize(profileId: profileId, anonymousId: anonymousId);
+    authenticationService.initialize(
+        profileId: profileId, anonymousId: anonymousId);
   }
 
-  /// Shuts down all systems needed for BrainCloudClient
+  /// Shuts the brainCloud client down.
   ///
-  /// Only call this from the main thread.
+  /// @return Future<ServerResponse>
   ///
-  /// Should be used at the end of the app, and opposite of Initialize Client
   void shutDown() {
     _comms.shutDown();
   }
 
-  /// Update method needs to be called regularly in order
-  /// to process incoming and outgoing messages.
+  /// Run callbacks, to be called once per frame from your main thread
+  ///
+  /// @return Future<ServerResponse>
+  ///
   void runCallbacks(
       {BrainCloudUpdateType inUpdateType = BrainCloudUpdateType.all}) {
     update(inUpdateType: inUpdateType);
@@ -487,43 +492,48 @@ class BrainCloudClient {
   /// Sets a callback handler for any out of band event messages that come from
   /// brainCloud.
   ///
-  /// @param eventCallback A function which takes a JSON String as it's only parameter.
+  /// @param in_eventCallback A function which takes a json string as it's only parameter.
+  ///        The json format looks like the following:
+  ///        {
+  ///        "events": [{
+  ///        "fromPlayerId": "178ed06a-d575-4591-8970-e23a5d35f9df",
+  ///        "eventId": 3967,
+  ///        "createdAt": 1441742105908,
+  ///        "gameId": "123",
+  ///        "toPlayerId": "178ed06a-d575-4591-8970-e23a5d35f9df",
+  ///        "eventType": "test",
+  ///        "eventData": {"testData": 117}
+  ///        }],
+  ///        ]
+  ///        }
+  /// @return Future<ServerResponse>
   ///
-  ///  The JSON format looks like the following:
-  /// ```{
-  ///   "events": [{
-  ///      "fromPlayerId": "178ed06a-d575-4591-8970-e23a5d35f9df",
-  ///      "eventId": 3967,
-  ///      "createdAt": 1441742105908,
-  ///      "gameId": "123",
-  ///      "toPlayerId": "178ed06a-d575-4591-8970-e23a5d35f9df",
-  ///      "eventType": "test",
-  ///      "eventData": {"testData": 117}
-  ///    }],
-  ///    ]
-  ///  }
   void registerEventCallback(EventCallback eventCallback) {
     _comms.registerEventCallback(eventCallback);
   }
 
-  /// De-registers the event callback.
+  /// Deregisters the event callback
+  ///
+  /// @return Future<ServerResponse>
+  ///
   void deregisterEventCallback() {
     _comms.deregisterEventCallback();
   }
 
-  /// Sets a reward handler for any API call results that return rewards.
+  /// Sets a reward handler for any api call results that return rewards.
   ///
-  /// @param  eventCallback
-  /// The reward callback handler.
+  /// @param in_rewardCallback The reward callback handler.
+  ///        @see The brainCloud apidocs site for more information on the return JSON
+  /// @return Future<ServerResponse>
   ///
-  /// [ref link]: http://getbraincloud.com/apidocs
-  /// The brainCloud API docs site for more information on the return JSON
-  /// [ref link]
   void registerRewardCallback(RewardCallback eventCallback) {
     _comms.registerRewardCallback(eventCallback);
   }
 
-  /// De-registers the reward callback.
+  /// Deregisters the reward callback
+  ///
+  /// @return Future<ServerResponse>
+  ///
 
   void deregisterRewardCallback() {
     _comms.deregisterRewardCallback();
@@ -533,49 +543,65 @@ class BrainCloudClient {
   ///
   /// returns `Future<ServerResponse>`
   void registerFileUploadCallback(Function(ServerResponse) callBack) {
-
     _comms.registerFileUploadCallbacks((a, b) {
       var response = jsonDecode(b);
-      callBack(ServerResponse(statusCode: response['status'], data: response['data']));
+      callBack(ServerResponse(
+          statusCode: response['status'], data: response['data']));
     },
-        (a, statusCode, reasonCode, statusMessage) => callBack(
-            ServerResponse(
-                statusCode: statusCode,
-                reasonCode: reasonCode,
-                error: statusMessage)));
+        (a, statusCode, reasonCode, statusMessage) => callBack(ServerResponse(
+            statusCode: statusCode,
+            reasonCode: reasonCode,
+            error: statusMessage)));
   }
 
-  /// De-registers the file upload callbacks.
+  /// Deregisters the file upload callback
+  ///
+  /// @return Future<ServerResponse>
+  ///
   void deregisterFileUploadCallback() {
     _comms.deregisterFileUploadCallbacks();
   }
 
-  /// Failure callback invoked for all errors generated
+  /// Registers a callback that is invoked for all errors generated
+  ///
+  /// @param in_globalErrorCallback The global error callback handler.
+  /// @return Future<ServerResponse>
+  ///
   void registerGlobalErrorCallback(FailureGlobalCallback callback) {
     _comms.registerGlobalErrorCallback(callback);
   }
 
-  /// De-registers the global error callback.
+  /// Deregisters the global error callback
+  ///
+  /// @return Future<ServerResponse>
+  ///
   void deregisterGlobalErrorCallback() {
     _comms.deregisterGlobalErrorCallback();
   }
 
   /// Registers a callback that is invoked for network errors.
-  ///
-  /// Note this is only called if EnableNetworkErrorMessageCaching
+  /// Note this is only called if enableNetworkErrorMessageCaching
   /// has been set to true.
+  ///
+  /// @param in_networkErrorCallback The network error callback handler.
+  /// @return Future<ServerResponse>
+  ///
   void registerNetworkErrorCallback(NetworkErrorCallback callback) {
     _comms.registerNetworkErrorCallback(callback);
   }
 
-  /// De-registers the network error callback.
+  /// Deregisters the network error callback
+  ///
+  /// @return Future<ServerResponse>
+  ///
   void deregisterNetworkErrorCallback() {
     _comms.deregisterNetworkErrorCallback();
   }
 
-  /// Enable logging of brainCloud transactions (comms etc)
+  /// Set to true to enable logging packets to std::out
   ///
-  /// @param enableTrue if logging is to be enabled
+  /// @return Future<ServerResponse>
+  ///
   void enableLogging(bool enable) {
     _loggingEnabled = enable;
   }
@@ -585,7 +611,10 @@ class BrainCloudClient {
     return _comms.getServerURL;
   }
 
-  /// Resets all messages and calls to the server
+  /// Clears any pending messages from communication library.
+  ///
+  /// @return Future<ServerResponse>
+  ///
   void resetCommunication() {
     _comms.resetCommunication();
     _rttComms.disableRTT();
@@ -602,24 +631,26 @@ class BrainCloudClient {
   }
 
   /// Sets the packet timeouts using a list of integers that
-  /// represent timeout values for each packet retry. The
+  /// represent timeout values in seconds for each packet retry. The
   /// first item in the list represents the timeout for the first packet
   /// attempt, the second for the second packet attempt, and so on.
-  ///
   /// The number of entries in this array determines how many packet
   /// retries will occur.
-  ///
-  /// By default, the packet timeout array is {15, 20, 35, 50}
-  ///
+  /// By default, the packet timeout array is {10, 10, 10}.
   /// Note that this method does not change the timeout for authentication
-  /// packets (use SetAuthenticationPacketTimeout method).
+  /// packets (use setAuthenticationPacketTimeout method).
   ///
-  /// @param timeoutsAn array of packet timeouts.
+  /// @param in_timeouts A vector of packet timeouts.
+  /// @return Future<ServerResponse>
+  ///
   void setPacketTimeouts(List<int> timeouts) {
     _comms.packetTimeouts = timeouts;
   }
 
-  /// Sets the packet timeouts back to default.
+  /// Sets the packet timeouts back to the default ie {10, 10, 10}
+  ///
+  /// @return Future<ServerResponse>
+  ///
   void setPacketTimeoutsToDefault() {
     _comms.setPacketTimeoutsToDefault();
   }
@@ -632,39 +663,54 @@ class BrainCloudClient {
   /// Sets the authentication packet timeout which is tracked separately
   /// from all other packets. Note that authentication packets are never
   /// retried and so this value represents the total time a client would
-  /// wait to receive a reply to an authentication API call. By default
+  /// wait to receive a reply to an authentication api call. By default
   /// this timeout is set to 15 seconds.
   ///
-  /// @param valueSecsThe timeout in seconds.
+  /// @param in_timeoutSecs The timeout in seconds
+  /// @return Future<ServerResponse>
+  ///
   void setAuthenticationPacketTimeout(int timeoutSecs) {
     _comms.authenticationPacketTimeoutSecs = timeoutSecs;
   }
 
-  /// gets the authentication packet timeout which is tracked separately
+  /// Gets the authentication packet timeout which is tracked separately
   /// from all other packets. Note that authentication packets are never
   /// retried and so this value represents the total time a client would
-  /// wait to receive a reply to an authentication API call. By default
+  /// wait to receive a reply to an authentication api call. By default
   /// this timeout is set to 15 seconds.
+  ///
+  /// @return Future<ServerResponse>
+  ///
   int getAuthenticationPacketTimeout() {
     return _comms.authenticationPacketTimeoutSecs;
   }
 
   /// Returns the low transfer rate timeout in secs
+  /// @returns The low transfer rate timeout in secs
+  ///
+  /// @return Future<ServerResponse>
+  ///
   int getUploadLowTransferRateTimeout() {
     return _comms.uploadLowTransferRateTimeout;
   }
 
   /// Sets the timeout in seconds of a low speed upload
-  /// (i.e. transfer rate which is underneath the low transfer rate threshold).
-  /// By default this is set to 120 secs.Setting this value to 0 will
+  /// (ie transfer rate which is underneath the low transfer rate threshold).
+  /// By default this is set to 120 secs. Setting this value to 0 will
   /// turn off the timeout.
   ///
-  /// @param timeoutSecs
+  /// @param in_timeoutSecs The timeout in secs
+  /// @return Future<ServerResponse>
+  ///
   void setUploadLowTransferRateTimeout(int timeoutSecs) {
     _comms.uploadLowTransferRateTimeout = timeoutSecs;
   }
 
   /// Returns the low transfer rate threshold in bytes/sec
+  /// @returns The low transfer rate threshold in bytes/sec
+  ///
+  /// @return Future<ServerResponse>
+  ///
   int getUploadLowTransferRateThreshold() {
     return _comms.uploadLowTransferRateThreshold;
   }
@@ -672,38 +718,40 @@ class BrainCloudClient {
   /// Sets the low transfer rate threshold of an upload in bytes/sec.
   /// If the transfer rate dips below the given threshold longer
   /// than the specified timeout, the transfer will fail.
-  /// By default this is set to 50 bytes/sec.
+  /// By default this is set to 50 bytes/sec. Note that this setting
+  /// only works on platforms that use libcurl (non-windows and win32 but
+  /// not windows store or phone apps).
   ///
-  /// @param bytesPerSecThe low transfer rate threshold in bytes/sec
+  /// @param in_bytesPerSec The low transfer rate threshold in bytes/sec
+  /// @return Future<ServerResponse>
+  ///
   void setUploadLowTransferRateThreshold(int bytesPerSec) {
     _comms.uploadLowTransferRateThreshold = bytesPerSec;
   }
 
-  /// Enables the timeout message caching which is disabled by default.
-  /// Once enabled, if a client side timeout is encountered
+  /// Enables the message caching upon network error, which is disabled by default.
+  /// Once enabled, if a client side network error is encountered
   /// (i.e. brainCloud server is unreachable presumably due to the client
-  /// network being down) the SDK will do the following:
-  ///
-  /// 1. cache the currently queued messages to brainCloud
-  /// 2. call the network error callback
-  /// 3. then expect the app to call either:
-  ///      * RetryCachedMessages() to retry sending to brainCloud
-  ///      * FlushCachedMessages() to dump all messages in the queue.
-  ///
+  /// network being down) the sdk will do the following:
+  /// 1 - cache the currently queued messages to brainCloud
+  /// 2 - call the network error callback
+  /// 3 - then expect the app to call either:
+  /// a) retryCachedMessages() to retry sending to brainCloud
+  /// b) flushCachedMessages() to dump all messages in the queue.
   /// Between steps 2 & 3, the app can prompt the user to retry connecting
   /// to brainCloud to determine whether to follow path 3a or 3b.
-  ///
-  /// Note that if path 3a is followed, and another timeout is encountered,
+  /// Note that if path 3a is followed, and another network error is encountered,
   /// the process will begin all over again from step 1.
-  ///
-  /// WARNING - the brainCloud SDK will cache *all* API calls sent
-  /// when a timeout is encountered if this mechanism is enabled.
+  /// WARNING - the brainCloud sdk will cache *all* api calls sent
+  /// when a network error is encountered if this mechanism is enabled.
   /// This effectively freezes all communication with brainCloud.
-  /// Apps must call either RetryCachedMessages() or FlushCachedMessages()
+  /// Apps must call either retryCachedMessages() or flushCachedMessages()
   /// for the brainCloud SDK to resume sending messages.
-  /// ResetCommunication() will also clear the message cache.
+  /// resetCommunication() will also clear the message cache.
   ///
-  /// @param enabledTrue if message should be cached on timeout
+  /// @param in_enabled True if message should be cached on timeout
+  /// @return Future<ServerResponse>
+  ///
   void enableNetworkErrorMessageCaching(bool enabled) {
     _comms.enableNetworkErrorMessageCaching(enabled);
   }
@@ -714,11 +762,14 @@ class BrainCloudClient {
     _comms.retryCachedMessages();
   }
 
-  /// Flushes the cached messages to resume API call processing. This will dump
+  /// Flushes the cached messages to resume api call processing. This will dump
   /// all of the cached messages in the queue.
   ///
-  /// @param sendApiErrorCallbacksIf set to __true__ API error callbacks will
-  /// be called for every cached message with statusCode [StatusCodes.clientNetworkError] and reasonCode [ReasonCodes.clientNetworkErrorTimeout].
+  /// @param in_sendApiErrorCallbacks If set to true API error callbacks will
+  ///        be called for every cached message with statusCode CLIENT_NETWORK_ERROR
+  ///        and reasonCode CLIENT_NETWORK_ERROR_TIMEOUT.
+  /// @return Future<ServerResponse>
+  ///
   void flushCachedMessages(bool sendApiErrorCallbacks) {
     _comms.flushCachedMessages(sendApiErrorCallbacks);
   }
@@ -742,7 +793,9 @@ class BrainCloudClient {
   /// Sets the country code sent to brainCloud when a user authenticates.
   /// Will override any auto detected country.
   ///
-  /// @param countryCodeISO 3166-1 two-letter country code
+  /// @param in_countryCode ISO 3166-1 two-letter country code
+  /// @return Future<ServerResponse>
+  ///
   void overrideCountryCode(String countryCode) {
     _countryCode = countryCode;
   }
@@ -751,14 +804,16 @@ class BrainCloudClient {
   /// If the language is set to a non-ISO 639-1 standard value the game default will be used instead.
   /// Will override any auto detected language.
   ///
-  /// @param languageCodeISO 639-1 two-letter language code
+  /// @param in_languageCode ISO 639-1 two-letter language code
+  /// @return Future<ServerResponse>
+  ///
   void overrideLanguageCode(String languageCode) {
     _languageCode = languageCode;
   }
 
   /// Normally not needed as the brainCloud SDK sends heartbeats automatically.
   /// Regardless, this is a manual way to send a heartbeat.
-   Future<ServerResponse>  sendHeartbeat() {
+  Future<ServerResponse> sendHeartbeat() {
     final Completer<ServerResponse> completer = Completer();
 
     ServerCall sc = ServerCall(
@@ -776,7 +831,7 @@ class BrainCloudClient {
         }));
 
     _comms.addToQueue(sc);
-    
+
     return completer.future;
   }
 
@@ -787,16 +842,19 @@ class BrainCloudClient {
           "${DateFormat("HH:mm:ss.SSS").format(DateTime.now())} #BCC ${(log.length < 14000 ? log : log.substring(0, 14000) + " << (LOG TRUNCATED)")}";
 
       if (_logDelegate != null) {
-        _logDelegate!({"msg":formattedLog});
+        _logDelegate!({"msg": formattedLog});
       } else {
         print(formattedLog);
       }
     }
   }
 
-  /// Sends a service request message to the server.
+  /// Sends a service request message to the server. This will most likely be placed
+  /// in a queue...
+  /// @param in_serviceMessage
   ///
-  /// @param serviceMessageThe message to send
+  /// @return Future<ServerResponse>
+  ///
   void sendRequest(ServerCall serviceMessage) {
     // pass this directly to the brainCloud Class
     // which will add it to its queue and send back responses accordingly

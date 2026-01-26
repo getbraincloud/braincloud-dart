@@ -28,8 +28,10 @@ class BrainCloudAuthentication {
   BrainCloudAuthentication(this._clientRef);
 
   /// Used to create the anonymous installation id for the brainCloud profile.
+  /// @returns A unique Anonymous ID
   ///
-  /// returns A unique Anonymous ID
+  /// @return Future<ServerResponse>
+  ///
   String generateAnonymousId() {
     return const Uuid().v4();
   }
@@ -37,11 +39,10 @@ class BrainCloudAuthentication {
   /// Initialize - initializes the identity service with a saved
   /// anonymous installation id and most recently used profile id
   ///
-  /// @param pId
-  /// The id of the profile id that was most recently used by the app (on this device)
+  /// @param in_anonymousId The anonymous installation id that was generated for this device
+  /// @param in_profileId The id of the profile id that was most recently used by the app (on this device)
+  /// @return Future<ServerResponse>
   ///
-  /// @param aId
-  /// The anonymous installation id that was generated for this device
   void initialize({required String profileId, required String anonymousId}) {
     _profileId = profileId;
     _anonymousId = anonymousId;
@@ -49,7 +50,10 @@ class BrainCloudAuthentication {
   }
 
   /// Used to clear the saved profile id - to use in cases when the user is
-  /// attempting to switch to a different app profile.
+  /// attempting to switch to a different game profile.
+  ///
+  /// @return Future<ServerResponse>
+  ///
   void clearSavedProfileId() {
     _profileId = null;
   }
@@ -108,23 +112,17 @@ class BrainCloudAuthentication {
         forceCreate: forceCreate);
   }
 
-  /// Authenticate the user using a userId and password (without any validation on the userId).
+  /// Authenticate the user using a userid and password (without any validation on the userid).
   /// Similar to AuthenticateEmailPassword - except that that method has additional features to
   /// allow for e-mail validation, password resets, etc.
-  ///
   /// Service Name - Authenticate
   /// Service Operation - Authenticate
   ///
-  /// @param email
-  /// The e-mail address of the user
+  /// @param in_userId The user id of the user
+  /// @param in_password The password of the user
+  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
+  /// @return Future<ServerResponse>
   ///
-  /// @param password
-  /// The password of the user
-  ///
-  /// @param forceCreate
-  /// Should a new profile be created for this user if the account does not exist?
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateUniversal(
       {required String userId,
       required String password,
@@ -137,21 +135,15 @@ class BrainCloudAuthentication {
   }
 
   /// Authenticate the user with brainCloud using their Facebook Credentials
-  ///
   /// Service Name - Authenticate
   /// Service Operation - Authenticate
   ///
-  /// @param externalId
-  /// The facebook id of the user
+  /// @param in_fbUserId The facebook id of the user
+  /// @param in_fbAuthToken The validated token from the Facebook SDK
+  ///        (that will be further validated when sent to the bC service)
+  /// @param in_forceCreate Should a new profile be created for this user if the account does not exist?
+  /// @return Future<ServerResponse>
   ///
-  /// @param authenticationToken
-  /// The validated token from the Facebook SDK (that will be further
-  /// validated when sent to the bC service)
-  ///
-  /// @param forceCreate
-  /// Should a new profile be created for this user if the account does not exist?
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateFacebook(
       {required String facebookId,
       required String token,
@@ -290,21 +282,15 @@ class BrainCloudAuthentication {
         forceCreate: forceCreate);
   }
 
-  /// Authenticate the user using a steam userId and session ticket (without any validation on the userId).
-  ///
+  /// Authenticate the user using a steam userid and session ticket (without any validation on the userid).
   /// Service Name - Authenticate
   /// Service Operation - Authenticate
   ///
-  /// @param userId
-  /// String representation of 64 bit steam id
+  /// @param in_userId String representation of 64 bit steam id
+  /// @param in_sessionticket The session ticket of the user (hex encoded)
+  /// @param in_forceCreate Should a new profile be created for this user if the account does not exist?
+  /// @return Future<ServerResponse>
   ///
-  /// @param sessionticket
-  /// The session ticket of the user (hex encoded)
-  ///
-  /// @param forceCreate
-  /// Should a new profile be created for this user if the account does not exist?
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateSteam(
       {required String steamId,
       required String sessionTicket,
@@ -316,21 +302,15 @@ class BrainCloudAuthentication {
         forceCreate: forceCreate);
   }
 
-  /// Authenticate the user using an apple id
-  ///
+  /// Authenticate the user using a google userid(email address) and google authentication token.
   /// Service Name - Authenticate
   /// Service Operation - Authenticate
   ///
-  /// @param appleUserId
-  /// This can be the user id OR the email of the user for the account
+  /// @param in_appleUserId String of the apple accounts user Id OR email
+  /// @param in_identityToken The authentication token confirming users identity
+  /// @param in_forceCreate Should a new profile be created for this user if the account does not exist?
+  /// @return Future<ServerResponse>
   ///
-  /// @param identityToken
-  /// The token confirming the user's identity
-  ///
-  /// @param forceCreate
-  /// Should a new profile be created for this user if the account does not exist?
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateApple(
       {required String appleUserId,
       required String identityToken,
