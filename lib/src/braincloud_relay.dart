@@ -2,10 +2,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:typed_data';
 
-import '/src/internal/relay_comms.dart' if (dart.library.js_interop) '/src/internal/relay_comms_web.dart';
+import '/src/internal/relay_comms.dart'
+    if (dart.library.js_interop) '/src/internal/relay_comms_web.dart';
 import '/src/braincloud_client.dart';
 import '/src/server_callback.dart';
-
 
 class BrainCloudRelay {
   final BrainCloudClient _clientRef;
@@ -72,18 +72,30 @@ class BrainCloudRelay {
 
   /// Start off a connection, based off connection type to brainClouds Relay Servers.  Connect options come in from "ROOM_ASSIGNED" lobby callback
 
-  /// @param in_connectionType
-  /// @param in_options
+  /// Start a connection, based on connection type to
+  /// brainClouds Relay Servers. Connect options come in
+  /// from ROOM_ASSIGNED lobby callback.
+  /// @param connectionType
+  /// @param host
+  /// @param port
+  /// @param passcode
+  /// @param lobbyId
+  ///
+  /// @return Future<ServerResponse>
+  ///
   void connect(
-      {required RelayConnectionType connectionType,      
+      {required RelayConnectionType connectionType,
       required RelayConnectOptions options,
       SuccessCallback? onSuccess,
       FailureCallback? onFailure}) {
-      // This cannot be converted to use Future as these callack can be called multiple times.
+    // This cannot be converted to use Future as these callack can be called multiple times.
     _commsLayer.connect(connectionType, options, onSuccess, onFailure);
   }
 
-  /// Disables relay event for this session.
+  /// Disconnects from the relay server
+  ///
+  /// @return Future<ServerResponse>
+  ///
 
   void disconnect() {
     _commsLayer.disconnect();
@@ -91,7 +103,10 @@ class BrainCloudRelay {
 
   /// Terminate the match instance by the owner.
 
-  /// @param jsonpayload data sent in JSON format. It will be relayed to other connnected players.
+  /// Requests to end the current match on the relay server
+  ///
+  /// @return Future<ServerResponse>
+  ///
   void endMatch({required Map<String, dynamic> payload}) {
     _commsLayer.endMatch(payload);
   }
@@ -102,7 +117,10 @@ class BrainCloudRelay {
     return _commsLayer.isConnected;
   }
 
-  /// Register callback for relay messages coming from peers on the main thread
+  /// Register callback for relay messages coming from peers.
+  ///
+  /// @return Future<ServerResponse>
+  ///
 
   void registerRelayCallback(RelayCallback inCallback) {
     _commsLayer.registerRelayCallback(inCallback);
@@ -116,44 +134,8 @@ class BrainCloudRelay {
 
   /// Register callback for RelayServer system messages.
   ///
-  /// # CONNECT
-  /// Received when a new member connects to the server.
-  /// {
-  ///   op: "CONNECT",
-  ///   profileId: "...",
-  ///   ownerId: "...",
-  ///   netId: #
-  /// }
+  /// @return Future<ServerResponse>
   ///
-  /// # NET_ID
-  /// Receive the Net Id assossiated with a profile Id. This is
-  /// sent for each already connected members once you
-  /// successfully connected.
-  /// {
-  ///   op: "NET_ID",
-  ///   profileId: "...",
-  ///   netId: #
-  /// }
-  ///
-  /// # DISCONNECT
-  /// Received when a member disconnects from the server.
-  /// {
-  ///   op: "DISCONNECT",
-  ///   profileId: "..."
-  /// }
-  ///
-  /// # MIGRATE_OWNER
-  /// If the owner left or never connected in a timely manner,
-  /// the relay-server will migrate the role to the next member
-  /// with the best ping. If no one else is currently connected
-  /// yet, it will be transferred to the next member in the
-  /// lobby members' list. This last scenario can only occur if
-  /// the owner connected first, then quickly disconnected.
-  /// Leaving only unconnected lobby members.
-  /// {
-  ///   op: "MIGRATE_OWNER",
-  ///   profileId: "..."
-  /// }
 
   void registerSystemCallback(RelaySystemCallback inCallback) {
     _commsLayer.registerSystemCallback(inCallback);
@@ -167,24 +149,21 @@ class BrainCloudRelay {
 
   /// Send a packet to peer(s)
 
-  /// param in_data="message to be sent"
-  /// param to_netId="the net id to send to, BrainCloudRelay.TO_ALL_PLAYERS to relay to all"
-  /// param in_reliable="send this reliably or not"
-  /// param in_ordered="received this ordered or not"
-  /// param in_channel="0,1,2,3 (max of four channels)"
-  /// CHANNEL_HIGH_PRIORITY_1 = 0;
-  /// CHANNEL_HIGH_PRIORITY_2 = 1;
-  /// CHANNEL_NORMAL_PRIORITY = 2;
-  /// CHANNEL_LOW_PRIORITY = 3;
+  /// Send a packet to peer(s)
+  ///
+  /// @param data Byte array for the data to send
+  /// @param size Size of data in bytes
+  /// @param toNetId The net id to send to, TO_ALL_PLAYERS to relay to all.
+  /// @param reliable Send this reliable or not.
+  /// @param ordered Receive this ordered or not.
+  /// @param channel One of: (CHANNEL_HIGH_PRIORITY_1, CHANNEL_HIGH_PRIORITY_2, CHANNEL_NORMAL_PRIORITY, CHANNEL_LOW_PRIORITY)
+  /// @return Future<ServerResponse>
+  ///
 
   void send(Uint8List data, int toNetid,
       {bool reliable = true, bool ordered = true, int channel = 0}) {
     if (toNetid == toAllPlayers) {
-      sendToAll(
-          data,
-          reliable: reliable,
-          ordered: ordered,
-          inChannel: channel);
+      sendToAll(data, reliable: reliable, ordered: ordered, inChannel: channel);
     } else if (toNetid >= maxPlayers) {
       // Error. Invalid net id
       String error = "Invalid NetId: $toNetid";
@@ -197,18 +176,18 @@ class BrainCloudRelay {
 
   /// Send a packet to any players by using a mask
 
-  /// param in_data="message to be sent"
-  /// param in_playerMask="Mask of the players to send to. 0001 = netId 0, 0010 = netId 1, etc. If you pass ALL_PLAYER_MASK you will be included and you will get an echo for your message. Use sendToAll instead, you will be filtered out. You can manually filter out by : ALL_PLAYER_MASK &= ~(1 << myNetId)"
-  /// param in_reliable="send this reliably or not"
-  /// param in_ordered="received this ordered or not"
-  /// param in_channel="0,1,2,3 (max of four channels)"
-  /// CHANNEL_HIGH_PRIORITY_1 = 0;
-  /// CHANNEL_HIGH_PRIORITY_2 = 1;
-  /// CHANNEL_NORMAL_PRIORITY = 2;
-  /// CHANNEL_LOW_PRIORITY = 3;
+  /// Send a packet to any players by using a mask
+  ///
+  /// @param data Byte array for the data to send
+  /// @param size Size of data in bytes
+  /// @param playerMask Mask of the players to send to. 0001 = netId 0, 0010 = netId 1, etc. If you pass ALL_PLAYER_MASK you will be included and you will get an echo for your message. Use sendToAll instead, you will be filtered out. You can manually filter out by : ALL_PLAYER_MASK &= ~(1 << myNetId)
+  /// @param reliable Send this reliable or not.
+  /// @param ordered Receive this ordered or not.
+  /// @param channel One of: (CHANNEL_HIGH_PRIORITY_1, CHANNEL_HIGH_PRIORITY_2, CHANNEL_NORMAL_PRIORITY, CHANNEL_LOW_PRIORITY)
+  /// @return Future<ServerResponse>
+  ///
 
-  void sendToPlayers(
-      Uint8List data,
+  void sendToPlayers(Uint8List data,
       {required int playerMask,
       bool reliable = true,
       bool ordered = true,
@@ -218,20 +197,18 @@ class BrainCloudRelay {
 
   /// Send a packet to all except yourself
 
-  /// param in_data="message to be sent"
-  /// param in_reliable="send this reliably or not"
-  /// param in_ordered="received this ordered or not"
-  /// param in_channel="0,1,2,3 (max of four channels)"
-  /// CHANNEL_HIGH_PRIORITY_1 = 0;
-  /// CHANNEL_HIGH_PRIORITY_2 = 1;
-  /// CHANNEL_NORMAL_PRIORITY = 2;
-  /// CHANNEL_LOW_PRIORITY = 3;
+  /// Send a packet to all except yourself
+  ///
+  /// @param data Byte array for the data to send
+  /// @param size Size of data in bytes
+  /// @param reliable Send this reliable or not.
+  /// @param ordered Receive this ordered or not.
+  /// @param channel One of: (CHANNEL_HIGH_PRIORITY_1, CHANNEL_HIGH_PRIORITY_2, CHANNEL_NORMAL_PRIORITY, CHANNEL_LOW_PRIORITY)
+  /// @return Future<ServerResponse>
+  ///
 
-  void sendToAll(
-      Uint8List data,
-      {bool reliable = true,
-      bool ordered = true,
-      int inChannel = 0}) {
+  void sendToAll(Uint8List data,
+      {bool reliable = true, bool ordered = true, int inChannel = 0}) {
     var myProfileId = _clientRef.authenticationService.profileId;
     var myNetId = getNetIdForProfileId(myProfileId!);
 
@@ -241,7 +218,12 @@ class BrainCloudRelay {
     _commsLayer.send(data, playerMask, reliable, ordered, inChannel);
   }
 
-  /// Set the ping interval in Seconds
+  /// Set the ping interval. Ping allows to keep the connection
+  /// alive, but also inform the player of his current ping.
+  /// The default is 1 second interval.
+  ///
+  /// @return Future<ServerResponse>
+  ///
 
   void setPingInterval(int inIntervalSec) {
     _commsLayer.setPingInterval(inIntervalSec);

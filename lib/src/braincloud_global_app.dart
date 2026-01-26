@@ -14,12 +14,12 @@ class BrainCloudGlobalApp {
 
   BrainCloudGlobalApp(this._clientRef);
 
-  /// Method reads all the global properties of the game
-  ///
+  /// Read game's global properties
   /// Service Name - GlobalApp
   /// Service Operation - ReadProperties
   ///
-  /// returns `Future<ServerResponse>`
+  /// @return Future<ServerResponse>
+  ///
   Future<ServerResponse> readProperties() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -35,16 +35,14 @@ class BrainCloudGlobalApp {
     return completer.future;
   }
 
-  /// Returns a list of properties, identified by the propertyNames provided.
+  /// Returns a list of properties, identified by the property names provided.
   /// If a property from the list isn't found, it just isn't returned (no error).
-  ///
   /// Service Name - GlobalApp
-  /// Service Operation - ReadSelectedProperties
+  /// Service Operation - READ_SELECTED_PROPERTIES
   ///
-  /// @param propertyNames
-  /// Specifies which properties to return
+  /// @param propertyNames Specifies which properties to return
+  /// @return Future<ServerResponse>
   ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readSelectedProperties(
       {required List<String> propertyNames}) {
     Completer<ServerResponse> completer = Completer();
@@ -65,16 +63,13 @@ class BrainCloudGlobalApp {
   }
 
   /// Returns a list of properties, identified by the categories provided.
-  ///
   /// If a category from the list isn't found, it just isn't returned (no error).
-  ///
   /// Service Name - GlobalApp
-  /// Service Operation - ReadPropertiesInCategories
+  /// Service Operation - READ_PROPERTIES_IN_CATEGORIES
   ///
-  /// @param categories
-  /// Specifies which categories to return
+  /// @param categories Specifies which category to return
+  /// @return Future<ServerResponse>
   ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readPropertiesInCategories(
       {required List<String> categories}) {
     Completer<ServerResponse> completer = Completer();
