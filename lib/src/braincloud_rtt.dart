@@ -16,16 +16,17 @@ class BrainCloudRTT {
   /// Real Time events are disabled by default. Usually events
   /// need to be polled using GET_EVENTS. By enabling this, events will
   /// be received instantly when they happen through a TCP connection to an Event Server.
+  /// This function will first call requestClientConnection, then connect to the address
   ///
-  ///This function will first call requestClientConnection, then connect to the address
+  /// @param callback The callback.
+  /// @param useWebSocket Use web sockets instead of TCP for the internal connections. Default is true
   ///
-  /// @param in_connectionType
-  ///
-  /// returns `Future<RTTCommandResponse>`
-  void enableRTT({RTTConnectionType? connectiontype,RTTSuccessCallback? successCallback, RTTFailureCallback? failureCallback}) {
-    
-    _commsLayer.enableRTT(connectiontype ?? RTTConnectionType.websocket,successCallback,failureCallback);
-
+  void enableRTT(
+      {RTTConnectionType? connectiontype,
+      RTTSuccessCallback? successCallback,
+      RTTFailureCallback? failureCallback}) {
+    _commsLayer.enableRTT(connectiontype ?? RTTConnectionType.websocket,
+        successCallback, failureCallback);
   }
 
   /// Disables Real Time event for this session.
@@ -43,21 +44,37 @@ class BrainCloudRTT {
     return _commsLayer.getConnectionStatus();
   }
 
+  /// Listen to real time events.
+  /// Notes: RTT must be enabled for this app, and enableRTT must have been successfully called.
+  /// Only one event callback can be registered at a time. Calling this a second time will override the previous callback.
+  ///
   ///
   void registerRTTEventCallback(RTTCallback inCallback) {
     _commsLayer.registerRTTCallback(ServiceName.event, inCallback);
   }
 
+  /// Listen to real time chat messages.
+  /// Notes: RTT must be enabled for this app, and enableRTT must have been successfully called.
+  /// Only one chat callback can be registered at a time. Calling this a second time will override the previous callback.
+  ///
   ///
   void deregisterRTTEventCallback() {
     _commsLayer.deregisterRTTCallback(ServiceName.event);
   }
 
+  /// Listen to real time chat messages.
+  /// Notes: RTT must be enabled for this app, and enableRTT must have been successfully called.
+  /// Only one chat callback can be registered at a time. Calling this a second time will override the previous callback.
+  ///
   ///
   void registerRTTChatCallback(RTTCallback inCallback) {
     _commsLayer.registerRTTCallback(ServiceName.chat, inCallback);
   }
 
+  /// Listen to real time presence events.
+  /// Notes: RTT must be enabled for this app, and enableRTT must have been successfully called.
+  /// Only one presence callback can be registered at a time. Calling this a second time will override the previous callback.
+  ///
   ///
   void deregisterRTTChatCallback() {
     _commsLayer.deregisterRTTCallback(ServiceName.chat);
@@ -121,6 +138,9 @@ class BrainCloudRTT {
   }
 
   /// Requests the event server address
+  ///
+  /// @param callback The callback.
+  ///
   void requestClientConnection(
       SuccessCallback? success, FailureCallback? failure) {
     ServerCallback? callback =

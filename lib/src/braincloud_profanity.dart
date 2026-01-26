@@ -15,21 +15,21 @@ class BrainCloudProfanity {
   BrainCloudProfanity(this._clientRef);
 
   /// Checks supplied text for profanity.
-  ///
   /// Service Name - Profanity
   /// Service Operation - ProfanityCheck
   ///
-  /// @param textThe text to check
+  /// @param in_text The text to check
+  /// @param in_languages Optional comma delimited list of two character language codes
+  /// @param in_flagEmail Optional processing of email addresses
+  /// @param in_flagPhone Optional processing of phone numbers
+  /// @param in_flagUrls Optional processing of urls
+  /// @param in_callback The method to be invoked when the server response is received
+  ///        Significant error codes:
+  ///        40421 - WebPurify not configured
+  ///        40422 - General exception occurred
+  ///        40423 - WebPurify returned an error (Http status != 200)
+  ///        40424 - WebPurify not enabled
   ///
-  /// @param languagesOptional comma delimited list of two character language codes
-  ///
-  /// @param flagEmailOptional processing of email addresses
-  ///
-  /// @param flagPhoneOptional processing of phone numbers
-  ///
-  /// @param flagUrlsOptional processing of urls
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> profanityCheck(
       {required String text,
       String? languages,
@@ -62,23 +62,22 @@ class BrainCloudProfanity {
   }
 
   /// Replaces the characters of profanity text with a passed character(s).
-  ///
   /// Service Name - Profanity
   /// Service Operation - ProfanityReplaceText
   ///
-  /// @param textThe text to check
+  /// @param in_text The text to check
+  /// @param in_replaceSymbol The text to replace individual characters of profanity text with
+  /// @param in_languages Optional comma delimited list of two character language codes
+  /// @param in_flagEmail Optional processing of email addresses
+  /// @param in_flagPhone Optional processing of phone numbers
+  /// @param in_flagUrls Optional processing of urls
+  /// @param in_callback The method to be invoked when the server response is received
+  ///        Significant error codes:
+  ///        40421 - WebPurify not configured
+  ///        40422 - General exception occurred
+  ///        40423 - WebPurify returned an error (Http status != 200)
+  ///        40424 - WebPurify not enabled
   ///
-  /// @param replaceSymbolThe text to replace individual characters of profanity text with
-  ///
-  /// @param languagesOptional comma delimited list of two character language codes
-  ///
-  /// @param flagEmailOptional processing of email addresses
-  ///
-  /// @param flagPhoneOptional processing of phone numbers
-  ///
-  /// @param flagUrlsOptional processing of urls
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> profanityReplaceText(
       {required String text,
       required String replaceSymbol,
@@ -113,21 +112,21 @@ class BrainCloudProfanity {
   }
 
   /// Checks supplied text for profanity and returns a list of bad wors.
-  ///
   /// Service Name - Profanity
   /// Service Operation - ProfanityIdentifyBadWords
   ///
-  /// @param textThe text to check
+  /// @param in_text The text to check
+  /// @param in_languages Optional comma delimited list of two character language codes
+  /// @param in_flagEmail Optional processing of email addresses
+  /// @param in_flagPhone Optional processing of phone numbers
+  /// @param in_flagUrls Optional processing of urls
+  /// @param in_callback The method to be invoked when the server response is received
+  ///        Significant error codes:
+  ///        40421 - WebPurify not configured
+  ///        40422 - General exception occurred
+  ///        40423 - WebPurify returned an error (Http status != 200)
+  ///        40424 - WebPurify not enabled
   ///
-  /// @param languagesOptional comma delimited list of two character language codes
-  ///
-  /// @param flagEmailOptional processing of email addresses
-  ///
-  /// @param flagPhoneOptional processing of phone numbers
-  ///
-  /// @param flagUrlsOptional processing of urls
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> profanityIdentifyBadWords(
       {required String text,
       String? languages,

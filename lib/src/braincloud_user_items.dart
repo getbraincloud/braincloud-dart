@@ -14,21 +14,17 @@ class BrainCloudUserItems {
 
   BrainCloudUserItems(this._clientRef);
 
-  /// Allows item(s) to be awarded to a user without collecting
-  /// the purchase amount. If includeDef is true, response
-  /// includes associated itemDef with language fields limited
-  /// to the current or default language.
-  ///
+  /// Awards item(s) to a user without collecting the purchase amount.
+  /// If includeDef is true, response includes associated itemDef
+  /// with language fields limited to the current or default language.
   /// Service Name - userItems
-  /// Service Operation - AwardUserItem
+  /// Service Operation - AWARD_USER_ITEM
   ///
-  /// @param defId The unique id of the item definition to award.
+  /// @param in_defId The unique id of the item definition to award.
+  /// @param in_quantity The quantity of the item to award.
+  /// @param in_includeDef If true, include associated item definition in the response.
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param quantity The quantity of the item to award.
-  ///
-  /// @param includeDef If true, the associated item definition will be included in the response.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> awardUserItem(
       {required String defId,
       required int quantity,
@@ -54,22 +50,16 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Allows a quantity of a specified user item to be dropped,
-  ///without any recovery of the money paid for the item. If any
-  ///quantity of the user item remains, it will be returned, potentially
-  ///with the associated itemDef (with language fields limited to the
-  ///current or default language).
-  ///
+  /// Drops a quantity of a specified user item without recovering the purchase cost.
+  /// If any quantity remains, it may include the associated itemDef.
   /// Service Name - userItems
-  /// Service Operation - DropUserItem
+  /// Service Operation - DROP_USER_ITEM
   ///
-  /// @param itemId The unique id of the user item.
+  /// @param in_defId The unique id of the item definition to drop.
+  /// @param in_quantity The quantity of the item to drop.
+  /// @param in_includeDef If true, include associated item definition in the response.
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param quantity The quantity of the user item to drop.
-  ///
-  /// @param includeDef If true and any quantity of the user item remains, the associated item definition will be included in the response.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> dropUserItem(
       {required String itemId,
       required int quantity,
@@ -95,19 +85,14 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Retrieves the page of user's inventory from the server
-  ///based on the context. If includeDef is true, response includes
-  /// associated itemDef with each user item, with language fields
-  ///limited to the current or default language.
-  ///
+  /// Retrieves a page of the user's inventory.
   /// Service Name - userItems
-  /// Service Operation - GetUserInventoryPage
+  /// Service Operation - GET_USER_INVENTORY_PAGE
   ///
-  /// @param context The json context for the page request.
+  /// @param in_context Context string used to filter inventory.
+  /// @param in_includeDef If true, include associated item definitions in the response.
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param includeDef If true, the associated item definition will be included in the response.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getUserItemsPage(
       {required Map<String, dynamic> context, required bool includeDef}) {
     Completer<ServerResponse> completer = Completer();
@@ -131,22 +116,15 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Retrieves the page of user's inventory
-  ///from the server based on the encoded context.
-  ///If includeDef is true, response includes associated
-  ///itemDef with each user item, with language fields limited
-  ///to the current or default language.
-  ///
+  /// Retrieves a page of the user's inventory with an offset.
   /// Service Name - userItems
-  /// Service Operation - GetUserInventoryPageOffset
+  /// Service Operation - GET_USER_INVENTORY_PAGE_OFFSET
   ///
-  /// @param context The context string returned from the server from a previous call to SysGetCatalogItemsPage or SysGetCatalogItemsPageOffset.
+  /// @param in_context Context string used to filter inventory.
+  /// @param in_pageOffset Page offset to retrieve.
+  /// @param in_includeDef If true, include associated item definitions in the response.
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param pageOffset The positive or negative page offset to fetch. Uses the last page retrieved using the context string to determine a starting point.
-  ///
-  /// @param includeDef If true, the associated item definition will be included in the response.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getUserItemsPageOffset(
       {required String context,
       required int pageOffset,
@@ -172,19 +150,14 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Retrieves the identified user item from the server.
-  /// If includeDef is true, response includes associated
-  /// itemDef with language fields limited to the current
-  ///or default language.
-  ///
+  /// Retrieves a specific user item.
   /// Service Name - userItems
-  /// Service Operation - GetUserItem
+  /// Service Operation - GET_USER_ITEM
   ///
-  /// @param itemId The unique id of the user item.
+  /// @param in_itemId ID of the user item to retrieve.
+  /// @param in_includeDef If true, include associated item definition in the response.
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param includeDef If true, the associated item definition will be included in the response.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getUserItem(
       {required String itemId, required bool includeDef}) {
     Completer<ServerResponse> completer = Completer();
@@ -207,22 +180,17 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Gifts item to the specified player.
-  ///
+  /// Gifts an item to another user.
   /// Service Name - userItems
-  /// Service Operation - GetUserItem
+  /// Service Operation - GIVE_USER_ITEM_TO
   ///
-  /// @param profileId The ID of the recipient's user profile.
+  /// @param in_profileId Profile ID of the recipient.
+  /// @param in_itemId ID of the item to gift.
+  /// @param in_version Version of the item being gifted.
+  /// @param in_quantity Quantity of the item to gift.
+  /// @param in_immediate If true, the gift is delivered immediately.
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param itemId The ID uniquely identifying the user item to be transferred.
-  ///
-  /// @param version The version of the user item being transferred.
-  ///
-  /// @param quantity The quantity of the user item to transfer.
-  ///
-  /// @param immediate Flag set to true if item is to be immediately transferred, otherwise false to have the sender sents an event and transfers item(s) only when recipient calls receiveUserItemFrom.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> giveUserItemTo(
       {required String profileId,
       required String itemId,
@@ -252,23 +220,16 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Purchases a quantity of an item from the specified store,
-  ///if the user has enough funds. If includeDef is true,
-  ///response includes associated itemDef with language fields
-  /// limited to the current or default language.
-  ///
+  /// Purchases a user item from a store.
   /// Service Name - userItems
-  /// Service Operation - GetUserItem
+  /// Service Operation - PURCHASE_USER_ITEM
   ///
-  /// @param defId The unique id of the item definition to purchase.
+  /// @param in_defId The unique id of the item definition to purchase.
+  /// @param in_quantity Quantity of the item to purchase.
+  /// @param in_shopId Store ID for the purchase.
+  /// @param in_includeDef If true, include associated item definition in the response.
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param quatity The quantity of the item to purchase.
-  ///
-  /// @param shopId The id identifying the store the item is being purchased from (not yet supported). Use null or empty string to specify the default shop price.
-  ///
-  /// @param includeDef If true, the associated item definition will be included in the response.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> purchaseUserItem(
       {required String defId,
       required int quantity,
@@ -296,17 +257,14 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Retrieves and transfers the gift item from the specified player,
-  /// who must have previously called giveUserItemTo.
-  ///
+  /// Retrieves and transfers a gift item from another user.
   /// Service Name - userItems
-  /// Service Operation - receiveUserItemFrom
+  /// Service Operation - RECEIVE_USER_ITEM_FROM
   ///
-  /// @param profileId The profile ID of the user who is giving the item.
+  /// @param in_profileId Profile ID of the sender.
+  /// @param in_itemId ID of the item being received.
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param itemId The ID uniquely identifying the user item to be transferred.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> receiveUserItemFrom(
       {required String profileId, required String itemId}) {
     Completer<ServerResponse> completer = Completer();
@@ -329,27 +287,17 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Allows a quantity of a specified user item to be sold.
-  ///If any quantity of the user item remains,
-  ///it will be returned, potentially with the associated
-  ///itemDef (with language fields limited to the current
-  ///or default language), along with the currency refunded
-  ///and currency balances.
-  ///
+  /// Sells a user item back to the store.
   /// Service Name - userItems
-  /// Service Operation - SellUserItem
+  /// Service Operation - SELL_USER_ITEM
   ///
-  /// @param itemId The unique id of the user item.
+  /// @param in_itemId ID of the user item to sell.
+  /// @param in_version Version of the item being sold.
+  /// @param in_quantity Quantity of the item to sell.
+  /// @param in_shopId Store ID for the sale.
+  /// @param in_includeDef If true, include associated item definition in the response.
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param version The version of the user item being sold.
-  ///
-  /// @param quantity The quantity of the user item to sell.
-  ///
-  /// @param shopId 	The id identifying the store the item is being purchased from (not yet supported). Use null or empty string to specify the default shop price.
-  ///
-  /// @param includeDef 	If true and any quantity of the user item remains, the associated item definition will be included in the response.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> sellUserItem(
       {required String itemId,
       required int version,
@@ -379,18 +327,15 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Updates the item data on the specified user item.
-  ///
+  /// Updates the data of a specific user item.
   /// Service Name - userItems
-  /// Service Operation - UpdateUserItemData
+  /// Service Operation - UPDATE_USER_ITEM_DATA
   ///
-  /// @param itemId The unique id of the user item.
+  /// @param in_itemId ID of the user item to update.
+  /// @param in_version Version of the item being updated.
+  /// @param in_newItemData JSON string with updated item data.
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param version The version of the user item being updated.
-  ///
-  /// @param newItemData New item data to replace existing user item data.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateUserItemData(
       {required String itemId,
       required int version,
@@ -417,20 +362,16 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Uses the specified item, potentially consuming it.
-  ///
+  /// Uses a user item, potentially consuming it.
   /// Service Name - userItems
-  /// Service Operation - UseUserItem
+  /// Service Operation - USE_USER_ITEM
   ///
-  /// @param itemId The unique id of the user item.
+  /// @param in_itemId ID of the user item to use.
+  /// @param in_version Version of the user item (pass -1 for any version).
+  /// @param in_newItemData Optional JSON string to update item fields.
+  /// @param in_includeDef If true, include associated item definition in the response.
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param version The version of the user item being used.
-  ///
-  /// @param newItemData Optional item data to replace existing user item data. Specify null to leave item data unchanged. Specify empty map to clear item data.
-  ///
-  /// @param includeDef If true, the associated item definition will be included in the response.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> useUserItem(
       {required String itemId,
       required int version,
@@ -459,16 +400,14 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Publishes the specified item to the item management attached blockchain. Results are reported asynchronously via an RTT event.
-  ///
+  /// Publishes a user item to the blockchain.
   /// Service Name - userItems
-  /// Service Operation - PublishUserItemToBlockchain
+  /// Service Operation - PUBLISH_USER_ITEM_TO_BLOCKCHAIN
   ///
-  /// @param itemId The unique id of the user item.
+  /// @param in_itemId ID of the user item to publish.
+  /// @param in_version Version of the item to publish.
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param version The version of the user item being published.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> publishUserItemToBlockchain(
       {required String itemId, required int version}) {
     Completer<ServerResponse> completer = Completer();
@@ -491,12 +430,12 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Syncs the caller's user items with the item management attached blockchain. Results are reported asynchronously via an RTT event.
-  ///
+  /// Refreshes blockchain user items.
   /// Service Name - userItems
-  /// Service Operation - RefreshBlockchainUserItems
+  /// Service Operation - REFRESH_BLOCKCHAIN_USER_ITEMS
   ///
-  /// returns `Future<ServerResponse>`
+  /// @param in_callback Callback invoked when the server response is received.
+  ///
   Future<ServerResponse> refreshBlockchainUserItems() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -516,17 +455,14 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// removes item from a blockchain.
-  ///
+  /// Removes a user item from the blockchain.
   /// Service Name - userItems
-  /// Service Operation - RemoveUserItemFromBlockchain
+  /// Service Operation - REMOVE_USER_ITEM_FROM_BLOCKCHAIN
   ///
-  /// @param itemId The unique id of the user item.
+  /// @param in_itemId ID of the user item to remove.
+  /// @param in_version Version of the user item to remove.
+  /// @param in_callback Callback invoked when the server response is received.
   ///
-  ///
-  /// @param version The version of the user item being removed.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> removeUserItemFromBlockchain(
       {required String itemId, required int version}) {
     Completer<ServerResponse> completer = Completer();
@@ -549,31 +485,16 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Allows item(s) to be awarded to a user without 
-  /// collecting the purchase amount. If includeDef 
-  /// is true, response includes associated itemDef 
-  /// with language fields limited to the current 
-  /// or default language.
-  ///
+  /// Awards item(s) to a user with additional options.
   /// Service Name - userItems
-  /// Service Operation - AwardUserItem
+  /// Service Operation - AWARD_USER_ITEM
   ///
-  /// @param defId The unique id of the item definition to award.
+  /// @param in_defId The unique id of the item definition to award.
+  /// @param in_quantity The quantity of the item to award.
+  /// @param in_includeDef If true, include associated item definition in the response.
+  /// @param in_optionsJson JSON string specifying additional options (e.g., blockIfExceedItemMaxStackable).
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param quantity The quantity of the item to award.
-  ///
-  /// @param includeDef If true, the associated item definition will be included in the response.
-  /// 
-  /// @param optionsJson Optional support for specifying 'blockIfExceedItemMaxStackable' indicating 
-  ///  how to process the award if the defId is for a stackable item with a max 
-  ///  stackable quantity and the specified quantity to award is too high. If 
-  ///  true and the quantity is too high, the call is blocked and an error is returned.
-  ///  If false (default) and quantity is too high, the quantity is adjusted 
-  ///  to the allowed maximum and the quantity not awarded is reported in 
-  ///  response key 'itemsNotAwarded' - unless the adjusted quantity would be 
-  ///  0, in which case the call is blocked and an error is returned.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> awardUserItemWithOptions(
       {required String defId,
       required int quantity,
@@ -585,7 +506,6 @@ class BrainCloudUserItems {
     data[OperationParam.userItemsServiceQuantity.value] = quantity;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
     data[OperationParam.userItemsServiceOptionsJson.value] = optionsJson;
-
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) => completer.complete(ServerResponse.fromJson(response)),
@@ -602,34 +522,18 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Allows a quantity of a specified bundle user item to be opened. Response indicates any items 
-  /// and currency awards configured for the associated bundle user item's BUNDLE type item definition, 
-  /// plus any 'items' awarded and any 'currencies' awarded, along with the resulting currency balances. 
-  /// If includeItemDef is true, the associated item definition will be included in the response for any 
-  /// user items awarded and for the bundle user item being opened (if any quantity of the bundle user 
-  /// item remains), with language fields limited to the current or default language.
-  ///
+  /// Opens a quantity of a bundle user item.
+  /// Creates applicable items and awards any currencies.
   /// Service Name - userItems
-  /// Service Operation - OpenBundle
+  /// Service Operation - OPEN_BUNDLE
   ///
-  /// @param itemId The unique id of the bundle user item.
-  /// 
-  /// @param version The version of the bundle user item being sold. Accepts -1 if any version.
+  /// @param in_itemId ID of the bundle item to open.
+  /// @param in_version Version of the bundle item (pass -1 for any version).
+  /// @param in_quantity Quantity of the item to open.
+  /// @param in_includeDef Include associated item definitions if true.
+  /// @param in_optionsJson JSON string specifying additional options.
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param quantity The quantity of the bundle user item to open.
-  ///
-  /// @param includeDef 	If true, the associated item definition will be included in the response 
-  /// for any user items awarded and if any quantity of the bundle user item remains.
-  ///
-  /// @param optionsJson Optional support for specifying 'blockIfExceedItemMaxStackable' indicating 
-  /// how to process awarding the bundle content items if the defId for any is for a stackable item 
-  /// with a max stackable quantity and the specified quantity to be awarded is too high. If true 
-  /// and the quantity is too high, the call is blocked and an error is returned. If false 
-  /// (default) and quantity is too high, the quantity is adjusted to the allowed maximum and the 
-  /// quantity not awarded is reported in response key 'itemsNotAwarded' - unless the adjusted 
-  /// quantity would be 0, in which case the call is blocked and an error is returned.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> openBundle(
       {required String itemId,
       required int version,
@@ -677,13 +581,13 @@ class BrainCloudUserItems {
   ///
   /// @param includeDef If true, the associated item definition will be included in the response.
   ///
-  /// @param optionsJson Optional support for specifying 'blockIfExceedItemMaxStackable' indicating 
-  ///  how to process the award if the defId is for a stackable item with a max 
-  ///  stackable quantity and the specified quantity to award is too high. If 
+  /// @param optionsJson Optional support for specifying 'blockIfExceedItemMaxStackable' indicating
+  ///  how to process the award if the defId is for a stackable item with a max
+  ///  stackable quantity and the specified quantity to award is too high. If
   ///  true and the quantity is too high, the call is blocked and an error is returned.
-  ///  If false (default) and quantity is too high, the quantity is adjusted 
-  ///  to the allowed maximum and the quantity not awarded is reported in 
-  ///  response key 'itemsNotAwarded' - unless the adjusted quantity would be 
+  ///  If false (default) and quantity is too high, the quantity is adjusted
+  ///  to the allowed maximum and the quantity not awarded is reported in
+  ///  response key 'itemsNotAwarded' - unless the adjusted quantity would be
   ///  0, in which case the call is blocked and an error is returned.
   ///
   ///  returns `Future<ServerResponse>`
@@ -715,27 +619,16 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Returns list of items on promotion available to the current user.
-  ///
+  /// Returns a list of items on promotion available to the current user.
   /// Service Name - userItems
-  /// Service Operation - GetItemsOnPromotion
+  /// Service Operation - GET_ITEMS_ON_PROMOTION
   ///
-  /// @param shopId The id identifying the store the item is being purchased from, if applicable.
+  /// @param in_shopId Store ID.
+  /// @param in_includeDef Include associated item definition if true.
+  /// @param in_includePromotionDetails Include promotion details if true.
+  /// @param in_optionsJson JSON string specifying additional options (e.g., category).
+  /// @param in_callback Callback invoked when the server response is received.
   ///
-  /// @param includeDef If true, the associated item definition will be included in the response.
-  ///
-  /// @param includePromotionDetails If true, the promotion details of the eligible promotions will be included in the response.
-  ///
-  /// @param optionsJson Optional support for specifying 'blockIfExceedItemMaxStackable' indicating 
-  ///  how to process the award if the defId is for a stackable item with a max 
-  ///  stackable quantity and the specified quantity to award is too high. If 
-  ///  true and the quantity is too high, the call is blocked and an error is returned.
-  ///  If false (default) and quantity is too high, the quantity is adjusted 
-  ///  to the allowed maximum and the quantity not awarded is reported in 
-  ///  response key 'itemsNotAwarded' - unless the adjusted quantity would be 
-  ///  0, in which case the call is blocked and an error is returned.
-  /// 
-  ///  returns `Future<ServerResponse>`
   Future<ServerResponse> getItemsOnPromotion(
       {required String shopId,
       required bool includeDef,
@@ -745,7 +638,8 @@ class BrainCloudUserItems {
     Map<String, dynamic> data = {};
     data[OperationParam.userItemsServiceShopId.value] = shopId;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
-    data[OperationParam.userItemsServiceIncludePromotionDetails.value] = includePromotionDetails;
+    data[OperationParam.userItemsServiceIncludePromotionDetails.value] =
+        includePromotionDetails;
     data[OperationParam.userItemsServiceOptionsJson.value] = optionsJson;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -763,22 +657,16 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  ///
-  /// Returns list of promotional details for the specified item definition, 
-  /// for promotions available to the current user.
-  ///
+  /// Returns a list of promotional details for a specified item.
   /// Service Name - userItems
-  /// Service Operation - GetItemPromotionalDetails
+  /// Service Operation - GET_ITEM_PROMOTION_DETAILS
   ///
-  /// @param defId The unique id of the item definition to check.
+  /// @param in_defId Item definition ID.
+  /// @param in_shopId Store ID.
+  /// @param in_includeDef Include associated item definition if true.
+  /// @param in_includePromotionDetails Include promotion details if true.
+  /// @param in_callback Callback invoked when the server response is received.
   ///
-  /// @param shopId The id identifying the store the item is being purchased from, if applicable.
-  ///
-  /// @param includeDef If true, the associated item definition will be included in the response.
-  ///
-  /// @param includePromotionDetails If true, the promotion details of the eligible promotions will be included in the response.
-  /// ///
-  ///  returns `Future<ServerResponse>`
   Future<ServerResponse> getItemPromotionDetails(
       {required String defId,
       required String shopId,
@@ -789,7 +677,8 @@ class BrainCloudUserItems {
     data[OperationParam.userItemsServiceDefId.value] = defId;
     data[OperationParam.userItemsServiceShopId.value] = shopId;
     data[OperationParam.userItemsServiceIncludeDef.value] = includeDef;
-    data[OperationParam.userItemsServiceIncludePromotionDetails.value] = includePromotionDetails;
+    data[OperationParam.userItemsServiceIncludePromotionDetails.value] =
+        includePromotionDetails;
 
     ServerCallback? callback = BrainCloudClient.createServerCallback(
       (response) => completer.complete(ServerResponse.fromJson(response)),

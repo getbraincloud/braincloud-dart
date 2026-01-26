@@ -16,16 +16,10 @@ class BrainCloudDataStream {
 
   /// Creates custom data stream page event
   ///
-  /// Service Name - DataStream
-  /// Service Operation - CustomPageEvent
+  /// @param eventName Name of event
+  /// @param eventProperties Properties of event
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param eventName
-  /// The name of the event
-  ///
-  /// @param jsonEventProperties
-  /// The properties of the event
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> customPageEvent(
       {required String eventName, Map<String, dynamic>? jsonEventProperties}) {
     Completer<ServerResponse> completer = Completer();
@@ -52,16 +46,10 @@ class BrainCloudDataStream {
 
   /// Creates custom data stream screen event
   ///
-  /// Service Name - DataStream
-  /// Service Operation - CustomScreenEvent
+  /// @param eventName Name of event
+  /// @param eventProperties Properties of event
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param eventName
-  /// The name of the event
-  ///
-  /// @param jsonEventProperties
-  /// The properties of the event
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> customScreenEvent(
       {required String eventName, Map<String, dynamic>? jsonEventProperties}) {
     Completer<ServerResponse> completer = Completer();
@@ -88,16 +76,10 @@ class BrainCloudDataStream {
 
   /// Creates custom data stream track event
   ///
-  /// Service Name - DataStream
-  /// Service Operation - CustomTrackEvent
+  /// @param eventName Name of event
+  /// @param eventProperties Properties of event
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param eventName
-  /// The name of the event
-  ///
-  /// @param jsonEventProperties
-  /// The properties of the event
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> customTrackEvent(
       {required String eventName, Map<String, dynamic>? jsonEventProperties}) {
     Completer<ServerResponse> completer = Completer();
@@ -122,36 +104,18 @@ class BrainCloudDataStream {
     return completer.future;
   }
 
-  /// Sends a crash report data
-  ///
-  /// Service Name - DataStream
-  /// Service Operation - SubmitCrashReport
-  ///
+  /// Send crash report
   /// @param crashType
-  /// The type of the crash
-  ///
   /// @param errorMsg
-  /// The error message
-  ///
   /// @param crashJson
-  /// The data from the error
-  ///
   /// @param crashLog
-  /// The crash logs
-  ///
   /// @param userName
-  /// The user email
-  ///
   /// @param userEmail
-  /// The user email
-  ///
   /// @param userNotes
-  /// The notes related to the user
-  ///
   /// @param userSubmitted
-  /// The bool passed by the user
   ///
-  /// returns `Future<ServerResponse>`
+  /// @param in_callback The method to be invoked when the server response is received
+  ///
   Future<ServerResponse> submitCrashReport(
       {required String crashType,
       required String errorMsg,

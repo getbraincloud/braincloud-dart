@@ -15,11 +15,11 @@ class BrainCloudPlayerStatistics {
   BrainCloudPlayerStatistics(this._clientRef);
 
   /// Read all available user statistics.
-  ///
   /// Service Name - PlayerStatistics
   /// Service Operation - Read
   ///
-  /// returns `Future<ServerResponse>`
+  /// @param in_callback The method to be invoked when the server response is received
+  ///
   Future<ServerResponse> readAllUserStats() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -35,15 +35,14 @@ class BrainCloudPlayerStatistics {
     return completer.future;
   }
 
-  /// Reads a subset of user statistics as defined by the input JSON.
-  ///
+  /// Reads a subset of user statistics as defined by the input collection.
   /// Service Name - PlayerStatistics
   /// Service Operation - ReadSubset
   ///
-  /// @param playerStats
-  /// A list containing the subset of statistics to read.
+  /// @param in_statistics A collection containing the subset of statistics to read:
+  ///        ex. [ "pantaloons", "minions" ]
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readUserStatsSubset(
       {required List<String> userStats}) {
     Map<String, dynamic> data = {};
@@ -64,14 +63,12 @@ class BrainCloudPlayerStatistics {
   }
 
   /// Method retrieves the user statistics for the given category.
-  ///
   /// Service Name - PlayerStatistics
   /// Service Operation - READ_FOR_CATEGORY
   ///
-  /// @param [category]
-  /// The user statistics category
+  /// @param in_category The user statistics category
+  /// @param in_callback Method to be invoked when the server response is received.
   ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readUserStatsForCategory({required String category}) {
     Map<String, dynamic> data = {};
     data[OperationParam.gamificationServiceCategory.value] = category;
@@ -91,12 +88,11 @@ class BrainCloudPlayerStatistics {
   }
 
   /// Reset all of the statistics for this user back to their initial value.
-  ///
   /// Service Name - PlayerStatistics
   /// Service Operation - Reset
   ///
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetAllUserStats() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -117,30 +113,23 @@ class BrainCloudPlayerStatistics {
   /// will be considered. User statistics are defined through the brainCloud portal.
   /// Note also that the "xpCapped" property is returned (true/false depending on whether
   /// the xp cap is turned on and whether the user has hit it).
-  ///
   /// Service Name - PlayerStatistics
   /// Service Operation - Update
   ///
-  /// @param stats
-  /// Stats name and their increments:
-  /// ```JSON
-  /// {
-  ///  {"stat1", 10},
-  ///  {"stat2", -5}
-  /// }
-  /// ```
+  /// @param in_jsonData The JSON encoded data to be sent to the server as follows:
+  ///        {
+  ///        stat1: 10,
+  ///        stat2: -5.5,
+  ///        }
+  ///        would increment stat1 by 10 and decrement stat2 by 5.5.
+  ///        For the full statistics grammer see the api.braincloudservers.com site.
+  ///        There are many more complex operations supported such as:
+  ///        {
+  ///        stat1:INC_TO_LIMIT#9#30
+  ///        }
+  ///        which increments stat1 by 9 up to a limit of 30.
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// would increment stat1 by 10 and decrement stat2 by 5.
-  /// For the full statistics grammer see the api.braincloudservers.com site.
-  /// There are many more complex operations supported such as:
-  /// ```JSON
-  /// {
-  ///   "stat1":"INC_TO_LIMIT#9#30"
-  /// }
-  /// ```
-  /// which increments stat1 by 9 up to a limit of 30.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> incrementUserStats(
       {required Map<String, dynamic> statistics}) {
     Map<String, dynamic> data = {};
@@ -161,22 +150,19 @@ class BrainCloudPlayerStatistics {
   }
 
   /// Apply statistics grammar to a partial set of statistics.
-  ///
-  /// Service Name - playerStatistics
+  /// Service Name - PlayerStatistics
   /// Service Operation - PROCESS_STATISTICS
   ///
-  /// @param statisticsData
-  /// Example data to be passed to method:
-  /// ```JSON
-  /// {
-  ///     "DEAD_CATS": "RESET",
-  ///     "LIVES_LEFT": "SET#9",
-  ///     "MICE_KILLED": "INC#2",
-  ///     "DOG_SCARE_BONUS_POINTS": "INC#10",
-  ///     "TREES_CLIMBED": 1
-  /// }
-  /// ```
-  /// returns `Future<ServerResponse>`
+  /// @param in_jsonData The JSON format is as follows:
+  ///        {
+  ///        "DEAD_CATS": "RESET",
+  ///        "LIVES_LEFT": "SET#9",
+  ///        "MICE_KILLED": "INC#2",
+  ///        "DOG_SCARE_BONUS_POINTS": "INC#10",
+  ///        "TREES_CLIMBED": 1
+  ///        }
+  /// @param in_callback Method to be invoked when the server response is received.
+  ///
   Future<ServerResponse> processStatistics(
       {required Map<String, dynamic> statistics}) {
     Map<String, dynamic> data = {};
@@ -197,11 +183,11 @@ class BrainCloudPlayerStatistics {
   }
 
   /// Returns JSON representing the next experience level for the user.
-  ///
   /// Service Name - PlayerStatistics
   /// Service Operation - ReadNextXpLevel
   ///
-  /// returns `Future<ServerResponse>`
+  /// @param in_callback The method to be invoked when the server response is received
+  ///
   Future<ServerResponse> getNextExperienceLevel() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -219,14 +205,12 @@ class BrainCloudPlayerStatistics {
 
   /// Increments the user's experience. If the user goes up a level,
   /// the new level details will be returned along with a list of rewards.
-  ///
   /// Service Name - PlayerStatistics
-  /// Service Operation - Update
+  /// Service Operation - UpdateIncrement
   ///
-  /// @param xpValue
-  /// The amount to increase the user's experience by
+  /// @param in_xpValue The amount to increase the user's experience by
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> incrementExperiencePoints({required int xpValue}) {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticsExperiencePoints.value] = xpValue;
@@ -248,14 +232,12 @@ class BrainCloudPlayerStatistics {
   /// Sets the user's experience to an absolute value. Note that this
   /// is simply a set and will not reward the user if their level changes
   /// as a result.
-  ///
   /// Service Name - PlayerStatistics
   /// Service Operation - SetXpPoints
   ///
-  /// @param xpValue
-  /// The amount to set the the player's experience to
+  /// @param in_xpValue The amount to set the the user's experience to
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> setExperiencePoints({required int xpValue}) {
     Map<String, dynamic> data = {};
     data[OperationParam.playerStatisticsExperiencePoints.value] = xpValue;

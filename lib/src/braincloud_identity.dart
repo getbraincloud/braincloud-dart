@@ -367,10 +367,9 @@ class BrainCloudIdentity {
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachFacebookLimitedIdentity(
-      {required String facebookId,
-      required String authenticationToken}) async {
-    return _attachIdentity(facebookId, authenticationToken,
-        AuthenticationType.facebookLimited);
+      {required String facebookId, required String authenticationToken}) async {
+    return _attachIdentity(
+        facebookId, authenticationToken, AuthenticationType.facebookLimited);
   }
 
   /// Merge the profile associated with the provided Facebook Limited credentials with the
@@ -388,10 +387,9 @@ class BrainCloudIdentity {
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeFacebookLimitedIdentity(
-      {required String facebookId,
-      required String authenticationToken}) async {
-    return _mergeIdentity(facebookId, authenticationToken,
-        AuthenticationType.facebookLimited);
+      {required String facebookId, required String authenticationToken}) async {
+    return _mergeIdentity(
+        facebookId, authenticationToken, AuthenticationType.facebookLimited);
   }
 
   /// Detach the FacebookLimited identity from this profile.
@@ -643,18 +641,14 @@ class BrainCloudIdentity {
     return _attachIdentity(userId, password, AuthenticationType.universal);
   }
 
-  /// Merge the profile associated with the provided e=mail with the current profile.
-  ///
+  /// Merge the profile associated with the provided userId with the current profile.
   /// Service Name - identity
   /// Service Operation - Merge
   ///
-  /// @param userId
-  /// The user's userId
+  /// @param in_userId The user's userid
+  /// @param in_password The user's password
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param password
-  /// The user's password
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeUniversalIdentity(
       {required String userId, required String password}) {
     return _mergeIdentity(userId, password, AuthenticationType.universal);
@@ -677,18 +671,18 @@ class BrainCloudIdentity {
     return _detachIdentity(userId, AuthenticationType.universal, continueAnon);
   }
 
-  /// Attach a Steam (userId + steamsessionticket) identity to the current profile.
-  ///
+  /// Attach a Steam (userid + steamsessionticket) identity to the current profile.
   /// Service Name - identity
   /// Service Operation - Attach
   ///
-  /// @param steamId
-  /// String representation of 64 bit steam id
+  /// @param in_steamId String representation of 64 bit steam id
+  /// @param in_sessionTicket The user's session ticket (hex encoded)
+  /// @param in_callback The method to be invoked when the server response is received
+  ///        Errors to watch for:  SWITCHING_PROFILES - this means that the email address you provided
+  ///        already points to a different profile.  You will likely want to offer the user the
+  ///        choice to *SWITCH* to that profile, or *MERGE* the profiles.
+  ///        To switch profiles, call ClearSavedProfileID() and then call AuthenticateSteam().
   ///
-  /// @param sessionTicket
-  /// The user's session ticket (hex encoded)
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachSteamIdentity(
       {required String steamId, required String sessionTicket}) {
     return _attachIdentity(steamId, sessionTicket, AuthenticationType.steam);
@@ -781,8 +775,7 @@ class BrainCloudIdentity {
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachGoogleIdentity(
       {required String googleId, required bool continueAnon}) async {
-    return _detachIdentity(
-        googleId, AuthenticationType.google, continueAnon);
+    return _detachIdentity(googleId, AuthenticationType.google, continueAnon);
   }
 
   /// Attach the user's Google credentials to the current profile.
@@ -835,8 +828,7 @@ class BrainCloudIdentity {
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachGoogleOpenIdIdentity(
-      {required String googleId,
-      required bool continueAnon}) async {
+      {required String googleId, required bool continueAnon}) async {
     return _detachIdentity(
         googleId, AuthenticationType.googleOpenId, continueAnon);
   }
@@ -861,17 +853,14 @@ class BrainCloudIdentity {
 
   /// Merge the profile associated with the provided Apple credentials with the
   /// current profile.
-  ///
   /// Service Name - identity
   /// Service Operation - Merge
   ///
-  /// @param appleUserId
-  /// This can be the user id OR the email of the user for the account
+  /// @param in_appleId The apple id of the user
+  /// @param in_authenticationToken The validated token from the Apple SDK
+  ///        (that will be further validated when sent to the bC service)
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param identityToken
-  /// The token confirming the user's identity
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeAppleIdentity(
       {required String appleUserId, required String identityToken}) {
     return _mergeIdentity(appleUserId, identityToken, AuthenticationType.apple);
@@ -1354,16 +1343,16 @@ class BrainCloudIdentity {
   ///
   /// @param authenticationType
   /// Type of authentication.
-  /// 
+  ///
   /// @param externalAuthName
   /// The name of the external authentication mechanism (optional, used for custom authentication types)
   ///
   Future<ServerResponse> getIdentityStatus(
       {required AuthenticationType authenticationType,
       required String externalAuthName}) async {
-
     Map<String, dynamic> data = {};
-    data[OperationParam.identityServiceAuthenticationType.value] = authenticationType.value;
+    data[OperationParam.identityServiceAuthenticationType.value] =
+        authenticationType.value;
     data[OperationParam.externalAuthType.value] = externalAuthName;
 
     final Completer<ServerResponse> completer = Completer();
@@ -1478,8 +1467,8 @@ class BrainCloudIdentity {
       required bool updateContactEmail}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceOldEmailAddress.value] = oldEmailAddress;
-    data[OperationParam
-        .authenticateServiceAuthenticateAuthenticationToken.value] = authenticationToken;
+    data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
+        .value] = authenticationToken;
     data[OperationParam.identityServiceNewEmailAddress.value] = newEmailAddress;
     data[OperationParam.identityServiceUpdateContactEmail.value] =
         updateContactEmail;
@@ -1676,39 +1665,37 @@ class BrainCloudIdentity {
   }
 
   /// Merge the peer profile associated with the provided externalId with the current profile.
-  /// 
-  /// NOTE: If using the BrainCloudWrapper, once the merge is complete you should call 
+  ///
+  /// NOTE: If using the BrainCloudWrapper, once the merge is complete you should call
   /// SetStoredProfileId in the BrainCloudWrapper with the profileId returned in the Merge call.
-  /// 
-  /// @param peer	
+  ///
+  /// @param peer
   /// Name of the peer service
-  /// 
-  /// @param externalId	
+  ///
+  /// @param externalId
   /// User ID
-  /// 
-  /// @param authenticationToken	
+  ///
+  /// @param authenticationToken
   /// Password or client side token
-  /// 
-  /// @param authenticationType	
-  /// Type of authentication. 
-  /// 
-  /// @param externalAuthName	
+  ///
+  /// @param authenticationType
+  /// Type of authentication.
+  ///
+  /// @param externalAuthName
   /// The name of the external authentication mechanism (optional, used for custom authentication types)
-  Future<ServerResponse> mergePeerProfile({
-    required String peer,
-    required String externalId, 
-    required String authenticationToken, 
-    required AuthenticationType authenticationType,
-    required String externalAuthName }) async {
-    
+  Future<ServerResponse> mergePeerProfile(
+      {required String peer,
+      required String externalId,
+      required String authenticationToken,
+      required AuthenticationType authenticationType,
+      required String externalAuthName}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
     data[OperationParam.identityServiceAuthenticationType.value] =
         authenticationType.value;
     data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
         .value] = authenticationToken;
-    data[OperationParam.peer
-        .value] = peer;
+    data[OperationParam.peer.value] = peer;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -1721,14 +1708,12 @@ class BrainCloudIdentity {
           error: statusMessage));
     });
 
-    ServerCall sc = ServerCall(
-        ServiceName.identity, ServiceOperation.mergePeerProfiles, data, callback);
+    ServerCall sc = ServerCall(ServiceName.identity,
+        ServiceOperation.mergePeerProfiles, data, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;
-
   }
-
 
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> _attachIdentity(String externalId,

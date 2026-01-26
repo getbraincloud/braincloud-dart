@@ -310,23 +310,16 @@ class BrainCloudEntity {
     return completer.future;
   }
 
-  /// Method deletes the given singleton on the server.
-  ///
+  /// Method deletes the given singleton entity on the server.
   /// Service Name - Entity
+  /// Service Operation - DeleteSingleton
   ///
-  /// Service Operation - Delete
+  /// @param in_entityType The type of the entity to delete
+  /// @param in_version Current version of the entity. If the version of the
+  ///        entity on the server does not match the version passed in, the
+  ///        server operation will fail. Use -1 to skip version checking.
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param entityType
-  ///
-  /// The entity type as defined by the user
-  ///
-  /// @param version
-  ///
-  /// Current version of the entity. If the version of the
-  ///  entity on the server does not match the version passed in, the
-  ///  server operation will fail. Use -1 to skip version checking.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteSingleton(
       {required String entityType, required int version}) {
     Map<String, dynamic> data = {};

@@ -113,20 +113,14 @@ class BrainCloudGlobalEntity {
   }
 
   /// Method updates an existing entity on the server.
-  ///
   /// Service Name - GlobalEntity
   /// Service Operation - Update
   ///
-  /// @param entityId
-  /// The entity ID
+  /// @param in_entityId The entity ID
+  /// @param in_version The version of the entity to update
+  /// @param in_jsonEntityData The entity's data as a json string
+  /// @param in_callback The method to be invoked when the server response is received
   ///
-  /// @param version
-  /// The version of the entity to update
-  ///
-  /// @param jsonEntityData
-  /// The entity's data
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateEntity(
       {required String entityId,
       required int version,
