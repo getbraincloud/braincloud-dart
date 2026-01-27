@@ -19,8 +19,8 @@ class BrainCloudPushNotification {
   /// Registers the given device token with the server to enable this device
   /// to receive push notifications.
   ///
-  /// @param in_platform The device platform
-  /// @param in_deviceToken The platform-dependent device token needed for push notifications.
+  /// @param platform The device platform
+  /// @param deviceToken The platform-dependent device token needed for push notifications.
   ///        On IOS, this is obtained using the application:didRegisterForRemoteNotificationsWithDeviceToken callback
   /// @return Future<ServerResponse>
   ///
@@ -74,8 +74,8 @@ class BrainCloudPushNotification {
   /// Deregisters the given device token from the server to disable this device
   /// from receiving push notifications.
   ///
-  /// @param in_device The device platform being deregistered.
-  /// @param in_token The platform-dependent device token needed for push notifications.
+  /// @param device The device platform being deregistered.
+  /// @param token The platform-dependent device token needed for push notifications.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> deregisterPushNotificationDeviceToken(
@@ -105,8 +105,8 @@ class BrainCloudPushNotification {
   /// Sends a simple push notification based on the passed in message.
   /// NOTE: It is possible to send a push notification to oneself.
   ///
-  /// @param in_toProfileId The braincloud profileId of the user to receive the notification
-  /// @param in_message Text of the push notification
+  /// @param toProfileId The braincloud profileId of the user to receive the notification
+  /// @param message Text of the push notification
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> sendSimplePushNotification(
@@ -136,9 +136,9 @@ class BrainCloudPushNotification {
   /// See the Portal documentation for more info.
   /// NOTE: It is possible to send a push notification to oneself.
   ///
-  /// @param in_toProfileId The braincloud profileId of the user to receive the notification
-  /// @param in_notificationTemplateId Id of the notification template
-  /// @param in_substitutionJson JSON defining the substitution params to use with the template
+  /// @param toProfileId The braincloud profileId of the user to receive the notification
+  /// @param notificationTemplateId Id of the notification template
+  /// @param substitutionJson JSON defining the substitution params to use with the template
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> sendRichPushNotificationWithParams(
@@ -155,9 +155,9 @@ class BrainCloudPushNotification {
   /// Includes JSON defining the substitution params to use with the template.
   /// See the Portal documentation for more info.
   ///
-  /// @param in_groupId Target group
-  /// @param in_notificationTemplateId Template to use
-  /// @param in_substitutionsJson Map of substitution positions to strings
+  /// @param groupId Target group
+  /// @param notificationTemplateId Template to use
+  /// @param substitutionsJson Map of substitution positions to strings
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> sendTemplatedPushNotificationToGroup(
@@ -193,9 +193,9 @@ class BrainCloudPushNotification {
   /// Sends a notification to a "group" of user consisting of alert content and custom data.
   /// See the Portal documentation for more info.
   ///
-  /// @param in_groupId Target group
-  /// @param in_alertContentJson Body and title of alert
-  /// @param in_customDataJson Optional custom data
+  /// @param groupId Target group
+  /// @param alertContentJson Body and title of alert
+  /// @param customDataJson Optional custom data
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> sendNormalizedPushNotificationToGroup(
@@ -227,11 +227,11 @@ class BrainCloudPushNotification {
 
   /// Schedules a normalized push notification to a user
   ///
-  /// @param in_profileId The profileId of the user to receive the notification
-  /// @param in_fcmContent Valid Fcm data content
-  /// @param in_iosContent Valid ios data content
-  /// @param in_facebookContent Facebook template string
-  /// @param in_startTimeUTC Start time of sending the push notification in milliseconds, use UTC time in milliseconds since epoch
+  /// @param profileId The profileId of the user to receive the notification
+  /// @param fcmContent Valid Fcm data content
+  /// @param iosContent Valid ios data content
+  /// @param facebookContent Facebook template string
+  /// @param startTimeUTC Start time of sending the push notification in milliseconds, use UTC time in milliseconds since epoch
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> scheduleRawPushNotificationUTC(
@@ -276,12 +276,12 @@ class BrainCloudPushNotification {
     return completer.future;
   }
 
-  /// Schedules a normalized push notification to a user
+  /// Schedules raw notifications based on user local time.
   ///
-  /// @param in_profileId The profileId of the user to receive the notification
-  /// @param in_fcmContent Valid Fcm data content
-  /// @param in_iosContent Valid ios data content
-  /// @param in_facebookContent Facebook template string
+  /// @param profileId The profileId of the user to receive the notification
+  /// @param fcmContent Valid Fcm data content
+  /// @param iosContent Valid ios data content
+  /// @param facebookContent Facebook template string
   /// @param minutesFromNow Minutes from now to send the push notification
   /// @return Future<ServerResponse>
   ///
@@ -376,10 +376,10 @@ class BrainCloudPushNotification {
 
   /// Sends a raw push notification to a target list of users.
   ///
-  /// @param in_profileIds Collection of profile IDs to send the notification to
-  /// @param in_fcmContent Valid Fcm data content
-  /// @param in_iosContent Valid ios data content
-  /// @param in_facebookContent Facebook template string
+  /// @param profileIds Collection of profile IDs to send the notification to
+  /// @param fcmContent Valid Fcm data content
+  /// @param iosContent Valid ios data content
+  /// @param facebookContent Facebook template string
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> sendRawPushNotificationBatch(
@@ -424,10 +424,10 @@ class BrainCloudPushNotification {
 
   /// Sends a raw push notification to a target group.
   ///
-  /// @param in_groupId Target group
-  /// @param in_fcmContent Valid Fcm data content
-  /// @param in_iosContent Valid ios data content
-  /// @param in_facebookContent Facebook template stringn
+  /// @param groupId Target group
+  /// @param fcmContent Valid Fcm data content
+  /// @param iosContent Valid ios data content
+  /// @param facebookContent Facebook template stringn
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> sendRawPushNotificationToGroup(
@@ -470,10 +470,10 @@ class BrainCloudPushNotification {
 
   /// Schedules a normalized push notification to a user
   ///
-  /// @param in_toProfileId The profileId of the user to receive the notification
-  /// @param in_alertContentJson Body and title of alert
-  /// @param in_customDataJson Optional custom data
-  /// @param in_startTimeUTC Start time of sending the push notification in milliseconds, use UTC time in milliseconds since epoch
+  /// @param toProfileId The profileId of the user to receive the notification
+  /// @param alertContentJson Body and title of alert
+  /// @param customDataJson Optional custom data
+  /// @param startTimeUTC Start time of sending the push notification in milliseconds, use UTC time in milliseconds since epoch
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> scheduleNormalizedPushNotificationUTC(
@@ -509,10 +509,10 @@ class BrainCloudPushNotification {
 
   /// Schedules a normalized push notification to a user
   ///
-  /// @param in_toProfileId The profileId of the user to receive the notification
-  /// @param in_alertContentJson Body and title of alert
-  /// @param in_customDataJson Optional custom data
-  /// @param in_minutesFromNow Minutes from now to send the push notification
+  /// @param toProfileId The profileId of the user to receive the notification
+  /// @param alertContentJson Body and title of alert
+  /// @param customDataJson Optional custom data
+  /// @param minutesFromNow Minutes from now to send the push notification
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> scheduleNormalizedPushNotificationMinutes(
@@ -548,10 +548,10 @@ class BrainCloudPushNotification {
 
   /// Schedules a rich push notification to a user
   ///
-  /// @param in_toProfileId The profileId of the user to receive the notification
-  /// @param in_notificationTemplateId Body and title of alert
-  /// @param in_substitutionsJson Map of substitution positions to strings
-  /// @param in_startTimeUTC Start time of sending the push notification in milliseconds, use UTC time in milliseconds since epoch
+  /// @param toProfileId The profileId of the user to receive the notification
+  /// @param notificationTemplateId Body and title of alert
+  /// @param substitutionsJson Map of substitution positions to strings
+  /// @param startTimeUTC Start time of sending the push notification in milliseconds, use UTC time in milliseconds since epoch
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> scheduleRichPushNotificationUTC(
@@ -589,10 +589,10 @@ class BrainCloudPushNotification {
 
   /// Schedules a rich push notification to a user
   ///
-  /// @param in_toProfileId The profileId of the user to receive the notification
-  /// @param in_notificationTemplateId Body and title of alert
-  /// @param in_substitutionsJson Map of substitution positions to strings
-  /// @param in_minutesFromNow Minutes from now to send the push notification
+  /// @param toProfileId The profileId of the user to receive the notification
+  /// @param notificationTemplateId Body and title of alert
+  /// @param substitutionsJson Map of substitution positions to strings
+  /// @param minutesFromNow Minutes from now to send the push notification
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> scheduleRichPushNotificationMinutes(
@@ -630,9 +630,9 @@ class BrainCloudPushNotification {
 
   /// Sends a notification to a user consisting of alert content and custom data.
   ///
-  /// @param in_toProfileId The profileId of the user to receive the notification
-  /// @param in_alertContent Body and title of alert
-  /// @param in_customData Optional custom data
+  /// @param toProfileId The profileId of the user to receive the notification
+  /// @param alertContent Body and title of alert
+  /// @param customData Optional custom data
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> sendNormalizedPushNotification(
@@ -664,9 +664,9 @@ class BrainCloudPushNotification {
 
   /// Sends a notification to multiple users consisting of alert content and custom data.
   ///
-  /// @param in_profileIds Collection of profile IDs to send the notification to
-  /// @param in_alertContent Body and title of alert
-  /// @param in_customData Optional custom data
+  /// @param profileIds Collection of profile IDs to send the notification to
+  /// @param alertContent Body and title of alert
+  /// @param customData Optional custom data
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> sendNormalizedPushNotificationBatch(
@@ -696,7 +696,13 @@ class BrainCloudPushNotification {
     return completer.future;
   }
 
-  /// returns `Future<ServerResponse>`
+  /// Sends a notification to a user based on a brainCloud portal configured notification template.
+  /// NOTE: It is possible to send a push notification to oneself.
+  ///
+  /// @param toProfileId The braincloud profileId of the user to receive the notification
+  /// @param notificationTemplateId Id of the notification template
+  /// @return Future<ServerResponse>
+  ///
   Future<ServerResponse> sendRichPushNotification(
       {required String profileId,
       required int notificationTemplateId,

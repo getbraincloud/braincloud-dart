@@ -19,8 +19,8 @@ class BrainCloudPlayerState {
   /// user's data: entities, statistics, level, currency.
   /// Apps will typically call this method after authenticating to get an
   /// up-to-date view of the user's data.
-  /// Service Name - PlayerState
-  /// Service Operation - Read
+  /// Service Name - playerState
+  /// Service Operation - READ
   ///
   /// @return Future<ServerResponse>
   ///
@@ -45,8 +45,8 @@ class BrainCloudPlayerState {
   /// by the user. After calling this method, the user will need
   /// to re-authenticate and create a new profile.
   /// This is mostly used for debugging/qa.
-  /// Service Name - PlayerState
-  /// Service Operation - FullReset
+  /// Service Name - playerState
+  /// Service Operation - FULL_PLAYER_RESET
   ///
   /// @return Future<ServerResponse>
   ///
@@ -101,8 +101,8 @@ class BrainCloudPlayerState {
   }
 
   /// Logs user out of server.
-  /// Service Name - PlayerState
-  /// Service Operation - Logout
+  /// Service Name - playerState
+  /// Service Operation - LOGOUT
   ///
   /// @return Future<ServerResponse>
   ///
@@ -127,7 +127,7 @@ class BrainCloudPlayerState {
   /// Service Name - playerState
   /// Service Operation - UPDATE_NAME
   ///
-  /// @param in_userName The name of the user
+  /// @param userName The name of the user
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> updateUserName({required String userName}) {
@@ -156,10 +156,10 @@ class BrainCloudPlayerState {
   /// with the friend summary data. Generally this data is used to provide
   /// a quick overview of the player without requiring a separate API call
   /// to read their public stats or entity data.
-  /// Service Name - PlayerState
-  /// Service Operation - UpdateSummary
+  /// Service Name - playerState
+  /// Service Operation - UPDATE_SUMMARY
   ///
-  /// @param in_jsonSummaryData A JSON string defining the summary data.
+  /// @param jsonSummaryData A JSON string defining the summary data.
   ///        For example:
   ///        {
   ///        "xp":123,
@@ -195,8 +195,8 @@ class BrainCloudPlayerState {
   }
 
   /// Retrieve the user's attributes.
-  /// Service Name - PlayerState
-  /// Service Operation - GetAttributes
+  /// Service Name - playerState
+  /// Service Operation - GET_ATTRIBUTES
   ///
   /// @return Future<ServerResponse>
   ///
@@ -218,11 +218,11 @@ class BrainCloudPlayerState {
   }
 
   /// Update user's attributes.
-  /// Service Name - PlayerState
-  /// Service Operation - UpdateAttributes
+  /// Service Name - playerState
+  /// Service Operation - UPDATE_ATTRIBUTES
   ///
-  /// @param in_jsonAttributes Single layer json string that is a set of key-value pairs
-  /// @param in_wipeExisting Whether to wipe existing attributes prior to update.
+  /// @param jsonAttributes Single layer json string that is a set of key-value pairs
+  /// @param wipeExisting Whether to wipe existing attributes prior to update.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> updateAttributes(
@@ -249,10 +249,10 @@ class BrainCloudPlayerState {
   }
 
   /// Remove user's attributes.
-  /// Service Name - PlayerState
-  /// Service Operation - RemoveAttribute
+  /// Service Name - playerState
+  /// Service Operation - REMOVE_ATTRIBUTES
   ///
-  /// @param in_attributeNames Collection of attribute names.
+  /// @param attributeNames Collection of attribute names.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> removeAttributes({required List<String> attributes}) {
@@ -276,10 +276,10 @@ class BrainCloudPlayerState {
   }
 
   /// Update User picture URL.
-  /// Service Name - PlayerState
+  /// Service Name - playerState
   /// Service Operation - UPDATE_PICTURE_URL
   ///
-  /// @param in_pictureUrl URL to apply
+  /// @param pictureUrl URL to apply
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> updateUserPictureUrl({required String pictureUrl}) {
@@ -304,10 +304,10 @@ class BrainCloudPlayerState {
 
   /// Update the user's contact email.
   /// Note this is unrelated to email authentication.
-  /// Service Name - PlayerState
+  /// Service Name - playerState
   /// Service Operation - UPDATE_CONTACT_EMAIL
   ///
-  /// @param in_contactEmail Updated email
+  /// @param contactEmail Updated email
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> updateContactEmail({required String contactEmail}) {
@@ -331,10 +331,10 @@ class BrainCloudPlayerState {
   }
 
   /// Delete's the specified status
-  /// Service Name - PlayerState
+  /// Service Name - playerState
   /// Service Operation - CLEAR_USER_STATUS
   ///
-  /// @param in_statusName Updated email
+  /// @param statusName Updated email
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> clearUserStatus({required String statusName}) {
@@ -358,12 +358,12 @@ class BrainCloudPlayerState {
   }
 
   /// Stack user's statuses
-  /// Service Name - PlayerState
+  /// Service Name - playerState
   /// Service Operation - EXTEND_USER_STATUS
   ///
-  /// @param in_statusName Updated email
-  ///        @param additionalSecs
-  ///        @param details
+  /// @param statusName Updated email
+  /// @param additionalSecs Add time to existing expiry time.
+  /// @param details Json String to add additional details.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> extendUserStatus(
@@ -393,10 +393,10 @@ class BrainCloudPlayerState {
   }
 
   /// Get user status
-  /// Service Name - PlayerState
+  /// Service Name - playerState
   /// Service Operation - GET_USER_STATUS
   ///
-  /// @param in_statusName Updated email
+  /// @param statusName Updated email
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getUserStatus({required String statusName}) {
@@ -420,12 +420,12 @@ class BrainCloudPlayerState {
   }
 
   /// Set timed status for a user
-  /// Service Name - PlayerState
+  /// Service Name - playerState
   /// Service Operation - SET_USER_STATUS
   ///
-  /// @param in_statusName Updated email
-  ///        @param in_durationSecs
-  ///        @param in_details
+  /// @param statusName Updated email
+  /// @param durationSecs An active duration.
+  /// @param details Json String to add additional details.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> setUserStatus(
@@ -454,11 +454,11 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// Remove user's attributes.
-  /// Service Name - PlayerState
-  /// Service Operation - RemoveAttributes
+  /// Update user's language code preference on their profile.
+  /// Service Name - playerState
+  /// Service Operation - UPDATE_LANGUAGE_CODE
   ///
-  /// @param in_attributeNames Collection of attribute names.
+  /// @param languageCode A string-based language code
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> updateLanguageCode({required String languageCode}) {
@@ -481,15 +481,13 @@ class BrainCloudPlayerState {
     return completer.future;
   }
 
-  /// Gets the Status.
+  /// Sets the user's timezone offset.
+  /// Service Name - playerState
+  /// Service Operation - UPDATE_TIMEZONE_OFFSET
   ///
-  /// Service Name - PlayerState
-  /// Service Operation - UpdateLanguageCode
+  /// @param timeZoneOffset The numeric timezone offset of the user
+  /// @return Future<ServerResponse>
   ///
-  /// @param statusName
-  /// The name of the status.
-  ///
-  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateTimeZoneOffset(
       {required double timeZoneOffset}) {
     Completer<ServerResponse> completer = Completer();

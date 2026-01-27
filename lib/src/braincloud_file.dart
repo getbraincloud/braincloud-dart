@@ -75,7 +75,7 @@ class BrainCloudFile {
   /// Method cancels an upload. If an IFileUploadCallback has been registered with the BrainCloudClient class,
   /// the fileUploadFailed callback method will be called once the upload has been canceled.
   ///
-  /// @param in_uploadId The id of the upload
+  /// @param uploadId The id of the upload
   /// @return Future<ServerResponse>
   ///
   void cancelUpload({required String uploadId}) {
@@ -85,7 +85,7 @@ class BrainCloudFile {
   /// Returns the progress of the given upload from 0.0 to 1.0
   /// or -1 if upload not found.
   ///
-  /// @param in_uploadId The id of the upload
+  /// @param uploadId The id of the upload
   /// @return Future<ServerResponse>
   ///
   double? getUploadProgress({required String uploadId}) {

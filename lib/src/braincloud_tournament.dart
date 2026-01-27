@@ -19,8 +19,8 @@ class BrainCloudTournament {
   /// Service Name - tournament
   /// Service Operation - CLAIM_TOURNAMENT_REWARD
   ///
-  /// @param in_leaderboardId The leaderboard for the tournament
-  /// @param in_versionId Version of the tournament. Use -1 for the latest version.
+  /// @param leaderboardId The leaderboard for the tournament
+  /// @param versionId Version of the tournament. Use -1 for the latest version.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> claimTournamentReward(
@@ -49,7 +49,7 @@ class BrainCloudTournament {
   /// Service Name - tournament
   /// Service Operation - GET_DIVISION_INFO
   ///
-  /// @param in_divSetId The id for the division
+  /// @param divSetId The id for the division
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getDivisionInfo({required String divSetId}) {
@@ -99,8 +99,8 @@ class BrainCloudTournament {
   /// Service Name - tournament
   /// Service Operation - GET_TOURNAMENT_STATUS
   ///
-  /// @param in_leaderboardId The leaderboard for the tournament
-  /// @param in_versionId Version of the tournament. Use -1 for the latest version.
+  /// @param leaderboardId The leaderboard for the tournament
+  /// @param versionId Version of the tournament. Use -1 for the latest version.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getTournamentStatus(
@@ -130,9 +130,9 @@ class BrainCloudTournament {
   /// Service Name - tournament
   /// Service Operation - JOIN_DIVISION
   ///
-  /// @param in_divSetId The id for the division
-  /// @param in_tournamentCode Tournament to join
-  /// @param in_initialScore The initial score for players first joining a tournament
+  /// @param divSetId The id for the division
+  /// @param tournamentCode Tournament to join
+  /// @param initialScore The initial score for players first joining a tournament
   ///        Usually 0, unless leaderboard is LOW_VALUE
   /// @return Future<ServerResponse>
   ///
@@ -166,9 +166,9 @@ class BrainCloudTournament {
   /// Service Name - tournament
   /// Service Operation - JOIN_TOURNAMENT
   ///
-  /// @param in_leaderboardId The leaderboard for the tournament
-  /// @param in_tournamentCode Tournament to join
-  /// @param in_initialScore The initial score for players first joining a tournament
+  /// @param leaderboardId The leaderboard for the tournament
+  /// @param tournamentCode Tournament to join
+  /// @param initialScore The initial score for players first joining a tournament
   ///        Usually 0, unless leaderboard is LOW_VALUE
   /// @return Future<ServerResponse>
   ///
@@ -202,7 +202,7 @@ class BrainCloudTournament {
   /// Service Name - tournament
   /// Service Operation - LEAVE_DIVISION_INSTANCE
   ///
-  /// @param in_leaderboardId The leaderboard for the tournament
+  /// @param leaderboardId The leaderboard for the tournament
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> leaveDivisionInstance(
@@ -230,7 +230,7 @@ class BrainCloudTournament {
   /// Service Name - tournament
   /// Service Operation - LEAVE_TOURNAMENT
   ///
-  /// @param in_leaderboardId The leaderboard for the tournament
+  /// @param leaderboardId The leaderboard for the tournament
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> leaveTournament({required String leaderboardId}) {
@@ -257,10 +257,10 @@ class BrainCloudTournament {
   /// Service Name - tournament
   /// Service Operation - POST_TOURNAMENT_SCORE
   ///
-  /// @param in_leaderboardId The leaderboard for the tournament
-  /// @param in_score The score to post
-  /// @param in_jsonData Optional data attached to the leaderboard entry
-  /// @param in_roundStartedTimeUTC Time the user started the match resulting in the score being posted in UTC. Use UTC time in milliseconds since epoch
+  /// @param leaderboardId The leaderboard for the tournament
+  /// @param score The score to post
+  /// @param jsonData Optional data attached to the leaderboard entry
+  /// @param roundStartedTimeUTC Time the user started the match resulting in the score being posted in UTC. Use UTC time in milliseconds since epoch
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> postTournamentScoreUTC(
@@ -296,14 +296,14 @@ class BrainCloudTournament {
   /// Service Name - tournament
   /// Service Operation - POST_TOURNAMENT_SCORE_WITH_RESULTS
   ///
-  /// @param in_leaderboardId The leaderboard for the tournament
-  /// @param in_score The score to post
-  /// @param in_jsonData Optional data attached to the leaderboard entry
-  /// @param in_roundStartedTimeUTC Time the user started the match resulting in the score being posted in UTC. Use UTC time in milliseconds since epoch
-  /// @param in_sort Sort key Sort order of page.
-  /// @param in_beforeCount The count of number of players before the current player to include.
-  /// @param in_afterCount The count of number of players after the current player to include.
-  /// @param in_initialScore The initial score for players first joining a tournament
+  /// @param leaderboardId The leaderboard for the tournament
+  /// @param score The score to post
+  /// @param jsonData Optional data attached to the leaderboard entry
+  /// @param roundStartedTimeUTC Time the user started the match resulting in the score being posted in UTC. Use UTC time in milliseconds since epoch
+  /// @param sort Sort key Sort order of page.
+  /// @param beforeCount The count of number of players before the current player to include.
+  /// @param afterCount The count of number of players after the current player to include.
+  /// @param initialScore The initial score for players first joining a tournament
   ///        Usually 0, unless leaderboard is LOW_VALUE
   /// @return Future<ServerResponse>
   ///
@@ -351,7 +351,7 @@ class BrainCloudTournament {
   /// Service Name - tournament
   /// Service Operation - VIEW_CURRENT_REWARD
   ///
-  /// @param in_leaderboardId The leaderboard for the tournament
+  /// @param leaderboardId The leaderboard for the tournament
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> viewCurrentReward({required String leaderboardId}) {
@@ -378,8 +378,8 @@ class BrainCloudTournament {
   /// Service Name - tournament
   /// Service Operation - VIEW_REWARD
   ///
-  /// @param in_leaderboardId The leaderboard for the tournament
-  /// @param in_versionId Version of the tournament. Use -1 for the latest version.
+  /// @param leaderboardId The leaderboard for the tournament
+  /// @param versionId Version of the tournament. Use -1 for the latest version.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> viewReward(

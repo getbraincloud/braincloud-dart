@@ -18,9 +18,9 @@ class BrainCloudMail {
   /// Service Name - mail
   /// Service Operation - SEND_BASIC_EMAIL
   ///
-  /// @param in_profileId The user to send the email to
-  /// @param in_subject The email subject
-  /// @param in_body The email body
+  /// @param profileId The user to send the email to
+  /// @param subject The email subject
+  /// @param body The email body
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> sendBasicEmail(
@@ -40,8 +40,8 @@ class BrainCloudMail {
   /// Service Name - mail
   /// Service Operation - SEND_ADVANCED_EMAIL
   ///
-  /// @param in_profileId The user to send the email to
-  /// @param in_jsonServiceParams Parameters to send to the email service. See the documentation for
+  /// @param profileId The user to send the email to
+  /// @param jsonServiceParams Parameters to send to the email service. See the documentation for
   ///        a full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
   /// @return Future<ServerResponse>
   ///
@@ -63,8 +63,8 @@ class BrainCloudMail {
   /// Service Name - mail
   /// Service Operation - SEND_ADVANCED_EMAIL_BY_ADDRESS
   ///
-  /// @param in_emailAddress The address to send the email to
-  /// @param in_jsonServiceParams Parameters to send to the email service. See the documentation for
+  /// @param emailAddress The address to send the email to
+  /// @param jsonServiceParams Parameters to send to the email service. See the documentation for
   ///        a full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
   /// @return Future<ServerResponse>
   ///
@@ -80,11 +80,11 @@ class BrainCloudMail {
   }
 
   /// Sends an advanced email to the specified email addresses.
-  /// Service Name - Mail
+  /// Service Name - mail
   /// Service Operation - SEND_ADVANCED_EMAIL_BY_ADDRESSES
   ///
-  /// @param in_emailAddress The list of addresses to send the email to
-  /// @param in_serviceParams Set of parameters dependant on the mail service configured
+  /// @param emailAddress The list of addresses to send the email to
+  /// @param serviceParams Set of parameters dependant on the mail service configured
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> sendAdvancedEmailByAddresses(

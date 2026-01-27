@@ -15,11 +15,11 @@ class BrainCloudOneWayMatch {
   BrainCloudOneWayMatch(this._clientRef);
 
   /// Starts a match
-  /// Service Name - OneWayMatch
-  /// Service Operation - StartMatch
+  /// Service Name - onewayMatch
+  /// Service Operation - START_MATCH
   ///
-  /// @param in_otherPlayerId The player to start a match with
-  /// @param in_rangeDelta The range delta used for the initial match search
+  /// @param otherPlayerId The player to start a match with
+  /// @param rangeDelta The range delta used for the initial match search
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> startMatch(
@@ -44,10 +44,10 @@ class BrainCloudOneWayMatch {
   }
 
   /// Cancels a match
-  /// Service Name - OneWayMatch
-  /// Service Operation - CancelMatch
+  /// Service Name - onewayMatch
+  /// Service Operation - CANCEL_MATCH
   ///
-  /// @param in_playbackStreamId The playback stream id returned in the start match
+  /// @param playbackStreamId The playback stream id returned in the start match
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> cancelMatch({required String playbackStreamId}) {
@@ -71,10 +71,10 @@ class BrainCloudOneWayMatch {
   }
 
   /// Completes a match
-  /// Service Name - OneWayMatch
-  /// Service Operation - CompleteMatch
+  /// Service Name - onewayMatch
+  /// Service Operation - COMPLETE_MATCH
   ///
-  /// @param in_playbackStreamId The playback stream id returned in the initial start match
+  /// @param playbackStreamId The playback stream id returned in the initial start match
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> completeMatch({required String playbackStreamId}) {

@@ -14,8 +14,13 @@ class BrainCloudBlockchain {
 
   BrainCloudBlockchain(this._clientRef);
 
-  /// @brief Retrieves the blockchain items owned by the caller.
+  /// Retrieves the blockchain items owned by the caller.
+  /// Service Name - blockchain
+  /// Service Operation - GET_BLOCKCHAIN_ITEMS
   ///
+  /// @param integrationID The blockchain integration id.
+  ///        Currently only 'default' is supported.
+  /// @param contextJson Optional. Reserved for future use.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getBlockchainItems(
@@ -42,8 +47,13 @@ class BrainCloudBlockchain {
     return completer.future;
   }
 
-  /// @brief Retrieves the uniqs owned by the caller.
+  /// Retrieves the uniqs owned by the caller.
+  /// Service Name - blockchain
+  /// Service Operation - GET_UNIQS
   ///
+  /// @param integrationID The blockchain integration id.
+  ///        Currently only 'default' is supported.
+  /// @param contextJson Optional. Reserved for future use.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getUniqs(

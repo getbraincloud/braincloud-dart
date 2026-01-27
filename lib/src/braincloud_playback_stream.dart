@@ -15,11 +15,11 @@ class BrainCloudPlaybackStream {
   BrainCloudPlaybackStream(this._clientRef);
 
   /// Starts a stream
-  /// Service Name - PlaybackStream
-  /// Service Operation - StartStream
+  /// Service Name - playbackStream
+  /// Service Operation - START_STREAM
   ///
-  /// @param in_targetPlayerId The player to start a stream with
-  /// @param in_includeSharedData Whether to include shared data in the stream
+  /// @param targetPlayerId The player to start a stream with
+  /// @param includeSharedData Whether to include shared data in the stream
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> startStream(
@@ -47,10 +47,10 @@ class BrainCloudPlaybackStream {
   }
 
   /// Reads a stream
-  /// Service Name - PlaybackStream
-  /// Service Operation - ReadStream
+  /// Service Name - playbackStream
+  /// Service Operation - READ_STREAM
   ///
-  /// @param in_playbackStreamId Identifies the stream to read
+  /// @param playbackStreamId Identifies the stream to read
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> readStream({required String playbackStreamId}) {
@@ -75,10 +75,10 @@ class BrainCloudPlaybackStream {
   }
 
   /// Ends a stream
-  /// Service Name - PlaybackStream
-  /// Service Operation - EndStream
+  /// Service Name - playbackStream
+  /// Service Operation - END_STREAM
   ///
-  /// @param in_playbackStreamId Identifies the stream to read
+  /// @param playbackStreamId Identifies the stream to read
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> endStream({required String playbackStreamId}) {
@@ -103,10 +103,10 @@ class BrainCloudPlaybackStream {
   }
 
   /// Deletes a stream
-  /// Service Name - PlaybackStream
-  /// Service Operation - DeleteStream
+  /// Service Name - playbackStream
+  /// Service Operation - DELETE_STREAM
   ///
-  /// @param in_playbackStreamId Identifies the stream to read
+  /// @param playbackStreamId Identifies the stream to read
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> deleteStream({required String playbackStreamId}) {
@@ -131,12 +131,12 @@ class BrainCloudPlaybackStream {
   }
 
   /// Adds a stream event
-  /// Service Name - PlaybackStream
-  /// Service Operation - AddEvent
+  /// Service Name - playbackStream
+  /// Service Operation - ADD_EVENT
   ///
-  /// @param in_playbackStreamId Identifies the stream to read
-  /// @param in_jsonEventData Describes the event
-  /// @param in_jsonSummary Current summary data as of this event
+  /// @param playbackStreamId Identifies the stream to read
+  /// @param jsonEventData Describes the event
+  /// @param jsonSummary Current summary data as of this event
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> addEvent(
@@ -172,8 +172,8 @@ class BrainCloudPlaybackStream {
   }
 
   /// Gets recent stream summaries for initiating player
-  /// Service Name - PlaybackStream
-  /// Service Operation - GetRecentStreamsForInitiatingPlayer
+  /// Service Name - playbackStream
+  /// Service Operation - GET_RECENT_STREAMS_FOR_INITIATING_PLAYER
   ///
   /// @param targetPlayerId The player that started the stream
   /// @param maxNumStreams The max number of streams to query
@@ -204,8 +204,8 @@ class BrainCloudPlaybackStream {
   }
 
   /// Gets recent stream summaries for target player
-  /// Service Name - PlaybackStream
-  /// Service Operation - GetRecentStreamsForTargetPlayer
+  /// Service Name - playbackStream
+  /// Service Operation - GET_RECENT_STREAMS_FOR_TARGET_PLAYER
   ///
   /// @param targetPlayerId The player that was target of the stream
   /// @param maxNumStreams The max number of streams to query
@@ -238,11 +238,11 @@ class BrainCloudPlaybackStream {
   /// Protects a playback stream from being purged (but not deleted) for the given number of days (from now).
   /// If the number of days given is less than the normal purge interval days (from createdAt), the longer protection date is applied.
   /// Can only be called by users involved in the playback stream.
-  /// Service Name - PlaybackStream
+  /// Service Name - playbackStream
   /// Service Operation - PROTECT_STREAM_UNTIL
   ///
-  /// @param in_playbackStreamId Identifies the stream to protect
-  /// @param in_numDays The number of days the stream is to be protected (from now)
+  /// @param playbackStreamId Identifies the stream to protect
+  /// @param numDays The number of days the stream is to be protected (from now)
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> protectStreamUntil(

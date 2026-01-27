@@ -57,8 +57,8 @@ class BrainCloudFriend {
   /// Service Name - friend
   /// Service Operation - GET_PROFILE_INFO_FOR_CREDENTIAL_IF_EXISTS
   ///
-  /// @param in_externalId The users's external ID
-  /// @param in_authenticationType The authentication type of the user ID
+  /// @param externalId The users's external ID
+  /// @param authenticationType The authentication type of the user ID
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getProfileInfoForCredentialIfExists(
@@ -123,11 +123,11 @@ class BrainCloudFriend {
   // }
 
   /// Retrieves profile information for the specified user. Silently fails, if profile does not exist, just returns null and success, instead of an error.
-  /// Service Name - Friend
+  /// Service Name - friend
   /// Service Operation - GET_PROFILE_INFO_FOR_EXTERNAL_AUTH_ID_IF_EXISTS
   ///
-  /// @param in_externalId External ID of the friend to find
-  /// @param in_externalAuthType The external authentication type used for this friend's external ID
+  /// @param externalId External ID of the friend to find
+  /// @param externalAuthType The external authentication type used for this friend's external ID
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getProfileInfoForExternalAuthIdIfExists(
@@ -156,8 +156,8 @@ class BrainCloudFriend {
 
   /// Retrieves the external ID for the specified user profile ID on the specified social platform.
   ///
-  /// @param in_profileId Profile (user) ID.
-  /// @param in_authenticationType Associated authentication type.
+  /// @param profileId Profile (user) ID.
+  /// @param authenticationType Associated authentication type.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getExternalIdForProfileId(
@@ -184,11 +184,11 @@ class BrainCloudFriend {
   }
 
   /// Returns a particular entity of a particular friend.
-  /// Service Name - Friend
-  /// Service Operation - ReadFriendEntity
+  /// Service Name - friend
+  /// Service Operation - READ_FRIEND_ENTITY
   ///
-  /// @param in_entityId Id of entity to retrieve.
-  /// @param in_friendId Profile Id of friend who owns entity.
+  /// @param entityId Id of entity to retrieve.
+  /// @param friendId Profile Id of friend who owns entity.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> readFriendEntity(
@@ -212,10 +212,10 @@ class BrainCloudFriend {
   }
 
   /// Returns entities of all friends optionally based on type.
-  /// Service Name - Friend
-  /// Service Operation - ReadFriendsEntities
+  /// Service Name - friend
+  /// Service Operation - READ_FRIENDS_ENTITIES
   ///
-  /// @param in_entityType Types of entities to retrieve.
+  /// @param entityType Types of entities to retrieve.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> readFriendsEntities({required String entityType}) {
@@ -240,10 +240,10 @@ class BrainCloudFriend {
   /// Read a friend's user state.
   /// If you are not friend with this user, you will get an error
   /// with NOT_FRIENDS reason code.
-  /// Service Name - Friend
-  /// Service Operation - ReadFriendsPlayerState
+  /// Service Name - friend
+  /// Service Operation - READ_FRIEND_PLAYER_STATE
   ///
-  /// @param in_friendId Target friend
+  /// @param friendId Target friend
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> readFriendUserState({required String friendId}) {
@@ -266,10 +266,10 @@ class BrainCloudFriend {
   }
 
   /// Returns user state of a particular user.
-  /// Service Name - Friend
+  /// Service Name - friend
   /// Service Operation - GET_SUMMARY_DATA_FOR_PROFILE_ID
   ///
-  /// @param in_profileId Profile Id of user to retrieve user state for.
+  /// @param profileId Profile Id of user to retrieve user state for.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getSummaryDataForProfileId(
@@ -323,8 +323,10 @@ class BrainCloudFriend {
   }
 
   /// Retrieves profile information of the specified universal Id.
+  /// Service Name - friend
+  /// Service Operation - FIND_USER_BY_EXACT_UNIVERSAL_ID
   ///
-  /// @param in_searchText Universal ID text on which to search.
+  /// @param searchText Universal ID text on which to search.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> findUserByExactUniversalId(
@@ -380,11 +382,11 @@ class BrainCloudFriend {
   }
 
   /// Retrieves a list of user and friend platform information for all friends of the current user.
-  /// Service Name - Friend
+  /// Service Name - friend
   /// Service Operation - LIST_FRIENDS
   ///
-  /// @param in_friendPlatform Friend platform to query.
-  /// @param in_includeSummaryData True if including summary data; false otherwise.
+  /// @param friendPlatform Friend platform to query.
+  /// @param includeSummaryData True if including summary data; false otherwise.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> listFriends(
@@ -448,10 +450,10 @@ class BrainCloudFriend {
   }
 
   /// Links the current user and the specified users as brainCloud friends.
-  /// Service Name - Friend
+  /// Service Name - friend
   /// Service Operation - ADD_FRIENDS
   ///
-  /// @param in_profileIds Collection of profile IDs.
+  /// @param profileIds Collection of profile IDs.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> addFriends({required List<String> profileIds}) {
@@ -475,12 +477,12 @@ class BrainCloudFriend {
   }
 
   /// Links the profiles for the specified externalIds for the given friend platform as internal friends.
-  /// Service Name - Friend
+  /// Service Name - friend
   /// Service Operation - ADD_FRIENDS_FROM_PLATFORM
   ///
-  /// @param in_friendPlatform Platform to add from (i.e: FriendPlatform::Facebook)
-  /// @param in_mode ADD or SYNC
-  /// @param in_externalIds Collection of external IDs from the friend platform.
+  /// @param friendPlatform Platform to add from (i.e: FriendPlatform::Facebook)
+  /// @param mode ADD or SYNC
+  /// @param externalIds Collection of external IDs from the friend platform.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> addFriendsFromPlatform(
@@ -510,10 +512,10 @@ class BrainCloudFriend {
   }
 
   /// Unlinks the current user and the specified users as brainCloud friends.
-  /// Service Name - Friend
+  /// Service Name - friend
   /// Service Operation - REMOVE_FRIENDS
   ///
-  /// @param in_profileIds Collection of profile IDs.
+  /// @param profileIds Collection of profile IDs.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> removeFriends({required List<String> profileIds}) {
@@ -537,10 +539,10 @@ class BrainCloudFriend {
   }
 
   /// Get users online status
-  /// Service Name - Friend
+  /// Service Name - friend
   /// Service Operation - GET_USERS_ONLINE_STATUS
   ///
-  /// @param in_profileIds Collection of profile IDs.
+  /// @param profileIds Collection of profile IDs.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getUsersOnlineStatus(
@@ -565,9 +567,11 @@ class BrainCloudFriend {
   }
 
   /// Retrieves profile information for the users whos names start with search text.
+  /// Service Name - friend
+  /// Service Operation - FIND_USERS_BY_NAME_STARTING_WITH
   ///
-  /// @param in_searchText Name text on which to search.
-  /// @param in_maxResults Maximum number of results to return.
+  /// @param searchText Name text on which to search.
+  /// @param maxResults Maximum number of results to return.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> findUsersByNameStartingWith(
@@ -592,9 +596,11 @@ class BrainCloudFriend {
   }
 
   /// Retrieves profile information for the users whos UniversalId start with search text.
+  /// Service Name - friend
+  /// Service Operation - FIND_USERS_BY_UNIVERSAL_ID_STARTING_WITH
   ///
-  /// @param in_searchText Universal ID text on which to search.
-  /// @param in_maxResults Maximum number of results to return.
+  /// @param searchText Universal ID text on which to search.
+  /// @param maxResults Maximum number of results to return.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> findUsersByUniversalIdStartingWith(

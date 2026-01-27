@@ -15,8 +15,8 @@ class BrainCloudGlobalApp {
   BrainCloudGlobalApp(this._clientRef);
 
   /// Read game's global properties
-  /// Service Name - GlobalApp
-  /// Service Operation - ReadProperties
+  /// Service Name - globalApp
+  /// Service Operation - READ_PROPERTIES
   ///
   /// @return Future<ServerResponse>
   ///
@@ -37,7 +37,7 @@ class BrainCloudGlobalApp {
 
   /// Returns a list of properties, identified by the property names provided.
   /// If a property from the list isn't found, it just isn't returned (no error).
-  /// Service Name - GlobalApp
+  /// Service Name - globalApp
   /// Service Operation - READ_SELECTED_PROPERTIES
   ///
   /// @param propertyNames Specifies which properties to return
@@ -64,8 +64,8 @@ class BrainCloudGlobalApp {
 
   /// Returns a list of properties, identified by the categories provided.
   /// If a category from the list isn't found, it just isn't returned (no error).
-  /// Service Name - GlobalApp
-  /// Service Operation - READ_PROPERTIES_IN_CATEGORIES
+  /// Service Name - globalApp
+  /// Service Operation - READ_PROPERTIES_CATEGORIES
   ///
   /// @param categories Specifies which category to return
   /// @return Future<ServerResponse>

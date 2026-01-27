@@ -643,10 +643,10 @@ class BrainCloudIdentity {
 
   /// Merge the profile associated with the provided userId with the current profile.
   /// Service Name - identity
-  /// Service Operation - Merge
+  /// Service Operation - MERGE
   ///
-  /// @param in_userId The user's userid
-  /// @param in_password The user's password
+  /// @param userId The user's userid
+  /// @param password The user's password
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> mergeUniversalIdentity(
@@ -673,10 +673,10 @@ class BrainCloudIdentity {
 
   /// Attach a Steam (userid + steamsessionticket) identity to the current profile.
   /// Service Name - identity
-  /// Service Operation - Attach
+  /// Service Operation - ATTACH
   ///
-  /// @param in_steamId String representation of 64 bit steam id
-  /// @param in_sessionTicket The user's session ticket (hex encoded)
+  /// @param steamId String representation of 64 bit steam id
+  /// @param sessionTicket The user's session ticket (hex encoded)
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> attachSteamIdentity(
@@ -850,10 +850,10 @@ class BrainCloudIdentity {
   /// Merge the profile associated with the provided Apple credentials with the
   /// current profile.
   /// Service Name - identity
-  /// Service Operation - Merge
+  /// Service Operation - MERGE
   ///
-  /// @param in_appleId The apple id of the user
-  /// @param in_authenticationToken The validated token from the Apple SDK
+  /// @param appleId The apple id of the user
+  /// @param authenticationToken The validated token from the Apple SDK
   ///        (that will be further validated when sent to the bC service)
   /// @return Future<ServerResponse>
   ///

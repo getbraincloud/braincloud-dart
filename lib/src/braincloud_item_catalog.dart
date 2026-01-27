@@ -16,10 +16,10 @@ class BrainCloudItemCatalog {
 
   /// Reads an existing item definition from the server, with language fields
   /// limited to the current or default language.
-  /// Service Name - ItemCatalog
+  /// Service Name - itemCatalog
   /// Service Operation - GET_CATALOG_ITEM_DEFINITION
   ///
-  /// @param in_defId The identifier of the catalog item definition to retrieve
+  /// @param defId The identifier of the catalog item definition to retrieve
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getCatalogItemDefinition({required String defId}) {
@@ -44,10 +44,10 @@ class BrainCloudItemCatalog {
 
   /// Retrieve a page of catalog items from the server, with language fields
   /// limited to the text for the current or default language.
-  /// Service Name - ItemCatalog
+  /// Service Name - itemCatalog
   /// Service Operation - GET_CATALOG_ITEMS_PAGE
   ///
-  /// @param in_context The pagination context returned from a previous catalog page request
+  /// @param context The pagination context returned from a previous catalog page request
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getCatalogItemsPage(
@@ -74,11 +74,11 @@ class BrainCloudItemCatalog {
   /// Gets a page of catalog items from the server based on the encoded
   /// context and specified page offset, with language fields limited to the
   /// text for the current or default language.
-  /// Service Name - ItemCatalog
+  /// Service Name - itemCatalog
   /// Service Operation - GET_CATALOG_ITEMS_PAGE_OFFSET
   ///
-  /// @param in_context The pagination context returned from a previous catalog page request
-  /// @param in_pageOffset The page offset relative to the current context
+  /// @param context The pagination context returned from a previous catalog page request
+  /// @param pageOffset The page offset relative to the current context
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getCatalogItemsPageOffset(

@@ -26,18 +26,18 @@ class BrainCloudLobby {
   BrainCloudLobby(this._clientRef);
 
   /// Begins matchmaking to find a lobby matching the given parameters.
-  /// Service Name - Lobby
+  /// Service Name - lobby
   /// Service Operation - FindLobby
   ///
-  /// @param in_lobbyType The type of lobby to search for
-  /// @param in_rating The skill rating used for matchmaking
-  /// @param in_maxSteps Maximum number of matchmaking steps
-  /// @param in_jsonAlgo Matchmaking algorithm configuration
-  /// @param in_jsonFilter Matchmaking filter criteria
-  /// @param in_otherUserCxIds Other users to include in the lobby
-  /// @param in_isReady Initial ready state of this user
-  /// @param in_extraJson Initial extra data for this user
-  /// @param in_teamCode Preferred team code, or empty for auto assignment
+  /// @param lobbyType The type of lobby to search for
+  /// @param rating The skill rating used for matchmaking
+  /// @param maxSteps Maximum number of matchmaking steps
+  /// @param jsonAlgo Matchmaking algorithm configuration
+  /// @param jsonFilter Matchmaking filter criteria
+  /// @param otherUserCxIds Other users to include in the lobby
+  /// @param isReady Initial ready state of this user
+  /// @param extraJson Initial extra data for this user
+  /// @param teamCode Preferred team code, or empty for auto assignment
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> findLobby(
@@ -80,18 +80,18 @@ class BrainCloudLobby {
   }
 
   /// Begins matchmaking using ping data to select the best region.
-  /// Service Name - Lobby
-  /// Service Operation - FindLobbyWithPingData
+  /// Service Name - lobby
+  /// Service Operation - FIND_LOBBY_WITH_PING_DATA
   ///
-  /// @param in_lobbyType The type of lobby to search for
-  /// @param in_rating The skill rating used for matchmaking
-  /// @param in_maxSteps Maximum number of matchmaking steps
-  /// @param in_jsonAlgo Matchmaking algorithm configuration
-  /// @param in_jsonFilter Matchmaking filter criteria
-  /// @param in_otherUserCxIds Other users to include in the lobby
-  /// @param in_isReady Initial ready state of this user
-  /// @param in_extraJson Initial extra data for this user
-  /// @param in_teamCode Preferred team code, or empty for auto assignment
+  /// @param lobbyType The type of lobby to search for
+  /// @param rating The skill rating used for matchmaking
+  /// @param maxSteps Maximum number of matchmaking steps
+  /// @param jsonAlgo Matchmaking algorithm configuration
+  /// @param jsonFilter Matchmaking filter criteria
+  /// @param otherUserCxIds Other users to include in the lobby
+  /// @param isReady Initial ready state of this user
+  /// @param extraJson Initial extra data for this user
+  /// @param teamCode Preferred team code, or empty for auto assignment
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> findLobbyWithPingData(
@@ -121,16 +121,16 @@ class BrainCloudLobby {
   }
 
   /// Creates a new lobby.
-  /// Service Name - Lobby
-  /// Service Operation - CreateLobby
+  /// Service Name - lobby
+  /// Service Operation - CREATE_LOBBY
   ///
-  /// @param in_lobbyType The type of lobby to create
-  /// @param in_rating The skill rating used for matchmaking
-  /// @param in_otherUserCxIds Other users to add to the lobby
-  /// @param in_isReady Initial ready state of this user
-  /// @param in_extraJson Initial extra data for this user
-  /// @param in_teamCode Preferred team code, or empty for auto assignment
-  /// @param in_jsonSettings Configuration data for the lobby
+  /// @param lobbyType The type of lobby to create
+  /// @param rating The skill rating used for matchmaking
+  /// @param otherUserCxIds Other users to add to the lobby
+  /// @param isReady Initial ready state of this user
+  /// @param extraJson Initial extra data for this user
+  /// @param teamCode Preferred team code, or empty for auto assignment
+  /// @param jsonSettings Configuration data for the lobby
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> createLobby(
@@ -167,16 +167,16 @@ class BrainCloudLobby {
   }
 
   /// Creates a new lobby using collected ping data to select the best region.
-  /// Service Name - Lobby
-  /// Service Operation - CreateLobbyWithPingData
+  /// Service Name - lobby
+  /// Service Operation - CREATE_LOBBY_WITH_PING_DATA
   ///
-  /// @param in_lobbyType The type of lobby to create
-  /// @param in_rating The skill rating used for matchmaking
-  /// @param in_otherUserCxIds Other users to add to the lobby
-  /// @param in_isReady Initial ready state of this user
-  /// @param in_extraJson Initial extra data for this user
-  /// @param in_teamCode Preferred team code, or empty for auto assignment
-  /// @param in_jsonSettings Configuration data for the lobby
+  /// @param lobbyType The type of lobby to create
+  /// @param rating The skill rating used for matchmaking
+  /// @param otherUserCxIds Other users to add to the lobby
+  /// @param isReady Initial ready state of this user
+  /// @param extraJson Initial extra data for this user
+  /// @param teamCode Preferred team code, or empty for auto assignment
+  /// @param jsonSettings Configuration data for the lobby
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> createLobbyWithPingData(
@@ -205,19 +205,19 @@ class BrainCloudLobby {
   }
 
   /// Finds or creates a lobby if none are available.
-  /// Service Name - Lobby
-  /// Service Operation - FindOrCreateLobby
+  /// Service Name - lobby
+  /// Service Operation - FIND_OR_CREATE_LOBBY
   ///
-  /// @param in_lobbyType The type of lobby
-  /// @param in_rating The skill rating used for matchmaking
-  /// @param in_maxSteps Maximum number of matchmaking steps
-  /// @param in_jsonAlgo Matchmaking algorithm configuration
-  /// @param in_jsonFilter Matchmaking filter criteria
-  /// @param in_otherUserCxIds Other users to include in the lobby
-  /// @param in_jsonSettings Configuration data for the lobby
-  /// @param in_isReady Initial ready state of this user
-  /// @param in_extraJson Initial extra data for this user
-  /// @param in_teamCode Preferred team code, or empty for auto assignment
+  /// @param lobbyType The type of lobby
+  /// @param rating The skill rating used for matchmaking
+  /// @param maxSteps Maximum number of matchmaking steps
+  /// @param jsonAlgo Matchmaking algorithm configuration
+  /// @param jsonFilter Matchmaking filter criteria
+  /// @param otherUserCxIds Other users to include in the lobby
+  /// @param jsonSettings Configuration data for the lobby
+  /// @param isReady Initial ready state of this user
+  /// @param extraJson Initial extra data for this user
+  /// @param teamCode Preferred team code, or empty for auto assignment
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> findOrCreateLobby(
@@ -261,19 +261,19 @@ class BrainCloudLobby {
   }
 
   /// Finds or creates a lobby using ping data.
-  /// Service Name - Lobby
-  /// Service Operation - FindOrCreateLobbyWithPingData
+  /// Service Name - lobby
+  /// Service Operation - FIND_OR_CREATE_LOBBY_WITH_PING_DATA
   ///
-  /// @param in_lobbyType The type of lobby
-  /// @param in_rating The skill rating used for matchmaking
-  /// @param in_maxSteps Maximum number of matchmaking steps
-  /// @param in_jsonAlgo Matchmaking algorithm configuration
-  /// @param in_jsonFilter Matchmaking filter criteria
-  /// @param in_otherUserCxIds Other users to include in the lobby
-  /// @param in_jsonSettings Configuration data for the lobby
-  /// @param in_isReady Initial ready state of this user
-  /// @param in_extraJson Initial extra data for this user
-  /// @param in_teamCode Preferred team code, or empty for auto assignment
+  /// @param lobbyType The type of lobby
+  /// @param rating The skill rating used for matchmaking
+  /// @param maxSteps Maximum number of matchmaking steps
+  /// @param jsonAlgo Matchmaking algorithm configuration
+  /// @param jsonFilter Matchmaking filter criteria
+  /// @param otherUserCxIds Other users to include in the lobby
+  /// @param jsonSettings Configuration data for the lobby
+  /// @param isReady Initial ready state of this user
+  /// @param extraJson Initial extra data for this user
+  /// @param teamCode Preferred team code, or empty for auto assignment
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> findOrCreateLobbyWithPingData(
@@ -306,10 +306,10 @@ class BrainCloudLobby {
   }
 
   /// Retrieves full lobby data for the specified lobby.
-  /// Service Name - Lobby
-  /// Service Operation - GetLobbyData
+  /// Service Name - lobby
+  /// Service Operation - GET_LOBBY_DATA
   ///
-  /// @param in_lobbyId The lobby identifier
+  /// @param lobbyId The lobby identifier
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getLobbyData({required String lobbyId}) {
@@ -332,12 +332,12 @@ class BrainCloudLobby {
   }
 
   /// Updates the ready state and extra data for the caller.
-  /// Service Name - Lobby
-  /// Service Operation - UpdateReady
+  /// Service Name - lobby
+  /// Service Operation - UPDATE_READY
   ///
-  /// @param in_lobbyId The lobby identifier
-  /// @param in_isReady Updated ready state
-  /// @param in_extraJson Updated extra data
+  /// @param lobbyId The lobby identifier
+  /// @param isReady Updated ready state
+  /// @param extraJson Updated extra data
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> updateReady(
@@ -365,11 +365,11 @@ class BrainCloudLobby {
   }
 
   /// Updates the lobby settings.
-  /// Service Name - Lobby
-  /// Service Operation - UpdateSettings
+  /// Service Name - lobby
+  /// Service Operation - UPDATE_SETTINGS
   ///
-  /// @param in_lobbyId The lobby identifier
-  /// @param in_jsonSettings Updated lobby settings
+  /// @param lobbyId The lobby identifier
+  /// @param jsonSettings Updated lobby settings
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> updateSettings(
@@ -394,11 +394,11 @@ class BrainCloudLobby {
   }
 
   /// Switches the caller to a different team within the lobby.
-  /// Service Name - Lobby
-  /// Service Operation - SwitchTeam
+  /// Service Name - lobby
+  /// Service Operation - SWITCH_TEAM
   ///
-  /// @param in_lobbyId The lobby identifier
-  /// @param in_toTeamCode Target team code
+  /// @param lobbyId The lobby identifier
+  /// @param toTeamCode Target team code
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> switchTeam(
@@ -423,11 +423,11 @@ class BrainCloudLobby {
   }
 
   /// Sends a signal to all lobby members.
-  /// Service Name - Lobby
-  /// Service Operation - SendSignal
+  /// Service Name - lobby
+  /// Service Operation - SEND_SIGNAL
   ///
-  /// @param in_lobbyId The lobby identifier
-  /// @param in_jsonSignalData Signal payload to send
+  /// @param lobbyId The lobby identifier
+  /// @param jsonSignalData Signal payload to send
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> sendSignal(
@@ -452,14 +452,14 @@ class BrainCloudLobby {
   }
 
   /// Joins the specified lobby.
-  /// Service Name - Lobby
-  /// Service Operation - JoinLobby
+  /// Service Name - lobby
+  /// Service Operation - JOIN_LOBBY
   ///
-  /// @param in_lobbyId The lobby identifier
-  /// @param in_isReady Initial ready state
-  /// @param in_extraJson Initial extra data
-  /// @param in_teamCode Preferred team code
-  /// @param in_otherUserCxIds Other users to include
+  /// @param lobbyId The lobby identifier
+  /// @param isReady Initial ready state
+  /// @param extraJson Initial extra data
+  /// @param teamCode Preferred team code
+  /// @param otherUserCxIds Other users to include
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> joinLobby(
@@ -494,14 +494,14 @@ class BrainCloudLobby {
   }
 
   /// Joins the specified lobby using ping data.
-  /// Service Name - Lobby
-  /// Service Operation - JoinLobbyWithPingData
+  /// Service Name - lobby
+  /// Service Operation - JOIN_LOBBY_WITH_PING_DATA
   ///
-  /// @param in_lobbyId The lobby identifier
-  /// @param in_isReady Initial ready state
-  /// @param in_extraJson Initial extra data
-  /// @param in_teamCode Preferred team code
-  /// @param in_otherUserCxIds Other users to include
+  /// @param lobbyId The lobby identifier
+  /// @param isReady Initial ready state
+  /// @param extraJson Initial extra data
+  /// @param teamCode Preferred team code
+  /// @param otherUserCxIds Other users to include
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> joinLobbyWithPingData(
@@ -523,10 +523,10 @@ class BrainCloudLobby {
   }
 
   /// Leaves the specified lobby.
-  /// Service Name - Lobby
-  /// Service Operation - LeaveLobby
+  /// Service Name - lobby
+  /// Service Operation - LEAVE_LOBBY
   ///
-  /// @param in_lobbyId The lobby identifier
+  /// @param lobbyId The lobby identifier
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> leaveLobby({required String lobbyId}) {
@@ -549,11 +549,11 @@ class BrainCloudLobby {
   }
 
   /// Removes a member from the lobby. Caller must be the lobby owner.
-  /// Service Name - Lobby
-  /// Service Operation - RemoveMember
+  /// Service Name - lobby
+  /// Service Operation - REMOVE_MEMBER
   ///
-  /// @param in_lobbyId The lobby identifier
-  /// @param in_cxId The cxId of the member to remove
+  /// @param lobbyId The lobby identifier
+  /// @param cxId The cxId of the member to remove
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> removeMember(
@@ -579,8 +579,8 @@ class BrainCloudLobby {
 
   /// Cancels an active find, join, or search request for lobbies.
   ///
-  /// @param in_lobbyType The lobby type associated with the request
-  /// @param in_entryId The entry identifier returned from matchmaking
+  /// @param lobbyType The lobby type associated with the request
+  /// @param entryId The entry identifier returned from matchmaking
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> cancelFindRequest(
@@ -607,10 +607,10 @@ class BrainCloudLobby {
 
   /// Retrieves the region settings for each of the given lobby types.
   /// Upon success, pingRegions should be called to collect ping data.
-  /// Service Name - Lobby
-  /// Service Operation - GetRegionsForLobbies
+  /// Service Name - lobby
+  /// Service Operation - GET_REGIONS_FOR_LOBBIES
   ///
-  /// @param in_roomTypes Ids of the lobby types
+  /// @param roomTypes Ids of the lobby types
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getRegionsForLobbies(
@@ -637,11 +637,11 @@ class BrainCloudLobby {
   }
 
   /// Retrieves visible lobby instances matching the given criteria.
-  /// Service Name - Lobby
+  /// Service Name - lobby
   /// Service Operation - GET_LOBBY_INSTANCES
   ///
-  /// @param in_lobbyType The type of lobby
-  /// @param in_criteriaJson JSON filter criteria
+  /// @param lobbyType The type of lobby
+  /// @param criteriaJson JSON filter criteria
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getLobbyInstances(
@@ -666,11 +666,11 @@ class BrainCloudLobby {
   }
 
   /// Retrieves visible lobby instances matching the given criteria using ping data.
-  /// Service Name - Lobby
+  /// Service Name - lobby
   /// Service Operation - GET_LOBBY_INSTANCES_WITH_PING_DATA
   ///
-  /// @param in_lobbyType The type of lobby
-  /// @param in_criteriaJson JSON filter criteria
+  /// @param lobbyType The type of lobby
+  /// @param criteriaJson JSON filter criteria
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getLobbyInstancesWithPingData(

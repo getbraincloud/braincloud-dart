@@ -311,11 +311,11 @@ class BrainCloudEntity {
   }
 
   /// Method deletes the given singleton entity on the server.
-  /// Service Name - Entity
-  /// Service Operation - DeleteSingleton
+  /// Service Name - entity
+  /// Service Operation - DELETE_SINGLETON
   ///
-  /// @param in_entityType The type of the entity to delete
-  /// @param in_version Current version of the entity. If the version of the
+  /// @param entityType The type of the entity to delete
+  /// @param version Current version of the entity. If the version of the
   ///        entity on the server does not match the version passed in, the
   ///        server operation will fail. Use -1 to skip version checking.
   /// @return Future<ServerResponse>
