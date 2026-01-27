@@ -16,8 +16,8 @@ class BrainCloudGlobalStatistics {
   BrainCloudGlobalStatistics(this._clientRef);
 
   /// Method returns all of the global statistics.
-  /// Service Name - GlobalStatistics
-  /// Service Operation - Read
+  /// Service Name - globalGameStatistics
+  /// Service Operation - READ
   ///
   /// @return Future<ServerResponse>
   ///
@@ -38,10 +38,10 @@ class BrainCloudGlobalStatistics {
   }
 
   /// Reads a subset of global statistics as defined by the input collection.
-  /// Service Name - GlobalStatistics
-  /// Service Operation - ReadSubset
+  /// Service Name - globalGameStatistics
+  /// Service Operation - READ_SUBSET
   ///
-  /// @param in_statistics A collection containing the statistics to read:
+  /// @param statistics A collection containing the statistics to read:
   ///        [
   ///        "Level01_TimesBeaten",
   ///        "Level02_TimesBeaten"
@@ -69,10 +69,10 @@ class BrainCloudGlobalStatistics {
   }
 
   /// Method retrieves the global statistics for the given category.
-  /// Service Name - GlobalStatistics
+  /// Service Name - globalGameStatistics
   /// Service Operation - READ_FOR_CATEGORY
   ///
-  /// @param in_category The global statistics category
+  /// @param category The global statistics category
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> readGlobalStatsForCategory(
@@ -145,10 +145,10 @@ class BrainCloudGlobalStatistics {
   }
 
   /// Apply statistics grammar to a partial set of statistics.
-  /// Service Name - GlobalStatistics
+  /// Service Name - globalGameStatistics
   /// Service Operation - PROCESS_STATISTICS
   ///
-  /// @param in_jsonData The JSON format is as follows:
+  /// @param jsonData The JSON format is as follows:
   ///        {
   ///        "DEAD_CATS": "RESET",
   ///        "LIVES_LEFT": "SET#9",

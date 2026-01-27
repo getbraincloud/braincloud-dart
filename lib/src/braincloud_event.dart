@@ -16,7 +16,7 @@ class BrainCloudEvent {
 
   /// Sends an event to the designated user id with the attached json data.
   /// Any events that have been sent to a user will show up in their
-  /// incoming event mailbox. If the in_recordLocally flag is set to true,
+  /// incoming event mailbox. If the recordLocally flag is set to true,
   /// a copy of this event (with the exact same event id) will be stored
   /// in the sending user's "sent" event mailbox.
   /// Note that the list of sent and incoming events for a user is returned
@@ -24,9 +24,9 @@ class BrainCloudEvent {
   /// Service Name - event
   /// Service Operation - SEND
   ///
-  /// @param in_toProfileId The id of the user who is being sent the event
-  /// @param in_eventType The user-defined type of the event.
-  /// @param in_jsonEventData The user-defined data for this event encoded in JSON.
+  /// @param toProfileId The id of the user who is being sent the event
+  /// @param eventType The user-defined type of the event.
+  /// @param jsonEventData The user-defined data for this event encoded in JSON.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> sendEvent(
@@ -57,12 +57,12 @@ class BrainCloudEvent {
   }
 
   /// Sends an event to multiple users with the attached json data.
-  /// Service Name - Event
+  /// Service Name - event
   /// Service Operation - SEND_EVENT_TO_PROFILES
   ///
-  /// @param in_toIds The profile ids of the users to send the event
-  /// @param in_eventType The user-defined type of the event
-  /// @param in_eventData The user-defined data for this event encoded in JSON
+  /// @param toIds The profile ids of the users to send the event
+  /// @param eventType The user-defined type of the event
+  /// @param eventData The user-defined data for this event encoded in JSON
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> sendEventToProfiles(
@@ -96,8 +96,8 @@ class BrainCloudEvent {
   /// Service Name - event
   /// Service Operation - UPDATE_EVENT_DATA
   ///
-  /// @param in_evId The event id
-  /// @param in_jsonEventData The user-defined data for this event encoded in JSON.
+  /// @param evId The event id
+  /// @param jsonEventData The user-defined data for this event encoded in JSON.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> updateIncomingEventData(
@@ -128,8 +128,8 @@ class BrainCloudEvent {
   /// Service Name - event
   /// Service Operation - UPDATE_EVENT_DATA
   ///
-  /// @param in_evId The event id
-  /// @param in_jsonEventData The user-defined data for this event encoded in JSON.
+  /// @param evId The event id
+  /// @param jsonEventData The user-defined data for this event encoded in JSON.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> updateIncomingEventDataIfExists(
@@ -160,7 +160,7 @@ class BrainCloudEvent {
   /// Service Name - event
   /// Service Operation - DELETE_INCOMING
   ///
-  /// @param in_evId The event id
+  /// @param evId The event id
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> deleteIncomingEvent({required String evId}) {
@@ -185,7 +185,7 @@ class BrainCloudEvent {
   /// Service Name - event
   /// Service Operation - DELETE_INCOMING_EVENTS
   ///
-  /// @param in_eventIds Collection of event ids
+  /// @param eventIds Collection of event ids
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> deleteIncomingEvents({required List<String> evIds}) {
@@ -210,7 +210,7 @@ class BrainCloudEvent {
   /// Service Name - event
   /// Service Operation - DELETE_INCOMING_EVENTS_OLDER_THAN
   ///
-  /// @param in_dateMillis createdAt cut-off time whereby older events will be deleted (In UTC since Epoch)
+  /// @param dateMillis createdAt cut-off time whereby older events will be deleted (In UTC since Epoch)
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> deleteIncomingEventsOlderThan(
@@ -236,8 +236,8 @@ class BrainCloudEvent {
   /// Service Name - event
   /// Service Operation - DELETE_INCOMING_EVENTS_BY_TYPE_OLDER_THAN
   ///
-  /// @param in_eventType The user-defined type of the event
-  /// @param in_dateMillis createdAt cut-off time whereby older events will be deleted (In UTC since Epoch)
+  /// @param eventType The user-defined type of the event
+  /// @param dateMillis createdAt cut-off time whereby older events will be deleted (In UTC since Epoch)
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> deleteIncomingEventsByTypeOlderThan(

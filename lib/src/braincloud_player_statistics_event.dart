@@ -22,11 +22,11 @@ class BrainCloudPlayerStatisticsEvent {
   /// (e.g., Apple Game Center, Google Play Games, etc.).
   /// This mechanism supersedes the PlayerStatisticsService API methods,
   /// which only update raw statistics without triggering rewards.
-  /// Service Name - PlayerStatisticsEvent
-  /// Service Operation - Trigger
+  /// Service Name - playerStatisticsEvent
+  /// Service Operation - TRIGGER
   ///
-  /// @param in_eventName Name of the statistics event to trigger.
-  /// @param in_eventMultiplier Optional multiplier to apply to the event.
+  /// @param eventName Name of the statistics event to trigger.
+  /// @param eventMultiplier Optional multiplier to apply to the event.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> triggerStatsEvent(

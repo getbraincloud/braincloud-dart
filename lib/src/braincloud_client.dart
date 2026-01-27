@@ -375,9 +375,9 @@ class BrainCloudClient {
   /// Used when needed to switch between child and parent apps. Automatically passes in
   /// current serverURL which is https://api.braincloudservers.com/dispatcherv2
   ///
-  /// @param in_defaultAppId The default app id that we start with
-  /// @param in_secretMap A map of <appId, secretKey>
-  /// @param in_appVersion The version
+  /// @param defaultAppId The default app id that we start with
+  /// @param secretMap A map of <appId, secretKey>
+  /// @param appVersion The version
   /// @return Future<ServerResponse>
   ///
   void initializeWithApps(
@@ -399,9 +399,9 @@ class BrainCloudClient {
   /// Method initializes the BrainCloudClient. Automatically passes in current serverURL
   /// as https://api.braincloudservers.com/dispatcherv2
   ///
-  /// @param in_secretKey The secret key for your game
-  /// @param in_appId The app id
-  /// @param in_appVersion The version
+  /// @param secretKey The secret key for your game
+  /// @param appId The app id
+  /// @param appVersion The version
   /// @return Future<ServerResponse>
   ///
   void initialize(
@@ -424,8 +424,8 @@ class BrainCloudClient {
   /// Initialize - initializes the identity service with the saved
   /// anonymous installation id and most recently used profile id
   ///
-  /// @param in_profileId The id of the profile id that was most recently used by the app (on this device)
-  /// @param in_anonymousId The anonymous installation id that was generated for this device
+  /// @param profileId The id of the profile id that was most recently used by the app (on this device)
+  /// @param anonymousId The anonymous installation id that was generated for this device
   /// @return Future<ServerResponse>
   ///
   void initializeIdentity(String profileId, String anonymousId) {
@@ -492,7 +492,7 @@ class BrainCloudClient {
   /// Sets a callback handler for any out of band event messages that come from
   /// brainCloud.
   ///
-  /// @param in_eventCallback A function which takes a json string as it's only parameter.
+  /// @param eventCallback A function which takes a json string as it's only parameter.
   ///        The json format looks like the following:
   ///        {
   ///        "events": [{
@@ -522,7 +522,7 @@ class BrainCloudClient {
 
   /// Sets a reward handler for any api call results that return rewards.
   ///
-  /// @param in_rewardCallback The reward callback handler.
+  /// @param rewardCallback The reward callback handler.
   ///        @see The brainCloud apidocs site for more information on the return JSON
   /// @return Future<ServerResponse>
   ///
@@ -564,7 +564,7 @@ class BrainCloudClient {
 
   /// Registers a callback that is invoked for all errors generated
   ///
-  /// @param in_globalErrorCallback The global error callback handler.
+  /// @param globalErrorCallback The global error callback handler.
   /// @return Future<ServerResponse>
   ///
   void registerGlobalErrorCallback(FailureGlobalCallback callback) {
@@ -583,7 +583,7 @@ class BrainCloudClient {
   /// Note this is only called if enableNetworkErrorMessageCaching
   /// has been set to true.
   ///
-  /// @param in_networkErrorCallback The network error callback handler.
+  /// @param networkErrorCallback The network error callback handler.
   /// @return Future<ServerResponse>
   ///
   void registerNetworkErrorCallback(NetworkErrorCallback callback) {
@@ -640,7 +640,7 @@ class BrainCloudClient {
   /// Note that this method does not change the timeout for authentication
   /// packets (use setAuthenticationPacketTimeout method).
   ///
-  /// @param in_timeouts A vector of packet timeouts.
+  /// @param timeouts A vector of packet timeouts.
   /// @return Future<ServerResponse>
   ///
   void setPacketTimeouts(List<int> timeouts) {
@@ -666,7 +666,7 @@ class BrainCloudClient {
   /// wait to receive a reply to an authentication api call. By default
   /// this timeout is set to 15 seconds.
   ///
-  /// @param in_timeoutSecs The timeout in seconds
+  /// @param timeoutSecs The timeout in seconds
   /// @return Future<ServerResponse>
   ///
   void setAuthenticationPacketTimeout(int timeoutSecs) {
@@ -699,7 +699,7 @@ class BrainCloudClient {
   /// By default this is set to 120 secs. Setting this value to 0 will
   /// turn off the timeout.
   ///
-  /// @param in_timeoutSecs The timeout in secs
+  /// @param timeoutSecs The timeout in secs
   /// @return Future<ServerResponse>
   ///
   void setUploadLowTransferRateTimeout(int timeoutSecs) {
@@ -722,7 +722,7 @@ class BrainCloudClient {
   /// only works on platforms that use libcurl (non-windows and win32 but
   /// not windows store or phone apps).
   ///
-  /// @param in_bytesPerSec The low transfer rate threshold in bytes/sec
+  /// @param bytesPerSec The low transfer rate threshold in bytes/sec
   /// @return Future<ServerResponse>
   ///
   void setUploadLowTransferRateThreshold(int bytesPerSec) {
@@ -749,7 +749,7 @@ class BrainCloudClient {
   /// for the brainCloud SDK to resume sending messages.
   /// resetCommunication() will also clear the message cache.
   ///
-  /// @param in_enabled True if message should be cached on timeout
+  /// @param enabled True if message should be cached on timeout
   /// @return Future<ServerResponse>
   ///
   void enableNetworkErrorMessageCaching(bool enabled) {
@@ -765,7 +765,7 @@ class BrainCloudClient {
   /// Flushes the cached messages to resume api call processing. This will dump
   /// all of the cached messages in the queue.
   ///
-  /// @param in_sendApiErrorCallbacks If set to true API error callbacks will
+  /// @param sendApiErrorCallbacks If set to true API error callbacks will
   ///        be called for every cached message with statusCode CLIENT_NETWORK_ERROR
   ///        and reasonCode CLIENT_NETWORK_ERROR_TIMEOUT.
   /// @return Future<ServerResponse>
@@ -793,7 +793,7 @@ class BrainCloudClient {
   /// Sets the country code sent to brainCloud when a user authenticates.
   /// Will override any auto detected country.
   ///
-  /// @param in_countryCode ISO 3166-1 two-letter country code
+  /// @param countryCode ISO 3166-1 two-letter country code
   /// @return Future<ServerResponse>
   ///
   void overrideCountryCode(String countryCode) {
@@ -804,7 +804,7 @@ class BrainCloudClient {
   /// If the language is set to a non-ISO 639-1 standard value the game default will be used instead.
   /// Will override any auto detected language.
   ///
-  /// @param in_languageCode ISO 639-1 two-letter language code
+  /// @param languageCode ISO 639-1 two-letter language code
   /// @return Future<ServerResponse>
   ///
   void overrideLanguageCode(String languageCode) {
@@ -851,7 +851,7 @@ class BrainCloudClient {
 
   /// Sends a service request message to the server. This will most likely be placed
   /// in a queue...
-  /// @param in_serviceMessage
+  /// @param serviceMessage
   ///
   /// @return Future<ServerResponse>
   ///

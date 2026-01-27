@@ -15,10 +15,10 @@ class BrainCloudAsyncMatch {
   BrainCloudAsyncMatch(this._clientRef);
 
   /// Creates an instance of an asynchronous match.
-  /// Service Name - AsyncMatch
-  /// Service Operation - Create
+  /// Service Name - asyncMatch
+  /// Service Operation - CREATE
   ///
-  /// @param in_jsonOpponentIds JSON string identifying the opponent platform and id for this match.
+  /// @param jsonOpponentIds JSON string identifying the opponent platform and id for this match.
   ///        Platforms are identified as:
   ///        BC - a brainCloud profile id
   ///        FB - a Facebook id
@@ -33,7 +33,7 @@ class BrainCloudAsyncMatch {
   ///        "id": "some-facebook-id"
   ///        }
   ///        ]
-  /// @param in_pushNotificationMessage Optional push notification message to send to the other party.
+  /// @param pushNotificationMessage Optional push notification message to send to the other party.
   ///        Refer to the Push Notification functions for the syntax required.
   /// @return Future<ServerResponse>
   ///
@@ -47,10 +47,10 @@ class BrainCloudAsyncMatch {
   }
 
   /// Creates an instance of an asynchronous match with an initial turn.
-  /// Service Name - AsyncMatch
-  /// Service Operation - Create
+  /// Service Name - asyncMatch
+  /// Service Operation - CREATE
   ///
-  /// @param in_jsonOpponentIds JSON string identifying the opponent platform and id for this match.
+  /// @param jsonOpponentIds JSON string identifying the opponent platform and id for this match.
   ///        Platforms are identified as:
   ///        BC - a brainCloud profile id
   ///        FB - a Facebook id
@@ -65,11 +65,11 @@ class BrainCloudAsyncMatch {
   ///        "id": "some-facebook-id"
   ///        }
   ///        ]
-  /// @param in_jsonMatchState JSON string blob provided by the caller
-  /// @param in_pushNotificationMessage Optional push notification message to send to the other party.
+  /// @param jsonMatchState JSON string blob provided by the caller
+  /// @param pushNotificationMessage Optional push notification message to send to the other party.
   ///        Refer to the Push Notification functions for the syntax required.
-  /// @param in_nextPlayer Optionally, force the next player player to be a specific player
-  /// @param in_jsonSummary Optional JSON string defining what the other player will see as a summary of the game when listing their games
+  /// @param nextPlayer Optionally, force the next player player to be a specific player
+  /// @param jsonSummary Optional JSON string defining what the other player will see as a summary of the game when listing their games
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> createMatchWithInitialTurn({
@@ -88,18 +88,18 @@ class BrainCloudAsyncMatch {
   }
 
   /// Submits a turn for the given match.
-  /// Service Name - AsyncMatch
-  /// Service Operation - SubmitTurn
+  /// Service Name - asyncMatch
+  /// Service Operation - SUBMIT_TURN
   ///
-  /// @param in_ownerId Match owner identfier
-  /// @param in_matchId Match identifier
-  /// @param in_version Game state version to ensure turns are submitted once and in order
-  /// @param in_jsonMatchState JSON string provided by the caller
-  /// @param in_pushNotificationMessage Optional push notification message to send to the other party.
+  /// @param ownerId Match owner identfier
+  /// @param matchId Match identifier
+  /// @param version Game state version to ensure turns are submitted once and in order
+  /// @param jsonMatchState JSON string provided by the caller
+  /// @param pushNotificationMessage Optional push notification message to send to the other party.
   ///        Refer to the Push Notification functions for the syntax required.
-  /// @param in_nextPlayer Optionally, force the next player player to be a specific player
-  /// @param in_jsonSummary Optional JSON string that other players will see as a summary of the game when listing their games
-  /// @param in_jsonStatistics Optional JSON string blob provided by the caller
+  /// @param nextPlayer Optionally, force the next player player to be a specific player
+  /// @param jsonSummary Optional JSON string that other players will see as a summary of the game when listing their games
+  /// @param jsonStatistics Optional JSON string blob provided by the caller
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> submitTurn(
@@ -152,13 +152,13 @@ class BrainCloudAsyncMatch {
   }
 
   /// Allows the current player (only) to update Summary data without having to submit a whole turn.
-  /// Service Name - AsyncMatch
-  /// Service Operation - UpdateMatchSummary
+  /// Service Name - asyncMatch
+  /// Service Operation - UPDATE_SUMMARY
   ///
-  /// @param in_ownerId Match owner identfier
-  /// @param in_matchId Match identifier
-  /// @param in_version Game state version to ensure turns are submitted once and in order
-  /// @param in_jsonSummary JSON string that other players will see as a summary of the game when listing their games
+  /// @param ownerId Match owner identfier
+  /// @param matchId Match identifier
+  /// @param version Game state version to ensure turns are submitted once and in order
+  /// @param jsonSummary JSON string that other players will see as a summary of the game when listing their games
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> updateMatchSummaryData(
@@ -193,14 +193,14 @@ class BrainCloudAsyncMatch {
 
   /// Allows the current player in the game to overwrite the matchState and
   /// statistics without completing their turn or adding to matchHistory.
-  /// Service Name - AsyncMatch
-  /// Service Operation - UpdateMatchStateCurrentTurn
+  /// Service Name - asyncMatch
+  /// Service Operation - UPDATE_MATCH_STATE_CURRENT_TURN
   ///
-  /// @param in_ownerId Match owner identifier
-  /// @param in_matchId Match identifier
-  /// @param in_version Game state version being updated, to ensure data integrity
-  /// @param in_jsonMatchState JSON string provided by the caller Required.
-  /// @param in_jsonStatistics Optional JSON string provided by the caller.
+  /// @param ownerId Match owner identifier
+  /// @param matchId Match identifier
+  /// @param version Game state version being updated, to ensure data integrity
+  /// @param jsonMatchState JSON string provided by the caller Required.
+  /// @param jsonStatistics Optional JSON string provided by the caller.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> updateMatchStateCurrentTurn(
@@ -234,11 +234,11 @@ class BrainCloudAsyncMatch {
   }
 
   /// Marks the given match as complete.
-  /// Service Name - AsyncMatch
-  /// Service Operation - Complete
+  /// Service Name - asyncMatch
+  /// Service Operation - COMPLETE
   ///
-  /// @param in_ownerId Match owner identifier
-  /// @param in_matchId Match identifier
+  /// @param ownerId Match owner identifier
+  /// @param matchId Match identifier
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> completeMatch(
@@ -264,11 +264,11 @@ class BrainCloudAsyncMatch {
   }
 
   /// Returns the current state of the given match.
-  /// Service Name - AsyncMatch
-  /// Service Operation - ReadMatch
+  /// Service Name - asyncMatch
+  /// Service Operation - READ_MATCH
   ///
-  /// @param in_ownerId Match owner identifier
-  /// @param in_matchId Match identifier
+  /// @param ownerId Match owner identifier
+  /// @param matchId Match identifier
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> readMatch(
@@ -294,11 +294,11 @@ class BrainCloudAsyncMatch {
   }
 
   /// Returns the match history of the given match.
-  /// Service Name - AsyncMatch
-  /// Service Operation - ReadMatchHistory
+  /// Service Name - asyncMatch
+  /// Service Operation - READ_MATCH_HISTORY
   ///
-  /// @param in_ownerId Match owner identifier
-  /// @param in_matchId Match identifier
+  /// @param ownerId Match owner identifier
+  /// @param matchId Match identifier
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> readMatchHistory(
@@ -324,8 +324,8 @@ class BrainCloudAsyncMatch {
   }
 
   /// Returns all matches that are NOT in a COMPLETE state for which the player is involved.
-  /// Service Name - AsyncMatch
-  /// Service Operation - FindMatches
+  /// Service Name - asyncMatch
+  /// Service Operation - FIND_MATCHES
   ///
   /// @return Future<ServerResponse>
   ///
@@ -345,8 +345,8 @@ class BrainCloudAsyncMatch {
   }
 
   /// Returns all matches that are in a COMPLETE state for which the player is involved.
-  /// Service Name - AsyncMatch
-  /// Service Operation - FindMatchesCompleted
+  /// Service Name - asyncMatch
+  /// Service Operation - FIND_MATCHES_COMPLETED
   ///
   /// @return Future<ServerResponse>
   ///
@@ -367,11 +367,11 @@ class BrainCloudAsyncMatch {
   }
 
   /// Marks the given match as abandoned.
-  /// Service Name - AsyncMatch
-  /// Service Operation - Abandon
+  /// Service Name - asyncMatch
+  /// Service Operation - ABANDON
   ///
-  /// @param in_ownerId Match owner identifier
-  /// @param in_matchId Match identifier
+  /// @param ownerId Match owner identifier
+  /// @param matchId Match identifier
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> abandonMatch(
@@ -397,11 +397,11 @@ class BrainCloudAsyncMatch {
 
   /// Removes the match and match history from the server. DEBUG ONLY, in production it is recommended
   /// the user leave it as completed.
-  /// Service Name - AsyncMatch
-  /// Service Operation - Delete
+  /// Service Name - asyncMatch
+  /// Service Operation - DELETE_MATCH
   ///
-  /// @param in_ownerId Match owner identifier
-  /// @param in_matchId Match identifier
+  /// @param ownerId Match owner identifier
+  /// @param matchId Match identifier
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> deleteMatch(
@@ -427,13 +427,13 @@ class BrainCloudAsyncMatch {
   }
 
   /// Marks the given match as complete. This call can send a notification message.
-  /// Service Name - AsyncMatch
-  /// Service Operation - CompleteMatchWithSumamryData
+  /// Service Name - asyncMatch
+  /// Service Operation - COMPLETE_MATCH_WITH_SUMMARY_DATA
   ///
-  /// @param in_ownerId Match owner identifier
-  /// @param in_matchId Match identifier
-  /// @param in_pushContent Optional push notification message to send to the other party when completing the match.
-  /// @param in_summary Optional JSON string summary that other players will see when listing their games
+  /// @param ownerId Match owner identifier
+  /// @param matchId Match identifier
+  /// @param pushContent Optional push notification message to send to the other party when completing the match.
+  /// @param summary Optional JSON string summary that other players will see when listing their games
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> completeMatchWithSummaryData({
@@ -466,13 +466,13 @@ class BrainCloudAsyncMatch {
   }
 
   /// Marks the given match as abandoned. This call can send a notification message.
-  /// Service Name - AsyncMatch
-  /// Service Operation - AbandonMatchWithSumamryData
+  /// Service Name - asyncMatch
+  /// Service Operation - ABANDON_MATCH_WITH_SUMMARY_DATA
   ///
-  /// @param in_ownerId Match owner identifier
-  /// @param in_matchId Match identifier
-  /// @param in_pushContent Optional push notification message to send to the other party when abandoning the match.
-  /// @param in_summary Optional JSON string summary that other players will see when listing their games
+  /// @param ownerId Match owner identifier
+  /// @param matchId Match identifier
+  /// @param pushContent Optional push notification message to send to the other party when abandoning the match.
+  /// @param summary Optional JSON string summary that other players will see when listing their games
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> abandonMatchWithSummaryData(

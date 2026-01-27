@@ -15,11 +15,11 @@ class BrainCloudScript {
   BrainCloudScript(this._clientRef);
 
   /// Executes a script on the server.
-  /// Service Name - Script
-  /// Service Operation - Run
+  /// Service Name - script
+  /// Service Operation - RUN
   ///
-  /// @param in_scriptName The name of the script to be run
-  /// @param in_jsonScriptData Data to be sent to the script in json format
+  /// @param scriptName The name of the script to be run
+  /// @param jsonScriptData Data to be sent to the script in json format
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> runScript(
@@ -48,12 +48,12 @@ class BrainCloudScript {
   }
 
   /// Allows cloud script executions to be scheduled - UTC time
-  /// Service Name - Script
-  /// Service Operation - ScheduleCloudScript
+  /// Service Name - script
+  /// Service Operation - SCHEDULE_CLOUD_SCRIPT
   ///
-  /// @param in_scriptName The name of the script to be run
-  /// @param in_jsonScriptData Data to be sent to the script in json format
-  /// @param in_startDateInUTC The start date in UTC
+  /// @param scriptName The name of the script to be run
+  /// @param jsonScriptData Data to be sent to the script in json format
+  /// @param startDateInUTC The start date in UTC
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> scheduleRunScriptMillisUTC(
@@ -87,12 +87,12 @@ class BrainCloudScript {
   }
 
   /// Allows cloud script executions to be scheduled
-  /// Service Name - Script
-  /// Service Operation - ScheduleCloudScript
+  /// Service Name - script
+  /// Service Operation - SCHEDULE_CLOUD_SCRIPT
   ///
-  /// @param in_scriptName The name of the script to be run
-  /// @param in_jsonScriptData Data to be sent to the script in json format
-  /// @param in_minutesFromNow Number of minutes from now to run script
+  /// @param scriptName The name of the script to be run
+  /// @param jsonScriptData Data to be sent to the script in json format
+  /// @param minutesFromNow Number of minutes from now to run script
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> scheduleRunScriptMinutes(
@@ -126,12 +126,12 @@ class BrainCloudScript {
   }
 
   /// Run a cloud script in a parent app
-  /// Service Name - Script
+  /// Service Name - script
   /// Service Operation - RUN_PARENT_SCRIPT
   ///
-  /// @param in_scriptName The name of the script to be run
-  /// @param in_scriptData Data to be sent to the script in json format
-  /// @param in_parentLevel The level name of the parent to run the script from
+  /// @param scriptName The name of the script to be run
+  /// @param scriptData Data to be sent to the script in json format
+  /// @param parentLevel The level name of the parent to run the script from
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> runParentScript(
@@ -164,10 +164,10 @@ class BrainCloudScript {
   }
 
   /// Cancels a scheduled cloud code script
-  /// Service Name - Script
+  /// Service Name - script
   /// Service Operation - CANCEL_SCHEDULED_SCRIPT
   ///
-  /// @param in_jobId ID of script job to cancel
+  /// @param jobId ID of script job to cancel
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> cancelScheduledScript({required String jobId}) {
@@ -191,10 +191,10 @@ class BrainCloudScript {
   }
 
   /// Cancels a scheduled cloud code script
-  /// Service Name - Script
+  /// Service Name - script
   /// Service Operation - CANCEL_SCHEDULED_SCRIPT
   ///
-  /// @param in_jobId ID of script job to cancel
+  /// @param jobId ID of script job to cancel
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getScheduledCloudScripts(
@@ -220,7 +220,7 @@ class BrainCloudScript {
   }
 
   /// Cancels a scheduled cloud code script
-  /// Service Name - Script
+  /// Service Name - script
   /// Service Operation - CANCEL_SCHEDULED_SCRIPT
   ///
   /// @return Future<ServerResponse>
@@ -243,11 +243,11 @@ class BrainCloudScript {
   }
 
   /// Runs a script from the context of a peer
-  /// Service Name - Script
+  /// Service Name - script
   /// Service Operation - RUN_PEER_SCRIPT
   ///
-  /// @param in_scriptName The name of the script to be run
-  /// @param in_jsonScriptData Data to be sent to the script in json format
+  /// @param scriptName The name of the script to be run
+  /// @param jsonScriptData Data to be sent to the script in json format
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> runPeerScript(
@@ -281,11 +281,11 @@ class BrainCloudScript {
 
   /// Runs a script asynchronously from the context of a peer
   /// This method does not wait for the script to complete before returning
-  /// Service Name - Script
+  /// Service Name - script
   /// Service Operation - RUN_PEER_SCRIPT_ASYNC
   ///
-  /// @param in_scriptName The name of the script to be run
-  /// @param in_jsonScriptData Data to be sent to the script in json format
+  /// @param scriptName The name of the script to be run
+  /// @param jsonScriptData Data to be sent to the script in json format
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> runPeerScriptAsync(

@@ -17,10 +17,10 @@ class BrainCloudAppStore {
 
   /// Method gets the active sales inventory for the passed-in
   /// currency type.
-  /// Service Name - AppStore
-  /// Service Operation - GetInventory
+  /// Service Name - appStore
+  /// Service Operation - GET_INVENTORY
   ///
-  /// @param in_storeId The store platform. Valid stores are:
+  /// @param storeId The store platform. Valid stores are:
   ///        itunes
   ///        facebook
   ///        appworld
@@ -28,7 +28,8 @@ class BrainCloudAppStore {
   ///        windows
   ///        windowsPhone
   ///        googlePlay
-  /// @param in_userCurrency The currency type to retrieve the sales inventory for.
+  ///        metaHorizon
+  /// @param userCurrency The currency type to retrieve the sales inventory for.
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getSalesInventory(
@@ -39,10 +40,10 @@ class BrainCloudAppStore {
 
   /// Method gets the active sales inventory for the passed-in
   /// currency type.
-  /// Service Name - AppStore
-  /// Service Operation - GetInventory
+  /// Service Name - appStore
+  /// Service Operation - GET_INVENTORY
   ///
-  /// @param in_storeId The store platform. Valid stores are:
+  /// @param storeId The store platform. Valid stores are:
   ///        itunes
   ///        facebook
   ///        appworld
@@ -50,8 +51,9 @@ class BrainCloudAppStore {
   ///        windows
   ///        windowsPhone
   ///        googlePlay
-  /// @param in_userCurrency The currency type to retrieve the sales inventory for.
-  /// @param in_category The product category
+  ///        metaHorizon
+  /// @param userCurrency The currency type to retrieve the sales inventory for.
+  /// @param category The product category
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> getSalesInventoryByCategory(
@@ -89,8 +91,8 @@ class BrainCloudAppStore {
   }
 
   /// Returns the eligible promotions for the player.
-  /// Service Name - AppStore
-  /// Service Operation - EligiblePromotions
+  /// Service Name - appStore
+  /// Service Operation - ELIGIBLE_PROMOTIONS
   ///
   /// @return Future<ServerResponse>
   ///
@@ -110,10 +112,10 @@ class BrainCloudAppStore {
   }
 
   /// Verifies that purchase was properly made at the store.
-  /// Service Name - AppStore
-  /// Service Operation - VerifyPurchase
+  /// Service Name - appStore
+  /// Service Operation - VERIFY_PURCHASE
   ///
-  /// @param in_storeId The store platform. Valid stores are:
+  /// @param storeId The store platform. Valid stores are:
   ///        itunes
   ///        facebook
   ///        appworld
@@ -121,7 +123,8 @@ class BrainCloudAppStore {
   ///        windows
   ///        windowsPhone
   ///        googlePlay
-  /// @param in_jsonReceiptData The specific store data required
+  ///        metaHorizon
+  /// @param jsonReceiptData The specific store data required
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> verifyPurchase(
@@ -147,10 +150,10 @@ class BrainCloudAppStore {
   }
 
   /// Start A Two Staged Purchase Transaction
-  /// Service Name - AppStore
-  /// Service Operation - StartPurchase
+  /// Service Name - appStore
+  /// Service Operation - START_PURCHASE
   ///
-  /// @param in_storeId The store platform. Valid stores are:
+  /// @param storeId The store platform. Valid stores are:
   ///        itunes
   ///        facebook
   ///        appworld
@@ -158,7 +161,8 @@ class BrainCloudAppStore {
   ///        windows
   ///        windowsPhone
   ///        googlePlay
-  /// @param in_jsonPurchaseData Specific data for starting a two-stage purchase
+  ///        metaHorizon
+  /// @param jsonPurchaseData Specific data for starting a two-stage purchase
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> startPurchase(
@@ -184,10 +188,10 @@ class BrainCloudAppStore {
   }
 
   /// Finalize A Two Staged Purchase Transaction
-  /// Service Name - AppStore
-  /// Service Operation - FinalizePurchase
+  /// Service Name - appStore
+  /// Service Operation - FINALIZE_PURCHASE
   ///
-  /// @param in_storeId The store platform. Valid stores are:
+  /// @param storeId The store platform. Valid stores are:
   ///        itunes
   ///        facebook
   ///        appworld
@@ -195,8 +199,9 @@ class BrainCloudAppStore {
   ///        windows
   ///        windowsPhone
   ///        googlePlay
-  /// @param in_transactionId The transaction id returned from startPurchase
-  /// @param in_jsonTransactionData Specific transaction data for finalizing purchase
+  ///        metaHorizon
+  /// @param transactionId The transaction id returned from startPurchase
+  /// @param jsonTransactionData Specific transaction data for finalizing purchase
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> finalizePurchase(
@@ -225,8 +230,8 @@ class BrainCloudAppStore {
   }
 
   /// Returns up-to-date eligible 'promotions' for the user and a 'promotionsRefreshed' flag indicating whether the user's promotion info required refreshing.
-  /// Service Name - AppStore
-  /// Service Operation - RefreshPromotions
+  /// Service Name - appStore
+  /// Service Operation - REFRESH_PROMOTIONS
   ///
   /// @return Future<ServerResponse>
   ///
@@ -252,10 +257,10 @@ class BrainCloudAppStore {
   /// payload context on brainCloud so that the purchase can be verified for the proper IAP product.
   /// This payload will be used during the VerifyPurchase method to ensure the
   /// user properly paid for the correct product before awarding them the IAP product.
-  /// Service Name - AppStore
-  /// Service Operation - CachePurchasePayloadContext
+  /// Service Name - appStore
+  /// Service Operation - CACHE_PURCHASE_PAYLOAD_CONTEXT
   ///
-  /// @param in_storeId The store platform. Valid stores are:
+  /// @param storeId The store platform. Valid stores are:
   ///        itunes
   ///        facebook
   ///        appworld
@@ -263,8 +268,9 @@ class BrainCloudAppStore {
   ///        windows
   ///        windowsPhone
   ///        googlePlay
-  /// @param in_iapId The IAP product id as configured on brainCloud
-  /// @param in_payload The payload retrieved for the IAP product
+  ///        metaHorizon
+  /// @param iapId The IAP product id as configured on brainCloud
+  /// @param payload The payload retrieved for the IAP product
   /// @return Future<ServerResponse>
   ///
   Future<ServerResponse> cachePurchasePayloadContext(

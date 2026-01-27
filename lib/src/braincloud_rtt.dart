@@ -17,6 +17,11 @@ class BrainCloudRTT {
   /// need to be polled using GET_EVENTS. By enabling this, events will
   /// be received instantly when they happen through a TCP connection to an Event Server.
   /// This function will first call requestClientConnection, then connect to the address
+  /// Listen to real time presence events.
+  /// Notes: RTT must be enabled for this app, and enableRTT must have been successfully called.
+  /// Only one presence callback can be registered at a time. Calling this a second time will override the previous callback.
+  ///
+  /// @return Future<ServerResponse>
   ///
   /// @param useWebSocket Use web sockets instead of TCP for the internal connections. Default is true
   /// @return Future<ServerResponse>
@@ -64,9 +69,9 @@ class BrainCloudRTT {
     _commsLayer.deregisterRTTCallback(ServiceName.event);
   }
 
-  /// Listen to real time presence events.
+  /// Listen to real time chat messages.
   /// Notes: RTT must be enabled for this app, and enableRTT must have been successfully called.
-  /// Only one presence callback can be registered at a time. Calling this a second time will override the previous callback.
+  /// Only one chat callback can be registered at a time. Calling this a second time will override the previous callback.
   ///
   /// @return Future<ServerResponse>
   ///
