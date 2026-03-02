@@ -126,6 +126,9 @@ class BrainCloudComms {
   /// The event handler callback method
   EventCallback? _eventCallback;
 
+  // The long session re-authentication callback method
+  LongSessionCallback? _longSessionCallback;
+
   /// The reward handler callback method
   RewardCallback? _rewardCallback;
 
@@ -261,6 +264,14 @@ class BrainCloudComms {
 
   void deregisterEventCallback() {
     _eventCallback = null;
+  }
+
+  void registerLongSessionCallback(LongSessionCallback cb) {
+    _longSessionCallback = cb;
+  }
+
+  void deregisterLongSessionCallback() {
+    _longSessionCallback = null;
   }
 
   void registerRewardCallback(RewardCallback cb) {
@@ -920,6 +931,10 @@ class BrainCloudComms {
               .authenticateAnonymous(forceCreate: false)
               .then( (value) {
                 if (value.isSuccess()) {
+
+                  if (_longSessionCallback != null) {
+                  _longSessionCallback!({"response": value});
+                }
                   // retry here
                   if (expiredServerCall != null) {
                     // re-queue the call that failed
@@ -927,6 +942,7 @@ class BrainCloudComms {
                     // and any other msg in the bundle as they will fail too.
                     _serviceCallsWaiting.addAll(otherServerCallInProgress); // need to re-queue  any other 
                   }
+                  
                   return; // next update loop will take care off things
                 } else {
                   _clientRef.log("Long session re-authentication failed.");

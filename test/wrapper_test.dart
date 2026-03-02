@@ -276,6 +276,11 @@ void main() {
       print(
           " Generated id: ${userWrapper.brainCloudClient.authenticationService.generateAnonymousId()}");
       userWrapper.enableLongSession(true);
+
+      userWrapper.brainCloudClient.registerLongSessionCallback((response) {
+        print("Long Session CALLBACK: " + response.toString());
+      });
+
       ServerResponse userSessionResp = await userWrapper.authenticationService
           .authenticateUniversal(
               userId: "${userB.name}_${DateTime.now().millisecondsSinceEpoch}",
@@ -352,6 +357,10 @@ void main() {
 
       userWrapper.enableLongSession(true);
 
+      userWrapper.brainCloudClient.registerLongSessionCallback((response) {
+        print("Long Session CALLBACK: " + response.toString());
+      });
+
       // kill the session from the other user
       ServerResponse response = await bcTest.bcWrapper.scriptService.runScript(
           scriptName: "LogoutSession",
@@ -374,6 +383,11 @@ void main() {
 
       userWrapper.brainCloudClient.enableLogging(true);
       userWrapper.enableLongSession(true);
+
+      userWrapper.brainCloudClient.registerLongSessionCallback((response) {
+        print("Long Session CALLBACK: " + response.toString());
+      });
+
       ServerResponse userSessionResp =
           await userWrapper.authenticateAnonymous();
 
@@ -423,6 +437,9 @@ void main() {
 
       userWrapper.brainCloudClient.enableLogging(true);
       userWrapper.enableLongSession(true);
+      userWrapper.brainCloudClient.registerLongSessionCallback((response) {
+        print("Long Session CALLBACK: " + response.toString());
+      });
       ServerResponse userSessionResp = await userWrapper.authenticateUniversal(
           username: userB.name, password: userB.password, forceCreate: true);
 
@@ -475,6 +492,9 @@ void main() {
 
       userWrapper.brainCloudClient.enableLogging(true);
       userWrapper.enableLongSession(true);
+      userWrapper.brainCloudClient.registerLongSessionCallback((response) {
+        print("Long Session CALLBACK: " + response.toString());
+      });
 
       ServerResponse userSessionResp = await userWrapper.authenticateUniversal(
           username: userB.name, password: userB.password, forceCreate: true);
