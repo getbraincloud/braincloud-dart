@@ -274,7 +274,7 @@ main() {
       expect(result, true, reason: "Did not detect the webslocket closing.");
     }, onPlatform: {'browser': Skip('Mock Proxy WS does not work on Web.')});
 
-    test("enableRTT", () async {
+    test("enableRTT - No Auth", () async {
       bcTest.bcWrapper.rttService.disableRTT();
 
       final Completer completer = Completer();
