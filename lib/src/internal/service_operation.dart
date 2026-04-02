@@ -652,20 +652,38 @@ class ServiceOperation {
   static ServiceOperation updateActivity =
       ServiceOperation._("UPDATE_ACTIVITY");
 
-  //tournament
+  // Tournament
   static ServiceOperation getTournamentStatus =
       ServiceOperation._("GET_TOURNAMENT_STATUS");
   static ServiceOperation getDivisionInfo =
       ServiceOperation._("GET_DIVISION_INFO");
+  static ServiceOperation getGroupDivisionInfo =
+      ServiceOperation._("GET_GROUP_DIVISION_INFO");
+  static ServiceOperation getGroupDivisions =
+      ServiceOperation._("GET_GROUP_DIVISIONS");
+  static ServiceOperation getGroupTournamentStatus =
+      ServiceOperation._("GET_GROUP_TOURNAMENT_STATUS");
   static ServiceOperation getMyDivisions =
       ServiceOperation._("GET_MY_DIVISIONS");
   static ServiceOperation joinDivision = ServiceOperation._("JOIN_DIVISION");
+  static ServiceOperation joinGroupDivision =
+      ServiceOperation._("JOIN_GROUP_DIVISION");
+  static ServiceOperation joinGroupTournament =
+      ServiceOperation._("JOIN_GROUP_TOURNAMENT");
   static ServiceOperation joinTournament =
       ServiceOperation._("JOIN_TOURNAMENT");
   static ServiceOperation leaveDivisionInstance =
       ServiceOperation._("LEAVE_DIVISION_INSTANCE");
+  static ServiceOperation leaveGroupDivisionInstance =
+      ServiceOperation._("LEAVE_GROUP_DIVISION_INSTANCE");
+  static ServiceOperation leaveGroupTournament =
+      ServiceOperation._("LEAVE_GROUP_TOURNAMENT");
   static ServiceOperation leaveTournament =
       ServiceOperation._("LEAVE_TOURNAMENT");
+  static ServiceOperation postGroupTournamentScore =
+      ServiceOperation._("POST_GROUP_TOURNAMENT_SCORE");
+  static ServiceOperation postGroupTournamentScoreWithResults =
+      ServiceOperation._("POST_GROUP_TOURNAMENT_SCORE_WITH_RESULTS");
   static ServiceOperation postTournamentScore =
       ServiceOperation._("POST_TOURNAMENT_SCORE");
   static ServiceOperation postTournamentScoreWithResults =
