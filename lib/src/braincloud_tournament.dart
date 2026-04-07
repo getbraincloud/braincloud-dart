@@ -72,6 +72,96 @@ class BrainCloudTournament {
     return completer.future;
   }
 
+  /// Essentially the same as GetGroupTournamentStatus(), but takes a 
+  /// division set id instead of a leaderboard id as its parameter. Would 
+  /// generally be called before JoinGroupDivision() in the case that there 
+  /// are multiple tournaments, or if the group member is shown information 
+  /// to make an informed choice as to whether to join group in tournament.
+  ///
+  /// Service Name - tournament
+  /// Service Operation - GET_GROUP_DIVISION_INFO
+  ///
+  Future<ServerResponse> getGroupDivisionInfo(
+      {required String divSetId, required String groupId}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    data[OperationParam.divSetId.value] = divSetId;
+    data[OperationParam.groupId.value] = groupId;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) => completer.complete(ServerResponse.fromJson(response)),
+      (statusCode, reasonCode, statusMessage) => completer.complete(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              error: statusMessage)),
+    );
+    ServerCall sc = ServerCall(ServiceName.tournament,
+        ServiceOperation.getGroupDivisionInfo, data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
+  /// Returns a list of the member's group's recently active divisions, 
+  /// organized by simplified tournament state: ACTIVE, PENDING, 
+  /// COMPLETE.
+  ///
+  /// Service Name - tournament
+  /// Service Operation - GET_GROUP_DIVISIONS
+  /// 
+  Future<ServerResponse> getGroupDivisions({required String groupId}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    data[OperationParam.groupId.value] = groupId;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) => completer.complete(ServerResponse.fromJson(response)),
+      (statusCode, reasonCode, statusMessage) => completer.complete(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              error: statusMessage)),
+    );
+    ServerCall sc = ServerCall(ServiceName.tournament,
+        ServiceOperation.getGroupDivisions, data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
+  /// Get tournament status associated with a leaderboard. Option parameter: 
+  /// leaderboard version id 'versionId'. If -1, defaults to current 
+  /// version.
+  ///
+  /// Service Name - tournament
+  /// Service Operation - GET_GROUP_TOURNAMENT_STATUS
+  ///
+  Future<ServerResponse> getGroupTournamentStatus(
+      {required String leaderboardId,
+      required String groupId,
+      required int versionId}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    data[OperationParam.leaderboardId.value] = leaderboardId;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.versionId.value] = versionId;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) => completer.complete(ServerResponse.fromJson(response)),
+      (statusCode, reasonCode, statusMessage) => completer.complete(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              error: statusMessage)),
+    );
+    ServerCall sc = ServerCall(ServiceName.tournament,
+        ServiceOperation.getGroupTournamentStatus, data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
   /// Returns list of player's recently active divisions
   /// Service Name - tournament
   /// Service Operation - GET_MY_DIVISIONS
@@ -161,6 +251,72 @@ class BrainCloudTournament {
     return completer.future;
   }
 
+  /// Similar to JoinGroupTournament(), except requires the division set 
+  /// id instead of the leaderboard id.
+  ///
+  /// Service Name - tournament
+  /// Service Operation - JOIN_GROUP_DIVISION
+  ///
+  Future<ServerResponse> joinGroupDivision(
+      {required String divSetId,
+      required String tournamentCode,
+      required String groupId,
+      required int initialScore}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    data[OperationParam.divSetId.value] = divSetId;
+    data[OperationParam.tournamentCode.value] = tournamentCode;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.initialScore.value] = initialScore;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) => completer.complete(ServerResponse.fromJson(response)),
+      (statusCode, reasonCode, statusMessage) => completer.complete(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              error: statusMessage)),
+    );
+    ServerCall sc = ServerCall(ServiceName.tournament,
+        ServiceOperation.joinGroupDivision, data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
+  /// Enrolls a member's group in the group tournament and assigns an 
+  /// initial score
+  ///
+  /// Service Name - tournament
+  /// Service Operation - JOIN_GROUP_TOURNAMENT
+  ///
+  Future<ServerResponse> joinGroupTournament(
+      {required String leaderboardId,
+      required String tournamentCode,
+      required String groupId,
+      required int initialScore}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    data[OperationParam.leaderboardId.value] = leaderboardId;
+    data[OperationParam.tournamentCode.value] = tournamentCode;
+    data[OperationParam.groupId.value] = groupId;
+    data[OperationParam.initialScore.value] = initialScore;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) => completer.complete(ServerResponse.fromJson(response)),
+      (statusCode, reasonCode, statusMessage) => completer.complete(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              error: statusMessage)),
+    );
+    ServerCall sc = ServerCall(ServiceName.tournament,
+        ServiceOperation.joinGroupTournament, data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
   /// Join the specified tournament.
   /// Any entry fees will be automatically collected.
   /// Service Name - tournament
@@ -226,6 +382,63 @@ class BrainCloudTournament {
     return completer.future;
   }
 
+  /// Similar to LeaveGroupTournament(), but removes member's group from 
+  /// division instance and also ensures that the division instance is 
+  /// removed from the group's division list.
+  /// 
+  /// Service Name - tournament
+  /// Service Operation - LEAVE_GROUP_DIVISION_INSTANCE
+  /// 
+  Future<ServerResponse> leaveGroupDivisionInstance(
+      {required String leaderboardId, required String groupId}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    data[OperationParam.leaderboardId.value] = leaderboardId;
+    data[OperationParam.groupId.value] = groupId;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) => completer.complete(ServerResponse.fromJson(response)),
+      (statusCode, reasonCode, statusMessage) => completer.complete(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              error: statusMessage)),
+    );
+    ServerCall sc = ServerCall(ServiceName.tournament,
+        ServiceOperation.leaveGroupDivisionInstance, data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
+  /// Allows a group member to remove the group's score from the tournament 
+  /// leaderboard
+  /// 
+  /// Service Name - tournament
+  /// Service Operation - LEAVE_GROUP_TOURNAMENT
+  /// 
+  Future<ServerResponse> leaveGroupTournament(
+      {required String leaderboardId, required String groupId}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    data[OperationParam.leaderboardId.value] = leaderboardId;
+    data[OperationParam.groupId.value] = groupId;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) => completer.complete(ServerResponse.fromJson(response)),
+      (statusCode, reasonCode, statusMessage) => completer.complete(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              error: statusMessage)),
+    );
+    ServerCall sc = ServerCall(ServiceName.tournament,
+        ServiceOperation.leaveGroupTournament, data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
   /// Removes player's score from tournament leaderboard
   /// Service Name - tournament
   /// Service Operation - LEAVE_TOURNAMENT
@@ -249,6 +462,93 @@ class BrainCloudTournament {
     ServerCall sc = ServerCall(ServiceName.tournament,
         ServiceOperation.leaveTournament, data, callback);
     _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
+  /// Posts the given score for member's group to the group leaderboard. 
+  /// Group's score is updated, if applicable, based on leaderboard type 
+  /// (best score, latest score, cumulative score).
+  /// 
+  /// Service Name - tournament
+  /// Service Operation - POST_GROUP_TOURNAMENT_SCORE
+  ///
+  Future<ServerResponse> postGroupTournamentScore(
+      {required String leaderboardId,
+      required String groupId,
+      required int score,
+      Map<String, dynamic>? data,
+      required int roundStartedEpoch}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> _data = {};
+    _data[OperationParam.leaderboardId.value] = leaderboardId;
+    _data[OperationParam.groupId.value] = groupId;
+    _data[OperationParam.score.value] = score;
+    _data[OperationParam.roundStartedEpoch.value] = roundStartedEpoch;
+
+    if (data != null) {
+      _data[OperationParam.data.value] = data;
+    }
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+      (response) => completer.complete(ServerResponse.fromJson(response)),
+      (statusCode, reasonCode, statusMessage) => completer.complete(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              error: statusMessage)),
+    );
+    ServerCall sc = ServerCall(ServiceName.tournament,
+        ServiceOperation.postGroupTournamentScore, _data, callback);
+    _clientRef.sendRequest(sc);
+
+    return completer.future;
+  }
+
+  /// Posts the given score for member's group to the group leaderboard and returns 
+  /// leaderboard results. Group's score is updated, if applicable, based on 
+  /// leaderboard type (best score, latest score, cumulative score).
+  /// 
+  /// Service Name - tournament
+  /// Service Operation - POST_GROUP_TOURNAMENT_SCORE_WITH_RESULTS
+  ///
+  Future<ServerResponse> postGroupTournamentScoreWithResults(
+      {required String leaderboardId,
+      required String groupId,
+      required int score,
+      Map<String, dynamic>? data,
+      required int roundStartTimeUTC,
+      required SortOrder sort,
+      required int beforeCount,
+      required int afterCount,
+      required int initialScore}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> _data = {};
+    _data[OperationParam.socialLeaderboardServiceLeaderboardId.value] =
+        leaderboardId;
+    _data[OperationParam.groupId.value] = groupId;
+    _data[OperationParam.score.value] = score;
+    _data[OperationParam.roundStartedEpoch.value] = roundStartTimeUTC;
+    _data[OperationParam.initialScore.value] = initialScore;
+
+    if (data != null) {
+      _data[OperationParam.data.value] = data;
+    }
+
+    _data[OperationParam.socialLeaderboardServiceSort.value] = sort.name;
+    _data[OperationParam.socialLeaderboardServiceBeforeCount.value] =
+        beforeCount;
+    _data[OperationParam.socialLeaderboardServiceAfterCount.value] = afterCount;
+
+    var callback = BrainCloudClient.createServerCallback(
+      (response) => completer.complete(ServerResponse.fromJson(response)),
+      (statusCode, reasonCode, statusMessage) => completer.complete(
+          ServerResponse(
+              statusCode: statusCode,
+              reasonCode: reasonCode,
+              error: statusMessage)),
+    );
+    _clientRef.sendRequest(ServerCall(ServiceName.tournament,
+        ServiceOperation.postGroupTournamentScoreWithResults, _data, callback));
 
     return completer.future;
   }
