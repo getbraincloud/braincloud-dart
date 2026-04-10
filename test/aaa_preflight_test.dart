@@ -41,7 +41,7 @@ void main() {
         final r = await bcTest.bcWrapper.globalAppService
             .readSelectedProperties(propertyNames: ["prop1", "prop2", "prop3"]);
         if (r.statusCode == StatusCodes.ok) {
-          final props = (r.data?["response"] as Map?) ?? {};
+          final props = (r.data as Map?) ?? {};
           for (final name in ["prop1", "prop2", "prop3"]) {
             if (!props.containsKey(name)) missing.add("global property: $name");
           }
@@ -98,7 +98,7 @@ void main() {
       {
         final r = await bcTest.bcWrapper.virtualCurrencyService.getCurrency();
         if (r.statusCode == StatusCodes.ok) {
-          final currency = (r.data?["currency"] as Map?) ?? {};
+          final currency = (r.data?["currencyMap"] as Map?) ?? {};
           if (!currency.containsKey("test")) missing.add("virtual currency type: test");
         } else {
           missing.add("virtual currency type: test");
