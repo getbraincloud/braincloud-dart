@@ -46,14 +46,10 @@ void main() {
 
     test("rewardHandlerTriggerStatisticsEvents()", timeout: Timeout.parse("5s"),
         () async {
-      Future? callBackCompleter; //
+      Future? callBackCompleter;
       if (rewardCallbackCount == 0) {
         callBackCompleter = registerCallback();
       }
-
-      await bcTest.bcWrapper.playerStateService.resetUser();
-      await bcTest
-          .auth(); // resetUser will log you out so this so need to re-authenticate
 
       await bcTest.bcWrapper.playerStatisticsEventService
           .triggerStatsEvents(jsonData: [
@@ -63,6 +59,8 @@ void main() {
 
       if (callBackCompleter != null) await callBackCompleter;
       expect(rewardCallbackCount, 1);
+
+      await bcTest.bcWrapper.playerStateService.resetUser();
     });
 
     /// END TEST
