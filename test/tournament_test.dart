@@ -125,11 +125,6 @@ void main() {
 
       expect(response.statusCode, StatusCodes.ok);
     });
-
-    /// END TEST
-    tearDownAll(() {
-      bcTest.dispose();
-    });
   });
 
   group("Test Group Tournament", () {
@@ -252,6 +247,11 @@ void main() {
               leaderboardId: _groupLeaderboardId, groupId: _groupId!);
 
       expect(response.statusCode, StatusCodes.ok);
+    });
+    
+    /// END TEST
+    tearDownAll(() {
+      bcTest.dispose();
     });
   });
 }
