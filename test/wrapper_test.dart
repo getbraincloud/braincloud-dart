@@ -224,7 +224,7 @@ void main() {
       print(
           " Generated id: ${userWrapper.brainCloudClient.authenticationService.generateAnonymousId()}");
 
-      userWrapper.enableLongSession(true);
+      userWrapper.enableAutoReconnect(true);
       ServerResponse userSessionResp = await userWrapper.authenticateUniversal(
           username: "${userB.name}_${DateTime.now().microsecond}",
           password: userB.password,
@@ -275,10 +275,10 @@ void main() {
       userWrapper.brainCloudClient.enableLogging(true);
       print(
           " Generated id: ${userWrapper.brainCloudClient.authenticationService.generateAnonymousId()}");
-      userWrapper.enableLongSession(true);
+      userWrapper.enableAutoReconnect(true);
 
-      userWrapper.brainCloudClient.registerLongSessionCallback((response) {
-        print("Long Session CALLBACK: " + response.toString());
+      userWrapper.brainCloudClient.registerAutoReconnectCallback((response) {
+        print("Auto reconnect CALLBACK: " + response.toString());
       });
 
       ServerResponse userSessionResp = await userWrapper.authenticationService
@@ -355,10 +355,10 @@ void main() {
 
       print("\n Pre-Users Attributes: ${userSessionResp.data}\n");
 
-      userWrapper.enableLongSession(true);
+      userWrapper.enableAutoReconnect(true);
 
-      userWrapper.brainCloudClient.registerLongSessionCallback((response) {
-        print("Long Session CALLBACK: " + response.toString());
+      userWrapper.brainCloudClient.registerAutoReconnectCallback((response) {
+        print("Auto reconnect CALLBACK: " + response.toString());
       });
 
       // kill the session from the other user
@@ -382,18 +382,16 @@ void main() {
       userWrapper.resetStoredProfileId();
 
       userWrapper.brainCloudClient.enableLogging(true);
-      userWrapper.enableLongSession(true);
+      userWrapper.enableAutoReconnect(true);
 
-      userWrapper.brainCloudClient.registerLongSessionCallback((response) {
-        print("Long Session CALLBACK: " + response.toString());
+      userWrapper.brainCloudClient.registerAutoReconnectCallback((response) {
+        print("Auto reconnect CALLBACK: " + response.toString());
       });
 
       ServerResponse userSessionResp =
           await userWrapper.authenticateAnonymous();
 
       print(userSessionResp.data);
-
-      // userSessionResp = await userWrapper.authenticateLongSession();
 
       expect(userSessionResp.statusCode, StatusCodes.ok,
           reason: "Failed to login test user");
@@ -436,9 +434,9 @@ void main() {
       userWrapper.resetStoredProfileId();
 
       userWrapper.brainCloudClient.enableLogging(true);
-      userWrapper.enableLongSession(true);
-      userWrapper.brainCloudClient.registerLongSessionCallback((response) {
-        print("Long Session CALLBACK: " + response.toString());
+      userWrapper.enableAutoReconnect(true);
+      userWrapper.brainCloudClient.registerAutoReconnectCallback((response) {
+        print("Auto reconnect CALLBACK: " + response.toString());
       });
       ServerResponse userSessionResp = await userWrapper.authenticateUniversal(
           username: userB.name, password: userB.password, forceCreate: true);
@@ -491,17 +489,15 @@ void main() {
       userWrapper.resetStoredProfileId();
 
       userWrapper.brainCloudClient.enableLogging(true);
-      userWrapper.enableLongSession(true);
-      userWrapper.brainCloudClient.registerLongSessionCallback((response) {
-        print("Long Session CALLBACK: " + response.toString());
+      userWrapper.enableAutoReconnect(true);
+      userWrapper.brainCloudClient.registerAutoReconnectCallback((response) {
+        print("Auto reconnect CALLBACK: " + response.toString());
       });
 
       ServerResponse userSessionResp = await userWrapper.authenticateUniversal(
           username: userB.name, password: userB.password, forceCreate: true);
 
       print(userSessionResp.data);
-
-      // userSessionResp = await userWrapper.authenticateLongSession();
 
       expect(userSessionResp.statusCode, StatusCodes.ok,
           reason: "Failed to login test user");

@@ -1435,9 +1435,9 @@ class BrainCloudWrapper {
   }
 
   /// Enable long lived session by auto reconnecting if expired.
-  void enableLongSession(bool value) {
+  void enableAutoReconnect(bool value) {
     initializeIdentity(true);
-    _client.comms.longSessionEnabled = value;
+    _client.comms.autoReconnectEnabled = value;
   }
 
   /// Method initializes the identity information from the player prefs cache.

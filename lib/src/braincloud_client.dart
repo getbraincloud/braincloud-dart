@@ -520,12 +520,12 @@ class BrainCloudClient {
     _comms.deregisterEventCallback();
   }
 
-  void registerLongSessionCallback(LongSessionCallback longSessionCallback) {
-    _comms.registerLongSessionCallback(longSessionCallback);
+  void registerAutoReconnectCallback(AutoReconnectCallback autoReconnectCallback) {
+    _comms.registerAutoReconnectCallback(autoReconnectCallback);
   }
 
-  void deregisterLongSessionCallback() {
-    _comms.deregisterLongSessionCallback();
+  void deregisterAutoReconnectCallback() {
+    _comms.deregisterAutoReconnectCallback();
   }
 
   /// Sets a reward handler for any api call results that return rewards.
