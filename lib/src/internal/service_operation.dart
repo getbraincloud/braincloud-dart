@@ -39,6 +39,8 @@ class ServiceOperation {
   static ServiceOperation getBlockchainItems =
       ServiceOperation._("GET_BLOCKCHAIN_ITEMS");
   static ServiceOperation getUniqs = ServiceOperation._("GET_UNIQS");
+  static ServiceOperation getMyCampaigns =
+      ServiceOperation._("GET_MY_CAMPAIGNS");
 
   static ServiceOperation create = ServiceOperation._("CREATE");
   static ServiceOperation createWithIndexedId =

@@ -174,6 +174,10 @@ class BrainCloudWrapper {
 
   BrainCloudBlockchain get blockchainService => _client.blockchainService;
 
+  BrainCloudCampaign get campaignService => _client.campaignService;
+
+  BrainCloudCampaign getCampaignService() => campaignService;
+
   Timer? _updateTimer;
 
   late DataPersistenceBase _persistence;

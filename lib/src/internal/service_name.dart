@@ -48,6 +48,7 @@ class ServiceName {
   static ServiceName appStore = ServiceName._("appStore");
   static ServiceName blockChain = ServiceName._("blockchain");
   static ServiceName groupFile = ServiceName._("groupFile");
+  static ServiceName campaign = ServiceName._("campaign");
 
   ServiceName._(this.value);
 
