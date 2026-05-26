@@ -79,14 +79,14 @@ class BrainCloudMail {
     return _sendMessage(ServiceOperation.sendAdvancedEmailByAddress, data);
   }
 
-  /// Sends an advanced email to the specified email addresses.
-  /// Service Name - mail
-  /// Service Operation - SEND_ADVANCED_EMAIL_BY_ADDRESSES
-  ///
-  /// @param emailAddress The list of addresses to send the email to
-  /// @param serviceParams Set of parameters dependant on the mail service configured
-  /// @return Future<ServerResponse>
-  ///
+/// Sends an advanced email to the specified email addresses.
+/// Service Name - Mail
+/// Service Operation - SEND_ADVANCED_EMAIL_BY_ADDRESSES
+///
+/// @param emailAddress The list of addresses to send the email to
+/// @param serviceParams Set of parameters dependant on the mail service configured
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> sendAdvancedEmailByAddresses(
       {required List<String> emailAddresses,
       required Map<String, dynamic> serviceParams}) {

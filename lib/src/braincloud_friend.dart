@@ -122,14 +122,14 @@ class BrainCloudFriend {
   //   return completer.future;
   // }
 
-  /// Retrieves profile information for the specified user. Silently fails, if profile does not exist, just returns null and success, instead of an error.
-  /// Service Name - friend
-  /// Service Operation - GET_PROFILE_INFO_FOR_EXTERNAL_AUTH_ID_IF_EXISTS
-  ///
-  /// @param externalId External ID of the friend to find
-  /// @param externalAuthType The external authentication type used for this friend's external ID
-  /// @return Future<ServerResponse>
-  ///
+/// Retrieves profile information for the specified user. Silently fails, if profile does not exist, just returns null and success, instead of an error.
+/// Service Name - Friend
+/// Service Operation - GET_PROFILE_INFO_FOR_EXTERNAL_AUTH_ID_IF_EXISTS
+///
+/// @param externalId External ID of the friend to find
+/// @param externalAuthType The external authentication type used for this friend's external ID
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getProfileInfoForExternalAuthIdIfExists(
       {required String externalId, required String externalAuthType}) {
     Completer<ServerResponse> completer = Completer();
@@ -183,14 +183,14 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Returns a particular entity of a particular friend.
-  /// Service Name - friend
-  /// Service Operation - READ_FRIEND_ENTITY
-  ///
-  /// @param entityId Id of entity to retrieve.
-  /// @param friendId Profile Id of friend who owns entity.
-  /// @return Future<ServerResponse>
-  ///
+/// Returns a particular entity of a particular friend.
+/// Service Name - Friend
+/// Service Operation - ReadFriendEntity
+///
+/// @param entityId Id of entity to retrieve.
+/// @param friendId Profile Id of friend who owns entity.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> readFriendEntity(
       {required String entityId, required String friendId}) {
     Completer<ServerResponse> completer = Completer();
@@ -211,13 +211,13 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Returns entities of all friends optionally based on type.
-  /// Service Name - friend
-  /// Service Operation - READ_FRIENDS_ENTITIES
-  ///
-  /// @param entityType Types of entities to retrieve.
-  /// @return Future<ServerResponse>
-  ///
+/// Returns entities of all friends optionally based on type.
+/// Service Name - Friend
+/// Service Operation - ReadFriendsEntities
+///
+/// @param entityType Types of entities to retrieve.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> readFriendsEntities({required String entityType}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -237,15 +237,15 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Read a friend's user state.
-  /// If you are not friend with this user, you will get an error
-  /// with NOT_FRIENDS reason code.
-  /// Service Name - friend
-  /// Service Operation - READ_FRIEND_PLAYER_STATE
-  ///
-  /// @param friendId Target friend
-  /// @return Future<ServerResponse>
-  ///
+/// Read a friend's user state.
+/// If you are not friend with this user, you will get an error
+/// with NOT_FRIENDS reason code.
+/// Service Name - Friend
+/// Service Operation - ReadFriendsPlayerState
+///
+/// @param friendId Target friend
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> readFriendUserState({required String friendId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -265,13 +265,13 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Returns user state of a particular user.
-  /// Service Name - friend
-  /// Service Operation - GET_SUMMARY_DATA_FOR_PROFILE_ID
-  ///
-  /// @param profileId Profile Id of user to retrieve user state for.
-  /// @return Future<ServerResponse>
-  ///
+/// Returns user state of a particular user.
+/// Service Name - Friend
+/// Service Operation - GET_SUMMARY_DATA_FOR_PROFILE_ID
+///
+/// @param profileId Profile Id of user to retrieve user state for.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getSummaryDataForProfileId(
       {required String profileId}) {
     Completer<ServerResponse> completer = Completer();
@@ -322,13 +322,11 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Retrieves profile information of the specified universal Id.
-  /// Service Name - friend
-  /// Service Operation - FIND_USER_BY_EXACT_UNIVERSAL_ID
-  ///
-  /// @param searchText Universal ID text on which to search.
-  /// @return Future<ServerResponse>
-  ///
+/// Retrieves profile information of the specified universal Id.
+///
+/// @param searchText Universal ID text on which to search.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> findUserByExactUniversalId(
       {required String universalId}) {
     Completer<ServerResponse> completer = Completer();
@@ -381,14 +379,14 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Retrieves a list of user and friend platform information for all friends of the current user.
-  /// Service Name - friend
-  /// Service Operation - LIST_FRIENDS
-  ///
-  /// @param friendPlatform Friend platform to query.
-  /// @param includeSummaryData True if including summary data; false otherwise.
-  /// @return Future<ServerResponse>
-  ///
+/// Retrieves a list of user and friend platform information for all friends of the current user.
+/// Service Name - Friend
+/// Service Operation - LIST_FRIENDS
+///
+/// @param friendPlatform Friend platform to query.
+/// @param includeSummaryData True if including summary data; false otherwise.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> listFriends(
       {required FriendPlatform friendPlatform,
       required bool includeSummaryData}) {
@@ -449,13 +447,13 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Links the current user and the specified users as brainCloud friends.
-  /// Service Name - friend
-  /// Service Operation - ADD_FRIENDS
-  ///
-  /// @param profileIds Collection of profile IDs.
-  /// @return Future<ServerResponse>
-  ///
+/// Links the current user and the specified users as brainCloud friends.
+/// Service Name - Friend
+/// Service Operation - ADD_FRIENDS
+///
+/// @param profileIds Collection of profile IDs.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> addFriends({required List<String> profileIds}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -476,15 +474,15 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Links the profiles for the specified externalIds for the given friend platform as internal friends.
-  /// Service Name - friend
-  /// Service Operation - ADD_FRIENDS_FROM_PLATFORM
-  ///
-  /// @param friendPlatform Platform to add from (i.e: FriendPlatform::Facebook)
-  /// @param mode ADD or SYNC
-  /// @param externalIds Collection of external IDs from the friend platform.
-  /// @return Future<ServerResponse>
-  ///
+/// Links the profiles for the specified externalIds for the given friend platform as internal friends.
+/// Service Name - Friend
+/// Service Operation - ADD_FRIENDS_FROM_PLATFORM
+///
+/// @param friendPlatform Platform to add from (i.e: FriendPlatform::Facebook)
+/// @param mode ADD or SYNC
+/// @param externalIds Collection of external IDs from the friend platform.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> addFriendsFromPlatform(
       {required FriendPlatform friendPlatform,
       required String mode,
@@ -511,13 +509,13 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Unlinks the current user and the specified users as brainCloud friends.
-  /// Service Name - friend
-  /// Service Operation - REMOVE_FRIENDS
-  ///
-  /// @param profileIds Collection of profile IDs.
-  /// @return Future<ServerResponse>
-  ///
+/// Unlinks the current user and the specified users as brainCloud friends.
+/// Service Name - Friend
+/// Service Operation - REMOVE_FRIENDS
+///
+/// @param profileIds Collection of profile IDs.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> removeFriends({required List<String> profileIds}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -538,13 +536,13 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Get users online status
-  /// Service Name - friend
-  /// Service Operation - GET_USERS_ONLINE_STATUS
-  ///
-  /// @param profileIds Collection of profile IDs.
-  /// @return Future<ServerResponse>
-  ///
+/// Get users online status
+/// Service Name - Friend
+/// Service Operation - GET_USERS_ONLINE_STATUS
+///
+/// @param profileIds Collection of profile IDs.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getUsersOnlineStatus(
       {required List<String> profileIds}) {
     Completer<ServerResponse> completer = Completer();
@@ -566,14 +564,12 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Retrieves profile information for the users whos names start with search text.
-  /// Service Name - friend
-  /// Service Operation - FIND_USERS_BY_NAME_STARTING_WITH
-  ///
-  /// @param searchText Name text on which to search.
-  /// @param maxResults Maximum number of results to return.
-  /// @return Future<ServerResponse>
-  ///
+/// Retrieves profile information for the users whos names start with search text.
+///
+/// @param searchText Name text on which to search.
+/// @param maxResults Maximum number of results to return.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> findUsersByNameStartingWith(
       {required String searchText, required int maxResults}) {
     Completer<ServerResponse> completer = Completer();
@@ -595,14 +591,12 @@ class BrainCloudFriend {
     return completer.future;
   }
 
-  /// Retrieves profile information for the users whos UniversalId start with search text.
-  /// Service Name - friend
-  /// Service Operation - FIND_USERS_BY_UNIVERSAL_ID_STARTING_WITH
-  ///
-  /// @param searchText Universal ID text on which to search.
-  /// @param maxResults Maximum number of results to return.
-  /// @return Future<ServerResponse>
-  ///
+/// Retrieves profile information for the users whos UniversalId start with search text.
+///
+/// @param searchText Universal ID text on which to search.
+/// @param maxResults Maximum number of results to return.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> findUsersByUniversalIdStartingWith(
       {required String searchText, required int maxResults}) {
     Completer<ServerResponse> completer = Completer();

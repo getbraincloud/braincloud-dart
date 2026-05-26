@@ -14,12 +14,12 @@ class BrainCloudPresence {
 
   BrainCloudPresence(this._clientRef);
 
-  /// Force an RTT presence update to all listeners of the caller.
-  /// Service Name - presence
-  /// Service Operation - FORCE_PUSH
-  ///
-  /// @return Future<ServerResponse>
-  ///
+/// Force an RTT presence update to all listeners of the caller.
+/// Service Name - Presence
+/// Service Operation - ForcePush
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> forcePush() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -38,14 +38,12 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// Retrieves the presence data for friends on the specified platform.
-  /// Service Name - presence
-  /// Service Operation - GET_PRESENCE_OF_FRIENDS
-  ///
-  /// @param platform One of "all", "brainCloud", or "facebook".
-  /// @param includeOffline If true, includes offline profiles.
-  /// @return Future<ServerResponse>
-  ///
+/// Gets the presence data for the given <platform>. Can be one of "all",
+/// "brainCloud", or "facebook". Will not include offline profiles
+/// unless <includeOffline> is set to true.
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getPresenceOfFriends(
       {required String platform, required bool includeOffline}) {
     Completer<ServerResponse> completer = Completer();
@@ -68,14 +66,11 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// Retrieves the presence data for members of a given group.
-  /// Service Name - presence
-  /// Service Operation - GET_PRESENCE_OF_GROUP
-  ///
-  /// @param groupId Group ID to query.
-  /// @param includeOffline If true, includes offline profiles.
-  /// @return Future<ServerResponse>
-  ///
+/// Gets the presence data for the given <groupId>. Will not include
+/// offline profiles unless <includeOffline> is set to true.
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getPresenceOfGroup(
       {required String groupId, required bool includeOffline}) {
     Completer<ServerResponse> completer = Completer();
@@ -98,14 +93,11 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// Retrieves the presence data for the specified users.
-  /// Service Name - presence
-  /// Service Operation - GET_PRESENCE_OF_USERS
-  ///
-  /// @param profileIds Vector of profile IDs to query.
-  /// @param includeOffline If true, includes offline profiles.
-  /// @return Future<ServerResponse>
-  ///
+/// Gets the presence data for the given <profileIds>. Will not include
+/// offline profiles unless <includeOffline> is set to true.
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getPresenceOfUsers(
       {required List<String> profileIds, required bool includeOffline}) {
     Completer<ServerResponse> completer = Completer();
@@ -128,14 +120,13 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// Registers the caller for RTT presence updates from friends on a given platform.
-  /// Service Name - presence
-  /// Service Operation - REGISTER_LISTENERS_FOR_FRIENDS
-  ///
-  /// @param platform One of "all", "brainCloud", or "facebook".
-  /// @param bidirectional If true, also registers targeted users for updates from the caller.
-  /// @return Future<ServerResponse>
-  ///
+/// Registers the caller for RTT presence updates from friends for the
+/// given <platform>. Can be one of "all", "brainCloud", or "facebook".
+/// If <bidirectional> is set to true, then also registers the targeted
+/// users for presence updates from the caller.
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> registerListenersForFriends(
       {required String platform, required bool bidirectional}) {
     Completer<ServerResponse> completer = Completer();
@@ -158,14 +149,13 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// Registers the caller for RTT presence updates from members of a given group.
-  /// Service Name - presence
-  /// Service Operation - REGISTER_LISTENERS_FOR_GROUP
-  ///
-  /// @param groupId Group ID to listen to. Caller must be a member.
-  /// @param bidirectional If true, also registers targeted users for updates from the caller.
-  /// @return Future<ServerResponse>
-  ///
+/// Registers the caller for RTT presence updates from the members of
+/// the given <groupId>. Caller must be a member of said group. If
+/// <bidirectional> is set to true, then also registers the targeted
+/// users for presence updates from the caller.
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> registerListenersForGroup(
       {required String groupId, required bool bidirectional}) {
     Completer<ServerResponse> completer = Completer();
@@ -187,14 +177,12 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// Registers the caller for RTT presence updates from specific profiles.
-  /// Service Name - presence
-  /// Service Operation - REGISTER_LISTENERS_FOR_PROFILES
-  ///
-  /// @param profileIds Vector of profile IDs to listen to.
-  /// @param bidirectional If true, also registers targeted users for updates from the caller.
-  /// @return Future<ServerResponse>
-  ///
+/// Registers the caller for RTT presence updates for the given
+/// <profileIds>. If <bidirectional> is set to true, then also registers
+/// the targeted users for presence updates from the caller.
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> registerListenersForProfiles(
       {required List<String> profileIds, required bool bidirectional}) {
     Completer<ServerResponse> completer = Completer();
@@ -217,13 +205,10 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// Updates the visibility field of the caller's presence data.
-  /// Service Name - presence
-  /// Service Operation - SET_VISIBILITY
-  ///
-  /// @param visible True to make the caller visible, false to hide.
-  /// @return Future<ServerResponse>
-  ///
+/// Update the presence data visible field for the caller.
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> setVisibility({required bool visible}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -244,13 +229,12 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// Stops the caller from receiving RTT presence updates.
-  /// Does not affect broadcasting of the caller's own presence updates.
-  /// Service Name - presence
-  /// Service Operation - STOP_LISTENING
-  ///
-  /// @return Future<ServerResponse>
-  ///
+/// Stops the caller from receiving RTT presence updates. Does not
+/// affect the broadcasting of *their* presence updates to other
+/// listeners.
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> stopListening() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -270,13 +254,10 @@ class BrainCloudPresence {
     return completer.future;
   }
 
-  /// Updates the activity field of the caller's presence data.
-  /// Service Name - presence
-  /// Service Operation - UPDATE_ACTIVITY
-  ///
-  /// @param jsonActivity JSON string representing activity information.
-  /// @return Future<ServerResponse>
-  ///
+/// Update the presence data activity field for the caller.
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> updateActivity(
       {required Map<String, dynamic> activity}) {
     Completer<ServerResponse> completer = Completer();

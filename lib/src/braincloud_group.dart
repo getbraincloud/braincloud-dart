@@ -413,13 +413,13 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.inviteGroupMember, data);
   }
 
-  /// Join an open group or request to join a closed group.
-  /// Service Name - group
-  /// Service Operation - JOIN_GROUP
-  ///
-  /// @param groupId ID of the group.
-  /// @return Future<ServerResponse>
-  ///
+/// Join an open group or request to join a closed group.
+/// Service Name - group
+/// Service Operation - JOGROUP
+///
+/// @param groupId ID of the group.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> joinGroup({required String groupId}) {
     Map<String, dynamic> data = {};
     data[OperationParam.groupId.value] = groupId;
@@ -665,15 +665,15 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.updateGroupData, dataMap);
   }
 
-  /// Update the acl settings for a group entity, enforcing ownership.
-  /// Service Name - group
-  /// Service Operation - UPDATE_GROUP_ENTITY_ACL
-  ///
-  /// @param groupId The id of the group
-  /// @param entityId The id of the entity to update
-  /// @param acl Access control list for the group entity
-  /// @return Future<ServerResponse>
-  ///
+/// Update the acl settings for a group entity, enforcing ownership.
+/// Service Name - Group
+/// Service Operation - UPDATE_GROUP_ENTITY_ACL
+///
+/// @param groupId The id of the group
+/// @param entityId The id of the entity to update
+/// @param acl Access control list for the group entity
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> updateGroupEntityAcl(
       {required String groupId, required String entityId, ACL? acl}) {
     Map<String, dynamic> data = {};
@@ -773,14 +773,14 @@ class BrainCloudGroup {
     return _sendRequest(ServiceOperation.setGroupOpen, data);
   }
 
-  /// Set a group's access conditions.
-  /// Service Name - group
-  /// Service Operation - UPDATE_GROUP_ACL
-  ///
-  /// @param groupId ID of the group
-  /// @param acl The group's access control list. A null ACL implies default
-  /// @return Future<ServerResponse>
-  ///
+/// Set a group's access conditions.
+/// Service Name - Group
+/// Service Operation - UPDATE_GROUP_ACL
+///
+/// @param groupId ID of the group
+/// @param acl The group's access control list. A null ACL implies default
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> updateGroupAcl(
       {required String groupId, Map<String, dynamic>? acl}) {
     Map<String, dynamic> data = {};

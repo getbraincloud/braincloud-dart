@@ -14,13 +14,11 @@ class BrainCloudVirtualCurrency {
 
   BrainCloudVirtualCurrency(this._clientRef);
 
-  /// @warning Method is recommended to be used in Cloud Code only for security
-  /// If you need to use it client side, enable 'Allow Currency Calls from Client' on the brainCloud dashboard
-  ///
-  /// @param currencyType The currency type to award
-  /// @param amount The amount to award
-  /// @return Future<ServerResponse>
-  ///
+/// @warning Method is recommended to be used in Cloud Code only for security
+/// If you need to use it client side, enable 'Allow Currency Calls from Client' on the brainCloud dashboard
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> awardCurrency(
       {required String vcId, required int vcAmount}) {
     Completer<ServerResponse> completer = Completer();
@@ -43,13 +41,11 @@ class BrainCloudVirtualCurrency {
     return completer.future;
   }
 
-  /// @warning Method is recommended to be used in Cloud Code only for security
-  /// If you need to use it client side, enable 'Allow Currency Calls from Client' on the brainCloud dashboard
-  ///
-  /// @param currencyType The currency type to consume
-  /// @param amount The amount to consume
-  /// @return Future<ServerResponse>
-  ///
+/// @warning Method is recommended to be used in Cloud Code only for security
+/// If you need to use it client side, enable 'Allow Currency Calls from Client' on the brainCloud dashboard
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> consumeCurrency(
       {required String vcId, required int vcAmount}) {
     Completer<ServerResponse> completer = Completer();
@@ -72,13 +68,13 @@ class BrainCloudVirtualCurrency {
     return completer.future;
   }
 
-  /// Retrieve the user's currency account. Optional parameter: `vcId` (if retrieving a specific currency).
-  /// Service Name - virtualCurrency
-  /// Service Operation - GET_PLAYER_VC
-  ///
-  /// @param vcId Optional currency id to retrieve (pass NULL to get all currencies)
-  /// @return Future<ServerResponse>
-  ///
+/// Retrieve the user's currency account. Optional parameters: vcId (if retrieving all currencies).
+/// @param vcId
+/// Service Name - VirtualCurrency
+/// Service Operation - GetCurrency
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getCurrency({required String vcId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -99,14 +95,14 @@ class BrainCloudVirtualCurrency {
     return completer.future;
   }
 
-  /// Retrieve the parent user's currency account. Optional parameter: `vcId` (if retrieving a specific currency).
-  /// Service Name - virtualCurrency
-  /// Service Operation - GET_PARENT_VC
-  ///
-  /// @param vcId Optional currency id to retrieve (pass NULL to get all currencies)
-  /// @param levelName The parent level name
-  /// @return Future<ServerResponse>
-  ///
+/// Retrieve the parent user's currency account. Optional parameters: vcId (if retrieving all currencies).
+/// @param vcId
+/// @param levelName
+/// Service Name - VirtualCurrency
+/// Service Operation - GetParentCurrency
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getParentCurrency(
       {required String vcId, required String levelName}) {
     Completer<ServerResponse> completer = Completer();
@@ -130,14 +126,14 @@ class BrainCloudVirtualCurrency {
     return completer.future;
   }
 
-  /// Retrieve the peer user's currency account. Optional parameter: `vcId` (if retrieving a specific currency).
-  /// Service Name - virtualCurrency
-  /// Service Operation - GET_PEER_VC
-  ///
-  /// @param vcId Optional currency id to retrieve (pass NULL to get all currencies)
-  /// @param peerCode The peer code identifying the other user
-  /// @return Future<ServerResponse>
-  ///
+/// Retrieve the peer user's currency account. Optional parameters: vcId (if retrieving all currencies).
+/// @param vcId
+/// @param peerCode
+/// Service Name - VirtualCurrency
+/// Service Operation - GetPeerCurrency
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getPeerCurrency(
       {required String vcId, required String peerCode}) {
     Completer<ServerResponse> completer = Completer();
@@ -161,12 +157,12 @@ class BrainCloudVirtualCurrency {
     return completer.future;
   }
 
-  /// Reset player's currency to zero
-  /// Service Name - virtualCurrency
-  /// Service Operation - RESET_PLAYER_VC
-  ///
-  /// @return Future<ServerResponse>
-  ///
+/// Reset player's currency to zero
+/// Service Name - VirtualCurrency
+/// Service Operation - ResetCurrency
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> resetCurrency() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};

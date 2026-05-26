@@ -641,14 +641,14 @@ class BrainCloudIdentity {
     return _attachIdentity(userId, password, AuthenticationType.universal);
   }
 
-  /// Merge the profile associated with the provided userId with the current profile.
-  /// Service Name - identity
-  /// Service Operation - MERGE
-  ///
-  /// @param userId The user's userid
-  /// @param password The user's password
-  /// @return Future<ServerResponse>
-  ///
+/// Merge the profile associated with the provided userId with the current profile.
+/// Service Name - identity
+/// Service Operation - Merge
+///
+/// @param userId The user's userid
+/// @param password The user's password
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> mergeUniversalIdentity(
       {required String userId, required String password}) {
     return _mergeIdentity(userId, password, AuthenticationType.universal);
@@ -671,14 +671,14 @@ class BrainCloudIdentity {
     return _detachIdentity(userId, AuthenticationType.universal, continueAnon);
   }
 
-  /// Attach a Steam (userid + steamsessionticket) identity to the current profile.
-  /// Service Name - identity
-  /// Service Operation - ATTACH
-  ///
-  /// @param steamId String representation of 64 bit steam id
-  /// @param sessionTicket The user's session ticket (hex encoded)
-  /// @return Future<ServerResponse>
-  ///
+/// Attach a Steam (userid + steamsessionticket) identity to the current profile.
+/// Service Name - identity
+/// Service Operation - Attach
+///
+/// @param steamId String representation of 64 bit steam id
+/// @param sessionTicket The user's session ticket (hex encoded)
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> attachSteamIdentity(
       {required String steamId, required String sessionTicket}) {
     return _attachIdentity(steamId, sessionTicket, AuthenticationType.steam);
@@ -847,16 +847,16 @@ class BrainCloudIdentity {
         appleId, authenticationToken, AuthenticationType.apple);
   }
 
-  /// Merge the profile associated with the provided Apple credentials with the
-  /// current profile.
-  /// Service Name - identity
-  /// Service Operation - MERGE
-  ///
-  /// @param appleId The apple id of the user
-  /// @param authenticationToken The validated token from the Apple SDK
-  ///        (that will be further validated when sent to the bC service)
-  /// @return Future<ServerResponse>
-  ///
+/// Merge the profile associated with the provided Apple credentials with the
+/// current profile.
+/// Service Name - identity
+/// Service Operation - Merge
+///
+/// @param appleId The apple id of the user
+/// @param authenticationToken The validated token from the Apple SDK
+///        (that will be further validated when sent to the bC service)
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> mergeAppleIdentity(
       {required String appleUserId, required String identityToken}) {
     return _mergeIdentity(appleUserId, identityToken, AuthenticationType.apple);

@@ -14,14 +14,14 @@ class BrainCloudCampaign {
 
   BrainCloudCampaign(this._clientRef);
 
-  /// Returns the list of campaigns the current player is participating in,
-  /// providing campaign, campaign scenario, and participation details.
-  /// Service Name - campaign
-  /// Service Operation - GET_MY_CAMPAIGNS
-  ///
-  /// @param optionsJson Optional parameters (reserved for future use).
-  /// @return Future<ServerResponse>
-  ///
+/// Returns the list of campaigns the current player is participating in,
+/// providing campaign, campaign scenario, and participation details.
+/// Service Name - Campaign
+/// Service Operation - GET_MY_CAMPAIGNS
+///
+/// @param optionsJson Optional parameters as a JSON string (reserved for future use).
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getMyCampaigns(
       {Map<String, dynamic>? optionsJson}) {
     Completer<ServerResponse> completer = Completer();

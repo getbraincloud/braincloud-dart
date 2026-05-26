@@ -771,6 +771,10 @@ class ServiceOperation {
       ServiceOperation._("GET_LOBBY_INSTANCES");
   static ServiceOperation getLobbyInstancesWithPingData =
       ServiceOperation._("GET_LOBBY_INSTANCES_WITH_PING_DATA");
+  static ServiceOperation createLobbyWithConfig =
+      ServiceOperation._("CREATE_LOBBY_WITH_CONFIG");
+  static ServiceOperation createLobbyWithConfigAndPingData =
+      ServiceOperation._("CREATE_LOBBY_WITH_CONFIG_AND_PING_DATA");
 
   //ItemCatalog
   static ServiceOperation getCatalogItemDefinition =

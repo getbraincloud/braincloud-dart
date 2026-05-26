@@ -52,19 +52,18 @@ class BrainCloudGroupFile {
     return _sendRequest(ServiceOperation.checkFullpathFilenameExists, data);
   }
 
-  /// Copy a file.
-  /// Service Name GroupFile
-  /// Service Operation CopyFile
-  ///
-  /// @param groupId ID of the group
-  /// @param fileId ID of the file
-  /// @param version Target version of the file
-  /// @param newTreeId ID of the destination folder
-  /// @param treeVersion Target version of the folder tree
-  /// @param newFilename Optional new file name
-  /// @param overwriteIfPresent Whether to allow overwrite of an existing file if present
-  /// @return Future<ServerResponse>
-  ///
+/// Copy a file.
+/// Service Name GroupFile
+/// Service Operation CopyFile
+///
+/// @param groupId the groupId
+/// @param fileId the fileId
+/// @param version the version
+/// @param newTreeId thenewTreeId
+/// @param treeVersion the treeVersion
+/// @param newFilename the newFilename
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> copyFile(
       {required String groupId,
       required String fileId,
@@ -273,17 +272,17 @@ class BrainCloudGroupFile {
 
   /// Returns information on a file using fileId.
 
-  /// Rename or edit permissions of an uploaded file. Does not change the contents of the file.
-  /// Service Name GroupFile
-  /// Service Operation UpdateFileInfo
-  ///
-  /// @param groupId ID of the group
-  /// @param fileId ID of the file
-  /// @param version Target version of the file
-  /// @param newFilename Optional new file name
-  /// @param newACL Optional new acl
-  /// @return Future<ServerResponse>
-  ///
+/// updates information on a file given fileId.
+/// Service Name GroupFile
+/// Service Operation UpdateFileInfo
+///
+/// @param groupId the groupId
+/// @param fileId the fileId
+/// @param version the version
+/// @param newFilename the newFilename
+/// @param newAcl the newAcl
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> updateFileInfo(
       {required String groupId,
       required String fileId,

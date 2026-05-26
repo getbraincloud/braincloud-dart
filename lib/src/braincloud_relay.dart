@@ -72,20 +72,17 @@ class BrainCloudRelay {
 
   /// Start off a connection, based off connection type to brainClouds Relay Servers.  Connect options come in from "ROOM_ASSIGNED" lobby callback
 
-  /// Start a connection, based on connection type to
-  /// brainClouds Relay Servers. Connect options come in
-  /// from ROOM_ASSIGNED lobby callback.
-  ///
-  /// @param connectionType The connection type. WEBSOCKET, TCP, UDP
-  /// @param options {
-  ///        ssl: false,
-  ///        host: "168.0.1.192"
-  ///        port: 9000,
-  ///        passcode: "somePasscode",
-  ///        lobbyId: "55555:v5v:001"
-  ///        }
-  /// @return Future<ServerResponse>
-  ///
+/// Start a connection, based on connection type to
+/// brainClouds Relay Servers. Connect options come in
+/// from ROOM_ASSIGNED lobby callback.
+/// @param connectionType
+/// @param host
+/// @param port
+/// @param passcode
+/// @param lobbyId
+///
+/// @return Future<ServerResponse>
+///
   void connect(
       {required RelayConnectionType connectionType,
       required RelayConnectOptions options,
@@ -106,11 +103,10 @@ class BrainCloudRelay {
 
   /// Terminate the match instance by the owner.
 
-  /// Terminate the match instance by the owner.
-  ///
-  /// @param json Payload data sent in JSON format. It will be relayed to other connnected players
-  /// @return Future<ServerResponse>
-  ///
+/// Requests to end the current match on the relay server
+///
+/// @return Future<ServerResponse>
+///
   void endMatch({required Map<String, dynamic> payload}) {
     _commsLayer.endMatch(payload);
   }

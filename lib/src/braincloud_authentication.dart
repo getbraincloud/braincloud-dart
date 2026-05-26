@@ -112,17 +112,17 @@ class BrainCloudAuthentication {
         forceCreate: forceCreate);
   }
 
-  /// Authenticate the user using a userid and password (without any validation on the userid).
-  /// Similar to AuthenticateEmailPassword - except that that method has additional features to
-  /// allow for e-mail validation, password resets, etc.
-  /// Service Name - authenticationV2
-  /// Service Operation - AUTHENTICATE
-  ///
-  /// @param email The e-mail address of the user
-  /// @param password The password of the user
-  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
-  /// @return Future<ServerResponse>
-  ///
+/// Authenticate the user using a userid and password (without any validation on the userid).
+/// Similar to AuthenticateEmailPassword - except that that method has additional features to
+/// allow for e-mail validation, password resets, etc.
+/// Service Name - Authenticate
+/// Service Operation - Authenticate
+///
+/// @param email The e-mail address of the user
+/// @param password The password of the user
+/// @param forceCreate Should a new profile be created for this user if the account does not exist?
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> authenticateUniversal(
       {required String userId,
       required String password,
@@ -134,16 +134,16 @@ class BrainCloudAuthentication {
         forceCreate: forceCreate);
   }
 
-  /// Authenticate the user with brainCloud using their Facebook Credentials
-  /// Service Name - authenticationV2
-  /// Service Operation - AUTHENTICATE
-  ///
-  /// @param fbUserId The facebook id of the user
-  /// @param fbAuthToken The validated token from the Facebook SDK
-  ///        (that will be further validated when sent to the bC service)
-  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
-  /// @return Future<ServerResponse>
-  ///
+/// Authenticate the user with brainCloud using their Facebook Credentials
+/// Service Name - Authenticate
+/// Service Operation - Authenticate
+///
+/// @param fbUserId The facebook id of the user
+/// @param fbAuthToken The validated token from the Facebook SDK
+///        (that will be further validated when sent to the bC service)
+/// @param forceCreate Should a new profile be created for this user if the account does not exist?
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> authenticateFacebook(
       {required String facebookId,
       required String token,
@@ -282,15 +282,15 @@ class BrainCloudAuthentication {
         forceCreate: forceCreate);
   }
 
-  /// Authenticate the user using a steam userid and session ticket (without any validation on the userid).
-  /// Service Name - authenticationV2
-  /// Service Operation - AUTHENTICATE
-  ///
-  /// @param userId String representation of 64 bit steam id
-  /// @param sessionticket The session ticket of the user (hex encoded)
-  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
-  /// @return Future<ServerResponse>
-  ///
+/// Authenticate the user using a steam userid and session ticket (without any validation on the userid).
+/// Service Name - Authenticate
+/// Service Operation - Authenticate
+///
+/// @param userId String representation of 64 bit steam id
+/// @param sessionticket The session ticket of the user (hex encoded)
+/// @param forceCreate Should a new profile be created for this user if the account does not exist?
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> authenticateSteam(
       {required String steamId,
       required String sessionTicket,
@@ -302,15 +302,15 @@ class BrainCloudAuthentication {
         forceCreate: forceCreate);
   }
 
-  /// Authenticate the user using a string of the apple accounts user Id OR email
-  /// Service Name - authenticationV2
-  /// Service Operation - AUTHENTICATE
-  ///
-  /// @param appleUserId String of the apple accounts user Id OR email
-  /// @param identityToken The authentication token confirming users identity
-  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
-  /// @return Future<ServerResponse>
-  ///
+/// Authenticate the user using a google userid(email address) and google authentication token.
+/// Service Name - Authenticate
+/// Service Operation - Authenticate
+///
+/// @param appleUserId String of the apple accounts user Id OR email
+/// @param identityToken The authentication token confirming users identity
+/// @param forceCreate Should a new profile be created for this user if the account does not exist?
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> authenticateApple(
       {required String appleUserId,
       required String identityToken,

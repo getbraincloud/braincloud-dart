@@ -276,15 +276,15 @@ class BrainCloudPushNotification {
     return completer.future;
   }
 
-  /// Schedules raw notifications based on user local time.
-  ///
-  /// @param profileId The profileId of the user to receive the notification
-  /// @param fcmContent Valid Fcm data content
-  /// @param iosContent Valid ios data content
-  /// @param facebookContent Facebook template string
-  /// @param minutesFromNow Minutes from now to send the push notification
-  /// @return Future<ServerResponse>
-  ///
+/// Schedules a normalized push notification to a user
+///
+/// @param profileId The profileId of the user to receive the notification
+/// @param fcmContent Valid Fcm data content
+/// @param iosContent Valid ios data content
+/// @param facebookContent Facebook template string
+/// @param minutesFromNow Minutes from now to send the push notification
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> scheduleRawPushNotificationMinutes(
       {required String profileId,
       Map<String, dynamic>? fcmContent,

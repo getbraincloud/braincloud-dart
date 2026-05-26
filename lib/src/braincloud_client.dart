@@ -376,15 +376,15 @@ class BrainCloudClient {
     return initialized;
   }
 
-  /// Method initializes the BrainCloudClient with multiple app/secret.
-  /// Used when needed to switch between child and parent apps. Automatically passes in
-  /// current serverURL which is https://api.braincloudservers.com/dispatcherv2
-  ///
-  /// @param defaultAppId The default app id that we start with
-  /// @param secretMap A map of <appId, secretKey>
-  /// @param appVersion The version
-  /// @return Future<ServerResponse>
-  ///
+/// Method initializes the BrainCloudClient with multiple app/secret.
+/// Used when needed to switch between child and parent apps. Automatically passes in
+/// current serverURL which is https://api.braincloudservers.com/dispatcherv2
+///
+/// @param defaultAppId The default app id that we start with
+/// @param secretMap A map of <appId, secretKey>
+/// @param appVersion The version
+/// @return Future<ServerResponse>
+///
   void initializeWithApps(
       {String serverURL = defaultServerURL,
       required String defaultAppId,
@@ -401,14 +401,14 @@ class BrainCloudClient {
     _initialized = true;
   }
 
-  /// Method initializes the BrainCloudClient. Automatically passes in current serverURL
-  /// as https://api.braincloudservers.com/dispatcherv2
-  ///
-  /// @param secretKey The secret key for your game
-  /// @param appId The app id
-  /// @param appVersion The version
-  /// @return Future<ServerResponse>
-  ///
+/// Method initializes the BrainCloudClient. Automatically passes in current serverURL
+/// as https://api.braincloudservers.com/dispatcherv2
+///
+/// @param secretKey The secret key for your game
+/// @param appId The app id
+/// @param appVersion The version
+/// @return Future<ServerResponse>
+///
   void initialize(
       {String? serverURL = defaultServerURL,
       required secretKey,
