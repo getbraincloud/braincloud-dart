@@ -630,7 +630,14 @@ class BrainCloudWrapper {
 
     return _client.authenticationService
         .authenticateGameCenter(
-            gameCenterId: gameCenterId, forceCreate: forceCreate)
+          gameCenterId: gameCenterId,
+          forceCreate: forceCreate,
+          timestamp: timestamp,
+          publicKeyUrl: publicKeyUrl,
+          signature: signature,
+          salt: salt,
+          teamPlayerId: teamPlayerId,
+        )
         .then((response) {
       if (response.isSuccess()) {
         _authSuccessCallback(response);
@@ -1148,11 +1155,25 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns `Future<ServerResponse>`
-  Future<ServerResponse> smartSwitchAuthenticateGameCenter(
-      {required String gameCenterId, required bool forceCreate}) async {
+  Future<ServerResponse> smartSwitchAuthenticateGameCenter({
+    required String gameCenterId,
+    required bool forceCreate,
+    int timestamp = 0,
+    String publicKeyUrl = "",
+    List<int>? signature,
+    List<int>? salt,
+    String teamPlayerId = "",
+  }) async {
     await _smartSwitchAuthentication();
     return authenticateGameCenter(
-        gameCenterId: gameCenterId, forceCreate: forceCreate);
+      gameCenterId: gameCenterId,
+      forceCreate: forceCreate,
+      timestamp: timestamp,
+      publicKeyUrl: publicKeyUrl,
+      signature: signature,
+      salt: salt,
+      teamPlayerId: teamPlayerId,
+    );
   }
 
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.

@@ -23,7 +23,9 @@ class StoredIds {
         //debugPrint('$line: ${line.length} characters');
 
         List<String> keyVal = line.split('=');
-        ids[keyVal[0]] = keyVal[1];
+        if (keyVal.length >= 2) {
+          ids[keyVal[0]] = keyVal.sublist(1).join('=');
+        }
       }
       // debugPrint('File is now closed.');
     } catch (e) {

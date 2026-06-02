@@ -7,6 +7,7 @@ import '/src/internal/operation_param.dart';
 import '/src/internal/server_call.dart';
 import '/src/internal/service_name.dart';
 import '/src/internal/service_operation.dart';
+import '/src/braincloud_authentication.dart';
 import '/src/braincloud_client.dart';
 import '/src/server_response.dart';
 import '/src/util.dart';
@@ -528,31 +529,65 @@ class BrainCloudIdentity {
   // }
 
   /// Attach a Game Center identity to the current profile.
+  /// Note: If the Game Center legacy authentication compatibility flag is enabled,
+  /// only [gameCenterId] is required and all verification signature parameters are ignored.
   ///
   /// Service Name - identity
   /// Service Operation - Attach
   ///
   /// @param gameCenterId
-  /// The user's game center id  (use the playerID property from the local GKPlayer dynamic)
+  /// The user's Game Center Id which can be the PlayerId, GamePlayerId, or TeamPlayerId from GKLocalPlayer
   ///
   /// returns `Future<ServerResponse>`
-  Future<ServerResponse> attachGameCenterIdentity(
-      {required String gameCenterId}) async {
-    return _attachIdentity(gameCenterId, "", AuthenticationType.gameCenter);
+  Future<ServerResponse> attachGameCenterIdentity({
+    required String gameCenterId,
+    int timestamp = 0,
+    String publicKeyUrl = "",
+    List<int>? signature,
+    List<int>? salt,
+    String teamPlayerId = "",
+  }) async {
+    final authenticationToken =
+        BrainCloudAuthentication.createGameCenterAuthenticationToken(
+      timestamp: timestamp,
+      publicKeyUrl: publicKeyUrl,
+      signature: signature,
+      salt: salt,
+      teamPlayerId: teamPlayerId,
+    );
+    return _attachIdentity(
+        gameCenterId, authenticationToken, AuthenticationType.gameCenter);
   }
 
   /// Merge the profile associated with the specified Game Center identity with the current profile.
+  /// Note: If the Game Center legacy authentication compatibility flag is enabled,
+  /// only [gameCenterId] is required and all verification signature parameters are ignored.
   ///
   /// Service Name - identity
   /// Service Operation - Merge
   ///
   /// @param gameCenterId
-  /// The user's game center id  (use the playerID property from the local GKPlayer dynamic)
+  /// The user's Game Center Id which can be the PlayerId, GamePlayerId, or TeamPlayerId from GKLocalPlayer
   ///
   /// returns `Future<ServerResponse>`
-  Future<ServerResponse> mergeGameCenterIdentity(
-      {required String gameCenterId}) async {
-    return _mergeIdentity(gameCenterId, "", AuthenticationType.gameCenter);
+  Future<ServerResponse> mergeGameCenterIdentity({
+    required String gameCenterId,
+    int timestamp = 0,
+    String publicKeyUrl = "",
+    List<int>? signature,
+    List<int>? salt,
+    String teamPlayerId = "",
+  }) async {
+    final authenticationToken =
+        BrainCloudAuthentication.createGameCenterAuthenticationToken(
+      timestamp: timestamp,
+      publicKeyUrl: publicKeyUrl,
+      signature: signature,
+      salt: salt,
+      teamPlayerId: teamPlayerId,
+    );
+    return _mergeIdentity(
+        gameCenterId, authenticationToken, AuthenticationType.gameCenter);
   }
 
   /// Detach the Game Center identity from the current profile.
