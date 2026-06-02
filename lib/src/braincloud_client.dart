@@ -9,7 +9,8 @@ import '/src/server_response.dart';
 import '/src/status_codes.dart';
 import '/src/common/platform.dart';
 import '/src/internal/braincloud_comms.dart';
-import '/src/internal/relay_comms.dart' if (dart.library.js_interop) '/src/internal/relay_comms_web.dart';
+import '/src/internal/relay_comms.dart'
+    if (dart.library.js_interop) '/src/internal/relay_comms_web.dart';
 import '/src/internal/rtt_comms.dart';
 import '/src/internal/server_call.dart';
 import '/src/internal/service_name.dart';
@@ -18,6 +19,7 @@ import '/src/braincloud_app_store.dart';
 import '/src/braincloud_async_match.dart';
 import '/src/braincloud_authentication.dart';
 import '/src/braincloud_blockchain.dart';
+import '/src/braincloud_campaign.dart';
 import '/src/braincloud_chat.dart';
 import '/src/braincloud_entity.dart';
 import '/src/braincloud_custom_entity.dart';
@@ -119,6 +121,7 @@ class BrainCloudClient {
   late BrainCloudMail _mailService;
   late BrainCloudMessaging _messagingService;
   late BrainCloudBlockchain _blockchain;
+  late BrainCloudCampaign _campaignService;
   late BrainCloudGroupFile _groupFileService;
 
   // RTT service
@@ -204,6 +207,7 @@ class BrainCloudClient {
     _rsService = BrainCloudRelay(_rsComms, this);
 
     _blockchain = BrainCloudBlockchain(this);
+    _campaignService = BrainCloudCampaign(this);
   }
   //---------------------------------------------------------------
 
@@ -341,6 +345,8 @@ class BrainCloudClient {
 
   BrainCloudBlockchain get blockchainService => _blockchain;
 
+  BrainCloudCampaign get campaignService => _campaignService;
+
   BrainCloudGroupFile get groupFileService => _groupFileService;
 
   /// returns the sessionId or empty String if no session present.
@@ -380,11 +386,10 @@ class BrainCloudClient {
       required String defaultAppId,
       required Map<String, String> appIdSecretMap,
       required String appVersion}) {
+    String? error = initializeHelper(serverURL,
+        appIdSecretMap[defaultAppId] ?? "", defaultAppId, appVersion);
 
-    String? error = initializeHelper(
-        serverURL, appIdSecretMap[defaultAppId] ?? "", defaultAppId, appVersion);
-
-    if (error != null) throw(error);
+    if (error != null) throw (error);
 
     // set up braincloud which does the message handling
     _comms.initializeWithApps(serverURL, defaultAppId, appIdSecretMap);
@@ -411,13 +416,12 @@ class BrainCloudClient {
 
     String? error = initializeHelper(serverURL, secretKey, appId, appVersion);
 
-    if (error != null) throw(error);
-    
+    if (error != null) throw (error);
+
     // set up braincloud which does the message handling
     _comms.initialize(serverURL, appId, secretKey);
-    
-    _initialized = true;
 
+    _initialized = true;
   }
 
   /// Initialize the identity aspects of brainCloud.
@@ -426,7 +430,8 @@ class BrainCloudClient {
   ///
   /// @param anonymousIdThe anonymous id
   void initializeIdentity(String profileId, String anonymousId) {
-    authenticationService.initialize(profileId: profileId, anonymousId: anonymousId);
+    authenticationService.initialize(
+        profileId: profileId, anonymousId: anonymousId);
   }
 
   /// Shuts down all systems needed for BrainCloudClient
@@ -533,16 +538,15 @@ class BrainCloudClient {
   ///
   /// returns `Future<ServerResponse>`
   void registerFileUploadCallback(Function(ServerResponse) callBack) {
-
     _comms.registerFileUploadCallbacks((a, b) {
       var response = jsonDecode(b);
-      callBack(ServerResponse(statusCode: response['status'], data: response['data']));
+      callBack(ServerResponse(
+          statusCode: response['status'], data: response['data']));
     },
-        (a, statusCode, reasonCode, statusMessage) => callBack(
-            ServerResponse(
-                statusCode: statusCode,
-                reasonCode: reasonCode,
-                error: statusMessage)));
+        (a, statusCode, reasonCode, statusMessage) => callBack(ServerResponse(
+            statusCode: statusCode,
+            reasonCode: reasonCode,
+            error: statusMessage)));
   }
 
   /// De-registers the file upload callbacks.
@@ -758,7 +762,7 @@ class BrainCloudClient {
 
   /// Normally not needed as the brainCloud SDK sends heartbeats automatically.
   /// Regardless, this is a manual way to send a heartbeat.
-   Future<ServerResponse>  sendHeartbeat() {
+  Future<ServerResponse> sendHeartbeat() {
     final Completer<ServerResponse> completer = Completer();
 
     ServerCall sc = ServerCall(
@@ -776,7 +780,7 @@ class BrainCloudClient {
         }));
 
     _comms.addToQueue(sc);
-    
+
     return completer.future;
   }
 
@@ -787,7 +791,7 @@ class BrainCloudClient {
           "${DateFormat("HH:mm:ss.SSS").format(DateTime.now())} #BCC ${(log.length < 14000 ? log : log.substring(0, 14000) + " << (LOG TRUNCATED)")}";
 
       if (_logDelegate != null) {
-        _logDelegate!({"msg":formattedLog});
+        _logDelegate!({"msg": formattedLog});
       } else {
         print(formattedLog);
       }

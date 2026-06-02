@@ -305,6 +305,36 @@ void main() {
           extraJson: {});
 
       expect(response.statusCode, StatusCodes.ok, reason: "Expecting 200");
+
+      final configOverrides = {
+        "teams": [
+          {"code": "reserved", "minUsers": 0, "maxUsers": 1, "autoAssign": false},
+          {"code": "all", "minUsers": 6, "maxUsers": 6, "autoAssign": true}
+        ]
+      };
+
+      response = await bcTest.bcWrapper.lobbyService.createLobbyWithConfig(
+          lobbyType: "MATCH_UNRANKED",
+          rating: 0,
+          isReady: true,
+          settings: {},
+          teamCode: "all",
+          extraJson: {},
+          configOverrides: configOverrides);
+
+      expect(response.statusCode, StatusCodes.ok, reason: "Expecting 200");
+
+      response =
+          await bcTest.bcWrapper.lobbyService.createLobbyWithConfigAndPingData(
+              lobbyType: "MATCH_UNRANKED",
+              rating: 0,
+              isReady: true,
+              settings: {},
+              teamCode: "all",
+              extraJson: {},
+              configOverrides: configOverrides);
+
+      expect(response.statusCode, StatusCodes.ok, reason: "Expecting 200");
     });
 
     /// END TEST

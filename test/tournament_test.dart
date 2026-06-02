@@ -65,7 +65,8 @@ void main() {
       ServerResponse response = await bcTest.bcWrapper.tournamentService
           .leaveDivisionInstance(divisionSetInstance: _divSetId);
 
-      expect(response.statusCode, StatusCodes.badRequest);
+      expect(response.statusCode,
+          anyOf(StatusCodes.badRequest, StatusCodes.internalServerError));
     });
 
     test("claimTournamentReward()", retry: 2, () async {

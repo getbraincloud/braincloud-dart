@@ -161,6 +161,77 @@ class BrainCloudLobby {
     );
   }
 
+  /// The same as createLobby but also allows you to add additional config to override certain lobby
+  /// configurations. Currently only supports a teams list entry.
+  ///
+  /// returns `Future<ServerResponse>`
+  Future<ServerResponse> createLobbyWithConfig(
+      {required String lobbyType,
+      required int rating,
+      required bool isReady,
+      required Map<String, dynamic> extraJson,
+      String? teamCode,
+      required Map<String, dynamic> settings,
+      required Map<String, dynamic> configOverrides,
+      List<String>? otherUserCxids}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    data[OperationParam.lobbyRoomType.value] = lobbyType;
+    data[OperationParam.lobbyRating.value] = rating;
+    data[OperationParam.lobbySettings.value] = settings;
+    data[OperationParam.lobbyIsReady.value] = isReady;
+    if (otherUserCxids != null) {
+      data[OperationParam.lobbyOtherUserCxIds.value] = otherUserCxids;
+    }
+    data[OperationParam.lobbyExtraJson.value] = extraJson;
+    data[OperationParam.lobbyTeamCode.value] = teamCode;
+    data[OperationParam.lobbyConfigOverrides.value] = configOverrides;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) => completer.complete(ServerResponse.fromJson(response)),
+        (statusCode, reasonCode, statusMessage) => completer.complete(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                error: statusMessage)));
+    ServerCall sc = ServerCall(
+        ServiceName.lobby, ServiceOperation.createLobbyWithConfig, data, callback);
+    _clientRef.sendRequest(sc);
+    return completer.future;
+  }
+
+  /// The same as createLobbyWithPingData but also allows you to add additional config to override certain
+  /// lobby configurations. Currently only supports a teams list entry.
+  /// GetRegionsForLobbies and PingRegions must be successfully responded to prior to calling.
+  ///
+  /// returns `Future<ServerResponse>`
+  Future<ServerResponse> createLobbyWithConfigAndPingData(
+      {required String lobbyType,
+      required int rating,
+      required bool isReady,
+      required Map<String, dynamic> extraJson,
+      String? teamCode,
+      required Map<String, dynamic> settings,
+      required Map<String, dynamic> configOverrides,
+      List<String>? otherUserCxids}) {
+    Map<String, dynamic> data = {};
+    data[OperationParam.lobbyRoomType.value] = lobbyType;
+    data[OperationParam.lobbyRating.value] = rating;
+    data[OperationParam.lobbySettings.value] = settings;
+    data[OperationParam.lobbyIsReady.value] = isReady;
+    if (otherUserCxids != null) {
+      data[OperationParam.lobbyOtherUserCxIds.value] = otherUserCxids;
+    }
+    data[OperationParam.lobbyExtraJson.value] = extraJson;
+    data[OperationParam.lobbyTeamCode.value] = teamCode;
+    data[OperationParam.lobbyConfigOverrides.value] = configOverrides;
+
+    return _attachPingDataAndSend(
+      data,
+      ServiceOperation.createLobbyWithConfigAndPingData,
+    );
+  }
+
   /// Finds a lobby matching the specified parameters, or creates one
   ///
   /// returns `Future<ServerResponse>`

@@ -1,3 +1,4 @@
+@Timeout(Duration(seconds: 60))
 import 'dart:async';
 
 import 'package:braincloud/braincloud.dart';
@@ -5,7 +6,7 @@ import 'package:braincloud/src/internal/service_operation.dart';
 import 'package:test/test.dart';
 
 import 'utils/test_base.dart';
-@Timeout(Duration(seconds: 60))
+
 void main() {
   BCTest bcTest = BCTest();
   // setUpAll(bcTest.setupBC);

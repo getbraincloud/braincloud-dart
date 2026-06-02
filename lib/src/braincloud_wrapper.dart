@@ -175,6 +175,8 @@ class BrainCloudWrapper {
 
   BrainCloudBlockchain get blockchainService => _client.blockchainService;
 
+  BrainCloudCampaign get campaignService => _client.campaignService;
+
   Timer? _updateTimer;
 
   late DataPersistenceBase _persistence;
@@ -643,25 +645,41 @@ class BrainCloudWrapper {
   //   });
   // }
 
-  /// authenticate the user using their Game Center id
+  /// Authenticate the user using their Game Center Id and identity verification signature.
+  /// Note: If the Game Center legacy authentication compatibility flag is enabled,
+  /// only [gameCenterId] and [forceCreate] are required.
   ///
   /// Service Name - authenticate
   /// Service Operation - authenticate
   ///
   /// @param gameCenterId
-  /// The user's game center id  (use the playerID property from the local GKPlayer object)
+  /// The user's Game Center Id (PlayerId, GamePlayerId, or TeamPlayerId from GKLocalPlayer)
   ///
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns `Future<ServerResponse>`
-  Future<ServerResponse> authenticateGameCenter(
-      {required String gameCenterId, required bool forceCreate}) {
+  Future<ServerResponse> authenticateGameCenter({
+    required String gameCenterId,
+    required bool forceCreate,
+    int timestamp = 0,
+    String publicKeyUrl = "",
+    List<int>? signature,
+    List<int>? salt,
+    String teamPlayerId = "",
+  }) {
     initializeIdentity(false);
 
     return _client.authenticationService
         .authenticateGameCenter(
-            gameCenterId: gameCenterId, forceCreate: forceCreate)
+          gameCenterId: gameCenterId,
+          forceCreate: forceCreate,
+          timestamp: timestamp,
+          publicKeyUrl: publicKeyUrl,
+          signature: signature,
+          salt: salt,
+          teamPlayerId: teamPlayerId,
+        )
         .then((response) {
       if (response.isSuccess()) {
         _authSuccessCallback(response);
@@ -1232,11 +1250,25 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns `Future<ServerResponse>`
-  Future<ServerResponse> smartSwitchAuthenticateGameCenter(
-      {required String gameCenterId, required bool forceCreate}) async {
+  Future<ServerResponse> smartSwitchAuthenticateGameCenter({
+    required String gameCenterId,
+    required bool forceCreate,
+    int timestamp = 0,
+    String publicKeyUrl = "",
+    List<int>? signature,
+    List<int>? salt,
+    String teamPlayerId = "",
+  }) async {
     await _smartSwitchAuthentication();
     return authenticateGameCenter(
-        gameCenterId: gameCenterId, forceCreate: forceCreate);
+      gameCenterId: gameCenterId,
+      forceCreate: forceCreate,
+      timestamp: timestamp,
+      publicKeyUrl: publicKeyUrl,
+      signature: signature,
+      salt: salt,
+      teamPlayerId: teamPlayerId,
+    );
   }
 
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
