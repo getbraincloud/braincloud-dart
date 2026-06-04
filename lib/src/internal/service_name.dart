@@ -49,7 +49,6 @@ class ServiceName {
   static ServiceName blockChain = ServiceName._("blockchain");
   static ServiceName campaign = ServiceName._("campaign");
   static ServiceName groupFile = ServiceName._("groupFile");
-  static ServiceName campaign = ServiceName._("campaign");
 
   ServiceName._(this.value);
 

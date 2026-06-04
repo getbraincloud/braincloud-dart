@@ -775,10 +775,6 @@ class ServiceOperation {
       ServiceOperation._("GET_LOBBY_INSTANCES");
   static ServiceOperation getLobbyInstancesWithPingData =
       ServiceOperation._("GET_LOBBY_INSTANCES_WITH_PING_DATA");
-  static ServiceOperation createLobbyWithConfig =
-      ServiceOperation._("CREATE_LOBBY_WITH_CONFIG");
-  static ServiceOperation createLobbyWithConfigAndPingData =
-      ServiceOperation._("CREATE_LOBBY_WITH_CONFIG_AND_PING_DATA");
 
   //ItemCatalog
   static ServiceOperation getCatalogItemDefinition =
@@ -857,10 +853,6 @@ class ServiceOperation {
       ServiceOperation._("MOVE_USER_TO_GROUP_FILE");
   static ServiceOperation updateFileInfo =
       ServiceOperation._("UPDATE_FILE_INFO");
-
-  // Campaign Services
-  static ServiceOperation getMyCampaigns =
-      ServiceOperation._("GET_MY_CAMPAIGNS");
 
   ServiceOperation._(this.value);
   String value = "";

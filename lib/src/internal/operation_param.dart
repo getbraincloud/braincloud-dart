@@ -706,7 +706,6 @@ class OperationParam {
   static OperationParam compoundAlgos = OperationParam("algos");
   static OperationParam compoundRanges = OperationParam("compound-ranges");
   static OperationParam lobbyCritera = OperationParam("criteriaJson");
-  static OperationParam lobbyConfigOverrides = OperationParam("configOverrides");
   static OperationParam criteraPing = OperationParam("ping");
   static OperationParam criteraRating = OperationParam("rating");
   static OperationParam strategyRangedPercent =
