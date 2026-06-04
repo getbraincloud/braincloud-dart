@@ -39,7 +39,6 @@ class BrainCloudCampaign {
     ServerCall sc = ServerCall(
         ServiceName.campaign, ServiceOperation.getMyCampaigns, data, callback);
     _clientRef.sendRequest(sc);
-
     return completer.future;
   }
 }

@@ -1341,13 +1341,23 @@ class BrainCloudComms {
           "REQUEST - ${DateTime.now()}\n$jsonRequestString Retry(${requestState.retries})");
     }
 
-    return requestState.webRequest
-        ?.send()
-        .then((result) => http.Response.fromStream(result).then((response) {
-              requestState.webRequest?.response = response;
+    final int timeoutSecs = requestState.packetNoRetry
+        ? authenticationPacketTimeoutSecs
+        : (requestState.retries < packetTimeouts.length
+            ? packetTimeouts[requestState.retries]
+            : packetTimeouts.last);
+    final requestTimeout = Duration(seconds: timeoutSecs);
+
+    return req
+        .send()
+        .timeout(requestTimeout)
+        .then((result) => http.Response.fromStream(result)
+            .timeout(requestTimeout)
+            .then((response) {
+              req.response = response;
             }))
         .catchError((e) {
-      requestState.webRequest?.error = e.message ?? e.toString();
+      req.error = e.message ?? e.toString();
     });
   }
 

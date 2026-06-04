@@ -1,5 +1,6 @@
 // Copyright 2026 bitHeads, Inc. All Rights Reserved.
 import 'dart:async';
+import 'dart:convert';
 
 import '/src/common/authentication_ids.dart';
 import '/src/common/authentication_type.dart';
@@ -261,23 +262,74 @@ class BrainCloudAuthentication {
   //       forceCreate: forceCreate);
   // }
 
-  /// Authenticate the user using their Game Center id
+  /// Creates and returns a Base64-encoded JSON authentication token for Game Center verification.
+  static String createGameCenterAuthenticationToken({
+    int timestamp = 0,
+    String publicKeyUrl = "",
+    List<int>? signature,
+    List<int>? salt,
+    String teamPlayerId = "",
+  }) {
+    if (salt != null && salt.isNotEmpty &&
+        signature != null && signature.isNotEmpty &&
+        publicKeyUrl.isNotEmpty &&
+        timestamp > 0) {
+      final teamPlayerIdJson = teamPlayerId.isNotEmpty ? '"$teamPlayerId"' : 'null';
+      final tokenJson =
+          '{"playerId":$teamPlayerIdJson,"timestamp":$timestamp,"publicKeyUrl":"$publicKeyUrl","signature":"${base64Encode(signature)}","salt":"${base64Encode(salt)}"}';
+      return base64Encode(utf8.encode(tokenJson));
+    }
+    return "";
+  }
+
+  /// Authenticate the user using their Game Center Id and identity verification signature.
+  /// Note: If the Game Center legacy authentication compatibility flag is enabled,
+  /// only [gameCenterId] is required and all verification signature parameters are ignored.
   ///
   /// Service Name - Authenticate
   /// Service Operation - Authenticate
   ///
   /// @param gameCenterId
-  /// The user's game center id  (use the profileID property from the local GKPlayer object)
+  /// The user's Game Center Id which can be the PlayerId, GamePlayerId, or TeamPlayerId from GKLocalPlayer
   ///
   /// @param forceCreate
   /// Should a new profile be created for this user if the account does not exist?
   ///
+  /// @param timestamp
+  /// The Timestamp value returned as part of the identity verification signature fetch from Game Center
+  ///
+  /// @param publicKeyUrl
+  /// The PublicKeyUrl value returned as part of the identity verification signature fetch from Game Center
+  ///
+  /// @param signature
+  /// The raw signature bytes returned from Game Center (via GetSignature())
+  ///
+  /// @param salt
+  /// The raw salt bytes returned from Game Center (via GetSalt())
+  ///
+  /// @param teamPlayerId
+  /// Optional; only required when [gameCenterId] is set to a value other than TeamPlayerId
+  ///
   /// returns `Future<ServerResponse>`
-  Future<ServerResponse> authenticateGameCenter(
-      {required String gameCenterId, required bool forceCreate}) async {
+  Future<ServerResponse> authenticateGameCenter({
+    required String gameCenterId,
+    required bool forceCreate,
+    int timestamp = 0,
+    String publicKeyUrl = "",
+    List<int>? signature,
+    List<int>? salt,
+    String teamPlayerId = "",
+  }) async {
+    final authenticationToken = createGameCenterAuthenticationToken(
+      timestamp: timestamp,
+      publicKeyUrl: publicKeyUrl,
+      signature: signature,
+      salt: salt,
+      teamPlayerId: teamPlayerId,
+    );
     return authenticate(
         externalId: gameCenterId,
-        authenticationToken: "",
+        authenticationToken: authenticationToken,
         authenticationType: AuthenticationType.gameCenter,
         forceCreate: forceCreate);
   }

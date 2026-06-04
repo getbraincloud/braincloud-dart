@@ -701,11 +701,11 @@ class OperationParam {
   static OperationParam pingData = OperationParam("pingData");
   static OperationParam lobbyMinRating = OperationParam("minRating");
   static OperationParam lobbyMaxRating = OperationParam("maxRating");
+  static OperationParam lobbyConfigOverrides = OperationParam("configOverrides");
 
   static OperationParam compoundAlgos = OperationParam("algos");
   static OperationParam compoundRanges = OperationParam("compound-ranges");
   static OperationParam lobbyCritera = OperationParam("criteriaJson");
-  static OperationParam lobbyConfigOverrides = OperationParam("configOverrides");
   static OperationParam criteraPing = OperationParam("ping");
   static OperationParam criteraRating = OperationParam("rating");
   static OperationParam strategyRangedPercent =
@@ -778,6 +778,9 @@ class OperationParam {
   static OperationParam globalAppPropertyNames =
       OperationParam("propertyNames");
   static OperationParam globalAppCategories = OperationParam("categories");
+
+  //campaigns
+  static OperationParam campaignOptionsJson = OperationParam("optionsJson");
 
   OperationParam(String value) {
     _value = value;

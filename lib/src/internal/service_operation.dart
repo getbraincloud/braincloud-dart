@@ -746,8 +746,12 @@ class ServiceOperation {
   static ServiceOperation findLobbyWithPingData =
       ServiceOperation._("FIND_LOBBY_WITH_PING_DATA");
   static ServiceOperation createLobby = ServiceOperation._("CREATE_LOBBY");
+  static ServiceOperation createLobbyWithConfig =
+      ServiceOperation._("CREATE_LOBBY_WITH_CONFIG");
   static ServiceOperation createLobbyWithPingData =
       ServiceOperation._("CREATE_LOBBY_WITH_PING_DATA");
+  static ServiceOperation createLobbyWithConfigAndPingData =
+      ServiceOperation._("CREATE_LOBBY_WITH_CONFIG_AND_PING_DATA");
   static ServiceOperation findOrCreateLobby =
       ServiceOperation._("FIND_OR_CREATE_LOBBY");
   static ServiceOperation findOrCreateLobbyWithPingData =
@@ -771,10 +775,6 @@ class ServiceOperation {
       ServiceOperation._("GET_LOBBY_INSTANCES");
   static ServiceOperation getLobbyInstancesWithPingData =
       ServiceOperation._("GET_LOBBY_INSTANCES_WITH_PING_DATA");
-  static ServiceOperation createLobbyWithConfig =
-      ServiceOperation._("CREATE_LOBBY_WITH_CONFIG");
-  static ServiceOperation createLobbyWithConfigAndPingData =
-      ServiceOperation._("CREATE_LOBBY_WITH_CONFIG_AND_PING_DATA");
 
   //ItemCatalog
   static ServiceOperation getCatalogItemDefinition =
