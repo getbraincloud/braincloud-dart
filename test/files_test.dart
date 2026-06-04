@@ -190,8 +190,9 @@ main() {
         uploadId = body['fileDetails']['uploadId'];
       }
 
+      List<Timer> progressTimers = [];
       for (var i = 0; i < 5; i++) {
-        Timer(
+        progressTimers.add(Timer(
           Duration(milliseconds: 500 * i),
           () {
             var progress =
@@ -211,10 +212,14 @@ main() {
                 reason: "getUploadTotalBytesToTransfer should not be -1 yet");
             // print('progress: $progress  => $transferred of $total');
           },
-        );
+        ));
       }
 
       ServerResponse uploadResponse = await uploadCompleterFuture.future;
+      // Cancel any timers that haven't fired yet — they'd assert on -1 post-upload
+      for (var timer in progressTimers) {
+        timer.cancel();
+      }
       // cleaup
       bcTest.bcWrapper.brainCloudClient.deregisterFileUploadCallback();
 
