@@ -497,8 +497,8 @@ void main() {
       ServerResponse groupsResponse =
           await bcTest.bcWrapper.groupService.getMyGroups();
 
-      List requestedGroups = groupsResponse.data?["requested"];
-      requestedGroups.forEach((requestedGroup) {
+      List? requestedGroups = groupsResponse.data?["requested"];
+      requestedGroups?.forEach((requestedGroup) {
         if (requestedGroup["groupId"] == testGroupId) {
           groupJoinRequestExists = true;
         }
@@ -517,21 +517,20 @@ void main() {
             await bcTest.bcWrapper.groupService.getMyGroups();
 
         requestedGroups = response.data?["requested"];
-        requestedGroups.forEach((requestedGroup) {
+        requestedGroups?.forEach((requestedGroup) {
           if (requestedGroup["groupId"] == testGroupId) {
             groupJoinRequestExists = true;
           }
         });
 
-        if (groupJoinRequestExists) {
-          expect(groupJoinRequestExists, true);
-        } else {
-          print("Group Join Request no longer exists");
+        expect(groupJoinRequestExists, false,
+            reason: "Join request should be deleted");
 
-          await completeDeleteGroupJoinRequestTest();
-        }
+        print("Group Join Request no longer exists");
+        await completeDeleteGroupJoinRequestTest();
       } else {
-        expect(groupJoinRequestExists, true);
+        expect(groupJoinRequestExists, true,
+            reason: "Join request should exist after joinGroup on closed group");
       }
     }
 
@@ -571,14 +570,14 @@ void main() {
       }
     }
 
-    test("deleteGroupJoinRequest()", () async {
+    test("deleteGroupJoinRequest()",
+        timeout: Timeout(Duration(seconds: 120)), () async {
       if (bcTest.bcWrapper.brainCloudClient.isAuthenticated()) {
         await bcTest.bcWrapper.playerStateService.logout();
         await setupGroupForTest();
       } else {
         await setupGroupForTest();
       }
-      expect(true, true);
     });
 
     /// END TEST
