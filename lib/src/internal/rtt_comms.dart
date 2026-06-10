@@ -45,7 +45,7 @@ class RTTComms {
         _connectionFailureCallback!(RTTCommandResponse(
             service: ServiceName.rtt.value,
             operation: RTTCommandOperation.error,
-            reasonCode: ReasonCodes.NO_SESSION,
+            reasonCode: ReasonCodes.noSession,
             data: {
               "error":
                   "Invalid Session - Must be authenticated before enabling RTT."
