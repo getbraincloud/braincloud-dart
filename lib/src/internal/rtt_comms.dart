@@ -38,6 +38,22 @@ class RTTComms {
       _connectedSuccessCallback = inSuccess;
       _connectionFailureCallback = inFailure;
 
+      if (!_clientRef.isAuthenticated()) {
+        _clientRef.log(
+            "The user is not currently authenticated - cannot enable RTT.");
+
+        _connectionFailureCallback!(RTTCommandResponse(
+            service: ServiceName.rtt.value,
+            operation: RTTCommandOperation.error,
+            reasonCode: ReasonCodes.noSession,
+            data: {
+              "error":
+                  "Invalid Session - Must be authenticated before enabling RTT."
+            }));
+
+        return;
+      }
+
       _currentConnectionType = inConnectiontype ?? RTTConnectionType.websocket;
       _clientRef.rttService.requestClientConnection((response) {
         rttConnectionServerSuccess(response);

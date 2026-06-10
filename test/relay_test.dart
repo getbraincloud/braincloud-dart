@@ -138,6 +138,9 @@ void main() {
         bcTest.bcWrapper.relayService.registerSystemCallback(systemCallback);
         bcTest.bcWrapper.relayService
             .registerRelayCallback(rcb ?? relayCallback);
+
+        // Uncomment to verify no auth prevents connect attempt
+        //await bcTest.bcWrapper.logout();
         bcTest.bcWrapper.relayService.connect(
             connectionType:connectionType, options:connectOptions!, onSuccess: onRelayConnected, onFailure: onFailed);
       }

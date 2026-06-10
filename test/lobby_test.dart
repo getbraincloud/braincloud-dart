@@ -44,6 +44,25 @@ void main() {
       expect(response.statusCode, StatusCodes.ok);
     });
 
+    test("createLobbyWithConfig()", () async {
+      final configOverrides = {
+        "teams": [
+          {"code": "reserved", "minUsers": 0, "maxUsers": 1, "autoAssign": false},
+          {"code": "all", "minUsers": 6, "maxUsers": 6, "autoAssign": true},
+        ]
+      };
+      ServerResponse response =
+          await bcTest.bcWrapper.lobbyService.createLobbyWithConfig(
+              lobbyType: "MATCH_UNRANKED",
+              rating: 0,
+              isReady: true,
+              extraJson: {},
+              settings: {},
+              teamCode: "all",
+              configOverrides: configOverrides);
+      expect(response.statusCode, StatusCodes.ok);
+    });
+
     test("findOrCreateLobby()", () async {
       ServerResponse response =
           await bcTest.bcWrapper.lobbyService.findOrCreateLobby(
@@ -303,6 +322,24 @@ void main() {
           settings: {},
           teamCode: "all",
           extraJson: {});
+
+      expect(response.statusCode, StatusCodes.ok, reason: "Expecting 200");
+
+      final configOverrides = {
+        "teams": [
+          {"code": "reserved", "minUsers": 0, "maxUsers": 1, "autoAssign": false},
+          {"code": "all", "minUsers": 6, "maxUsers": 6, "autoAssign": true},
+        ]
+      };
+      response = await bcTest.bcWrapper.lobbyService.createLobbyWithConfigAndPingData(
+          lobbyType: "MATCH_UNRANKED",
+          rating: 0,
+          isReady: true,
+          settings: {},
+          teamCode: "all",
+          extraJson: {},
+          configOverrides: configOverrides,
+          pingData: {});
 
       expect(response.statusCode, StatusCodes.ok, reason: "Expecting 200");
     });
