@@ -13,14 +13,14 @@ class BrainCloudTime {
 
   BrainCloudTime(this._clientRef);
 
-/// Method returns the server time in UTC. This is in UNIX millis time format.
-/// For instance 1396378241893 represents 2014-04-01 2:50:41.893 in GMT-4.
-/// Server API reference: ServiceName.Time, ServiceOperation.Read
-/// Service Name - Time
-/// Service Operation - Read
-///
-/// @return Future<ServerResponse>
-///
+  /// Method returns the server time in UTC. This is in UNIX millis time format.
+  /// 
+  /// For instance 1396378241893 represents 2014-04-01 2:50:41.893 in GMT-4.
+  /// 
+  /// Service Name - Time
+  /// Service Operation - Read
+  /// 
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> readServerTime() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(

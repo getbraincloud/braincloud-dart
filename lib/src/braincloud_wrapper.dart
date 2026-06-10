@@ -62,12 +62,13 @@ class BrainCloudWrapper {
   BrainCloudClient get brainCloudClient => _client;
 
   /// If set to true, profile id is never sent along with non-anonymous authenticates
-  ///
+  /// 
   /// thereby ensuring that valid credentials always work but potentially cause a profile switch.
   /// If set to false, profile id is passed to the server (if it has been stored) and a profile id
   /// to non-anonymous credential mismatch will cause an error.
   bool get alwaysAllowProfileSwitch => _alwaysAllowProfileSwitch;
-  void set alwaysAllowProfileSwitch(value) => _alwaysAllowProfileSwitch = value;
+  void set  alwaysAllowProfileSwitch (value) => _alwaysAllowProfileSwitch = value;
+
 
   void onDestroy() {
     _updateTimer?.cancel();
@@ -80,9 +81,9 @@ class BrainCloudWrapper {
   /// Name of this wrapper instance. Used for data loading
   String? wrapperName;
 
-  BrainCloudAuthentication get authenticationService =>
-      _client.authenticationService;
 
+  BrainCloudAuthentication get authenticationService => _client.authenticationService;
+  
   BrainCloudEntity get entityService => _client.entityService;
 
   BrainCloudGlobalEntity get globalEntityService => _client.globalEntityService;
@@ -174,19 +175,12 @@ class BrainCloudWrapper {
 
   BrainCloudBlockchain get blockchainService => _client.blockchainService;
 
-  BrainCloudCampaign get campaignService => _client.campaignService;
-
-  BrainCloudCampaign getCampaignService() => campaignService;
-
   Timer? _updateTimer;
 
   late DataPersistenceBase _persistence;
 
   /// Create the brainCloud Wrapper, which has utility helpers for using the brainCloud API
-  BrainCloudWrapper(
-      {BrainCloudClient? client,
-      this.wrapperName,
-      DataPersistenceBase? persistence}) {
+  BrainCloudWrapper({BrainCloudClient? client, this.wrapperName, DataPersistenceBase? persistence}) {
     _persistence = persistence ?? DataPersistence();
     if (client != null) {
       _client = client;
@@ -321,13 +315,21 @@ class BrainCloudWrapper {
     return _client.authenticationService.getServerVersion();
   }
 
-  /// Authenticate a user anonymously with brainCloud - used for apps that don't want to bother
+  /// authenticate a user anonymously with brainCloud - used for apps that don't want to bother
   /// the user to login, or for users who are sensitive to their privacy
-  /// Service Name - Authenticate
-  /// Service Operation - Authenticate
   ///
-  /// @return Future<ServerResponse>
+  /// Note that this method is special in that the anonymous id and profile id
+  /// are persisted to the shared_preferences cache if authentication is successful.
+  /// Both pieces of information are required to successfully log into that account
+  /// once the user has been created. Failure to store the profile id and anonymous id
+  /// once the user has been created results in an inability to log into that account!
+  /// For this reason, using other recoverable authentication methods (like email/password, Facebook)
+  /// are encouraged.
   ///
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateAnonymous() {
     initializeIdentity(true);
 
@@ -341,14 +343,19 @@ class BrainCloudWrapper {
     });
   }
 
-  /// Authenticate the user using a handoffId and authentication token
-  /// Service Name - Authenticate
-  /// Service Operation - Authenticate
+  
+  /// authenticate the user using a Pase userid and authentication token
   ///
-  /// @param handoffId braincloud handoff id generated from cloud script
-  /// @param securityToken The authentication token
-  /// @return Future<ServerResponse>
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
   ///
+  /// @param handoffId
+  /// The method to call in event of successful login
+  ///
+  /// @param securityToken
+  /// The method to call in event of successful login
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateHandoff(
       {required String handoffId, required String securityToken}) {
     initializeIdentity(false);
@@ -363,13 +370,14 @@ class BrainCloudWrapper {
     });
   }
 
-  /// Authenticate the user using a handoffCode
-  /// Service Name - Authenticate
-  /// Service Operation - Authenticate
+  /// authenticate user with handoffCode
   ///
-  /// @param handoffCode the code we generate in cloudcode
-  /// @return Future<ServerResponse>
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
   ///
+  /// @param handoffCode
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateSettopHandoff({
     required String handoffCode,
   }) {
@@ -385,20 +393,27 @@ class BrainCloudWrapper {
     });
   }
 
-  /// Authenticate the user with a custom Email and Password.  Note that the client app
+  /// authenticate the user with a custom Email and Password.  Note that the client app
   /// is responsible for collecting (and storing) the e-mail and potentially password
   /// (for convenience) in the client data.  For the greatest security,
-  /// force the user to re-enter their * password at each login.
+  /// force the user to re-enter their password at each login.
   /// (Or at least give them that option).
+  ///
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
+  ///
   /// Note that the password sent from the client to the server is protected via SSL.
-  /// Service Name - Authenticate
-  /// Service Operation - Authenticate
   ///
-  /// @param email The e-mail address of the user
-  /// @param password The password of the user
-  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
-  /// @return Future<ServerResponse>
+  /// @param email
+  /// The e-mail address of the user
   ///
+  /// @param password
+  /// The password of the user
+  ///
+  /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateEmailPassword({
     required String email,
     required String password,
@@ -417,18 +432,25 @@ class BrainCloudWrapper {
     });
   }
 
-  /// Authenticate the user via cloud code (which in turn validates the supplied credentials against an external system).
+  /// authenticate the user via cloud code (which in turn validates the supplied credentials against an external system).
   /// This allows the developer to extend brainCloud authentication to support other backend authentication systems.
-  /// Server Operation - Authenticate
-  /// Service Name - Authenticate
   ///
-  /// @param userid The user id
-  /// @param token The user token (password etc)
-  /// @param externalAuthName The name of the cloud script to call for external authentication
-  /// @param force Should a new profile be created for this user if the account does not exist?
-  ///        @returns   performs the success callback on success, failure callback on failure
-  /// @return Future<ServerResponse>
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
   ///
+  /// @param userid
+  /// The user id
+  ///
+  /// @param token
+  /// The user token (password etc)
+  ///
+  /// @param externalAuthName
+  /// The name of the cloud script to call for external authentication
+  ///
+  /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateExternal({
     required String userid,
     required String token,
@@ -451,16 +473,22 @@ class BrainCloudWrapper {
     });
   }
 
-  /// Authenticate the user with brainCloud using their Facebook Credentials
-  /// Service Name - Authenticate
-  /// Service Operation - Authenticate
+  /// authenticate the user with brainCloud using their Facebook Credentials
   ///
-  /// @param fbUserId The facebook id of the user
-  /// @param fbAuthToken The validated token from the Facebook SDK
-  ///        (that will be further validated when sent to the bC service)
-  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
-  /// @return Future<ServerResponse>
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
   ///
+  /// @param externalId
+  /// The facebook id of the user
+  ///
+  /// @param authenticationToken
+  /// The validated token from the Facebook SDK (that will be further
+  /// validated when sent to the bC service)
+  ///
+  /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateFacebook(
       {required String fbUserId,
       required String fbAuthToken,
@@ -468,7 +496,9 @@ class BrainCloudWrapper {
     initializeIdentity(false);
     return _client.authenticationService
         .authenticateFacebook(
-            facebookId: fbUserId, token: fbAuthToken, forceCreate: forceCreate)
+            facebookId: fbUserId,
+            token: fbAuthToken,
+            forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         _authSuccessCallback(response);
@@ -613,38 +643,25 @@ class BrainCloudWrapper {
   //   });
   // }
 
-  /// Authenticate the user using their Game Center id
-  /// Service Name - Authenticate
-  /// Service Operation - Authenticate
+  /// authenticate the user using their Game Center id
   ///
-  /// @param gameCenterId The player's game center id  (use the playerID property from the local GKPlayer object)
-  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
-  /// @param success The method to call in event of successful login
-  /// @param failure The method to call in the event of an error during authentication
-  ///        @returns   performs the success callback on success, failure callback on failure
-  /// @return Future<ServerResponse>
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
   ///
-  Future<ServerResponse> authenticateGameCenter({
-    required String gameCenterId,
-    required bool forceCreate,
-    int timestamp = 0,
-    String publicKeyUrl = "",
-    List<int>? signature,
-    List<int>? salt,
-    String teamPlayerId = "",
-  }) {
+  /// @param gameCenterId
+  /// The user's game center id  (use the playerID property from the local GKPlayer object)
+  ///
+  /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+  ///
+  /// returns `Future<ServerResponse>`
+  Future<ServerResponse> authenticateGameCenter(
+      {required String gameCenterId, required bool forceCreate}) {
     initializeIdentity(false);
 
     return _client.authenticationService
         .authenticateGameCenter(
-      gameCenterId: gameCenterId,
-      forceCreate: forceCreate,
-      timestamp: timestamp,
-      publicKeyUrl: publicKeyUrl,
-      signature: signature,
-      salt: salt,
-      teamPlayerId: teamPlayerId,
-    )
+            gameCenterId: gameCenterId, forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
         _authSuccessCallback(response);
@@ -653,15 +670,21 @@ class BrainCloudWrapper {
     });
   }
 
-  /// Authenticate the user using a google userid(email address) and google authentication token.
-  /// Service Name - Authenticate
-  /// Service Operation - Authenticate
+  /// authenticate the user using an apple id
   ///
-  /// @param appleUserId String of the apple accounts user Id OR email
-  /// @param identityToken The authentication token confirming users identity
-  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
-  /// @return Future<ServerResponse>
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
   ///
+  /// @param appleUserId
+  /// This can be the user id OR the email of the user for the account
+  ///
+  /// @param identityToken
+  /// The token confirming the user's identity
+  ///
+  /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateApple(
       {required String appleUserId,
       required String identityToken,
@@ -681,15 +704,21 @@ class BrainCloudWrapper {
     });
   }
 
-  /// Authenticate the user using a google userid(email address) and google authentication token.
-  /// Service Name - Authenticate
-  /// Service Operation - Authenticate
+  /// authenticate the user using a google userId and google server authentication code.
   ///
-  /// @param googleUserId String representation of google+ userid (email)
-  /// @param serverAuthCode The authentication token derived via the google apis.
-  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
-  /// @return Future<ServerResponse>
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
   ///
+  /// @param googleUserId
+  /// String representation of google+ userId. Gotten with calls like RequestUserId
+  ///
+  /// @param serverAuthCode
+  /// The server authentication token derived via the google apis. Gotten with calls like RequestServerAuthCode
+  ///
+  /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateGoogle(
       {required String googleUserId,
       required String serverAuthCode,
@@ -709,15 +738,21 @@ class BrainCloudWrapper {
     });
   }
 
-  /// Authenticate the user using a google openId
-  /// Service Name - Authenticate
-  /// Service Operation - Authenticate
+  /// authenticate the user using a google openId.
   ///
-  /// @param googleUserAccountEmail String representation of google+ userid (email)
-  /// @param IdToken The authentication token derived via the google apis.
-  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
-  /// @return Future<ServerResponse>
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
   ///
+  /// @param googleUserAccountEmail
+  /// The email associated with the google user
+  ///
+  /// @param IdToken
+  /// The id token of the google account. Can get with calls like requestIdToken
+  ///
+  /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateGoogleOpenId(
       {required String googleUserAccountEmail,
       required String idToken,
@@ -737,15 +772,21 @@ class BrainCloudWrapper {
     });
   }
 
-  /// Authenticate the user using a steam userid and session ticket (without any validation on the userid).
-  /// Service Name - Authenticate
-  /// Service Operation - Authenticate
+  /// authenticate the user using a steam userid and session ticket (without any validation on the userid).
   ///
-  /// @param userid String representation of 64 bit steam id
-  /// @param sessionticket The session ticket of the user (hex encoded)
-  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
-  /// @return Future<ServerResponse>
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
   ///
+  /// @param userid
+  /// String representation of 64 bit steam id
+  ///
+  /// @param sessionticket
+  /// The session ticket of the user (hex encoded)
+  ///
+  /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateSteam(
       {required String userid,
       required String sessionTicket,
@@ -765,16 +806,24 @@ class BrainCloudWrapper {
     });
   }
 
-  /// Authenticate the user using a Twitter userid, authentication token, and secret from Twitter.
-  /// Service Name - Authenticate
-  /// Service Operation - Authenticate
+  /// authenticate the user using a Twitter userid, authentication token, and secret from twitter.
   ///
-  /// @param userid String representation of Twitter userid
-  /// @param token The authentication token derived via the Twitter apis.
-  /// @param secret The secret given when attempting to link with Twitter
-  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
-  /// @return Future<ServerResponse>
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
   ///
+  /// @param userid
+  /// String representation of a Twitter user ID
+  ///
+  /// @param token
+  /// The authentication token derived via the Twitter apis
+  ///
+  /// @param secret
+  /// The secret given when attempting to link with Twitter
+  ///
+  /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateTwitter(
       {required String userid,
       required String token,
@@ -795,17 +844,23 @@ class BrainCloudWrapper {
     });
   }
 
-  /// Authenticate the user using a userid and password (without any validation on the userid).
-  /// Similar to AuthenticateEmailPassword - except that that method has additional features to
+  /// authenticate the user using a userid and password (without any validation on the userid).
+  /// Similar to authenticateEmailPassword - except that that method has additional features to
   /// allow for e-mail validation, password resets, etc.
-  /// Service Name - Authenticate
-  /// Service Operation - Authenticate
   ///
-  /// @param email The e-mail address of the user
-  /// @param password The password of the user
-  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
-  /// @return Future<ServerResponse>
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
   ///
+  /// @param email
+  /// The e-mail address of the user
+  ///
+  /// @param password
+  /// The password of the user
+  ///
+  /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateUniversal(
       {required String username,
       required String password,
@@ -825,17 +880,25 @@ class BrainCloudWrapper {
     });
   }
 
-  /// A generic Authenticate method that translates to the same as calling a specific one, except it takes an extraJson
-  /// that will be passed along to pre- or post- hooks.
-  /// Service Name - Authenticate
-  /// Service Operation - Authenticate
+  /// A generic authenticate method that translates to the same as calling a specific one, except it takes an extraJson
+  /// that will be passed along to pre-post hooks.
   ///
-  /// @param authenticationType Universal, Email, Facebook, etc
-  /// @param ids Auth IDs structure
-  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
-  /// @param extraJson Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty string for no extraJson.
-  /// @return Future<ServerResponse>
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
   ///
+  /// @param authenticationType
+  ///  Universal, Email, Facebook, etc
+  ///
+  /// @param ids
+  /// Auth IDs structure
+  ///
+  /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+  ///
+  /// @param extraJson
+  /// Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty String for no extraJson.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateAdvanced(
       {required AuthenticationType authenticationType,
       required AuthenticationIds ids,
@@ -844,7 +907,8 @@ class BrainCloudWrapper {
     bool isAnonymous = authenticationType == AuthenticationType.anonymous;
     initializeIdentity(isAnonymous);
 
-    ids.externalId = isAnonymous ? getStoredAnonymousId() : ids.externalId;
+    ids.externalId =
+        isAnonymous ? getStoredAnonymousId() : ids.externalId;
     ids.authenticationToken = isAnonymous ? "" : ids.authenticationToken;
 
     return _client.authenticationService
@@ -861,15 +925,21 @@ class BrainCloudWrapper {
     });
   }
 
-  /// Authenticate the user for Ultra.
-  /// Server Operation - Authenticate
-  /// Service Name - Authenticate
+  /// authenticate the user for Ultra.
   ///
-  /// @param ultraUsername it's what the user uses to log into the Ultra endpoint initially
-  /// @param ultraIdToken The "id_token" taken from Ultra's JWT.
-  /// @param force Should a new profile be created for this user if the account does not exist?
-  /// @return Future<ServerResponse>
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
   ///
+  /// @param ultraUsername
+  /// It's what the user uses to log into the Ultra endpoint initially
+  ///
+  /// @param ultraIdToken
+  /// The "id_token" taken from Ultra's JWT.
+  ///
+  /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateUltra(
       {required String ultraUsername,
       required String ultraIdToken,
@@ -1162,25 +1232,11 @@ class BrainCloudWrapper {
   /// Should a new profile be created for this user if the account does not exist?
   ///
   /// returns `Future<ServerResponse>`
-  Future<ServerResponse> smartSwitchAuthenticateGameCenter({
-    required String gameCenterId,
-    required bool forceCreate,
-    int timestamp = 0,
-    String publicKeyUrl = "",
-    List<int>? signature,
-    List<int>? salt,
-    String teamPlayerId = "",
-  }) async {
+  Future<ServerResponse> smartSwitchAuthenticateGameCenter(
+      {required String gameCenterId, required bool forceCreate}) async {
     await _smartSwitchAuthentication();
     return authenticateGameCenter(
-      gameCenterId: gameCenterId,
-      forceCreate: forceCreate,
-      timestamp: timestamp,
-      publicKeyUrl: publicKeyUrl,
-      signature: signature,
-      salt: salt,
-      teamPlayerId: teamPlayerId,
-    );
+        gameCenterId: gameCenterId, forceCreate: forceCreate);
   }
 
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
@@ -1208,9 +1264,7 @@ class BrainCloudWrapper {
       required bool forceCreate}) async {
     await _smartSwitchAuthentication();
     return authenticateGoogle(
-        googleUserId: googleUserId,
-        serverAuthCode: serverAuthCode,
-        forceCreate: forceCreate);
+        googleUserId: googleUserId, serverAuthCode: serverAuthCode, forceCreate: forceCreate);
   }
 
   /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
@@ -1458,20 +1512,22 @@ class BrainCloudWrapper {
         .authenticateAnonymous(forceCreate: false);
   }
 
-  /// Returns true IF both Profile ID and Anonymous ID are stored - meaning reconnect possible
-  ///
-  /// @return Future<ServerResponse>
-  ///
-  bool canReconnect() {
-    return getStoredProfileId().isNotEmpty && getStoredAnonymousId().isNotEmpty;
-  }
+    /// 
+    /// Returns true if there is stored profile ID and anonymous ID on device
+    /// 
+    /// returns bool
+    bool canReconnect()
+    {
+        return getStoredProfileId().isNotEmpty && getStoredAnonymousId().isNotEmpty;
+    }
 
   /// Enable long lived session by auto reconnecting if expired.
-  void enableAutoReconnect(bool value) {
+  void enableLongSession(bool value) {
     initializeIdentity(true);
-    _client.comms.autoReconnectEnabled = value;
+    _client.comms.longSessionEnabled = value;
   }
 
+  
   /// Method initializes the identity information from the player prefs cache.
   /// This is specifically useful for an Anonymous authentication as Anonymous authentications
   /// require both the anonymous id *and* the profile id. By using the BrainCloudWrapper
@@ -1486,8 +1542,7 @@ class BrainCloudWrapper {
     String? profileId = getStoredProfileId();
     String? anonymousId = getStoredAnonymousId();
 
-    if ((anonymousId.isNotEmpty && profileId.isEmpty) ||
-        (anonymousId.isEmpty)) {
+    if ((anonymousId.isNotEmpty && profileId.isEmpty) || (anonymousId.isEmpty)) {
       anonymousId = _client.authenticationService.generateAnonymousId();
       profileId = "";
       setStoredAnonymousId(anonymousId);
@@ -1498,32 +1553,38 @@ class BrainCloudWrapper {
       profileIdToauthenticateWith = "";
     }
     setStoredAuthenticationType(isAnonymousAuth ? authenticationAnonymous : "");
-    _client.initializeIdentity(profileIdToauthenticateWith, anonymousId);
+    _client.initializeIdentity(
+        profileIdToauthenticateWith, anonymousId);
   }
 
   /// Reset Email password - Sends a password reset email to the specified address
+  ///
+  /// Service Name - authenticate
   /// Operation - ResetEmailPassword
-  /// Service Name - Authenticate
   ///
-  /// @param externalId The email address to send the reset email to.
-  /// @return Future<ServerResponse>
+  /// @param externalId
+  /// The email address to send the reset email to.
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetEmailPassword({required String emailAddress}) {
     return _client.authenticationService
         .resetEmailPassword(emailAddress: emailAddress);
   }
 
-  /// Reset Email password with service parameters - Sends a password reset email to
-  /// the specified address
-  /// Service Name - authenticationV2
-  /// Service Operation - RESET_EMAIL_PASSWORD_ADVANCED_WITH_EXPIRY
+  /// Reset Email password with service parameters - sends a password reset email to
+  ///the specified addresses.
   ///
-  /// @param appId the applicationId
-  /// @param emailAddress The email address to send the reset email to.
-  /// @param serviceParams - parameters to send to the email service. See documentation for
-  ///        full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
-  /// @return Future<ServerResponse>
+  /// Service Name - authenticate
+  /// Operation - ResetEmailPasswordAdvanced
   ///
+  /// @param emailAddress
+  /// The email address to send the reset email to
+  ///
+  /// @param serviceParams
+  /// The parameters to send the email service. See documentation for full list
+  /// http://getbraincloud.com/apidocs/apiref/#capi-mail
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetEmailPasswordAdvanced(
       {required String emailAddress,
       required Map<String, dynamic> serviceParams}) async {
@@ -1532,29 +1593,34 @@ class BrainCloudWrapper {
   }
 
   /// Reset Email password - Sends a password reset email to the specified address
+  ///
+  /// Service Name - authenticate
   /// Operation - ResetEmailPassword
-  /// Service Name - Authenticate
   ///
-  /// @param externalId The email address to send the reset email to.
-  /// @return Future<ServerResponse>
+  /// @param externalId
+  /// The email address to send the reset email to.
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetEmailPasswordWithExpiry(
       {required String emailAddress, required int tokenTtlInMinutes}) {
     return _client.authenticationService.resetEmailPasswordWithExpiry(
         emailAddress: emailAddress, tokenTtlInMinutes: tokenTtlInMinutes);
   }
 
-  /// Reset Email password with service parameters - Sends a password reset email to
-  /// the specified address
+  /// Reset Email password with service parameters - sends a password reset email to
+  ///the specified addresses.
+  ///
+  /// Service Name - authenticate
   /// Operation - ResetEmailPasswordAdvanced
-  /// Service Name - Authenticate
   ///
-  /// @param appId the applicationId
-  /// @param emailAddress The email address to send the reset email to.
-  /// @param serviceParams - parameters to send to the email service. See documentation for
-  ///        full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
-  /// @return Future<ServerResponse>
+  /// @param emailAddress
+  /// The email address to send the reset email to
   ///
+  /// @param serviceParams
+  /// The parameters to send the email service. See documentation for full list
+  /// http://getbraincloud.com/apidocs/apiref/#capi-mail
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetEmailPasswordAdvancedWithExpiry(
       {required String emailAddress,
       required Map<String, dynamic> serviceParams,
@@ -1566,12 +1632,14 @@ class BrainCloudWrapper {
   }
 
   /// Reset Email password - Sends a password reset email to the specified address
+  ///
+  /// Service Name - authenticate
   /// Operation - ResetEmailPassword
-  /// Service Name - Authenticate
   ///
-  /// @param externalId The email address to send the reset email to.
-  /// @return Future<ServerResponse>
+  /// @param externalId
+  /// The email address to send the reset email to.
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetUniversalIdPassword({
     required String externalId,
   }) {
@@ -1579,17 +1647,20 @@ class BrainCloudWrapper {
         .resetUniversalIdPassword(universalId: externalId);
   }
 
-  /// Reset Email password with service parameters - Sends a password reset email to
-  /// the specified address
+  /// Reset Email password with service parameters - sends a password reset email to
+  ///the specified addresses.
+  ///
+  /// Service Name - authenticate
   /// Operation - ResetEmailPasswordAdvanced
-  /// Service Name - Authenticate
   ///
-  /// @param appId the applicationId
-  /// @param emailAddress The email address to send the reset email to.
-  /// @param serviceParams - parameters to send to the email service. See documentation for
-  ///        full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
-  /// @return Future<ServerResponse>
+  /// @param emailAddress
+  /// The email address to send the reset email to
   ///
+  /// @param serviceParams
+  /// The parameters to send the email service. See documentation for full list
+  /// http://getbraincloud.com/apidocs/apiref/#capi-mail
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetUniversalIdPasswordAdvanced({
     required String emailAddress,
     required Map<String, dynamic> serviceParams,
@@ -1599,29 +1670,34 @@ class BrainCloudWrapper {
   }
 
   /// Reset Email password - Sends a password reset email to the specified address
+  ///
+  /// Service Name - authenticate
   /// Operation - ResetEmailPassword
-  /// Service Name - Authenticate
   ///
-  /// @param externalId The email address to send the reset email to.
-  /// @return Future<ServerResponse>
+  /// @param externalId
+  /// The email address to send the reset email to.
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetUniversalIdPasswordWithExpiry(
       {required String externalId, required int tokenTtlInMinutes}) {
     return _client.authenticationService.resetUniversalIdPasswordWithExpiry(
         universalId: externalId, tokenTtlInMinutes: tokenTtlInMinutes);
   }
 
-  /// Reset Email password with service parameters - Sends a password reset email to
-  /// the specified address
+  /// Reset Email password with service parameters - sends a password reset email to
+  ///the specified addresses.
+  ///
+  /// Service Name - authenticate
   /// Operation - ResetEmailPasswordAdvanced
-  /// Service Name - Authenticate
   ///
-  /// @param appId the applicationId
-  /// @param emailAddress The email address to send the reset email to.
-  /// @param serviceParams - parameters to send to the email service. See documentation for
-  ///        full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
-  /// @return Future<ServerResponse>
+  /// @param emailAddress
+  /// The email address to send the reset email to
   ///
+  /// @param serviceParams
+  /// The parameters to send the email service. See documentation for full list
+  /// http://getbraincloud.com/apidocs/apiref/#capi-mail
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> resetUniversalIdPasswordAdvancedWithExpiry(
       {required String emailAddress,
       required Map<String, dynamic> serviceParams,
@@ -1633,55 +1709,43 @@ class BrainCloudWrapper {
             tokenTtlInMinutes: tokenTtlInMinutes);
   }
 
-  /// Returns the stored profile id
+  /// Gets the stored profile id from user prefs.
   ///
-  /// @return Future<ServerResponse>
-  ///
+  /// returns The stored profile id.
   String getStoredProfileId() {
     return _wrapperData.profileId;
   }
 
-  /// Sets the stored profile id
+  /// sets the stored profile id to user prefs.
   ///
-  /// @param profileId The profile id to set
-  /// @return Future<ServerResponse>
-  ///
+  /// @param profileIdProfile id.
   void setStoredProfileId(String profileId) {
     _wrapperData.profileId = profileId;
     _saveData();
   }
 
-  /// Resets the profile id to empty string
-  ///
-  /// @return Future<ServerResponse>
-  ///
+  /// Resets the stored profile id to empty string.
   void resetStoredProfileId() {
     _wrapperData.profileId = "";
     _saveData();
   }
 
-  /// Returns the stored anonymous id
+  /// Gets the stored anonymous id from user prefs.
   ///
-  /// @return Future<ServerResponse>
-  ///
+  /// returns The stored anonymous id.
   String getStoredAnonymousId() {
     return _wrapperData.anonymousId;
   }
 
-  /// Sets the stored anonymous id
+  /// sets the stored anonymous id to user prefs.
   ///
-  /// @param anonymousId The anonymous id to set
-  /// @return Future<ServerResponse>
-  ///
+  /// @param anonymousIdAnonymous id
   void setStoredAnonymousId(String anonymousId) {
     _wrapperData.anonymousId = anonymousId;
     _saveData();
   }
 
-  /// Resets the anonymous id to empty string
-  ///
-  /// @return Future<ServerResponse>
-  ///
+  /// Resets the stored anonymous id to empty string.
   void resetStoredAnonymousId() {
     _wrapperData.anonymousId = "";
     _saveData();
@@ -1764,7 +1828,7 @@ class BrainCloudWrapper {
     // if no ServicesBinding instance set then ignore saving
     if (_isServicesBindingAvailable()) {
       try {
-        String prefix = wrapperName.isEmptyOrNull ? "" : "$wrapperName.";
+        String prefix = wrapperName.isEmptyOrNull ? "" : "$wrapperName.";        
         await _persistence.setString(
             prefix + prefsProfileId, _wrapperData.profileId);
         await _persistence.setString(
@@ -1787,8 +1851,7 @@ class BrainCloudWrapper {
         _wrapperData.anonymousId =
             await _persistence.getString(prefix + prefsAnonymousId) ?? "";
         _wrapperData.authenticationType =
-            await _persistence.getString(prefix + prefsAuthenticationType) ??
-                "";
+            await _persistence.getString(prefix + prefsAuthenticationType) ?? "";
       } catch (e) {
         print("Error loading wrapper data $e");
       }

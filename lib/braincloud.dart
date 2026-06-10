@@ -23,7 +23,6 @@ export 'src/braincloud_app_store.dart';
 export 'src/braincloud_async_match.dart';
 export 'src/braincloud_authentication.dart';
 export 'src/braincloud_blockchain.dart';
-export 'src/braincloud_campaign.dart';
 export 'src/braincloud_chat.dart';
 export 'src/braincloud_client.dart' show BrainCloudClient;
 export 'src/braincloud_custom_entity.dart';

@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import '/src/braincloud_client.dart';
+import '/src/braincloud_player_statistics.dart';
 import '/src/internal/operation_param.dart';
 import '/src/internal/server_call.dart';
 import '/src/internal/service_name.dart';
@@ -14,19 +15,21 @@ class BrainCloudPlayerStatisticsEvent {
 
   BrainCloudPlayerStatisticsEvent(this._clientRef);
 
-  /// Trigger an event server side that will increase the user's statistics.
+  /// Trigger an event server side that will increase the user statistics.
   /// This may cause one or more awards to be sent back to the user -
   /// could be achievements, experience, etc. Achievements will be sent by this
   /// client library to the appropriate awards service (Apple Game Center, etc).
+  ///
   /// This mechanism supercedes the PlayerStatisticsService API methods, since
   /// PlayerStatisticsService API method only update the raw statistics without
   /// triggering the rewards.
-  /// @see BrainCloudPlayerStatistics
+  ///
   /// Service Name - PlayerStatisticsEvent
   /// Service Operation - Trigger
   ///
-  /// @return Future<ServerResponse>
+  /// see [BrainCloudPlayerStatistics]
   ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> triggerStatsEvent(
       {required String eventName, required int eventMultiplier}) {
     Completer<ServerResponse> completer = Completer();

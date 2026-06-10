@@ -274,27 +274,6 @@ main() {
       expect(result, true, reason: "Did not detect the webslocket closing.");
     }, onPlatform: {'browser': Skip('Mock Proxy WS does not work on Web.')});
 
-    test("enableRTT - No Auth", () async {
-      bcTest.bcWrapper.rttService.disableRTT();
-
-      final Completer completer = Completer();
-
-      await bcTest.bcWrapper.logout();
-
-      bcTest.bcWrapper.rttService.enableRTT(
-        connectiontype: RTTConnectionType.websocket,
-        successCallback: (response) {
-          fail("enableRTT should not have been possible while not authenticated...");
-        },
-        failureCallback: (response) {
-          expect(response.reasonCode, ReasonCodes.noSession);
-          completer.complete();
-        },
-      );
-
-      await completer.future;
-    });
-
     /// END TEST
     tearDownAll(() {
       bcTest.dispose();

@@ -14,14 +14,14 @@ class BrainCloudOneWayMatch {
 
   BrainCloudOneWayMatch(this._clientRef);
 
-/// Starts a match
-/// Service Name - OneWayMatch
-/// Service Operation - StartMatch
-///
-/// @param otherPlayerId The player to start a match with
-/// @param rangeDelta The range delta used for the initial match search
-/// @return Future<ServerResponse>
-///
+  /// Starts a match
+  ///
+  /// Service Name - OneWayMatch
+  /// Service Operation - StartMatch
+  ///
+  /// @param otherPlayerId The player to start a match with
+  /// @param rangeDelta The range delta used for the initial match search
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> startMatch(
       {required String playerId, required int rangeDelta}) {
     Completer<ServerResponse> completer = Completer();
@@ -43,13 +43,15 @@ class BrainCloudOneWayMatch {
     return completer.future;
   }
 
-/// Cancels a match
-/// Service Name - OneWayMatch
-/// Service Operation - CancelMatch
-///
-/// @param playbackStreamId The playback stream id returned in the start match
-/// @return Future<ServerResponse>
-///
+  /// Cancels a match
+  ///
+  /// Service Name - OneWayMatch
+  /// Service Operation - CancelMatch
+  ///
+  /// @param playbackStreamId
+  /// The playback stream id returned in the start match
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> cancelMatch({required String playbackStreamId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -70,13 +72,15 @@ class BrainCloudOneWayMatch {
     return completer.future;
   }
 
-/// Completes a match
-/// Service Name - OneWayMatch
-/// Service Operation - CompleteMatch
-///
-/// @param playbackStreamId The playback stream id returned in the initial start match
-/// @return Future<ServerResponse>
-///
+  /// Completes a match
+  ///
+  /// Service Name - OneWayMatch
+  /// Service Operation - CompleteMatch
+  ///
+  /// @param playbackStreamId
+  /// The playback stream id returned in the initial start match
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> completeMatch({required String playbackStreamId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};

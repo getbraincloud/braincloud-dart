@@ -1,4 +1,4 @@
-//import 'dart:ffi';
+import 'dart:ffi';
 
 import 'package:braincloud/braincloud.dart';
 import 'package:test/test.dart';
