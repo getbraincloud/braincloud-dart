@@ -182,14 +182,6 @@ class RelayComms {
     _tcpClient = null;
     _relayHostAddress = null;
 
-    if(!_clientRef.isAuthenticated()){
-      _clientRef.log("The user is not currently authenticated - cannot connect to Relay Server.");
-
-      _connectionFailureCallback!(900, ReasonCodes.noSession, {"error": "Invalid Session - Must be authenticated before connecting to Relay Server."});
-
-      return;
-    }
-
     bool sslEnabled = _connectOptions.ssl;
     String host = _connectOptions.host;
     int port = _connectOptions.port;

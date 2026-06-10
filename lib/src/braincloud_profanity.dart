@@ -14,17 +14,22 @@ class BrainCloudProfanity {
 
   BrainCloudProfanity(this._clientRef);
 
-/// Checks supplied text for profanity.
-/// Service Name - Profanity
-/// Service Operation - ProfanityCheck
-///
-/// @param text The text to check
-/// @param languages Optional comma delimited list of two character language codes
-/// @param flagEmail Optional processing of email addresses
-/// @param flagPhone Optional processing of phone numbers
-/// @param flagUrls Optional processing of urls
-/// @return Future<ServerResponse>
-///
+  /// Checks supplied text for profanity.
+  ///
+  /// Service Name - Profanity
+  /// Service Operation - ProfanityCheck
+  ///
+  /// @param textThe text to check
+  ///
+  /// @param languagesOptional comma delimited list of two character language codes
+  ///
+  /// @param flagEmailOptional processing of email addresses
+  ///
+  /// @param flagPhoneOptional processing of phone numbers
+  ///
+  /// @param flagUrlsOptional processing of urls
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> profanityCheck(
       {required String text,
       String? languages,
@@ -56,18 +61,24 @@ class BrainCloudProfanity {
     return completer.future;
   }
 
-/// Replaces the characters of profanity text with a passed character(s).
-/// Service Name - Profanity
-/// Service Operation - ProfanityReplaceText
-///
-/// @param text The text to check
-/// @param replaceSymbol The text to replace individual characters of profanity text with
-/// @param languages Optional comma delimited list of two character language codes
-/// @param flagEmail Optional processing of email addresses
-/// @param flagPhone Optional processing of phone numbers
-/// @param flagUrls Optional processing of urls
-/// @return Future<ServerResponse>
-///
+  /// Replaces the characters of profanity text with a passed character(s).
+  ///
+  /// Service Name - Profanity
+  /// Service Operation - ProfanityReplaceText
+  ///
+  /// @param textThe text to check
+  ///
+  /// @param replaceSymbolThe text to replace individual characters of profanity text with
+  ///
+  /// @param languagesOptional comma delimited list of two character language codes
+  ///
+  /// @param flagEmailOptional processing of email addresses
+  ///
+  /// @param flagPhoneOptional processing of phone numbers
+  ///
+  /// @param flagUrlsOptional processing of urls
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> profanityReplaceText(
       {required String text,
       required String replaceSymbol,
@@ -101,17 +112,22 @@ class BrainCloudProfanity {
     return completer.future;
   }
 
-/// Checks supplied text for profanity and returns a list of bad wors.
-/// Service Name - Profanity
-/// Service Operation - ProfanityIdentifyBadWords
-///
-/// @param text The text to check
-/// @param languages Optional comma delimited list of two character language codes
-/// @param flagEmail Optional processing of email addresses
-/// @param flagPhone Optional processing of phone numbers
-/// @param flagUrls Optional processing of urls
-/// @return Future<ServerResponse>
-///
+  /// Checks supplied text for profanity and returns a list of bad wors.
+  ///
+  /// Service Name - Profanity
+  /// Service Operation - ProfanityIdentifyBadWords
+  ///
+  /// @param textThe text to check
+  ///
+  /// @param languagesOptional comma delimited list of two character language codes
+  ///
+  /// @param flagEmailOptional processing of email addresses
+  ///
+  /// @param flagPhoneOptional processing of phone numbers
+  ///
+  /// @param flagUrlsOptional processing of urls
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> profanityIdentifyBadWords(
       {required String text,
       String? languages,

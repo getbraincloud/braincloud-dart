@@ -14,10 +14,9 @@ class BrainCloudBlockchain {
 
   BrainCloudBlockchain(this._clientRef);
 
-/// @brief Retrieves the blockchain items owned by the caller.
-///
-/// @return Future<ServerResponse>
-///
+  /// Retrieves the blockchain items owned by the caller.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getBlockchainItems(
       {String? integrationId, Map<String, dynamic>? contextJson}) {
     Completer<ServerResponse> completer = Completer();
@@ -42,10 +41,9 @@ class BrainCloudBlockchain {
     return completer.future;
   }
 
-/// @brief Retrieves the uniqs owned by the caller.
-///
-/// @return Future<ServerResponse>
-///
+  /// Retrieves the uniqs owned by the caller.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getUniqs(
       {required String integrationId, Map<String, dynamic>? contextJson}) {
     Completer<ServerResponse> completer = Completer();

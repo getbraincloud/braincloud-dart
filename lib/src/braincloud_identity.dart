@@ -7,7 +7,6 @@ import '/src/internal/operation_param.dart';
 import '/src/internal/server_call.dart';
 import '/src/internal/service_name.dart';
 import '/src/internal/service_operation.dart';
-import '/src/braincloud_authentication.dart';
 import '/src/braincloud_client.dart';
 import '/src/server_response.dart';
 import '/src/util.dart';
@@ -368,9 +367,10 @@ class BrainCloudIdentity {
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachFacebookLimitedIdentity(
-      {required String facebookId, required String authenticationToken}) async {
-    return _attachIdentity(
-        facebookId, authenticationToken, AuthenticationType.facebookLimited);
+      {required String facebookId,
+      required String authenticationToken}) async {
+    return _attachIdentity(facebookId, authenticationToken,
+        AuthenticationType.facebookLimited);
   }
 
   /// Merge the profile associated with the provided Facebook Limited credentials with the
@@ -388,9 +388,10 @@ class BrainCloudIdentity {
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeFacebookLimitedIdentity(
-      {required String facebookId, required String authenticationToken}) async {
-    return _mergeIdentity(
-        facebookId, authenticationToken, AuthenticationType.facebookLimited);
+      {required String facebookId,
+      required String authenticationToken}) async {
+    return _mergeIdentity(facebookId, authenticationToken,
+        AuthenticationType.facebookLimited);
   }
 
   /// Detach the FacebookLimited identity from this profile.
@@ -529,65 +530,31 @@ class BrainCloudIdentity {
   // }
 
   /// Attach a Game Center identity to the current profile.
-  /// Note: If the Game Center legacy authentication compatibility flag is enabled,
-  /// only [gameCenterId] is required and all verification signature parameters are ignored.
   ///
   /// Service Name - identity
   /// Service Operation - Attach
   ///
   /// @param gameCenterId
-  /// The user's Game Center Id which can be the PlayerId, GamePlayerId, or TeamPlayerId from GKLocalPlayer
+  /// The user's game center id  (use the playerID property from the local GKPlayer dynamic)
   ///
   /// returns `Future<ServerResponse>`
-  Future<ServerResponse> attachGameCenterIdentity({
-    required String gameCenterId,
-    int timestamp = 0,
-    String publicKeyUrl = "",
-    List<int>? signature,
-    List<int>? salt,
-    String teamPlayerId = "",
-  }) async {
-    final authenticationToken =
-        BrainCloudAuthentication.createGameCenterAuthenticationToken(
-      timestamp: timestamp,
-      publicKeyUrl: publicKeyUrl,
-      signature: signature,
-      salt: salt,
-      teamPlayerId: teamPlayerId,
-    );
-    return _attachIdentity(
-        gameCenterId, authenticationToken, AuthenticationType.gameCenter);
+  Future<ServerResponse> attachGameCenterIdentity(
+      {required String gameCenterId}) async {
+    return _attachIdentity(gameCenterId, "", AuthenticationType.gameCenter);
   }
 
   /// Merge the profile associated with the specified Game Center identity with the current profile.
-  /// Note: If the Game Center legacy authentication compatibility flag is enabled,
-  /// only [gameCenterId] is required and all verification signature parameters are ignored.
   ///
   /// Service Name - identity
   /// Service Operation - Merge
   ///
   /// @param gameCenterId
-  /// The user's Game Center Id which can be the PlayerId, GamePlayerId, or TeamPlayerId from GKLocalPlayer
+  /// The user's game center id  (use the playerID property from the local GKPlayer dynamic)
   ///
   /// returns `Future<ServerResponse>`
-  Future<ServerResponse> mergeGameCenterIdentity({
-    required String gameCenterId,
-    int timestamp = 0,
-    String publicKeyUrl = "",
-    List<int>? signature,
-    List<int>? salt,
-    String teamPlayerId = "",
-  }) async {
-    final authenticationToken =
-        BrainCloudAuthentication.createGameCenterAuthenticationToken(
-      timestamp: timestamp,
-      publicKeyUrl: publicKeyUrl,
-      signature: signature,
-      salt: salt,
-      teamPlayerId: teamPlayerId,
-    );
-    return _mergeIdentity(
-        gameCenterId, authenticationToken, AuthenticationType.gameCenter);
+  Future<ServerResponse> mergeGameCenterIdentity(
+      {required String gameCenterId}) async {
+    return _mergeIdentity(gameCenterId, "", AuthenticationType.gameCenter);
   }
 
   /// Detach the Game Center identity from the current profile.
@@ -676,14 +643,18 @@ class BrainCloudIdentity {
     return _attachIdentity(userId, password, AuthenticationType.universal);
   }
 
-/// Merge the profile associated with the provided userId with the current profile.
-/// Service Name - identity
-/// Service Operation - Merge
-///
-/// @param userId The user's userid
-/// @param password The user's password
-/// @return Future<ServerResponse>
-///
+  /// Merge the profile associated with the provided e=mail with the current profile.
+  ///
+  /// Service Name - identity
+  /// Service Operation - Merge
+  ///
+  /// @param userId
+  /// The user's userId
+  ///
+  /// @param password
+  /// The user's password
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeUniversalIdentity(
       {required String userId, required String password}) {
     return _mergeIdentity(userId, password, AuthenticationType.universal);
@@ -706,14 +677,18 @@ class BrainCloudIdentity {
     return _detachIdentity(userId, AuthenticationType.universal, continueAnon);
   }
 
-/// Attach a Steam (userid + steamsessionticket) identity to the current profile.
-/// Service Name - identity
-/// Service Operation - Attach
-///
-/// @param steamId String representation of 64 bit steam id
-/// @param sessionTicket The user's session ticket (hex encoded)
-/// @return Future<ServerResponse>
-///
+  /// Attach a Steam (userId + steamsessionticket) identity to the current profile.
+  ///
+  /// Service Name - identity
+  /// Service Operation - Attach
+  ///
+  /// @param steamId
+  /// String representation of 64 bit steam id
+  ///
+  /// @param sessionTicket
+  /// The user's session ticket (hex encoded)
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachSteamIdentity(
       {required String steamId, required String sessionTicket}) {
     return _attachIdentity(steamId, sessionTicket, AuthenticationType.steam);
@@ -806,7 +781,8 @@ class BrainCloudIdentity {
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachGoogleIdentity(
       {required String googleId, required bool continueAnon}) async {
-    return _detachIdentity(googleId, AuthenticationType.google, continueAnon);
+    return _detachIdentity(
+        googleId, AuthenticationType.google, continueAnon);
   }
 
   /// Attach the user's Google credentials to the current profile.
@@ -859,7 +835,8 @@ class BrainCloudIdentity {
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachGoogleOpenIdIdentity(
-      {required String googleId, required bool continueAnon}) async {
+      {required String googleId,
+      required bool continueAnon}) async {
     return _detachIdentity(
         googleId, AuthenticationType.googleOpenId, continueAnon);
   }
@@ -882,16 +859,19 @@ class BrainCloudIdentity {
         appleId, authenticationToken, AuthenticationType.apple);
   }
 
-/// Merge the profile associated with the provided Apple credentials with the
-/// current profile.
-/// Service Name - identity
-/// Service Operation - Merge
-///
-/// @param appleId The apple id of the user
-/// @param authenticationToken The validated token from the Apple SDK
-///        (that will be further validated when sent to the bC service)
-/// @return Future<ServerResponse>
-///
+  /// Merge the profile associated with the provided Apple credentials with the
+  /// current profile.
+  ///
+  /// Service Name - identity
+  /// Service Operation - Merge
+  ///
+  /// @param appleUserId
+  /// This can be the user id OR the email of the user for the account
+  ///
+  /// @param identityToken
+  /// The token confirming the user's identity
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> mergeAppleIdentity(
       {required String appleUserId, required String identityToken}) {
     return _mergeIdentity(appleUserId, identityToken, AuthenticationType.apple);
@@ -1374,16 +1354,16 @@ class BrainCloudIdentity {
   ///
   /// @param authenticationType
   /// Type of authentication.
-  ///
+  /// 
   /// @param externalAuthName
   /// The name of the external authentication mechanism (optional, used for custom authentication types)
   ///
   Future<ServerResponse> getIdentityStatus(
       {required AuthenticationType authenticationType,
       required String externalAuthName}) async {
+
     Map<String, dynamic> data = {};
-    data[OperationParam.identityServiceAuthenticationType.value] =
-        authenticationType.value;
+    data[OperationParam.identityServiceAuthenticationType.value] = authenticationType.value;
     data[OperationParam.externalAuthType.value] = externalAuthName;
 
     final Completer<ServerResponse> completer = Completer();
@@ -1498,8 +1478,8 @@ class BrainCloudIdentity {
       required bool updateContactEmail}) async {
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceOldEmailAddress.value] = oldEmailAddress;
-    data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
-        .value] = authenticationToken;
+    data[OperationParam
+        .authenticateServiceAuthenticateAuthenticationToken.value] = authenticationToken;
     data[OperationParam.identityServiceNewEmailAddress.value] = newEmailAddress;
     data[OperationParam.identityServiceUpdateContactEmail.value] =
         updateContactEmail;
@@ -1696,37 +1676,39 @@ class BrainCloudIdentity {
   }
 
   /// Merge the peer profile associated with the provided externalId with the current profile.
-  ///
-  /// NOTE: If using the BrainCloudWrapper, once the merge is complete you should call
+  /// 
+  /// NOTE: If using the BrainCloudWrapper, once the merge is complete you should call 
   /// SetStoredProfileId in the BrainCloudWrapper with the profileId returned in the Merge call.
-  ///
-  /// @param peer
+  /// 
+  /// @param peer	
   /// Name of the peer service
-  ///
-  /// @param externalId
+  /// 
+  /// @param externalId	
   /// User ID
-  ///
-  /// @param authenticationToken
+  /// 
+  /// @param authenticationToken	
   /// Password or client side token
-  ///
-  /// @param authenticationType
-  /// Type of authentication.
-  ///
-  /// @param externalAuthName
+  /// 
+  /// @param authenticationType	
+  /// Type of authentication. 
+  /// 
+  /// @param externalAuthName	
   /// The name of the external authentication mechanism (optional, used for custom authentication types)
-  Future<ServerResponse> mergePeerProfile(
-      {required String peer,
-      required String externalId,
-      required String authenticationToken,
-      required AuthenticationType authenticationType,
-      required String externalAuthName}) async {
+  Future<ServerResponse> mergePeerProfile({
+    required String peer,
+    required String externalId, 
+    required String authenticationToken, 
+    required AuthenticationType authenticationType,
+    required String externalAuthName }) async {
+    
     Map<String, dynamic> data = {};
     data[OperationParam.identityServiceExternalId.value] = externalId;
     data[OperationParam.identityServiceAuthenticationType.value] =
         authenticationType.value;
     data[OperationParam.authenticateServiceAuthenticateAuthenticationToken
         .value] = authenticationToken;
-    data[OperationParam.peer.value] = peer;
+    data[OperationParam.peer
+        .value] = peer;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -1739,12 +1721,14 @@ class BrainCloudIdentity {
           error: statusMessage));
     });
 
-    ServerCall sc = ServerCall(ServiceName.identity,
-        ServiceOperation.mergePeerProfiles, data, callback);
+    ServerCall sc = ServerCall(
+        ServiceName.identity, ServiceOperation.mergePeerProfiles, data, callback);
     _clientRef.sendRequest(sc);
 
     return completer.future;
+
   }
+
 
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> _attachIdentity(String externalId,

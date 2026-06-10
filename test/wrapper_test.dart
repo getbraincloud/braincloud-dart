@@ -1,4 +1,3 @@
-@Timeout(Duration(seconds: 60))
 import 'dart:async';
 
 import 'package:braincloud/braincloud.dart';
@@ -6,7 +5,7 @@ import 'package:braincloud/src/internal/service_operation.dart';
 import 'package:test/test.dart';
 
 import 'utils/test_base.dart';
-
+@Timeout(Duration(seconds: 60))
 void main() {
   BCTest bcTest = BCTest();
   // setUpAll(bcTest.setupBC);
@@ -225,7 +224,7 @@ void main() {
       print(
           " Generated id: ${userWrapper.brainCloudClient.authenticationService.generateAnonymousId()}");
 
-      userWrapper.enableAutoReconnect(true);
+      userWrapper.enableLongSession(true);
       ServerResponse userSessionResp = await userWrapper.authenticateUniversal(
           username: "${userB.name}_${DateTime.now().microsecond}",
           password: userB.password,
@@ -276,12 +275,7 @@ void main() {
       userWrapper.brainCloudClient.enableLogging(true);
       print(
           " Generated id: ${userWrapper.brainCloudClient.authenticationService.generateAnonymousId()}");
-      userWrapper.enableAutoReconnect(true);
-
-      userWrapper.brainCloudClient.registerAutoReconnectCallback((response) {
-        print("Auto reconnect CALLBACK: " + response.toString());
-      });
-
+      userWrapper.enableLongSession(true);
       ServerResponse userSessionResp = await userWrapper.authenticationService
           .authenticateUniversal(
               userId: "${userB.name}_${DateTime.now().millisecondsSinceEpoch}",
@@ -356,11 +350,7 @@ void main() {
 
       print("\n Pre-Users Attributes: ${userSessionResp.data}\n");
 
-      userWrapper.enableAutoReconnect(true);
-
-      userWrapper.brainCloudClient.registerAutoReconnectCallback((response) {
-        print("Auto reconnect CALLBACK: " + response.toString());
-      });
+      userWrapper.enableLongSession(true);
 
       // kill the session from the other user
       ServerResponse response = await bcTest.bcWrapper.scriptService.runScript(
@@ -383,16 +373,13 @@ void main() {
       userWrapper.resetStoredProfileId();
 
       userWrapper.brainCloudClient.enableLogging(true);
-      userWrapper.enableAutoReconnect(true);
-
-      userWrapper.brainCloudClient.registerAutoReconnectCallback((response) {
-        print("Auto reconnect CALLBACK: " + response.toString());
-      });
-
+      userWrapper.enableLongSession(true);
       ServerResponse userSessionResp =
           await userWrapper.authenticateAnonymous();
 
       print(userSessionResp.data);
+
+      // userSessionResp = await userWrapper.authenticateLongSession();
 
       expect(userSessionResp.statusCode, StatusCodes.ok,
           reason: "Failed to login test user");
@@ -435,10 +422,7 @@ void main() {
       userWrapper.resetStoredProfileId();
 
       userWrapper.brainCloudClient.enableLogging(true);
-      userWrapper.enableAutoReconnect(true);
-      userWrapper.brainCloudClient.registerAutoReconnectCallback((response) {
-        print("Auto reconnect CALLBACK: " + response.toString());
-      });
+      userWrapper.enableLongSession(true);
       ServerResponse userSessionResp = await userWrapper.authenticateUniversal(
           username: userB.name, password: userB.password, forceCreate: true);
 
@@ -490,15 +474,14 @@ void main() {
       userWrapper.resetStoredProfileId();
 
       userWrapper.brainCloudClient.enableLogging(true);
-      userWrapper.enableAutoReconnect(true);
-      userWrapper.brainCloudClient.registerAutoReconnectCallback((response) {
-        print("Auto reconnect CALLBACK: " + response.toString());
-      });
+      userWrapper.enableLongSession(true);
 
       ServerResponse userSessionResp = await userWrapper.authenticateUniversal(
           username: userB.name, password: userB.password, forceCreate: true);
 
       print(userSessionResp.data);
+
+      // userSessionResp = await userWrapper.authenticateLongSession();
 
       expect(userSessionResp.statusCode, StatusCodes.ok,
           reason: "Failed to login test user");
@@ -551,7 +534,7 @@ void main() {
     setUpAll(bcTest.setupBC);
     
     test("Reason Code accessibility", () async {
-        int reasonCode = ReasonCodes.invalidRequest;
+        int reasonCode = ReasonCodes.INVALID_REQUEST;
 
         print("Reason Code = $reasonCode");
 

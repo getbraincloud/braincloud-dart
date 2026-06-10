@@ -44,7 +44,8 @@ class BrainCloudCustomEntity {
     data[OperationParam.customEntityServiceEntityType.value] = entityType;
     data[OperationParam.customEntityServiceDataJson.value] = dataJson;
     data[OperationParam.customEntityServiceAcl.value] = acl;
-    data[OperationParam.customEntityServiceTimeToLive.value] = timeToLive;
+    data[OperationParam.customEntityServiceTimeToLive.value] =
+        timeToLive;
     data[OperationParam.customEntityServiceIsOwned.value] = isOwned;
 
     final Completer<ServerResponse> completer = Completer();
@@ -323,7 +324,8 @@ class BrainCloudCustomEntity {
     data[OperationParam.customEntityServiceVersion.value] = version;
     data[OperationParam.customEntityServiceDataJson.value] = dataJson;
     data[OperationParam.customEntityServiceAcl.value] = acl;
-    data[OperationParam.customEntityServiceTimeToLive.value] = timeToLive;
+    data[OperationParam.customEntityServiceTimeToLive.value] =
+        timeToLive;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -698,7 +700,8 @@ class BrainCloudCustomEntity {
     data[OperationParam.customEntityServiceVersion.value] = version;
     data[OperationParam.customEntityServiceDataJson.value] = dataJson;
     data[OperationParam.customEntityServiceAcl.value] = acl;
-    data[OperationParam.customEntityServiceTimeToLive.value] = timeToLive;
+    data[OperationParam.customEntityServiceTimeToLive.value] =
+        timeToLive;
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {

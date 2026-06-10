@@ -23,9 +23,7 @@ class StoredIds {
         //debugPrint('$line: ${line.length} characters');
 
         List<String> keyVal = line.split('=');
-        if (keyVal.length >= 2) {
-          ids[keyVal[0]] = keyVal.sublist(1).join('=');
-        }
+        ids[keyVal[0]] = keyVal[1];
       }
       // debugPrint('File is now closed.');
     } catch (e) {
@@ -33,7 +31,7 @@ class StoredIds {
     }
   }
 
-  String get secretKey => ids['secret'] ?? "";
+  String get secretKey => ids['secretKey'] ?? "";
   String get appId => ids['appId'] ?? "";
   String get version => ids['version'] ?? "";
   String get url => ids['serverUrl'] ?? "";

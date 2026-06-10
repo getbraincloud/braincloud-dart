@@ -14,15 +14,18 @@ class BrainCloudGroupFile {
 
   BrainCloudGroupFile(this._clientRef);
 
-  /// Check if filename exists for provided path and name
-  /// Service Name GroupFile
-  /// Service Operation  CheckFilenameExists
+  /// Check if filename exists for provided path and name.
   ///
-  /// @param groupId ID of the group.
-  /// @param folderPath The path of the file
-  /// @param filename The filename of the file
-  /// @return Future<ServerResponse>
+  /// @param groupId
+  /// ID of the group.
   ///
+  /// @param folderPath
+  /// File located cloud path/folder
+  ///
+  /// @param fileName
+  /// File cloud name
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> checkFilenameExists(
       {required String groupId,
       required String folderPath,
@@ -35,14 +38,15 @@ class BrainCloudGroupFile {
     return _sendRequest(ServiceOperation.checkFilenameExists, data);
   }
 
-  /// Check if filename exists for provided full path name
-  /// Service Name GroupFile
-  /// Service Operation CheckFullpathFilenameExists
+  /// Check if filename exists for provided path and name.
   ///
-  /// @param groupId ID of the group.
-  /// @param fullPathFilename The full path of the file
-  /// @return Future<ServerResponse>
+  /// @param groupId
+  /// ID of the group.
   ///
+  /// @param fullPathFilename
+  /// File cloud name in full path
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> checkFullpathFilenameExists(
       {required String groupId, required String fullPathFilename}) {
     Map<String, dynamic> data = {};
@@ -52,18 +56,29 @@ class BrainCloudGroupFile {
     return _sendRequest(ServiceOperation.checkFullpathFilenameExists, data);
   }
 
-/// Copy a file.
-/// Service Name GroupFile
-/// Service Operation CopyFile
-///
-/// @param groupId the groupId
-/// @param fileId the fileId
-/// @param version the version
-/// @param newTreeId thenewTreeId
-/// @param treeVersion the treeVersion
-/// @param newFilename the newFilename
-/// @return Future<ServerResponse>
-///
+  /// Copy a file.
+  ///
+  /// @param groupIdID of the group.
+  ///
+  /// @param fileId
+  /// The id of the file.
+  ///
+  /// @param version
+  /// The target version of the file.
+  ///
+  /// @param newTreeId
+  /// The id of the destination folder.
+  ///
+  /// @param treeVersion
+  /// The target version of the folder tree.
+  ///
+  /// @param newFilename
+  /// The optional new file name.
+  ///
+  /// @param overwriteIfPresent
+  /// Whether to allow overwrite of an existing file if present.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> copyFile(
       {required String groupId,
       required String fileId,
@@ -85,15 +100,20 @@ class BrainCloudGroupFile {
   }
 
   /// Delete a file.
-  /// Service Name GroupFile
-  /// Service Operation DeleteFile
   ///
-  /// @param groupId the groupId
-  /// @param fileId the fileId
-  /// @param version the version
-  /// @param newFilename the newFilename
-  /// @return Future<ServerResponse>
+  /// @param groupId
+  /// The id of the group.
   ///
+  /// @param fileId
+  /// The id of the file.
+  ///
+  /// @param version
+  /// The target version of the file.
+  ///
+  /// @param filename
+  /// The file name for verification purposes.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> deleteFile(
       {required String groupId,
       required String fileId,
@@ -109,13 +129,14 @@ class BrainCloudGroupFile {
   }
 
   /// Return CDN url for file for clients that cannot handle redirect.
-  /// Service Name GroupFile
-  /// Service Operation GetCdnUrl
   ///
-  /// @param groupId the groupId
-  /// @param fileId the fileId
-  /// @return Future<ServerResponse>
+  /// @param groupId
+  /// The id of the group.
   ///
+  /// @param fileId
+  /// The id of the file.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getCDNUrl(
       {required String groupId, required String fileId}) {
     Map<String, dynamic> data = {};
@@ -126,13 +147,14 @@ class BrainCloudGroupFile {
   }
 
   /// Returns information on a file using fileId.
-  /// Service Name GroupFile
-  /// Service Operation GetFileInfo
   ///
-  /// @param groupId the groupId
-  /// @param fileId the fileId
-  /// @return Future<ServerResponse>
+  /// @param groupId
+  /// ID of the group.
   ///
+  /// @param fileId
+  /// The id of the file.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getFileInfo(
       {required String groupId, required String fileId}) {
     Map<String, dynamic> data = {};
@@ -153,15 +175,7 @@ class BrainCloudGroupFile {
   /// @param filename
   /// The file name.
   //
-  /// Returns information on a file using path and name.
-  /// Service Name GroupFile
-  /// Service Operation GetFileInfoSimple
-  ///
-  /// @param groupId the groupId
-  /// @param folderPath the folderPath
-  /// @param fileName the fileName
-  /// @return Future<ServerResponse>
-  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getFileInfoSimple(
       {required String groupId,
       required String folderPath,
@@ -175,14 +189,17 @@ class BrainCloudGroupFile {
   }
 
   /// Returns a list of files.
-  /// Service Name GroupFile
-  /// Service Operation GetFileList
   ///
-  /// @param groupId the groupId
-  /// @param folderPath the folderPath
-  /// @param recurse true to recurse
-  /// @return Future<ServerResponse>
+  /// @param groupId
+  /// The id of the group.
   ///
+  /// @param folderPath
+  /// The folder path.
+  ///
+  /// @param recurse
+  /// Whether to recurse beyond the starting folder.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> getFileList(
       {required String groupId,
       required String folderPath,
@@ -196,16 +213,29 @@ class BrainCloudGroupFile {
   }
 
   /// Move a file.
-  /// Service Name GroupFile
-  /// Service Operation MoveFile
   ///
-  /// @param groupId the groupId
-  /// @param fileId the fileId
-  /// @param version the version
-  /// @param newTreeId the newTreeId
-  /// @param newFilename the newFilename
-  /// @return Future<ServerResponse>
+  /// @param groupId
+  /// The id of the group.
   ///
+  /// @param fileId
+  /// The id of the file.
+  ///
+  /// @param version
+  /// The target version of the file. As an option, you can use -1 for the latest version of the file
+  ///
+  /// @param newTreeId
+  /// The id of the destination folder.
+  ///
+  /// @param treeVersion
+  /// The target version of the folder tree.
+  ///
+  /// @param newFilename
+  /// The optional new file name.
+  ///
+  /// @param overwriteIfPresent
+  /// Whether to allow overwrite of an existing file if present.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> moveFile(
       {required String groupId,
       required String fileId,
@@ -272,17 +302,22 @@ class BrainCloudGroupFile {
 
   /// Returns information on a file using fileId.
 
-/// updates information on a file given fileId.
-/// Service Name GroupFile
-/// Service Operation UpdateFileInfo
-///
-/// @param groupId the groupId
-/// @param fileId the fileId
-/// @param version the version
-/// @param newFilename the newFilename
-/// @param newAcl the newAcl
-/// @return Future<ServerResponse>
-///
+  /// @param groupId
+  /// The id of the group.
+  ///
+  /// @param fileId
+  /// The id of the file.
+  ///
+  /// @param version
+  /// The target version of the file. As an option, you can use -1 for the latest version of the file
+  ///
+  /// @param newFilename
+  /// The optional new file name.
+  ///
+  /// @param newACL
+  /// The optional new acl.
+  ///
+  /// returns `Future<ServerResponse>`
   Future<ServerResponse> updateFileInfo(
       {required String groupId,
       required String fileId,
