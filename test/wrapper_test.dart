@@ -551,7 +551,7 @@ void main() {
     setUpAll(bcTest.setupBC);
     
     test("Reason Code accessibility", () async {
-        int reasonCode = ReasonCodes.INVALID_REQUEST;
+        int reasonCode = ReasonCodes.invalidRequest;
 
         print("Reason Code = $reasonCode");
 
