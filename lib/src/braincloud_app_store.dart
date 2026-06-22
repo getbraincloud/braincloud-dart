@@ -15,57 +15,45 @@ class BrainCloudAppStore {
 
   BrainCloudAppStore(this._clientRef);
 
-  /// Method gets the active sales inventory for the passed-in
-  /// currency type.
-  ///
-  /// Service Name - AppStore
-  /// Service Operation - GetInventory
-  ///
-  /// @param storeId
-  /// The store platform. Valid stores are:
-  /// - itunes
-  /// - facebook
-  /// - appworld
-  /// - steam
-  /// - windows
-  /// - windowsPhone
-  /// - googlePlay
-  ///
-  /// @param userCurrency
-  /// The currency to retrieve the sales
-  /// inventory for. This is only used for Steam and Facebook stores.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Method gets the active sales inventory for the passed-in
+/// currency type.
+/// Service Name - AppStore
+/// Service Operation - GetInventory
+///
+/// @param platform The store platform. Valid stores are:
+///        itunes
+///        facebook
+///        appworld
+///        steam
+///        windows
+///        windowsPhone
+///        googlePlay
+/// @param userCurrency The currency type to retrieve the sales inventory for.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getSalesInventory(
       {required String storeId, required String userCurrency}) {
     return getSalesInventoryByCategory(
         storeId: storeId, userCurrency: userCurrency);
   }
 
-  /// Method gets the active sales inventory for the passed-in
-  /// currency type and category.
-  ///
-  /// Service Name - AppStore
-  /// Service Operation - GetInventory
-  ///
-  /// @param storeId
-  /// The store storeId. Valid stores are:
-  /// - itunes
-  /// - facebook
-  /// - appworld
-  /// - steam
-  /// - windows
-  /// - windowsPhone
-  /// - googlePlay
-  ///
-  /// @param userCurrency
-  /// The currency to retrieve the sales
-  /// inventory for. This is only used for Steam and Facebook stores.
-  ///
-  /// @param category
-  /// The AppStore category
-  ///
-  /// returns `Future<ServerResponse>`
+/// Method gets the active sales inventory for the passed-in
+/// currency type.
+/// Service Name - AppStore
+/// Service Operation - GetInventory
+///
+/// @param storeId The store platform. Valid stores are:
+///        itunes
+///        facebook
+///        appworld
+///        steam
+///        windows
+///        windowsPhone
+///        googlePlay
+/// @param userCurrency The currency type to retrieve the sales inventory for.
+/// @param category The product category
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getSalesInventoryByCategory(
       {required String storeId,
       required String userCurrency,
@@ -100,12 +88,12 @@ class BrainCloudAppStore {
     return completer.future;
   }
 
-  /// Returns the eligible promotions for the player.
-  ///
-  /// Service Name - AppStore
-  /// Service Operation - EligiblePromotions
-  ///
-  /// returns `Future<ServerResponse>`
+/// Returns the eligible promotions for the player.
+/// Service Name - AppStore
+/// Service Operation - EligiblePromotions
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getEligiblePromotions() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -121,25 +109,21 @@ class BrainCloudAppStore {
     return completer.future;
   }
 
-  /// Verify Purchase with the associated StoreId
-  ///
-  /// Service Name - AppStore
-  /// Service Operation - VERIFY_PURCHASE
-  ///
-  /// @param storeId
-  /// The store storeId. Valid stores are:
-  /// - itunes
-  /// - facebook
-  /// - appworld
-  /// - steam
-  /// - windows
-  /// - windowsPhone
-  /// - googlePlay
-  ///
-  /// @param receiptJson
-  /// The specific store data required
-  ///
-  /// returns `Future<ServerResponse>`
+/// Verifies that purchase was properly made at the store.
+/// Service Name - AppStore
+/// Service Operation - VerifyPurchase
+///
+/// @param storeId The store platform. Valid stores are:
+///        itunes
+///        facebook
+///        appworld
+///        steam
+///        windows
+///        windowsPhone
+///        googlePlay
+/// @param receiptData the specific store data required
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> verifyPurchase(
       {required String storeId, required Map<String, dynamic> receiptData}) {
     Completer<ServerResponse> completer = Completer();
@@ -162,24 +146,21 @@ class BrainCloudAppStore {
     return completer.future;
   }
 
-  /// Start A Two Staged Purchase Transaction
-  ///
-  /// Service Name - AppStore
-  /// Service Operation - START_PURCHASE
-  /// @param storeId
-  /// The store storeId. Valid stores are:
-  /// - itunes
-  /// - facebook
-  /// - appworld
-  /// - steam
-  /// - windows
-  /// - windowsPhone
-  /// - googlePlay
-  ///
-  /// @param purchaseJson
-  /// The specific store data required
-  ///
-  /// returns `Future<ServerResponse>`
+/// Start A Two Staged Purchase Transaction
+/// Service Name - AppStore
+/// Service Operation - StartPurchase
+///
+/// @param storeId The store platform. Valid stores are:
+///        itunes
+///        facebook
+///        appworld
+///        steam
+///        windows
+///        windowsPhone
+///        googlePlay
+/// @param purchaseData specific data for purchasing 2 staged purchases
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> startPurchase(
       {required String storeId, required Map<String, dynamic> purchaseData}) {
     Completer<ServerResponse> completer = Completer();
@@ -202,28 +183,22 @@ class BrainCloudAppStore {
     return completer.future;
   }
 
-  /// Finalize A Two Staged Purchase Transaction
-  ///
-  /// Service Name - AppStore
-  /// Service Operation - FINALIZE_PURCHASE
-  ///
-  /// @param storeId
-  /// The store storeId. Valid stores are:
-  /// - itunes
-  /// - facebook
-  /// - appworld
-  /// - steam
-  /// - windows
-  /// - windowsPhone
-  /// - googlePlay
-  ///
-  /// @param transactionId
-  /// The Transaction Id returned in Start Transaction
-  ///
-  /// @param transactionJson
-  /// The specific store data required
-  ///
-  /// returns `Future<ServerResponse>`
+/// Finalize A Two Staged Purchase Transaction
+/// Service Name - AppStore
+/// Service Operation - FinalizePurchase
+///
+/// @param storeId The store platform. Valid stores are:
+///        itunes
+///        facebook
+///        appworld
+///        steam
+///        windows
+///        windowsPhone
+///        googlePlay
+/// @param transactionId the transactionId returned from start Purchase
+/// @param transactionData specific data for purchasing 2 staged purchases
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> finalizePurchase(
       {required String storeId,
       required String transactionId,
@@ -249,12 +224,12 @@ class BrainCloudAppStore {
     return completer.future;
   }
 
-  /// Returns up-to-date eligible 'promotions' for the user and a 'promotionsRefreshed' flag indicating whether the user's promotion info required refreshing
-  ///
-  /// Service Name - appStore
-  /// Service Operation - RefreshPromotions
-  ///
-  /// returns `Future<ServerResponse>`
+/// Returns up-to-date eligible 'promotions' for the user and a 'promotionsRefreshed' flag indicating whether the user's promotion info required refreshing.
+/// Service Name - AppStore
+/// Service Operation - RefreshPromotions
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> refreshPromotions() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -273,36 +248,32 @@ class BrainCloudAppStore {
     return completer.future;
   }
 
-  /// Before making a purchase with the IAP store, you will need to store the purchase
-  /// payload context on brainCloud so that the purchase can be verified for the proper IAP product.
-  /// This payload will be used during the VerifyPurchase method to ensure the
-  /// user properly paid for the correct product before awarding them the IAP product.
-  /// 
-  /// Service Name - AppStore
-  /// Service Operation - CachePurchasePayloadContext
-  /// @param storeId
-  /// The store storeId. Valid stores are:
-  /// - itunes
-  /// - facebook
-  /// - appworld
-  /// - steam
-  /// - windows
-  /// - windowsPhone
-  /// - googlePlay
-  /// 
-  /// @param iapId
-  /// The IAP product Id as configured for the product on brainCloud.
-  /// 
-  /// @param payload
-  /// The payload retrieved for the IAP product after the GetSalesInventory method.
-  Future<ServerResponse> cachePurchasePayloadContext({
-      required String storeId,
+/// Before making a purchase with the IAP store, you will need to store the purchase
+/// payload context on brainCloud so that the purchase can be verified for the proper IAP product.
+/// This payload will be used during the VerifyPurchase method to ensure the
+/// user properly paid for the correct product before awarding them the IAP product.
+/// Service Name - AppStore
+/// Service Operation - CachePurchasePayloadContext
+///
+/// @param storeId The store platform. Valid stores are:
+///        itunes
+///        facebook
+///        appworld
+///        steam
+///        windows
+///        windowsPhone
+///        googlePlay
+/// @param transactionId the transactionId returned from start Purchase
+/// @param transactionData specific data for purchasing 2 staged purchases
+/// @return Future<ServerResponse>
+///
+  Future<ServerResponse> cachePurchasePayloadContext(
+      {required String storeId,
       required String iapId,
       required String payload}) {
-
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
-    
+
     data[OperationParam.appStoreServiceStoreId.value] = storeId;
     data[OperationParam.appStoreServiceIAPId.value] = iapId;
     data[OperationParam.appStoreServicePayload.value] = payload;

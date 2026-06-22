@@ -12,20 +12,21 @@ class BrainCloudRTT {
 
   BrainCloudRTT(this._commsLayer, this._clientRef);
 
-  /// Enables Real Time event for this session.
-  /// Real Time events are disabled by default. Usually events
-  /// need to be polled using GET_EVENTS. By enabling this, events will
-  /// be received instantly when they happen through a TCP connection to an Event Server.
-  ///
-  ///This function will first call requestClientConnection, then connect to the address
-  ///
-  /// @param in_connectionType
-  ///
-  /// returns `Future<RTTCommandResponse>`
-  void enableRTT({RTTConnectionType? connectiontype,RTTSuccessCallback? successCallback, RTTFailureCallback? failureCallback}) {
-    
-    _commsLayer.enableRTT(connectiontype ?? RTTConnectionType.websocket,successCallback,failureCallback);
-
+/// Enables Real Time event for this session.
+/// Real Time events are disabled by default. Usually events
+/// need to be polled using GET_EVENTS. By enabling this, events will
+/// be received instantly when they happen through a TCP connection to an Event Server.
+/// This function will first call requestClientConnection, then connect to the address
+///
+/// @param useWebSocket Use web sockets instead of TCP for the internal connections. Default is true
+/// @return Future<ServerResponse>
+///
+  void enableRTT(
+      {RTTConnectionType? connectiontype,
+      RTTSuccessCallback? successCallback,
+      RTTFailureCallback? failureCallback}) {
+    _commsLayer.enableRTT(connectiontype ?? RTTConnectionType.websocket,
+        successCallback, failureCallback);
   }
 
   /// Disables Real Time event for this session.
@@ -43,27 +44,62 @@ class BrainCloudRTT {
     return _commsLayer.getConnectionStatus();
   }
 
-  ///
+/// Listen to real time events.
+/// Notes: RTT must be enabled for this app, and enableRTT must have been successfully called.
+/// Only one event callback can be registered at a time. Calling this a second time will override the previous callback.
+///
+/// @return Future<ServerResponse>
+///
   void registerRTTEventCallback(RTTCallback inCallback) {
     _commsLayer.registerRTTCallback(ServiceName.event, inCallback);
   }
 
-  ///
+  /// Listen to real time chat messages.
+  /// Notes: RTT must be enabled for this app, and enableRTT must have been successfully called.
+  /// Only one chat callback can be registered at a time. Calling this a second time will override the previous callback.
+/// Listen to real time presence events.
+/// Notes: RTT must be enabled for this app, and enableRTT must have been successfully called.
+/// Only one presence callback can be registered at a time. Calling this a second time will override the previous callback.
+///
+/// @return Future<ServerResponse>
+///
+  /// @return Future<ServerResponse>
+/// Listen to real time presence events.
+/// Notes: RTT must be enabled for this app, and enableRTT must have been successfully called.
+/// Only one presence callback can be registered at a time. Calling this a second time will override the previous callback.
+///
+/// @return Future<ServerResponse>
+///
   void deregisterRTTEventCallback() {
     _commsLayer.deregisterRTTCallback(ServiceName.event);
   }
 
-  ///
+/// Listen to real time chat messages.
+/// Notes: RTT must be enabled for this app, and enableRTT must have been successfully called.
+/// Only one chat callback can be registered at a time. Calling this a second time will override the previous callback.
+///
+/// @return Future<ServerResponse>
+///
   void registerRTTChatCallback(RTTCallback inCallback) {
     _commsLayer.registerRTTCallback(ServiceName.chat, inCallback);
   }
 
-  ///
+/// Listen to real time presence events.
+/// Notes: RTT must be enabled for this app, and enableRTT must have been successfully called.
+/// Only one presence callback can be registered at a time. Calling this a second time will override the previous callback.
+///
+/// @return Future<ServerResponse>
+///
   void deregisterRTTChatCallback() {
     _commsLayer.deregisterRTTCallback(ServiceName.chat);
   }
 
-  ///
+/// Listen to real time presence events.
+/// Notes: RTT must be enabled for this app, and enableRTT must have been successfully called.
+/// Only one presence callback can be registered at a time. Calling this a second time will override the previous callback.
+///
+/// @return Future<ServerResponse>
+///
   void registerRTTPresenceCallback(RTTCallback inCallback) {
     _commsLayer.registerRTTCallback(ServiceName.presence, inCallback);
   }

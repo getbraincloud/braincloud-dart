@@ -4,7 +4,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import '/src/internal/http_pinger.dart';
-import '/src/internal/relay_comms.dart' if (dart.library.js_interop) '/src/internal/relay_comms_web.dart';
+import '/src/internal/relay_comms.dart'
+    if (dart.library.js_interop) '/src/internal/relay_comms_web.dart';
 import 'package:dart_ping/dart_ping.dart';
 
 import '/src/braincloud_client.dart';
@@ -24,9 +25,21 @@ class BrainCloudLobby {
 
   BrainCloudLobby(this._clientRef);
 
-  /// Finds a lobby matching the specified parameters
-  ///
-  /// returns `Future<ServerResponse>`
+/// Finds a lobby matching the specified parameters. Asynchronous - returns 200 to indicate that matchmaking has started.
+/// Service Name - Lobby
+/// Service Operation - FindLobby
+///
+/// @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
+/// @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
+/// @param maxSteps The maximum number of steps to wait when looking for an applicable lobby. Each step is ~5 seconds.
+/// @param algo The algorithm to use for increasing the search scope.
+/// @param filterJson Used to help filter the list of rooms to consider. Passed to the matchmaking filter, if configured.
+/// @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well. Will constrain things so that only lobbies with room for all players will be considered.
+/// @param isReady Initial ready-status of this user.
+/// @param extraJson Initial extra-data about this user.
+/// @param teamCode Preferred team for this user, if applicable. Send "" or null for automatic assignment
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> findLobby(
       {required String lobbyType,
       required int rating,
@@ -66,10 +79,21 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// Finds a lobby matching the specified parameters WITH PING DATA.  GetRegionsForLobbies and PingRegions must be successfully responded to
-  /// prior to calling.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Finds a lobby matching the specified parameters. Asynchronous - returns 200 to indicate that matchmaking has started. Uses attached ping data to resolve best location. GetRegionsForLobbies and PingRegions must be successfully responded to.
+/// Service Name - Lobby
+/// Service Operation - FindLobbyWithPingData
+///
+/// @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
+/// @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
+/// @param maxSteps The maximum number of steps to wait when looking for an applicable lobby. Each step is ~5 seconds.
+/// @param algo The algorithm to use for increasing the search scope.
+/// @param filterJson Used to help filter the list of rooms to consider. Passed to the matchmaking filter, if configured.
+/// @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well. Will constrain things so that only lobbies with room for all players will be considered.
+/// @param isReady Initial ready-status of this user.
+/// @param extraJson Initial extra-data about this user.
+/// @param teamCode Preferred team for this user, if applicable. Send "" or null for automatic assignment
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> findLobbyWithPingData(
       {required String lobbyType,
       required int rating,
@@ -96,9 +120,20 @@ class BrainCloudLobby {
     return _attachPingDataAndSend(data, ServiceOperation.findLobbyWithPingData);
   }
 
-  /// Like findLobby, but explicitely geared toward creating new lobbies
-  ///
-  /// returns `Future<ServerResponse>`
+/// Creates a new lobby.
+/// Sends LOBBY_JOSUCCESS message to the user, with full copy of lobby data Sends LOBBY_MEMBER_JOINED to all lobby members, with copy of member data
+/// Service Name - Lobby
+/// Service Operation - CreateLobby
+///
+/// @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
+/// @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
+/// @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well. Will constrain things so that only lobbies with room for all players will be considered.
+/// @param isReady Initial ready-status of this user.
+/// @param extraJson Initial extra-data about this user.
+/// @param teamCode Preferred team for this user, if applicable. Send "" or null for automatic assignment.
+/// @param settings Configuration data for the room.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> createLobby(
       {required String lobbyType,
       required int rating,
@@ -132,10 +167,20 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// Like findLobby, but explicitely geared toward creating new lobbies WITH PING DATA.  GetRegionsForLobbies and PingRegions must be successfully responded to
-  /// prior to calling.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Creates a new lobby. Uses attached ping data to resolve best location. GetRegionsForLobbies and PingRegions must be successfully responded to.
+/// Sends LOBBY_JOSUCCESS message to the user, with full copy of lobby data Sends LOBBY_MEMBER_JOINED to all lobby members, with copy of member data
+/// Service Name - Lobby
+/// Service Operation - CreateLobbyWithPingData
+///
+/// @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
+/// @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
+/// @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well. Will constrain things so that only lobbies with room for all players will be considered.
+/// @param isReady Initial ready-status of this user.
+/// @param extraJson Initial extra-data about this user.
+/// @param teamCode Preferred team for this user, if applicable. Send "" or null for automatic assignment.
+/// @param settings Configuration data for the room.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> createLobbyWithPingData(
       {required String lobbyType,
       required int rating,
@@ -161,9 +206,114 @@ class BrainCloudLobby {
     );
   }
 
-  /// Finds a lobby matching the specified parameters, or creates one
-  ///
-  /// returns `Future<ServerResponse>`
+/// Creates a new lobby with server config overrides.
+/// Service Name - Lobby
+/// Service Operation - CreateLobbyWithConfig
+///
+/// @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
+/// @param rating The skill rating to use for finding the lobby.
+/// @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well.
+/// @param isReady Initial ready-status of this user.
+/// @param extraJson Initial extra-data about this user.
+/// @param teamCode Preferred team for this user, if applicable. Send "" or null for automatic assignment.
+/// @param settings Configuration data for the room.
+/// @param jsonConfigOverrides Server config overrides for the lobby.
+/// @return Future<ServerResponse>
+///
+  Future<ServerResponse> createLobbyWithConfig(
+      {required String lobbyType,
+      required int rating,
+      List<String>? otherUserCxids,
+      required Map<String, dynamic> settings,
+      required bool isReady,
+      required Map<String, dynamic> extraJson,
+      String? teamCode,
+      required Map<String, dynamic> configOverrides}) {
+    Completer<ServerResponse> completer = Completer();
+    Map<String, dynamic> data = {};
+    data[OperationParam.lobbyRoomType.value] = lobbyType;
+    data[OperationParam.lobbyRating.value] = rating;
+    if (otherUserCxids != null) {
+      data[OperationParam.lobbyOtherUserCxIds.value] = otherUserCxids;
+    }
+    data[OperationParam.lobbySettings.value] = settings;
+    data[OperationParam.lobbyIsReady.value] = isReady;
+    data[OperationParam.lobbyExtraJson.value] = extraJson;
+    data[OperationParam.lobbyTeamCode.value] = teamCode;
+    data[OperationParam.lobbyConfigOverrides.value] = configOverrides;
+
+    ServerCallback? callback = BrainCloudClient.createServerCallback(
+        (response) => completer.complete(ServerResponse.fromJson(response)),
+        (statusCode, reasonCode, statusMessage) => completer.complete(
+            ServerResponse(
+                statusCode: statusCode,
+                reasonCode: reasonCode,
+                error: statusMessage)));
+    ServerCall sc = ServerCall(
+        ServiceName.lobby, ServiceOperation.createLobbyWithConfig, data, callback);
+    _clientRef.sendRequest(sc);
+    return completer.future;
+  }
+
+/// Creates a new lobby with server config overrides. Uses attached ping data to resolve best location.
+/// Service Name - Lobby
+/// Service Operation - CreateLobbyWithConfigAndPingData
+///
+/// @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
+/// @param rating The skill rating to use for finding the lobby.
+/// @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well.
+/// @param isReady Initial ready-status of this user.
+/// @param extraJson Initial extra-data about this user.
+/// @param teamCode Preferred team for this user, if applicable. Send "" or null for automatic assignment.
+/// @param settings Configuration data for the room.
+/// @param jsonConfigOverrides Server config overrides for the lobby.
+/// @return Future<ServerResponse>
+///
+  Future<ServerResponse> createLobbyWithConfigAndPingData(
+      {required String lobbyType,
+      required int rating,
+      List<String>? otherUserCxids,
+      required Map<String, dynamic> settings,
+      required bool isReady,
+      required Map<String, dynamic> extraJson,
+      String? teamCode,
+      required Map<String, dynamic> configOverrides,
+      required Map<String, dynamic> pingData}) {
+    Map<String, dynamic> data = {};
+    data[OperationParam.lobbyRoomType.value] = lobbyType;
+    data[OperationParam.lobbyRating.value] = rating;
+    if (otherUserCxids != null) {
+      data[OperationParam.lobbyOtherUserCxIds.value] = otherUserCxids;
+    }
+    data[OperationParam.lobbySettings.value] = settings;
+    data[OperationParam.lobbyIsReady.value] = isReady;
+    data[OperationParam.lobbyExtraJson.value] = extraJson;
+    data[OperationParam.lobbyTeamCode.value] = teamCode;
+    data[OperationParam.lobbyConfigOverrides.value] = configOverrides;
+    data[OperationParam.pingData.value] = pingData;
+
+    return _attachPingDataAndSend(
+      data,
+      ServiceOperation.createLobbyWithConfigAndPingData,
+    );
+  }
+
+/// Adds the caller to the lobby entry queue and will create a lobby if none are found.
+/// Service Name - Lobby
+/// Service Operation - FindOrCreateLobby
+///
+/// @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
+/// @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
+/// @param maxSteps The maximum number of steps to wait when looking for an applicable lobby. Each step is ~5 seconds.
+/// @param algo The algorithm to use for increasing the search scope.
+/// @param filterJson Used to help filter the list of rooms to consider. Passed to the matchmaking filter, if configured.
+/// @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well. Will constrain things so that only lobbies with room for all players will be considered.
+/// @param settings Configuration data for the room.
+/// @param isReady Initial ready-status of this user.
+/// @param extraJson Initial extra-data about this user.
+/// @param teamCode Preferred team for this user, if applicable. Send "" or null for automatic assignment.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> findOrCreateLobby(
       {required String lobbyType,
       required int rating,
@@ -204,10 +354,22 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// Finds a lobby matching the specified parameters, or creates one WITH PING DATA.  GetRegionsForLobbies and PingRegions must be successfully responded to
-  /// prior to calling.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Adds the caller to the lobby entry queue and will create a lobby if none are found. Uses attached ping data to resolve best location. GetRegionsForLobbies and PingRegions must be successfully responded to.
+/// Service Name - Lobby
+/// Service Operation - FindOrCreateLobbyWithPingData
+///
+/// @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
+/// @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
+/// @param maxSteps The maximum number of steps to wait when looking for an applicable lobby. Each step is ~5 seconds.
+/// @param algo The algorithm to use for increasing the search scope.
+/// @param filterJson Used to help filter the list of rooms to consider. Passed to the matchmaking filter, if configured.
+/// @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well. Will constrain things so that only lobbies with room for all players will be considered.
+/// @param settings Configuration data for the room.
+/// @param isReady Initial ready-status of this user.
+/// @param extraJson Initial extra-data about this user.
+/// @param teamCode Preferred team for this user, if applicable. Send "" or null for automatic assignment.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> findOrCreateLobbyWithPingData(
       {required String lobbyType,
       required int rating,
@@ -237,9 +399,13 @@ class BrainCloudLobby {
         data, ServiceOperation.findOrCreateLobbyWithPingData);
   }
 
-  /// Gets data for the given lobby instance lobbyId.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Returns the data for the specified lobby, including member data.
+/// Service Name - Lobby
+/// Service Operation - GetLobbyData
+///
+/// @param lobbyId Id of chosen lobby.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getLobbyData({required String lobbyId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -259,9 +425,15 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// updates the ready state of the player
-  ///
-  /// returns `Future<ServerResponse>`
+/// Updates the ready status and extra json for the given lobby member.
+/// Service Name - Lobby
+/// Service Operation - UpdateReady
+///
+/// @param lobbyId The type of lobby to look for. Lobby types are defined in the portal.
+/// @param isReady Initial ready-status of this user.
+/// @param extraJson Initial extra-data about this user.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> updateReady(
       {required String lobbyId,
       required bool isReady,
@@ -286,9 +458,14 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// valid only for the owner of the group -- edits the overally lobby config data
-  ///
-  /// returns `Future<ServerResponse>`
+/// Updates the ready status and extra json for the given lobby member.
+/// Service Name - Lobby
+/// Service Operation - UpdateSettings
+///
+/// @param lobbyId Id of the specfified lobby.
+/// @param settings Configuration data for the room.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> updateSettings(
       {required String lobbyId, required Map<String, dynamic> settings}) {
     Completer<ServerResponse> completer = Completer();
@@ -310,9 +487,15 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// switches to the specified team (if allowed). Note - may be blocked by cloud code script
-  ///
-  /// returns `Future<ServerResponse>`
+/// Switches to the specified team (if allowed.)
+/// Sends LOBBY_MEMBER_UPDATED to all lobby members, with copy of member data
+/// Service Name - Lobby
+/// Service Operation - SwitchTeam
+///
+/// @param lobbyId Id of chosen lobby.
+/// @param toTeamCode Specified team code.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> switchTeam(
       {required String lobbyId, required String toTeamCode}) {
     Completer<ServerResponse> completer = Completer();
@@ -334,9 +517,14 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// sends LOBBY_SIGNAL_DATA message to all lobby members
-  ///
-  /// returns `Future<ServerResponse>`
+/// Sends LOBBY_SIGNAL_DATA message to all lobby members.
+/// Service Name - Lobby
+/// Service Operation - SendSignal
+///
+/// @param lobbyId Id of chosen lobby.
+/// @param signalData Signal data to be sent.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> sendSignal(
       {required String lobbyId, required Map<String, dynamic> signalData}) {
     Completer<ServerResponse> completer = Completer();
@@ -358,9 +546,17 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// User joins the specified lobby.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Join specified lobby
+/// Service Name - Lobby
+/// Service Operation - JoinLobby
+///
+/// @param lobbyId Id of the specfified lobby.
+/// @param isReady Initial ready-status of this user.
+/// @param extraJson Initial extra-data about this user.
+/// @param toTeamCode Specified team code.
+/// @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well. Will constrain things so that only lobbies with room for all players will be considered.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> joinLobby(
       {required String lobbyId,
       required bool isReady,
@@ -392,10 +588,17 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// User joins the specified lobby WITH PING DATA.  GetRegionsForLobbies and PingRegions must be successfully responded to
-  /// prior to calling.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Join specified lobby. Uses attached ping data to resolve best location. GetRegionsForLobbies and PingRegions must be successfully responded to.
+/// Service Name - Lobby
+/// Service Operation - JoinLobbyWithPingData
+///
+/// @param lobbyId Id of the specfified lobby.
+/// @param isReady Initial ready-status of this user.
+/// @param extraJson Initial extra-data about this user.
+/// @param toTeamCode Specified team code.
+/// @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well. Will constrain things so that only lobbies with room for all players will be considered.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> joinLobbyWithPingData(
       {required String lobbyId,
       required bool isReady,
@@ -414,9 +617,13 @@ class BrainCloudLobby {
     return _attachPingDataAndSend(data, ServiceOperation.joinLobbyWithPingData);
   }
 
-  /// User leaves the specified lobby. if the user was the owner, a new owner will be chosen
-  ///
-  /// returns `Future<ServerResponse>`
+/// Causes the caller to leave the specified lobby. If the user was the owner, a new owner will be chosen. If user was the last member, the lobby will be deleted.
+/// Service Name - Lobby
+/// Service Operation - LeaveLobby
+///
+/// @param lobbyId Id of chosen lobby.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> leaveLobby({required String lobbyId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -436,9 +643,14 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// Only valid from the owner of the lobby -- removes the specified member from the lobby
-  ///
-  /// returns `Future<ServerResponse>`
+/// Evicts the specified user from the specified lobby. The caller must be the owner of the lobby.
+/// Service Name - Lobby
+/// Service Operation - RemoveMember
+///
+/// @param lobbyId Id of chosen lobby.
+/// @param cxId Specified member to be removed from the lobby.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> removeMember(
       {required String lobbyId, required String connectionId}) {
     Completer<ServerResponse> completer = Completer();
@@ -460,10 +672,14 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// Cancel this members Find, Join and Searching of Lobbies
+  /// Cancels an active find, join, or search request for lobbies.
   ///
-  /// returns `Future<ServerResponse>`
-  Future<ServerResponse> cancelFindRequest({required String lobbyType,required String entryId}) {
+  /// @param lobbyType The lobby type associated with the request
+  /// @param entryId The entry identifier returned from matchmaking
+  /// @return Future<ServerResponse>
+  ///
+  Future<ServerResponse> cancelFindRequest(
+      {required String lobbyType, required String entryId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
     data[OperationParam.lobbyRoomType.value] = lobbyType;
@@ -484,10 +700,13 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// Retrieves the region settings for each of the given lobby types. Upon SuccessCallback or afterwards, call PingRegions to start retrieving appropriate data.
-  /// Once that completes, the associated region Ping Data is retrievable via PingData and all associated WithPingData APIs are useable
-  ///
-  /// returns `Future<ServerResponse>`
+/// Retrieves the region settings for each of the given lobby types. Upon success or afterwards, call pingRegions to start retrieving appropriate data.
+/// Service Name - Lobby
+/// Service Operation - GetRegionsForLobbies
+///
+/// @param roomTypes Ids of the lobby types.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getRegionsForLobbies(
       {required List<String> lobbyTypes}) {
     Completer<ServerResponse> completer = Completer();
@@ -511,17 +730,14 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// Gets a map keyed by rating of the visible lobby instances matching the given type and rating range.
-  /// any ping data provided in the criteriaJson will be ignored.
-  ///
-  /// Service Name - Lobby
-  /// Service Operation - GetLobbyInstances
-  ///
-  /// @param lobbyType The type of lobby to look for.
-  ///
-  /// @param criteriaJson A JSON object used to describe filter criteria.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Gets a map keyed by rating of the visible lobby instances matching the given type and rating range.
+/// Service Name - Lobby
+/// Service Operation - GET_LOBBY_INSTANCES
+///
+/// @param lobbyType The type of lobby to look for.
+/// @param criteriaJson A JSON string used to describe filter criteria.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getLobbyInstances(
       {required String lobbyType, Map<String, dynamic>? criteriaJson}) {
     Completer<ServerResponse> completer = Completer();
@@ -543,17 +759,15 @@ class BrainCloudLobby {
     return completer.future;
   }
 
-  /// Gets a map keyed by rating of the visible lobby instances matching the given type and rating range.
-  /// Only lobby instances in the regions that satisfy the ping portion of the criteriaJson (based on the values provided in pingData) will be returned.
-  ///
-  /// Service Name - Lobby
-  /// Service Operation - GetLobbyInstancesWithPingData
-  ///
-  /// @param lobbyType The type of lobby to look for.
-  ///
-  /// @param criteriaJson A JSON object used to describe filter criteria.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Gets a map keyed by rating of the visible lobby instances matching the given type and rating range.
+/// Only lobby instances in the regions that satisfy the ping portion of the criteriaJson (based on the values provided in pingData) will be returned.
+/// Service Name - Lobby
+/// Service Operation - GET_LOBBY_INSTANCES_WITH_PING_DATA
+///
+/// @param lobbyType The type of lobby to look for.
+/// @param criteriaJson A JSON string used to describe filter criteria.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getLobbyInstancesWithPingData(
       {required String lobbyType, Map<String, dynamic>? criteriaJson}) {
     Map<String, dynamic> data = {};
@@ -564,10 +778,12 @@ class BrainCloudLobby {
         data, ServiceOperation.getLobbyInstancesWithPingData);
   }
 
-  /// Retrieves associated PingData averages to be used with all associated WithPingData APIs.
-  /// Call anytime after GetRegionsForLobbies before proceeding.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Retrieves associated Ping Data averages to be used with all associated <>WithPingData APIs.
+/// Call anytime after GetRegionsForLobbies before proceeding.
+/// Once that completes, the associated region Ping Data is retrievable via getPingData and all associated <>WithPingData APIs are useable
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> pingRegions() {
     Completer<ServerResponse> completer = Completer();
 
@@ -756,7 +972,7 @@ class BrainCloudLobby {
       // await request.send().timeout(Duration(seconds: 10));
       int pingTime = await request.ping();
       if (request.isDone && request.error.isEmpty) {
-        _handlePingTimeResponse(pingTime,region);
+        _handlePingTimeResponse(pingTime, region);
       } else {
         _pingNextItemToProcess();
       }

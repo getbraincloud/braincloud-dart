@@ -40,7 +40,7 @@ class BrainCloudComms {
   /// Byte size threshold that determines if the message size is something we want to compress or not. We make an initial value, but recevie the value for future calls based on the servers
   ///auth response
 
-  int _clientSideCompressionThreshold = 50000;
+  int _clientSideCompressionThreshold = 51200;
   int get clientSideCompressionThreshold => _clientSideCompressionThreshold;
 
   /// The id of _expectedIncomingPacketId when no packet expected
@@ -110,9 +110,9 @@ class BrainCloudComms {
 
   /// Flag to indicate that a message sent to an expired session should automatically
   /// re-authenticate and retry the message.
-  bool _longSessionEnabled = false;
-  void set longSessionEnabled (value) => _longSessionEnabled = value;
-  bool get longSessionEnabled => _longSessionEnabled;
+  bool _autoReconnectEnabled = false;
+  void set autoReconnectEnabled (value) => _autoReconnectEnabled = value;
+  bool get autoReconnectEnabled => _autoReconnectEnabled;
 
   /// When the authentication timer began
   DateTime _authenticationTimeoutStart = DateTime.fromMillisecondsSinceEpoch(0);
@@ -125,6 +125,9 @@ class BrainCloudComms {
 
   /// The event handler callback method
   EventCallback? _eventCallback;
+
+  // The auto reconnect re-authentication callback method
+  AutoReconnectCallback? _autoReconnectCallback;
 
   /// The reward handler callback method
   RewardCallback? _rewardCallback;
@@ -261,6 +264,14 @@ class BrainCloudComms {
 
   void deregisterEventCallback() {
     _eventCallback = null;
+  }
+
+  void registerAutoReconnectCallback(AutoReconnectCallback cb) {
+    _autoReconnectCallback = cb;
+  }
+
+  void deregisterAutoReconnectCallback() {
+    _autoReconnectCallback = null;
   }
 
   void registerRewardCallback(RewardCallback cb) {
@@ -905,21 +916,25 @@ class BrainCloudComms {
 
         errorJson = response;
 
-        // if session expired and longSession enabled then re-authenticate
+        // if session expired and auto reconnect enabled then re-authenticate
         if (reasonCode == ReasonCodes.playerSessionExpired &&
-            _longSessionEnabled &&
+            _autoReconnectEnabled &&
             sc?.getOperation != ServiceOperation.authenticate &&
             _isAuthenticated ) {
           // save current call.
           var expiredServerCall = sc;
           var otherServerCallInProgress = List<ServerCall>.from(_serviceCallsInProgress);
           _serviceCallsInProgress.clear();
-          _clientRef.log("Long session expired, will attempt re-authentication.");
+          _clientRef.log("Auto reconnect session expired, will attempt re-authentication.");
           _packetId = 0; // resetting packet if here as we are creating a new session.
           _clientRef.authenticationService
               .authenticateAnonymous(forceCreate: false)
               .then( (value) {
                 if (value.isSuccess()) {
+
+                  if (_autoReconnectCallback != null) {
+                  _autoReconnectCallback!({"response": value});
+                }
                   // retry here
                   if (expiredServerCall != null) {
                     // re-queue the call that failed
@@ -927,10 +942,11 @@ class BrainCloudComms {
                     // and any other msg in the bundle as they will fail too.
                     _serviceCallsWaiting.addAll(otherServerCallInProgress); // need to re-queue  any other 
                   }
+                  
                   return; // next update loop will take care off things
                 } else {
-                  _clientRef.log("Long session re-authentication failed.");
-                  this.longSessionEnabled = false;                
+                  _clientRef.log("Auto reconnect re-authentication failed.");
+                  this.autoReconnectEnabled = false;                
                   expiredServerCall?.getCallback?.onErrorCallback(statusCode, reasonCode, errorJson);
                 }
               },
@@ -1325,13 +1341,23 @@ class BrainCloudComms {
           "REQUEST - ${DateTime.now()}\n$jsonRequestString Retry(${requestState.retries})");
     }
 
-    return requestState.webRequest
-        ?.send()
-        .then((result) => http.Response.fromStream(result).then((response) {
-              requestState.webRequest?.response = response;
+    final int timeoutSecs = requestState.packetNoRetry
+        ? authenticationPacketTimeoutSecs
+        : (requestState.retries < packetTimeouts.length
+            ? packetTimeouts[requestState.retries]
+            : packetTimeouts.last);
+    final requestTimeout = Duration(seconds: timeoutSecs);
+
+    return req
+        .send()
+        .timeout(requestTimeout)
+        .then((result) => http.Response.fromStream(result)
+            .timeout(requestTimeout)
+            .then((response) {
+              req.response = response;
             }))
         .catchError((e) {
-      requestState.webRequest?.error = e.message ?? e.toString();
+      req.error = e.message ?? e.toString();
     });
   }
 

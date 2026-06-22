@@ -12,7 +12,7 @@ class StoredIds {
 
   Future<void> load() async {}
 
-  String secretKey = allIds['secretKey'] ?? "";
+  String secretKey = allIds['secret'] ?? "";
   String appId = allIds['appId'] ?? "";
   String version = allIds['version'] ?? "";
   String url = allIds['serverUrl'] ?? "";

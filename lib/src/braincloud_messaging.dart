@@ -14,9 +14,13 @@ class BrainCloudMessaging {
 
   BrainCloudMessaging(this._clientRef);
 
-  /// Deletes specified user messages on the server. in_msgBox = OperationParam.inboxMessageType && OperationParam.sentMessageType
-  ///
-  /// returns `Future<ServerResponse>`
+/// Deletes specified user messages on the server.
+/// Service Name - Messaging
+/// Service Operation - DeleteMessages
+///
+/// @param msgIds Arrays of message ids to delete.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> deleteMessages(
       {required String msgBox, required List<String> msgsIds}) {
     Completer<ServerResponse> completer = Completer();
@@ -39,9 +43,12 @@ class BrainCloudMessaging {
     return completer.future;
   }
 
-  /// Retrieve user's message boxes, including 'inbox', 'sent', etc.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Retrieve user's message boxes, including 'inbox', 'sent', etc.
+/// Service Name - Messaging
+/// Service Operation - GetMessageboxes
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getMessageBoxes() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -58,9 +65,12 @@ class BrainCloudMessaging {
     return completer.future;
   }
 
-  /// Returns count of user's 'total' messages and their 'unread' messages.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Retrieve user's message boxes, including 'inbox', 'sent', etc.
+/// Service Name - Messaging
+/// Service Operation - GetMessageCounts
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getMessageCounts() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -77,9 +87,14 @@ class BrainCloudMessaging {
     return completer.future;
   }
 
-  /// Retrieves list of specified messages.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Retrieves list of specified messages.
+/// Service Name - Messaging
+/// Service Operation - GetMessages
+///
+/// @param msgIds Arrays of message ids to get.
+/// @param markAsRead mark messages that are read
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getMessages(
       {required String msgBox,
       required List<String> msgIds,
@@ -104,9 +119,13 @@ class BrainCloudMessaging {
     return completer.future;
   }
 
-  /// Retrieves a page of messages.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Retrieves a page of messages.
+/// @param context
+/// Service Name - Messaging
+/// Service Operation - GetMessagesPage
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getMessagesPage(
       {required Map<String, dynamic> context}) {
     Completer<ServerResponse> completer = Completer();
@@ -128,9 +147,14 @@ class BrainCloudMessaging {
     return completer.future;
   }
 
-  /// Gets the page of messages from the server based on the encoded context and specified page offset.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Gets the page of messages from the server based on the encoded context and specified page offset.
+/// @param context
+/// @param pageOffset
+/// Service Name - Messaging
+/// Service Operation - GetMessagesPageOffset
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getMessagesPageOffset(
       {required String context, required int pageOffset}) {
     Completer<ServerResponse> completer = Completer();
@@ -151,9 +175,14 @@ class BrainCloudMessaging {
     return completer.future;
   }
 
-  /// Marks list of user messages as read on the server.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Marks list of user messages as read on the server.
+/// @param msgbox
+/// @param msgIds
+/// Service Name - Messaging
+/// Service Operation - MarkMessagesRead
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> markMessagesRead(
       {required String msgBox, required List<String> msgsIds}) {
     Completer<ServerResponse> completer = Completer();
@@ -174,9 +203,14 @@ class BrainCloudMessaging {
     return completer.future;
   }
 
-  /// Sends a message with specified 'subject' and 'text' to list of users.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Sends a message with specified 'subject' and 'text' to list of users.
+/// @param toProfileIds
+/// Service Name - Messaging
+/// Service Operation - SendMessage
+///
+/// @param contentJson the message you are sending
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> sendMessage(
       {required List<String> toProfileIds,
       required Map<String, dynamic> contentJson}) {
@@ -199,9 +233,14 @@ class BrainCloudMessaging {
     return completer.future;
   }
 
-  /// Send a potentially rich chat message. content must contain at least a "plain" field for plain-text messaging.
-  ///
-  /// returns `Future<ServerResponse>`
+/// Sends a simple message to specified list of users.
+/// @param toProfileIds
+/// @param messageText
+/// Service Name - Messaging
+/// Service Operation - SendMessageSimple
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> sendMessageSimple(
       {required List<String> toProfileIds, required String text}) {
     Completer<ServerResponse> completer = Completer();
