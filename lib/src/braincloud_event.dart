@@ -56,15 +56,15 @@ class BrainCloudEvent {
     return completer.future;
   }
 
-  /// Sends an event to multiple users with the attached json data.
-  /// Service Name - event
-  /// Service Operation - SEND_EVENT_TO_PROFILES
-  ///
-  /// @param toIds The profile ids of the users to send the event
-  /// @param eventType The user-defined type of the event
-  /// @param eventData The user-defined data for this event encoded in JSON
-  /// @return Future<ServerResponse>
-  ///
+/// Sends an event to multiple users with the attached json data.
+/// Service Name - Event
+/// Service Operation - SEND_EVENT_TO_PROFILES
+///
+/// @param toIds The profile ids of the users to send the event
+/// @param eventType The user-defined type of the event
+/// @param eventData The user-defined data for this event encoded in JSON
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> sendEventToProfiles(
       {required List<String> toIds,
       required String eventType,

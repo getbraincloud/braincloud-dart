@@ -112,15 +112,15 @@ class BrainCloudGlobalEntity {
     return completer.future;
   }
 
-  /// Method updates an existing entity on the server.
-  /// Service Name - globalEntity
-  /// Service Operation - UPDATE
-  ///
-  /// @param entityId The entity ID
-  /// @param version The version of the entity to update
-  /// @param jsonEntityData The entity's data as a json string
-  /// @return Future<ServerResponse>
-  ///
+/// Method updates an existing entity on the server.
+/// Service Name - GlobalEntity
+/// Service Operation - Update
+///
+/// @param entityId The entity ID
+/// @param version The version of the entity to update
+/// @param jsonEntityData The entity's data as a json string
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> updateEntity(
       {required String entityId,
       required int version,

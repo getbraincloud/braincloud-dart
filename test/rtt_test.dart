@@ -287,7 +287,7 @@ main() {
           fail("enableRTT should not have been possible while not authenticated...");
         },
         failureCallback: (response) {
-          expect(response.reasonCode, ReasonCodes.NO_SESSION);
+          expect(response.reasonCode, ReasonCodes.noSession);
           completer.complete();
         },
       );

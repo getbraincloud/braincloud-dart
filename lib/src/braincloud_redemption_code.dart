@@ -15,15 +15,15 @@ class BrainCloudRedemptionCode {
 
   BrainCloudRedemptionCode(this._clientRef);
 
-  /// Redeem a code.
-  /// Service Name - redemptionCode
-  /// Service Operation - REDEEM_CODE
-  ///
-  /// @param scanCode The code to redeem
-  /// @param codeType The type of code
-  /// @param jsonCustomRedemptionInfo Optional - A JSON string containing custom redemption data
-  /// @return Future<ServerResponse>
-  ///
+/// Redeem a code.
+/// Service Name - RedemptionCode
+/// Service Operation - REDEEM_CODE
+///
+/// @param scanCode The code to redeem
+/// @param codeType The type of code
+/// @param jsonCustomRedemptionInfo Optional - A JSON string containing custom redemption data
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> redeemCode(
       {required String scanCode,
       required String codeType,
@@ -53,13 +53,13 @@ class BrainCloudRedemptionCode {
     return completer.future;
   }
 
-  /// Retrieve the codes already redeemed by player.
-  /// Service Name - redemptionCode
-  /// Service Operation - GET_REDEEMED_CODES
-  ///
-  /// @param codeType Optional - The type of codes to retrieve. Returns all codes if left unspecified.
-  /// @return Future<ServerResponse>
-  ///
+/// Retrieve the codes already redeemed by player.
+/// Service Name - RedemptionCode
+/// Service Operation - GET_REDEEMED_CODES
+///
+/// @param codeType Optional - The type of codes to retrieve. Returns all codes if left unspecified.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getRedeemedCodes({required String codeType}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};

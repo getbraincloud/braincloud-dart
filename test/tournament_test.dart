@@ -5,9 +5,10 @@ import 'utils/test_base.dart';
 
 void main() {
   BCTest bcTest = BCTest();
-  setUpAll(bcTest.setupBC);
+  
 
   group("Test Tournament", () {
+    setUpAll(bcTest.setupBC);
     var _divSetId = "testDivSet";
     var _tournamentCode = "testTournament";
     var _leaderboardId = "testTournamentLeaderboard";
@@ -124,15 +125,13 @@ void main() {
           .leaveTournament(leaderboardId: _leaderboardId);
 
       expect(response.statusCode, StatusCodes.ok);
-    });
 
-    /// END TEST
-    tearDownAll(() {
       bcTest.dispose();
     });
   });
 
   group("Test Group Tournament", () {
+    setUpAll(bcTest.setupBC);
     var _groupLeaderboardId = "groupTournament";
     var _divSetId = "bronzeGroup";
     var _tournamentCode = "testGroupTournament";
@@ -253,5 +252,10 @@ void main() {
 
       expect(response.statusCode, StatusCodes.ok);
     });
+    
+    // /// END TEST
+    // tearDownAll(() {
+    //   bcTest.dispose();
+    // });
   });
 }

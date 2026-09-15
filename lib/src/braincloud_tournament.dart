@@ -72,15 +72,14 @@ class BrainCloudTournament {
     return completer.future;
   }
 
-  /// Essentially the same as GetGroupTournamentStatus(), but takes a 
-  /// division set id instead of a leaderboard id as its parameter. Would 
-  /// generally be called before JoinGroupDivision() in the case that there 
-  /// are multiple tournaments, or if the group member is shown information 
-  /// to make an informed choice as to whether to join group in tournament.
-  ///
-  /// Service Name - tournament
-  /// Service Operation - GET_GROUP_DIVISION_INFO
-  ///
+/// Get the status of a group division
+/// Service Name - tournament
+/// Service Operation - GET_GROUP_DIVISION_INFO
+///
+/// @param divSetId The id for the division
+/// @param groupId The id of the group
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getGroupDivisionInfo(
       {required String divSetId, required String groupId}) {
     Completer<ServerResponse> completer = Completer();
@@ -103,13 +102,13 @@ class BrainCloudTournament {
     return completer.future;
   }
 
-  /// Returns a list of the member's group's recently active divisions, 
-  /// organized by simplified tournament state: ACTIVE, PENDING, 
-  /// COMPLETE.
-  ///
-  /// Service Name - tournament
-  /// Service Operation - GET_GROUP_DIVISIONS
-  /// 
+/// Returns list of group's recently active divisions
+/// Service Name - tournament
+/// Service Operation - GET_GROUP_DIVISIONS
+///
+/// @param groupId The id of the group
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getGroupDivisions({required String groupId}) {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -130,13 +129,15 @@ class BrainCloudTournament {
     return completer.future;
   }
 
-  /// Get tournament status associated with a leaderboard. Option parameter: 
-  /// leaderboard version id 'versionId'. If -1, defaults to current 
-  /// version.
-  ///
-  /// Service Name - tournament
-  /// Service Operation - GET_GROUP_TOURNAMENT_STATUS
-  ///
+/// Get tournament status associated with a group leaderboard
+/// Service Name - tournament
+/// Service Operation - GET_GROUP_TOURNAMENT_STATUS
+///
+/// @param leaderboardId The leaderboard for the tournament
+/// @param groupId The id of the group
+/// @param versionId Version of the tournament. Use -1 for the latest version.
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getGroupTournamentStatus(
       {required String leaderboardId,
       required String groupId,
@@ -215,17 +216,17 @@ class BrainCloudTournament {
     return completer.future;
   }
 
-  /// Join the specified division.
-  /// If joining requires a fee, it is possible to fail at joining the division
-  /// Service Name - tournament
-  /// Service Operation - JOIN_DIVISION
-  ///
-  /// @param divSetId The id for the division
-  /// @param tournamentCode Tournament to join
-  /// @param initialScore The initial score for players first joining a tournament
-  ///        Usually 0, unless leaderboard is LOW_VALUE
-  /// @return Future<ServerResponse>
-  ///
+/// Join the specified division.
+/// If joining requires a fee, it is possible to fail at joining the division
+/// Service Name - tournament
+/// Service Operation - JODIVISION
+///
+/// @param divSetId The id for the division
+/// @param tournamentCode Tournament to join
+/// @param initialScore The initial score for players first joining a tournament
+///        Usually 0, unless leaderboard is LOW_VALUE
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> joinDivision(
       {required String divSetId,
       required String tournamentCode,
@@ -251,12 +252,17 @@ class BrainCloudTournament {
     return completer.future;
   }
 
-  /// Similar to JoinGroupTournament(), except requires the division set 
-  /// id instead of the leaderboard id.
-  ///
-  /// Service Name - tournament
-  /// Service Operation - JOIN_GROUP_DIVISION
-  ///
+/// Join the specified group division.
+/// Service Name - tournament
+/// Service Operation - JOIN_GROUP_DIVISION
+///
+/// @param divSetId The id for the division
+/// @param tournamentCode Tournament to join
+/// @param groupId The id of the group
+/// @param initialScore The initial score for players first joining a tournament
+///        Usually 0, unless leaderboard is LOW_VALUE
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> joinGroupDivision(
       {required String divSetId,
       required String tournamentCode,
@@ -284,12 +290,17 @@ class BrainCloudTournament {
     return completer.future;
   }
 
-  /// Enrolls a member's group in the group tournament and assigns an 
-  /// initial score
-  ///
-  /// Service Name - tournament
-  /// Service Operation - JOIN_GROUP_TOURNAMENT
-  ///
+/// Join the specified group tournament.
+/// Service Name - tournament
+/// Service Operation - JOIN_GROUP_TOURNAMENT
+///
+/// @param leaderboardId The leaderboard for the tournament
+/// @param tournamentCode Tournament to join
+/// @param groupId The id of the group
+/// @param initialScore The initial score for players first joining a tournament
+///        Usually 0, unless leaderboard is LOW_VALUE
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> joinGroupTournament(
       {required String leaderboardId,
       required String tournamentCode,
@@ -317,17 +328,17 @@ class BrainCloudTournament {
     return completer.future;
   }
 
-  /// Join the specified tournament.
-  /// Any entry fees will be automatically collected.
-  /// Service Name - tournament
-  /// Service Operation - JOIN_TOURNAMENT
-  ///
-  /// @param leaderboardId The leaderboard for the tournament
-  /// @param tournamentCode Tournament to join
-  /// @param initialScore The initial score for players first joining a tournament
-  ///        Usually 0, unless leaderboard is LOW_VALUE
-  /// @return Future<ServerResponse>
-  ///
+/// Join the specified tournament.
+/// Any entry fees will be automatically collected.
+/// Service Name - tournament
+/// Service Operation - JOTOURNAMENT
+///
+/// @param leaderboardId The leaderboard for the tournament
+/// @param tournamentCode Tournament to join
+/// @param initialScore The initial score for players first joining a tournament
+///        Usually 0, unless leaderboard is LOW_VALUE
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> joinTournament(
       {required String leaderboardId,
       required String tournamentCode,
@@ -382,13 +393,14 @@ class BrainCloudTournament {
     return completer.future;
   }
 
-  /// Similar to LeaveGroupTournament(), but removes member's group from 
-  /// division instance and also ensures that the division instance is 
-  /// removed from the group's division list.
-  /// 
-  /// Service Name - tournament
-  /// Service Operation - LEAVE_GROUP_DIVISION_INSTANCE
-  /// 
+/// Removes group from division instance
+/// Service Name - tournament
+/// Service Operation - LEAVE_GROUP_DIVISION_INSTANCE
+///
+/// @param leaderboardId The leaderboard for the tournament
+/// @param groupId The id of the group
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> leaveGroupDivisionInstance(
       {required String leaderboardId, required String groupId}) {
     Completer<ServerResponse> completer = Completer();
@@ -411,12 +423,14 @@ class BrainCloudTournament {
     return completer.future;
   }
 
-  /// Allows a group member to remove the group's score from the tournament 
-  /// leaderboard
-  /// 
-  /// Service Name - tournament
-  /// Service Operation - LEAVE_GROUP_TOURNAMENT
-  /// 
+/// Removes group from tournament leaderboard
+/// Service Name - tournament
+/// Service Operation - LEAVE_GROUP_TOURNAMENT
+///
+/// @param leaderboardId The leaderboard for the tournament
+/// @param groupId The id of the group
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> leaveGroupTournament(
       {required String leaderboardId, required String groupId}) {
     Completer<ServerResponse> completer = Completer();
@@ -466,13 +480,17 @@ class BrainCloudTournament {
     return completer.future;
   }
 
-  /// Posts the given score for member's group to the group leaderboard. 
-  /// Group's score is updated, if applicable, based on leaderboard type 
-  /// (best score, latest score, cumulative score).
-  /// 
-  /// Service Name - tournament
-  /// Service Operation - POST_GROUP_TOURNAMENT_SCORE
-  ///
+/// Post the group's score to the tournament leaderboard
+/// Service Name - tournament
+/// Service Operation - POST_GROUP_TOURNAMENT_SCORE
+///
+/// @param leaderboardId The leaderboard for the tournament
+/// @param groupId The id of the group
+/// @param score The score to post
+/// @param jsonData Optional data attached to the leaderboard entry
+/// @param roundStartedTimeUTC Time the round started in UTC milliseconds since epoch
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> postGroupTournamentScore(
       {required String leaderboardId,
       required String groupId,
@@ -504,13 +522,22 @@ class BrainCloudTournament {
     return completer.future;
   }
 
-  /// Posts the given score for member's group to the group leaderboard and returns 
-  /// leaderboard results. Group's score is updated, if applicable, based on 
-  /// leaderboard type (best score, latest score, cumulative score).
-  /// 
-  /// Service Name - tournament
-  /// Service Operation - POST_GROUP_TOURNAMENT_SCORE_WITH_RESULTS
-  ///
+/// Post the group's score to the tournament leaderboard and return results
+/// Service Name - tournament
+/// Service Operation - POST_GROUP_TOURNAMENT_SCORE_WITH_RESULTS
+///
+/// @param leaderboardId The leaderboard for the tournament
+/// @param groupId The id of the group
+/// @param score The score to post
+/// @param jsonData Optional data attached to the leaderboard entry
+/// @param roundStartedTimeUTC Time the round started in UTC milliseconds since epoch
+/// @param sort Sort order of page
+/// @param beforeCount The count of number of players before the current player to include
+/// @param afterCount The count of number of players after the current player to include
+/// @param initialScore The initial score for players first joining a tournament
+///        Usually 0, unless leaderboard is LOW_VALUE
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> postGroupTournamentScoreWithResults(
       {required String leaderboardId,
       required String groupId,

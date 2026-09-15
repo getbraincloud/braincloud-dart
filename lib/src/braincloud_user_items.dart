@@ -14,17 +14,18 @@ class BrainCloudUserItems {
 
   BrainCloudUserItems(this._clientRef);
 
-  /// Awards item(s) to a user without collecting the purchase amount.
-  /// If includeDef is true, response includes associated itemDef
-  /// with language fields limited to the current or default language.
-  /// Service Name - userItems
-  /// Service Operation - AWARD_USER_ITEM
-  ///
-  /// @param defId The unique id of the item definition to award.
-  /// @param quantity The quantity of the item to award.
-  /// @param includeDef If true, include associated item definition in the response.
-  /// @return Future<ServerResponse>
-  ///
+/// Allows item(s) to be awarded to a user without collecting
+/// the purchase amount. If includeDef is true, response
+/// includes associated itemDef with language fields limited
+/// to the current or default language.
+/// @param defId
+/// @param quantity
+/// @param includeDef
+/// Service Name - userItems
+/// Service Operation - AWARD_USER_ITEM
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> awardUserItem(
       {required String defId,
       required int quantity,
@@ -50,16 +51,19 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Drops a quantity of a specified user item without recovering the purchase cost.
-  /// If any quantity remains, it may include the associated itemDef.
-  /// Service Name - userItems
-  /// Service Operation - DROP_USER_ITEM
-  ///
-  /// @param defId The unique id of the item definition to drop.
-  /// @param quantity The quantity of the item to drop.
-  /// @param includeDef If true, include associated item definition in the response.
-  /// @return Future<ServerResponse>
-  ///
+/// Allows a quantity of a specified user item to be dropped,
+/// without any recovery of the money paid for the item.
+/// If any quantity of the user item remains, it will be returned,
+/// potentially with the associated itemDef (with language fields
+/// limited to the current or default language).
+/// @param defId
+/// @param quantity
+/// @param includeDef
+/// Service Name - userItems
+/// Service Operation - DROP_USER_ITEM
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> dropUserItem(
       {required String itemId,
       required int quantity,
@@ -85,14 +89,17 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Retrieves a page of the user's inventory.
-  /// Service Name - userItems
-  /// Service Operation - GET_USER_INVENTORY_PAGE
-  ///
-  /// @param context Context string used to filter inventory.
-  /// @param includeDef If true, include associated item definitions in the response.
-  /// @return Future<ServerResponse>
-  ///
+/// Retrieves the page of user's inventory from the server
+/// based on the context. If includeDef is true, response
+/// includes associated itemDef with each user item, with
+/// language fields limited to the current or default language.
+/// @param context
+/// @param includeDef
+/// Service Name - userItems
+/// Service Operation - GET_USER_INVENTORY_PAGE
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getUserItemsPage(
       {required Map<String, dynamic> context, required bool includeDef}) {
     Completer<ServerResponse> completer = Completer();
@@ -116,15 +123,19 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Retrieves a page of the user's inventory with an offset.
-  /// Service Name - userItems
-  /// Service Operation - GET_USER_INVENTORY_PAGE_OFFSET
-  ///
-  /// @param context Context string used to filter inventory.
-  /// @param pageOffset Page offset to retrieve.
-  /// @param includeDef If true, include associated item definitions in the response.
-  /// @return Future<ServerResponse>
-  ///
+/// Retrieves the page of user's inventory from the server
+/// based on the encoded context. If includeDef is true,
+/// response includes associated itemDef with each user item,
+/// with language fields limited to the current or default
+/// language.
+/// @param context
+/// @param pageOffset
+/// @param includeDef
+/// Service Name - userItems
+/// Service Operation - GET_USER_INVENTORY_PAGE_OFFSET
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getUserItemsPageOffset(
       {required String context,
       required int pageOffset,
@@ -150,14 +161,17 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Retrieves a specific user item.
-  /// Service Name - userItems
-  /// Service Operation - GET_USER_ITEM
-  ///
-  /// @param itemId ID of the user item to retrieve.
-  /// @param includeDef If true, include associated item definition in the response.
-  /// @return Future<ServerResponse>
-  ///
+/// Retrieves the identified user item from the server.
+/// If includeDef is true, response includes associated
+/// itemDef with language fields limited to the current
+/// or default language.
+/// @param itemId
+/// @param includeDef
+/// Service Name - userItems
+/// Service Operation - GET_USER_ITEM
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> getUserItem(
       {required String itemId, required bool includeDef}) {
     Completer<ServerResponse> completer = Completer();
@@ -180,17 +194,16 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Gifts an item to another user.
-  /// Service Name - userItems
-  /// Service Operation - GIVE_USER_ITEM_TO
-  ///
-  /// @param profileId Profile ID of the recipient.
-  /// @param itemId ID of the item to gift.
-  /// @param version Version of the item being gifted.
-  /// @param quantity Quantity of the item to gift.
-  /// @param immediate If true, the gift is delivered immediately.
-  /// @return Future<ServerResponse>
-  ///
+/// Gifts item to the specified player.
+/// @param profileId
+/// @param itemId
+/// @param version
+/// @param immediate
+/// Service Name - userItems
+/// Service Operation - GIVE_USER_ITEM_TO
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> giveUserItemTo(
       {required String profileId,
       required String itemId,
@@ -220,16 +233,19 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Purchases a user item from a store.
-  /// Service Name - userItems
-  /// Service Operation - PURCHASE_USER_ITEM
-  ///
-  /// @param defId The unique id of the item definition to purchase.
-  /// @param quantity Quantity of the item to purchase.
-  /// @param shopId Store ID for the purchase.
-  /// @param includeDef If true, include associated item definition in the response.
-  /// @return Future<ServerResponse>
-  ///
+/// Retrieves the identified user item from the server.
+/// If includeDef is true, response includes associated
+/// itemDef with language fields limited to the current
+/// or default language.
+/// @param defId
+/// @param quantity
+/// @param shopId
+/// @param includeDef
+/// Service Name - userItems
+/// Service Operation - PURCHASE_USER_ITEM
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> purchaseUserItem(
       {required String defId,
       required int quantity,
@@ -257,14 +273,16 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Retrieves and transfers a gift item from another user.
-  /// Service Name - userItems
-  /// Service Operation - RECEIVE_USER_ITEM_FROM
-  ///
-  /// @param profileId Profile ID of the sender.
-  /// @param itemId ID of the item being received.
-  /// @return Future<ServerResponse>
-  ///
+/// Retrieves and transfers the gift item from
+/// the specified player, who must have previously
+/// called giveUserItemTo.
+/// @param profileId
+/// @param itemId
+/// Service Name - userItems
+/// Service Operation - RECEIVE_USER_ITEM_FROM
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> receiveUserItemFrom(
       {required String profileId, required String itemId}) {
     Completer<ServerResponse> completer = Completer();
@@ -287,21 +305,21 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Allows a quantity of a specified user item to be sold.
-  /// If any quantity of the user item remains, it will be returned,
-  /// potentially with the associated itemDef (with language fields
-  /// limited to the current or default language), along with the
-  /// currency refunded and currency balances.
-  /// Service Name - userItems
-  /// Service Operation - SELL_USER_ITEM
-  ///
-  /// @param itemId ID of the user item to sell.
-  /// @param version Version of the item being sold.
-  /// @param quantity Quantity of the item to sell.
-  /// @param shopId Store ID for the sale.
-  /// @param includeDef If true, include associated item definition in the response.
-  /// @return Future<ServerResponse>
-  ///
+/// Allows a quantity of a specified user item to be sold.
+/// If any quantity of the user item remains, it will be returned,
+/// potentially with the associated itemDef (with language fields
+/// limited to the current or default language), along with the
+/// currency refunded and currency balances.
+/// @param itemId
+/// @param version
+/// @param quantity
+/// @param shopId
+/// @param includeDef
+/// Service Name - userItems
+/// Service Operation - SELL_USER_ITEM
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> sellUserItem(
       {required String itemId,
       required int version,
@@ -331,15 +349,15 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Updates the data of a specific user item.
-  /// Service Name - userItems
-  /// Service Operation - UPDATE_USER_ITEM_DATA
-  ///
-  /// @param itemId ID of the user item to update.
-  /// @param version Version of the item being updated.
-  /// @param newItemData JSON string with updated item data.
-  /// @return Future<ServerResponse>
-  ///
+/// Updates the item data on the specified user item.
+/// @param itemId
+/// @param version
+/// @param newItemData
+/// Service Name - userItems
+/// Service Operation - UPDATE_USER_ITEM_DATA
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> updateUserItemData(
       {required String itemId,
       required int version,
@@ -366,16 +384,16 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Uses a user item, potentially consuming it.
-  /// Service Name - userItems
-  /// Service Operation - USE_USER_ITEM
-  ///
-  /// @param itemId ID of the user item to use.
-  /// @param version Version of the user item (pass -1 for any version).
-  /// @param newItemData Optional JSON string to update item fields.
-  /// @param includeDef If true, include associated item definition in the response.
-  /// @return Future<ServerResponse>
-  ///
+/// Uses the specified item, potentially consuming it.
+/// @param itemId
+/// @param version
+/// @param newItemData
+/// @param includeDef
+/// Service Name - userItems
+/// Service Operation - USE_USER_ITEM
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> useUserItem(
       {required String itemId,
       required int version,
@@ -404,14 +422,15 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Publishes a user item to the blockchain.
-  /// Service Name - userItems
-  /// Service Operation - PUBLISH_USER_ITEM_TO_BLOCKCHAIN
-  ///
-  /// @param itemId ID of the user item to publish.
-  /// @param version Version of the item to publish.
-  /// @return Future<ServerResponse>
-  ///
+/// Publishes the specified item to the item management attached blockchain. Results are reported asynchronously via an RTT event.
+/// @param itemId
+/// @param version
+/// @param newItemData
+/// Service Name - userItems
+/// Service Operation - PUBLISH_USER_ITEM_TO_BLOCKCHAIN
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> publishUserItemToBlockchain(
       {required String itemId, required int version}) {
     Completer<ServerResponse> completer = Completer();
@@ -434,12 +453,12 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Refreshes blockchain user items.
-  /// Service Name - userItems
-  /// Service Operation - REFRESH_BLOCKCHAUSER_ITEMS
-  ///
-  /// @return Future<ServerResponse>
-  ///
+/// Syncs the caller's user items with the item management attached blockchain. Results are reported asynchronously via an RTT event.
+/// Service Name - userItems
+/// Service Operation - REFRESH_BLOCKCHAUSER_ITEMS
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> refreshBlockchainUserItems() {
     Completer<ServerResponse> completer = Completer();
     Map<String, dynamic> data = {};
@@ -459,14 +478,12 @@ class BrainCloudUserItems {
     return completer.future;
   }
 
-  /// Removes a user item from the blockchain.
-  /// Service Name - userItems
-  /// Service Operation - REMOVE_USER_ITEM_FROM_BLOCKCHAIN
-  ///
-  /// @param itemId ID of the user item to remove.
-  /// @param version Version of the user item to remove.
-  /// @return Future<ServerResponse>
-  ///
+/// Removes the specified item from the item management attached blockchain. Results are reported asynchronously via an RTT event.
+/// Service Name - userItems
+/// Service Operation - REMOVE_USER_ITEM_FROM_BLOCKCHAIN
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> removeUserItemFromBlockchain(
       {required String itemId, required int version}) {
     Completer<ServerResponse> completer = Completer();

@@ -4,9 +4,7 @@ import 'dart:convert';
 
 import 'dart:io' as io show Platform;
 
-import '/src/reason_codes.dart';
 import '/src/server_response.dart';
-import '/src/status_codes.dart';
 import '/src/common/platform.dart';
 import '/src/internal/braincloud_comms.dart';
 import '/src/internal/relay_comms.dart'
@@ -19,6 +17,7 @@ import '/src/braincloud_app_store.dart';
 import '/src/braincloud_async_match.dart';
 import '/src/braincloud_authentication.dart';
 import '/src/braincloud_blockchain.dart';
+import '/src/braincloud_campaign.dart';
 import '/src/braincloud_chat.dart';
 import '/src/braincloud_entity.dart';
 import '/src/braincloud_custom_entity.dart';
@@ -120,6 +119,7 @@ class BrainCloudClient {
   late BrainCloudMail _mailService;
   late BrainCloudMessaging _messagingService;
   late BrainCloudBlockchain _blockchain;
+  late BrainCloudCampaign _campaign;
   late BrainCloudGroupFile _groupFileService;
 
   // RTT service
@@ -205,6 +205,7 @@ class BrainCloudClient {
     _rsService = BrainCloudRelay(_rsComms, this);
 
     _blockchain = BrainCloudBlockchain(this);
+    _campaign = BrainCloudCampaign(this);
   }
   //---------------------------------------------------------------
 
@@ -341,6 +342,8 @@ class BrainCloudClient {
   BrainCloudRelay get relayService => _rsService;
 
   BrainCloudBlockchain get blockchainService => _blockchain;
+
+  BrainCloudCampaign get campaignService => _campaign;
 
   BrainCloudGroupFile get groupFileService => _groupFileService;
 
@@ -520,12 +523,13 @@ class BrainCloudClient {
     _comms.deregisterEventCallback();
   }
 
-  void registerLongSessionCallback(LongSessionCallback longSessionCallback) {
-    _comms.registerLongSessionCallback(longSessionCallback);
+  void registerAutoReconnectCallback(
+      AutoReconnectCallback autoReconnectCallback) {
+    _comms.registerAutoReconnectCallback(autoReconnectCallback);
   }
 
-  void deregisterLongSessionCallback() {
-    _comms.deregisterLongSessionCallback();
+  void deregisterAutoReconnectCallback() {
+    _comms.deregisterAutoReconnectCallback();
   }
 
   /// Sets a reward handler for any api call results that return rewards.

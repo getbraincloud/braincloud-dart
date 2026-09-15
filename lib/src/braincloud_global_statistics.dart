@@ -15,12 +15,12 @@ class BrainCloudGlobalStatistics {
 
   BrainCloudGlobalStatistics(this._clientRef);
 
-  /// Method returns all of the global statistics.
-  /// Service Name - globalGameStatistics
-  /// Service Operation - READ
-  ///
-  /// @return Future<ServerResponse>
-  ///
+/// Method returns all of the global statistics.
+/// Service Name - GlobalStatistics
+/// Service Operation - Read
+///
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> readAllGlobalStats() {
     Completer<ServerResponse> completer = Completer();
     ServerCallback? callback = BrainCloudClient.createServerCallback(
@@ -37,17 +37,17 @@ class BrainCloudGlobalStatistics {
     return completer.future;
   }
 
-  /// Reads a subset of global statistics as defined by the input collection.
-  /// Service Name - globalGameStatistics
-  /// Service Operation - READ_SUBSET
-  ///
-  /// @param statistics A collection containing the statistics to read:
-  ///        [
-  ///        "Level01_TimesBeaten",
-  ///        "Level02_TimesBeaten"
-  ///        ]
-  /// @return Future<ServerResponse>
-  ///
+/// Reads a subset of global statistics as defined by the input collection.
+/// Service Name - GlobalStatistics
+/// Service Operation - ReadSubset
+///
+/// @param statistics A collection containing the statistics to read:
+///        [
+///        "Level01_TimesBeaten",
+///        "Level02_TimesBeaten"
+///        ]
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> readGlobalStatsSubset(
       {required List<String> statistics}) {
     Completer<ServerResponse> completer = Completer();
@@ -68,13 +68,13 @@ class BrainCloudGlobalStatistics {
     return completer.future;
   }
 
-  /// Method retrieves the global statistics for the given category.
-  /// Service Name - globalGameStatistics
-  /// Service Operation - READ_FOR_CATEGORY
-  ///
-  /// @param category The global statistics category
-  /// @return Future<ServerResponse>
-  ///
+/// Method retrieves the global statistics for the given category.
+/// Service Name - GlobalStatistics
+/// Service Operation - READ_FOR_CATEGORY
+///
+/// @param category The global statistics category
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> readGlobalStatsForCategory(
       {required String category}) {
     Completer<ServerResponse> completer = Completer();
@@ -144,20 +144,20 @@ class BrainCloudGlobalStatistics {
     return completer.future;
   }
 
-  /// Apply statistics grammar to a partial set of statistics.
-  /// Service Name - globalGameStatistics
-  /// Service Operation - PROCESS_STATISTICS
-  ///
-  /// @param jsonData The JSON format is as follows:
-  ///        {
-  ///        "DEAD_CATS": "RESET",
-  ///        "LIVES_LEFT": "SET#9",
-  ///        "MICE_KILLED": "INC#2",
-  ///        "DOG_SCARE_BONUS_POINTS": "INC#10",
-  ///        "TREES_CLIMBED": 1
-  ///        }
-  /// @return Future<ServerResponse>
-  ///
+/// Apply statistics grammar to a partial set of statistics.
+/// Service Name - GlobalStatistics
+/// Service Operation - PROCESS_STATISTICS
+///
+/// @param jsonData The JSON format is as follows:
+///        {
+///        "DEAD_CATS": "RESET",
+///        "LIVES_LEFT": "SET#9",
+///        "MICE_KILLED": "INC#2",
+///        "DOG_SCARE_BONUS_POINTS": "INC#10",
+///        "TREES_CLIMBED": 1
+///        }
+/// @return Future<ServerResponse>
+///
   Future<ServerResponse> processStatistics(
       {required Map<String, dynamic> statistics}) {
     Completer<ServerResponse> completer = Completer();

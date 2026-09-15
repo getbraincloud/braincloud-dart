@@ -39,6 +39,8 @@ class ServiceOperation {
   static ServiceOperation getBlockchainItems =
       ServiceOperation._("GET_BLOCKCHAIN_ITEMS");
   static ServiceOperation getUniqs = ServiceOperation._("GET_UNIQS");
+  static ServiceOperation getMyCampaigns =
+      ServiceOperation._("GET_MY_CAMPAIGNS");
 
   static ServiceOperation create = ServiceOperation._("CREATE");
   static ServiceOperation createWithIndexedId =
@@ -744,8 +746,12 @@ class ServiceOperation {
   static ServiceOperation findLobbyWithPingData =
       ServiceOperation._("FIND_LOBBY_WITH_PING_DATA");
   static ServiceOperation createLobby = ServiceOperation._("CREATE_LOBBY");
+  static ServiceOperation createLobbyWithConfig =
+      ServiceOperation._("CREATE_LOBBY_WITH_CONFIG");
   static ServiceOperation createLobbyWithPingData =
       ServiceOperation._("CREATE_LOBBY_WITH_PING_DATA");
+  static ServiceOperation createLobbyWithConfigAndPingData =
+      ServiceOperation._("CREATE_LOBBY_WITH_CONFIG_AND_PING_DATA");
   static ServiceOperation findOrCreateLobby =
       ServiceOperation._("FIND_OR_CREATE_LOBBY");
   static ServiceOperation findOrCreateLobbyWithPingData =
