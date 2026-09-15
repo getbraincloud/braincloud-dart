@@ -950,14 +950,35 @@ class BrainCloudLobby {
     print("Region: $region - Target: $target");
 
     var ping = Ping(target, count: 1, timeout: 10); // timeout is in seconds
+
+    // Every outcome must advance the ping chain exactly once. _pingNextItemToProcess
+    // is what pops the next target and, on the last one, completes pingRegions'
+    // completer — so any path that returns without calling it hangs the caller
+    // forever, with no timeout of its own.
+    var handled = false;
+    void advance(void Function() action) {
+      if (handled) return;
+      handled = true;
+      action();
+      ping.stop();
+    }
+
     ping.stream.listen((event) {
       if (event.response != null) {
-        _handlePingTimeResponse(
-            event.response?.time?.inMilliseconds ?? 0, region);
+        advance(() => _handlePingTimeResponse(
+            event.response?.time?.inMilliseconds ?? 0, region));
+      } else if (event.error != null || event.summary != null) {
+        // dart_ping reports failures as DATA events carrying an error, not as stream
+        // errors, so this — not onError — is the branch that fires when ICMP is
+        // blocked or ping's platform-specific output can't be parsed (routinely the
+        // case on Windows). Previously this case only called ping.stop(), leaving the
+        // chain dead and pingRegions awaiting a completer nothing would ever complete.
+        advance(_pingNextItemToProcess);
       }
-      ping.stop();
-    }).onError((error) {
-      _pingNextItemToProcess();
+    }, onError: (error) {
+      advance(_pingNextItemToProcess);
+    }, onDone: () {
+      advance(_pingNextItemToProcess);
     });
   }
 
