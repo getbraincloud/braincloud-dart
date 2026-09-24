@@ -49,6 +49,12 @@ class BrainCloudComms {
   /// Reference to the brainCloud client dynamic
   final BrainCloudClient _clientRef;
 
+  /// One client for every request, instead of the one-shot client
+  /// `BaseRequest.send()` creates and closes internally on each call.
+  
+  http.Client? _httpClientInstance;
+  http.Client get _httpClient => _httpClientInstance ??= http.Client();
+
   /// Set to true once Initialize has been called.
   bool _initialized = false;
 
@@ -516,6 +522,8 @@ class BrainCloudComms {
 
   /// Shuts down the communications layer.
   void shutDown() {
+    _httpClientInstance?.close();
+    _httpClientInstance = null;
     _serviceCallsWaiting.clear();
 
     _disposeUploadHandler();
@@ -1348,8 +1356,8 @@ class BrainCloudComms {
             : packetTimeouts.last);
     final requestTimeout = Duration(seconds: timeoutSecs);
 
-    return req
-        .send()
+    return _httpClient
+        .send(req)
         .timeout(requestTimeout)
         .then((result) => http.Response.fromStream(result)
             .timeout(requestTimeout)
