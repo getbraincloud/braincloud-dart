@@ -68,9 +68,10 @@ void main() {
       } else {
         print("${DateTime.now()}:TST-> onFailed for other reason: $jsonError");
         var errorMap = jsonError;
+        final failMessage = (errorMap['status_message'] ?? '') as String;
         if (errorMap['reason_code'] == 90300 &&
-            errorMap['status_message'] == 'Relay: Disconnected by server')
-          failureCount++;
+            (failMessage == 'Relay: Disconnected by server' ||
+                failMessage.contains('Relay Socket Timeout'))) failureCount++;
         disconnectRelay();
         await Future.delayed(
             Duration(seconds: 2)); // let the connection be fully closed
