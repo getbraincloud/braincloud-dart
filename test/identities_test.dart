@@ -362,14 +362,30 @@ main() {
     });
 
     test("attachAndDetachBlockchain", () async {
+      // "config" is not a placeholder - it is the literal name the app's blockchain
+      // config must have for this to work, so a 400 here is normally app setup rather
+      // than a client bug. Print the reason code: without it the only evidence is a
+      // bare "Expected: <200> Actual: <400>" with nothing to act on.
       ServerResponse response = await bcTest.bcWrapper.identityService
           .attachBlockChainIdentity(
               blockchainConfig: "config", publicKey: "ehhhwwwhhhhh2");
+
+      if (response.statusCode != 200) {
+        print(
+            "attachBlockChainIdentity failed: status=${response.statusCode} "
+            "reason=${response.reasonCode} error=${response.error}");
+      }
 
       expect(response.statusCode, 200);
 
       response = await bcTest.bcWrapper.identityService
           .detachBlockChainIdentity(blockchainConfig: "config");
+
+      if (response.statusCode != 200) {
+        print(
+            "detachBlockChainIdentity failed: status=${response.statusCode} "
+            "reason=${response.reasonCode} error=${response.error}");
+      }
 
       expect(response.statusCode, 200);
     });
