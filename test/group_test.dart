@@ -415,16 +415,7 @@ void main() {
     });
 
     // Fixture for the two auto-join tests below.
-    //
-    // autoJoinGroup and autoJoinGroupMulti each consume one OPEN group of type "test"
-    // that the calling user is not already a member of, and this file creates none that
-    // qualify - the open group made further up is owned by this same user, so it is not
-    // an auto-join candidate. Without a fixture both tests silently feed on groups left
-    // behind by earlier runs. That pool is deep on a long-lived environment and empty on
-    // a fresh one, which is exactly why they pass on internal and return 40468 ("No
-    // matching group found") on internala: the group TYPE config matches, the group
-    // INSTANCES do not. Create two candidates as the other user so the outcome no longer
-    // depends on how long the environment has been running tests.
+
     List<String> autoJoinFixtureIds = [];
 
     test("autoJoin fixture - create open groups", () async {

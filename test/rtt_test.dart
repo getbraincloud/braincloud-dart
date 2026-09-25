@@ -223,15 +223,8 @@ main() {
       String remoteUrl = _getConnectUrl(connectionDetails);
       final proxyWSServer = WebSocketProxy(remoteUrl);
 
-      // Point the client at the proxy, but keep the REAL auth headers.
-      //
-      // The proxy forwards to the live RTT server, and that server validates auth twice:
-      // once from the handshake query string (which _getConnectUrl built from the real
-      // details) and again from the auth block inside the CONNECT payload, which
-      // rtt_comms fills from whatever rttConnectionServerSuccess stored in _rttHeaders.
-      // Passing placeholder credentials here therefore gets the socket closed during
-      // connect, so rttConnected never completes and the disconnect this test actually
-      // exists to verify never gets exercised.
+      // Point the client at the proxy, but keep the real auth headers.
+
       Map<String, dynamic> localConnectionInfo = {
         'status': 200,
         'data': {
@@ -266,9 +259,6 @@ main() {
           "[4] rttConnectionServerSuccess called with ${localConnectionInfo}");
 
       try {
-        // Now wait for RTT to confirm connection. Bounded: an un-timed await on a
-        // completer that never fires costs the whole suite the default test timeout
-        // and reports only a bare isolate stack instead of the reason below.
         bool connectResult = await rttConnected.future.timeout(
             Duration(seconds: 20),
             onTimeout: () =>
@@ -290,8 +280,6 @@ main() {
 
         expect(result, true, reason: "Did not detect the webslocket closing.");
       } finally {
-        // Without this the proxy survives a failed run and keeps WSProxyPort bound,
-        // so the next run fails to bind instead of reporting the real problem.
         await proxyWSServer.stopProxy();
       }
     }, timeout: Timeout.parse("90s"),
