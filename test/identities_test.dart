@@ -362,13 +362,16 @@ main() {
     });
 
     test("attachAndDetachBlockchain", () async {
-      // "config" is not a placeholder - it is the literal name the app's blockchain
-      // config must have for this to work, so a 400 here is normally app setup rather
-      // than a client bug. Print the reason code: without it the only evidence is a
-      // bare "Expected: <200> Actual: <400>" with nothing to act on.
+      // The public key must be unique per run, not a fixed literal.
+      final publicKey =
+          "dartPublicKey${DateTime.now().millisecondsSinceEpoch}";
+
+      // "config" is the literal name the app's blockchain config must carry. Print the
+      // reason code on failure: without it the only evidence is a bare
+      // "Expected: <200> Actual: <400>" with nothing to act on.
       ServerResponse response = await bcTest.bcWrapper.identityService
           .attachBlockChainIdentity(
-              blockchainConfig: "config", publicKey: "ehhhwwwhhhhh2");
+              blockchainConfig: "config", publicKey: publicKey);
 
       if (response.statusCode != 200) {
         print(

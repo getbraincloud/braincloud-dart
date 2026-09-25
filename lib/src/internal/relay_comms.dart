@@ -432,20 +432,19 @@ class RelayComms {
 
       // Process reliable resends
       if (_connectionType == RelayConnectionType.udp) {
-        _reliables.values.forEach((value) {
-          _UDPPacket packet = value;
-          if (packet.timeSinceFirstSend.difference(nowMS).inMilliseconds >
+        for (final packet in _reliables.values.toList()) {
+          if (nowMS.difference(packet.timeSinceFirstSend).inSeconds >
               TIMEOUT_SECONDS) {
             disconnect();
-            _queueErrorEvent("Relay d_isConnected, too many packet lost");
-            //break;
+            _queueErrorEvent("Relay disconnected, too many packet lost");
+            break;
           }
-          if (packet.lastTimeSent.difference(nowMS).inMilliseconds >
+          if (nowMS.difference(packet.lastTimeSent).inMilliseconds >
               packet.timeInterval) {
             packet.updateTimeIntervalSent();
             _send(packet.rawData);
           }
-        }); //for (var kv in _reliables)
+        }
       }
     }
 
