@@ -414,6 +414,40 @@ void main() {
       }     
     });
 
+    // Fixture for the two auto-join tests below.
+    //
+    // autoJoinGroup and autoJoinGroupMulti each consume one OPEN group of type "test"
+    // that the calling user is not already a member of, and this file creates none that
+    // qualify - the open group made further up is owned by this same user, so it is not
+    // an auto-join candidate. Without a fixture both tests silently feed on groups left
+    // behind by earlier runs. That pool is deep on a long-lived environment and empty on
+    // a fresh one, which is exactly why they pass on internal and return 40468 ("No
+    // matching group found") on internala: the group TYPE config matches, the group
+    // INSTANCES do not. Create two candidates as the other user so the outcome no longer
+    // depends on how long the environment has been running tests.
+    List<String> autoJoinFixtureIds = [];
+
+    test("autoJoin fixture - create open groups", () async {
+      userToAuth = userB;
+      await reAuth();
+
+      for (var i = 0; i < 2; i++) {
+        ServerResponse response = await bcTest.bcWrapper.groupService
+            .createGroup(
+                name: "autoJoinTarget$i",
+                groupType: "test",
+                isOpenGroup: true,
+                data: {"test": "autoJoin"});
+
+        expect(response.statusCode, StatusCodes.ok);
+        autoJoinFixtureIds.add(response.data?["groupId"]);
+      }
+
+      // Back to userA, who is not a member of either, so both can be auto-joined.
+      userToAuth = userA;
+      await reAuth();
+    });
+
     test("autoJoinGroup()", () async {
       ServerResponse response = await bcTest.bcWrapper.groupService
           .autoJoinGroup(
@@ -432,6 +466,26 @@ void main() {
               autoJoinStrategy: AutoJoinStrategy.joinFirstGroup);
 
       expect(response.statusCode, StatusCodes.ok);
+    });
+
+    // Delete the fixture rather than leaving it behind. joinFirstGroup may well have
+    // picked older leftover groups instead of these two, so this is not guaranteed to
+    // remove what was actually joined - the point is that this file stops ADDING to the
+    // orphan pile every run.
+    test("autoJoin fixture - cleanup", () async {
+      userToAuth = userB;
+      await reAuth();
+
+      for (final id in autoJoinFixtureIds) {
+        ServerResponse response = await bcTest.bcWrapper.groupService
+            .deleteGroup(groupId: id, version: -1);
+        if (response.statusCode != StatusCodes.ok) {
+          print("autoJoin fixture cleanup: could not delete $id -> $response");
+        }
+      }
+
+      userToAuth = userA;
+      await reAuth();
     });
 
     test("GetRandomGroupsMatching()", () async {

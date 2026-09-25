@@ -191,22 +191,6 @@ main() {
     });
 
     test("RTT websocket disconnect", () async {
-      Map<String, dynamic> localConnectionInfo = {
-        'status': 200,
-        'data': {
-          'auth': {'X-APPID': 20001, 'X-RTT-SECRET': 'mysecret1'},
-          'endpoints': [
-            {
-              "protocol": "ws",
-              "port": bcTest.ids.WSProxyPort,
-              "host": "localhost",
-              "ssl": false,
-              "ca": "GoDaddy"
-            }
-          ]
-        }
-      };
-
       Completer<Map<String, dynamic>> conncetionCompleted = Completer();
       Completer<bool> rttConnected = Completer();
       Completer<bool> testCompleted = Completer();
@@ -239,6 +223,31 @@ main() {
       String remoteUrl = _getConnectUrl(connectionDetails);
       final proxyWSServer = WebSocketProxy(remoteUrl);
 
+      // Point the client at the proxy, but keep the REAL auth headers.
+      //
+      // The proxy forwards to the live RTT server, and that server validates auth twice:
+      // once from the handshake query string (which _getConnectUrl built from the real
+      // details) and again from the auth block inside the CONNECT payload, which
+      // rtt_comms fills from whatever rttConnectionServerSuccess stored in _rttHeaders.
+      // Passing placeholder credentials here therefore gets the socket closed during
+      // connect, so rttConnected never completes and the disconnect this test actually
+      // exists to verify never gets exercised.
+      Map<String, dynamic> localConnectionInfo = {
+        'status': 200,
+        'data': {
+          'auth': connectionDetails['data']['auth'],
+          'endpoints': [
+            {
+              "protocol": "ws",
+              "port": bcTest.ids.WSProxyPort,
+              "host": "localhost",
+              "ssl": false,
+              "ca": "GoDaddy"
+            }
+          ]
+        }
+      };
+
       // Start proxy server
       proxyWSServer.startProxy(port: bcTest.ids.WSProxyPort);
       print("[3] Got the proxyingWebSocket ready to interfere with it now.");
@@ -256,23 +265,37 @@ main() {
       print(
           "[4] rttConnectionServerSuccess called with ${localConnectionInfo}");
 
-      // Now wait for RTT to confirm connection.
-      bool connectResult = await rttConnected.future;
+      try {
+        // Now wait for RTT to confirm connection. Bounded: an un-timed await on a
+        // completer that never fires costs the whole suite the default test timeout
+        // and reports only a bare isolate stack instead of the reason below.
+        bool connectResult = await rttConnected.future.timeout(
+            Duration(seconds: 20),
+            onTimeout: () =>
+                fail("RTT never confirmed a connection through the proxy"));
 
-      expect(connectResult, true, reason: "Did not get connected to RTT");
+        expect(connectResult, true, reason: "Did not get connected to RTT");
 
-      print(
-          "[5] TST did receive the proxyWS that can be close for testing purposes.");
+        print(
+            "[5] TST did receive the proxyWS that can be close for testing purposes.");
 
-      await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(Duration(seconds: 2));
 
-      // Tell the proxy to drop the connection. this will be viewed as the connection drop from the remote end.
-      proxyWSServer.simulateConnectionDrop();
+        // Tell the proxy to drop the connection. this will be viewed as the connection drop from the remote end.
+        proxyWSServer.simulateConnectionDrop();
 
-      bool result = await testCompleted.future;
+        bool result = await testCompleted.future.timeout(Duration(seconds: 20),
+            onTimeout: () => fail(
+                "No close callback arrived after the proxy dropped the connection"));
 
-      expect(result, true, reason: "Did not detect the webslocket closing.");
-    }, onPlatform: {'browser': Skip('Mock Proxy WS does not work on Web.')});
+        expect(result, true, reason: "Did not detect the webslocket closing.");
+      } finally {
+        // Without this the proxy survives a failed run and keeps WSProxyPort bound,
+        // so the next run fails to bind instead of reporting the real problem.
+        await proxyWSServer.stopProxy();
+      }
+    }, timeout: Timeout.parse("90s"),
+        onPlatform: {'browser': Skip('Mock Proxy WS does not work on Web.')});
 
     test("enableRTT - No Auth", () async {
       bcTest.bcWrapper.rttService.disableRTT();

@@ -631,6 +631,10 @@ main() {
 
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .getListCountWithHint(where: where, hintJson: hint);
+      if (response.reasonCode == ReasonCodes.insufficientPermissions) {
+        markTestSkipped("Index hints not permitted for this app.");
+        return;
+      }
       expect(response.statusCode, 200);
       expect(response.data, isMap);
       if (response.data != null) {
@@ -653,6 +657,10 @@ main() {
               orderBy: orderBy,
               maxReturn: 2,
               hintJson: hint);
+      if (response.reasonCode == ReasonCodes.insufficientPermissions) {
+        markTestSkipped("Index hints not permitted for this app.");
+        return;
+      }
       expect(response.statusCode, 200);
       expect(response.data, isMap);
       if (response.data != null) {
@@ -736,6 +744,10 @@ main() {
       ServerResponse response = await bcTest.bcWrapper.globalEntityService
           .getRandomEntitiesMatchingWithHint(
               where: where, hintJson: hint, maxReturn: 2);
+      if (response.reasonCode == ReasonCodes.insufficientPermissions) {
+        markTestSkipped("Index hints not permitted for this app.");
+        return;
+      }
       expect(response.statusCode, 200);
       expect(response.data, isMap);
       if (response.data != null) {
