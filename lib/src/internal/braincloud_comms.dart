@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:typed_data';
 
-import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 
 import '/src/internal/end_of_bundle_marker.dart';
 import '/src/internal/file_uploader.dart';
 import '/src/internal/operation_param.dart';
+import '/src/internal/protected_secret.dart';
 import '/src/internal/request_state.dart';
 import '/src/internal/server_call.dart';
 import '/src/internal/service_name.dart';
@@ -165,16 +165,7 @@ class BrainCloudComms {
   String get getAppId => _appId ?? "";
   String get getSessionID => _sessionId ?? "";
 
-  String get getSecretKey {
-    if (getAppIdSecretMap.containsKey(getAppId)) {
-      return getAppIdSecretMap[getAppId]!;
-    } else {
-      return "NO SECRET DEFINED FOR '$getAppId'";
-    }
-  }
-
-  late Map<String, String> _appIdSecretMap;
-  Map<String, String> get getAppIdSecretMap => _appIdSecretMap;
+  late Map<String, ProtectedSecret> _appIdSecretMap;
 
   String _serverURL = "";
   String get getServerURL => _serverURL;
@@ -235,7 +226,7 @@ class BrainCloudComms {
     _uploadURL = formatURL;
     _uploadURL += "/uploader";
 
-    getAppIdSecretMap[appId] = secretKey;
+    _appIdSecretMap[appId] = ProtectedSecret(secretKey);
     _appId = appId;
 
     _blockingQueue = false;
@@ -251,11 +242,12 @@ class BrainCloudComms {
   /// @param appIdSecretMapmap of appId -> secrets, to allow the client to safely switch between apps with secret being secure
   void initializeWithApps(String serverURL, String defaultAppId,
       Map<String, String> appIdSecretMap) {
-    getAppIdSecretMap.clear();
-    _appIdSecretMap = appIdSecretMap;
+    initialize(serverURL, defaultAppId, appIdSecretMap[defaultAppId] ?? "");
 
-
-    initialize(serverURL, defaultAppId, getAppIdSecretMap[defaultAppId] ?? "");
+    _appIdSecretMap = {
+      for (final entry in appIdSecretMap.entries)
+        entry.key: ProtectedSecret(entry.value)
+    };
   }
 
   void registerEventCallback(EventCallback cb) {
@@ -1296,9 +1288,8 @@ class BrainCloudComms {
         requestState.messageList;
 
     String jsonRequestString = serializeJson(packet);
-    String sig = _calculateMD5Hash("$jsonRequestString$getSecretKey");
-
     Uint8List byteArray = utf8.encode(jsonRequestString);
+    String sig = _signRequest(byteArray);
 
     requestState.signature = sig;
 
@@ -1516,8 +1507,19 @@ class BrainCloudComms {
     _packetId = 0;
   }
 
-  String _calculateMD5Hash(String input) {
-    return md5.convert(utf8.encode(input)).toString();
+  /// Signs [payloadBytes] with the secret registered for the current app,
+  /// without ever holding a copy of the secret in a plain string -- the
+  /// payload and secret bytes are hashed as two separate chunks (equivalent
+  /// to hashing them concatenated) so the secret's real bytes only exist for
+  /// the duration of this call.
+  String _signRequest(List<int> payloadBytes) {
+    final secret = _appIdSecretMap[getAppId];
+    if (secret == null) {
+      final fallback = utf8.encode("NO SECRET DEFINED FOR '$getAppId'");
+      return calculateChunkedMd5(payloadBytes, fallback);
+    }
+    return secret.useBytes(
+        (secretBytes) => calculateChunkedMd5(payloadBytes, secretBytes));
   }
 
   /// Handles authenticate-specific data from successful request
