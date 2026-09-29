@@ -270,14 +270,11 @@ class BrainCloudAuthentication {
     List<int>? salt,
     String teamPlayerId = "",
   }) {
-    if (salt != null &&
-        salt.isNotEmpty &&
-        signature != null &&
-        signature.isNotEmpty &&
+    if (salt != null && salt.isNotEmpty &&
+        signature != null && signature.isNotEmpty &&
         publicKeyUrl.isNotEmpty &&
         timestamp > 0) {
-      final teamPlayerIdJson =
-          teamPlayerId.isNotEmpty ? '"$teamPlayerId"' : 'null';
+      final teamPlayerIdJson = teamPlayerId.isNotEmpty ? '"$teamPlayerId"' : 'null';
       final tokenJson =
           '{"playerId":$teamPlayerIdJson,"timestamp":$timestamp,"publicKeyUrl":"$publicKeyUrl","signature":"${base64Encode(signature)}","salt":"${base64Encode(salt)}"}';
       return base64Encode(utf8.encode(tokenJson));

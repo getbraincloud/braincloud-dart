@@ -2,7 +2,7 @@
 
 * New EpicGames APIs:
   * Added `authenticateEpicGames` to the Authentication service
-  * Added `attachEpicGamesIdentity`, `attachEpicGamesIdentity`, and `attachEpicGamesIdentity` to Identity service
+  * Added `attachEpicGamesIdentity`, `mergeEpicGamesIdentity`, and `detachEpicGamesIdentity` to Identity service
   * Added `authenticateEpicGames` and `smartSwitchAuthenticateEpicGames` to the brainCloud Wrapper
 * `epicGames` and `xsolla` are now accepted as a `storeId` in various AppStore service operations
 
