@@ -676,14 +676,14 @@ class BrainCloudIdentity {
     return _attachIdentity(userId, password, AuthenticationType.universal);
   }
 
-/// Merge the profile associated with the provided userId with the current profile.
-/// Service Name - identity
-/// Service Operation - Merge
-///
-/// @param userId The user's userid
-/// @param password The user's password
-/// @return Future<ServerResponse>
-///
+  /// Merge the profile associated with the provided userId with the current profile.
+  /// Service Name - identity
+  /// Service Operation - Merge
+  ///
+  /// @param userId The user's userid
+  /// @param password The user's password
+  /// @return Future<ServerResponse>
+  ///
   Future<ServerResponse> mergeUniversalIdentity(
       {required String userId, required String password}) {
     return _mergeIdentity(userId, password, AuthenticationType.universal);
@@ -706,14 +706,14 @@ class BrainCloudIdentity {
     return _detachIdentity(userId, AuthenticationType.universal, continueAnon);
   }
 
-/// Attach a Steam (userid + steamsessionticket) identity to the current profile.
-/// Service Name - identity
-/// Service Operation - Attach
-///
-/// @param steamId String representation of 64 bit steam id
-/// @param sessionTicket The user's session ticket (hex encoded)
-/// @return Future<ServerResponse>
-///
+  /// Attach a Steam (userid + steamsessionticket) identity to the current profile.
+  /// Service Name - identity
+  /// Service Operation - Attach
+  ///
+  /// @param steamId String representation of 64 bit steam id
+  /// @param sessionTicket The user's session ticket (hex encoded)
+  /// @return Future<ServerResponse>
+  ///
   Future<ServerResponse> attachSteamIdentity(
       {required String steamId, required String sessionTicket}) {
     return _attachIdentity(steamId, sessionTicket, AuthenticationType.steam);
@@ -869,11 +869,8 @@ class BrainCloudIdentity {
   /// Service Name - identity
   /// Service Operation - Attach
   ///
-  /// @param appleUserId
-  /// This can be the user id OR the email of the user for the account
-  ///
-  /// @param identityToken
-  /// The token confirming the user's identity
+  /// @param appleUserId String of the apple accounts user Id OR email
+  /// @param identityToken The identityToken confirming users identity
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> attachAppleIdentity(
@@ -882,16 +879,15 @@ class BrainCloudIdentity {
         appleId, authenticationToken, AuthenticationType.apple);
   }
 
-/// Merge the profile associated with the provided Apple credentials with the
-/// current profile.
-/// Service Name - identity
-/// Service Operation - Merge
-///
-/// @param appleId The apple id of the user
-/// @param authenticationToken The validated token from the Apple SDK
-///        (that will be further validated when sent to the bC service)
-/// @return Future<ServerResponse>
-///
+  /// Merge the profile associated with the provided Apple credentials with the
+  /// current profile.
+  /// Service Name - identity
+  /// Service Operation - Merge
+  ///
+  /// @param appleUserId String of the apple accounts user Id OR email
+  /// @param identityToken The identityToken confirming users identity
+  /// @return Future<ServerResponse>
+  ///
   Future<ServerResponse> mergeAppleIdentity(
       {required String appleUserId, required String identityToken}) {
     return _mergeIdentity(appleUserId, identityToken, AuthenticationType.apple);
@@ -902,16 +898,61 @@ class BrainCloudIdentity {
   /// Service Name - identity
   /// Service Operation - Detach
   ///
-  /// @param appleUserId
-  /// This can be the user id OR the email of the user for the account
-  ///
-  /// @param continueAnon
-  /// Proceed even if the profile will revert to anonymous?
+  /// @param appleUserId String of the apple accounts user Id OR email
+  /// @param continueAnon Proceed even if the profile will revert to anonymous?
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> detachAppleIdentity(
       {required String appleUserId, required bool continueAnon}) async {
     return _detachIdentity(appleUserId, AuthenticationType.apple, continueAnon);
+  }
+
+  /// Attach the user's EpicGames credentials to the current profile.
+  ///
+  /// Service Name - identity
+  /// Service Operation - Attach
+  ///
+  /// @param epicAccountId LocalUserId retrieved from the EOS AuthInterface's Login method.
+  /// @param authIdToken IdToken string from the EOS AuthInterface's CopyIdToken method.
+  ///
+  /// returns `Future<ServerResponse>`
+  ///
+  Future<ServerResponse> attachEpicGamesIdentity(
+      {required String epicAccountId, required String authIdToken}) async {
+    return _attachIdentity(
+        epicAccountId, authIdToken, AuthenticationType.epicGames);
+  }
+
+  /// Merge the profile associated with the provided EpicGames credentials with the
+  /// current profile.
+  ///
+  /// Service Name - identity
+  /// Service Operation - Merge
+  ///
+  /// @param epicAccountId LocalUserId retrieved from the EOS AuthInterface's Login method.
+  /// @param authIdToken IdToken string from the EOS AuthInterface's CopyIdToken method.
+  /// @return Future<ServerResponse>
+  ///
+  Future<ServerResponse> mergeEpicGamesIdentity(
+      {required String epicAccountId, required String authIdToken}) {
+    return _mergeIdentity(
+        epicAccountId, authIdToken, AuthenticationType.epicGames);
+  }
+
+  /// Detach the EpicGames identity from this profile.
+  ///
+  /// Service Name - identity
+  /// Service Operation - Detach
+  ///
+  /// @param epicAccountId LocalUserId retrieved from the EOS AuthInterface's Login method.
+  /// @param continueAnon Proceed even if the profile will revert to anonymous?
+  ///
+  /// returns `Future<ServerResponse>`
+  ///
+  Future<ServerResponse> detachEpicGamesIdentity(
+      {required String epicAccountId, required bool continueAnon}) async {
+    return _detachIdentity(
+        epicAccountId, AuthenticationType.epicGames, continueAnon);
   }
 
   /// Attach the user's Twitter credentials to the current profile.
