@@ -28,6 +28,7 @@ class BrainCloudAppStore {
   ///        windows
   ///        windowsPhone
   ///        googlePlay
+  ///        metaHorizon
   ///        epicGames
   ///        xsolla
   /// @param userCurrency The currency type to retrieve the sales inventory for.
@@ -52,6 +53,7 @@ class BrainCloudAppStore {
   ///        windows
   ///        windowsPhone
   ///        googlePlay
+  ///        metaHorizon
   ///        epicGames
   ///        xsolla
   /// @param userCurrency The currency type to retrieve the sales inventory for.
@@ -125,6 +127,7 @@ class BrainCloudAppStore {
   ///        windows
   ///        windowsPhone
   ///        googlePlay
+  ///        metaHorizon
   ///        epicGames
   ///        xsolla
   /// @param receiptData the specific store data required
@@ -255,6 +258,7 @@ class BrainCloudAppStore {
   ///        windows
   ///        windowsPhone
   ///        googlePlay
+  ///        metaHorizon
   ///        epicGames
   ///        xsolla
   /// @param transactionId the transactionId returned from start Purchase
