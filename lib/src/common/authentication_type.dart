@@ -16,6 +16,7 @@ enum AuthenticationType {
   gameCenter('GameCenter'),
   steam('Steam'),
   apple('Apple'),
+  epicGames('EpicGames'),
   google('Google'),
   googleOpenId('GoogleOpenId'),
   twitter('Twitter'),

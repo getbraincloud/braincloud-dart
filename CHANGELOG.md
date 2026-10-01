@@ -1,7 +1,12 @@
 ## 6.1.0
 
 * Fixed `authenticateGameCenter`/`attachGameCenterIdentity`/`mergeGameCenterIdentity` authenticationToken to encode the Game Center identity verification signature as `{timestamp, publicKeyUrl, signature, salt}`, matching what Apple's Game Center API provides; dropped the incorrect `teamPlayerId`/`playerId` field
-* Removed the public `BrainCloudComms.getAppIdSecretMap`/`getSecretKey` and the wrapper's plain-text `_lastSecretKey` cache; app secrets are now held obfuscated in memory (`ProtectedSecret`) and only reconstructed transiently to sign a request
+* Updated client config optimizations
+* New EpicGames APIs:
+  * Added `authenticateEpicGames` to the Authentication service
+  * Added `attachEpicGamesIdentity`, `mergeEpicGamesIdentity`, and `detachEpicGamesIdentity` to Identity service
+  * Added `authenticateEpicGames` and `smartSwitchAuthenticateEpicGames` to the brainCloud Wrapper
+* `epicGames` and `xsolla` are now accepted as a `storeId` in various AppStore service operations
 
 ## 6.0.0
 

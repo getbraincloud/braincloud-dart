@@ -653,12 +653,13 @@ class BrainCloudWrapper {
     });
   }
 
-  /// Authenticate the user using a google userid(email address) and google authentication token.
+  /// Authenticate the user using their Apple account and identityToken.
+  ///
   /// Service Name - Authenticate
   /// Service Operation - Authenticate
   ///
   /// @param appleUserId String of the apple accounts user Id OR email
-  /// @param identityToken The authentication token confirming users identity
+  /// @param identityToken The identityToken confirming users identity
   /// @param forceCreate Should a new profile be created for this user if the account does not exist?
   /// @return Future<ServerResponse>
   ///
@@ -672,6 +673,35 @@ class BrainCloudWrapper {
         .authenticateApple(
             appleUserId: appleUserId,
             identityToken: identityToken,
+            forceCreate: forceCreate)
+        .then((response) {
+      if (response.isSuccess()) {
+        _authSuccessCallback(response);
+      }
+      return response;
+    });
+  }
+
+  /// Authenticate the user using an epicAccountId and their authIdToken.
+  ///
+  /// Service Name - Authenticate
+  /// Service Operation - Authenticate
+  ///
+  /// @param epicAccountId LocalUserId retrieved from the EOS AuthInterface's Login method.
+  /// @param authIdToken IdToken string from the EOS AuthInterface's CopyIdToken method.
+  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
+  /// @return Future<ServerResponse>
+  ///
+  Future<ServerResponse> authenticateEpicGames(
+      {required String epicAccountId,
+      required String authIdToken,
+      required bool forceCreate}) {
+    initializeIdentity(false);
+
+    return _client.authenticationService
+        .authenticateEpicGames(
+            epicAccountId: epicAccountId,
+            authIdToken: authIdToken,
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
@@ -1119,30 +1149,50 @@ class BrainCloudWrapper {
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean designflow from anonymous to signed profiles
   ///
-  /// authenticate the user with brainCloud using their Apple Credentials
+  /// Authenticate the user using their Apple account and identityToken.
   ///
   /// Service Name - authenticate
   /// Service Operation - authenticate
   ///
-  /// @param externalId
-  /// The apple id of the user
-  ///
-  /// @param authenticationToken
-  /// The validated token from the Apple SDK (that will be further
-  /// validated when sent to the bC service)
-  ///
-  /// @param forceCreate
-  /// Should a new profile be created for this user if the account does not exist?
+  /// @param appleUserId String of the apple accounts user Id OR email
+  /// @param identityToken The identityToken confirming users identity
+  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> smartSwitchAuthenticateApple(
       {required String appleUserId,
-      required String appleAuthToken,
+      required String identityToken,
       required bool forceCreate}) async {
     await _smartSwitchAuthentication();
     return authenticateApple(
         appleUserId: appleUserId,
-        identityToken: appleAuthToken,
+        identityToken: identityToken,
+        forceCreate: forceCreate);
+  }
+
+  /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
+  /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
+  /// Use this function to keep a clean designflow from anonymous to signed profiles
+  ///
+  /// Authenticate the user using an epicAccountId and their authIdToken.
+  ///
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
+  ///
+  /// @param epicAccountId LocalUserId retrieved from the EOS AuthInterface's Login method.
+  /// @param authIdToken IdToken string from the EOS AuthInterface's CopyIdToken method.
+  /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+  ///
+  /// returns `Future<ServerResponse>`
+  Future<ServerResponse> smartSwitchAuthenticateEpicGames(
+      {required String epicAccountId,
+      required String authIdToken,
+      required bool forceCreate}) async {
+    await _smartSwitchAuthentication();
+    return authenticateEpicGames(
+        epicAccountId: epicAccountId,
+        authIdToken: authIdToken,
         forceCreate: forceCreate);
   }
 
