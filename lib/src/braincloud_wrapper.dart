@@ -4,11 +4,13 @@
 
 //----------------------------------------------------
 import 'dart:async';
+import 'dart:convert';
 
 import '/braincloud.dart';
 import '/data_persistence.dart';
 import '/memory_persistence.dart';
 
+import '/src/internal/protected_secret.dart';
 import '/src/util.dart';
 
 /// The BrainCloudWrapper class provides some glue between the Dart environment and the
@@ -48,7 +50,7 @@ class BrainCloudWrapper {
   static String authenticationAnonymous = "anonymous";
 
   String _lastUrl = "";
-  String _lastSecretKey = "";
+  ProtectedSecret? _lastSecret;
   String _lastAppId = "";
   String _lastAppVersion = "";
 
@@ -245,7 +247,7 @@ class BrainCloudWrapper {
       required int updateTick}) async {
     resetWrapper();
     _lastUrl = url ?? "";
-    _lastSecretKey = secretKey;
+    _lastSecret = ProtectedSecret(secretKey);
     _lastAppId = appId;
     _lastAppVersion = version;
     _updateTick = updateTick;
@@ -283,7 +285,7 @@ class BrainCloudWrapper {
       required int updateTick}) async {
     resetWrapper();
     _lastUrl = url;
-    _lastSecretKey = appIdSecretMap[defaultAppId] ?? "";
+    _lastSecret = ProtectedSecret(appIdSecretMap[defaultAppId] ?? "");
     _lastAppId = defaultAppId;
     _lastAppVersion = version;
     _updateTick = updateTick;
@@ -631,7 +633,6 @@ class BrainCloudWrapper {
     String publicKeyUrl = "",
     List<int>? signature,
     List<int>? salt,
-    String teamPlayerId = "",
   }) {
     initializeIdentity(false);
 
@@ -643,7 +644,6 @@ class BrainCloudWrapper {
       publicKeyUrl: publicKeyUrl,
       signature: signature,
       salt: salt,
-      teamPlayerId: teamPlayerId,
     )
         .then((response) {
       if (response.isSuccess()) {
@@ -1219,7 +1219,6 @@ class BrainCloudWrapper {
     String publicKeyUrl = "",
     List<int>? signature,
     List<int>? salt,
-    String teamPlayerId = "",
   }) async {
     await _smartSwitchAuthentication();
     return authenticateGameCenter(
@@ -1229,7 +1228,6 @@ class BrainCloudWrapper {
       publicKeyUrl: publicKeyUrl,
       signature: signature,
       salt: salt,
-      teamPlayerId: teamPlayerId,
     );
   }
 
@@ -1763,12 +1761,12 @@ class BrainCloudWrapper {
   /// Only works for Anonymous authentications.
   Future reauthenticate() async {
     var wd = _wrapperData; // init will wipe this so save it first.
-    init(
+    _lastSecret?.useBytes((secretBytes) => init(
         appId: _lastAppId,
         version: _lastAppVersion,
-        secretKey: _lastSecretKey,
+        secretKey: utf8.decode(secretBytes),
         url: _lastUrl,
-        updateTick: _updateTick);
+        updateTick: _updateTick));
     _wrapperData = wd; // restore warpper Data.
     String authType = getStoredAuthenticationType();
     if (authType == authenticationAnonymous) {

@@ -1,5 +1,7 @@
 ## 6.1.0
 
+* Fixed `authenticateGameCenter`/`attachGameCenterIdentity`/`mergeGameCenterIdentity` authenticationToken to encode the Game Center identity verification signature as `{timestamp, publicKeyUrl, signature, salt}`, matching what Apple's Game Center API provides; dropped the incorrect `teamPlayerId`/`playerId` field
+* Updated client config optimizations
 * New EpicGames APIs:
   * Added `authenticateEpicGames` to the Authentication service
   * Added `attachEpicGamesIdentity`, `mergeEpicGamesIdentity`, and `detachEpicGamesIdentity` to Identity service
