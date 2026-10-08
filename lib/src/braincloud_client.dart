@@ -219,6 +219,12 @@ class BrainCloudClient {
   void enableCompressedResponses(bool isEnabled) =>
       _authenticationService.compressResponse = isEnabled;
 
+  void setAppCheckToken(String? token) =>
+      _authenticationService.appCheckToken = token;
+
+  void setAppCheckTokenProvider(AppCheckTokenProvider? provider) =>
+      _authenticationService.appCheckTokenProvider = provider;
+
   /// returns the sessionId or empty String if no session present.
   String get sessionID => _comms.getSessionID;
 

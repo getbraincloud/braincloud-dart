@@ -10,6 +10,7 @@ import '/src/internal/service_name.dart';
 import '/src/internal/service_operation.dart';
 import '/src/braincloud_client.dart';
 import '/src/reason_codes.dart';
+import '/src/server_callback.dart';
 import '/src/server_response.dart';
 import '/src/util.dart';
 import '/src/version.dart';
@@ -25,6 +26,13 @@ class BrainCloudAuthentication {
   void set profileId(value) => _profileId = value;
 
   bool compressResponse = true;
+
+  /// App attestation token (e.g. from firebase_app_check) forwarded as-is on every authenticate call; Set via BrainCloudClient.setAppCheckToken.
+  String? appCheckToken;
+
+  /// Fetches a fresh appCheckToken right before each authenticate call (including an internal auto-reconnect re-authentication), instead of reusing a value that may have gone stale. 
+  /// Takes priority over appCheckToken when set. Set via BrainCloudClient.setAppCheckTokenProvider.
+  AppCheckTokenProvider? appCheckTokenProvider;
 
   BrainCloudAuthentication(this._clientRef);
 
@@ -1025,7 +1033,13 @@ class BrainCloudAuthentication {
       required AuthenticationType authenticationType,
       String? externalAuthName,
       required bool forceCreate,
-      Map<String, dynamic>? extraJson}) {
+      Map<String, dynamic>? extraJson}) async {
+    // Only await when a provider is registered, so the common (no-provider) path stays fully
+    // synchronous like the rest of this method - callers that don't need refresh see no behavior change.
+    String? resolvedAppCheckToken = appCheckTokenProvider != null
+        ? await appCheckTokenProvider!()
+        : appCheckToken;
+
     String languageCode = _clientRef.languageCode;
     int utcOffset = Util.getUTCOffsetForCurrentTimeZone();
     String countryCode = _clientRef.countryCode;
@@ -1065,6 +1079,11 @@ class BrainCloudAuthentication {
     if (extraJson != null) {
       data[OperationParam.authenticateServiceAuthenticateExtraJson.value] =
           extraJson;
+    }
+
+    if (resolvedAppCheckToken != null) {
+      data[OperationParam.authenticateServiceAuthenticateAppCheckToken
+          .value] = resolvedAppCheckToken;
     }
 
     data[OperationParam.authenticateServiceAuthenticateCountryCode.value] =
