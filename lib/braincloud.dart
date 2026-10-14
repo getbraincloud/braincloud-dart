@@ -19,6 +19,7 @@ export 'src/internal/relay_comms.dart' if (dart.library.js_interop) 'src/interna
 
 // Services
 export 'src/braincloud_wrapper.dart' show BrainCloudWrapper;
+export 'src/config/braincloud_config.dart' show BrainCloudAppConfig;
 export 'src/braincloud_app_store.dart';
 export 'src/braincloud_async_match.dart';
 export 'src/braincloud_authentication.dart';

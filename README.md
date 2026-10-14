@@ -22,6 +22,24 @@ dependencies:
 NOTE: The package `braincloud_data_persistence` provides persistence support for the brainCloud Dart SDK by integrating platform preferences using SharedPreferencesAsync. 
 It is optional and you can create your own if you desire.
 
+## App Setup
+
+Requires Dart 3.10+ (Flutter 3.38+). From your project root, run:
+
+```bash
+dart run braincloud:setup
+```
+
+This opens the brainCloud setup page in your browser. Log in, pick (or create) your app, and it writes `bc_config.json` to your project (and adds it to `.gitignore`). The app id and secret are stored encoded, never in plain text. Then build or run with the config:
+
+```bash
+flutter run --dart-define-from-file=bc_config.json
+```
+
+and initialize with `await _bcWrapper.initFromConfig();`. Child apps picked in the setup page are registered automatically.
+
+Options: `--out <path>` (config location), `--server <url>` (private brainCloud server), `--no-browser`, and `--refresh` to rewrite the config without the browser (for CI, set `BRAINCLOUD_APP_ID`, `BRAINCLOUD_BUILDER_EMAIL`, `BRAINCLOUD_BUILDER_API_KEY` and `BRAINCLOUD_TEAM_ID`).
+
 ## Usage/Examples
 
 Here's an example on how to initiate the client wrapper and start an update timer. The example also shows how to restore session and update the route accordingly. 
@@ -49,11 +67,9 @@ class MyApp extends StatelessWidget {
 
   /// Future to init the BrainCloud Client
   Future<String> _initAndUpdateRoute() async {
-    await _bcWrapper.init(
-        secretKey: "<YOUR_SECRET_KEY>", 
-        appId: "<YOUR_APP_ID>", 
-        version: "<YOUR_APP_VERSION>",
-        url: "https://api.braincloudservers.com/dispatcherv2");
+    // Reads bc_config.json (see App Setup). Without the setup tool, call
+    // _bcWrapper.init(secretKey: ..., appId: ..., version: ..., url: ..., updateTick: 50) instead.
+    await _bcWrapper.initFromConfig();
 
     /// Check if there was a session
     bool hasSession = false;

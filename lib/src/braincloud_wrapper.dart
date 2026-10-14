@@ -262,6 +262,23 @@ class BrainCloudWrapper {
     _startTimer();
   }
 
+  /// Initialize from the `bc_config.json` written by `dart run braincloud:setup`.
+  ///
+  /// Build with `--dart-define-from-file=bc_config.json`, or pass a [config] you loaded yourself.
+  /// Child apps in the config are registered as with [initWithApps].
+  ///
+  /// @param updateTick in millisecond. Set to 0 to manage the update manually.
+  Future<void> initFromConfig({BrainCloudAppConfig? config, int updateTick = 50}) async {
+    final c = config ?? BrainCloudAppConfig.fromEnvironment();
+    final (:appId, :secrets) = await c.resolve();
+    if (secrets.length == 1) {
+      return init(
+          secretKey: secrets[appId]!, appId: appId, version: c.version, url: c.serverUrl, updateTick: updateTick);
+    }
+    return initWithApps(
+        url: c.serverUrl, defaultAppId: appId, appIdSecretMap: secrets, version: c.version, updateTick: updateTick);
+  }
+
   bool get isInitialized => _client.isInitialized();
 
   /// Initialize the brainCloud client with the passed in parameters.
