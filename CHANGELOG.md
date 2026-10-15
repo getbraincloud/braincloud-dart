@@ -1,8 +1,8 @@
 ## 6.1.0
 
+* **Breaking:** Minimum Dart SDK raised from 3.5 to 3.10 (Flutter 3.38), required by the build hooks that bundle the native config decoder. Upgrade Flutter before updating to this version.
 * Added `dart run braincloud:setup`: log in to brainCloud in the browser, pick or create an app, and write an encoded `bc_config.json` to your project
 * Added `BrainCloudWrapper.initFromConfig()` and `BrainCloudAppConfig` to initialize from `bc_config.json` (via `--dart-define-from-file`), including child apps
-* Minimum Dart SDK is now 3.10 (Flutter 3.38) for the bundled native config decoder
 * Fixed `authenticateGameCenter`/`attachGameCenterIdentity`/`mergeGameCenterIdentity` authenticationToken to encode the Game Center identity verification signature as `{timestamp, publicKeyUrl, signature, salt}`, matching what Apple's Game Center API provides; dropped the incorrect `teamPlayerId`/`playerId` field
 * Updated client config optimizations
 * New EpicGames APIs:
