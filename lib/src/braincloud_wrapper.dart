@@ -4,11 +4,13 @@
 
 //----------------------------------------------------
 import 'dart:async';
+import 'dart:convert';
 
 import '/braincloud.dart';
 import '/data_persistence.dart';
 import '/memory_persistence.dart';
 
+import '/src/internal/protected_secret.dart';
 import '/src/util.dart';
 
 /// The BrainCloudWrapper class provides some glue between the Dart environment and the
@@ -48,7 +50,7 @@ class BrainCloudWrapper {
   static String authenticationAnonymous = "anonymous";
 
   String _lastUrl = "";
-  String _lastSecretKey = "";
+  ProtectedSecret? _lastSecret;
   String _lastAppId = "";
   String _lastAppVersion = "";
 
@@ -245,7 +247,7 @@ class BrainCloudWrapper {
       required int updateTick}) async {
     resetWrapper();
     _lastUrl = url ?? "";
-    _lastSecretKey = secretKey;
+    _lastSecret = ProtectedSecret(secretKey);
     _lastAppId = appId;
     _lastAppVersion = version;
     _updateTick = updateTick;
@@ -258,6 +260,23 @@ class BrainCloudWrapper {
 
     await _loadData();
     _startTimer();
+  }
+
+  /// Initialize from the `bc_config.json` written by `dart run braincloud:setup`.
+  ///
+  /// Build with `--dart-define-from-file=bc_config.json`, or pass a [config] you loaded yourself.
+  /// Child apps in the config are registered as with [initWithApps].
+  ///
+  /// @param updateTick in millisecond. Set to 0 to manage the update manually.
+  Future<void> initFromConfig({BrainCloudAppConfig? config, int updateTick = 50}) async {
+    final c = config ?? BrainCloudAppConfig.fromEnvironment();
+    final (:appId, :secrets) = await c.resolve();
+    if (secrets.length == 1) {
+      return init(
+          secretKey: secrets[appId]!, appId: appId, version: c.version, url: c.serverUrl, updateTick: updateTick);
+    }
+    return initWithApps(
+        url: c.serverUrl, defaultAppId: appId, appIdSecretMap: secrets, version: c.version, updateTick: updateTick);
   }
 
   bool get isInitialized => _client.isInitialized();
@@ -283,7 +302,7 @@ class BrainCloudWrapper {
       required int updateTick}) async {
     resetWrapper();
     _lastUrl = url;
-    _lastSecretKey = appIdSecretMap[defaultAppId] ?? "";
+    _lastSecret = ProtectedSecret(appIdSecretMap[defaultAppId] ?? "");
     _lastAppId = defaultAppId;
     _lastAppVersion = version;
     _updateTick = updateTick;
@@ -631,7 +650,6 @@ class BrainCloudWrapper {
     String publicKeyUrl = "",
     List<int>? signature,
     List<int>? salt,
-    String teamPlayerId = "",
   }) {
     initializeIdentity(false);
 
@@ -643,7 +661,6 @@ class BrainCloudWrapper {
       publicKeyUrl: publicKeyUrl,
       signature: signature,
       salt: salt,
-      teamPlayerId: teamPlayerId,
     )
         .then((response) {
       if (response.isSuccess()) {
@@ -1219,7 +1236,6 @@ class BrainCloudWrapper {
     String publicKeyUrl = "",
     List<int>? signature,
     List<int>? salt,
-    String teamPlayerId = "",
   }) async {
     await _smartSwitchAuthentication();
     return authenticateGameCenter(
@@ -1229,7 +1245,6 @@ class BrainCloudWrapper {
       publicKeyUrl: publicKeyUrl,
       signature: signature,
       salt: salt,
-      teamPlayerId: teamPlayerId,
     );
   }
 
@@ -1763,12 +1778,12 @@ class BrainCloudWrapper {
   /// Only works for Anonymous authentications.
   Future reauthenticate() async {
     var wd = _wrapperData; // init will wipe this so save it first.
-    init(
+    _lastSecret?.useBytes((secretBytes) => init(
         appId: _lastAppId,
         version: _lastAppVersion,
-        secretKey: _lastSecretKey,
+        secretKey: utf8.decode(secretBytes),
         url: _lastUrl,
-        updateTick: _updateTick);
+        updateTick: _updateTick));
     _wrapperData = wd; // restore warpper Data.
     String authType = getStoredAuthenticationType();
     if (authType == authenticationAnonymous) {
