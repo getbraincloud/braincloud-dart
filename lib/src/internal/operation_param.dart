@@ -106,8 +106,6 @@ class OperationParam {
       OperationParam("playerSessionExpiry");
   static OperationParam authenticateServiceAuthenticateExtraJson =
       OperationParam("extraJson");
-  static OperationParam authenticateServiceAuthenticateAppCheckToken =
-      OperationParam("appCheckToken");
 
   // Authenticate Service - Authenticate Params
   static OperationParam identityServiceExternalId =

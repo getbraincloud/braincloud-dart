@@ -52,8 +52,6 @@ typedef LogCallback = void Function(Map<String, dynamic>?  jsonResponse);
 
 typedef AutoReconnectCallback = void Function(Map<String, dynamic>? jsonResponse);
 
-typedef AppCheckTokenProvider = Future<String?> Function();
-
 typedef RewardCallback = void Function(Map<String, dynamic>?  jsonResponse);
 
 typedef RTTCallback = void Function(RTTCommandResponse rttResponse);

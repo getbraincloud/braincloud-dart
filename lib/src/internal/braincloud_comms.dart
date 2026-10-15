@@ -70,9 +70,6 @@ class BrainCloudComms {
   /// The service calls that are waiting to be sent.
   final List<ServerCall> _serviceCallsWaiting = [];
 
-  /// Calls queued for dispatch
-  List<ServerCall> get serviceCallsWaiting => _serviceCallsWaiting;
-
   /// The service calls that have been sent for which we are waiting for a reply
   List<ServerCall> _serviceCallsInProgress = [];
 
