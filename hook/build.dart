@@ -1,5 +1,4 @@
 // Bundles the prebuilt config decoder (native/<os>_<arch>/) for the target being built.
-// Built from braincloud-dart-secure; no native source ships in this package.
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 
