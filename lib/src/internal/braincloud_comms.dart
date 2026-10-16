@@ -1515,11 +1515,7 @@ class BrainCloudComms {
     _packetId = 0;
   }
 
-  /// Signs [payloadBytes] with the secret registered for the current app,
-  /// without ever holding a copy of the secret in a plain string -- the
-  /// payload and secret bytes are hashed as two separate chunks (equivalent
-  /// to hashing them concatenated) so the secret's real bytes only exist for
-  /// the duration of this call.
+  /// Signs [payloadBytes] for the current app.
   String _signRequest(List<int> payloadBytes) {
     final secret = _appIdSecretMap[getAppId];
     if (secret == null) {
