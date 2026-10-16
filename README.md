@@ -34,7 +34,7 @@ Requires Dart 3.10+ (Flutter 3.38+). From your project root, run:
 dart run braincloud:setup
 ```
 
-This opens the brainCloud setup page in your browser. Log in, pick (or create) your app, and it writes `bc_config.json` to your project (and adds it to `.gitignore`). The app id and secret are stored encoded, never in plain text.
+This opens the brainCloud setup page in your browser. Log in, pick (or create) your app, and it writes `bc_config.json` to your project (and adds it to `.gitignore`).
 
 Build or run with the config:
 
