@@ -4,13 +4,11 @@
 
 //----------------------------------------------------
 import 'dart:async';
-import 'dart:convert';
 
 import '/braincloud.dart';
 import '/data_persistence.dart';
 import '/memory_persistence.dart';
 
-import '/src/internal/protected_secret.dart';
 import '/src/util.dart';
 
 /// The BrainCloudWrapper class provides some glue between the Dart environment and the
@@ -50,7 +48,7 @@ class BrainCloudWrapper {
   static String authenticationAnonymous = "anonymous";
 
   String _lastUrl = "";
-  ProtectedSecret? _lastSecret;
+  Map<String, AppProfile> _lastProfiles = {};
   String _lastAppId = "";
   String _lastAppVersion = "";
 
@@ -232,6 +230,8 @@ class BrainCloudWrapper {
   ///
   /// @param secretKey The app's secret
   ///
+  /// @param appProfile Signs requests for the app, instead of [secretKey]
+  ///
   /// @param appId The app's id
   ///
   /// @param version The app's version
@@ -240,14 +240,19 @@ class BrainCloudWrapper {
   ///
   /// return Future
   Future<void> init(
-      {required String secretKey,
+      {String? secretKey,
+      AppProfile? appProfile,
       required String appId,
       required String version,
       String? url,
       required int updateTick}) async {
+    if ((secretKey == null) == (appProfile == null)) {
+      throw ArgumentError('Pass exactly one of secretKey or appProfile.');
+    }
+    final profile = appProfile ?? AppProfile.fromValue(secretKey!);
     resetWrapper();
     _lastUrl = url ?? "";
-    _lastSecret = ProtectedSecret(secretKey);
+    _lastProfiles = {appId: profile};
     _lastAppId = appId;
     _lastAppVersion = version;
     _updateTick = updateTick;
@@ -255,6 +260,7 @@ class BrainCloudWrapper {
     _client.initialize(
         serverURL: url,
         secretKey: secretKey,
+        appProfile: appProfile,
         appId: appId,
         appVersion: version);
 
@@ -270,13 +276,13 @@ class BrainCloudWrapper {
   /// @param updateTick in millisecond. Set to 0 to manage the update manually.
   Future<void> initFromConfig({BrainCloudAppConfig? config, int updateTick = 50}) async {
     final c = config ?? BrainCloudAppConfig.fromEnvironment();
-    final (:appId, :secrets) = await c.resolve();
-    if (secrets.length == 1) {
+    final (:appId, :profiles) = await c.resolve();
+    if (profiles.length == 1) {
       return init(
-          secretKey: secrets[appId]!, appId: appId, version: c.version, url: c.serverUrl, updateTick: updateTick);
+          appProfile: profiles[appId]!, appId: appId, version: c.version, url: c.serverUrl, updateTick: updateTick);
     }
     return initWithApps(
-        url: c.serverUrl, defaultAppId: appId, appIdSecretMap: secrets, version: c.version, updateTick: updateTick);
+        url: c.serverUrl, defaultAppId: appId, appProfiles: profiles, version: c.version, updateTick: updateTick);
   }
 
   bool get isInitialized => _client.isInitialized();
@@ -285,11 +291,13 @@ class BrainCloudWrapper {
   ///
   /// @param urlThe brainCloud server url
   ///
-  /// @param secretKeyThe app's secret
-  ///
   /// @param defaultAppId The app's id
   ///
-  /// @param versionThe app's version
+  /// @param appIdSecretMap map of appId -> secret, for the app and its children
+  ///
+  /// @param appProfiles map of appId -> AppProfile, instead of [appIdSecretMap]
+  ///
+  /// @param version The app's version
   ///
   /// @param updateTick in millisecond. Default: 50
   ///
@@ -297,12 +305,18 @@ class BrainCloudWrapper {
   Future<void> initWithApps(
       {required String url,
       required String defaultAppId,
-      required Map<String, String> appIdSecretMap,
+      Map<String, String>? appIdSecretMap,
+      Map<String, AppProfile>? appProfiles,
       required String version,
       required int updateTick}) async {
+    if ((appIdSecretMap == null) == (appProfiles == null)) {
+      throw ArgumentError('Pass exactly one of appIdSecretMap or appProfiles.');
+    }
+    final profiles = appProfiles ??
+        {for (final e in appIdSecretMap!.entries) e.key: AppProfile.fromValue(e.value)};
     resetWrapper();
     _lastUrl = url;
-    _lastSecret = ProtectedSecret(appIdSecretMap[defaultAppId] ?? "");
+    _lastProfiles = Map.of(profiles);
     _lastAppId = defaultAppId;
     _lastAppVersion = version;
     _updateTick = updateTick;
@@ -311,6 +325,7 @@ class BrainCloudWrapper {
         serverURL: url,
         defaultAppId: defaultAppId,
         appIdSecretMap: appIdSecretMap,
+        appProfiles: appProfiles,
         appVersion: version);
 
     await _loadData();
@@ -1778,12 +1793,19 @@ class BrainCloudWrapper {
   /// Only works for Anonymous authentications.
   Future reauthenticate() async {
     var wd = _wrapperData; // init will wipe this so save it first.
-    _lastSecret?.useBytes((secretBytes) => init(
-        appId: _lastAppId,
-        version: _lastAppVersion,
-        secretKey: utf8.decode(secretBytes),
-        url: _lastUrl,
-        updateTick: _updateTick));
+    final profile = _lastProfiles[_lastAppId];
+    if (profile == null) return Future.value();
+    if (_lastProfiles.length > 1) {
+      await initWithApps(
+          url: _lastUrl,
+          defaultAppId: _lastAppId,
+          appProfiles: _lastProfiles,
+          version: _lastAppVersion,
+          updateTick: _updateTick);
+    } else {
+      await init(
+          appProfile: profile, appId: _lastAppId, version: _lastAppVersion, url: _lastUrl, updateTick: _updateTick);
+    }
     _wrapperData = wd; // restore warpper Data.
     String authType = getStoredAuthenticationType();
     if (authType == authenticationAnonymous) {

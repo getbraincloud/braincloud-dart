@@ -8,13 +8,16 @@ import 'package:path/path.dart' as p;
 import '../config/braincloud_config.dart';
 import '../config/client_tuning.dart';
 import '../config/tuning_native.dart';
+import 'setup_native.dart';
 
 const configName = 'bc_config.json';
 const defaultServerUrl = BrainCloudAppConfig.defaultServerUrl;
 const defaultAppVersion = '1.0.0';
 
-typedef ChildApp = ({String appId, String appValue});
-typedef FullConfig = ({String appId, String appValue, String serverUrl, String appVersion, List<ChildApp> children});
+/// [appValue] is plaintext (a String) when new, or the stored encoded bundle (a Map) when
+/// read back: setup never decodes it, only passes it through.
+typedef ChildApp = ({String appId, Object appValue});
+typedef FullConfig = ({String appId, Object appValue, String serverUrl, String appVersion, List<ChildApp> children});
 
 String defaultOutput(String projectDir) => p.join(projectDir, configName);
 
@@ -41,15 +44,17 @@ Map<String, dynamic>? _json(String file) {
   );
 }
 
-String _decode(Object tuning) {
-  final bundle = tuning is String ? jsonDecode(tuning) as Map<String, dynamic> : tuning as Map<String, dynamic>;
-  final flat = flattenTuning(bundle);
+Map<String, dynamic> _bundle(Object tuning) =>
+    tuning is String ? jsonDecode(tuning) as Map<String, dynamic> : tuning as Map<String, dynamic>;
+
+String _decodeId(Object tuning) {
+  final flat = flattenTuning(_bundle(tuning));
   final value = resolveTuningSync(flat.shares, flat.pads, flat.slotLen);
-  if (value == null) throw const FormatException('undecodable bundle');
+  if (value == null) throw const FormatException('undecodable app id');
   return value;
 }
 
-/// Full decode, values included. Setup-side only, for rewriting the config.
+/// The config with app ids decoded and values left encoded, for rewriting it.
 FullConfig? load(String file) {
   final json = _json(file);
   if (json == null) return null;
@@ -57,13 +62,13 @@ FullConfig? load(String file) {
   if (!config.isPresent) return null;
   try {
     return (
-      appId: config.clientProfile.isNotEmpty ? _decode(config.clientProfile) : config.appId,
-      appValue: config.clientTuning.isNotEmpty ? _decode(config.clientTuning) : config.secretKey,
+      appId: _decodeId(config.clientProfile),
+      appValue: _bundle(config.clientTuning),
       serverUrl: config.serverUrl,
       appVersion: config.version,
       children: [
         for (final pair in config.childApps)
-          (appId: _decode((pair as List)[0] as Object), appValue: _decode(pair[1] as Object))
+          (appId: _decodeId((pair as List)[0] as Object), appValue: _bundle(pair[1] as Object))
       ],
     );
   } catch (_) {
@@ -76,10 +81,12 @@ Map<String, dynamic> _encode(String value) {
   return nestTuning(built.shares, built.pads, built.slotLen);
 }
 
+Map<String, dynamic> _encodeValue(Object value) => value is String ? _encode(value) : _bundle(value);
+
 /// Writes the config, keeping any other keys (dart-defines) already in the file.
 void write(String file,
     {required String appId,
-    required String appValue,
+    required Object appValue,
     String? serverUrl,
     String? appVersion,
     List<ChildApp> children = const []}) {
@@ -89,13 +96,13 @@ void write(String file,
     ..remove('appId')
     ..['serverUrl'] = (serverUrl == null || serverUrl.isEmpty) ? defaultServerUrl : serverUrl
     ..['clientProfile'] = jsonEncode(_encode(appId))
-    ..['clientTuning'] = jsonEncode(_encode(appValue))
+    ..['clientTuning'] = jsonEncode(_encodeValue(appValue))
     ..['version'] = (appVersion == null || appVersion.isEmpty) ? defaultAppVersion : appVersion;
   if (children.isEmpty) {
     json.remove('childApps');
   } else {
     json['childApps'] = jsonEncode([
-      for (final c in children) [_encode(c.appId), _encode(c.appValue)]
+      for (final c in children) [_encode(c.appId), _encodeValue(c.appValue)]
     ]);
   }
   Directory(p.dirname(file)).createSync(recursive: true);

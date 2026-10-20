@@ -1,6 +1,7 @@
 // Copyright 2026 bitHeads, Inc. All Rights Reserved.
 import 'dart:convert';
 
+import '../app_profile.dart';
 import 'client_tuning.dart';
 
 /// App settings written by `dart run braincloud:setup` into `bc_config.json`.
@@ -13,19 +14,13 @@ class BrainCloudAppConfig {
   final String serverUrl;
   final String version;
 
-  /// Encoded app id (a JSON string). Empty when [appId] is used instead.
+  /// The app id, as written by setup.
   final String clientProfile;
 
-  /// Encoded app secret (a JSON string). Empty when [secretKey] is used instead.
+  /// The app's settings, as written by setup.
   final String clientTuning;
 
-  /// Plain app id, for configs written by hand.
-  final String appId;
-
-  /// Plain app secret, for configs written by hand.
-  final String secretKey;
-
-  /// Child apps as `[encoded id, encoded secret]` bundle pairs.
+  /// Child apps, as written by setup.
   final List<dynamic> childApps;
 
   const BrainCloudAppConfig({
@@ -33,8 +28,6 @@ class BrainCloudAppConfig {
     this.version = '1.0.0',
     this.clientProfile = '',
     this.clientTuning = '',
-    this.appId = '',
-    this.secretKey = '',
     this.childApps = const [],
   });
 
@@ -44,8 +37,6 @@ class BrainCloudAppConfig {
         'version': String.fromEnvironment('version'),
         'clientProfile': String.fromEnvironment('clientProfile'),
         'clientTuning': String.fromEnvironment('clientTuning'),
-        'appId': String.fromEnvironment('appId'),
-        'secretKey': String.fromEnvironment('secretKey'),
         'childApps': String.fromEnvironment('childApps'),
       });
 
@@ -58,34 +49,31 @@ class BrainCloudAppConfig {
       version: str('version').isEmpty ? '1.0.0' : str('version'),
       clientProfile: str('clientProfile'),
       clientTuning: str('clientTuning'),
-      appId: str('appId'),
-      secretKey: str('secretKey'),
       childApps: children is List
           ? children
           : (children is String && children.isNotEmpty ? jsonDecode(children) as List<dynamic> : const []),
     );
   }
 
-  bool get isPresent =>
-      (clientProfile.isNotEmpty || appId.isNotEmpty) && (clientTuning.isNotEmpty || secretKey.isNotEmpty);
+  bool get isPresent => clientProfile.isNotEmpty && clientTuning.isNotEmpty;
 
-  /// The app id, plus app id -> secret for the app and its children.
-  Future<({String appId, Map<String, String> secrets})> resolve() async {
+  /// The app id, plus a signing profile for the app and each of its children.
+  Future<({String appId, Map<String, AppProfile> profiles})> resolve() async {
     if (!isPresent) {
       throw StateError('No brainCloud config found. Run `dart run braincloud:setup`, then build with '
           '--dart-define-from-file=bc_config.json');
     }
-    final id = clientProfile.isNotEmpty ? await _decode(clientProfile) : appId;
-    final secrets = {id: clientTuning.isNotEmpty ? await _decode(clientTuning) : secretKey};
+    final id = await _appId(clientProfile);
+    final profiles = {id: await tuningProfile(clientTuning)};
     for (final pair in childApps) {
-      secrets[await _decode((pair as List)[0] as Object)] = await _decode(pair[1] as Object);
+      profiles[await _appId((pair as List)[0] as Object)] = await tuningProfile(pair[1] as Object);
     }
-    return (appId: id, secrets: secrets);
+    return (appId: id, profiles: profiles);
   }
 
-  static Future<String> _decode(Object tuning) async {
+  static Future<String> _appId(Object tuning) async {
     final value = await resolveClientTuning(tuning);
-    if (value == null || value.isEmpty) throw StateError('brainCloud config could not be decoded.');
+    if (value == null || value.isEmpty) throw StateError('brainCloud config could not be read.');
     return value;
   }
 }

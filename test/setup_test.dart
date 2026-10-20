@@ -14,6 +14,16 @@ import 'package:test/test.dart';
 const _secret = '1cecb2f3-5a60-4b00-8c7e-7867c12eea49';
 const _childSecret = '9a8b7c6d-5e4f-4a3b-8c2d-1e0f9a8b7c6d';
 
+final _payload = utf8.encode('{"packetId":1}');
+
+// Values only come back out as signatures.
+String _sig(String secret) => AppProfile.fromValue(secret).sign(_payload);
+
+Future<String> _configSig(String file) async {
+  final resolved = await BrainCloudAppConfig.fromJson(jsonDecode(File(file).readAsStringSync())).resolve();
+  return resolved.profiles[resolved.appId]!.sign(_payload);
+}
+
 /// Minimal stand-in for the brainCloud OAuth + Builder API.
 Future<HttpServer> _fakeBrainCloud() async {
   final server = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
@@ -154,7 +164,9 @@ void main() {
     expect(File(output).readAsStringSync(), isNot(contains(_secret)));
     final resolved = await BrainCloudAppConfig.fromJson(json).resolve();
     expect(resolved.appId, '100');
-    expect(resolved.secrets, {'100': _secret, '200': _childSecret});
+    expect(resolved.profiles.keys, ['100', '200']);
+    expect(resolved.profiles['100']!.sign(_payload), _sig(_secret));
+    expect(resolved.profiles['200']!.sign(_payload), _sig(_childSecret));
 
     await api('done');
     await server.done;
@@ -171,7 +183,27 @@ void main() {
       'BRAINCLOUD_BUILDER_API_KEY': 'BK',
       'BRAINCLOUD_TEAM_ID': 'T1',
     });
-    expect(project.load(output)?.appValue, _secret);
+    expect(project.load(output)?.appId, '100');
+    expect(await _configSig(output), _sig(_secret));
+  });
+
+  test('rewriting the server or children keeps the stored values as-is', () async {
+    final output = p.join(dir.path, 'bc_config.json');
+    project.write(output, appId: '100', appValue: _secret);
+    final stored = jsonDecode(File(output).readAsStringSync())['clientTuning'];
+
+    expect(project.rewrite(output, 'https://example.com/dispatcherv2', '2.0.0'), isTrue);
+    final current = project.load(output)!;
+    expect(current.serverUrl, 'https://example.com/dispatcherv2');
+    expect(jsonDecode(File(output).readAsStringSync())['clientTuning'], stored);
+
+    project.write(output,
+        appId: current.appId,
+        appValue: current.appValue,
+        children: [(appId: '200', appValue: _childSecret)]);
+    final resolved = await BrainCloudAppConfig.fromJson(jsonDecode(File(output).readAsStringSync())).resolve();
+    expect(resolved.profiles['100']!.sign(_payload), _sig(_secret));
+    expect(resolved.profiles['200']!.sign(_payload), _sig(_childSecret));
   });
 
   test('session file is encoded at rest', () async {

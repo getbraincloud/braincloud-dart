@@ -8,6 +8,7 @@ import 'dart:typed_data';
 import 'tuning_wasm.g.dart';
 
 const _outCap = 512;
+const _signatureLen = 32;
 const _enosys = 52;
 
 @JS('WebAssembly.compile')
@@ -55,6 +56,8 @@ int _call(JSObject exports, String fn, List<int> args) =>
 
 void _free(JSObject exports, int ptr) => exports.callMethod<JSAny?>('free'.toJS, ptr.toJS);
 
+Future<void> prepareTuning() => _load();
+
 Future<String?> resolveTuning(Uint8List shares, Uint8List pads, int slotLen) async {
   final exports = await _load();
   final sharesPtr = _call(exports, 'malloc', [shares.length]);
@@ -69,8 +72,31 @@ Future<String?> resolveTuning(Uint8List shares, Uint8List pads, int slotLen) asy
     if (written < 0) return null;
     return utf8.decode(memory().sublist(outPtr, outPtr + written));
   } finally {
-    memory().fillRange(outPtr, outPtr + _outCap, 0);
     for (final p in [sharesPtr, padsPtr, outPtr]) {
+      _free(exports, p);
+    }
+  }
+}
+
+/// The request signature for [payload]; null on bad arguments. Needs [prepareTuning] first.
+String? signTuning(Uint8List shares, Uint8List pads, int slotLen, List<int> payload) {
+  final exports = _exports;
+  if (exports == null) throw StateError('brainCloud config codec not loaded.');
+  final sharesPtr = _call(exports, 'malloc', [shares.length]);
+  final padsPtr = _call(exports, 'malloc', [pads.length]);
+  final payloadPtr = _call(exports, 'malloc', [payload.isEmpty ? 1 : payload.length]);
+  final outPtr = _call(exports, 'malloc', [_signatureLen + 1]);
+  Uint8List memory() => ((exports['memory'] as JSObject)['buffer'] as JSArrayBuffer).toDart.asUint8List();
+  try {
+    memory().setAll(sharesPtr, shares);
+    memory().setAll(padsPtr, pads);
+    memory().setAll(payloadPtr, payload);
+    final written =
+        _call(exports, 'bc_tuning_sign', [sharesPtr, padsPtr, slotLen, payloadPtr, payload.length, outPtr]);
+    if (written != _signatureLen) return null;
+    return ascii.decode(memory().sublist(outPtr, outPtr + written));
+  } finally {
+    for (final p in [sharesPtr, padsPtr, payloadPtr, outPtr]) {
       _free(exports, p);
     }
   }

@@ -1,5 +1,10 @@
 // Copyright 2026 bitHeads, Inc. All Rights Reserved.
 import 'dart:typed_data';
 
-Future<String?> resolveTuning(Uint8List shares, Uint8List pads, int slotLen) =>
-    throw UnsupportedError('brainCloud config decoding is not supported on this platform.');
+Never _unsupported() => throw UnsupportedError('brainCloud config is not supported on this platform.');
+
+Future<void> prepareTuning() async => _unsupported();
+
+Future<String?> resolveTuning(Uint8List shares, Uint8List pads, int slotLen) async => _unsupported();
+
+String? signTuning(Uint8List shares, Uint8List pads, int slotLen, List<int> payload) => _unsupported();

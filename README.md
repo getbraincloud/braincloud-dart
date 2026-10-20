@@ -90,6 +90,8 @@ await _bcWrapper.initWithApps(
 
 No `--dart-define-from-file` flag is needed with manual init. Keep secrets out of source control.
 
+`init` and `initWithApps` also take an `AppProfile` (`appProfile:` / `appProfiles:`) in place of the secret, e.g. `AppProfile.fromValue(secret)`, or `AppProfile((payload) => ...)` for your own signer.
+
 ## Usage/Examples
 
 Here's an example on how to initiate the client wrapper and start an update timer. The example also shows how to restore session and update the route accordingly. 

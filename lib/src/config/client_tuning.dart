@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import '../app_profile.dart';
 import 'tuning_unsupported.dart'
     if (dart.library.ffi) 'tuning_native.dart'
     if (dart.library.js_interop) 'tuning_web.dart' as codec;
@@ -38,9 +39,20 @@ Map<String, dynamic> nestTuning(Uint8List shares, Uint8List pads, int slotLen) =
         ],
     };
 
-/// Decodes a `clientTuning` value (a bundle, or its JSON string). Null if it doesn't decode.
+Map<String, dynamic> _bundle(Object tuning) =>
+    tuning is String ? jsonDecode(tuning) as Map<String, dynamic> : tuning as Map<String, dynamic>;
+
+/// Decodes an encoded app id (a bundle, or its JSON string). Null if it isn't one.
 Future<String?> resolveClientTuning(Object tuning) async {
-  final bundle = tuning is String ? jsonDecode(tuning) as Map<String, dynamic> : tuning as Map<String, dynamic>;
-  final flat = flattenTuning(bundle);
+  final flat = flattenTuning(_bundle(tuning));
   return codec.resolveTuning(flat.shares, flat.pads, flat.slotLen);
+}
+
+/// A profile that signs with an encoded value; the value is only decoded natively.
+Future<AppProfile> tuningProfile(Object tuning) async {
+  final flat = flattenTuning(_bundle(tuning));
+  await codec.prepareTuning();
+  return AppProfile((payload) =>
+      codec.signTuning(flat.shares, flat.pads, flat.slotLen, payload) ??
+      (throw StateError('brainCloud config could not be used to sign.')));
 }
