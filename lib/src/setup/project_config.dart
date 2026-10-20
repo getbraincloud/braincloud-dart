@@ -14,8 +14,7 @@ const configName = 'bc_config.json';
 const defaultServerUrl = BrainCloudAppConfig.defaultServerUrl;
 const defaultAppVersion = '1.0.0';
 
-/// [appValue] is plaintext (a String) when new, or the stored encoded bundle (a Map) when
-/// read back: setup never decodes it, only passes it through.
+/// [appValue] is a String when new, or the stored bundle (a Map) when read back.
 typedef ChildApp = ({String appId, Object appValue});
 typedef FullConfig = ({String appId, Object appValue, String serverUrl, String appVersion, List<ChildApp> children});
 
@@ -32,7 +31,7 @@ Map<String, dynamic>? _json(String file) {
   }
 }
 
-/// `appId`, `serverUrl`, `appVersion`, `childIds` of an existing config, or null. Never the app values.
+/// `appId`, `serverUrl`, `appVersion`, `childIds` of an existing config, or null.
 ({String appId, String serverUrl, String appVersion, List<String> childIds})? read(String file) {
   final full = load(file);
   if (full == null) return null;
@@ -49,7 +48,7 @@ Map<String, dynamic> _bundle(Object tuning) =>
 
 String _decodeId(Object tuning) {
   final flat = flattenTuning(_bundle(tuning));
-  final value = resolveTuningSync(flat.shares, flat.pads, flat.slotLen);
+  final value = resolveTuningSync(flat.shares, flat.salts, flat.slotLen);
   if (value == null) throw const FormatException('undecodable app id');
   return value;
 }
@@ -78,7 +77,7 @@ FullConfig? load(String file) {
 
 Map<String, dynamic> _encode(String value) {
   final built = buildTuning(value);
-  return nestTuning(built.shares, built.pads, built.slotLen);
+  return nestTuning(built.shares, built.salts, built.slotLen);
 }
 
 Map<String, dynamic> _encodeValue(Object value) => value is String ? _encode(value) : _bundle(value);

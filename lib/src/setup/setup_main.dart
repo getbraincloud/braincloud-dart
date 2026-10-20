@@ -77,7 +77,7 @@ Future<int> runSetup(List<String> argv, {void Function(String) log = print, Map<
   if (timedOut) log('brainCloud setup timed out after $timeout minutes.');
   if (project.read(output) != null) {
     log('Done. Build with --dart-define-from-file=${p.basename(output)}, then call:\n'
-        '  await BrainCloudWrapper().initFromConfig();');
+        '  await BrainCloudWrapper().init();');
   }
   return 0;
 }

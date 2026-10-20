@@ -224,7 +224,10 @@ class BrainCloudWrapper {
     runCallbacks();
   }
 
-  /// Initialize the brainCloud client with the passed in parameters.
+  /// Initialize the brainCloud client.
+  ///
+  /// With no [secretKey] or [appProfile], reads `bc_config.json` from
+  /// `--dart-define-from-file`, or [config]. Child apps are registered as with [initWithApps].
   ///
   /// @param url The brainCloud server url
   ///
@@ -232,22 +235,44 @@ class BrainCloudWrapper {
   ///
   /// @param appProfile Signs requests for the app, instead of [secretKey]
   ///
-  /// @param appId The app's id
+  /// @param appId The app's id. Required with [secretKey] or [appProfile].
   ///
-  /// @param version The app's version
+  /// @param version The app's version. Required with [secretKey] or [appProfile].
   ///
-  /// @param updateTick in millisecond. Set to 0 to manage the update manually.
+  /// @param updateTick in millisecond. Set to 0 to manage the update manually. Default: 50
+  ///
+  /// @param config App settings to use instead of the dart-defines
   ///
   /// return Future
   Future<void> init(
       {String? secretKey,
       AppProfile? appProfile,
-      required String appId,
-      required String version,
+      String? appId,
+      String? version,
       String? url,
-      required int updateTick}) async {
-    if ((secretKey == null) == (appProfile == null)) {
-      throw ArgumentError('Pass exactly one of secretKey or appProfile.');
+      int updateTick = 50,
+      BrainCloudAppConfig? config}) async {
+    if (secretKey != null && appProfile != null) {
+      throw ArgumentError('Pass at most one of secretKey or appProfile.');
+    }
+    if (secretKey == null && appProfile == null) {
+      final c = config ?? BrainCloudAppConfig.fromEnvironment();
+      final resolved = await c.resolve();
+      if (resolved.profiles.length > 1) {
+        return initWithApps(
+            url: c.serverUrl,
+            defaultAppId: resolved.appId,
+            appProfiles: resolved.profiles,
+            version: c.version,
+            updateTick: updateTick);
+      }
+      appProfile = resolved.profiles[resolved.appId];
+      appId = resolved.appId;
+      version = c.version;
+      url = c.serverUrl;
+    }
+    if (appId == null || version == null) {
+      throw ArgumentError('appId and version are required with secretKey or appProfile.');
     }
     final profile = appProfile ?? AppProfile.fromValue(secretKey!);
     resetWrapper();
@@ -266,23 +291,6 @@ class BrainCloudWrapper {
 
     await _loadData();
     _startTimer();
-  }
-
-  /// Initialize from the `bc_config.json` written by `dart run braincloud:setup`.
-  ///
-  /// Build with `--dart-define-from-file=bc_config.json`, or pass a [config] you loaded yourself.
-  /// Child apps in the config are registered as with [initWithApps].
-  ///
-  /// @param updateTick in millisecond. Set to 0 to manage the update manually.
-  Future<void> initFromConfig({BrainCloudAppConfig? config, int updateTick = 50}) async {
-    final c = config ?? BrainCloudAppConfig.fromEnvironment();
-    final (:appId, :profiles) = await c.resolve();
-    if (profiles.length == 1) {
-      return init(
-          appProfile: profiles[appId]!, appId: appId, version: c.version, url: c.serverUrl, updateTick: updateTick);
-    }
-    return initWithApps(
-        url: c.serverUrl, defaultAppId: appId, appProfiles: profiles, version: c.version, updateTick: updateTick);
   }
 
   bool get isInitialized => _client.isInitialized();

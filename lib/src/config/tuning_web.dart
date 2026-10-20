@@ -1,5 +1,5 @@
 // Copyright 2026 bitHeads, Inc. All Rights Reserved.
-// Web decoder: the same native core compiled to wasm32-wasi (tuning_wasm.g.dart).
+// Web build of the config library (tuning_wasm.g.dart).
 import 'dart:convert';
 import 'dart:js_interop';
 import 'dart:js_interop_unsafe';
@@ -58,45 +58,45 @@ void _free(JSObject exports, int ptr) => exports.callMethod<JSAny?>('free'.toJS,
 
 Future<void> prepareTuning() => _load();
 
-Future<String?> resolveTuning(Uint8List shares, Uint8List pads, int slotLen) async {
+Future<String?> resolveTuning(Uint8List shares, Uint8List salts, int slotLen) async {
   final exports = await _load();
   final sharesPtr = _call(exports, 'malloc', [shares.length]);
-  final padsPtr = _call(exports, 'malloc', [pads.length]);
+  final saltsPtr = _call(exports, 'malloc', [salts.length]);
   final outPtr = _call(exports, 'malloc', [_outCap]);
   // Re-read the buffer after each allocation; growth detaches the old one.
   Uint8List memory() => ((exports['memory'] as JSObject)['buffer'] as JSArrayBuffer).toDart.asUint8List();
   try {
     memory().setAll(sharesPtr, shares);
-    memory().setAll(padsPtr, pads);
-    final written = _call(exports, 'bc_tuning_resolve', [sharesPtr, padsPtr, slotLen, outPtr, _outCap]);
+    memory().setAll(saltsPtr, salts);
+    final written = _call(exports, 'bc_tuning_resolve', [sharesPtr, saltsPtr, slotLen, outPtr, _outCap]);
     if (written < 0) return null;
     return utf8.decode(memory().sublist(outPtr, outPtr + written));
   } finally {
-    for (final p in [sharesPtr, padsPtr, outPtr]) {
+    for (final p in [sharesPtr, saltsPtr, outPtr]) {
       _free(exports, p);
     }
   }
 }
 
 /// The request signature for [payload]; null on bad arguments. Needs [prepareTuning] first.
-String? signTuning(Uint8List shares, Uint8List pads, int slotLen, List<int> payload) {
+String? signTuning(Uint8List shares, Uint8List salts, int slotLen, List<int> payload) {
   final exports = _exports;
   if (exports == null) throw StateError('brainCloud config codec not loaded.');
   final sharesPtr = _call(exports, 'malloc', [shares.length]);
-  final padsPtr = _call(exports, 'malloc', [pads.length]);
+  final saltsPtr = _call(exports, 'malloc', [salts.length]);
   final payloadPtr = _call(exports, 'malloc', [payload.isEmpty ? 1 : payload.length]);
   final outPtr = _call(exports, 'malloc', [_signatureLen + 1]);
   Uint8List memory() => ((exports['memory'] as JSObject)['buffer'] as JSArrayBuffer).toDart.asUint8List();
   try {
     memory().setAll(sharesPtr, shares);
-    memory().setAll(padsPtr, pads);
+    memory().setAll(saltsPtr, salts);
     memory().setAll(payloadPtr, payload);
     final written =
-        _call(exports, 'bc_tuning_sign', [sharesPtr, padsPtr, slotLen, payloadPtr, payload.length, outPtr]);
+        _call(exports, 'bc_tuning_sign', [sharesPtr, saltsPtr, slotLen, payloadPtr, payload.length, outPtr]);
     if (written != _signatureLen) return null;
     return ascii.decode(memory().sublist(outPtr, outPtr + written));
   } finally {
-    for (final p in [sharesPtr, padsPtr, payloadPtr, outPtr]) {
+    for (final p in [sharesPtr, saltsPtr, payloadPtr, outPtr]) {
       _free(exports, p);
     }
   }

@@ -1,6 +1,5 @@
 // Copyright 2026 bitHeads, Inc. All Rights Reserved.
-// FFI binding to the setup-only encoder. Loaded from the package by path, so it's never
-// bundled into an app the way hook/build.dart bundles the runtime decoder.
+// FFI binding to the setup library, loaded by path (not bundled into apps).
 import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
@@ -33,29 +32,29 @@ late final _Build _build = () {
   return DynamicLibrary.open(path).lookupFunction<_BuildNative, _Build>('bc_tuning_build');
 }();
 
-/// Encodes [value] as 32 `(share, pad)` slots.
-({Uint8List shares, Uint8List pads, int slotLen}) buildTuning(String value) {
+/// Encodes [value] as 32 `(share, salt)` slots.
+({Uint8List shares, Uint8List salts, int slotLen}) buildTuning(String value) {
   final bytes = utf8.encode(value);
   final valuePtr = malloc<Uint8>(bytes.length);
   // Strided at bytes.length per slot (an upper bound); slotLen says how much is used.
   final sharesPtr = malloc<Uint8>(_slotCount * bytes.length);
-  final padsPtr = malloc<Uint8>(_slotCount * bytes.length);
+  final saltsPtr = malloc<Uint8>(_slotCount * bytes.length);
   try {
     valuePtr.asTypedList(bytes.length).setAll(0, bytes);
-    final slotLen = _build(valuePtr, bytes.length, sharesPtr, padsPtr);
+    final slotLen = _build(valuePtr, bytes.length, sharesPtr, saltsPtr);
     final stridedShares = sharesPtr.asTypedList(_slotCount * bytes.length);
-    final stridedPads = padsPtr.asTypedList(_slotCount * bytes.length);
+    final stridedSalts = saltsPtr.asTypedList(_slotCount * bytes.length);
     final shares = Uint8List(_slotCount * slotLen);
-    final pads = Uint8List(_slotCount * slotLen);
+    final salts = Uint8List(_slotCount * slotLen);
     for (var i = 0; i < _slotCount; i++) {
       shares.setRange(i * slotLen, (i + 1) * slotLen, stridedShares, i * bytes.length);
-      pads.setRange(i * slotLen, (i + 1) * slotLen, stridedPads, i * bytes.length);
+      salts.setRange(i * slotLen, (i + 1) * slotLen, stridedSalts, i * bytes.length);
     }
-    return (shares: shares, pads: pads, slotLen: slotLen);
+    return (shares: shares, salts: salts, slotLen: slotLen);
   } finally {
     valuePtr.asTypedList(bytes.length).fillRange(0, bytes.length, 0);
     malloc.free(valuePtr);
     malloc.free(sharesPtr);
-    malloc.free(padsPtr);
+    malloc.free(saltsPtr);
   }
 }

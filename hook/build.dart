@@ -1,4 +1,4 @@
-// Bundles the prebuilt config decoder (native/<os>_<arch>/) for the target being built.
+// Bundles the prebuilt config library (native/<os>_<arch>/) for the target being built.
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 
@@ -7,7 +7,7 @@ void main(List<String> args) async {
     if (!input.config.buildCodeAssets) return;
     final code = input.config.code;
     final dir = _targetDir(code);
-    if (dir == null) return; // Unsupported target: initFromConfig() reports it at runtime.
+    if (dir == null) return; // Unsupported target: init() reports it at runtime.
 
     final file = input.packageRoot.resolve('native/$dir/${code.targetOS.dylibFileName('braincloud_native')}');
     output.dependencies.add(file);

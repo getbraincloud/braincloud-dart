@@ -7,7 +7,7 @@ import 'client_tuning.dart';
 /// App settings written by `dart run braincloud:setup` into `bc_config.json`.
 ///
 /// Build with `--dart-define-from-file=bc_config.json` and [BrainCloudAppConfig.fromEnvironment]
-/// picks them up; `BrainCloudWrapper.initFromConfig()` does that for you.
+/// picks them up; `BrainCloudWrapper.init()` does that for you.
 class BrainCloudAppConfig {
   static const defaultServerUrl = 'https://api.braincloudservers.com/dispatcherv2';
 

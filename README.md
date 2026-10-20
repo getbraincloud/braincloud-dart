@@ -46,10 +46,10 @@ flutter build <platform> --dart-define-from-file=bc_config.json
 Then initialize with no parameters:
 
 ```dart
-await _bcWrapper.initFromConfig();
+await _bcWrapper.init();
 ```
 
-Child apps picked in the setup page are registered automatically (same as `initWithApps`). `initFromConfig` takes an optional `updateTick` (default 50ms), or a `config:` you loaded yourself instead of reading the dart-defines.
+Child apps picked in the setup page are registered automatically (same as `initWithApps`). `init()` takes an optional `updateTick` (default 50ms), or a `config:` you loaded yourself instead of reading the dart-defines.
 
 Setup options:
 
@@ -120,7 +120,7 @@ class MyApp extends StatelessWidget {
   /// Future to init the BrainCloud Client
   Future<String> _initAndUpdateRoute() async {
     // Reads bc_config.json (App Setup, Option 1). For manual init, see Option 2.
-    await _bcWrapper.initFromConfig();
+    await _bcWrapper.init();
 
     /// Check if there was a session
     bool hasSession = false;

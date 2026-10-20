@@ -7,7 +7,7 @@ import 'package:crypto/crypto.dart';
 
 /// Signs requests for one app.
 ///
-/// `BrainCloudWrapper.initFromConfig()` builds these from `bc_config.json`; use
+/// `BrainCloudWrapper.init()` builds these from `bc_config.json`; use
 /// [AppProfile.fromValue] with `init(appProfile:)` when initializing by hand.
 class AppProfile {
   /// Returns the request signature for [payload].
@@ -16,28 +16,28 @@ class AppProfile {
   /// A profile backed by your own signer.
   const AppProfile(this.sign);
 
-  /// A profile for the app's secret key, held masked in memory.
+  /// A profile for the app's secret key.
   factory AppProfile.fromValue(String secretKey) {
-    final masked = _MaskedValue(secretKey);
-    return AppProfile((payload) => masked.use((bytes) => calculateChunkedMd5(payload, bytes)));
+    final held = _HeldValue(secretKey);
+    return AppProfile((payload) => held.use((bytes) => calculateChunkedMd5(payload, bytes)));
   }
 }
 
-class _MaskedValue {
-  final Uint8List _pad;
-  final Uint8List _masked;
+class _HeldValue {
+  final Uint8List _noise;
+  final Uint8List _held;
 
-  _MaskedValue._(this._pad, this._masked);
+  _HeldValue._(this._noise, this._held);
 
-  factory _MaskedValue(String value) {
+  factory _HeldValue(String value) {
     final bytes = Uint8List.fromList(utf8.encode(value));
-    final pad = _randomBytes(bytes.length);
-    final masked = Uint8List(bytes.length);
+    final noise = _randomBytes(bytes.length);
+    final held = Uint8List(bytes.length);
     for (var i = 0; i < bytes.length; i++) {
-      masked[i] = bytes[i] ^ pad[i];
+      held[i] = bytes[i] ^ noise[i];
     }
     bytes.fillRange(0, bytes.length, 0);
-    return _MaskedValue._(pad, masked);
+    return _HeldValue._(noise, held);
   }
 
   static final Random _random = Random.secure();
@@ -50,11 +50,11 @@ class _MaskedValue {
     return bytes;
   }
 
-  /// Passes the raw bytes to [action]; they're wiped afterwards.
+  /// Runs [action] with the value's bytes.
   T use<T>(T Function(Uint8List bytes) action) {
-    final bytes = Uint8List(_masked.length);
-    for (var i = 0; i < _masked.length; i++) {
-      bytes[i] = _masked[i] ^ _pad[i];
+    final bytes = Uint8List(_held.length);
+    for (var i = 0; i < _held.length; i++) {
+      bytes[i] = _held[i] ^ _noise[i];
     }
     try {
       return action(bytes);
