@@ -3,7 +3,6 @@ import 'package:test/test.dart';
 import 'utils/test_base.dart';
 import 'dart:io' as io;
 
-@override
 main() async {
   BCTest bcTest = BCTest();
   setUpAll(bcTest.setupBC);

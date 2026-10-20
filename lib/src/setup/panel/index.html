@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>brainCloud Setup</title>
+<style>
+  :root {
+    --bc-blue: #29a8e0;
+    --bc-blue-hover: #4cb8e6;
+    --page: #0f1923;
+    --panel: #141e2b;
+    --field: #0f1923;
+    --border: #253447;
+    --text: #e6edf3;
+    --muted: #8b9bb0;
+    --warn: #FF9B3D;
+    --error: #dd5555;
+    --ok: #4cc38a;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --page: #eef2f6;
+      --panel: #ffffff;
+      --field: #f6f8fa;
+      --border: #d0d7de;
+      --text: #1f2328;
+      --muted: #59636e;
+      --warn: #FF832B;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text);
+    font: 12px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .dock {
+    max-width: 340px;
+    margin: 16px auto;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  .section { padding: 8px; display: flex; flex-direction: column; gap: 4px; }
+  .header { padding: 10px; align-items: center; text-align: center; }
+  .header img { height: 28px; max-width: 100%; object-fit: contain; }
+  .logo-light { display: none; }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) .logo-dark { display: none; }
+    :root:not([data-theme="dark"]) .logo-light { display: inline; }
+  }
+  .version { font-size: 9px; color: var(--muted); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 0; }
+  .inner-sep { margin: 4px 0; }
+  .section-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  label, .label { font-size: 11px; }
+  .small { font-size: 10px; color: var(--muted); }
+  .hint { font-size: 9px; color: var(--muted); }
+  .error { font-size: 11px; color: var(--error); white-space: pre-wrap; }
+  .warn { font-size: 11px; color: var(--warn); }
+  .status { font-size: 11px; text-align: center; color: var(--ok); min-height: 0; }
+  input[type=text], input[type=password], select {
+    width: 100%;
+    font: inherit;
+    font-size: 11px;
+    color: var(--text);
+    background: var(--field);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 4px 6px;
+  }
+  input[readonly] { color: var(--muted); }
+  .row { display: flex; gap: 4px; align-items: center; }
+  .row > :first-child { flex: 1; min-width: 0; }
+  button {
+    font: inherit;
+    font-size: 11px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    padding: 0 8px;
+    min-height: 24px;
+    cursor: pointer;
+  }
+  button:disabled { opacity: .5; cursor: default; }
+  button.primary { background: var(--bc-blue); border-color: var(--bc-blue); color: #fff; min-height: 28px; width: 100%; }
+  button.primary:hover:not(:disabled) { background: var(--bc-blue-hover); }
+  button.wide { width: 100%; }
+  button.flat { border: 0; color: var(--bc-blue); padding: 0 4px; min-width: 28px; }
+  .refresh { font-size: 12px; }
+  .collapse {
+    border: 0; padding: 0; min-height: 20px; text-align: left; width: 100%;
+    color: var(--bc-blue); font-size: 10px; font-weight: 600; letter-spacing: .04em;
+  }
+  .collapse:hover { color: var(--bc-blue-hover); }
+  .check { display: flex; gap: 6px; align-items: center; font-size: 11px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 8px; }
+  .grid .check { font-size: 10px; }
+  a { color: var(--bc-blue); text-decoration: none; font-size: 11px; }
+  a:hover { text-decoration: underline; }
+  .path { font-size: 9px; color: var(--muted); word-break: break-all; }
+  .hidden { display: none !important; }
+  .closed { text-align: center; padding: 24px 8px; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="dock" id="dock">
+  <div class="section header">
+    <img class="logo-dark" src="/logo.png" alt="brainCloud">
+    <img class="logo-light" src="/logo_light.png" alt="brainCloud">
+    <div class="version" id="version">Plugin</div>
+  </div>
+  <hr>
+
+  <div class="section" id="account"></div>
+  <hr>
+
+  <div class="section">
+    <label class="check"><input type="checkbox" id="useDefault"> Use Default brainCloud Server</label>
+    <div class="label" id="serverLabel">Server URL</div>
+    <input type="text" id="serverUrl" spellcheck="false">
+    <hr class="inner-sep">
+
+    <button class="collapse" id="credsHeader">▸ APP CREDENTIALS</button>
+    <div id="credsBox" class="section hidden" style="padding:0">
+      <div id="appNameRow" class="hidden">
+        <div class="label">App Name</div>
+        <input type="text" id="appName" readonly>
+        <div class="hint">Read only</div>
+      </div>
+      <div class="label">App Version</div>
+      <input type="text" id="appVersion" spellcheck="false">
+      <div class="label">App ID</div>
+      <input type="text" id="appId" spellcheck="false" autocomplete="off">
+      <div class="label">App Secret</div>
+      <div class="row">
+        <input type="password" id="appValue" autocomplete="off" placeholder="Unchanged">
+        <button class="flat" id="eye">Show</button>
+      </div>
+      <div id="childList" class="section hidden" style="padding:0">
+        <div class="label">Child Apps</div>
+        <div id="childRows"></div>
+      </div>
+      <div class="status" id="status"></div>
+      <button class="primary" id="save">Save</button>
+      <div class="warn" id="gitWarn"></div>
+      <div class="path" id="outputPath"></div>
+    </div>
+
+    <button class="wide hidden" id="logout">Log out</button>
+  </div>
+  <hr>
+
+  <div class="section">
+    <div class="section-label">Resources</div>
+    <a href="https://portalx.braincloudservers.com/" target="_blank" rel="noopener">Portal</a>
+    <a href="https://docs.braincloudservers.com/learn/introduction/" target="_blank" rel="noopener">Learn</a>
+    <a href="https://docs.braincloudservers.com/api/introduction" target="_blank" rel="noopener">API Reference</a>
+    <a href="https://help.getbraincloud.com/en/" target="_blank" rel="noopener">Knowledge Base</a>
+    <a href="https://apps.braincloudservers.com/code_examples/index.html" target="_blank" rel="noopener">Code Examples</a>
+    <a id="sdkLink" class="hidden" href="#" target="_blank" rel="noopener"></a>
+  </div>
+  <hr>
+
+  <div class="section" id="doneSection">
+    <button class="wide" id="done">Done</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  const TOKEN = "__SETUP_TOKEN__";
+  // The JetBrains tool window loads the panel with ?host=ide and routes the login page to the system browser.
+  const IN_IDE = new URLSearchParams(location.search).get("host") === "ide";
+  let pollTimer = null;
+  const CREATE_NEW = "";
+  const PLATFORMS = [
+    ["WINDOWS", "Windows", true], ["MAC", "Mac", true], ["LINUX", "Linux", true],
+    ["WEB", "Web", false], ["IOS", "iOS", false], ["ANG", "Android", false],
+    ["AMAZON", "Amazon", false], ["APPLE_TV_OS", "Apple tvOS", false], ["VISION_OS", "Apple visionOS", false],
+    ["WATCH_OS", "Apple watchOS", false], ["BB", "BlackBerry", false], ["FB", "Facebook", false],
+    ["NINTENDO", "Nintendo", false], ["OCULUS", "Oculus", false], ["PS3", "PlayStation 3", false],
+    ["PS4", "PlayStation 4", false], ["PS_VITA", "PlayStation Vita", false], ["ROKU", "Roku", false],
+    ["STEAM", "Steam", false], ["TIZEN", "Tizen", false], ["WII", "Wii", false],
+    ["WINP", "Windows Phone", false], ["XBOX_ONE", "Xbox One", false], ["XBOX_360", "Xbox 360", false],
+    ["UNKNOWN", "Unknown", false]
+  ];
+
+  const $ = (id) => document.getElementById(id);
+  let state = null;
+  let busy = false;
+  let userTriggeredLogin = false;
+  let showCreate = false;
+  let appSelectChoice = "";
+  let newAppName = "";
+  let useTemplate = false;
+  let templateChoice = "";
+  const platformState = {};
+  PLATFORMS.forEach(([id, , on]) => { platformState[id] = on; });
+  let credsOpen = null;
+  let serverDirty = false;
+  let teamsRequested = false;
+  const CHILD_MANUAL = "__manual__";
+  // Child rows being added; reset when the configured app changes.
+  let childRows = [];
+  let childRowsFor = null;
+
+  function el(tag, props, children) {
+    const node = document.createElement(tag);
+    Object.assign(node, props || {});
+    (children || []).forEach((c) => node.appendChild(typeof c === "string" ? document.createTextNode(c) : c));
+    return node;
+  }
+
+  async function api(action, body) {
+    busy = true;
+    setDisabled(true);
+    try {
+      const res = await fetch("/api/" + action, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Setup-Token": TOKEN },
+        body: JSON.stringify(body || {})
+      });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const next = await res.json();
+      render(next);
+      return next;
+    } catch (e) {
+      if (state) { state.error = "Setup is not responding. Re-run the setup command."; render(state); }
+      return null;
+    } finally {
+      busy = false;
+      setDisabled(false);
+    }
+  }
+
+  function setDisabled(on) {
+    document.querySelectorAll("#dock button, #dock select, #dock input").forEach((n) => { n.disabled = on || n.dataset.locked === "1"; });
+  }
+
+  function currentServerUrl() {
+    return $("useDefault").checked ? state.defaultServerUrl : $("serverUrl").value.trim();
+  }
+
+  function refreshButton(onClick) {
+    const b = el("button", { className: "flat refresh", title: "Refresh", textContent: "⟳" });
+    b.addEventListener("click", onClick);
+    return b;
+  }
+
+  function sectionLabel(text) { return el("div", { className: "section-label", textContent: text }); }
+
+  function renderAccount() {
+    const box = $("account");
+    box.replaceChildren();
+    box.appendChild(sectionLabel("brainCloud Account"));
+
+    if (state.state === "logging_in") {
+      box.appendChild(el("div", { className: "label", textContent: "Waiting for browser login…", style: "text-align:center" }));
+      const cancel = el("button", { className: "wide", textContent: "Cancel" });
+      cancel.addEventListener("click", () => api("cancel"));
+      box.appendChild(cancel);
+      return;
+    }
+
+    if (state.state !== "logged_in") {
+      const hasApp = state.configured.present;
+      box.appendChild(el("div", {
+        className: "label",
+        textContent: hasApp
+          ? "This project's app credentials (below) are already configured and in use. Log in only if you want to switch to a different app."
+          : "Go to the brainCloud portal to view more advanced configurations of your project and to find additional resources."
+      }));
+      box.appendChild(el("a", { href: state.portalUrl, target: "_blank", rel: "noopener", textContent: "brainCloud Portal" }));
+      if (userTriggeredLogin && state.error) box.appendChild(el("div", { className: "error", textContent: state.error }));
+      const login = el("button", { className: "primary", textContent: hasApp ? "Change App" : "Log in with brainCloud" });
+      login.addEventListener("click", async () => {
+        userTriggeredLogin = true;
+        const next = await api("login", { serverUrl: currentServerUrl(), host: IN_IDE ? "ide" : "" });
+        if (next && next.authorizeUrl) window.location.href = next.authorizeUrl;
+      });
+      box.appendChild(login);
+      return;
+    }
+
+    if (state.email) box.appendChild(el("div", { className: "small", textContent: state.email }));
+    if (state.error) box.appendChild(el("div", { className: "error", textContent: state.error }));
+
+    box.appendChild(el("div", { className: "label", textContent: "Team" }));
+    const teamSelect = el("select");
+    state.teams.forEach((t) => teamSelect.appendChild(el("option", { value: t.id, textContent: t.name, selected: t.id === state.teamId })));
+    teamSelect.addEventListener("change", () => { showCreate = false; api("team", { teamId: teamSelect.value }); });
+    box.appendChild(el("div", { className: "row" }, [teamSelect, refreshButton(() => api("teams"))]));
+
+    box.appendChild(el("div", { className: "label", textContent: "App" }));
+    const appSelect = el("select");
+    appSelect.appendChild(el("option", { value: CREATE_NEW, textContent: "-- Create New App --" }));
+    const currentAppId = state.configured.appId;
+    let matched = false;
+    const pending = showCreate ? "" : (appSelectChoice || currentAppId);
+    state.apps.forEach((a) => {
+      const selected = !showCreate && a.id === pending && pending !== "";
+      matched = matched || selected;
+      const label = a.isParent ? a.name + "  Parent" + (a.levelName ? ": " + a.levelName : "") : a.name;
+      appSelect.appendChild(el("option", { value: a.id, textContent: label, selected }));
+    });
+    if (!matched) { appSelect.value = CREATE_NEW; showCreate = true; }
+    appSelect.addEventListener("change", () => {
+      showCreate = appSelect.value === CREATE_NEW;
+      const appId = appSelect.value;
+      appSelectChoice = showCreate ? "" : appId;
+      // Re-render first so the create fields disappear as soon as a real app is picked.
+      render(state);
+      if (!showCreate) api("app", { appId });
+    });
+    box.appendChild(el("div", { className: "row" }, [appSelect, refreshButton(() => api("apps"))]));
+
+    if (showCreate) box.appendChild(createAppFields());
+    else {
+      const children = childAppsSection();
+      if (children) box.appendChild(children);
+    }
+  }
+
+  function childLabel(id, name) { return name ? name + " (" + id + ")" : id; }
+
+  function childAppsSection() {
+    const c = state.configured;
+    const parent = state.apps.find((a) => a.id === c.appId);
+    const isParent = !!(parent && parent.isParent);
+    if (!c.present || (!isParent && !c.children.length)) return null;
+
+    const wrap = el("div", { className: "section", style: "padding:0" });
+    // Set in the portal; the setup login can't change it.
+    const flag = el("input", { type: "checkbox", checked: isParent });
+    flag.dataset.locked = "1";
+    wrap.appendChild(el("label", { className: "check" }, [flag, "Parent app (set in the brainCloud portal)"]));
+
+    const add = el("button", { className: "flat", textContent: "+", title: "Add a child app" });
+    add.addEventListener("click", () => { childRows.push({ manual: false, id: "", value: "" }); render(state); });
+    wrap.appendChild(el("div", { className: "row" }, [el("div", { className: "label", textContent: "Child Apps" }), add]));
+
+    const linked = state.apps.filter((a) => a.parentAppId === c.appId);
+    if (isParent && !linked.length) {
+      wrap.appendChild(el("div", { className: "hint", textContent: "No child apps visible. Link children in the brainCloud portal (or ask a team admin)." }));
+    }
+
+    // Index matches getChildAppIdList().
+    c.children.forEach((child, index) => {
+      const remove = el("button", { className: "flat", textContent: "×", title: "Remove" });
+      remove.addEventListener("click", () => api("child-remove", { appId: child.id }));
+      wrap.appendChild(el("div", { className: "row" }, [el("input", { type: "text", readOnly: true, value: "[" + index + "] " + childLabel(child.id, child.name) }), remove]));
+    });
+
+    const used = new Set(c.children.map((x) => x.id));
+    const available = linked.filter((a) => !used.has(a.id));
+    childRows.forEach((row) => {
+      const drop = el("button", { className: "flat", textContent: "×", title: "Cancel" });
+      drop.addEventListener("click", () => { childRows.splice(childRows.indexOf(row), 1); render(state); });
+
+      const pick = el("select");
+      pick.appendChild(el("option", { value: "", textContent: "-- Select child app --" }));
+      available.forEach((a) => pick.appendChild(el("option", { value: a.id, textContent: childLabel(a.id, a.name) })));
+      pick.appendChild(el("option", { value: CHILD_MANUAL, textContent: "Other (enter manually)", selected: row.manual }));
+      pick.addEventListener("change", async () => {
+        if (pick.value === CHILD_MANUAL) { row.manual = true; render(state); return; }
+        row.manual = false;
+        if (!pick.value) return;
+        const next = await api("child-add", { appId: pick.value });
+        if (next && !next.error) { childRows.splice(childRows.indexOf(row), 1); render(next); }
+      });
+      wrap.appendChild(el("div", { className: "row" }, [pick, drop]));
+
+      if (row.manual) {
+        const id = el("input", { type: "text", placeholder: "Child App ID", value: row.id, spellcheck: false });
+        id.addEventListener("input", () => { row.id = id.value; });
+        const value = el("input", { type: "password", placeholder: "Child App Secret", value: row.value, autocomplete: "off" });
+        value.addEventListener("input", () => { row.value = value.value; });
+        const save = el("button", { className: "wide", textContent: "Add Child App" });
+        save.addEventListener("click", async () => {
+          if (!row.id.trim() || !row.value) return;
+          const next = await api("child-add", { appId: row.id.trim(), appValue: row.value });
+          if (next && !next.error) { childRows.splice(childRows.indexOf(row), 1); render(next); }
+        });
+        wrap.appendChild(id);
+        wrap.appendChild(value);
+        wrap.appendChild(save);
+      }
+    });
+    return wrap;
+  }
+
+  function createAppFields() {
+    const wrap = el("div", { className: "section", style: "padding:0" });
+    wrap.appendChild(el("div", { className: "label", textContent: "App Name" }));
+    const name = el("input", { type: "text", placeholder: "New brainCloud App Name", value: newAppName });
+    name.addEventListener("input", () => { newAppName = name.value; });
+    wrap.appendChild(name);
+
+    // Templates come from this SDK's engine team on the server (e.g. RelayTestApp).
+    const tmplCb = el("input", { type: "checkbox", checked: useTemplate });
+    tmplCb.addEventListener("change", () => {
+      useTemplate = tmplCb.checked;
+      if (useTemplate && !state.templates.length) api("templates");
+      else render(state);
+    });
+    wrap.appendChild(el("label", { className: "check", title: "Copies the dashboard configuration from a pre-created template." }, [tmplCb, "Create using Tutorial template"]));
+    if (useTemplate) {
+      if (state.templates.length) {
+        if (!state.templates.some((t) => t.id === templateChoice)) templateChoice = state.templates[0].id;
+        const tmplSelect = el("select");
+        state.templates.forEach((t) => tmplSelect.appendChild(el("option", { value: t.id, textContent: t.name, selected: t.id === templateChoice })));
+        tmplSelect.addEventListener("change", () => { templateChoice = tmplSelect.value; });
+        wrap.appendChild(el("div", { className: "row" }, [tmplSelect, refreshButton(() => api("templates"))]));
+      } else {
+        wrap.appendChild(el("div", { className: "label", textContent: state.templatesError || "Loading templates…" }));
+      }
+    }
+
+    // A template brings its own platforms, so the list only shows without one (as in Unity).
+    if (!useTemplate) {
+      wrap.appendChild(el("div", { className: "label", textContent: "Platforms" }));
+      wrap.appendChild(el("div", { className: "hint", textContent: "Users authenticating from a platform that isn't checked get a platform not enabled error." }));
+      const grid = el("div", { className: "grid" });
+      PLATFORMS.forEach(([id, label]) => {
+        const cb = el("input", { type: "checkbox", checked: platformState[id] });
+        cb.addEventListener("change", () => { platformState[id] = cb.checked; });
+        grid.appendChild(el("label", { className: "check" }, [cb, label]));
+      });
+      wrap.appendChild(grid);
+    }
+    const create = el("button", { className: "primary", textContent: "Create App" });
+    create.addEventListener("click", async () => {
+      const platforms = PLATFORMS.map(([id]) => id).filter((id) => platformState[id]);
+      const templateAppId = useTemplate && state.templates.length ? templateChoice : "";
+      if (useTemplate && !templateAppId) return;
+      const next = await api("create", { appName: newAppName, platforms, templateAppId });
+      if (next && !next.error) { showCreate = false; newAppName = ""; useTemplate = false; render(next); }
+    });
+    wrap.appendChild(create);
+    return wrap;
+  }
+
+  function renderCredentials() {
+    const c = state.configured;
+    if (credsOpen === null) credsOpen = c.present && state.state !== "logged_in";
+    $("credsBox").classList.toggle("hidden", !credsOpen);
+    $("credsHeader").textContent = (credsOpen ? "▾ " : "▸ ") + "APP CREDENTIALS";
+
+    $("appNameRow").classList.toggle("hidden", !c.appName);
+    $("appName").value = c.appName || "";
+    if (document.activeElement !== $("appVersion")) $("appVersion").value = c.appVersion;
+    if (document.activeElement !== $("appId")) $("appId").value = c.appId;
+    $("appValue").placeholder = c.present ? "Unchanged" : "";
+
+    $("status").textContent = state.status || "";
+    $("status").classList.toggle("hidden", !state.status);
+    $("gitWarn").textContent = c.gitignored
+      ? "⚠  " + c.fileName + " is gitignored"
+      : "⚠  Add " + c.fileName + " to .gitignore";
+    $("gitWarn").classList.toggle("hidden", !c.present);
+    // Read-only; index matches getChildAppIdList(). Editing is under the account section.
+    $("childList").classList.toggle("hidden", !c.children.length);
+    $("childRows").replaceChildren(...c.children.map((child, index) =>
+      el("input", { type: "text", readOnly: true, value: "[" + index + "] " + childLabel(child.id, child.name) })));
+    $("outputPath").textContent = c.output;
+    $("logout").classList.toggle("hidden", state.state !== "logged_in");
+  }
+
+  function renderServer() {
+    if (serverDirty) return;
+    const isDefault = !state.serverUrl || state.serverUrl === state.defaultServerUrl;
+    $("useDefault").checked = isDefault;
+    $("serverUrl").value = state.serverUrl || state.defaultServerUrl;
+    applyDefaultServer();
+  }
+
+  function applyDefaultServer() {
+    const on = $("useDefault").checked;
+    $("serverLabel").classList.toggle("hidden", on);
+    $("serverUrl").classList.toggle("hidden", on);
+    if (on) $("serverUrl").value = state.defaultServerUrl;
+  }
+
+  async function poll() {
+    try {
+      const res = await fetch("/api/state", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Setup-Token": TOKEN },
+        body: "{}"
+      });
+      if (res.ok && !busy) render(await res.json());
+    } catch (e) { /* keep waiting */ }
+  }
+
+  function render(next) {
+    state = next;
+    if (state.configured.appId !== childRowsFor) { childRows = []; childRowsFor = state.configured.appId; }
+    const waiting = state.state === "logging_in";
+    if (waiting && !pollTimer) pollTimer = setInterval(poll, 1500);
+    if (!waiting && pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    $("version").textContent = "Plugin " + state.pluginVersion;
+    if (state.sdkUrl) {
+      $("sdkLink").href = state.sdkUrl;
+      $("sdkLink").textContent = state.sdkName;
+      $("sdkLink").classList.remove("hidden");
+    }
+    renderAccount();
+    renderServer();
+    renderCredentials();
+    if (!busy) setDisabled(false);
+    // Restored or shared sessions only persist the team id, so fetch names once per login.
+    if (state.state !== "logged_in" || state.teams.length > 0) teamsRequested = false;
+    else if (!teamsRequested) { teamsRequested = true; api("teams"); }
+  }
+
+  $("useDefault").addEventListener("change", () => { serverDirty = true; applyDefaultServer(); });
+  $("serverUrl").addEventListener("input", () => { serverDirty = true; });
+  $("credsHeader").addEventListener("click", () => { credsOpen = !credsOpen; renderCredentials(); });
+  $("eye").addEventListener("click", () => {
+    const show = $("appValue").type === "password";
+    $("appValue").type = show ? "text" : "password";
+    $("eye").textContent = show ? "Hide" : "Show";
+  });
+  $("save").addEventListener("click", async () => {
+    const appId = $("appId").value.trim();
+    const appValue = $("appValue").value;
+    const manual = appValue !== "";
+    const next = await api("save", {
+      serverUrl: currentServerUrl(),
+      appVersion: $("appVersion").value.trim(),
+      appId: manual ? appId : "",
+      appValue: manual ? appValue : ""
+    });
+    $("appValue").value = "";
+    if (next) serverDirty = false;
+  });
+  $("logout").addEventListener("click", () => { showCreate = false; api("logout"); });
+  $("done").addEventListener("click", async () => {
+    await api("done");
+    document.body.replaceChildren(el("div", { className: "dock" }, [
+      el("div", { className: "closed", textContent: "brainCloud setup is finished. You can close this tab." })
+    ]));
+  });
+
+  // Another project's panel may have logged in or out while this one was in the background.
+  window.addEventListener("focus", () => { if (!busy && state && state.state !== "logging_in") poll(); });
+
+  // In the IDE the tool window stays open; Done only matters for the build-tool/CLI flow.
+  if (IN_IDE) $("doneSection").classList.add("hidden");
+  api("state");
+})();
+</script>
+</body>
+</html>

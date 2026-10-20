@@ -268,15 +268,13 @@ class BrainCloudAuthentication {
     String publicKeyUrl = "",
     List<int>? signature,
     List<int>? salt,
-    String teamPlayerId = "",
   }) {
     if (salt != null && salt.isNotEmpty &&
         signature != null && signature.isNotEmpty &&
         publicKeyUrl.isNotEmpty &&
         timestamp > 0) {
-      final teamPlayerIdJson = teamPlayerId.isNotEmpty ? '"$teamPlayerId"' : 'null';
       final tokenJson =
-          '{"playerId":$teamPlayerIdJson,"timestamp":$timestamp,"publicKeyUrl":"$publicKeyUrl","signature":"${base64Encode(signature)}","salt":"${base64Encode(salt)}"}';
+          '{"timestamp":$timestamp,"publicKeyUrl":"$publicKeyUrl","signature":"${base64Encode(signature)}","salt":"${base64Encode(salt)}"}';
       return base64Encode(utf8.encode(tokenJson));
     }
     return "";
@@ -307,9 +305,6 @@ class BrainCloudAuthentication {
   /// @param salt
   /// The raw salt bytes returned from Game Center (via GetSalt())
   ///
-  /// @param teamPlayerId
-  /// Optional; only required when [gameCenterId] is set to a value other than TeamPlayerId
-  ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> authenticateGameCenter({
     required String gameCenterId,
@@ -318,14 +313,12 @@ class BrainCloudAuthentication {
     String publicKeyUrl = "",
     List<int>? signature,
     List<int>? salt,
-    String teamPlayerId = "",
   }) async {
     final authenticationToken = createGameCenterAuthenticationToken(
       timestamp: timestamp,
       publicKeyUrl: publicKeyUrl,
       signature: signature,
       salt: salt,
-      teamPlayerId: teamPlayerId,
     );
     return authenticate(
         externalId: gameCenterId,

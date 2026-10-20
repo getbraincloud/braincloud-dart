@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:typed_data';
 
-import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 
 import '/src/internal/end_of_bundle_marker.dart';
 import '/src/internal/file_uploader.dart';
 import '/src/internal/operation_param.dart';
+import '/src/app_profile.dart';
 import '/src/internal/request_state.dart';
 import '/src/internal/server_call.dart';
 import '/src/internal/service_name.dart';
@@ -171,16 +171,7 @@ class BrainCloudComms {
   String get getAppId => _appId ?? "";
   String get getSessionID => _sessionId ?? "";
 
-  String get getSecretKey {
-    if (getAppIdSecretMap.containsKey(getAppId)) {
-      return getAppIdSecretMap[getAppId]!;
-    } else {
-      return "NO SECRET DEFINED FOR '$getAppId'";
-    }
-  }
-
-  late Map<String, String> _appIdSecretMap;
-  Map<String, String> get getAppIdSecretMap => _appIdSecretMap;
+  Map<String, String Function(List<int>)> _appProfiles = {};
 
   String _serverURL = "";
   String get getServerURL => _serverURL;
@@ -211,18 +202,17 @@ class BrainCloudComms {
   bool _blockingQueue = false;
 
   BrainCloudComms(this._clientRef) {
-    _appIdSecretMap = {};
     _resetErrorCache();
   }
 
-  /// Initialize the communications library with the specified serverURL and secretKey.
+  /// Initialize the communications library with the specified serverURL and app profile.
   ///
-  /// @param serverURLServer URL.
+  /// @param serverURL Server URL.
   ///
-  /// @param appIdAppId
+  /// @param appId AppId
   ///
-  /// @param secretKeySecret key.
-  void initialize(String serverURL, String appId, String secretKey) {
+  /// @param appProfile Signs requests for [appId].
+  void initialize(String serverURL, String appId, String Function(List<int>) appProfile) {
     resetCommunication(); //resets comms, packetId and SessionId
     _expectedIncomingPacketId = noPacketExpected;
 
@@ -241,27 +231,24 @@ class BrainCloudComms {
     _uploadURL = formatURL;
     _uploadURL += "/uploader";
 
-    getAppIdSecretMap[appId] = secretKey;
+    _appProfiles[appId] = appProfile;
     _appId = appId;
 
     _blockingQueue = false;
     _initialized = true;
   }
 
-  /// Initialize the communications library with the specified serverURL and secretKey.
+  /// Initialize the communications library with the specified serverURL and app profiles.
   ///
-  /// @param serverURLServer URL.
+  /// @param serverURL Server URL.
   ///
-  /// @param defaultAppIddefault appId
+  /// @param defaultAppId default appId
   ///
-  /// @param appIdSecretMapmap of appId -> secrets, to allow the client to safely switch between apps with secret being secure
+  /// @param appProfiles map of appId -> profile, to allow the client to switch between apps
   void initializeWithApps(String serverURL, String defaultAppId,
-      Map<String, String> appIdSecretMap) {
-    getAppIdSecretMap.clear();
-    _appIdSecretMap = appIdSecretMap;
-
-
-    initialize(serverURL, defaultAppId, getAppIdSecretMap[defaultAppId] ?? "");
+      Map<String, String Function(List<int>)> appProfiles) {
+    initialize(serverURL, defaultAppId, appProfiles[defaultAppId]!);
+    _appProfiles = Map.of(appProfiles);
   }
 
   void registerEventCallback(EventCallback cb) {
@@ -1304,9 +1291,8 @@ class BrainCloudComms {
         requestState.messageList;
 
     String jsonRequestString = serializeJson(packet);
-    String sig = _calculateMD5Hash("$jsonRequestString$getSecretKey");
-
     Uint8List byteArray = utf8.encode(jsonRequestString);
+    String sig = _signRequest(byteArray);
 
     requestState.signature = sig;
 
@@ -1524,8 +1510,13 @@ class BrainCloudComms {
     _packetId = 0;
   }
 
-  String _calculateMD5Hash(String input) {
-    return md5.convert(utf8.encode(input)).toString();
+  /// Signs [payloadBytes] for the current app.
+  String _signRequest(List<int> payloadBytes) {
+    final profile = _appProfiles[getAppId];
+    if (profile == null) {
+      return calculateChunkedMd5(payloadBytes, utf8.encode("NO APP PROFILE FOR '$getAppId'"));
+    }
+    return profile(payloadBytes);
   }
 
   /// Handles authenticate-specific data from successful request

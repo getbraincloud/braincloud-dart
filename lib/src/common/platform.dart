@@ -23,6 +23,7 @@ enum PlatformID {
   roku('ROKU'),
   tizen('TIZEN'),
   unknown('UNKNOWN'),
+  visionOS('VISION_OS'),
   watchOS('WATCH_OS'),
   web("WEB"),
   wii('WII'),
