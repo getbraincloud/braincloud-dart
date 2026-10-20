@@ -41,7 +41,9 @@ class BrainCloudGlobalEntity {
     data[OperationParam.globalEntityServiceEntityType.value] = entityType;
     data[OperationParam.globalEntityServiceTimeToLive.value] = timeToLive;
     data[OperationParam.globalEntityServiceData.value] = jsonEntityData;
-    data[OperationParam.globalEntityServiceAcl.value] = jsonEntityAcl;
+    if (jsonEntityAcl != null) {
+      data[OperationParam.globalEntityServiceAcl.value] = jsonEntityAcl;
+    }
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -92,7 +94,9 @@ class BrainCloudGlobalEntity {
     data[OperationParam.globalEntityServiceIndexedId.value] = indexedId;
     data[OperationParam.globalEntityServiceTimeToLive.value] = timeToLive;
     data[OperationParam.globalEntityServiceData.value] = jsonEntityData;
-    data[OperationParam.globalEntityServiceAcl.value] = jsonEntityAcl;
+    if (jsonEntityAcl != null) {
+      data[OperationParam.globalEntityServiceAcl.value] = jsonEntityAcl;
+    }
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {

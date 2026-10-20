@@ -37,7 +37,9 @@ class BrainCloudEntity {
     Map<String, dynamic> data = {};
     data[OperationParam.entityServiceEntityType.value] = entityType;
     data[OperationParam.entityServiceData.value] = jsonEntityData;
-    data[OperationParam.entityServiceAcl.value] = jsonEntityAcl;
+    if (jsonEntityAcl != null) {
+      data[OperationParam.entityServiceAcl.value] = jsonEntityAcl;
+    }
 
     final Completer<ServerResponse> completer = Completer();
     var callback = BrainCloudClient.createServerCallback((response) {
@@ -130,9 +132,9 @@ class BrainCloudEntity {
 
     data[OperationParam.entityServiceData.value] = jsonEntityData;
 
-    // if (jsonEntityAcl != null) {
-    data[OperationParam.entityServiceAcl.value] = jsonEntityAcl;
-    // }
+    if (jsonEntityAcl != null) {
+      data[OperationParam.entityServiceAcl.value] = jsonEntityAcl;
+    }
     data[OperationParam.entityServiceVersion.value] = version;
 
     final Completer<ServerResponse> completer = Completer();
