@@ -83,6 +83,39 @@ main() {
       expect(response.reasonCode, ReasonCodes.invalidStoreId);
     });
 
+    test("getStoreInfo()", () async {
+      ServerResponse response = await bcTest.bcWrapper.appStoreService
+          .getStoreInfo(storeId: "xsolla");
+
+      expect(response.statusCode, StatusCodes.ok);
+      expect(response.data?["storeInfo"], isA<Map>());
+    });
+
+    test("getStoreInfo() invalid store", () async {
+      ServerResponse response = await bcTest.bcWrapper.appStoreService
+          .getStoreInfo(storeId: "_invalid_store_id_");
+
+      expect(response.statusCode, StatusCodes.badRequest);
+      expect(response.reasonCode, ReasonCodes.invalidStoreId);
+    });
+
+    test("getUserToken()", () async {
+      ServerResponse response = await bcTest.bcWrapper.appStoreService
+          .getUserToken(storeId: "xsolla");
+
+      // userToken is null when the app's Xsolla integration isn't fully configured.
+      expect(response.statusCode, StatusCodes.ok);
+      expect(response.data?.containsKey("userToken"), isTrue);
+    });
+
+    test("getUserToken() invalid store", () async {
+      ServerResponse response = await bcTest.bcWrapper.appStoreService
+          .getUserToken(storeId: "_invalid_store_id_");
+
+      expect(response.statusCode, StatusCodes.badRequest);
+      expect(response.reasonCode, ReasonCodes.invalidStoreId);
+    });
+
     /// END TEST
     tearDownAll(() {
       bcTest.dispose();
