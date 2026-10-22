@@ -10,6 +10,9 @@ import '/src/braincloud_relay.dart';
 import '/src/reason_codes.dart';
 import '/src/server_callback.dart';
 
+// monotonic; midnight, DST and device clock changes can't skew it
+final Stopwatch _clock = Stopwatch()..start();
+
 /// ******************************************************************************************
 /// ******************************************************************************************
 /// **    This is an alternate version of relay comms only used when building for web       **
@@ -96,15 +99,15 @@ class RelayComms {
   // end
 
   bool _endMatchRequested = false;
-  DateTime _lastConnectResendTime = DateTime.now();
-  DateTime get lastConnectResendTime => _lastConnectResendTime;
+  Duration _lastConnectResendTime = _clock.elapsed;
+  Duration get lastConnectResendTime => _lastConnectResendTime;
   static const int CONTROL_BYTE_HEADER_LENGTH = 1;
   static const int SIZE_OF_RELIABLE_FLAGS = 2;
 
   static const int RELIABLE_BIT = 0x8000;
   static const int ORDERED_BIT = 0x4000;
 
-  int _lastPingTime = DateTime.now().millisecondsSinceEpoch;
+  int _lastPingTime = _clock.elapsedMilliseconds;
   Uint8List DISCONNECT_ARR = Uint8List.fromList([CL2RS_DISCONNECT]);
   Uint8List CONNECT_ARR = Uint8List.fromList([CL2RS_CONNECT]);
   Uint8List ENDMATCH_ARR = Uint8List.fromList([CL2RS_ENDMATCH]);
@@ -359,11 +362,11 @@ int bytesToInt40(List<int> bytes) {
     // A subsequent connection request will just be ignored if already connected.
     // Re-transmission doesn't need to be high frequency. A suitable interval could be 500ms.
 
-    DateTime nowMS = DateTime.now();
+    Duration nowMS = _clock.elapsed;
     if (_isConnected) {
       // Ping
-      // if ((DateTime.now().millisecondsSinceEpoch - _lastPingTime) >= _pingIntervalMs) {
-      if (nowMS.millisecondsSinceEpoch - _lastPingTime >= _pingIntervalMs) {
+      // if ((_clock.elapsedMilliseconds - _lastPingTime) >= _pingIntervalMs) {
+      if (nowMS.inMilliseconds - _lastPingTime >= _pingIntervalMs) {
         _sendPing();
       }
     }
@@ -439,7 +442,7 @@ int bytesToInt40(List<int> bytes) {
   ///
 
   void _sendPing() {
-    _lastPingTime = DateTime.now().millisecondsSinceEpoch;
+    _lastPingTime = _clock.elapsedMilliseconds;
     Uint8List data = Uint8List.fromList(
         [CL2RS_PING, (_lastPingTime >> 8) & 0xFF, _lastPingTime & 0xFF]);
     _send(data);
@@ -616,7 +619,7 @@ int bytesToInt40(List<int> bytes) {
   }
 
   void _onPong() {
-    _ping = DateTime.now().millisecondsSinceEpoch - _lastPingTime;
+    _ping = _clock.elapsedMilliseconds - _lastPingTime;
     _clientRef.log("Relay LastPing: $_ping ms");
   }
 
@@ -816,8 +819,8 @@ class _Event {
 
 class _UDPPacket {
   _UDPPacket(Uint8List inData, int inChannel, int packetId, int netId) {
-    _lastTimeSent = DateTime.now();
-    _timeSinceFirstSend = DateTime.now();
+    _lastTimeSent = _clock.elapsed;
+    _timeSinceFirstSend = _clock.elapsed;
     _timeInterval = inChannel <= 1
         ? 50
         : inChannel == 2
@@ -829,20 +832,20 @@ class _UDPPacket {
   }
 
   void updateTimeIntervalSent() {
-    _lastTimeSent = DateTime.now();
+    _lastTimeSent = _clock.elapsed;
     _timeInterval = min((timeInterval * 1.25).toInt(),
         RelayComms._MAX_RELIABLE_RESEND_INTERVAL);
   }
 
-  DateTime _timeSinceFirstSend = DateTime.now();
-  DateTime _lastTimeSent = DateTime.now();
+  Duration _timeSinceFirstSend = _clock.elapsed;
+  Duration _lastTimeSent = _clock.elapsed;
   late int _timeInterval;
   late Uint8List _rawData;
   late int _id;
   int? _netId;
 
-  DateTime get timeSinceFirstSend => _timeSinceFirstSend;
-  DateTime get lastTimeSent => _lastTimeSent;
+  Duration get timeSinceFirstSend => _timeSinceFirstSend;
+  Duration get lastTimeSent => _lastTimeSent;
   int get timeInterval => _timeInterval;
   Uint8List get rawData => _rawData;
   int get id => _id;

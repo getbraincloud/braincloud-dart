@@ -9,6 +9,9 @@ import '/src/braincloud_client.dart';
 import '/src/reason_codes.dart';
 import '/src/status_codes.dart';
 
+// monotonic; midnight, DST and device clock changes can't skew it
+final Stopwatch _clock = Stopwatch()..start();
+
 
 class FileUploader {  
   String uploadId;
@@ -45,7 +48,7 @@ class FileUploader {
   int chunkSize = 2048; // You can adjust the chunk size if needed
 
   //delta time
-  DateTime _lastTime = DateTime.now();
+  Duration _lastTime = _clock.elapsed;
   double _deltaTime = 0;
 
   //timeout
@@ -229,11 +232,10 @@ class FileUploader {
   }
 
   void updateDeltaTime() {
-    _deltaTime = DateTime.now()
-        .difference(_lastTime)
+    _deltaTime = (_clock.elapsed - _lastTime)
         .inSeconds
         .toDouble(); //Subtract(_lastTime).TotalSeconds;
-    _lastTime = DateTime.now();
+    _lastTime = _clock.elapsed;
   }
 
   void throwError(int reasonCode, String message) {

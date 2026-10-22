@@ -23,6 +23,9 @@ import 'package:archive/archive.dart';
 
 part 'braincloud_comms.g.dart';
 
+// monotonic; midnight, DST and device clock changes can't skew it
+final Stopwatch _clock = Stopwatch()..start();
+
 // class ServerCallProcessed {
 //   late ServerCall serverCall;
 //   late String data;
@@ -80,7 +83,7 @@ class BrainCloudComms {
   RequestState? _activeRequest;
 
   /// The last time a packet was sent
-  DateTime _lastTimePacketSent = DateTime.fromMillisecondsSinceEpoch(0);
+  Duration _lastTimePacketSent = Duration.zero;
 
   /// How long we wait to send a heartbeat if no packets have been sent or received.
   /// This value is set to a percentage of the heartbeat timeout sent by the authenticate response.
@@ -121,7 +124,7 @@ class BrainCloudComms {
   bool get autoReconnectEnabled => _autoReconnectEnabled;
 
   /// When the authentication timer began
-  DateTime _authenticationTimeoutStart = DateTime.fromMillisecondsSinceEpoch(0);
+  Duration _authenticationTimeoutStart = Duration.zero;
 
   /// a checker to see what the packet Id we are receiving is
   int _receivedPacketIdChecker = 0;
@@ -369,7 +372,7 @@ class BrainCloudComms {
 
     // is it time for a heartbeat?
     if (_isAuthenticated && !_blockingQueue) {
-      if (DateTime.now().difference(_lastTimePacketSent) >= _idleTimeout) {
+      if ((_clock.elapsed - _lastTimePacketSent) >= _idleTimeout) {
         sendHeartbeat();
       }
     }
@@ -379,10 +382,10 @@ class BrainCloudComms {
       if (_clientRef.loggingEnabled) {
         _clientRef.log("TIMER ON");
         _clientRef.log(
-            DateTime.now().difference(_authenticationTimeoutStart).toString());
+            (_clock.elapsed - _authenticationTimeoutStart).toString());
       }
       //check the timeout, has enough time passed?
-      if (DateTime.now().difference(_authenticationTimeoutStart) >=
+      if ((_clock.elapsed - _authenticationTimeoutStart) >=
           _authenticationTimeoutDuration) {
         if (_clientRef.loggingEnabled) {
           _clientRef.log("TIMER FINISHED");
@@ -598,12 +601,12 @@ class BrainCloudComms {
 
   /// Resets the idle timer.
   void _resetIdleTimer() {
-    _lastTimePacketSent = DateTime.now();
+    _lastTimePacketSent = _clock.elapsed;
   }
 
   /// Starts timeout of authentication calls.
   void _resetAuthenticationTimer() {
-    _authenticationTimeoutStart = DateTime.now();
+    _authenticationTimeoutStart = _clock.elapsed;
   }
 
   ///keeps track of if the client has made too many authentication attempts.
@@ -761,6 +764,12 @@ class BrainCloudComms {
           } on Exception {
             print(
                 "Exception lib/BrainCloud/Internal/braincloud_comms.dart Line 949");
+          }
+
+          if (service == ServiceName.time.value &&
+              operation == ServiceOperation.read.value &&
+              responseData != null) {
+            _syncServerTime(responseData);
           }
 
           if (operation == ServiceOperation.fullReset.value ||
@@ -1326,7 +1335,7 @@ class BrainCloudComms {
     requestState.webRequest = req;
 
     requestState.requestString = jsonRequestString;
-    requestState.timeSent = DateTime.now();
+    requestState.timeSent = _clock.elapsed;
 
     _resetIdleTimer();
 
@@ -1435,7 +1444,7 @@ class BrainCloudComms {
   /// @param requestStateThe active request.
   Duration _getPacketTimeout(RequestState requestState) {
     if (requestState.packetNoRetry) {
-      if (_activeRequest != null && (DateTime.now().difference(_activeRequest!.timeSent) >
+      if (_activeRequest != null && ((_clock.elapsed - _activeRequest!.timeSent) >
               Duration(seconds: authenticationPacketTimeoutSecs))) {
         for (int i = 0; i < _listAuthPacketTimeouts.length; i++) {
           if (_listAuthPacketTimeouts[i] == authenticationPacketTimeoutSecs) {
@@ -1522,7 +1531,26 @@ class BrainCloudComms {
   /// Handles authenticate-specific data from successful request
   ///
   /// @param jsonData
+  // server time = monotonic ms + offset, synced from server_time so device clock changes can't skew it
+  int _serverTimeOffsetMs =
+      DateTime.now().millisecondsSinceEpoch - _clock.elapsedMilliseconds;
+  bool _isServerTimeSynced = false;
+
+  int get serverTimeMs => _clock.elapsedMilliseconds + _serverTimeOffsetMs;
+
+  bool get isServerTimeSynced => _isServerTimeSynced;
+
+  void _syncServerTime(Map<String, dynamic> jsonData) {
+    int serverTime = _getJsonLong(jsonData, "server_time", 0);
+    if (serverTime > 0) {
+      _serverTimeOffsetMs = serverTime - _clock.elapsedMilliseconds;
+      _isServerTimeSynced = true;
+    }
+  }
+
   void _processAuthenticate(Map<String, dynamic> jsonData) {
+    _syncServerTime(jsonData);
+
     //we want to extract the compressIfLarger amount
     if (jsonData.containsKey("compressIfLarger")) {
       _clientSideCompressionThreshold = jsonData["compressIfLarger"];
@@ -1581,7 +1609,7 @@ class BrainCloudComms {
   Future<void> _retryRequest(WebRequestStatus status, bool bypassTimeout) async {
     if (_activeRequest != null) {
       if (bypassTimeout ||
-          DateTime.now().difference(_activeRequest!.timeSent) >=
+          (_clock.elapsed - _activeRequest!.timeSent) >=
               _getPacketTimeout(_activeRequest!)) {
         if (_clientRef.loggingEnabled) {
           String errorResponse = "";

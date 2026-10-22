@@ -20,7 +20,7 @@ enum WebRequestStatus {
 class RequestState {
   int packetId = -1;
 
-  DateTime timeSent = DateTime.fromMillisecondsSinceEpoch(0); 
+  Duration timeSent = Duration.zero; 
 
   WebRequestStatus status = WebRequestStatus.pending;
 
