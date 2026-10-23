@@ -545,6 +545,7 @@ class BrainCloudIdentity {
     String publicKeyUrl = "",
     List<int>? signature,
     List<int>? salt,
+    String teamPlayerId = "",
   }) async {
     final authenticationToken =
         BrainCloudAuthentication.createGameCenterAuthenticationToken(
@@ -552,6 +553,7 @@ class BrainCloudIdentity {
       publicKeyUrl: publicKeyUrl,
       signature: signature,
       salt: salt,
+      teamPlayerId: teamPlayerId,
     );
     return _attachIdentity(
         gameCenterId, authenticationToken, AuthenticationType.gameCenter);
@@ -574,6 +576,7 @@ class BrainCloudIdentity {
     String publicKeyUrl = "",
     List<int>? signature,
     List<int>? salt,
+    String teamPlayerId = "",
   }) async {
     final authenticationToken =
         BrainCloudAuthentication.createGameCenterAuthenticationToken(
@@ -581,6 +584,7 @@ class BrainCloudIdentity {
       publicKeyUrl: publicKeyUrl,
       signature: signature,
       salt: salt,
+      teamPlayerId: teamPlayerId,
     );
     return _mergeIdentity(
         gameCenterId, authenticationToken, AuthenticationType.gameCenter);
