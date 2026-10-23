@@ -5,7 +5,6 @@
 * `BrainCloudWrapper.init()` with no parameters now initializes from `bc_config.json` (via `--dart-define-from-file`), including child apps; `init(config:)` takes a `BrainCloudAppConfig` you loaded yourself
 * Added `AppProfile` and `init(appProfile:)` / `initWithApps(appProfiles:)` to initialize with a request signer instead of a secret; `AppProfile.fromValue(secretKey)` wraps a secret
 * `reauthenticate()` now keeps child apps registered with `initWithApps`
-* Fixed `authenticateGameCenter`/`attachGameCenterIdentity`/`mergeGameCenterIdentity` authenticationToken to encode the Game Center identity verification signature as `{timestamp, publicKeyUrl, signature, salt}`, matching what Apple's Game Center API provides; dropped the incorrect `teamPlayerId`/`playerId` field
 * Updated client config optimizations
 * New EpicGames APIs:
   * Added `authenticateEpicGames` to the Authentication service

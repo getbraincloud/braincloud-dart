@@ -673,6 +673,7 @@ class BrainCloudWrapper {
     String publicKeyUrl = "",
     List<int>? signature,
     List<int>? salt,
+    String teamPlayerId = "",
   }) {
     initializeIdentity(false);
 
@@ -684,6 +685,7 @@ class BrainCloudWrapper {
       publicKeyUrl: publicKeyUrl,
       signature: signature,
       salt: salt,
+      teamPlayerId: teamPlayerId,
     )
         .then((response) {
       if (response.isSuccess()) {
@@ -1259,6 +1261,7 @@ class BrainCloudWrapper {
     String publicKeyUrl = "",
     List<int>? signature,
     List<int>? salt,
+    String teamPlayerId = "",
   }) async {
     await _smartSwitchAuthentication();
     return authenticateGameCenter(
@@ -1268,6 +1271,7 @@ class BrainCloudWrapper {
       publicKeyUrl: publicKeyUrl,
       signature: signature,
       salt: salt,
+      teamPlayerId: teamPlayerId,
     );
   }
 
