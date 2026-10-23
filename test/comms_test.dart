@@ -129,7 +129,8 @@ void main() {
             
         // on web platforms we get a timeout instead of a 404.            
         expect(result.statusCode, isIn([404,900]));
-        expect(result.reasonCode, isIn([301, 90001]));
+        // non-JSON errors report the HTTP status as reason code (site has returned 301 and 404)
+        expect(result.reasonCode, isIn([301, 404, 90001]));
         completer.complete();
       });
 
