@@ -262,6 +262,8 @@ class ServiceOperation {
   static ServiceOperation refreshPromotions =
       ServiceOperation._("REFRESH_PROMOTIONS");
   static ServiceOperation cachePurchasePayloadContext = ServiceOperation._("CACHE_PURCHASE_PAYLOAD_CONTEXT");
+  static ServiceOperation getStoreInfo = ServiceOperation._("GET_STORE_INFO");
+  static ServiceOperation getUserToken = ServiceOperation._("GET_USER_TOKEN");
 
   static ServiceOperation send = ServiceOperation._("SEND");
   static ServiceOperation sendEventToProfiles = ServiceOperation._("SEND_EVENT_TO_PROFILES");

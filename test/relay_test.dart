@@ -68,9 +68,10 @@ void main() {
       } else {
         print("${DateTime.now()}:TST-> onFailed for other reason: $jsonError");
         var errorMap = jsonError;
+        final failMessage = (errorMap['status_message'] ?? '') as String;
         if (errorMap['reason_code'] == 90300 &&
-            errorMap['status_message'] == 'Relay: Disconnected by server')
-          failureCount++;
+            (failMessage == 'Relay: Disconnected by server' ||
+                failMessage.contains('Relay Socket Timeout'))) failureCount++;
         disconnectRelay();
         await Future.delayed(
             Duration(seconds: 2)); // let the connection be fully closed
@@ -253,6 +254,9 @@ void main() {
       await completer.future;
 
       // Put a time limit on this Future completer so we do not wait forever.
+      // NOTE: every test's own `timeout:` must stay LARGER than this 90s, or dart
+      // test kills the test first and all you get is a bare TimeoutException with an
+      // isolate stack - the fail() below, which names the connection type, never runs.
       await readyCompleter.future.timeout(Duration(seconds: 90), onTimeout: () {
         print("${DateTime.now()}:TST-> Failing $type Test due to 90 timeout");
         fail("Relay $type test timed out");
@@ -322,7 +326,7 @@ print(" converted bytes is $reloadedMask");
 
       expect(successCount, 2);
       expect(failureCount, 1);
-    }, timeout: Timeout.parse("90s"),onPlatform: {
+    }, timeout: Timeout.parse("120s"),onPlatform: {
       'browser': [Skip('Browser does not support Relay UDP connection, skipping')]
     });
 
@@ -335,7 +339,7 @@ print(" converted bytes is $reloadedMask");
 
       expect(successCount, 4);
       expect(failureCount, 0);
-    }, timeout: Timeout.parse("90s"),onPlatform: {
+    }, timeout: Timeout.parse("120s"),onPlatform: {
       'browser': [Skip('Browser does not support Relay UDP connection, skipping')],      
     }, retry: 2); //Make retry once more for this test. Windows seem to fail more than others
 
@@ -383,7 +387,7 @@ print(" converted bytes is $reloadedMask");
       bcTest.bcWrapper.rttService.disableRTT();
 
       print("${DateTime.now()}:TST-> TCP Websocket completely done.");
-    }, timeout: Timeout.parse("90s"));
+    }, timeout: Timeout.parse("120s"));
 
     tearDownAll(() {
       bcTest.bcWrapper.relayService.disconnect();

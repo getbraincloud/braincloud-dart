@@ -362,14 +362,33 @@ main() {
     });
 
     test("attachAndDetachBlockchain", () async {
+      // The public key must be unique per run, not a fixed literal.
+      final publicKey =
+          "dartPublicKey${DateTime.now().millisecondsSinceEpoch}";
+
+      // "config" is the literal name the app's blockchain config must carry. Print the
+      // reason code on failure: without it the only evidence is a bare
+      // "Expected: <200> Actual: <400>" with nothing to act on.
       ServerResponse response = await bcTest.bcWrapper.identityService
           .attachBlockChainIdentity(
-              blockchainConfig: "config", publicKey: "ehhhwwwhhhhh2");
+              blockchainConfig: "config", publicKey: publicKey);
+
+      if (response.statusCode != 200) {
+        print(
+            "attachBlockChainIdentity failed: status=${response.statusCode} "
+            "reason=${response.reasonCode} error=${response.error}");
+      }
 
       expect(response.statusCode, 200);
 
       response = await bcTest.bcWrapper.identityService
           .detachBlockChainIdentity(blockchainConfig: "config");
+
+      if (response.statusCode != 200) {
+        print(
+            "detachBlockChainIdentity failed: status=${response.statusCode} "
+            "reason=${response.reasonCode} error=${response.error}");
+      }
 
       expect(response.statusCode, 200);
     });

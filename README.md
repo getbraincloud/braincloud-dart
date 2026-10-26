@@ -15,12 +15,82 @@ Install the plugin by adding it to your project's pubspec.yaml, under the depend
 
 ```bash
 dependencies:
-  braincloud: ^5.5.0
-  braincloud_data_persistence: : ^5.5.0
+  braincloud: ^6.1.0
+  braincloud_data_persistence: ^6.1.0
 ```
 
 NOTE: The package `braincloud_data_persistence` provides persistence support for the brainCloud Dart SDK by integrating platform preferences using SharedPreferencesAsync. 
 It is optional and you can create your own if you desire.
+
+## App Setup
+
+There are two ways to give the client your app's credentials. The setup tool is recommended; manual init still works if you'd rather manage the values yourself.
+
+### Option 1: Setup tool (recommended)
+
+Requires Dart 3.10+ (Flutter 3.38+). From your project root, run:
+
+```bash
+dart run braincloud:setup
+```
+
+This opens the brainCloud setup page in your browser. Log in, pick (or create) your app, and it writes `bc_config.json` to your project (and adds it to `.gitignore`).
+
+Build or run with the config:
+
+```bash
+flutter run --dart-define-from-file=bc_config.json
+flutter build <platform> --dart-define-from-file=bc_config.json
+```
+
+Then initialize with no parameters:
+
+```dart
+await _bcWrapper.init();
+```
+
+Child apps picked in the setup page are registered automatically (same as `initWithApps`). `init()` takes an optional `updateTick` (default 50ms), or a `config:` you loaded yourself instead of reading the dart-defines.
+
+Setup options:
+
+| Option | Description |
+|---|---|
+| `--out <path>` | Where to write the config (default `bc_config.json`) |
+| `--server <url>` | Use a private brainCloud server |
+| `--no-browser` | Print the setup URL instead of opening a browser |
+| `--timeout <minutes>` | How long to wait for the browser flow (default 30) |
+| `--refresh` | Rewrite the config without the browser. For CI, set `BRAINCLOUD_APP_ID`, `BRAINCLOUD_BUILDER_EMAIL`, `BRAINCLOUD_BUILDER_API_KEY` and `BRAINCLOUD_TEAM_ID` |
+
+### Option 2: Manual init
+
+Pass your app id, secret and version directly. You can find them in the brainCloud portal under **Design > Core App Info > Application IDs**.
+
+```dart
+await _bcWrapper.init(
+    secretKey: "<Your_App_Secret>",
+    appId: "<Your_App_Id>",
+    version: "1.0.0",
+    url: "https://api.braincloudservers.com/dispatcherv2", // optional, defaults to the public server
+    updateTick: 50); // ms; 0 = call _bcWrapper.update() yourself
+```
+
+For an app with child apps, use `initWithApps` and pass every app's secret:
+
+```dart
+await _bcWrapper.initWithApps(
+    url: "https://api.braincloudservers.com/dispatcherv2",
+    defaultAppId: "<Your_App_Id>",
+    appIdSecretMap: {
+      "<Your_App_Id>": "<Your_App_Secret>",
+      "<Child_App_Id>": "<Child_App_Secret>",
+    },
+    version: "1.0.0",
+    updateTick: 50);
+```
+
+No `--dart-define-from-file` flag is needed with manual init. Keep secrets out of source control.
+
+`init` and `initWithApps` also take an `AppProfile` (`appProfile:` / `appProfiles:`) in place of the secret, e.g. `AppProfile.fromValue(secret)`, or `AppProfile((payload) => ...)` for your own signer.
 
 ## Usage/Examples
 
@@ -49,11 +119,8 @@ class MyApp extends StatelessWidget {
 
   /// Future to init the BrainCloud Client
   Future<String> _initAndUpdateRoute() async {
-    await _bcWrapper.init(
-        secretKey: "<YOUR_SECRET_KEY>", 
-        appId: "<YOUR_APP_ID>", 
-        version: "<YOUR_APP_VERSION>",
-        url: "https://api.braincloudservers.com/dispatcherv2");
+    // Reads bc_config.json (App Setup, Option 1). For manual init, see Option 2.
+    await _bcWrapper.init();
 
     /// Check if there was a session
     bool hasSession = false;
@@ -64,7 +131,7 @@ class MyApp extends StatelessWidget {
 
     ///return the route name base on existing session
     return Future<String>.delayed(
-        Duration.zero, () => hadSession ? routeHome : routeSignIn);
+        Duration.zero, () => hasSession ? routeHome : routeSignIn);
   }
 
   @override

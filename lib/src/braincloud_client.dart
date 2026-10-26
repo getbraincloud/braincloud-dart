@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'dart:io' as io show Platform;
 
+import '/src/app_profile.dart';
 import '/src/server_response.dart';
 import '/src/common/platform.dart';
 import '/src/internal/braincloud_comms.dart';
@@ -379,47 +380,66 @@ class BrainCloudClient {
   /// current serverURL which is https://api.braincloudservers.com/dispatcherv2
   ///
   /// @param defaultAppId The default app id that we start with
-  /// @param secretMap A map of <appId, secretKey>
+  /// @param appIdSecretMap A map of <appId, secretKey>
+  /// @param appProfiles A map of <appId, AppProfile>, instead of [appIdSecretMap]
   /// @param appVersion The version
   /// @return Future<ServerResponse>
   ///
   void initializeWithApps(
       {String serverURL = defaultServerURL,
       required String defaultAppId,
-      required Map<String, String> appIdSecretMap,
+      Map<String, String>? appIdSecretMap,
+      Map<String, AppProfile>? appProfiles,
       required String appVersion}) {
-    String? error = initializeHelper(serverURL,
-        appIdSecretMap[defaultAppId] ?? "", defaultAppId, appVersion);
+    final profiles = _profiles(appIdSecretMap, appProfiles);
+    String? error = initializeHelper(serverURL, profiles.containsKey(defaultAppId), defaultAppId, appVersion);
 
     if (error != null) throw (error);
 
     // set up braincloud which does the message handling
-    _comms.initializeWithApps(serverURL, defaultAppId, appIdSecretMap);
+    _comms.initializeWithApps(serverURL, defaultAppId, {for (final e in profiles.entries) e.key: e.value.sign});
 
     _initialized = true;
+  }
+
+  static Map<String, AppProfile> _profiles(Map<String, String>? appIdSecretMap, Map<String, AppProfile>? appProfiles) {
+    if ((appIdSecretMap == null) == (appProfiles == null)) {
+      throw ArgumentError('Pass exactly one of appIdSecretMap or appProfiles.');
+    }
+    return appProfiles ??
+        {
+          for (final e in appIdSecretMap!.entries)
+            if (e.value.isNotEmpty) e.key: AppProfile.fromValue(e.value)
+        };
   }
 
   /// Method initializes the BrainCloudClient. Automatically passes in current serverURL
   /// as https://api.braincloudservers.com/dispatcherv2
   ///
   /// @param secretKey The secret key for your game
+  /// @param appProfile Signs requests, instead of [secretKey]
   /// @param appId The app id
   /// @param appVersion The version
   /// @return Future<ServerResponse>
   ///
   void initialize(
       {String? serverURL = defaultServerURL,
-      required secretKey,
-      required appId,
-      required appVersion}) {
+      String? secretKey,
+      AppProfile? appProfile,
+      required String appId,
+      required String appVersion}) {
     serverURL = serverURL ?? defaultServerURL;
+    if ((secretKey == null) == (appProfile == null)) {
+      throw ArgumentError('Pass exactly one of secretKey or appProfile.');
+    }
+    final profile = appProfile ?? (secretKey!.isEmpty ? null : AppProfile.fromValue(secretKey));
 
-    String? error = initializeHelper(serverURL, secretKey, appId, appVersion);
+    String? error = initializeHelper(serverURL, profile != null, appId, appVersion);
 
     if (error != null) throw (error);
 
     // set up braincloud which does the message handling
-    _comms.initialize(serverURL, appId, secretKey);
+    _comms.initialize(serverURL, appId, profile!.sign);
 
     _initialized = true;
   }
@@ -896,7 +916,7 @@ class BrainCloudClient {
   }
 
   String? initializeHelper(
-      String serverURL, String secretKey, String appId, String appVersion) {
+      String serverURL, bool hasAppProfile, String appId, String appVersion) {
     //set platform... defaults to web
     const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
 
@@ -921,8 +941,8 @@ class BrainCloudClient {
     String? error;
     if (serverURL.isEmpty) {
       error = "serverURL was null or empty";
-    } else if (secretKey.isEmpty) {
-      error = "secretKey was null or empty";
+    } else if (!hasAppProfile) {
+      error = "secretKey or appProfile was null or empty";
     } else if (appId.isEmpty) {
       error = "appId was null or empty";
     } else if (appVersion.isEmpty) {

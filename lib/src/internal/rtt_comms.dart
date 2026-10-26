@@ -12,6 +12,9 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'rtt_comms.g.dart';
 
+// monotonic; midnight, DST and device clock changes can't skew it
+final Stopwatch _clock = Stopwatch()..start();
+
 class RTTComms {
   final BrainCloudClient _clientRef;
 
@@ -164,7 +167,7 @@ class RTTComms {
       // are we actually connected? only pump this back, when the server says we've connected
       else if (_rttConnectionStatus == RTTConnectionStatus.connecting &&
           toProcessResponse.operation == RTTCommandOperation.connect) {
-        _sinceLastHeartbeat = DateTime.now();
+        _sinceLastHeartbeat = _clock.elapsed;
         _rttConnectionStatus = RTTConnectionStatus.connected;
         if (_connectedSuccessCallback != null)
           try {
@@ -242,8 +245,8 @@ class RTTComms {
     }
     _queuedRTTCommands.clear();
     if (_rttConnectionStatus == RTTConnectionStatus.connected) {
-      if (DateTime.now().difference(_sinceLastHeartbeat) >= _heartBeatTime) {
-        _sinceLastHeartbeat = DateTime.now();
+      if ((_clock.elapsed - _sinceLastHeartbeat) >= _heartBeatTime) {
+        _sinceLastHeartbeat = _clock.elapsed;
         _send(_buildHeartbeatRequest(), inBLogMessage: true);
       }
     }
@@ -552,7 +555,7 @@ class RTTComms {
   RTTConnectionType _currentConnectionType = RTTConnectionType.invalid;
   BrainCloudWebSocket? _webSocket;
 
-  DateTime _sinceLastHeartbeat = DateTime.now();
+  Duration _sinceLastHeartbeat = _clock.elapsed;
   static const int maxPacketsize = 1024;
   Duration _heartBeatTime = const Duration(milliseconds: 10 * 1000);
 

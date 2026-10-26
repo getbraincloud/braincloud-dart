@@ -414,6 +414,31 @@ void main() {
       }     
     });
 
+    // Fixture for the two auto-join tests below.
+
+    List<String> autoJoinFixtureIds = [];
+
+    test("autoJoin fixture - create open groups", () async {
+      userToAuth = userB;
+      await reAuth();
+
+      for (var i = 0; i < 2; i++) {
+        ServerResponse response = await bcTest.bcWrapper.groupService
+            .createGroup(
+                name: "autoJoinTarget$i",
+                groupType: "test",
+                isOpenGroup: true,
+                data: {"test": "autoJoin"});
+
+        expect(response.statusCode, StatusCodes.ok);
+        autoJoinFixtureIds.add(response.data?["groupId"]);
+      }
+
+      // Back to userA, who is not a member of either, so both can be auto-joined.
+      userToAuth = userA;
+      await reAuth();
+    });
+
     test("autoJoinGroup()", () async {
       ServerResponse response = await bcTest.bcWrapper.groupService
           .autoJoinGroup(
@@ -432,6 +457,26 @@ void main() {
               autoJoinStrategy: AutoJoinStrategy.joinFirstGroup);
 
       expect(response.statusCode, StatusCodes.ok);
+    });
+
+    // Delete the fixture rather than leaving it behind. joinFirstGroup may well have
+    // picked older leftover groups instead of these two, so this is not guaranteed to
+    // remove what was actually joined - the point is that this file stops ADDING to the
+    // orphan pile every run.
+    test("autoJoin fixture - cleanup", () async {
+      userToAuth = userB;
+      await reAuth();
+
+      for (final id in autoJoinFixtureIds) {
+        ServerResponse response = await bcTest.bcWrapper.groupService
+            .deleteGroup(groupId: id, version: -1);
+        if (response.statusCode != StatusCodes.ok) {
+          print("autoJoin fixture cleanup: could not delete $id -> $response");
+        }
+      }
+
+      userToAuth = userA;
+      await reAuth();
     });
 
     test("GetRandomGroupsMatching()", () async {

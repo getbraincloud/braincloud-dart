@@ -1,3 +1,17 @@
+## 6.1.0
+
+* **Breaking:** Minimum Dart SDK raised from 3.5 to 3.10 (Flutter 3.38), required by the build hooks that bundle the native config decoder. Upgrade Flutter before updating to this version.
+* Added `dart run braincloud:setup`: log in to brainCloud in the browser, pick or create an app, and write an encoded `bc_config.json` to your project
+* `BrainCloudWrapper.init()` with no parameters now initializes from `bc_config.json` (via `--dart-define-from-file`), including child apps; `init(config:)` takes a `BrainCloudAppConfig` you loaded yourself
+* Added `AppProfile` and `init(appProfile:)` / `initWithApps(appProfiles:)` to initialize with a request signer instead of a secret; `AppProfile.fromValue(secretKey)` wraps a secret
+* `reauthenticate()` now keeps child apps registered with `initWithApps`
+* Updated client config optimizations
+* New EpicGames APIs:
+  * Added `authenticateEpicGames` to the Authentication service
+  * Added `attachEpicGamesIdentity`, `mergeEpicGamesIdentity`, and `detachEpicGamesIdentity` to Identity service
+  * Added `authenticateEpicGames` and `smartSwitchAuthenticateEpicGames` to the brainCloud Wrapper
+* `epicGames` and `xsolla` are now accepted as a `storeId` in various AppStore service operations
+
 ## 6.0.0
 
 * Added Campaign service with `getMyCampaigns`

@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:typed_data';
 
-import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 
 import '/src/internal/end_of_bundle_marker.dart';
 import '/src/internal/file_uploader.dart';
 import '/src/internal/operation_param.dart';
+import '/src/app_profile.dart';
 import '/src/internal/request_state.dart';
 import '/src/internal/server_call.dart';
 import '/src/internal/service_name.dart';
@@ -22,6 +22,9 @@ import '/src/util.dart';
 import 'package:archive/archive.dart';
 
 part 'braincloud_comms.g.dart';
+
+// monotonic; midnight, DST and device clock changes can't skew it
+final Stopwatch _clock = Stopwatch()..start();
 
 // class ServerCallProcessed {
 //   late ServerCall serverCall;
@@ -49,6 +52,12 @@ class BrainCloudComms {
   /// Reference to the brainCloud client dynamic
   final BrainCloudClient _clientRef;
 
+  /// One client for every request, instead of the one-shot client
+  /// `BaseRequest.send()` creates and closes internally on each call.
+  
+  http.Client? _httpClientInstance;
+  http.Client get _httpClient => _httpClientInstance ??= http.Client();
+
   /// Set to true once Initialize has been called.
   bool _initialized = false;
 
@@ -74,7 +83,7 @@ class BrainCloudComms {
   RequestState? _activeRequest;
 
   /// The last time a packet was sent
-  DateTime _lastTimePacketSent = DateTime.fromMillisecondsSinceEpoch(0);
+  Duration _lastTimePacketSent = Duration.zero;
 
   /// How long we wait to send a heartbeat if no packets have been sent or received.
   /// This value is set to a percentage of the heartbeat timeout sent by the authenticate response.
@@ -115,7 +124,7 @@ class BrainCloudComms {
   bool get autoReconnectEnabled => _autoReconnectEnabled;
 
   /// When the authentication timer began
-  DateTime _authenticationTimeoutStart = DateTime.fromMillisecondsSinceEpoch(0);
+  Duration _authenticationTimeoutStart = Duration.zero;
 
   /// a checker to see what the packet Id we are receiving is
   int _receivedPacketIdChecker = 0;
@@ -165,16 +174,7 @@ class BrainCloudComms {
   String get getAppId => _appId ?? "";
   String get getSessionID => _sessionId ?? "";
 
-  String get getSecretKey {
-    if (getAppIdSecretMap.containsKey(getAppId)) {
-      return getAppIdSecretMap[getAppId]!;
-    } else {
-      return "NO SECRET DEFINED FOR '$getAppId'";
-    }
-  }
-
-  late Map<String, String> _appIdSecretMap;
-  Map<String, String> get getAppIdSecretMap => _appIdSecretMap;
+  Map<String, String Function(List<int>)> _appProfiles = {};
 
   String _serverURL = "";
   String get getServerURL => _serverURL;
@@ -205,18 +205,17 @@ class BrainCloudComms {
   bool _blockingQueue = false;
 
   BrainCloudComms(this._clientRef) {
-    _appIdSecretMap = {};
     _resetErrorCache();
   }
 
-  /// Initialize the communications library with the specified serverURL and secretKey.
+  /// Initialize the communications library with the specified serverURL and app profile.
   ///
-  /// @param serverURLServer URL.
+  /// @param serverURL Server URL.
   ///
-  /// @param appIdAppId
+  /// @param appId AppId
   ///
-  /// @param secretKeySecret key.
-  void initialize(String serverURL, String appId, String secretKey) {
+  /// @param appProfile Signs requests for [appId].
+  void initialize(String serverURL, String appId, String Function(List<int>) appProfile) {
     resetCommunication(); //resets comms, packetId and SessionId
     _expectedIncomingPacketId = noPacketExpected;
 
@@ -235,27 +234,24 @@ class BrainCloudComms {
     _uploadURL = formatURL;
     _uploadURL += "/uploader";
 
-    getAppIdSecretMap[appId] = secretKey;
+    _appProfiles[appId] = appProfile;
     _appId = appId;
 
     _blockingQueue = false;
     _initialized = true;
   }
 
-  /// Initialize the communications library with the specified serverURL and secretKey.
+  /// Initialize the communications library with the specified serverURL and app profiles.
   ///
-  /// @param serverURLServer URL.
+  /// @param serverURL Server URL.
   ///
-  /// @param defaultAppIddefault appId
+  /// @param defaultAppId default appId
   ///
-  /// @param appIdSecretMapmap of appId -> secrets, to allow the client to safely switch between apps with secret being secure
+  /// @param appProfiles map of appId -> profile, to allow the client to switch between apps
   void initializeWithApps(String serverURL, String defaultAppId,
-      Map<String, String> appIdSecretMap) {
-    getAppIdSecretMap.clear();
-    _appIdSecretMap = appIdSecretMap;
-
-
-    initialize(serverURL, defaultAppId, getAppIdSecretMap[defaultAppId] ?? "");
+      Map<String, String Function(List<int>)> appProfiles) {
+    initialize(serverURL, defaultAppId, appProfiles[defaultAppId]!);
+    _appProfiles = Map.of(appProfiles);
   }
 
   void registerEventCallback(EventCallback cb) {
@@ -376,7 +372,7 @@ class BrainCloudComms {
 
     // is it time for a heartbeat?
     if (_isAuthenticated && !_blockingQueue) {
-      if (DateTime.now().difference(_lastTimePacketSent) >= _idleTimeout) {
+      if ((_clock.elapsed - _lastTimePacketSent) >= _idleTimeout) {
         sendHeartbeat();
       }
     }
@@ -386,10 +382,10 @@ class BrainCloudComms {
       if (_clientRef.loggingEnabled) {
         _clientRef.log("TIMER ON");
         _clientRef.log(
-            DateTime.now().difference(_authenticationTimeoutStart).toString());
+            (_clock.elapsed - _authenticationTimeoutStart).toString());
       }
       //check the timeout, has enough time passed?
-      if (DateTime.now().difference(_authenticationTimeoutStart) >=
+      if ((_clock.elapsed - _authenticationTimeoutStart) >=
           _authenticationTimeoutDuration) {
         if (_clientRef.loggingEnabled) {
           _clientRef.log("TIMER FINISHED");
@@ -516,6 +512,8 @@ class BrainCloudComms {
 
   /// Shuts down the communications layer.
   void shutDown() {
+    _httpClientInstance?.close();
+    _httpClientInstance = null;
     _serviceCallsWaiting.clear();
 
     _disposeUploadHandler();
@@ -603,12 +601,12 @@ class BrainCloudComms {
 
   /// Resets the idle timer.
   void _resetIdleTimer() {
-    _lastTimePacketSent = DateTime.now();
+    _lastTimePacketSent = _clock.elapsed;
   }
 
   /// Starts timeout of authentication calls.
   void _resetAuthenticationTimer() {
-    _authenticationTimeoutStart = DateTime.now();
+    _authenticationTimeoutStart = _clock.elapsed;
   }
 
   ///keeps track of if the client has made too many authentication attempts.
@@ -766,6 +764,12 @@ class BrainCloudComms {
           } on Exception {
             print(
                 "Exception lib/BrainCloud/Internal/braincloud_comms.dart Line 949");
+          }
+
+          if (service == ServiceName.time.value &&
+              operation == ServiceOperation.read.value &&
+              responseData != null) {
+            _syncServerTime(responseData);
           }
 
           if (operation == ServiceOperation.fullReset.value ||
@@ -1296,9 +1300,8 @@ class BrainCloudComms {
         requestState.messageList;
 
     String jsonRequestString = serializeJson(packet);
-    String sig = _calculateMD5Hash("$jsonRequestString$getSecretKey");
-
     Uint8List byteArray = utf8.encode(jsonRequestString);
+    String sig = _signRequest(byteArray);
 
     requestState.signature = sig;
 
@@ -1332,7 +1335,7 @@ class BrainCloudComms {
     requestState.webRequest = req;
 
     requestState.requestString = jsonRequestString;
-    requestState.timeSent = DateTime.now();
+    requestState.timeSent = _clock.elapsed;
 
     _resetIdleTimer();
 
@@ -1348,8 +1351,8 @@ class BrainCloudComms {
             : packetTimeouts.last);
     final requestTimeout = Duration(seconds: timeoutSecs);
 
-    return req
-        .send()
+    return _httpClient
+        .send(req)
         .timeout(requestTimeout)
         .then((result) => http.Response.fromStream(result)
             .timeout(requestTimeout)
@@ -1441,7 +1444,7 @@ class BrainCloudComms {
   /// @param requestStateThe active request.
   Duration _getPacketTimeout(RequestState requestState) {
     if (requestState.packetNoRetry) {
-      if (_activeRequest != null && (DateTime.now().difference(_activeRequest!.timeSent) >
+      if (_activeRequest != null && ((_clock.elapsed - _activeRequest!.timeSent) >
               Duration(seconds: authenticationPacketTimeoutSecs))) {
         for (int i = 0; i < _listAuthPacketTimeouts.length; i++) {
           if (_listAuthPacketTimeouts[i] == authenticationPacketTimeoutSecs) {
@@ -1516,14 +1519,38 @@ class BrainCloudComms {
     _packetId = 0;
   }
 
-  String _calculateMD5Hash(String input) {
-    return md5.convert(utf8.encode(input)).toString();
+  /// Signs [payloadBytes] for the current app.
+  String _signRequest(List<int> payloadBytes) {
+    final profile = _appProfiles[getAppId];
+    if (profile == null) {
+      return calculateChunkedMd5(payloadBytes, utf8.encode("NO APP PROFILE FOR '$getAppId'"));
+    }
+    return profile(payloadBytes);
   }
 
   /// Handles authenticate-specific data from successful request
   ///
   /// @param jsonData
+  // server time = monotonic ms + offset, synced from server_time so device clock changes can't skew it
+  int _serverTimeOffsetMs =
+      DateTime.now().millisecondsSinceEpoch - _clock.elapsedMilliseconds;
+  bool _isServerTimeSynced = false;
+
+  int get serverTimeMs => _clock.elapsedMilliseconds + _serverTimeOffsetMs;
+
+  bool get isServerTimeSynced => _isServerTimeSynced;
+
+  void _syncServerTime(Map<String, dynamic> jsonData) {
+    int serverTime = _getJsonLong(jsonData, "server_time", 0);
+    if (serverTime > 0) {
+      _serverTimeOffsetMs = serverTime - _clock.elapsedMilliseconds;
+      _isServerTimeSynced = true;
+    }
+  }
+
   void _processAuthenticate(Map<String, dynamic> jsonData) {
+    _syncServerTime(jsonData);
+
     //we want to extract the compressIfLarger amount
     if (jsonData.containsKey("compressIfLarger")) {
       _clientSideCompressionThreshold = jsonData["compressIfLarger"];
@@ -1582,7 +1609,7 @@ class BrainCloudComms {
   Future<void> _retryRequest(WebRequestStatus status, bool bypassTimeout) async {
     if (_activeRequest != null) {
       if (bypassTimeout ||
-          DateTime.now().difference(_activeRequest!.timeSent) >=
+          (_clock.elapsed - _activeRequest!.timeSent) >=
               _getPacketTimeout(_activeRequest!)) {
         if (_clientRef.loggingEnabled) {
           String errorResponse = "";

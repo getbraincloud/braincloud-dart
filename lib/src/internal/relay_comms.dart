@@ -12,6 +12,9 @@ import '/src/braincloud_relay.dart';
 import '/src/reason_codes.dart';
 import '/src/server_callback.dart';
 
+// monotonic; midnight, DST and device clock changes can't skew it
+final Stopwatch _clock = Stopwatch()..start();
+
 /// ******************************************************************************************
 /// ******************************************************************************************
 /// **    This is the main version of relay comms.                                          **
@@ -50,7 +53,7 @@ class RelayComms {
   List<_Event> _events = [];
   bool _isConnected = false;
   int _pingIntervalMs = 1000; // one second
-  DateTime _lastRecvTime = DateTime.fromMillisecondsSinceEpoch(0);
+  Duration _lastRecvTime = Duration.zero;
 
   static const int _MAX_PACKET_ID_HISTORY = 60 * 10;
   // ^^ So we last 10 seconds at 60 fps
@@ -117,15 +120,15 @@ class RelayComms {
 
   bool _resendConnectRequest = false;
   bool _endMatchRequested = false;
-  DateTime _lastConnectResendTime = DateTime.now();
-  DateTime get lastConnectResendTime => _lastConnectResendTime;
+  Duration _lastConnectResendTime = _clock.elapsed;
+  Duration get lastConnectResendTime => _lastConnectResendTime;
   static const int CONTROL_BYTE_HEADER_LENGTH = 1;
   static const int SIZE_OF_RELIABLE_FLAGS = 2;
 
   static const int RELIABLE_BIT = 0x8000;
   static const int ORDERED_BIT = 0x4000;
 
-  int _lastPingTime = DateTime.now().millisecondsSinceEpoch;
+  int _lastPingTime = _clock.elapsedMilliseconds;
   Uint8List DISCONNECT_ARR = Uint8List.fromList([CL2RS_DISCONNECT]);
   Uint8List CONNECT_ARR = Uint8List.fromList([CL2RS_CONNECT]);
   Uint8List ENDMATCH_ARR = Uint8List.fromList([CL2RS_ENDMATCH]);
@@ -416,46 +419,45 @@ class RelayComms {
     // A subsequent connection request will just be ignored if already connected.
     // Re-transmission doesn't need to be high frequency. A suitable interval could be 500ms.
     if (_connectionType == RelayConnectionType.udp && _resendConnectRequest) {
-      if ((DateTime.now().difference(_lastConnectResendTime)).inMilliseconds >
+      if (((_clock.elapsed - _lastConnectResendTime)).inMilliseconds >
           CONNECT_RESEND_INTERVAL_MS) {
-        _lastConnectResendTime = DateTime.now();
+        _lastConnectResendTime = _clock.elapsed;
         _send(_buildConnectionRequest());
       }
     }
 
-    DateTime nowMS = DateTime.now();
+    Duration nowMS = _clock.elapsed;
     if (_isConnected) {
       // Ping
-      if (nowMS.millisecondsSinceEpoch - _lastPingTime >= _pingIntervalMs) {
+      if (nowMS.inMilliseconds - _lastPingTime >= _pingIntervalMs) {
         _sendPing();
       }
 
       // Process reliable resends
       if (_connectionType == RelayConnectionType.udp) {
-        _reliables.values.forEach((value) {
-          _UDPPacket packet = value;
-          if (packet.timeSinceFirstSend.difference(nowMS).inMilliseconds >
+        for (final packet in _reliables.values.toList()) {
+          if ((nowMS - packet.timeSinceFirstSend).inSeconds >
               TIMEOUT_SECONDS) {
             disconnect();
-            _queueErrorEvent("Relay d_isConnected, too many packet lost");
-            //break;
+            _queueErrorEvent("Relay disconnected, too many packet lost");
+            break;
           }
-          if (packet.lastTimeSent.difference(nowMS).inMilliseconds >
+          if ((nowMS - packet.lastTimeSent).inMilliseconds >
               packet.timeInterval) {
             packet.updateTimeIntervalSent();
             _send(packet.rawData);
           }
-        }); //for (var kv in _reliables)
+        }
       }
     }
 
     // Check if we timeout
     if (_connectionType == RelayConnectionType.udp &&
         _udpClient != null &&
-        nowMS.difference(_lastRecvTime).inSeconds > TIMEOUT_SECONDS) {
+        (nowMS - _lastRecvTime).inSeconds > TIMEOUT_SECONDS) {
       _disconnect();
       _queueErrorEvent(
-          "Relay Socket Timeout ${nowMS.difference(_lastRecvTime).inSeconds} sec since last packet.");
+          "Relay Socket Timeout ${(nowMS - _lastRecvTime).inSeconds} sec since last packet.");
     }
 
     // Perform event callbacks
@@ -471,7 +473,7 @@ class RelayComms {
         _Event evt = eventsCopy[j];
         switch (evt.type) {
           case _EventType.socketData:
-            _lastRecvTime = DateTime.now();
+            _lastRecvTime = _clock.elapsed;
             if (evt.data != null) _onRecv(evt.data!);
             break;
           case _EventType.socketError:
@@ -480,12 +482,12 @@ class RelayComms {
             break;
           case _EventType.socketConnected:
             {
-              _lastRecvTime = DateTime.now();
+              _lastRecvTime = _clock.elapsed;
               _send(_buildConnectionRequest());
 
               if (_connectionType == RelayConnectionType.udp) {
                 _resendConnectRequest = true;
-                _lastConnectResendTime = DateTime.now();
+                _lastConnectResendTime = _clock.elapsed;
               }
               break;
             }
@@ -535,7 +537,7 @@ class RelayComms {
   ///
 
   void _sendPing() {
-    _lastPingTime = DateTime.now().millisecondsSinceEpoch;
+    _lastPingTime = _clock.elapsedMilliseconds;
     Uint8List data = Uint8List.fromList(
         [CL2RS_PING, (_lastPingTime >> 8) & 0xFF, _lastPingTime & 0xFF]);
     _send(data);
@@ -874,7 +876,7 @@ class RelayComms {
   }
 
   void _onPong() {
-    _ping = DateTime.now().millisecondsSinceEpoch - _lastPingTime;
+    _ping = _clock.elapsedMilliseconds - _lastPingTime;
     _clientRef.log("Relay LastPing: $_ping ms");
   }
 
@@ -1148,7 +1150,7 @@ class RelayComms {
         : InternetAddress.anyIPv4;
     _udpClient = await RawDatagramSocket.bind(adrType, 0, reuseAddress: true);
     if (_udpClient != null) {
-      _lastRecvTime = DateTime.now();
+      _lastRecvTime = _clock.elapsed;
       _udpClientStream = _udpClient?.listen(_onUdpEvent,
           onError: _onUdpError, onDone: _onUdpDone);
       _queueSocketConnectedEvent();
@@ -1261,8 +1263,8 @@ class _Event {
 
 class _UDPPacket {
   _UDPPacket(Uint8List inData, int inChannel, int packetId, int netId) {
-    _lastTimeSent = DateTime.now();
-    _timeSinceFirstSend = DateTime.now();
+    _lastTimeSent = _clock.elapsed;
+    _timeSinceFirstSend = _clock.elapsed;
     _timeInterval = inChannel <= 1
         ? 50
         : inChannel == 2
@@ -1274,20 +1276,20 @@ class _UDPPacket {
   }
 
   void updateTimeIntervalSent() {
-    _lastTimeSent = DateTime.now();
+    _lastTimeSent = _clock.elapsed;
     _timeInterval = min((timeInterval * 1.25).toInt(),
         RelayComms._MAX_RELIABLE_RESEND_INTERVAL);
   }
 
-  DateTime _timeSinceFirstSend = DateTime.now();
-  DateTime _lastTimeSent = DateTime.now();
+  Duration _timeSinceFirstSend = _clock.elapsed;
+  Duration _lastTimeSent = _clock.elapsed;
   late int _timeInterval;
   late Uint8List _rawData;
   late int _id;
   int? _netId;
 
-  DateTime get timeSinceFirstSend => _timeSinceFirstSend;
-  DateTime get lastTimeSent => _lastTimeSent;
+  Duration get timeSinceFirstSend => _timeSinceFirstSend;
+  Duration get lastTimeSent => _lastTimeSent;
   int get timeInterval => _timeInterval;
   Uint8List get rawData => _rawData;
   int get id => _id;

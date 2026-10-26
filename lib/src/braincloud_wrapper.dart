@@ -48,7 +48,7 @@ class BrainCloudWrapper {
   static String authenticationAnonymous = "anonymous";
 
   String _lastUrl = "";
-  String _lastSecretKey = "";
+  Map<String, AppProfile> _lastProfiles = {};
   String _lastAppId = "";
   String _lastAppVersion = "";
 
@@ -224,28 +224,60 @@ class BrainCloudWrapper {
     runCallbacks();
   }
 
-  /// Initialize the brainCloud client with the passed in parameters.
+  /// Initialize the brainCloud client.
+  ///
+  /// With no [secretKey] or [appProfile], reads `bc_config.json` from
+  /// `--dart-define-from-file`, or [config]. Child apps are registered as with [initWithApps].
   ///
   /// @param url The brainCloud server url
   ///
   /// @param secretKey The app's secret
   ///
-  /// @param appId The app's id
+  /// @param appProfile Signs requests for the app, instead of [secretKey]
   ///
-  /// @param version The app's version
+  /// @param appId The app's id. Required with [secretKey] or [appProfile].
   ///
-  /// @param updateTick in millisecond. Set to 0 to manage the update manually.
+  /// @param version The app's version. Required with [secretKey] or [appProfile].
+  ///
+  /// @param updateTick in millisecond. Set to 0 to manage the update manually. Default: 50
+  ///
+  /// @param config App settings to use instead of the dart-defines
   ///
   /// return Future
   Future<void> init(
-      {required String secretKey,
-      required String appId,
-      required String version,
+      {String? secretKey,
+      AppProfile? appProfile,
+      String? appId,
+      String? version,
       String? url,
-      required int updateTick}) async {
+      int updateTick = 50,
+      BrainCloudAppConfig? config}) async {
+    if (secretKey != null && appProfile != null) {
+      throw ArgumentError('Pass at most one of secretKey or appProfile.');
+    }
+    if (secretKey == null && appProfile == null) {
+      final c = config ?? BrainCloudAppConfig.fromEnvironment();
+      final resolved = await c.resolve();
+      if (resolved.profiles.length > 1) {
+        return initWithApps(
+            url: c.serverUrl,
+            defaultAppId: resolved.appId,
+            appProfiles: resolved.profiles,
+            version: c.version,
+            updateTick: updateTick);
+      }
+      appProfile = resolved.profiles[resolved.appId];
+      appId = resolved.appId;
+      version = c.version;
+      url = c.serverUrl;
+    }
+    if (appId == null || version == null) {
+      throw ArgumentError('appId and version are required with secretKey or appProfile.');
+    }
+    final profile = appProfile ?? AppProfile.fromValue(secretKey!);
     resetWrapper();
     _lastUrl = url ?? "";
-    _lastSecretKey = secretKey;
+    _lastProfiles = {appId: profile};
     _lastAppId = appId;
     _lastAppVersion = version;
     _updateTick = updateTick;
@@ -253,6 +285,7 @@ class BrainCloudWrapper {
     _client.initialize(
         serverURL: url,
         secretKey: secretKey,
+        appProfile: appProfile,
         appId: appId,
         appVersion: version);
 
@@ -266,11 +299,13 @@ class BrainCloudWrapper {
   ///
   /// @param urlThe brainCloud server url
   ///
-  /// @param secretKeyThe app's secret
-  ///
   /// @param defaultAppId The app's id
   ///
-  /// @param versionThe app's version
+  /// @param appIdSecretMap map of appId -> secret, for the app and its children
+  ///
+  /// @param appProfiles map of appId -> AppProfile, instead of [appIdSecretMap]
+  ///
+  /// @param version The app's version
   ///
   /// @param updateTick in millisecond. Default: 50
   ///
@@ -278,12 +313,18 @@ class BrainCloudWrapper {
   Future<void> initWithApps(
       {required String url,
       required String defaultAppId,
-      required Map<String, String> appIdSecretMap,
+      Map<String, String>? appIdSecretMap,
+      Map<String, AppProfile>? appProfiles,
       required String version,
       required int updateTick}) async {
+    if ((appIdSecretMap == null) == (appProfiles == null)) {
+      throw ArgumentError('Pass exactly one of appIdSecretMap or appProfiles.');
+    }
+    final profiles = appProfiles ??
+        {for (final e in appIdSecretMap!.entries) e.key: AppProfile.fromValue(e.value)};
     resetWrapper();
     _lastUrl = url;
-    _lastSecretKey = appIdSecretMap[defaultAppId] ?? "";
+    _lastProfiles = Map.of(profiles);
     _lastAppId = defaultAppId;
     _lastAppVersion = version;
     _updateTick = updateTick;
@@ -292,6 +333,7 @@ class BrainCloudWrapper {
         serverURL: url,
         defaultAppId: defaultAppId,
         appIdSecretMap: appIdSecretMap,
+        appProfiles: appProfiles,
         appVersion: version);
 
     await _loadData();
@@ -653,12 +695,13 @@ class BrainCloudWrapper {
     });
   }
 
-  /// Authenticate the user using a google userid(email address) and google authentication token.
+  /// Authenticate the user using their Apple account and identityToken.
+  ///
   /// Service Name - Authenticate
   /// Service Operation - Authenticate
   ///
   /// @param appleUserId String of the apple accounts user Id OR email
-  /// @param identityToken The authentication token confirming users identity
+  /// @param identityToken The identityToken confirming users identity
   /// @param forceCreate Should a new profile be created for this user if the account does not exist?
   /// @return Future<ServerResponse>
   ///
@@ -672,6 +715,35 @@ class BrainCloudWrapper {
         .authenticateApple(
             appleUserId: appleUserId,
             identityToken: identityToken,
+            forceCreate: forceCreate)
+        .then((response) {
+      if (response.isSuccess()) {
+        _authSuccessCallback(response);
+      }
+      return response;
+    });
+  }
+
+  /// Authenticate the user using an epicAccountId and their authIdToken.
+  ///
+  /// Service Name - Authenticate
+  /// Service Operation - Authenticate
+  ///
+  /// @param epicAccountId LocalUserId retrieved from the EOS AuthInterface's Login method.
+  /// @param authIdToken IdToken string from the EOS AuthInterface's CopyIdToken method.
+  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
+  /// @return Future<ServerResponse>
+  ///
+  Future<ServerResponse> authenticateEpicGames(
+      {required String epicAccountId,
+      required String authIdToken,
+      required bool forceCreate}) {
+    initializeIdentity(false);
+
+    return _client.authenticationService
+        .authenticateEpicGames(
+            epicAccountId: epicAccountId,
+            authIdToken: authIdToken,
             forceCreate: forceCreate)
         .then((response) {
       if (response.isSuccess()) {
@@ -1119,30 +1191,50 @@ class BrainCloudWrapper {
   /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
   /// Use this function to keep a clean designflow from anonymous to signed profiles
   ///
-  /// authenticate the user with brainCloud using their Apple Credentials
+  /// Authenticate the user using their Apple account and identityToken.
   ///
   /// Service Name - authenticate
   /// Service Operation - authenticate
   ///
-  /// @param externalId
-  /// The apple id of the user
-  ///
-  /// @param authenticationToken
-  /// The validated token from the Apple SDK (that will be further
-  /// validated when sent to the bC service)
-  ///
-  /// @param forceCreate
-  /// Should a new profile be created for this user if the account does not exist?
+  /// @param appleUserId String of the apple accounts user Id OR email
+  /// @param identityToken The identityToken confirming users identity
+  /// @param forceCreate Should a new profile be created for this user if the account does not exist?
   ///
   /// returns `Future<ServerResponse>`
   Future<ServerResponse> smartSwitchAuthenticateApple(
       {required String appleUserId,
-      required String appleAuthToken,
+      required String identityToken,
       required bool forceCreate}) async {
     await _smartSwitchAuthentication();
     return authenticateApple(
         appleUserId: appleUserId,
-        identityToken: appleAuthToken,
+        identityToken: identityToken,
+        forceCreate: forceCreate);
+  }
+
+  /// Smart Switch authenticate will logout of the current profile, and switch to the new authentication type.
+  /// In event the current session was previously an anonymous account, the smart switch will delete that profile.
+  /// Use this function to keep a clean designflow from anonymous to signed profiles
+  ///
+  /// Authenticate the user using an epicAccountId and their authIdToken.
+  ///
+  /// Service Name - authenticate
+  /// Service Operation - authenticate
+  ///
+  /// @param epicAccountId LocalUserId retrieved from the EOS AuthInterface's Login method.
+  /// @param authIdToken IdToken string from the EOS AuthInterface's CopyIdToken method.
+  /// @param forceCreate
+  /// Should a new profile be created for this user if the account does not exist?
+  ///
+  /// returns `Future<ServerResponse>`
+  Future<ServerResponse> smartSwitchAuthenticateEpicGames(
+      {required String epicAccountId,
+      required String authIdToken,
+      required bool forceCreate}) async {
+    await _smartSwitchAuthentication();
+    return authenticateEpicGames(
+        epicAccountId: epicAccountId,
+        authIdToken: authIdToken,
         forceCreate: forceCreate);
   }
 
@@ -1713,12 +1805,19 @@ class BrainCloudWrapper {
   /// Only works for Anonymous authentications.
   Future reauthenticate() async {
     var wd = _wrapperData; // init will wipe this so save it first.
-    init(
-        appId: _lastAppId,
-        version: _lastAppVersion,
-        secretKey: _lastSecretKey,
-        url: _lastUrl,
-        updateTick: _updateTick);
+    final profile = _lastProfiles[_lastAppId];
+    if (profile == null) return Future.value();
+    if (_lastProfiles.length > 1) {
+      await initWithApps(
+          url: _lastUrl,
+          defaultAppId: _lastAppId,
+          appProfiles: _lastProfiles,
+          version: _lastAppVersion,
+          updateTick: _updateTick);
+    } else {
+      await init(
+          appProfile: profile, appId: _lastAppId, version: _lastAppVersion, url: _lastUrl, updateTick: _updateTick);
+    }
     _wrapperData = wd; // restore warpper Data.
     String authType = getStoredAuthenticationType();
     if (authType == authenticationAnonymous) {
