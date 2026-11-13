@@ -11,11 +11,12 @@ import 'package:path/path.dart' as p;
 
 import 'builder_client.dart';
 import 'project_config.dart' as project;
+import 'tuning_source.dart';
 
 const clientId = 'dart_plugin';
 const defaultCallbackPort = 23456;
 const scope = 'openid email builder_api team_info app_info team_read app_read app_create utility_read';
-const pluginVersion = '6.1.0';
+const pluginVersion = '6.1.1';
 // Picks this SDK's template team on the server (templateGameTeams).
 const templateEngine = 'dart';
 // Encodes the dev-machine session at rest, so tokens aren't plain text in the file.
@@ -61,6 +62,9 @@ class SetupSession {
   String _verifier = '';
   String _oauthState = '';
   bool loginFromIde = false;
+  // --tuning / --new-tuning for a headless refresh.
+  Uint8List? tuningOverride;
+  bool revealTuning = false;
 
   SetupSession(String output,
       {String? sessionFile,
@@ -236,7 +240,6 @@ class SetupSession {
           children: children,
           serverUrl: serverUrl,
           appVersion: current?.appVersion ?? project.defaultAppVersion);
-      project.ensureIgnored(output);
       error = '';
       status = 'Saved ${_name(appId)} to ${p.basename(output)}.';
       _save();
@@ -250,17 +253,17 @@ class SetupSession {
   /// [manualValue]: for a child this account can't see; its profile isn't fetched again later.
   Future<void> addChild(String childId, String manualValue) async {
     final id = childId.trim();
-    final current = project.load(output);
     if (id.isEmpty) return;
-    if (current == null) {
-      error = 'Select an app above first.';
-      return;
-    }
-    if (id == current.appId || current.children.any((c) => c.appId == id)) {
-      error = '${_name(id)} is already in ${p.basename(output)}.';
-      return;
-    }
     try {
+      final current = project.load(output);
+      if (current == null) {
+        error = 'Select an app above first.';
+        return;
+      }
+      if (id == current.appId || current.children.any((c) => c.appId == id)) {
+        error = '${_name(id)} is already in ${p.basename(output)}.';
+        return;
+      }
       final appValue = manualValue.isNotEmpty ? manualValue : await _credential(id);
       final children = [...current.children, (appId: id, appValue: appValue)];
       _writeChildren(current, children);
@@ -273,12 +276,16 @@ class SetupSession {
   }
 
   void removeChild(String childId) {
-    final current = project.load(output);
-    if (current == null) return;
-    _writeChildren(current, current.children.where((c) => c.appId != childId).toList());
-    error = '';
-    status = 'Removed child ${_name(childId)}.';
-    _save();
+    try {
+      final current = project.load(output);
+      if (current == null) return;
+      _writeChildren(current, current.children.where((c) => c.appId != childId).toList());
+      error = '';
+      status = 'Removed child ${_name(childId)}.';
+      _save();
+    } catch (e) {
+      error = '$e';
+    }
   }
 
   void _writeChildren(project.FullConfig current, List<project.ChildApp> children) {
@@ -345,15 +352,14 @@ class SetupSession {
       final appId = (manualAppId ?? '').trim();
       if (appId.isNotEmpty && (manualValue ?? '').isNotEmpty) {
         // Same app: keep its children. A different app starts without any.
-        final current = project.load(output);
-        final children = current != null && current.appId == appId ? current.children : <project.ChildApp>[];
+        final current = project.read(output)?.appId == appId ? project.load(output) : null;
+        final children = current?.children ?? <project.ChildApp>[];
         project.write(output,
             appId: appId, appValue: manualValue!, children: children, serverUrl: serverUrl, appVersion: version);
       } else if (!project.rewrite(output, serverUrl, version)) {
         error = 'Select an app above, or enter an App ID and App Secret.';
         return;
       }
-      project.ensureIgnored(output);
       this.serverUrl = serverUrl;
       error = '';
       status = 'Saved.';
@@ -393,11 +399,78 @@ class SetupSession {
         appValue = await c.appCredential(email, builderKey, teamId, appId);
       }
     }
-    // Children keep their encoded profiles; manual ones can't be fetched again.
-    final loaded = project.load(output);
-    final children = loaded != null && loaded.appId == appId ? loaded.children : <project.ChildApp>[];
-    project.write(output, appId: appId, appValue: appValue, children: children, serverUrl: url, appVersion: version);
+    // Children keep their encoded profiles under the same tuning value; otherwise they're fetched again.
+    var children = <project.ChildApp>[];
+    if (current != null && current.appId == appId && current.childIds.isNotEmpty) {
+      project.FullConfig? loaded;
+      try {
+        loaded = project.load(output);
+      } catch (_) {
+        // Tuning file missing or replaced: fetch below.
+      }
+      final existing = project.projectTuning(output);
+      final override = tuningOverride;
+      final sameValue = override == null || (existing != null && sameTuning(existing, override));
+      if (loaded != null && sameValue) {
+        children = loaded.children;
+      } else {
+        final useCi = ciEmail.isNotEmpty && ciKey.isNotEmpty && ciTeam.isNotEmpty;
+        for (final id in current.childIds) {
+          try {
+            final value = useCi
+                ? await c.appCredential(ciEmail, ciKey, ciTeam, id)
+                : await c.appCredential(email, builderKey, teamId, id);
+            children.add((appId: id, appValue: value));
+          } catch (_) {
+            throw BuilderError('Could not fetch child app $id again for the tuning value.');
+          }
+        }
+      }
+    }
+    project.write(output,
+        appId: appId, appValue: appValue, children: children, serverUrl: url, appVersion: version, tuning: tuningOverride);
   }
+
+  // ── Tuning value ───────────────────────────────────────────────────
+
+  void useTuning(List<int> value) => tuningOverride = Uint8List.fromList(value);
+
+  /// Re-encodes the config under a new tuning value, fetching the app and its children again.
+  Future<void> retune(List<int> value) async {
+    final info = project.read(output);
+    if (info == null) {
+      error = 'Select an app above first.';
+      return;
+    }
+    if (!isLoggedIn()) {
+      error = 'Log in to change the tuning value.';
+      return;
+    }
+    try {
+      final children = <project.ChildApp>[];
+      for (final id in info.childIds) {
+        try {
+          children.add((appId: id, appValue: await _credential(id)));
+        } catch (_) {
+          error = 'Could not fetch child app ${_name(id)} again. Remove it, change the value, then add it back.';
+          return;
+        }
+      }
+      project.write(output,
+          appId: info.appId,
+          appValue: await _credential(info.appId),
+          children: children,
+          serverUrl: info.serverUrl,
+          appVersion: info.appVersion,
+          tuning: value);
+      error = '';
+      status = 'Updated the tuning value. Rebuild your app.';
+    } catch (e) {
+      error = '$e';
+    }
+  }
+
+  void showTuning() => revealTuning = true;
 
   // ── Panel state ────────────────────────────────────────────────────
 
@@ -433,6 +506,17 @@ class SetupSession {
         'gitignored': project.isIgnored(output),
       },
     };
+    final tuning = project.tuningState(output);
+    var shown = '';
+    if (revealTuning) {
+      final value = project.projectTuning(output);
+      if (value != null) {
+        shown = tuningHex(value);
+        value.fillRange(0, value.length, 0);
+      }
+    }
+    out['tuning'] = {'present': tuning.present, 'matches': tuning.matches, 'value': shown};
+    revealTuning = false;
     status = '';
     return out;
   }

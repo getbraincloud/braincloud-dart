@@ -90,6 +90,7 @@
   button.primary:hover:not(:disabled) { background: var(--bc-blue-hover); }
   button.wide { width: 100%; }
   button.flat { border: 0; color: var(--bc-blue); padding: 0 4px; min-width: 28px; }
+  button.flat.icon { min-width: 18px; padding: 0 2px; display: inline-flex; align-items: center; justify-content: center; }
   .refresh { font-size: 12px; }
   .collapse {
     border: 0; padding: 0; min-height: 20px; text-align: left; width: 100%;
@@ -146,8 +147,17 @@
       </div>
       <div class="status" id="status"></div>
       <button class="primary" id="save">Save</button>
-      <div class="warn" id="gitWarn"></div>
       <div class="path" id="outputPath"></div>
+      <div id="tuningBox" class="hidden">
+        <hr class="inner-sep">
+        <div class="label">Build Tuning</div>
+        <div class="row">
+          <input type="password" id="tuningValue" spellcheck="false" autocomplete="off" readonly placeholder="••••••••">
+          <button class="flat icon" id="tuningNew" title="Regenerate"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9"/><path d="M13.5 2.5v3h-3"/></svg></button>
+          <button class="flat icon" id="tuningShow" title="Show"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z"/><circle cx="8" cy="8" r="2"/></svg></button>
+        </div>
+        <div class="warn hidden" id="tuningStatus"></div>
+      </div>
     </div>
 
     <button class="wide hidden" id="logout">Log out</button>
@@ -458,16 +468,35 @@
 
     $("status").textContent = state.status || "";
     $("status").classList.toggle("hidden", !state.status);
-    $("gitWarn").textContent = c.gitignored
-      ? "⚠  " + c.fileName + " is gitignored"
-      : "⚠  Add " + c.fileName + " to .gitignore";
-    $("gitWarn").classList.toggle("hidden", !c.present);
     // Read-only; index matches getChildAppIdList(). Editing is under the account section.
+    renderTuning();
     $("childList").classList.toggle("hidden", !c.children.length);
     $("childRows").replaceChildren(...c.children.map((child, index) =>
       el("input", { type: "text", readOnly: true, value: "[" + index + "] " + childLabel(child.id, child.name) })));
     $("outputPath").textContent = c.output;
     $("logout").classList.toggle("hidden", state.state !== "logged_in");
+  }
+
+  // Only repos that compile a tuning value into the app report one.
+  function renderTuning() {
+    const t = state.tuning;
+    $("tuningBox").classList.toggle("hidden", !t || !state.configured.present);
+    if (!t) return;
+    $("tuningStatus").textContent = t.matches ? ""
+      : t.present ? "Doesn't match this config. Enter the value it was made with, or select the app again."
+      : "Not set. Select the app again, or enter a value.";
+    $("tuningStatus").classList.toggle("hidden", t.matches);
+    if (t.value) setTuningShown(true, t.value);
+  }
+
+  // Shown = editable; Enter applies a changed value.
+  function setTuningShown(shown, value) {
+    const input = $("tuningValue");
+    input.type = shown ? "text" : "password";
+    input.readOnly = !shown;
+    input.value = shown ? value : "";
+    input.dataset.shown = shown ? value : "";
+    $("tuningShow").title = shown ? "Hide" : "Show";
   }
 
   function renderServer() {
@@ -537,6 +566,22 @@
     });
     $("appValue").value = "";
     if (next) serverDirty = false;
+  });
+  $("tuningNew").addEventListener("click", () => {
+    if (confirm("Builds made with the current value will no longer read the new config. Continue?")) api("tuning-new");
+  });
+  $("tuningShow").addEventListener("click", async () => {
+    if ($("tuningValue").type === "text") return setTuningShown(false);
+    await api("tuning-show");
+    if ($("tuningValue").type !== "text") setTuningShown(true, "");
+    $("tuningValue").focus();
+  });
+  $("tuningValue").addEventListener("keydown", async (e) => {
+    if (e.key !== "Enter" || $("tuningValue").readOnly) return;
+    const value = $("tuningValue").value.trim();
+    if (value === $("tuningValue").dataset.shown) return setTuningShown(false);
+    const next = await api("tuning-use", { value });
+    if (next && !next.error) setTuningShown(false);
   });
   $("logout").addEventListener("click", () => { showCreate = false; api("logout"); });
   $("done").addEventListener("click", async () => {

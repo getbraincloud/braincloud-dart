@@ -1,0 +1,11 @@
+# Run `dart run braincloud:setup` here to write the test suite's bc_config.json and tuning file.
+name: braincloud_tests
+publish_to: none
+version: 1.0.0
+
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  braincloud:
+    path: ../..

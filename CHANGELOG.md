@@ -1,3 +1,7 @@
+## 6.1.1
+
+* `dart run braincloud:setup` also writes `lib/braincloud_tuning.dart`. Call `braincloudBootstrap()` from it once in `main()` before `init()`
+
 ## 6.1.0
 
 * **Breaking:** Minimum Dart SDK raised from 3.5 to 3.10 (Flutter 3.38), required by the build hooks that bundle the native config decoder. Upgrade Flutter before updating to this version.

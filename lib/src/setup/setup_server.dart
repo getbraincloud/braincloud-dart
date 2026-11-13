@@ -8,6 +8,7 @@ import 'dart:isolate';
 import 'dart:math';
 
 import 'setup_session.dart';
+import 'tuning_source.dart';
 
 const _loginTimeout = Duration(minutes: 10);
 const _tokenHeader = 'x-setup-token';
@@ -223,6 +224,17 @@ class SetupServer {
           await s.createApp(_str(body['appName']), platforms, _str(body['templateAppId']));
         case 'save':
           s.saveSettings(_str(body['serverUrl']), _str(body['appVersion']), _str(body['appId']), _str(body['appValue']));
+        case 'tuning-new':
+          await s.retune(newTuning());
+        case 'tuning-use':
+          final value = parseTuningHex(_str(body['value']));
+          if (value != null) {
+            await s.retune(value);
+          } else {
+            s.reportError('The tuning value must be 64 hex characters.');
+          }
+        case 'tuning-show':
+          s.showTuning();
         case 'done':
           break;
         default:

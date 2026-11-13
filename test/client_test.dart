@@ -206,7 +206,7 @@ void main() {
 
       bcClient.initialize(
           serverURL: bcTest.ids.url,
-          secretKey: bcTest.ids.secretKey,
+          appProfile: bcTest.ids.profile,
           appId: bcTest.ids.appId,
           appVersion: bcTest.ids.version,
       )
