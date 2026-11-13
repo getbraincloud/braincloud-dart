@@ -11,7 +11,7 @@ class BCTest {
   final bcWrapper = BrainCloudWrapper(wrapperName: "FlutterTest", persistence: DataPersistence() );
   final String entityType = "DartUnitTests";
 
-  StoredIds ids = StoredIds('test/ids.txt');
+  StoredIds ids = StoredIds();
 
   static final BCTest _bcTest = BCTest._internal();
 
@@ -27,7 +27,7 @@ class BCTest {
 
   BCTest._internal();
 
-  /// Initialize the wrapper and load StoredIds
+  /// Initialize the wrapper from the test app config
   setupBC({String? serverUrl}) async {
     
     //load StoredIds
@@ -38,7 +38,7 @@ class BCTest {
     //init wrapper (this will start the update loop)
     await bcWrapper
         .init(
-            secretKey: ids.secretKey,
+            appProfile: ids.profile,
             appId: ids.appId,
             version: ids.version,
             url: serverUrl ?? ids.url,
@@ -54,7 +54,7 @@ class BCTest {
     await auth();
   }
 
-  /// Initialize the wrapper and load StoredIds
+  /// Initialize the wrapper with the test app and its child app
   setupBCwithChild() async {
 
     //load StoredIds
@@ -62,15 +62,10 @@ class BCTest {
 
     print('appId: ${ids.appId} at ${ids.url}');
 
-    Map<String, String> appIdSecretMap = {
-      ids.appId: ids.secretKey,
-      ids.childAppId: ids.childSecret
-    };
-
     //init wrapper (this will start the update loop)
     await bcWrapper
         .initWithApps(
-            appIdSecretMap: appIdSecretMap,
+            appProfiles: ids.profiles,
             defaultAppId: ids.appId,
             version: ids.version,
             url: ids.url,
@@ -86,7 +81,7 @@ class BCTest {
     await auth();
   }
 
-  /// Authenticate with email and password found in test/ids.txt
+  /// Authenticate as userA, or the given user
   Future auth({String? userId, String? password}) async {
     Completer completer = Completer();
     var id = userId ?? userA.name;

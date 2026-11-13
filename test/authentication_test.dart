@@ -468,7 +468,7 @@ main() async {
       BrainCloudWrapper _bc =
           BrainCloudWrapper(wrapperName: "authenticateWithHeartbeat");
       await _bc.init(
-          secretKey: bcTest.ids.secretKey,
+          appProfile: bcTest.ids.profile,
           appId: bcTest.ids.appId,
           version: bcTest.ids.version,
           url: bcTest.ids.url,
@@ -499,7 +499,7 @@ main() async {
 
       await bcWrapper
           .init(
-              secretKey: bcTest.ids.secretKey,
+              appProfile: bcTest.ids.profile,
               appId: bcTest.ids.appId,
               version: bcTest.ids.version,
               url: bcTest.ids.url,

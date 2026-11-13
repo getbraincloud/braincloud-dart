@@ -9,6 +9,7 @@ import '/braincloud.dart';
 import '/data_persistence.dart';
 import '/memory_persistence.dart';
 
+import '/src/config/bootstrap.dart';
 import '/src/util.dart';
 
 /// The BrainCloudWrapper class provides some glue between the Dart environment and the
@@ -224,10 +225,14 @@ class BrainCloudWrapper {
     runCallbacks();
   }
 
+  /// @nodoc
+  static void bootstrap(List<int> Function() fill) => registeredTuning = fill;
+
   /// Initialize the brainCloud client.
   ///
   /// With no [secretKey] or [appProfile], reads `bc_config.json` from
-  /// `--dart-define-from-file`, or [config]. Child apps are registered as with [initWithApps].
+  /// `--dart-define-from-file`, or [config]; the app's `braincloudBootstrap()` must run first.
+  /// Child apps are registered as with [initWithApps].
   ///
   /// @param url The brainCloud server url
   ///

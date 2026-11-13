@@ -6,8 +6,10 @@ import 'dart:io';
 
 import 'package:braincloud/braincloud.dart';
 import 'package:braincloud/src/setup/project_config.dart' as project;
+import 'package:braincloud/src/setup/setup_main.dart';
 import 'package:braincloud/src/setup/setup_server.dart';
 import 'package:braincloud/src/setup/setup_session.dart';
+import 'package:braincloud/src/setup/tuning_source.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
@@ -19,7 +21,14 @@ final _payload = utf8.encode('{"packetId":1}');
 // Values only come back out as signatures.
 String _sig(String secret) => AppProfile.fromValue(secret).sign(_payload);
 
+// Stands in for the app's generated braincloudBootstrap().
+void _bootstrap(String file) {
+  final value = project.projectTuning(file);
+  BrainCloudWrapper.bootstrap(() => value ?? const []);
+}
+
 Future<String> _configSig(String file) async {
+  _bootstrap(file);
   final resolved = await BrainCloudAppConfig.fromJson(jsonDecode(File(file).readAsStringSync())).resolve();
   return resolved.profiles[resolved.appId]!.sign(_payload);
 }
@@ -162,6 +171,9 @@ void main() {
     expect(json.containsKey('appId'), isFalse);
     expect(File(output).readAsStringSync(), isNot(contains('"100"')));
     expect(File(output).readAsStringSync(), isNot(contains(_secret)));
+    expect(state['tuning'], {'present': true, 'matches': true, 'value': ''});
+    expect(jsonEncode(state), isNot(contains(tuningFileName)));
+    _bootstrap(output);
     final resolved = await BrainCloudAppConfig.fromJson(json).resolve();
     expect(resolved.appId, '100');
     expect(resolved.profiles.keys, ['100', '200']);
@@ -201,9 +213,125 @@ void main() {
         appId: current.appId,
         appValue: current.appValue,
         children: [(appId: '200', appValue: _childSecret)]);
+    _bootstrap(output);
     final resolved = await BrainCloudAppConfig.fromJson(jsonDecode(File(output).readAsStringSync())).resolve();
     expect(resolved.profiles['100']!.sign(_payload), _sig(_secret));
     expect(resolved.profiles['200']!.sign(_payload), _sig(_childSecret));
+  });
+
+  SetupSession loggedIn(String output) {
+    final session = SetupSession(output, sessionFile: null, serverUrl: serverUrl)
+      ..state = 'logged_in'
+      ..email = 'dev@example.com'
+      ..accessToken = 'AT'
+      ..builderKey = 'BK'
+      ..teamId = 'T1';
+    return session;
+  }
+
+  test('one tuning value per project: minted on first save, reused across rewrites', () async {
+    final output = p.join(dir.path, 'bc_config.json');
+    final session = loggedIn(output);
+    await session.refreshApps();
+    await session.selectApp('100');
+    final first = project.projectTuning(output)!;
+    await session.selectApp('200');
+    expect(session.error, '');
+    expect(project.projectTuning(output), first);
+    session.saveSettings(serverUrl, '2.0.0', null, null);
+    expect(project.projectTuning(output), first);
+    expect(await _configSig(output), _sig(_childSecret));
+  });
+
+  test('Regenerate and --refresh --new-tuning re-encode with a new value and fetch children again', () async {
+    final output = p.join(dir.path, 'bc_config.json');
+    final session = loggedIn(output);
+    await session.refreshApps();
+    await session.selectApp('100');
+    await session.addChild('200', '');
+    final first = project.projectTuning(output)!;
+
+    await session.retune(newTuning());
+    expect(session.error, '');
+    final second = project.projectTuning(output)!;
+    expect(sameTuning(first, second), isFalse);
+    expect(project.tuningState(output), (present: true, matches: true));
+    _bootstrap(output);
+    final resolved = await BrainCloudAppConfig.fromJson(jsonDecode(File(output).readAsStringSync())).resolve();
+    expect(resolved.profiles['200']!.sign(_payload), _sig(_childSecret));
+
+    session.useTuning(newTuning());
+    await session.refreshConfig({});
+    expect(sameTuning(project.projectTuning(output)!, second), isFalse);
+    expect(project.load(output)!.children.single.appId, '200');
+    expect(await _configSig(output), _sig(_secret));
+  });
+
+  test('a lost tuning value reads as unreadable until the app is selected again', () async {
+    final output = p.join(dir.path, 'bc_config.json');
+    final session = loggedIn(output);
+    await session.refreshApps();
+    await session.selectApp('100');
+    final first = project.projectTuning(output)!;
+    File(project.tuningPath(output)).deleteSync();
+
+    expect(project.read(output)?.appId, '100');
+    expect(() => project.load(output), throwsA(predicate((e) => '$e' == project.unreadable)));
+    session.saveSettings(serverUrl, '2.0.0', null, null);
+    expect(session.error, project.unreadable);
+    await session.addChild('200', '');
+    expect(session.error, project.unreadable);
+    expect(session.toJson()['tuning'], {'present': false, 'matches': false, 'value': ''});
+
+    await session.selectApp('100');
+    expect(session.error, '');
+    expect(sameTuning(project.projectTuning(output)!, first), isFalse);
+    expect(await _configSig(output), _sig(_secret));
+  });
+
+  test('a different value reads as a mismatch', () async {
+    final output = p.join(dir.path, 'bc_config.json');
+    project.write(output, appId: '100', appValue: _secret);
+    final value = project.projectTuning(output)!;
+    File(project.tuningPath(output)).writeAsStringSync(tuningSource(newTuning()));
+    expect(project.tuningState(output), (present: true, matches: false));
+    File(project.tuningPath(output)).writeAsStringSync(tuningSource(value));
+    expect(project.tuningState(output), (present: true, matches: true));
+  });
+
+  test('the tuning file is written first and put back if the config write fails', () async {
+    final output = p.join(dir.path, 'bc_config.json');
+    project.write(output, appId: '100', appValue: _secret);
+    final tuningFile = project.tuningPath(output);
+    final before = File(tuningFile).readAsStringSync();
+    File(output).deleteSync();
+    Directory(output).createSync(); // config write fails
+    expect(() => project.write(output, appId: '100', appValue: _secret, tuning: newTuning()), throwsA(anything));
+    expect(File(tuningFile).readAsStringSync(), before);
+
+    File(tuningFile).deleteSync();
+    expect(() => project.write(output, appId: '100', appValue: _secret), throwsA(anything));
+    expect(File(tuningFile).existsSync(), isFalse);
+  });
+
+  test('config and tuning file are gitignored under one header', () async {
+    Directory(p.join(dir.path, '.git')).createSync();
+    File(p.join(dir.path, 'pubspec.yaml')).writeAsStringSync('name: app\n');
+    final output = p.join(dir.path, 'bc_config.json');
+    project.write(output, appId: '100', appValue: _secret);
+    project.write(output, appId: '100', appValue: _secret);
+    expect(project.tuningPath(output), p.join(dir.path, 'lib', tuningFileName));
+    expect(File(p.join(dir.path, '.gitignore')).readAsStringSync(),
+        '# brainCloud app config (generated)\n/bc_config.json\n/lib/$tuningFileName\n');
+  });
+
+  test('--show-tuning prints the value; --tuning needs --refresh', () async {
+    final output = p.join(dir.path, 'bc_config.json');
+    project.write(output, appId: '100', appValue: _secret);
+    final lines = <String>[];
+    expect(await runSetup(['--out', output, '--show-tuning'], log: lines.add), 0);
+    expect(lines.single, tuningHex(project.projectTuning(output)!));
+    expect(await runSetup(['--out', output, '--new-tuning'], log: lines.add), 1);
   });
 
   test('session file is encoded at rest', () async {

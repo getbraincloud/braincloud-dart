@@ -8,9 +8,11 @@ import 'package:path/path.dart' as p;
 import 'project_config.dart' as project;
 import 'setup_server.dart';
 import 'setup_session.dart';
+import 'tuning_source.dart';
 
-const usage =
-    'Usage: dart run braincloud:setup [--out <path>] [--refresh] [--server <url>] [--no-browser] [--timeout <minutes>]';
+const usage = 'Usage: dart run braincloud:setup [--out <path>] [--server <url>] [--refresh [--tuning <hex> | --new-tuning]]\n'
+    '                                 [--show-tuning] [--no-browser] [--timeout <minutes>]\n'
+    '  BRAINCLOUD_TUNING=<hex> works like --tuning.';
 
 bool _browse(String url) {
   try {
@@ -30,7 +32,8 @@ bool _browse(String url) {
 Future<int> runSetup(List<String> argv, {void Function(String) log = print, Map<String, String>? env}) async {
   String? out;
   String? server;
-  var refresh = false, browser = true, help = false;
+  String? tuningArg;
+  var refresh = false, browser = true, help = false, newTuningArg = false, showTuning = false;
   String? bad;
   var timeout = 30;
   final args = argv.isNotEmpty && argv.first == 'setup' ? argv.sublist(1) : argv;
@@ -43,6 +46,12 @@ Future<int> runSetup(List<String> argv, {void Function(String) log = print, Map<
         server = next();
       case '--refresh':
         refresh = true;
+      case '--tuning':
+        tuningArg = next();
+      case '--new-tuning':
+        newTuningArg = true;
+      case '--show-tuning':
+        showTuning = true;
       case '--no-browser':
         browser = false;
       case '--timeout':
@@ -58,11 +67,36 @@ Future<int> runSetup(List<String> argv, {void Function(String) log = print, Map<
     return help ? 0 : 1;
   }
 
+  final environment = env ?? Platform.environment;
   final output = p.absolute(out ?? project.defaultOutput(Directory.current.path));
+  if (showTuning) {
+    final value = project.projectTuning(output);
+    if (value == null) {
+      log('No tuning value for $output');
+      return 1;
+    }
+    log(tuningHex(value));
+    return 0;
+  }
+  if ((newTuningArg || tuningArg != null) && !refresh) {
+    log('--tuning and --new-tuning need --refresh.');
+    return 1;
+  }
   final session = SetupSession(output, serverUrl: server ?? '');
 
   if (refresh) {
-    await session.refreshConfig(env ?? Platform.environment);
+    final hex = tuningArg ?? environment['BRAINCLOUD_TUNING'] ?? '';
+    if (newTuningArg) {
+      session.useTuning(newTuning());
+    } else if (hex.isNotEmpty) {
+      final value = parseTuningHex(hex);
+      if (value == null) {
+        log('The tuning value must be 64 hex characters.');
+        return 1;
+      }
+      session.useTuning(value);
+    }
+    await session.refreshConfig(environment);
     log('Refreshed $output');
     return 0;
   }
@@ -75,8 +109,9 @@ Future<int> runSetup(List<String> argv, {void Function(String) log = print, Map<
   final timedOut = await setup.done.then((_) => false).timeout(Duration(minutes: timeout), onTimeout: () => true);
   setup.stop();
   if (timedOut) log('brainCloud setup timed out after $timeout minutes.');
-  if (project.read(output) != null) {
+  if (!timedOut && project.read(output) != null) {
     log('Done. Build with --dart-define-from-file=${p.basename(output)}, then call:\n'
+        '  braincloudBootstrap();\n'
         '  await BrainCloudWrapper().init();');
   }
   return 0;

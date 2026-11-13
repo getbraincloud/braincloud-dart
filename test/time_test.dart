@@ -20,7 +20,7 @@ void main() {
     test("readServerTime() error", () async {
       BrainCloudWrapper bcWrapper = BrainCloudWrapper(persistence: DataPersistence());
 
-      bcWrapper.init(secretKey: bcTest.ids.secretKey, appId: bcTest.ids.appId, version: bcTest.ids.version, updateTick: 50);
+      bcWrapper.init(appProfile: bcTest.ids.profile, appId: bcTest.ids.appId, version: bcTest.ids.version, updateTick: 50);
 
       ServerResponse response =
           await bcWrapper.timeService.readServerTime();

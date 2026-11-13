@@ -20,7 +20,7 @@ void main() {
 
       await bcWrapper
           .init(
-              secretKey: bcTest.ids.secretKey,
+              appProfile: bcTest.ids.profile,
               appId: bcTest.ids.appId,
               version: bcTest.ids.version,
               // Need to use a server that does not immediately return a DNS error, so it need to be somewhat valid.
@@ -77,7 +77,7 @@ void main() {
 
       await bcWrapper
           .init(
-              secretKey: bcTest.ids.secretKey,
+              appProfile: bcTest.ids.profile,
               appId: bcTest.ids.appId,
               version: bcTest.ids.version,
               // url: "https://localhost/nowhere",
@@ -109,7 +109,7 @@ void main() {
 
       await bcWrapper
           .init(
-              secretKey: bcTest.ids.secretKey,
+              appProfile: bcTest.ids.profile,
               appId: bcTest.ids.appId,
               version: bcTest.ids.version,
               url: "https://bitheads.com/nowhere",
@@ -145,7 +145,7 @@ void main() {
 
       await bcWrapper
           .init(
-              secretKey: bcTest.ids.secretKey,
+              appProfile: bcTest.ids.profile,
               appId: bcTest.ids.appId,
               version: bcTest.ids.version,
               url: bcTest.ids.url,

@@ -1,29 +1,16 @@
-import 'dart:async';
+import 'package:braincloud/braincloud.dart';
 
-import 'ids.g.dart';
+import '../config/lib/braincloud_tuning.dart';
+import 'test_values.dart';
 
+/// Web: the test app from `--dart-define-from-file=test/config/bc_config.json`.
+class StoredIds extends TestValues {
+  StoredIds([String? _]);
 
-class StoredIds {
-  final String path;
-
-  Map<String, String> ids = {};
-
-  StoredIds(this.path);
-
-  Future<void> load() async {}
-
-  String secretKey = allIds['secret'] ?? "";
-  String appId = allIds['appId'] ?? "";
-  String version = allIds['version'] ?? "";
-  String url = allIds['serverUrl'] ?? "";
-  String sharedProfileId = allIds['sharedProfileId'] ?? "";
-  // set sharofileId(vl) => sharedProfileId = val ?? "";
-  String customEntityType = allIds['customEntityType'] ?? "";
-  String customShardedEntityType = allIds['customShardedEntityType'] ?? "";
-  String customOwnedEntityType = allIds['customOwnedEntityType'] ?? "";
-  String peerName = allIds['peerName'] ?? "";
-  String parentLevelName = allIds['parentLevelName'] ?? "";
-  String childAppId = allIds['childAppId'] ?? "";
-  String childSecret = allIds['childSecret'] ?? "";
-  int get WSProxyPort => int.parse(allIds['WSProxyPort'] ?? "8080");
+  @override
+  Future<void> load() async {
+    if (profiles.isNotEmpty) return;
+    braincloudBootstrap();
+    await useConfig(BrainCloudAppConfig.fromEnvironment());
+  }
 }

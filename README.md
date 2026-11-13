@@ -15,7 +15,7 @@ Install the plugin by adding it to your project's pubspec.yaml, under the depend
 
 ```bash
 dependencies:
-  braincloud: ^6.1.0
+  braincloud: ^6.1.1
   braincloud_data_persistence: ^6.1.0
 ```
 
@@ -34,7 +34,7 @@ Requires Dart 3.10+ (Flutter 3.38+). From your project root, run:
 dart run braincloud:setup
 ```
 
-This opens the brainCloud setup page in your browser. Log in, pick (or create) your app, and it writes `bc_config.json` to your project (and adds it to `.gitignore`).
+This opens the brainCloud setup page in your browser. Log in, pick (or create) your app, and it writes `bc_config.json` and `lib/braincloud_tuning.dart` to your project (both are added to `.gitignore`).
 
 Build or run with the config:
 
@@ -43,9 +43,17 @@ flutter run --dart-define-from-file=bc_config.json
 flutter build <platform> --dart-define-from-file=bc_config.json
 ```
 
-Then initialize with no parameters:
+Call `braincloudBootstrap()` from the generated file once at the start of `main()`, then initialize with no parameters:
 
 ```dart
+import 'braincloud_tuning.dart';
+
+void main() {
+  braincloudBootstrap();
+  runApp(const MyApp());
+}
+
+// later
 await _bcWrapper.init();
 ```
 

@@ -58,46 +58,60 @@ void _free(JSObject exports, int ptr) => exports.callMethod<JSAny?>('free'.toJS,
 
 Future<void> prepareTuning() => _load();
 
-Future<String?> resolveTuning(Uint8List shares, Uint8List salts, int slotLen) async {
+Future<String?> resolveTuning(Uint8List shares, Uint8List seeds, int slotLen) async {
   final exports = await _load();
   final sharesPtr = _call(exports, 'malloc', [shares.length]);
-  final saltsPtr = _call(exports, 'malloc', [salts.length]);
+  final seedsPtr = _call(exports, 'malloc', [seeds.length]);
   final outPtr = _call(exports, 'malloc', [_outCap]);
   // Re-read the buffer after each allocation; growth detaches the old one.
   Uint8List memory() => ((exports['memory'] as JSObject)['buffer'] as JSArrayBuffer).toDart.asUint8List();
   try {
     memory().setAll(sharesPtr, shares);
-    memory().setAll(saltsPtr, salts);
-    final written = _call(exports, 'bc_tuning_resolve', [sharesPtr, saltsPtr, slotLen, outPtr, _outCap]);
+    memory().setAll(seedsPtr, seeds);
+    final written = _call(exports, 'bc_tuning_resolve', [sharesPtr, seedsPtr, slotLen, outPtr, _outCap]);
     if (written < 0) return null;
     return utf8.decode(memory().sublist(outPtr, outPtr + written));
   } finally {
-    for (final p in [sharesPtr, saltsPtr, outPtr]) {
+    for (final p in [sharesPtr, seedsPtr, outPtr]) {
       _free(exports, p);
     }
   }
 }
 
-/// The request signature for [payload]; null on bad arguments. Needs [prepareTuning] first.
-String? signTuning(Uint8List shares, Uint8List salts, int slotLen, List<int> payload) {
-  final exports = _exports;
-  if (exports == null) throw StateError('brainCloud config codec not loaded.');
-  final sharesPtr = _call(exports, 'malloc', [shares.length]);
-  final saltsPtr = _call(exports, 'malloc', [salts.length]);
-  final payloadPtr = _call(exports, 'malloc', [payload.isEmpty ? 1 : payload.length]);
-  final outPtr = _call(exports, 'malloc', [_signatureLen + 1]);
+JSObject _loaded() => _exports ?? (throw StateError('brainCloud config codec not loaded.'));
+
+// Copies each buffer into wasm memory, runs [body] with their pointers, then wipes and frees them.
+T _withBuffers<T>(JSObject exports, List<List<int>> buffers, int outLen, T Function(List<int> ptrs, Uint8List Function() memory) body) {
   Uint8List memory() => ((exports['memory'] as JSObject)['buffer'] as JSArrayBuffer).toDart.asUint8List();
+  final sizes = [for (final b in buffers) b.isEmpty ? 1 : b.length, if (outLen > 0) outLen];
+  final ptrs = [for (final size in sizes) _call(exports, 'malloc', [size])];
   try {
-    memory().setAll(sharesPtr, shares);
-    memory().setAll(saltsPtr, salts);
-    memory().setAll(payloadPtr, payload);
-    final written =
-        _call(exports, 'bc_tuning_sign', [sharesPtr, saltsPtr, slotLen, payloadPtr, payload.length, outPtr]);
-    if (written != _signatureLen) return null;
-    return ascii.decode(memory().sublist(outPtr, outPtr + written));
+    for (var i = 0; i < buffers.length; i++) {
+      memory().setAll(ptrs[i], buffers[i]);
+    }
+    return body(ptrs, memory);
   } finally {
-    for (final p in [sharesPtr, saltsPtr, payloadPtr, outPtr]) {
-      _free(exports, p);
+    for (var i = 0; i < ptrs.length; i++) {
+      memory().fillRange(ptrs[i], ptrs[i] + sizes[i], 0);
+      _free(exports, ptrs[i]);
     }
   }
+}
+
+/// Whether [tuning] reads the value bundle. Needs [prepareTuning] first.
+bool checkTuning(Uint8List shares, Uint8List seeds, int slotLen, List<int> tuning, List<int> check) {
+  final exports = _loaded();
+  return _withBuffers(exports, [shares, seeds, tuning, check], 0,
+      (p, _) => _call(exports, 'bc_tuning_check', [p[0], p[1], slotLen, p[2], p[3]]) == 1);
+}
+
+/// The request signature for [payload]; null on bad arguments or a [tuning] that doesn't read the bundle.
+/// Needs [prepareTuning] first.
+String? signTuning(Uint8List shares, Uint8List seeds, int slotLen, List<int> tuning, List<int> check, List<int> payload) {
+  final exports = _loaded();
+  return _withBuffers(exports, [shares, seeds, tuning, check, payload], _signatureLen + 1, (p, memory) {
+    final written = _call(exports, 'bc_tuning_sign', [p[0], p[1], slotLen, p[2], p[3], p[4], payload.length, p[5]]);
+    if (written != _signatureLen) return null;
+    return ascii.decode(memory().sublist(p[5], p[5] + written));
+  });
 }

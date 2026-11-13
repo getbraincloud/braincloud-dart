@@ -49,3 +49,9 @@ test-results.json
 testServer/
 codeGen.sh
 tool
+
+# Test suite config (setup tool output, restored from data/ by bccm)
+/test/config/bc_config.json
+/test/config/lib/
+/test/config/pubspec.lock
+/test/config/lib/braincloud_tuning.dart

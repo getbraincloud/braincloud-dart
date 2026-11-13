@@ -5,6 +5,9 @@ Never _unsupported() => throw UnsupportedError('brainCloud config is not support
 
 Future<void> prepareTuning() async => _unsupported();
 
-Future<String?> resolveTuning(Uint8List shares, Uint8List salts, int slotLen) async => _unsupported();
+Future<String?> resolveTuning(Uint8List shares, Uint8List seeds, int slotLen) async => _unsupported();
 
-String? signTuning(Uint8List shares, Uint8List salts, int slotLen, List<int> payload) => _unsupported();
+bool checkTuning(Uint8List shares, Uint8List seeds, int slotLen, List<int> tuning, List<int> check) => _unsupported();
+
+String? signTuning(Uint8List shares, Uint8List seeds, int slotLen, List<int> tuning, List<int> check, List<int> payload) =>
+    _unsupported();

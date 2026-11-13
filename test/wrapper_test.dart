@@ -15,7 +15,7 @@ void main() {
     var bcWrapper = BrainCloudWrapper(wrapperName: name);
     await bcWrapper
         .init(
-            secretKey: bcTest.ids.secretKey,
+            appProfile: bcTest.ids.profile,
             appId: bcTest.ids.appId,
             version: bcTest.ids.version,
             url: bcTest.ids.url,
