@@ -17,6 +17,7 @@ void main() {
 
     RelayConnectionType connectionType = RelayConnectionType.invalid;
     RelayConnectOptions? connectOptions;
+    bool useSecureUrl = false;
     Completer readyCompleter = Completer();
     final String testHelloString = "Hello World!";
     final String testWelcomeString = "Welcome aboard";
@@ -195,10 +196,15 @@ void main() {
                 port = ports["udp"];
               }
 
+              // wss uses the server-provided URL as-is; no port
+              if (useSecureUrl && connectData["secureUrl"] == null) {
+                onFailed(0, 0, {'status': 0, 'reason_code': 0, 'status_message': 'connectData has no secureUrl'});
+                break;
+              }
               connectOptions = RelayConnectOptions(
-                  false,
-                  connectData["address"],
-                  port,
+                  useSecureUrl,
+                  useSecureUrl ? connectData["secureUrl"] : connectData["address"],
+                  useSecureUrl ? 0 : port,
                   data["passcode"],
                   data["lobbyId"]);
               break;
@@ -224,7 +230,9 @@ void main() {
 
     Future fullFlow(RelayConnectionType type,
         {bool shouldDisconnect = true,
+        bool secure = false,
         Function(int netId, Uint8List data)? rcb}) async {
+      useSecureUrl = secure;
       // Use a future to wait for callbacks to complete.
       readyCompleter = Completer();
       successCount = 0;
@@ -342,6 +350,16 @@ print(" converted bytes is $reloadedMask");
     }, timeout: Timeout.parse("120s"),onPlatform: {
       'browser': [Skip('Browser does not support Relay UDP connection, skipping')],      
     }, retry: 2); //Make retry once more for this test. Windows seem to fail more than others
+
+    test("FullFlow WSS", () async {
+      roomAssignedDetectedCompleter = null;
+      if (bcTest.bcWrapper.rttService.isRTTEnabled())  await disconnectRelay();
+
+      await fullFlow(RelayConnectionType.websocket, secure: true);
+
+      expect(successCount, 4);
+      expect(failureCount, 0);
+    }, timeout: Timeout.parse("120s"));
 
     test("FullFlow WebSocket", () async {
       roomAssignedDetectedCompleter = null;
