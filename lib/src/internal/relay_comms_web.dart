@@ -754,8 +754,9 @@ int bytesToInt40(List<int> bytes) {
   /// WebSocket
 
   void _connectWebSocket(String host, int port, bool sslEnabled) {
+    // A full URL (connectData.secureUrl) is used as given; port is ignored.
     String sslString = sslEnabled ? "wss://" : "ws://";
-    String url = "$sslString$host:$port";
+    String url = host.contains("://") ? host : "$sslString$host:$port";
     _webSocket = BrainCloudWebSocket(url,
         onClose: _webSocketOnClose,
         onOpen: _websocketOnOpen,
