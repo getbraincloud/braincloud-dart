@@ -196,7 +196,10 @@ class RelayComms {
     bool sslEnabled = _connectOptions.ssl;
     String host = _connectOptions.host;
     int port = _connectOptions.port;
-    _relayHostAddress = (await InternetAddress(host));
+    
+    if (_connectionType == RelayConnectionType.udp) {
+      _relayHostAddress = InternetAddress(host);
+    }
 
     if (_isConnected != RelayConnectionType.invalid) {
       _clientRef.log(
