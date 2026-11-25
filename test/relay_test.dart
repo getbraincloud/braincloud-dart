@@ -18,6 +18,7 @@ void main() {
     RelayConnectionType connectionType = RelayConnectionType.invalid;
     RelayConnectOptions? connectOptions;
     bool useSecureUrl = false;
+    bool noSecureUrl = false; // secureUrl is only sent when the app has relayServerSecureEnabled
     Completer readyCompleter = Completer();
     final String testHelloString = "Hello World!";
     final String testWelcomeString = "Welcome aboard";
@@ -174,6 +175,7 @@ void main() {
 
           switch (json.operation) {
             case "DISBANDED":
+              if (noSecureUrl) break;
               var reason = data["reason"];
               var reasonCode = reason["code"];
               if (reasonCode == ReasonCodes.rttRoomReady)
@@ -198,7 +200,8 @@ void main() {
 
               // wss uses the server-provided URL as-is; no port
               if (useSecureUrl && connectData["secureUrl"] == null) {
-                onFailed(0, 0, {'status': 0, 'reason_code': 0, 'status_message': 'connectData has no secureUrl'});
+                noSecureUrl = true;
+                if (!readyCompleter.isCompleted) readyCompleter.complete();
                 break;
               }
               connectOptions = RelayConnectOptions(
@@ -233,6 +236,7 @@ void main() {
         bool secure = false,
         Function(int netId, Uint8List data)? rcb}) async {
       useSecureUrl = secure;
+      noSecureUrl = false;
       // Use a future to wait for callbacks to complete.
       readyCompleter = Completer();
       successCount = 0;
@@ -270,6 +274,7 @@ void main() {
         fail("Relay $type test timed out");
       });
 
+      if (noSecureUrl) return;
       print("${DateTime.now()}:TST-> $type Test almost completed");
 
       if (bcTest.bcWrapper.relayService.getPing() >= 999)
@@ -351,11 +356,15 @@ print(" converted bytes is $reloadedMask");
       'browser': [Skip('Browser does not support Relay UDP connection, skipping')],      
     }, retry: 2); //Make retry once more for this test. Windows seem to fail more than others
 
-    test("FullFlow WSS", () async {
+    test("FullFlow WSS", tags: 'wss', () async {
       roomAssignedDetectedCompleter = null;
       if (bcTest.bcWrapper.rttService.isRTTEnabled())  await disconnectRelay();
 
       await fullFlow(RelayConnectionType.websocket, secure: true);
+      if (noSecureUrl) {
+        markTestSkipped("connectData has no secureUrl");
+        return;
+      }
 
       expect(successCount, 4);
       expect(failureCount, 0);
